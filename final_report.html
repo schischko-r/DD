@@ -566,6 +566,28 @@
       letter-spacing: -.01em;
     }
 
+    .detail-subline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .detail-entity-type {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 0 9px;
+      border: 1px solid rgba(0,122,255,.18);
+      border-radius: 999px;
+      background: rgba(0,122,255,.08);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .01em;
+      text-transform: uppercase;
+    }
+
     .detail-actions {
       display: flex;
       align-items: center;
@@ -1156,10 +1178,9 @@
         <div id="productTable" class="table hidden"></div>
 
         <div class="legend">
-          <span class="legend-item"><i class="dot green"></i><b>Зеленый</b> максимум</span>
-          <span class="legend-item"><i class="dot yellow"></i><b>Желтый</b> частично</span>
-          <span class="legend-item"><i class="dot red"></i><b>Красный</b> нет прогресса</span>
-          <span class="legend-item"><i class="dot gray"></i><b>Серый</b> не применимо</span>
+          <span class="legend-item"><i class="dot green"></i><b>Зеленый</b> положительная динамика</span>
+          <span class="legend-item"><i class="dot yellow"></i><b>Желтый</b> разовое снижение</span>
+          <span class="legend-item"><i class="dot red"></i><b>Красный</b> стабильный негативный тренд</span>
         </div>
       </section>
 
@@ -1168,7 +1189,7 @@
           <div class="detail-title">
             <button class="back-button" id="backBtn" type="button">‹ Назад к титульнику</button>
             <h1 id="detailName">Продукт</h1>
-            <p id="detailSub">Детальный лист DD-индекса</p>
+            <p id="detailSub">Юнит · период · тип сущности</p>
           </div>
           <div class="detail-actions">
             <label class="select-wrap">
@@ -1461,6 +1482,7 @@
             groupId,
             name,
             unit: unitName(row.unit),
+            type: String(row.type ?? row.entity_type ?? row.product_type ?? '').trim() || 'Продукт',
             order,
             earned: 0,
             max: 0,
@@ -1726,6 +1748,15 @@
       select.value = state.selectedId || (products[0] && products[0].id) || '';
     }
 
+    function detailSubtitleHTML(product, period) {
+      return `
+        <span class="detail-subline">
+          <span>${esc(product.unit || 'Без юнита')} · ${esc(period || 'период не указан')} ·</span>
+          <span class="detail-entity-type">${esc(product.type || 'Продукт')}</span>
+        </span>
+      `;
+    }
+
     function renderDetail() {
       const model = state.model;
       const message = $('detailMessage');
@@ -1746,7 +1777,7 @@
 
       const st = product.status;
       $('detailName').textContent = product.name;
-      $('detailSub').textContent = product.unit + ' · ' + model.period + ' · ' + product.greens + ' / ' + product.dotCount + ' метрик в зеленой зоне';
+      $('detailSub').innerHTML = detailSubtitleHTML(product, model.period);
       $('scoreKicker').textContent = product.name;
       $('detailScore').textContent = product.score;
       $('detailScore').style.color = st.color;

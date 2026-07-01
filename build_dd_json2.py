@@ -371,6 +371,8 @@ EXTRA_CSS = """
       margin-bottom: 14px;
       padding: 11px 13px;
       border-radius: 12px;
+      border-color: rgba(0,122,255,.18);
+      background: #eef5ff;
     }
 
     .block-note.tool-group {
@@ -394,8 +396,8 @@ EXTRA_CSS = """
       align-items: center;
       justify-content: center;
       border-radius: 8px;
-      background: rgba(255,149,0,.16);
-      color: #8a6d1f;
+      background: rgba(0,122,255,.12);
+      color: #0066cc;
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 0;
@@ -420,8 +422,24 @@ EXTRA_CSS = """
       color: #8e8e93;
     }
 
+    .block-note .note-metric {
+      color: #0066cc;
+    }
+
     .note-action {
+      border-color: rgba(0,122,255,.22);
       background: #fff;
+      color: var(--blue);
+    }
+
+    .block-note.gray .note-metric {
+      color: #6e6e73;
+    }
+
+    .block-note.gray .note-action {
+      border-color: rgba(0,0,0,.16);
+      background: #fff;
+      color: #8e8e93;
     }
 
     body.report-modal-open {
@@ -623,7 +641,7 @@ EXTRA_CSS = """
       gap: 9px;
       min-width: 0;
       padding-top: 7px;
-      border-top: 1px solid rgba(138,109,31,.14);
+      border-top: 1px solid rgba(0,122,255,.14);
     }
 
     .tool-light {
@@ -651,7 +669,7 @@ EXTRA_CSS = """
     .tool-stage {
       display: block;
       margin-bottom: 2px;
-      color: #8a6d1f;
+      color: #0066cc;
       font-size: 10.5px;
       font-weight: 800;
       line-height: 1;
@@ -661,10 +679,44 @@ EXTRA_CSS = """
 
     .tool-item-footer {
       margin-top: 2px;
-      color: #8a6d1f;
+      color: #0066cc;
       font-size: 12px;
       font-weight: 650;
       line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+
+    .block-advisory {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 12px;
+      padding: 13px 14px;
+      border: 1px solid rgba(0,122,255,.14);
+      border-radius: 14px;
+      background: #eef5ff;
+    }
+
+    .block-advisory-badge {
+      width: 24px;
+      height: 24px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      background: rgba(0,122,255,.12);
+      color: #0066cc;
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .block-advisory-text {
+      color: #335f91;
+      font-size: 13px;
+      font-weight: 650;
+      line-height: 1.35;
       letter-spacing: -.01em;
     }
 
@@ -861,6 +913,28 @@ EXTRA_CSS = """
       text-transform: none;
     }
 
+    .detail-subline {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .detail-entity-type {
+      display: inline-flex;
+      align-items: center;
+      min-height: 21px;
+      padding: 4px 9px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: #f5f5f7;
+      color: #6e6e73;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
     @media (max-width: 980px) {
       .report-action-panel {
         align-items: flex-start;
@@ -887,6 +961,15 @@ EXTRA_CSS = """
 
       .report-modal-card {
         padding: 20px;
+      }
+
+      .block-advisory {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .block-advisory .metric-button {
+        grid-column: 1 / -1;
+        width: 100%;
       }
     }
 """
@@ -1466,6 +1549,15 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       select.value = state.selectedId || (products[0] && products[0].id) || '';
     }
 
+    function detailSubtitleHTML(product, period) {
+      return `
+        <span class="detail-subline">
+          <span>${esc(product.unit || 'Без юнита')} · ${esc(period || 'период не указан')} ·</span>
+          <span class="detail-entity-type">${esc(product.type || 'Продукт')}</span>
+        </span>
+      `;
+    }
+
     function renderDetail() {
       const model = state.model;
       const message = $('detailMessage');
@@ -1486,7 +1578,7 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
 
       const st = product.status;
       $('detailName').textContent = product.name;
-      $('detailSub').textContent = product.unit + ' · ' + model.period + ' · ' + product.greens + ' / ' + product.dotCount + ' метрик в зеленой зоне';
+      $('detailSub').innerHTML = detailSubtitleHTML(product, model.period);
       $('scoreKicker').textContent = product.name;
       $('detailScore').textContent = product.score;
       $('detailScore').style.color = st.color;
@@ -1675,6 +1767,7 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
               <div class="criteria">
                 ${criteria.map(criterionHTML).join('')}
               </div>
+              ${blockAdvisoryHTML(block)}
               ${actionsHTML(block.actions)}
             ` : ''}
           </article>
@@ -1791,10 +1884,40 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       `;
     }
 
+    function criterionByCode(block, code) {
+      return (block.criteria || []).find((criterion) => criterion.code === code);
+    }
+
+    function criterionValueBelow(block, code, threshold) {
+      const criterion = criterionByCode(block, code);
+      return Boolean(criterion) && parseNumber(criterion.value, 0) < threshold;
+    }
+
+    function jiraDisabledButtonHTML() {
+      return actionButtonHTML({ type: 'metric', label: 'Завести задачу в Jira', link: '' }, 'metric-button');
+    }
+
+    function blockAdvisoryHTML(block) {
+      if (block.code !== 'goals' || !criterionValueBelow(block, 'goals.monitored', 1)) return '';
+
+      return `
+        <div class="block-advisory">
+          <span class="block-advisory-badge">i</span>
+          <div class="block-advisory-text">В вашем юните имеется мастер-деш, но целей вашего продукта в нем пока-что нет. Обратитесь в штаб Юнита</div>
+          ${jiraDisabledButtonHTML()}
+        </div>
+      `;
+    }
+
+    function criterionJiraButtonHTML(criterion) {
+      if (criterion.code !== 'alerts.business_metrics' || parseNumber(criterion.value, 0) >= 1) return '';
+      return jiraDisabledButtonHTML();
+    }
+
     function criterionHTML(criterion) {
       const color = dotColor(criterion.dot);
       const sub = criterion.group ? criterion.group + ' · ' + criterion.footer : criterion.footer;
-      const metricButton = (criterion.buttons || []).map((button) => actionButtonHTML(button, 'metric-button')).join('');
+      const metricButton = (criterion.buttons || []).map((button) => actionButtonHTML(button, 'metric-button')).join('') + criterionJiraButtonHTML(criterion);
       const links = linksHTML(criterion.links, 'criterion-links');
       const extra = metricButton ? `<div class="criterion-extra">${metricButton}</div>` : '';
 
