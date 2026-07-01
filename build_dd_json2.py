@@ -424,6 +424,192 @@ EXTRA_CSS = """
       background: #fff;
     }
 
+    body.report-modal-open {
+      overflow: hidden;
+    }
+
+    .report-action-wrap {
+      margin-bottom: 16px;
+    }
+
+    .report-action-panel {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      min-width: 0;
+      padding: 14px 16px;
+      border: 1px solid rgba(0,0,0,.06);
+      border-radius: 18px;
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 14px 30px -24px rgba(0,0,0,.18);
+      backdrop-filter: saturate(180%) blur(18px);
+    }
+
+    .report-action-copy {
+      min-width: 0;
+    }
+
+    .report-action-copy b {
+      display: block;
+      color: var(--ink);
+      font-size: 13.5px;
+      font-weight: 760;
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+
+    .report-action-copy span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.25;
+      letter-spacing: -.01em;
+    }
+
+    .report-action-buttons,
+    .report-modal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+      flex: none;
+    }
+
+    .report-action-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 8px 14px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -.01em;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background .16s ease, transform .12s ease;
+    }
+
+    .report-action-button.primary {
+      border-color: rgba(0,122,255,.18);
+      background: rgba(0,122,255,.12);
+      color: var(--blue);
+    }
+
+    .report-action-button.secondary {
+      border-color: rgba(0,0,0,.08);
+      background: #fff;
+      color: #3a3a3c;
+    }
+
+    .report-action-button.danger {
+      border-color: rgba(255,59,48,.24);
+      background: rgba(255,59,48,.10);
+      color: #d70015;
+    }
+
+    .report-action-button:hover {
+      transform: translateY(-1px);
+    }
+
+    .report-action-button.primary:hover {
+      background: rgba(0,122,255,.18);
+    }
+
+    .report-action-button.secondary:hover {
+      background: #f5f5f7;
+    }
+
+    .report-action-button.danger:hover {
+      background: rgba(255,59,48,.16);
+    }
+
+    .report-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .report-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(29,29,31,.34);
+      backdrop-filter: blur(10px);
+    }
+
+    .report-modal-card {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 560px);
+      padding: 24px;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 22px;
+      background: rgba(255,255,255,.96);
+      box-shadow: 0 24px 70px -32px rgba(0,0,0,.45);
+    }
+
+    .report-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: #f2f2f7;
+      color: #6e6e73;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .report-modal-close:hover {
+      background: #e8e8ed;
+    }
+
+    .report-modal-kicker {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .report-modal-card h2 {
+      margin: 7px 42px 14px 0;
+      color: var(--ink);
+      font-size: 24px;
+      line-height: 1.1;
+      font-weight: 780;
+      letter-spacing: -.02em;
+    }
+
+    .report-modal-text {
+      color: #3a3a3c;
+      font-size: 14px;
+      line-height: 1.48;
+      letter-spacing: -.01em;
+    }
+
+    .report-modal-text p {
+      margin: 0 0 9px;
+    }
+
+    .report-modal-actions {
+      justify-content: flex-start;
+      margin-top: 18px;
+    }
+
     .tool-items {
       display: grid;
       gap: 6px;
@@ -673,6 +859,35 @@ EXTRA_CSS = """
       letter-spacing: 0;
       line-height: 1;
       text-transform: none;
+    }
+
+    @media (max-width: 980px) {
+      .report-action-panel {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .report-action-buttons,
+      .report-modal-actions {
+        justify-content: flex-start;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .report-action-button,
+      .report-action-buttons,
+      .report-modal-actions {
+        width: 100%;
+      }
+
+      .report-modal {
+        padding: 14px;
+      }
+
+      .report-modal-card {
+        padding: 20px;
+      }
     }
 """
 
@@ -1657,6 +1872,20 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       }
     }
 
+    function setReportAccessModal(open) {
+      const modal = $('reportAccessModal');
+      if (!modal) return;
+
+      modal.classList.toggle('hidden', !open);
+      modal.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.body.classList.toggle('report-modal-open', open);
+
+      if (open) {
+        const closeButton = $('reportAccessClose');
+        if (closeButton) closeButton.focus();
+      }
+    }
+
     function bindEvents() {
       $('sortUnitBtn').addEventListener('click', () => {
         state.sort = 'unit';
@@ -1690,6 +1919,21 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       $('backBtn').addEventListener('click', () => showTitle(true));
       $('productSelect').addEventListener('change', (event) => showDetail(event.target.value));
 
+      const complexReportBtn = $('complexReportBtn');
+      if (complexReportBtn) {
+        complexReportBtn.addEventListener('click', () => setReportAccessModal(true));
+      }
+
+      const reportAccessClose = $('reportAccessClose');
+      if (reportAccessClose) {
+        reportAccessClose.addEventListener('click', () => setReportAccessModal(false));
+      }
+
+      const reportModalBackdrop = document.querySelector('[data-report-modal-close]');
+      if (reportModalBackdrop) {
+        reportModalBackdrop.addEventListener('click', () => setReportAccessModal(false));
+      }
+
       $('detailFullBtn').addEventListener('click', () => {
         state.compact = false;
         state.expandedBlocks = {};
@@ -1707,6 +1951,9 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       });
 
       window.addEventListener('hashchange', applyHashRoute);
+      window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') setReportAccessModal(false);
+      });
     }
 
     bindEvents();

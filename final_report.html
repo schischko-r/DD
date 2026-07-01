@@ -1175,12 +1175,25 @@
               <span class="caption" style="font-size:11px;">Продукт</span>
               <select id="productSelect"></select>
             </label>
+            <a class="report-action-button danger" href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank" rel="noopener noreferrer">Нашли ошибку?</a>
           </div>
         </div>
 
         <div id="detailMessage" class="message hidden"></div>
 
         <div id="detailContent" class="hidden">
+          <div class="report-action-wrap">
+            <div class="report-action-panel">
+              <div class="report-action-copy">
+                <b>Посмотреть комплексный отчет по продукту</b>
+                <span>Отчет по продукту формируется LLM и доступен по ссылке</span>
+              </div>
+              <div class="report-action-buttons">
+                <button id="complexReportBtn" class="report-action-button primary" type="button">Перейти</button>
+              </div>
+            </div>
+          </div>
+
           <div class="summary-grid">
             <div class="score-panel">
               <div class="score-kicker" id="scoreKicker">DD-рейтинг продукта</div>
@@ -1214,6 +1227,24 @@
         </div>
       </section>
     </main>
+  </div>
+
+  <div id="reportAccessModal" class="report-modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="reportAccessTitle">
+    <div class="report-modal-backdrop" data-report-modal-close></div>
+    <div class="report-modal-card">
+      <button id="reportAccessClose" class="report-modal-close" type="button" aria-label="Закрыть">×</button>
+      <div class="report-modal-kicker">Комплексный отчет</div>
+      <h2 id="reportAccessTitle">Доступ к системе</h2>
+      <div class="report-modal-text">
+        <p>Для доступа непосредственно к системе необходимо в АС Друг в поисковой строке ввести «Доступ к стендам разработки и тестирования», далее:</p>
+        <p>· В поле стенд указать «ТС AI Навыки Штаба B2C (CI09261834) (DEV) (CI09933741)»</p>
+        <p>· В обосновании - «Для разработки и тестирования инструмента AI суммаризации»</p>
+      </div>
+      <div class="report-modal-actions">
+        <a class="report-action-button secondary" href="https://sberfriend.sberbank.ru/deeplink-hash-catcher/?path=L3NiZXJmcmllbmQv&callback=L2RlZXBsaW5rLWtlZXBlci8=#/application/F3C76EADA61AB8EBE053F7E9740A44EF?sberfriend.searchQuery=%D0%94%D1%80%D1%83%D0%B3%D0%B5%20%D0%BE%D1%84%D0%BE%D1%80%D0%BC%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D1%81%D1%82%D0%B5%D0%BD%D0%B4%D0%B0%D0%BC%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8%20%D0%B8%20%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F" target="_blank" rel="noopener noreferrer">Завести заявку на доступ</a>
+        <a class="report-action-button primary" href="http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/complex-report" target="_blank" rel="noopener noreferrer">Перейти</a>
+      </div>
+    </div>
   </div>
 
   <script>

@@ -17,7 +17,6 @@ import argparse
 import ast
 import json
 import re
-import sys
 import uuid
 from pathlib import Path
 from typing import Any
@@ -25,7 +24,6 @@ from typing import Any
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parent
 DEFAULT_INPUT = Path("Book 5.xlsx")
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = "II кв. 2026"
@@ -110,7 +108,7 @@ AI_SKILL_BUTTONS: dict[str, dict[str, str]] = {
 
 ATTRACT_SKILL_STAGES: list[dict[str, Any]] = [
     {
-        "stage": "На базе данных Clickstream",
+        "stage": "Ф",
         "name": "Воронка кампейнинга",
         "button": AI_SKILL_BUTTONS["attract_checkout_funnel"],
     },
@@ -955,10 +953,6 @@ def build_report_data(path: Path, sheet_name: str | None, period: str) -> tuple[
 
 
 def write_standalone(data: dict[str, Any], output_path: Path) -> None:
-    fallback_template_dir = ROOT / "ignore"
-    if not (ROOT / "build_dd_json2.py").exists() and (fallback_template_dir / "build_dd_json2.py").exists():
-        sys.path.insert(0, str(fallback_template_dir))
-
     from build_dd_json2 import build_embedded_html
 
     output_path.write_text(
