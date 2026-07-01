@@ -24,64 +24,71 @@ from typing import Any
 import pandas as pd
 
 
-DEFAULT_INPUT = Path("Office Open XML spreadsheet.xlsx")
+DEFAULT_INPUT = Path("Book 5.xlsx")
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = "II кв. 2026"
 
 PRODUCT_NAMESPACE = uuid.UUID("4ac579f8-1f47-4f86-ae23-01b8f67ddf60")
-
-# Links are intentionally code-level variables: fill them here and rerun the script.
-FAKE_GOOGLE_LINK = "google.com"
-LOSS_HUNTER_ANALYSIS_LINK = "losshunter.ru"
+DEFAULT_ENTITY_TYPE = "Продукт"
+ENTITY_TYPE_COLUMNS = ("type", "Тип", "entity_type", "Тип сущности")
 
 UNIT_GOALS_DASHBOARD_LINKS: dict[str, str] = {
-    "CBP": "https://google.com/search?q=dd-goals-cbp",
-    "PC": "https://google.com/search?q=dd-goals-pc",
-    "ДомКлик": "https://google.com/search?q=dd-goals-domclick",
-    "УБ": "https://google.com/search?q=dd-goals-ub",
-    "default": "https://google.com/search?q=dd-goals",
+    "CBP": "https://navigator.sigma.sbrf.ru/gdash/1000002550",
+    "PC": "https://navigator.sigma.sbrf.ru/gdash/1000003084?period_name=3",
+    "ДомКлик": "https://navigator.sigma.sbrf.ru/gdash/1000002323",
+    "УБ": "https://navigator.sigma.sbrf.ru/gdash/1000003899",
+    "CX": 'https://navigator.sigma.sbrf.ru/gdash/1000003450',
+    'DB': 'https://navigator.sigma.sbrf.ru/gdash/1000003127',
+    'DP': 'https://navigator.sigma.sbrf.ru/gdash/1000003252',
+    'Data': 'https://navigator.sigma.sbrf.ru/gdash/1000003149',
+    "default": "https://navigator.sigma.sbrf.ru/gdash/1000002723/1000025096",
 }
 
 COMMON_BUTTONS: dict[str, dict[str, str]] = {
     "general_mau_report": {
         "type": "footer",
         "label": 'Отчет "MAU & Активные клиенты"',
-        "link": FAKE_GOOGLE_LINK,
+        "link": 'https://navigator.sigma.sbrf.ru/gdash/12215/1000034254',
     },
     "attract_pilot_campaigns": {
         "type": "footer",
         "label": 'Отчет "Пилотные кампании"',
-        "link": FAKE_GOOGLE_LINK,
+        "link": 'https://navigator.sigma.sbrf.ru/gdash/1000003057',
     },
     "attract_comm_to_sale": {
         "type": "footer",
         "label": 'Отчет "Воронки из коммуникации в продажу"',
-        "link": FAKE_GOOGLE_LINK,
+        "link": 'https://navigator.sigma.sbrf.ru/gdash/1000000687',
     },
     "hyp_library": {
         "type": "metric",
         "label": "Открыть библиотеку решений",
-        "link": FAKE_GOOGLE_LINK,
+        "link": 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15315863819',
     },
     "hyp_backlog_excel": {
         "type": "metric",
-        "label": "Посмотреть бэклог из Excel",
-        "link": FAKE_GOOGLE_LINK,
+        "label": "Посмотреть бэклог",
+        "link": 'https://sbertrack.sberbank.ru',
     },
     "hyp_drafts": {
         "type": "footer",
         "label": 'Отчет "Черновики"',
-        "link": FAKE_GOOGLE_LINK,
+        "link": 'https://navigator.sigma.sbrf.ru/gdash/1000003969',
     },
     "cx_score": {
         "type": "metric",
         "label": "Открыть CX Score",
-        "link": FAKE_GOOGLE_LINK,
+        "link": 'https://navigator.sigma.sbrf.ru/gdash/1000001746',
+    },
+    "ux_score": {
+        "type": "metric",
+        "label": "UX Score",
+        "link": 'https://uxscore.sigma.sbrf.ru/',
     },
     "loss_hunter_analysis": {
         "type": "metric",
         "label": "Провести анализ",
-        "link": LOSS_HUNTER_ANALYSIS_LINK,
+        "link": 'https://losshunter.ru',
     },
 }
 
@@ -91,8 +98,26 @@ AI_SKILL_BUTTONS: dict[str, dict[str, str]] = {
     "alerts": {"type": "general", "label": "Перейти", "link": "https://google.com/search?q=dd-alerts-instruction"},
     "cx": {"type": "general", "label": "Перейти", "link": "https://google.com/search?q=dd-ai-cx-score"},
     "attract": {"type": "general", "label": "Перейти", "link": "https://google.com/search?q=dd-ai-attraction"},
+    "attract_checkout_funnel": {
+        "type": "general",
+        "label": "Перейти",
+        "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768",
+    },
     "churn": {"type": "general", "label": "TBD", "link": ""},
 }
+
+ATTRACT_SKILL_STAGES: list[dict[str, Any]] = [
+    {
+        "stage": "На базе данных Clickstream",
+        "name": "Воронка кампейнинга",
+        "button": AI_SKILL_BUTTONS["attract_checkout_funnel"],
+    },
+    {
+        "stage": "На базе данных Clickstream",
+        "name": "Воронка оформления",
+        "button": AI_SKILL_BUTTONS["attract_checkout_funnel"],
+    },
+]
 
 TOOL_BUTTONS: dict[str, dict[str, str]] = {
     "general": AI_SKILL_BUTTONS["general"],
@@ -107,11 +132,15 @@ METRIC_BUTTONS: dict[str, dict[str, str]] = {
     "cx.score": COMMON_BUTTONS["cx_score"],
 }
 
+METRIC_EXTRA_BUTTONS: dict[str, list[dict[str, str]]] = {
+    "cx.score": [COMMON_BUTTONS["ux_score"]],
+}
+
 ZERO_METRIC_BUTTONS: dict[str, dict[str, str]] = {
     "attract.campaign_launches": {
         "type": "metric",
         "label": "Запустить первый пилот Self-Service",
-        "link": FAKE_GOOGLE_LINK,
+        "link": 'https://mapp.sberbank.ru/raspredelennyicampaigning/page/94034',
     },
 }
 
@@ -168,9 +197,8 @@ TOOLS_BY_BLOCK: dict[str, dict[str, Any]] = {
         "button": TOOL_BUTTONS["cx"],
     },
     "attract": {
-        "name": "Навык «Привлечение»",
-        "footer": "Общий светофор",
-        "button": TOOL_BUTTONS["attract"],
+        "name": "Группа навыков «Привлечение»",
+        "buttons": ATTRACT_SKILL_STAGES,
     },
     "churn": {
         "name": "Навык «Анализ оттока»",
@@ -390,6 +418,18 @@ def make_link_records(label: str, urls: list[str]) -> list[dict[str, str]]:
     return [{"label": f"{label} {index}", "url": url} for index, url in enumerate(clean_urls, start=1)]
 
 
+def entity_type_from_row(row: Any) -> str:
+    for column in ENTITY_TYPE_COLUMNS:
+        value = text(row.get(column))
+        if value:
+            return value
+    return DEFAULT_ENTITY_TYPE
+
+
+def entity_key(entity_type: str, name: str) -> str:
+    return f"{entity_type}\0{name}"
+
+
 def collect_product_links(df: pd.DataFrame) -> dict[str, dict[str, list[dict[str, str]]]]:
     links_by_product: dict[str, dict[str, list[dict[str, str]]]] = {}
 
@@ -397,6 +437,7 @@ def collect_product_links(df: pd.DataFrame) -> dict[str, dict[str, list[dict[str
         product_name = text(row.get("Продукт"))
         if not product_name:
             continue
+        product_key = entity_key(entity_type_from_row(row), product_name)
 
         metric_name = normalize_text(row.get("metric_name"))
         target = LINK_ROW_TARGETS.get(metric_name)
@@ -407,7 +448,7 @@ def collect_product_links(df: pd.DataFrame) -> dict[str, dict[str, list[dict[str
         if not urls:
             continue
 
-        product_links = links_by_product.setdefault(product_name, {})
+        product_links = links_by_product.setdefault(product_key, {})
         bucket = product_links.setdefault(target["key"], [])
         bucket.extend(make_link_records(target["label"], urls))
 
@@ -529,6 +570,45 @@ def unit_goals_link(unit: str) -> str:
     return UNIT_GOALS_DASHBOARD_LINKS.get(unit, UNIT_GOALS_DASHBOARD_LINKS["default"])
 
 
+def make_tool_button(
+    definition: dict[str, Any],
+    product_links: dict[str, list[dict[str, str]]],
+    unit: str,
+    earned: float,
+    max_value: float,
+) -> dict[str, Any]:
+    link_key = text(definition.get("links_key"))
+    links = product_links.get(link_key, []) if link_key else []
+    button = with_link(definition.get("button"), links)
+    if definition.get("unit_link"):
+        button = copy_button(definition.get("button")) or {"type": "general", "label": "Перейти", "link": ""}
+        button["link"] = unit_goals_link(unit)
+
+    has_link = bool(button and button.get("link"))
+    item: dict[str, Any] = {
+        "name": text(definition.get("name")) or "Инструмент",
+        "traffic_light": text(definition.get("traffic_light")) or (
+            traffic_light_from_score(earned, max_value) if has_link else "gray"
+        ),
+        "button": button if has_link else {"type": "general", "label": "TBD", "link": ""},
+    }
+
+    if definition.get("stage"):
+        item["stage"] = definition["stage"]
+    if links:
+        item["links"] = links
+    if definition.get("footer"):
+        item["footer"] = definition["footer"]
+    if definition.get("footer_dynamic"):
+        item["footer_dynamic"] = definition["footer_dynamic"]
+    if definition.get("variant"):
+        item["variant"] = definition["variant"]
+    if "show_dots" in definition:
+        item["show_dots"] = bool(definition["show_dots"])
+
+    return item
+
+
 def make_tool(
     definition: dict[str, Any],
     block: dict[str, Any],
@@ -545,11 +625,19 @@ def make_tool(
         button["link"] = unit_goals_link(unit)
 
     has_link = bool(button and button.get("link"))
+    tool_buttons = [
+        make_tool_button(button_definition, product_links, unit, earned, max_value)
+        for button_definition in definition.get("buttons", [])
+    ]
     tool: dict[str, Any] = {
         "name": definition["name"],
-        "traffic_light": traffic_light_from_score(earned, max_value) if has_link else "gray",
-        "button": button if has_link else {"type": "general", "label": "TBD", "link": ""},
+        "traffic_light": traffic_light_from_score(earned, max_value) if has_link or tool_buttons else "gray",
     }
+
+    if tool_buttons:
+        tool["buttons"] = tool_buttons
+    else:
+        tool["button"] = button if has_link else {"type": "general", "label": "TBD", "link": ""}
 
     if links:
         tool["links"] = links
@@ -685,8 +773,10 @@ def split_benchmarks(product_rows: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
-def product_uuid(product_name: str) -> str:
-    return str(uuid.uuid5(PRODUCT_NAMESPACE, product_name))
+def product_uuid(entity_type: str, product_name: str) -> str:
+    if entity_type == DEFAULT_ENTITY_TYPE:
+        return str(uuid.uuid5(PRODUCT_NAMESPACE, product_name))
+    return str(uuid.uuid5(PRODUCT_NAMESPACE, f"{entity_type}:{product_name}"))
 
 
 def validate_columns(df: pd.DataFrame) -> None:
@@ -706,6 +796,7 @@ def load_metric_rows(path: Path, sheet_name: str | None) -> pd.DataFrame:
     df["metric_footer_clean"] = df["metric_footer"].map(normalize_text)
     df["recommendation_clean"] = df["recommendation"].map(normalize_text)
     df["recommendation_group_clean"] = df["recommendation_group"].map(normalize_text)
+    df["entity_type"] = df.apply(entity_type_from_row, axis=1)
 
     with_group = df[df["metric_group"] != ""].copy()
     product_rows = with_group[
@@ -735,8 +826,9 @@ def aggregate_product(
     product_links: dict[str, list[dict[str, str]]] | None = None,
 ) -> dict[str, Any]:
     product_name = text(product_rows["Продукт"].iloc[0])
+    entity_type = text(product_rows["entity_type"].iloc[0]) or DEFAULT_ENTITY_TYPE
     unit = text(product_rows["Юнит"].iloc[0]) or "Без юнита"
-    group_uuid = product_uuid(product_name)
+    group_uuid = product_uuid(entity_type, product_name)
     product_links = product_links or {}
 
     block_buckets: dict[str, dict[str, Any]] = {}
@@ -783,6 +875,11 @@ def aggregate_product(
         if metric_button:
             metric_payload["button"] = metric_button
 
+        metric_buttons = [copy_button(button) for button in METRIC_EXTRA_BUTTONS.get(code, [])]
+        metric_buttons = [button for button in metric_buttons if button]
+        if metric_buttons:
+            metric_payload["buttons"] = metric_buttons
+
         if code in ZERO_METRIC_BUTTONS:
             metric_payload["zero_button"] = copy_button(ZERO_METRIC_BUTTONS[code])
 
@@ -816,7 +913,8 @@ def aggregate_product(
 
     return {
         "id": f"{group_uuid}¦{product_name}",
-        "product": product_name,
+        "type": entity_type,
+        "name": product_name,
         "unit": unit,
         "period": period,
         "product_group_uuid": group_uuid,
@@ -829,9 +927,16 @@ def build_report_data(path: Path, sheet_name: str | None, period: str) -> tuple[
     rows = load_metric_rows(path, sheet_name)
     links_by_product = rows.attrs.get("links_by_product", {})
     products = []
-    for _, product_rows in rows.groupby("Продукт", sort=False):
+    for _, product_rows in rows.groupby(["entity_type", "Продукт"], sort=False):
         product_name = text(product_rows["Продукт"].iloc[0])
-        products.append(aggregate_product(product_rows, period, links_by_product.get(product_name, {})))
+        entity_type = text(product_rows["entity_type"].iloc[0]) or DEFAULT_ENTITY_TYPE
+        products.append(
+            aggregate_product(
+                product_rows,
+                period,
+                links_by_product.get(entity_key(entity_type, product_name), {}),
+            )
+        )
 
     metric_count = sum(len(block["metrics"]) for product in products for block in product["metrics"])
     summary = {
