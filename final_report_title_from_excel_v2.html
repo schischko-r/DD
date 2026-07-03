@@ -1,116 +1,4 @@
-#!/usr/bin/env python3
-"""Build a standalone Data-Driven Index title page from a simple Excel list."""
-
-from __future__ import annotations
-
-import argparse
-import json
-from pathlib import Path
-from typing import Any
-
-import pandas as pd
-
-
-DEFAULT_INPUT = Path("Расчет_список.xlsx")
-DEFAULT_SHEET = "Лист1"
-DEFAULT_OUTPUT = Path("final_report_from_excel.html")
-
-BASE_REQUIRED_COLUMNS = ("Юнит", "Продукт", "Оценка", "Группа")
-TYPE_COLUMNS = ("type", "тип")
-NAME_FIXES = {
-    "Молодеж": "Молодежь",
-}
-
-
-def clean_text(value: Any) -> str:
-    if pd.isna(value):
-        return ""
-    return str(value).strip()
-
-
-def clean_type(value: Any) -> str:
-    entity_type = clean_text(value).lower()
-    if entity_type in {"product", "продукт"}:
-        return "продукт"
-    if entity_type in {"segment", "сегмент"}:
-        return "сегмент"
-    return entity_type or "продукт"
-
-
-def clean_name(value: Any) -> str:
-    name = clean_text(value)
-    return NAME_FIXES.get(name, name)
-
-
-def score_to_percent(value: Any) -> int:
-    score = pd.to_numeric(value, errors="coerce")
-    if pd.isna(score):
-        raise ValueError(f"Некорректная оценка: {value!r}")
-    if score <= 1:
-        score *= 100
-    return max(0, min(100, int(round(float(score)))))
-
-
-def read_rows(path: Path, sheet_name: str) -> list[dict[str, Any]]:
-    if path.name.startswith("~$"):
-        raise ValueError("Временный Excel-файл Office нельзя использовать как источник")
-
-    df = pd.read_excel(path, sheet_name=sheet_name)
-    type_column = next((column for column in TYPE_COLUMNS if column in df.columns), None)
-    missing = [column for column in BASE_REQUIRED_COLUMNS if column not in df.columns]
-    if type_column is None:
-        missing.append("type/тип")
-    if missing:
-        raise ValueError("В Excel нет обязательных колонок: " + ", ".join(missing))
-
-    required_columns = (*BASE_REQUIRED_COLUMNS, type_column)
-    source = df.loc[:, required_columns].copy()
-    nulls = {
-        column: int(source[column].isna().sum())
-        for column in required_columns
-        if int(source[column].isna().sum())
-    }
-    if nulls:
-        raise ValueError("В обязательных колонках есть пропуски: " + json.dumps(nulls, ensure_ascii=False))
-
-    rows: list[dict[str, Any]] = []
-    for order, row in source.iterrows():
-        unit = clean_text(row["Юнит"])
-        name = clean_name(row["Продукт"])
-        group = clean_text(row["Группа"])
-        entity_type = clean_type(row[type_column])
-        if not unit or not name:
-            continue
-        rows.append(
-            {
-                "id": f"row-{len(rows) + 1}",
-                "order": int(order),
-                "unit": unit,
-                "name": name,
-                "score": score_to_percent(row["Оценка"]),
-                "group": group,
-                "type": entity_type,
-            }
-        )
-
-    if not rows:
-        raise ValueError("После очистки в Excel не осталось строк для отчета")
-    return rows
-
-
-def build_payload(rows: list[dict[str, Any]]) -> dict[str, Any]:
-    units = sorted({row["unit"] for row in rows}, key=str.casefold)
-    types = sorted({row["type"] for row in rows}, key=str.casefold)
-    avg_score = round(sum(row["score"] for row in rows) / len(rows))
-    return {
-        "rows": rows,
-        "units": units,
-        "types": types,
-        "avgScore": avg_score,
-    }
-
-
-HTML_TEMPLATE = """<!doctype html>
+<!doctype html>
 <html lang="ru">
 <head>
   <meta charset="utf-8">
@@ -717,7 +605,626 @@ HTML_TEMPLATE = """<!doctype html>
   </div>
 
   <script id="data-driven-title-data" type="application/json">
-__DATA_JSON__
+{
+  "rows": [
+    {
+      "id": "row-1",
+      "order": 0,
+      "unit": "УБ",
+      "name": "ОСАГО",
+      "score": 63,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-2",
+      "order": 1,
+      "unit": "УБ",
+      "name": "КАСКО",
+      "score": 63,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-3",
+      "order": 2,
+      "unit": "УБ",
+      "name": "ИнтвестКопилка",
+      "score": 48,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-4",
+      "order": 3,
+      "unit": "УБ",
+      "name": "СберСова",
+      "score": 41,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-5",
+      "order": 4,
+      "unit": "УБ",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "score": 36,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-6",
+      "order": 5,
+      "unit": "УБ",
+      "name": "НСЖ",
+      "score": 46,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-7",
+      "order": 6,
+      "unit": "УБ",
+      "name": "ИСЖ",
+      "score": 46,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-8",
+      "order": 7,
+      "unit": "УБ",
+      "name": "Страхование жизни",
+      "score": 40,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-9",
+      "order": 8,
+      "unit": "УБ",
+      "name": "Брокерский счет",
+      "score": 44,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-10",
+      "order": 9,
+      "unit": "УБ",
+      "name": "БПИФ",
+      "score": 47,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-11",
+      "order": 10,
+      "unit": "УБ",
+      "name": "ЗПИФ",
+      "score": 64,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-12",
+      "order": 11,
+      "unit": "УБ",
+      "name": "ПДС",
+      "score": 53,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-13",
+      "order": 12,
+      "unit": "УБ",
+      "name": "ОПИФ",
+      "score": 61,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-14",
+      "order": 13,
+      "unit": "УБ",
+      "name": "ВЗР",
+      "score": 57,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-15",
+      "order": 14,
+      "unit": "УБ",
+      "name": "ДУ",
+      "score": 39,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-16",
+      "order": 15,
+      "unit": "УБ",
+      "name": "Страхование залога (к ипотеке)",
+      "score": 52,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-17",
+      "order": 16,
+      "unit": "УБ",
+      "name": "Личная защита Плюс",
+      "score": 59,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-18",
+      "order": 17,
+      "unit": "УБ",
+      "name": "Защита на любой случай",
+      "score": 54,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-19",
+      "order": 18,
+      "unit": "УБ",
+      "name": "ДСЖ ПК",
+      "score": 54,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-20",
+      "order": 19,
+      "unit": "УБ",
+      "name": "ДСЖ КК",
+      "score": 56,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-21",
+      "order": 20,
+      "unit": "УБ",
+      "name": "ЦФА",
+      "score": 29,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-22",
+      "order": 21,
+      "unit": "CBP",
+      "name": "Вклады+НС",
+      "score": 34,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-23",
+      "order": 22,
+      "unit": "CBP",
+      "name": "КП",
+      "score": 61,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-24",
+      "order": 23,
+      "unit": "CBP",
+      "name": "Конверсия",
+      "score": 55,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-25",
+      "order": 24,
+      "unit": "CBP",
+      "name": "Сейфы",
+      "score": 48,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-26",
+      "order": 25,
+      "unit": "CBP",
+      "name": "Монеты",
+      "score": 55,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-27",
+      "order": 26,
+      "unit": "CBP",
+      "name": "ОМС",
+      "score": 55,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-28",
+      "order": 27,
+      "unit": "CBP",
+      "name": "Слитки",
+      "score": 29,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-29",
+      "order": 28,
+      "unit": "CBP",
+      "name": "Потребительский кредит",
+      "score": 77,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-30",
+      "order": 29,
+      "unit": "CBP",
+      "name": "Авто",
+      "score": 38,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-31",
+      "order": 30,
+      "unit": "CBP",
+      "name": "Объект Авто",
+      "score": 34,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-32",
+      "order": 31,
+      "unit": "ДомКлик",
+      "name": "Сделка с Первичным жильём",
+      "score": 67,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-33",
+      "order": 32,
+      "unit": "ДомКлик",
+      "name": "Много денег (НКПЗН)",
+      "score": 60,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-34",
+      "order": 33,
+      "unit": "ДомКлик",
+      "name": "Сделка вторичка",
+      "score": 73,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-35",
+      "order": 34,
+      "unit": "PC",
+      "name": "Выписки, справки",
+      "score": 53,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-36",
+      "order": 35,
+      "unit": "СХ",
+      "name": "СберПрайм",
+      "score": 58,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-37",
+      "order": 36,
+      "unit": "СХ",
+      "name": "Пакет услуг СберПремьер",
+      "score": 57,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-38",
+      "order": 37,
+      "unit": "СХ",
+      "name": "Пакет услуг СберПервый",
+      "score": 45,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-39",
+      "order": 38,
+      "unit": "СХ",
+      "name": "Дети",
+      "score": 58,
+      "group": "Развивающиеся",
+      "type": "сегмент"
+    },
+    {
+      "id": "row-40",
+      "order": 39,
+      "unit": "СХ",
+      "name": "Молодежь",
+      "score": 53,
+      "group": "Развивающиеся",
+      "type": "сегмент"
+    },
+    {
+      "id": "row-41",
+      "order": 40,
+      "unit": "СХ",
+      "name": "Рабочий возраст",
+      "score": 67,
+      "group": "Зрелые",
+      "type": "сегмент"
+    },
+    {
+      "id": "row-42",
+      "order": 41,
+      "unit": "СХ",
+      "name": "Зрелость",
+      "score": 49,
+      "group": "Развивающиеся",
+      "type": "сегмент"
+    },
+    {
+      "id": "row-43",
+      "order": 42,
+      "unit": "СХ",
+      "name": "Top Affluent",
+      "score": 60,
+      "group": "Развивающиеся",
+      "type": "сегмент"
+    },
+    {
+      "id": "row-44",
+      "order": 43,
+      "unit": "СХ",
+      "name": "PB",
+      "score": 68,
+      "group": "Зрелые",
+      "type": "сегмент"
+    },
+    {
+      "id": "row-45",
+      "order": 44,
+      "unit": "СХ",
+      "name": "МВС",
+      "score": 44,
+      "group": "Развивающиеся",
+      "type": "сегмент"
+    },
+    {
+      "id": "row-46",
+      "order": 45,
+      "unit": "DB",
+      "name": "Трансграничный эквайринг",
+      "score": 34,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-47",
+      "order": 46,
+      "unit": "DB",
+      "name": "Военная пенсия",
+      "score": 28,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-48",
+      "order": 47,
+      "unit": "DB",
+      "name": "Транспортный эквайринг",
+      "score": 24,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-49",
+      "order": 48,
+      "unit": "DB",
+      "name": "Школьные сервисы",
+      "score": 36,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-50",
+      "order": 49,
+      "unit": "DB",
+      "name": "Кредитные карты",
+      "score": 59,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-51",
+      "order": 50,
+      "unit": "DB",
+      "name": "Трансграничные переводы",
+      "score": 37,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-52",
+      "order": 51,
+      "unit": "DB",
+      "name": "Платежи",
+      "score": 37,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-53",
+      "order": 52,
+      "unit": "DB",
+      "name": "Переводы по РФ",
+      "score": 68,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-54",
+      "order": 53,
+      "unit": "DB",
+      "name": "Переводы подарков",
+      "score": 37,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-55",
+      "order": 54,
+      "unit": "DB",
+      "name": "Оплата улыбкой",
+      "score": 66,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-56",
+      "order": 55,
+      "unit": "DB",
+      "name": "Торговый Эквайринг",
+      "score": 63,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-57",
+      "order": 56,
+      "unit": "DB",
+      "name": "Дебетовая карта",
+      "score": 56,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-58",
+      "order": 57,
+      "unit": "DB",
+      "name": "SberPay NFC",
+      "score": 77,
+      "group": "Зрелые",
+      "type": "продукт"
+    },
+    {
+      "id": "row-59",
+      "order": 58,
+      "unit": "DB",
+      "name": "Как зарплатный",
+      "score": 36,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-60",
+      "order": 59,
+      "unit": "DB",
+      "name": "Платежи",
+      "score": 46,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-61",
+      "order": 60,
+      "unit": "DB",
+      "name": "Интернет-Эквайринг",
+      "score": 37,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-62",
+      "order": 61,
+      "unit": "DB",
+      "name": "SberPay Ecom",
+      "score": 41,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-63",
+      "order": 62,
+      "unit": "DB",
+      "name": "SberPay Вжух",
+      "score": 42,
+      "group": "Развивающиеся",
+      "type": "продукт"
+    },
+    {
+      "id": "row-64",
+      "order": 63,
+      "unit": "DB",
+      "name": "Пенсионный продукт",
+      "score": 33,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-65",
+      "order": 64,
+      "unit": "DB",
+      "name": "СберЧаевые",
+      "score": 39,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-66",
+      "order": 65,
+      "unit": "DB",
+      "name": "Зарплатный продукт",
+      "score": 34,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    },
+    {
+      "id": "row-67",
+      "order": 66,
+      "unit": "DB",
+      "name": "Детская карта",
+      "score": 40,
+      "group": "Требуют внимания",
+      "type": "продукт"
+    }
+  ],
+  "units": [
+    "CBP",
+    "DB",
+    "PC",
+    "ДомКлик",
+    "СХ",
+    "УБ"
+  ],
+  "types": [
+    "продукт",
+    "сегмент"
+  ],
+  "avgScore": 50
+}
   </script>
   <script>
     const $ = (id) => document.getElementById(id);
@@ -752,7 +1259,7 @@ __DATA_JSON__
     }
 
     function normalizeGroup(group) {
-      return String(group || '').trim().replace(/\\s+/g, ' ').toLowerCase();
+      return String(group || '').trim().replace(/\s+/g, ' ').toLowerCase();
     }
 
     function groupTheme(group) {
@@ -960,37 +1467,3 @@ __DATA_JSON__
   </script>
 </body>
 </html>
-"""
-
-
-def build_html(payload: dict[str, Any]) -> str:
-    data_json = json.dumps(payload, ensure_ascii=False, indent=2).replace("</", "<\\/")
-    return HTML_TEMPLATE.replace("__DATA_JSON__", data_json)
-
-
-def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate standalone Data-Driven Index title page from Расчет_список.xlsx")
-    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT, help="Path to source .xlsx")
-    parser.add_argument("--sheet", default=DEFAULT_SHEET, help="Sheet name")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")
-    return parser.parse_args()
-
-
-def main() -> None:
-    args = parse_args()
-    rows = read_rows(args.input, args.sheet)
-    payload = build_payload(rows)
-    args.output.write_text(build_html(payload), encoding="utf-8")
-
-    summary = {
-        "html": str(args.output),
-        "rows": len(rows),
-        "units": len(payload["units"]),
-        "types": len(payload["types"]),
-        "missing_required_values": 0,
-    }
-    print(json.dumps(summary, ensure_ascii=False, indent=2))
-
-
-if __name__ == "__main__":
-    main()
