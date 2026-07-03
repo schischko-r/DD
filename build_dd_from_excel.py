@@ -24,8 +24,10 @@ from typing import Any
 import pandas as pd
 
 
-DEFAULT_INPUT = Path("Book 5.xlsx")
+DEFAULT_INPUT = Path("Расчет_список(1).xlsx")
+DEFAULT_SHEET = "Лист2"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
+DEFAULT_JSON_OUTPUT = Path("dd-data-from-excel.json")
 DEFAULT_PERIOD = "II кв. 2026"
 
 PRODUCT_NAMESPACE = uuid.UUID("4ac579f8-1f47-4f86-ae23-01b8f67ddf60")
@@ -284,8 +286,6 @@ ACTIONS_BY_BLOCK: dict[str, list[dict[str, Any]]] = {
         },
         {
             "button": COMMON_BUTTONS["attract_comm_to_sale"],
-            "links_key": "attract_funnel",
-            "requires_link": True,
         },
     ],
     "churn": [
@@ -359,23 +359,20 @@ METRIC_CODES = {
     ("Гипотезы и инициативы", "Доп. инициативы сверх БП"): "hyp.extra_initiatives",
 }
 
-METRIC_ID_OVERRIDES: dict[int, dict[str, str]] = {
-    97: {
-        "metric_group": "Воронка оттока",
-        "metric_name_clean": "Знание метрик для мониторинга механик",
-        "metric_footer_clean": "Понимание метрик эффективности механик",
-        "recommendation_clean": "Определить метрики механик оттока",
-        "recommendation_group_clean": "medium",
-    },
-    98: {
-        "metric_name_clean": "Гибкое изменение условий",
-        "metric_footer_clean": "Персонализация без IT",
-    },
-}
-
 METRIC_ORDER_OVERRIDES: dict[str, float] = {
     "general.navigator_reporting_knowledge": 999,
 }
+
+DIGITAL_GOALS_METRIC_NAME = "Цифр.цели"
+
+SEGMENT_HIDDEN_ACTION_LABELS = {
+    COMMON_BUTTONS["general_mau_report"]["label"],
+    COMMON_BUTTONS["general_satellite_products"]["label"],
+    COMMON_BUTTONS["attract_pilot_campaigns"]["label"],
+    COMMON_BUTTONS["hyp_drafts"]["label"],
+}
+
+SEGMENT_HIDDEN_TOOL_BLOCKS = {"general", "cx", "attract", "churn", "hyp"}
 
 
 def text(value: Any) -> str:
@@ -481,6 +478,11 @@ def entity_type_from_row(row: Any) -> str:
     for column in ENTITY_TYPE_COLUMNS:
         value = text(row.get(column))
         if value:
+            normalized = value.strip().lower()
+            if normalized in {"product", "продукт"}:
+                return DEFAULT_ENTITY_TYPE
+            if normalized in {"segment", "сегмент"}:
+                return "Сегмент"
             return value
     return DEFAULT_ENTITY_TYPE
 
@@ -718,7 +720,11 @@ def make_tool(
     return tool
 
 
-def with_tools(block: dict[str, Any], product_links: dict[str, list[dict[str, str]]], unit: str) -> None:
+def is_segment_entity(entity_type: str) -> bool:
+    return text(entity_type).casefold() == "сегмент"
+
+
+def with_tools(block: dict[str, Any], product_links: dict[str, list[dict[str, str]]], unit: str, entity_type: str) -> None:
     earned = sum(float(metric.get("value") or 0)
                  for metric in block["metrics"] if not metric.get("excluded_from_index"))
     max_value = sum(float(metric.get("max_value") or 0)
@@ -726,6 +732,8 @@ def with_tools(block: dict[str, Any], product_links: dict[str, list[dict[str, st
 
     tools = []
     definition = TOOLS_BY_BLOCK.get(block["code"])
+    if is_segment_entity(entity_type) and block["code"] in SEGMENT_HIDDEN_TOOL_BLOCKS:
+        definition = None
     if definition:
         tools.append(make_tool(definition, block,
                      product_links, unit, earned, max_value))
@@ -741,8 +749,9 @@ def action_from_button(button: dict[str, str] | None) -> dict[str, str] | None:
     return {"label": copied["label"], "url": copied["link"]}
 
 
-def with_actions(block: dict[str, Any], product_links: dict[str, list[dict[str, str]]], unit: str) -> None:
+def with_actions(block: dict[str, Any], product_links: dict[str, list[dict[str, str]]], unit: str, entity_type: str) -> None:
     actions: list[dict[str, str]] = []
+    segment = is_segment_entity(entity_type)
 
     for definition in ACTIONS_BY_BLOCK.get(block["code"], []):
         if definition.get("unit_goals_dashboard"):
@@ -775,6 +784,8 @@ def with_actions(block: dict[str, Any], product_links: dict[str, list[dict[str, 
     for action in actions:
         url = text(action.get("url"))
         label = text(action.get("label")) or "Открыть"
+        if segment and label in SEGMENT_HIDDEN_ACTION_LABELS:
+            continue
         if not url:
             continue
         key = (label, url)
@@ -803,16 +814,20 @@ def metric_button_for_code(code: str, product_links: dict[str, list[dict[str, st
     return copy_button(METRIC_BUTTONS.get(code))
 
 
-def with_block_info(block: dict[str, Any], product_name: str) -> None:
+def with_block_info(block: dict[str, Any], product_name: str, entity_type: str) -> None:
     if block["code"] != "cx":
+        return
+    if is_segment_entity(entity_type):
         return
 
     block["info"] = {
         "type": "losshunter",
-        "count": LOSS_HUNTER_ANALYTICS_BY_PRODUCT.get(product_name, LOSS_HUNTER_DEFAULT_COUNT),
-        "title": "аналитики в LossHunter",
-        "footer": "проведено за квартал по продукту",
-        "button": copy_button(COMMON_BUTTONS["loss_hunter_analysis"]),
+        "variant": "cta",
+        "title": "Аналитика клиентского пути в LossHunter",
+        "button": {
+            **copy_button(COMMON_BUTTONS["loss_hunter_analysis"]),
+            "label": "Перейти",
+        },
     }
 
 
@@ -866,22 +881,38 @@ def load_metric_rows(path: Path, sheet_name: str | None) -> pd.DataFrame:
     df["recommendation_group_clean"] = df["recommendation_group"].map(
         normalize_text)
     df["entity_type"] = df.apply(entity_type_from_row, axis=1)
+    df["_unit_key"] = df["Юнит"].map(text)
+    df["_product_key"] = df["Продукт"].map(text)
+    df["value_num"] = df["value"].map(number)
+    df["max_value_num"] = df["max_value"].map(number)
+
+    digital_goal_rows = df[
+        (df["metric_name_clean"] == DIGITAL_GOALS_METRIC_NAME)
+        & (df["_product_key"] != "")
+        & (df["_unit_key"] != "")
+    ].copy()
+    digital_goals = (
+        digital_goal_rows.groupby(["entity_type", "_unit_key", "_product_key"], sort=False)
+        .agg(
+            digital_goals_value=("value_num", "max"),
+            digital_goals_max=("max_value_num", "max"),
+        )
+        .reset_index()
+    )
 
     with_group = df[df["metric_group"] != ""].copy()
     product_rows = with_group[
-        (with_group["Продукт"].map(text) != "")
-        & (with_group["Юнит"].map(text) != "")
+        (with_group["_product_key"] != "")
+        & (with_group["_unit_key"] != "")
         & (with_group["metric_name_clean"] != "")
     ].copy()
 
-    product_rows["value_num"] = product_rows["value"].map(number)
-    product_rows["max_value_num"] = product_rows["max_value"].map(number)
     product_rows["metric_id_num"] = product_rows["metric"].map(number)
-
-    for metric_id, overrides in METRIC_ID_OVERRIDES.items():
-        mask = product_rows["metric_id_num"].eq(metric_id)
-        for column, value in overrides.items():
-            product_rows.loc[mask, column] = value
+    product_rows = product_rows.merge(
+        digital_goals,
+        on=["entity_type", "_unit_key", "_product_key"],
+        how="left",
+    )
 
     product_rows.attrs["metric_group_rows"] = len(with_group)
     product_rows.attrs["template_rows_skipped"] = len(
@@ -901,6 +932,16 @@ def aggregate_product(
     unit = text(product_rows["Юнит"].iloc[0]) or "Без юнита"
     group_uuid = product_uuid(entity_type, product_name)
     product_links = product_links or {}
+    digital_goals_value = clean_float(
+        float(product_rows["digital_goals_value"].fillna(0).max())
+        if "digital_goals_value" in product_rows
+        else 0
+    )
+    digital_goals_max = clean_float(
+        float(product_rows["digital_goals_max"].fillna(0).max())
+        if "digital_goals_max" in product_rows
+        else 0
+    )
 
     block_buckets: dict[str, dict[str, Any]] = {}
 
@@ -983,9 +1024,12 @@ def aggregate_product(
         block.pop("_order", None)
         for metric in block["metrics"]:
             metric.pop("_order", None)
-        with_tools(block, product_links, unit)
-        with_actions(block, product_links, unit)
-        with_block_info(block, product_name)
+        with_tools(block, product_links, unit, entity_type)
+        with_actions(block, product_links, unit, entity_type)
+        with_block_info(block, product_name, entity_type)
+        if block["code"] == "goals":
+            block["digital_goals_value"] = digital_goals_value
+            block["digital_goals_max"] = digital_goals_max
 
     return {
         "id": f"{group_uuid}¦{product_name}",
@@ -1040,13 +1084,20 @@ def write_standalone(data: dict[str, Any], output_path: Path) -> None:
     )
 
 
+def write_json(data: dict[str, Any], output_path: Path) -> None:
+    output_path.write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Generate standalone DD HTML from Книга4.xlsx")
+        description="Generate standalone DD HTML and JSON from Excel")
     parser.add_argument("--input", type=Path,
                         default=DEFAULT_INPUT, help="Path to source .xlsx")
-    parser.add_argument("--sheet", default=None,
-                        help="Sheet name; first sheet is used by default")
+    parser.add_argument("--sheet", default=DEFAULT_SHEET,
+                        help="Sheet name")
     parser.add_argument("--period", default=DEFAULT_PERIOD,
                         help="Period label to put into product rows")
     parser.add_argument(
@@ -1055,6 +1106,12 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_OUTPUT,
         help="Output standalone HTML path",
     )
+    parser.add_argument(
+        "--json-output",
+        type=Path,
+        default=DEFAULT_JSON_OUTPUT,
+        help="Output nested JSON path",
+    )
     return parser.parse_args()
 
 
@@ -1062,9 +1119,10 @@ def main() -> None:
     args = parse_args()
     data, summary = build_report_data(args.input, args.sheet, args.period)
 
+    write_json(data, args.json_output)
     write_standalone(data, args.output)
 
-    print(json.dumps({"html": str(args.output), **summary},
+    print(json.dumps({"html": str(args.output), "json": str(args.json_output), **summary},
           ensure_ascii=False, indent=2))
 
 

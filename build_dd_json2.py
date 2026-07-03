@@ -148,9 +148,10 @@ BLOCKS: list[dict[str, Any]] = [
         ],
         "info": {
             "type": "losshunter",
+            "variant": "cta",
             "count_metric": "cx_losshunter_analytics_count",
-            "title": "аналитики в LossHunter",
-            "footer": "проведено за квартал по продукту",
+            "title": "Аналитика клиентского пути в LossHunter",
+            "button": {"type": "metric", "label": "Перейти", "link": "https://losshunter.ru"},
         },
         "metrics": [
             {
@@ -365,6 +366,11 @@ BLOCKS: list[dict[str, Any]] = [
 
 
 EXTRA_CSS = """
+
+    .table-head,
+    .product-row {
+      grid-template-columns: minmax(260px, 1.7fr) minmax(150px, .7fr) minmax(120px, .45fr);
+    }
 
     .block-note {
       gap: 12px;
@@ -765,6 +771,10 @@ EXTRA_CSS = """
     .block-infobox {
       border-color: rgba(0,122,255,.12);
       background: #eef5ff;
+    }
+
+    .block-infobox.cta {
+      grid-template-columns: minmax(0, 1fr) auto;
     }
 
     .block-infobox .info-count,
@@ -1296,16 +1306,21 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       const footer = item.footer_dynamic === 'green_count'
         ? 'Выполняется ' + greenCount + ' из ' + criteria.length + ' целей'
         : item.footer;
+      const hidesCommonTrafficLight = isCommonTrafficLightFooter(footer);
 
       return {
         ...item,
         name: item.name || tool.name || 'Инструмент',
         active: missingLink ? 'gray' : (parseLight(item.traffic_light || tool.traffic_light) || 'gray'),
-        footer,
+        footer: hidesCommonTrafficLight ? '' : footer,
         button: missingLink ? { type: 'general', label: 'TBD', link: '' } : normalizedButton,
         links: extraLinks,
-        showDots: item.show_dots !== false && item.no_dots !== true,
+        showDots: item.show_dots !== false && item.no_dots !== true && !hidesCommonTrafficLight,
       };
+    }
+
+    function isCommonTrafficLightFooter(value) {
+      return String(value || '').trim().replace(/\s+/g, ' ').toLowerCase() === 'общий светофор';
     }
 
     function normalizeTools(tools, block, criteria, greenCount) {
@@ -1425,10 +1440,11 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
     function normalizeInfo(info) {
       if (!info) return null;
       const count = Math.max(0, parseNumber(info.count, 0));
-      const fallbackLabel = count > 0 ? 'Посмотреть инсайты' : 'Провести анализ';
+      const fallbackLabel = info.variant === 'cta' ? 'Перейти' : (count > 0 ? 'Посмотреть инсайты' : 'Провести анализ');
       return {
+        variant: info.variant || '',
         count: fmt(count),
-        title: info.title || 'аналитики в LossHunter',
+        title: info.title || (info.variant === 'cta' ? 'Аналитика клиентского пути в LossHunter' : 'аналитики в LossHunter'),
         sub: info.footer || info.sub || 'проведено за квартал по продукту',
         button: normalizeButton(info.button, {
           type: 'metric',
@@ -1473,7 +1489,6 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
         <div class="table-head">
           <div>Сущность</div>
           <div>DD%</div>
-          <div>Светофор метрик</div>
           <div>Действие</div>
         </div>
       `;
@@ -1509,7 +1524,6 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
 
     function productRowHTML(product, showUnit) {
       const st = product.status;
-      const dots = product.skillDots.length ? product.skillDots : ['n'];
       const meta = `
         <span class="entity-meta">
           ${showUnit ? `<span class="entity-unit">${esc(product.unit)}</span>` : ''}
@@ -1528,10 +1542,6 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
               <span class="score-label" style="color:${st.color}">${product.score}%</span>
               <span class="progress" style="color:${st.color}"><i style="width:${product.score}%"></i></span>
             </div>
-          </div>
-          <div class="lights">
-            <div class="dotline">${dots.map((dot) => `<i class="dot ${dotClass(dot)}"></i>`).join('')}</div>
-            <div class="light-caption">в зеленой зоне <b>${product.skillGreens} / ${product.skillDotCount}</b></div>
           </div>
           <div class="go-cell">
             <button type="button" class="go-button" data-product-id="${esc(product.id)}">Перейти ›</button>
@@ -1635,11 +1645,14 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       const groups = new Map();
       rows.forEach((item) => {
         recommendationTextsFor(item.criterion).forEach((recommendation) => {
-          const key = normalizeRecommendationKey(recommendation);
+          const groupPriority = recommendationGroupPriority(item.criterion);
+          if (groupPriority > 1) return;
+          const key = normalizeRecommendationKey(recommendation) + '|' + groupPriority;
           if (!key) return;
           if (!groups.has(key)) {
             groups.set(key, {
               recommendation,
+              groupPriority,
               gap: 0,
               metrics: [],
               blocks: new Set(),
@@ -1665,9 +1678,23 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
             caption,
             gap: group.gap,
             gain,
+            groupPriority: group.groupPriority,
           };
         })
-        .sort((a, b) => (b.gap - a.gap) || (b.gain - a.gain) || a.recommendation.localeCompare(b.recommendation, 'ru'));
+        .sort((a, b) => (a.groupPriority - b.groupPriority) || (b.gain - a.gain) || (b.gap - a.gap) || a.recommendation.localeCompare(b.recommendation, 'ru'));
+    }
+
+    function recommendationGroupPriority(row) {
+      const groups = Array.isArray(row.recommendation_groups)
+        ? row.recommendation_groups
+        : (row.recommendation_group ? [row.recommendation_group] : []);
+      let priority = 99;
+      groups.forEach((group) => {
+        const key = String(group || '').trim().toLowerCase();
+        if (key === 'easy') priority = Math.min(priority, 0);
+        if (key === 'medium') priority = Math.min(priority, 1);
+      });
+      return priority;
     }
 
     function recommendationTextsFor(row) {
@@ -1799,10 +1826,10 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       return `<i class="tool-light" style="background:${dotColor(dot)}"></i>`;
     }
 
-    function toolItemHTML(item) {
+    function toolItemHTML(item, neutralLight = false) {
       return `
         <div class="tool-item">
-          ${toolLightHTML(item.active)}
+          ${toolLightHTML(neutralLight ? 'gray' : item.active)}
           <div class="tool-item-copy">
             ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
             <div class="tool-item-name">${esc(item.name || 'Инструмент')}</div>
@@ -1823,7 +1850,7 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       const isInstruction = tool.kind === 'instruction';
       const badge = isInstruction ? 'i' : 'AI';
       const badgeClass = isInstruction ? 'note-badge instruction' : 'note-badge';
-      const dots = tool.showDots ? `<span class="note-dots">${noteDotHTML(tool.active)}</span>` : '';
+      const dots = tool.kind !== 'ai' && tool.showDots ? `<span class="note-dots">${noteDotHTML(tool.active)}</span>` : '';
 
       if (isGroup) {
         return `
@@ -1835,7 +1862,7 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
               </div>
             </div>
             <div class="tool-items">
-              ${toolItems.map(toolItemHTML).join('')}
+              ${toolItems.map((item) => toolItemHTML(item, true)).join('')}
             </div>
           </div>
         `;
@@ -1872,6 +1899,17 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
     }
 
     function blockInfoHTML(info) {
+      if (info.variant === 'cta') {
+        return `
+          <div class="block-infobox cta">
+            <div class="info-text">
+              <b>${esc(info.title)}</b>
+            </div>
+            ${actionButtonHTML(info.button, 'metric-button')}
+          </div>
+        `;
+      }
+
       return `
         <div class="block-infobox">
           <div class="info-count">${esc(info.count)}</div>
@@ -1899,6 +1937,16 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
 
     function blockAdvisoryHTML(block) {
       if (block.code !== 'goals' || !criterionValueBelow(block, 'goals.monitored', 1)) return '';
+      const digitalGoalsValue = parseNumber(block.digital_goals_value, 0);
+
+      if (digitalGoalsValue >= 1) {
+        return `
+          <div class="block-advisory">
+            <span class="block-advisory-badge">i</span>
+            <div class="block-advisory-text">Обратите внимание, что в вашем юните имеется мастер-деш, с целями вашего продукта</div>
+          </div>
+        `;
+      }
 
       return `
         <div class="block-advisory">
@@ -2420,6 +2468,12 @@ def build_embedded_html(data: dict[str, Any], title: str) -> str:
     before_script = before_script.replace(
         "<title>DD-Индекс - итоговый отчет</title>",
         f"<title>{title}</title>",
+    )
+    before_script = re.sub(
+        r"\n\s*<div class=\"legend\">.*?</div>\s*(?=\n\s*</section>)",
+        "",
+        before_script,
+        flags=re.S,
     )
     before_script = before_script.replace("</style>", EXTRA_CSS + "\n  </style>")
 
