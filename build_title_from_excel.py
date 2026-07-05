@@ -13,7 +13,7 @@ import pandas as pd
 
 DEFAULT_INPUT = Path("Расчет_список.xlsx")
 DEFAULT_SHEET = "Лист1"
-DEFAULT_OUTPUT = Path("final_report_from_excel.html")
+DEFAULT_OUTPUT = Path("final_title_from_excel.html")
 
 BASE_REQUIRED_COLUMNS = ("Юнит", "Продукт", "Оценка", "Группа")
 TYPE_COLUMNS = ("type", "тип")
