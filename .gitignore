@@ -1,7 +1,10 @@
 ~$*.xls
 ~$*.xlsx
 Agent.html
+build_dd_from_excel.py
+build_dd_json2.py
 DD-Индекс - титульная страница_v2.html
 dd-data*.json
+final_report.html
 final_report_title_from_excel_v2.html
 Расчет_список.xlsx

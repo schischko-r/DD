@@ -31,14 +31,14 @@ python build_title_from_excel.py --input "Расчет_список(1).xlsx" --s
 
 ## `build_calc_report.py`
 
-`build_calc_report.py` - самодостаточный сборщик. Внутри файла зашиты снимки кода:
+`build_calc_report.py` - самодостаточный сборщик. Внутри файла зашиты:
 
-- `build_title_from_excel.py` - чтение и подготовка данных титульника;
-- `build_dd_from_excel.py` - чтение деталки из Excel и сборка вложенной модели продуктов/метрик;
-- `build_dd_json2.py` - HTML/CSS/JS-рендер итогового отчета.
-- `final_report.html` - HTML-шаблон, который читает `build_dd_json2.py` перед встраиванием данных и актуального JS.
+- снимок логики `build_title_from_excel.py` для чтения и подготовки данных титульника;
+- логика чтения деталки из Excel и сборки вложенной модели продуктов/метрик;
+- HTML/CSS/JS-рендер итогового отчета;
+- базовый HTML-шаблон отчета.
 
-Файл не импортирует Python-модули с диска во время запуска. Он загружает встроенные строки через `_load_embedded_module(...)`, выполняет их в отдельных namespace и берет оттуда нужные функции. HTML-шаблон `final_report.html` при этом остается внешним файлом и должен лежать рядом со сборщиком. После изменения исходных `build_title_from_excel.py`, `build_dd_from_excel.py` или `build_dd_json2.py` нужно обновить embedded-копии внутри `build_calc_report.py`, иначе полный отчет продолжит работать по старому снимку.
+Файл не импортирует локальные Python-модули и не читает внешний HTML-шаблон во время запуска. Он загружает встроенные строки через `_load_embedded_module(...)`, выполняет их в отдельных namespace и берет оттуда нужные функции. Поэтому для полного отчета на диске нужны только `build_calc_report.py`, входной Excel и Python-зависимости вроде `pandas`/`openpyxl`.
 
 ### Вход и выход
 
@@ -58,9 +58,9 @@ python build_calc_report.py --input "Расчет_список(1).xlsx" --title-
 
 ### Шаги сборки
 
-1. `build_combined_data(...)` читает титульный лист через embedded-версию `read_rows(...)` из `build_title_from_excel.py`.
+1. `build_combined_data(...)` читает титульный лист через embedded-версию `read_rows(...)`.
 2. Титульные строки превращаются в payload через `build_payload(...)`: список строк, уникальные юниты, уникальные типы и средний Data-Driven Index.
-3. Детальный лист читается через embedded-версию `build_report_data(...)` из `build_dd_from_excel.py`.
+3. Детальный лист читается через embedded-версию `build_report_data(...)`.
 4. Деталка группируется по `entity_type` и `Продукт`, затем внутри продукта агрегируется по блоку и метрике.
 5. Итоговая модель объединяется в один объект:
 
@@ -68,13 +68,13 @@ python build_calc_report.py --input "Расчет_список(1).xlsx" --title-
 combined = {**detail_data, "title": title_payload}
 ```
 
-6. `write_html(...)` передает объединенную модель в embedded-версию `build_embedded_html(...)` из `build_dd_json2.py`.
+6. `write_html(...)` передает объединенную модель в embedded-версию `build_embedded_html(...)`.
 7. HTML записывается в `final_report_from_excel.html`.
 8. В консоль печатается JSON-сводка: путь к HTML, строки деталки, число продуктов, юнитов, агрегированных метрик, строк титульника, юнитов и типов титульника.
 
 ### Логика деталки
 
-Деталка наследует правила из `build_dd_from_excel.py` и `build_dd_json2.py`:
+Деталка собирается встроенной логикой:
 
 - обязательные колонки проверяются до сборки;
 - `metric_group`, `metric_name`, футеры и рекомендации чистятся от лишних пробелов;
