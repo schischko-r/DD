@@ -369,7 +369,89 @@ EXTRA_CSS = """
 
     .table-head,
     .product-row {
-      grid-template-columns: minmax(260px, 1.7fr) minmax(150px, .7fr) minmax(120px, .45fr);
+      grid-template-columns: minmax(240px, 1.5fr) minmax(150px, .7fr) minmax(150px, .7fr) minmax(120px, .45fr);
+    }
+
+    .toolbar-controls {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 36px;
+      padding: 3px 5px 3px 11px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .filter-wrap select {
+      min-width: 132px;
+      min-height: 28px;
+      border: 0;
+      border-radius: 8px;
+      outline: none;
+      background: #f5f5f7;
+      color: var(--ink);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .group-cell {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 100%;
+      min-height: 30px;
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: color-mix(in srgb, currentColor 12%, white);
+      color: #6e6e73;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.15;
+      text-align: center;
+      white-space: normal;
+    }
+
+    .unit-name {
+      flex: 1 1 auto;
+      overflow: hidden;
+    }
+
+    .unit-count {
+      flex: none;
+    }
+
+    .unit-row.hide-unit-count .unit-count,
+    .unit-row.hide-unit-count .unit-avg-label {
+      display: none;
+    }
+
+    .go-button:disabled {
+      background: rgba(142,142,147,.14);
+      color: #8e8e93;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .go-button:disabled:hover {
+      background: rgba(142,142,147,.14);
     }
 
     .block-note {
@@ -1006,6 +1088,8 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
     const state = {
       model: null,
       sort: 'unit',
+      unit: 'all',
+      type: 'all',
       selectedId: null,
       compact: false,
       expandedBlocks: {},
@@ -1110,6 +1194,76 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       if (m === 1 && h !== 11) return 'сущность';
       if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return 'сущности';
       return 'сущностей';
+    }
+
+    function pluralTeam(n) {
+      const m = n % 10;
+      const h = n % 100;
+      if (m === 1 && h !== 11) return 'команда';
+      if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return 'команды';
+      return 'команд';
+    }
+
+    function compareText(a, b) {
+      return String(a || '').localeCompare(String(b || ''), 'ru', { sensitivity: 'base' });
+    }
+
+    function normalizeText(value) {
+      return String(value || '').trim().replace(/\s+/g, ' ');
+    }
+
+    function normalizeKey(value) {
+      return normalizeText(value).toLowerCase();
+    }
+
+    function normalizeTitleType(value) {
+      const normalized = normalizeKey(value);
+      if (['segment', 'сегмент'].includes(normalized)) return 'сегмент';
+      return 'продукт';
+    }
+
+    function detailKey(type, name) {
+      return normalizeTitleType(type) + '|' + normalizeKey(name);
+    }
+
+    function normalizeGroup(group) {
+      return normalizeKey(group);
+    }
+
+    function groupTheme(group) {
+      const normalized = normalizeGroup(group);
+      if (normalized === 'требуют внимания') {
+        return { accent: '#f3a6a0', text: '#9f2a25', bg: '#fff1f0', border: '#f5c2bd' };
+      }
+      if (normalized === 'развивающиеся') {
+        return { accent: '#f4b183', text: '#9a4a16', bg: '#fff4e8', border: '#f7cfaa' };
+      }
+      if (normalized === 'зрелые') {
+        return { accent: '#e8c46a', text: '#7a5a10', bg: '#fff8df', border: '#efd98d' };
+      }
+      if (normalized === 'лидеры' || normalized === 'лидеры dd') {
+        return { accent: '#8fd6b0', text: '#1f7a4d', bg: '#eefaf3', border: '#bde8cf' };
+      }
+      return { accent: '#c7c7cc', text: '#6e6e73', bg: '#f5f5f7', border: '#d1d1d6' };
+    }
+
+    function averageGroup(rows) {
+      if (!rows.length) return '';
+      const rank = {
+        'требуют внимания': 1,
+        'развивающиеся': 2,
+        'зрелые': 3,
+        'лидеры': 4,
+        'лидеры dd': 4,
+      };
+      const labels = {
+        1: 'Требуют внимания',
+        2: 'Развивающиеся',
+        3: 'Зрелые',
+        4: 'Лидеры',
+      };
+      const avg = Math.round(rows.reduce((sum, row) => sum + (rank[normalizeGroup(row.group)] || 0), 0) / rows.length);
+      return labels[avg] || '';
     }
 
     function normalizeLinks(links) {
@@ -1272,6 +1426,10 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
 
       const units = Array.from(new Set(products.map((product) => product.unit)));
       const avgScore = Math.round(products.reduce((sum, product) => sum + product.score, 0) / products.length);
+      const titleRows = normalizeTitleRows(data, products);
+      const titleRowsUnits = titleUnits(titleRows);
+      const titleRowsTypes = titleTypes(titleRows);
+      const titleRowsAvgScore = titleAverageScore(titleRows);
       const periods = Array.from(new Set(productsRaw.map((product) => product.period).filter(Boolean)));
       const metricCount = productsRaw.reduce((sum, product) => {
         return sum + (product.metrics || []).reduce((blockSum, block) => {
@@ -1285,6 +1443,10 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
         period: periods.length ? periods[periods.length - 1] : 'период не указан',
         units,
         avgScore,
+        titleRows,
+        titleUnits: titleRowsUnits,
+        titleTypes: titleRowsTypes,
+        titleAvgScore: titleRowsAvgScore,
         source: {
           products: products.length,
           units: units.length,
@@ -1454,6 +1616,62 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       };
     }
 
+    function normalizeTitleRows(data, products) {
+      const detailByKey = new Map(products.map((product) => [detailKey(product.type, product.name), product]));
+      const detailsByName = new Map();
+      products.forEach((product) => {
+        const nameKey = normalizeKey(product.name);
+        if (!detailsByName.has(nameKey)) detailsByName.set(nameKey, []);
+        detailsByName.get(nameKey).push(product);
+      });
+      const rawRows = data && data.title && Array.isArray(data.title.rows) ? data.title.rows : [];
+
+      if (rawRows.length) {
+        return rawRows.map((row, order) => {
+          const type = normalizeTitleType(row.type || row.entity_type || row["тип"]);
+          const name = normalizeText(row.name || row.product || row.product_name || row["Продукт"]);
+          const namedDetails = detailsByName.get(normalizeKey(name)) || [];
+          const detail = detailByKey.get(detailKey(type, name))
+            || namedDetails.find((product) => normalizeTitleType(product.type) === type)
+            || (namedDetails.length === 1 ? namedDetails[0] : null);
+          const score = Math.max(0, Math.min(100, Math.round(parseNumber(row.score ?? row["Оценка"], 0))));
+          return {
+            id: row.id || 'title-row-' + (order + 1),
+            order: Number.isFinite(Number(row.order)) ? Number(row.order) : order,
+            unit: normalizeText(row.unit || row["Юнит"]) || 'Без юнита',
+            name,
+            score,
+            group: normalizeText(row.group || row["Группа"]) || statusOf(score).text.replace(/\s*DD$/, ''),
+            type,
+            detailId: detail ? detail.id : '',
+          };
+        }).filter((row) => row.name && row.unit);
+      }
+
+      return products.map((product) => ({
+        id: 'title-' + product.id,
+        order: product.order,
+        unit: product.unit,
+        name: product.name,
+        score: product.score,
+        group: product.status.text.replace(/\s*DD$/, ''),
+        type: normalizeTitleType(product.type),
+        detailId: product.id,
+      }));
+    }
+
+    function titleUnits(rows) {
+      return Array.from(new Set(rows.map((row) => row.unit)));
+    }
+
+    function titleTypes(rows) {
+      return Array.from(new Set(rows.map((row) => row.type)));
+    }
+
+    function titleAverageScore(rows) {
+      return rows.length ? Math.round(rows.reduce((sum, row) => sum + row.score, 0) / rows.length) : 0;
+    }
+
     function sortedProducts() {
       const products = state.model ? [...state.model.products] : [];
       if (state.sort === 'dd') {
@@ -1464,6 +1682,79 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
         if (!unitOrder.has(product.unit)) unitOrder.set(product.unit, unitOrder.size);
       });
       return products.sort((a, b) => (unitOrder.get(a.unit) - unitOrder.get(b.unit)) || a.order - b.order);
+    }
+
+    function filteredTitleRows() {
+      if (!state.model) return [];
+      return state.model.titleRows.filter((row) => {
+        const unitOk = state.unit === 'all' || row.unit === state.unit;
+        const typeOk = state.type === 'all' || row.type === state.type;
+        return unitOk && typeOk;
+      });
+    }
+
+    function sortedTitleRows(rows) {
+      const copy = [...rows];
+      if (state.sort === 'dd') {
+        return copy.sort((a, b) => (b.score - a.score) || compareText(a.name, b.name));
+      }
+      if (state.unit !== 'all') {
+        return copy.sort((a, b) => compareText(a.name, b.name));
+      }
+      return copy.sort((a, b) => compareText(a.unit, b.unit) || compareText(a.name, b.name));
+    }
+
+    function renderTitleFilters() {
+      if (!state.model || !$('unitFilter') || !$('typeFilter')) return;
+      $('unitFilter').innerHTML = [
+        '<option value="all">Все юниты</option>',
+        ...state.model.titleUnits.map((unit) => `<option value="${esc(unit)}">${esc(unit)}</option>`),
+      ].join('');
+      $('typeFilter').innerHTML = [
+        '<option value="all">Все типы</option>',
+        ...state.model.titleTypes.map((type) => `<option value="${esc(type)}">${esc(type)}</option>`),
+      ].join('');
+      $('unitFilter').value = state.unit;
+      $('typeFilter').value = state.type;
+    }
+
+    function fitUnitHeaders() {
+      const narrow = window.matchMedia('(max-width: 900px)').matches;
+      document.querySelectorAll('.unit-row').forEach((row) => {
+        const name = row.querySelector('.unit-name b');
+        row.classList.remove('hide-unit-count');
+        if (!narrow || !name) return;
+        if (name.scrollWidth > name.clientWidth + 1) {
+          row.classList.add('hide-unit-count');
+        }
+      });
+    }
+
+    function titleTableHeadHTML() {
+      return `
+        <div class="table-head">
+          <div>Команда</div>
+          <div>Data-Driven Index</div>
+          <div>Группа</div>
+          <div>Действие</div>
+        </div>
+      `;
+    }
+
+    function titleUnitRowHTML(unit, rows, isFirst) {
+      const color = UNIT_COLORS[unit] || UNIT_COLORS.default || '#007aff';
+      const avg = titleAverageScore(rows);
+      const avgGroup = averageGroup(rows);
+      return `
+        <div class="unit-row ${isFirst ? 'first' : ''}">
+          <div class="unit-name">
+            <i class="unit-dot" style="background:${color}"></i>
+            <b>${esc(unit)}</b>
+            <span class="unit-count">${rows.length} ${pluralTeam(rows.length)}</span>
+          </div>
+          <div class="unit-avg"><span class="unit-avg-label">средний Data-Driven Index</span> <b style="color:${groupTheme(avgGroup).text}">${avg}%</b></div>
+        </div>
+      `;
     }
 
     function renderTitle() {
@@ -1477,74 +1768,61 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
         return;
       }
 
-      $('statProducts').textContent = model.products.length;
-      $('statUnits').textContent = model.units.length;
-      $('statAvg').textContent = model.avgScore + '%';
+      const filtered = filteredTitleRows();
+      const sorted = sortedTitleRows(filtered);
+      $('statProducts').textContent = filtered.length;
+      $('statUnits').textContent = titleUnits(filtered).length;
+      $('statAvg').textContent = titleAverageScore(filtered) + '%';
+
+      if (!sorted.length) {
+        table.classList.add('hidden');
+        message.classList.remove('hidden');
+        message.textContent = 'Нет данных по выбранным фильтрам';
+        return;
+      }
 
       message.classList.add('hidden');
       table.classList.remove('hidden');
-      const products = sortedProducts();
-
-      const head = `
-        <div class="table-head">
-          <div>Сущность</div>
-          <div>DD%</div>
-          <div>Действие</div>
-        </div>
-      `;
 
       if (state.sort === 'dd') {
-        table.innerHTML = head + products.map((product) => productRowHTML(product, true)).join('');
+        table.innerHTML = titleTableHeadHTML() + sorted.map((row) => productRowHTML(row, true)).join('');
+        fitUnitHeaders();
         return;
       }
 
       const chunks = [];
-      const units = Array.from(new Set(products.map((product) => product.unit)));
-      units.forEach((unit) => {
-        const unitProducts = products.filter((product) => product.unit === unit);
-        const avg = Math.round(unitProducts.reduce((sum, product) => sum + product.score, 0) / unitProducts.length);
-        const color = UNIT_COLORS[unit] || '#8e8e93';
-
-        chunks.push(`
-          <div class="unit-row">
-            <div class="unit-name">
-              <i class="unit-dot" style="background:${color}"></i>
-              <b>${esc(unit)}</b>
-              <span>${unitProducts.length} ${pluralEntity(unitProducts.length)}</span>
-            </div>
-            <div class="unit-avg">средний DD <b style="color:${statusOf(avg).color}">${avg}%</b></div>
-          </div>
-        `);
-
-        unitProducts.forEach((product) => chunks.push(productRowHTML(product, false)));
+      const units = Array.from(new Set(sorted.map((row) => row.unit)));
+      units.forEach((unit, index) => {
+        const unitRows = sorted.filter((row) => row.unit === unit);
+        chunks.push(titleUnitRowHTML(unit, unitRows, index === 0));
+        unitRows.forEach((row) => chunks.push(productRowHTML(row, false)));
       });
 
-      table.innerHTML = head + chunks.join('');
+      table.innerHTML = titleTableHeadHTML() + chunks.join('');
+      fitUnitHeaders();
     }
 
-    function productRowHTML(product, showUnit) {
-      const st = product.status;
-      const meta = `
-        <span class="entity-meta">
-          ${showUnit ? `<span class="entity-unit">${esc(product.unit)}</span>` : ''}
-          <span class="entity-type">${esc(product.type || 'Продукт')}</span>
-        </span>
-      `;
+    function productRowHTML(row, showUnit) {
+      const group = row.group || 'Без группы';
+      const theme = groupTheme(group);
+      const subline = showUnit ? `${row.unit} · ${row.type}` : row.type;
+      const button = row.detailId
+        ? `<button type="button" class="go-button" data-product-id="${esc(row.detailId)}">Перейти</button>`
+        : '<button type="button" class="go-button" disabled>Перейти</button>';
       return `
         <div class="product-row">
           <div class="product-name">
-            <b title="${esc(product.name)}">${esc(product.name)}</b>
-            ${meta}
+            <span>${esc(subline)}</span>
+            <b title="${esc(row.name)}">${esc(row.name)}</b>
           </div>
-          <div>
-            <div class="dd-cell">
-              <span class="status-label" style="color:${st.color}">${esc(st.text)}</span>
-              <span class="score-label" style="color:${st.color}">${product.score}%</span>
-              <span class="progress" style="color:${st.color}"><i style="width:${product.score}%"></i></span>
-            </div>
+          <div class="dd-cell" style="color:${theme.accent}">
+            <span class="status-label" style="color:${theme.text}">${esc(group)}</span>
+            <span class="score-label">${row.score}%</span>
+            <span class="progress"><i style="width:${row.score}%"></i></span>
           </div>
+          <div class="group-cell" style="color:${theme.text};background:${theme.bg};border-color:${theme.border}">${esc(group)}</div>
           <div class="go-cell">
-            <button type="button" class="go-button" data-product-id="${esc(product.id)}">Перейти ›</button>
+            ${button}
           </div>
         </div>
       `;
@@ -2023,14 +2301,15 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       const model = state.model;
       $('periodPill').textContent = model ? model.period : 'Загрузка данных';
       $('topSubtitle').textContent = model
-        ? model.products.length + ' сущностей · ' + model.units.length + ' юнита'
-        : 'Витрина DD';
+        ? model.titleRows.length + ' команд · ' + model.titleUnits.length + ' юнита'
+        : 'Титульная витрина';
     }
 
     function loadData() {
       try {
         state.model = normalizeConstructedData(readEmbeddedData());
         updateTop();
+        renderTitleFilters();
         renderTitle();
         applyHashRoute();
       } catch (error) {
@@ -2071,6 +2350,22 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
         $('sortUnitBtn').classList.remove('active');
         renderTitle();
       });
+
+      const unitFilter = $('unitFilter');
+      if (unitFilter) {
+        unitFilter.addEventListener('change', (event) => {
+          state.unit = event.target.value;
+          renderTitle();
+        });
+      }
+
+      const typeFilter = $('typeFilter');
+      if (typeFilter) {
+        typeFilter.addEventListener('change', (event) => {
+          state.type = event.target.value;
+          renderTitle();
+        });
+      }
 
       $('productTable').addEventListener('click', (event) => {
         const button = event.target.closest('[data-product-id]');
@@ -2122,6 +2417,7 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
       });
 
       window.addEventListener('hashchange', applyHashRoute);
+      window.addEventListener('resize', fitUnitHeaders);
       window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') setReportAccessModal(false);
       });
@@ -2469,12 +2765,62 @@ def build_embedded_html(data: dict[str, Any], title: str) -> str:
         "<title>DD-Индекс - итоговый отчет</title>",
         f"<title>{title}</title>",
     )
+    before_script = before_script.replace(
+        '<div class="brand-mark">DD</div>',
+        '<div class="brand-mark">Data</div>',
+    )
+    before_script = before_script.replace(
+        "<strong>DD-Индекс</strong>",
+        "<strong>Data-Driven Index</strong>",
+    )
+    before_script = before_script.replace(
+        '<span id="topSubtitle">Витрина DD</span>',
+        '<span id="topSubtitle">Титульная витрина</span>',
+    )
+    before_script = before_script.replace(
+        "<h1>DD-Индекс</h1>\n            <p>Титульная витрина и разбор по ключевым блокам зрелости.</p>",
+        "<h1>Data-Driven Index</h1>",
+    )
+    before_script = before_script.replace(
+        '<div class="hero-stat"><b id="statProducts">0</b><span>сущностей</span></div>',
+        '<div class="hero-stat"><b id="statProducts">0</b><span>команд</span></div>',
+    )
+    before_script = before_script.replace(
+        '<div class="hero-stat"><b id="statAvg">0%</b><span>средний DD</span></div>',
+        '<div class="hero-stat"><b id="statAvg">0%</b><span>средний Data-Driven Index</span></div>',
+    )
+    before_script = before_script.replace(
+        '''        <div class="toolbar">
+          <div class="caption">Продукты и DD-статус</div>
+          <div class="segmented" role="group" aria-label="Сортировка">
+            <button id="sortUnitBtn" type="button" class="active">По юнитам</button>
+            <button id="sortDDBtn" type="button">По DD-индексу</button>
+          </div>
+        </div>''',
+        '''        <div class="toolbar">
+          <div class="caption">Продукты, сегменты и Data-Driven Index</div>
+          <div class="toolbar-controls">
+            <label class="filter-wrap">Юнит <select id="unitFilter"></select></label>
+            <label class="filter-wrap">Тип <select id="typeFilter"></select></label>
+            <div class="segmented" role="group" aria-label="Сортировка">
+              <button id="sortUnitBtn" type="button" class="active">По юнитам</button>
+              <button id="sortDDBtn" type="button">По Data-Driven Index</button>
+            </div>
+          </div>
+        </div>''',
+    )
     before_script = re.sub(
         r"\n\s*<div class=\"legend\">.*?</div>\s*(?=\n\s*</section>)",
         "",
         before_script,
         flags=re.S,
     )
+    for legend_css_pattern in (
+        r"\s*\.legend-item\s+\.dot\s*\{[^{}]*\}",
+        r"\s*\.legend\s*\{[^{}]*\}",
+        r"\s*\.legend-item\s*\{[^{}]*\}",
+    ):
+        before_script = re.sub(legend_css_pattern, "\n", before_script, flags=re.S)
     before_script = before_script.replace("</style>", EXTRA_CSS + "\n  </style>")
 
     data_json = json.dumps(data, ensure_ascii=False, indent=2).replace("</", "<\\/")
