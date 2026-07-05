@@ -11,8 +11,8 @@ from typing import Any
 import pandas as pd
 
 
-DEFAULT_INPUT = Path("Расчет_список.xlsx")
-DEFAULT_SHEET = "Лист1"
+DEFAULT_INPUT = Path("Расчет_список(1).xlsx")
+DEFAULT_SHEET = "титул"
 DEFAULT_OUTPUT = Path("final_title_from_excel.html")
 
 BASE_REQUIRED_COLUMNS = ("Юнит", "Продукт", "Оценка", "Группа")

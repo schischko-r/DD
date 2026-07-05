@@ -1893,8 +1893,10 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
         });
       });
 
-      const focuses = aggregateRecommendationFocuses(rows, product.blocks.max)
-        .slice(0, 3);
+      const aggregatedFocuses = aggregateRecommendationFocuses(rows, product.blocks.max);
+      const easyFocuses = aggregatedFocuses.filter((item) => item.groupPriority === 0);
+      const mediumFocuses = aggregatedFocuses.filter((item) => item.groupPriority === 1);
+      const focuses = (easyFocuses.length ? easyFocuses : mediumFocuses).slice(0, 3);
 
       if (!focuses.length) {
         $('focusList').innerHTML = `
@@ -1922,25 +1924,20 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
     function aggregateRecommendationFocuses(rows, totalMax) {
       const groups = new Map();
       rows.forEach((item) => {
+        const detailedRecommendations = recommendationItemsFor(item.criterion);
+        if (detailedRecommendations.length) {
+          detailedRecommendations.forEach((detail) => {
+            const groupPriority = recommendationItemPriority(detail);
+            if (groupPriority > 1) return;
+            addRecommendationFocusGroup(groups, item, detail.recommendation, groupPriority, detail.gap, detail.value, detail.max);
+          });
+          return;
+        }
+
         recommendationTextsFor(item.criterion).forEach((recommendation) => {
           const groupPriority = recommendationGroupPriority(item.criterion);
           if (groupPriority > 1) return;
-          const key = normalizeRecommendationKey(recommendation) + '|' + groupPriority;
-          if (!key) return;
-          if (!groups.has(key)) {
-            groups.set(key, {
-              recommendation,
-              groupPriority,
-              gap: 0,
-              metrics: [],
-              blocks: new Set(),
-            });
-          }
-
-          const group = groups.get(key);
-          group.gap += item.criterion.gap;
-          group.metrics.push(item);
-          group.blocks.add(item.block.name);
+          addRecommendationFocusGroup(groups, item, recommendation, groupPriority, item.criterion.gap, item.criterion.value, item.criterion.max);
         });
       });
 
@@ -1948,8 +1945,11 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
         .map((group) => {
           const gain = Math.round(group.gap / Math.max(totalMax, 1) * 100);
           const count = group.metrics.length;
+          const first = group.metrics[0];
+          const firstValue = Number.isFinite(first.value) ? first.value : first.criterion.value;
+          const firstMax = Number.isFinite(first.max) ? first.max : first.criterion.max;
           const caption = count === 1
-            ? `${group.metrics[0].block.name} · сейчас ${fmt(group.metrics[0].criterion.value)} / ${fmt(group.metrics[0].criterion.max)}`
+            ? `${first.block.name} · сейчас ${fmt(firstValue)} / ${fmt(firstMax)}`
             : `${count} метрик · ${Array.from(group.blocks).join(', ')} · суммарный гэп ${fmt(group.gap)}`;
           return {
             recommendation: group.recommendation,
@@ -1960,6 +1960,58 @@ V2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById('dd-dat
           };
         })
         .sort((a, b) => (a.groupPriority - b.groupPriority) || (b.gain - a.gain) || (b.gap - a.gap) || a.recommendation.localeCompare(b.recommendation, 'ru'));
+    }
+
+    function addRecommendationFocusGroup(groups, item, recommendation, groupPriority, gap, value, max) {
+      const cleanRecommendation = String(recommendation || '').trim();
+      const itemGap = Math.max(0, parseNumber(gap, 0));
+      if (!cleanRecommendation || itemGap <= 0) return;
+
+      const key = normalizeRecommendationKey(cleanRecommendation) + '|' + groupPriority;
+      if (!groups.has(key)) {
+        groups.set(key, {
+          recommendation: cleanRecommendation,
+          groupPriority,
+          gap: 0,
+          metrics: [],
+          blocks: new Set(),
+        });
+      }
+
+      const group = groups.get(key);
+      group.gap += itemGap;
+      group.metrics.push({
+        ...item,
+        value: parseNumber(value, item.criterion.value),
+        max: parseNumber(max, item.criterion.max),
+        gap: itemGap,
+      });
+      group.blocks.add(item.block.name);
+    }
+
+    function recommendationItemPriority(item) {
+      const key = String(item.group || item.recommendation_group || '').trim().toLowerCase();
+      if (key === 'easy') return 0;
+      if (key === 'medium') return 1;
+      return 99;
+    }
+
+    function recommendationItemsFor(row) {
+      const source = Array.isArray(row.recommendation_items) ? row.recommendation_items : [];
+      return source
+        .map((item) => {
+          const max = Math.max(0, parseNumber(item.max_value ?? item.max, 0));
+          const value = Math.max(0, Math.min(max, parseNumber(item.value, 0)));
+          const gap = Math.max(0, parseNumber(item.gap, max - value));
+          return {
+            recommendation: String(item.recommendation || '').trim(),
+            group: String(item.group || item.recommendation_group || '').trim().toLowerCase(),
+            value,
+            max,
+            gap,
+          };
+        })
+        .filter((item) => item.recommendation && item.group);
     }
 
     function recommendationGroupPriority(row) {

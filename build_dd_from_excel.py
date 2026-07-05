@@ -431,6 +431,28 @@ def unique_texts(values: Any) -> list[str]:
     return result
 
 
+def recommendation_items(rows: pd.DataFrame) -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    for _, row in rows.iterrows():
+        recommendation = normalize_text(row.get("recommendation_clean") or row.get("recommendation"))
+        group = normalize_text(row.get("recommendation_group_clean") or row.get("recommendation_group")).lower()
+        if not recommendation or not group:
+            continue
+
+        value = float(row.get("value_num") or 0)
+        max_value = float(row.get("max_value_num") or 0)
+        items.append(
+            {
+                "recommendation": recommendation,
+                "group": group,
+                "value": clean_float(value),
+                "max_value": clean_float(max_value),
+                "gap": clean_float(max(0, max_value - value)),
+            }
+        )
+    return items
+
+
 def unique_links(links: list[str]) -> list[str]:
     seen = set()
     result = []
@@ -983,6 +1005,7 @@ def aggregate_product(
             "recommendations": recommendations,
             "recommendation_group": " · ".join(recommendation_groups),
             "recommendation_groups": recommendation_groups,
+            "recommendation_items": recommendation_items(rows),
         }
 
         metric_button = metric_button_for_code(code, product_links)
