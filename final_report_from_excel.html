@@ -1583,6 +1583,36 @@
       text-decoration: none;
     }
 
+    .participant-actions {
+      justify-content: center;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .participant-actions-title {
+      flex: 0 0 100%;
+      color: #86868b;
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: .04em;
+      line-height: 1.25;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .participant-actions .data-link {
+      border-color: rgba(142,142,147,.22);
+      background: rgba(142,142,147,.10);
+      color: #6e6e73;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+    }
+
+    .participant-actions .data-link:hover {
+      background: rgba(142,142,147,.16);
+      color: #515154;
+      text-decoration: none;
+    }
+
     a.metric-button,
     .block-infobox a.metric-button {
       border-color: rgba(0,122,255,.22);
@@ -1952,7 +1982,14 @@
       "unit": "CX",
       "period": "II кв. 2026",
       "product_group_uuid": "b89fb857-45f0-5046-9811-cfcb31c0a656",
-      "links": {},
+      "links": {
+        "backlog": [
+          {
+            "label": "Бэклог",
+            "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=41166&projectKey=SDRSA"
+          }
+        ]
+      },
       "metrics": [
         {
           "type": "block",
@@ -2063,6 +2100,20 @@
                   "gap": 0.25
                 }
               ]
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Активная клиентская база\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301"
+            },
+            {
+              "label": "Отчет \"Major\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1"
+            },
+            {
+              "label": "Отчет \"Клиенты с 1+2+\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001389"
             }
           ]
         },
@@ -2728,7 +2779,12 @@
                   "max_value": 1,
                   "gap": 1
                 }
-              ]
+              ],
+              "button": {
+                "type": "metric",
+                "label": "Посмотреть бэклог",
+                "link": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=41166&projectKey=SDRSA"
+              }
             },
             {
               "code": "hyp.datadriven_rating_7_5",
@@ -3115,12 +3171,12 @@
                   }
                 },
                 {
-                  "name": "Digital Index",
+                  "name": "Поиск по пилотам",
                   "traffic_light": "yellow",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053755"
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
                 }
               ]
@@ -4059,13 +4115,13 @@
       "links": {
         "churn_funnel": [
           {
-            "label": "Воронка оттока",
+            "label": "Отчет в Confluence",
             "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
           }
         ],
         "attract_funnel": [
           {
-            "label": "Отчет \"Воронки из коммуникации в продажу\"",
+            "label": "Отчет в Confluence",
             "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
           }
         ]
@@ -4405,12 +4461,12 @@
                   }
                 },
                 {
-                  "name": "Digital Index",
+                  "name": "Поиск по пилотам",
                   "traffic_light": "yellow",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053755"
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
                 }
               ]
@@ -4695,6 +4751,12 @@
               "label": "Отчет \"Воронки из коммуникации в продажу\"",
               "url": "https://navigator.sigma.sbrf.ru/gdash/1000000687"
             }
+          ],
+          "participant_links": [
+            {
+              "label": "Отчет в Confluence",
+              "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
+            }
           ]
         },
         {
@@ -4965,9 +5027,9 @@
               ]
             }
           ],
-          "actions": [
+          "participant_links": [
             {
-              "label": "Воронка оттока",
+              "label": "Отчет в Confluence",
               "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
             }
           ]
@@ -5451,6 +5513,20 @@
                   "gap": 0.25
                 }
               ]
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Активная клиентская база\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301"
+            },
+            {
+              "label": "Отчет \"Major\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1"
+            },
+            {
+              "label": "Отчет \"Клиенты с 1+2+\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001389"
             }
           ]
         },
@@ -6160,7 +6236,14 @@
       "unit": "CX",
       "period": "II кв. 2026",
       "product_group_uuid": "cbb36731-ec7c-5e0c-9516-c3b21328e952",
-      "links": {},
+      "links": {
+        "backlog": [
+          {
+            "label": "Бэклог",
+            "url": "https://sbertrack.sberbank.ru/swtr/units/all?space=NLTKRBCHVZRST"
+          }
+        ]
+      },
       "metrics": [
         {
           "type": "block",
@@ -6349,6 +6432,20 @@
                   "gap": 0.25
                 }
               ]
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Активная клиентская база\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301"
+            },
+            {
+              "label": "Отчет \"Major\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1"
+            },
+            {
+              "label": "Отчет \"Клиенты с 1+2+\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001389"
             }
           ]
         },
@@ -7014,7 +7111,12 @@
                   "max_value": 1,
                   "gap": 0
                 }
-              ]
+              ],
+              "button": {
+                "type": "metric",
+                "label": "Посмотреть бэклог",
+                "link": "https://sbertrack.sberbank.ru/swtr/units/all?space=NLTKRBCHVZRST"
+              }
             },
             {
               "code": "hyp.datadriven_rating_7_5",
@@ -7169,6 +7271,20 @@
                   "gap": 0
                 }
               ]
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Активная клиентская база\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301"
+            },
+            {
+              "label": "Отчет \"Major\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1"
+            },
+            {
+              "label": "Отчет \"Клиенты с 1+2+\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001389"
             }
           ]
         },
@@ -7878,7 +7994,20 @@
       "unit": "CX",
       "period": "II кв. 2026",
       "product_group_uuid": "74567319-718b-554b-a770-096b8acbecdf",
-      "links": {},
+      "links": {
+        "attract_funnel": [
+          {
+            "label": "Отчет в Navigator",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000000135/1000046561"
+          }
+        ],
+        "backlog": [
+          {
+            "label": "Бэклог",
+            "url": "https://sbertrack.sberbank.ru/swtr/board/b5380d96-6b2a-4846-9a42-ac7e877607cf?space=PSDA&tenant=default&spaces=%5B%7B%22label%22%3A%22Premium_Solutions_DA%22%2C%22value%22%3A%22PSDA%22%7D%5D"
+          }
+        ]
+      },
       "metrics": [
         {
           "type": "block",
@@ -8015,6 +8144,20 @@
                   "gap": 0
                 }
               ]
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Активная клиентская база\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301"
+            },
+            {
+              "label": "Отчет \"Major\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1"
+            },
+            {
+              "label": "Отчет \"Клиенты с 1+2+\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001389"
             }
           ]
         },
@@ -8284,6 +8427,12 @@
                   "gap": 0
                 }
               ]
+            }
+          ],
+          "participant_links": [
+            {
+              "label": "Отчет в Navigator",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000135/1000046561"
             }
           ]
         },
@@ -8680,7 +8829,12 @@
                   "max_value": 1,
                   "gap": 0.5
                 }
-              ]
+              ],
+              "button": {
+                "type": "metric",
+                "label": "Посмотреть бэклог",
+                "link": "https://sbertrack.sberbank.ru/swtr/board/b5380d96-6b2a-4846-9a42-ac7e877607cf?space=PSDA&tenant=default&spaces=%5B%7B%22label%22%3A%22Premium_Solutions_DA%22%2C%22value%22%3A%22PSDA%22%7D%5D"
+              }
             },
             {
               "code": "hyp.datadriven_rating_7_5",
@@ -8724,7 +8878,14 @@
       "unit": "CX",
       "period": "II кв. 2026",
       "product_group_uuid": "371e8205-137b-5e04-9212-c2c9c57e0d04",
-      "links": {},
+      "links": {
+        "churn_funnel": [
+          {
+            "label": "Отчет в Navigator",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301/1000003047?segment=PB"
+          }
+        ]
+      },
       "metrics": [
         {
           "type": "block",
@@ -8861,6 +9022,20 @@
                   "gap": 0.25
                 }
               ]
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Активная клиентская база\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301"
+            },
+            {
+              "label": "Отчет \"Major\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1"
+            },
+            {
+              "label": "Отчет \"Клиенты с 1+2+\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001389"
             }
           ]
         },
@@ -9309,6 +9484,12 @@
                 }
               ]
             }
+          ],
+          "participant_links": [
+            {
+              "label": "Отчет в Navigator",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301/1000003047?segment=PB"
+            }
           ]
         },
         {
@@ -9570,7 +9751,14 @@
       "unit": "CX",
       "period": "II кв. 2026",
       "product_group_uuid": "0b1990e4-3fd5-5f25-8f50-110ffedac76f",
-      "links": {},
+      "links": {
+        "attract_funnel": [
+          {
+            "label": "Отчет в Confluence",
+            "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=6699321962"
+          }
+        ]
+      },
       "metrics": [
         {
           "type": "block",
@@ -9707,6 +9895,20 @@
                   "gap": 0
                 }
               ]
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Активная клиентская база\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000301"
+            },
+            {
+              "label": "Отчет \"Major\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1"
+            },
+            {
+              "label": "Отчет \"Клиенты с 1+2+\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001389"
             }
           ]
         },
@@ -9950,6 +10152,12 @@
                   "gap": 0
                 }
               ]
+            }
+          ],
+          "participant_links": [
+            {
+              "label": "Отчет в Confluence",
+              "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=6699321962"
             }
           ]
         },
@@ -10383,7 +10591,26 @@
       "unit": "CX",
       "period": "II кв. 2026",
       "product_group_uuid": "cf93b82b-89a1-588c-992b-ed349f585aa0",
-      "links": {},
+      "links": {
+        "attract_funnel": [
+          {
+            "label": "Отчет в Clickstream",
+            "url": "https://clickstream.sberbank.ru/frontend/sbol/reports/funnels/36490"
+          },
+          {
+            "label": "Отчет в Navigator",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/12137/1000000442?tab_pu=1"
+          },
+          {
+            "label": "Отчет в Confluence 1",
+            "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=6699321962"
+          },
+          {
+            "label": "Отчет в Confluence 2",
+            "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=10842315928"
+          }
+        ]
+      },
       "metrics": [
         {
           "type": "block",
@@ -10719,12 +10946,12 @@
                   }
                 },
                 {
-                  "name": "Digital Index",
+                  "name": "Поиск по пилотам",
                   "traffic_light": "green",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053755"
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
                 }
               ]
@@ -11008,6 +11235,24 @@
             {
               "label": "Отчет \"Воронки из коммуникации в продажу\"",
               "url": "https://navigator.sigma.sbrf.ru/gdash/1000000687"
+            }
+          ],
+          "participant_links": [
+            {
+              "label": "Отчет в Clickstream",
+              "url": "https://clickstream.sberbank.ru/frontend/sbol/reports/funnels/36490"
+            },
+            {
+              "label": "Отчет в Navigator",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/12137/1000000442?tab_pu=1"
+            },
+            {
+              "label": "Отчет в Confluence 1",
+              "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=6699321962"
+            },
+            {
+              "label": "Отчет в Confluence 2",
+              "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=10842315928"
             }
           ]
         },
@@ -11658,13 +11903,13 @@
       "links": {
         "churn_funnel": [
           {
-            "label": "Воронка оттока",
+            "label": "Отчет в Confluence",
             "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
           }
         ],
         "attract_funnel": [
           {
-            "label": "Отчет \"Воронки из коммуникации в продажу\"",
+            "label": "Отчет в Confluence",
             "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
           }
         ]
@@ -12004,12 +12249,12 @@
                   }
                 },
                 {
-                  "name": "Digital Index",
+                  "name": "Поиск по пилотам",
                   "traffic_light": "green",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053755"
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
                 }
               ]
@@ -12279,6 +12524,12 @@
             {
               "label": "Отчет \"Воронки из коммуникации в продажу\"",
               "url": "https://navigator.sigma.sbrf.ru/gdash/1000000687"
+            }
+          ],
+          "participant_links": [
+            {
+              "label": "Отчет в Confluence",
+              "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
             }
           ]
         },
@@ -12550,9 +12801,9 @@
               ]
             }
           ],
-          "actions": [
+          "participant_links": [
             {
-              "label": "Воронка оттока",
+              "label": "Отчет в Confluence",
               "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14212498623"
             }
           ]
@@ -13879,6 +14130,7 @@
             status: statusOf(score),
             tools,
             actions: normalizeActions(rawBlock.actions),
+            participantLinks: normalizeActions(rawBlock.participant_links),
             infobox: normalizeInfo(rawBlock.info),
           };
         });
@@ -14611,6 +14863,7 @@
               </div>
               ${blockAdvisoryHTML(block)}
               ${actionsHTML(block.actions)}
+              ${participantLinksHTML(block.participantLinks)}
             ` : ''}
           </article>
         `;
@@ -14700,15 +14953,31 @@
       `;
     }
 
+    function actionLinkItemsHTML(actions) {
+      return actions.map((action) => `
+        <a class="data-link" href="${esc(action.url)}" target="_blank" rel="noopener noreferrer">${esc(action.label)} ↗</a>
+      `).join('');
+    }
+
     function actionsHTML(actions) {
       const cleanActions = normalizeActions(actions);
       if (!cleanActions.length) return '';
 
       return `
         <div class="block-actions">
-          ${cleanActions.map((action) => `
-            <a class="data-link" href="${esc(action.url)}" target="_blank" rel="noopener noreferrer">${esc(action.label)} ↗</a>
-          `).join('')}
+          ${actionLinkItemsHTML(cleanActions)}
+        </div>
+      `;
+    }
+
+    function participantLinksHTML(actions) {
+      const cleanActions = normalizeActions(actions);
+      if (!cleanActions.length) return '';
+
+      return `
+        <div class="block-actions participant-actions">
+          <div class="participant-actions-title">Ссылки, приложенные участниками опроса</div>
+          ${actionLinkItemsHTML(cleanActions)}
         </div>
       `;
     }
