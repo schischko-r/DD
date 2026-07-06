@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 from pathlib import Path
 from typing import Any
 
@@ -56,6 +57,110 @@ DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
+_PD = _DD_FROM_EXCEL["pd"]
+
+
+def clean_text(value: Any) -> str:
+    if value is None or _PD.isna(value):
+        return ""
+    return str(value).strip()
+
+
+def clean_number(value: Any) -> float | None:
+    parsed = _PD.to_numeric(value, errors="coerce")
+    if _PD.isna(parsed):
+        return None
+    return float(parsed)
+
+
+def metric_meta_key(
+    entity_type: str,
+    product_name: str,
+    block_code: str,
+    metric_code: str,
+) -> tuple[str, str, str, str]:
+    return (
+        clean_text(entity_type),
+        clean_text(product_name),
+        clean_text(block_code),
+        clean_text(metric_code),
+    )
+
+
+def build_metric_layout_meta(
+    input_path: Path,
+    detail_sheet: str,
+) -> dict[tuple[str, str, str, str], dict[str, Any]]:
+    rows = _DD_FROM_EXCEL["load_metric_rows"](input_path, detail_sheet)
+    meta: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+
+    for _, product_rows in rows.groupby(["entity_type", "Продукт"], sort=False):
+        product_name = clean_text(product_rows["Продукт"].iloc[0])
+        entity_type = clean_text(product_rows["entity_type"].iloc[0])
+
+        for (metric_group, metric_name), metric_rows in product_rows.groupby(
+            ["metric_group", "metric_name_clean"],
+            sort=False,
+        ):
+            block_code, _ = _DD_FROM_EXCEL["block_info"](metric_group)
+            metric_code = _DD_FROM_EXCEL["metric_code"](metric_group, metric_name)
+
+            subgroups = [clean_text(value) for value in metric_rows.get("metric_subgroup", [])]
+            subgroups = [value for value in subgroups if value]
+            sort_values = [clean_number(value) for value in metric_rows.get("sort", [])]
+            sort_values = [value for value in sort_values if value is not None]
+            metric_ids = [clean_number(value) for value in metric_rows.get("metric_id_num", [])]
+            metric_ids = [value for value in metric_ids if value is not None]
+
+            meta[metric_meta_key(entity_type, product_name, block_code, metric_code)] = {
+                "metric_subgroup": subgroups[0] if subgroups else "",
+                "sort": min(sort_values) if sort_values else (min(metric_ids) if metric_ids else None),
+            }
+
+    return meta
+
+
+def metric_sort_key(metric: dict[str, Any], original_index: int) -> tuple[float, int]:
+    value = metric.get("sort")
+    if isinstance(value, (int, float)) and math.isfinite(float(value)):
+        return (float(value), original_index)
+    return (100_000 + original_index, original_index)
+
+
+def enrich_metric_layout(
+    data: dict[str, Any],
+    input_path: Path,
+    detail_sheet: str,
+) -> dict[str, Any]:
+    meta = build_metric_layout_meta(input_path, detail_sheet)
+
+    for product in data.get("products", []):
+        entity_type = clean_text(product.get("type"))
+        product_name = clean_text(product.get("name"))
+
+        for block in product.get("metrics", []):
+            block_code = clean_text(block.get("code"))
+            indexed_metrics = []
+
+            for index, metric in enumerate(block.get("metrics", [])):
+                metric_code = clean_text(metric.get("code"))
+                item_meta = meta.get(metric_meta_key(entity_type, product_name, block_code, metric_code), {})
+                subgroup = clean_text(item_meta.get("metric_subgroup"))
+                sort = item_meta.get("sort")
+
+                if subgroup:
+                    metric["metric_subgroup"] = subgroup
+                if sort is not None:
+                    metric["sort"] = sort
+
+                indexed_metrics.append((index, metric))
+
+            block["metrics"] = [
+                metric
+                for index, metric in sorted(indexed_metrics, key=lambda item: metric_sort_key(item[1], item[0]))
+            ]
+
+    return data
 
 
 def build_combined_data(
@@ -71,6 +176,7 @@ def build_combined_data(
     title_rows = read_title_rows(input_path, title_sheet)
     title_payload = build_title_payload(title_rows)
     detail_data, detail_summary = build_report_data(input_path, detail_sheet, period)
+    detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
     combined = {**detail_data, "title": title_payload}
     summary = {
         **detail_summary,
@@ -84,6 +190,231 @@ def build_combined_data(
 def write_html(data: dict[str, Any], output_path: Path) -> None:
     build_embedded_html = _DD_JSON2["build_embedded_html"]
     html = build_embedded_html(data, "Data-Driven Index - отчет из Расчет")
+
+    def replace_once(source: str, old: str, new: str) -> str:
+        if old not in source:
+            raise RuntimeError("Не найден ожидаемый фрагмент HTML-шаблона")
+        return source.replace(old, new, 1)
+
+    html = replace_once(
+        html,
+        "              points: metric.tbd ? 'TBD' : (applicable && metricMax > 0 ? fmt(value) + ' / ' + fmt(metricMax) : 'не применимо'),\n",
+        "              points: metric.tbd ? 'TBD' : (metric.code === 'cx.score' && (!applicable || metricMax <= 0) ? 'пока не добавлен в CX Score' : (applicable && metricMax > 0 ? fmt(value) + ' / ' + fmt(metricMax) : 'не применимо')),\n",
+    )
+    html = replace_once(
+        html,
+        """        const st = block.status;
+        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, block.code);
+        const expanded = hasOverride ? state.expandedBlocks[block.code] : !state.compact;
+        const criteria = block.criteria;
+""",
+        """        const blockUnavailable = !(block.max > 0);
+        const st = blockUnavailable ? { color: COLORS.gray } : block.status;
+        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, block.code);
+        const expanded = hasOverride ? state.expandedBlocks[block.code] : !state.compact;
+        const criteria = block.criteria;
+        const blockScoreText = blockUnavailable ? '—' : block.score + '%';
+        const blockMetaText = blockUnavailable
+          ? 'нет применимых метрик'
+          : fmt(block.earned) + ' / ' + fmt(block.max) + ' · ' + block.greenCount + ' выполнено';
+        const blockProgressWidth = blockUnavailable ? 0 : block.score;
+""",
+    )
+    html = replace_once(
+        html,
+        """                <div class="block-meta">${esc(fmt(block.earned))} / ${esc(fmt(block.max))} · ${block.greenCount} выполнено</div>
+                <div class="block-progress" style="color:${st.color}"><i style="width:${block.score}%"></i></div>
+              </div>
+              <div class="block-score" style="color:${st.color}">${block.score}%</div>
+""",
+        """                <div class="block-meta">${esc(blockMetaText)}</div>
+                <div class="block-progress" style="color:${st.color}"><i style="width:${blockProgressWidth}%"></i></div>
+              </div>
+              <div class="block-score" style="color:${st.color}">${esc(blockScoreText)}</div>
+""",
+    )
+
+    cloud_css = """
+    .criterion-cloud {
+      margin: 10px 0 12px;
+      padding: 10px 12px 2px;
+      border: 1px solid rgba(0,0,0,.045);
+      border-radius: 15px;
+      background: linear-gradient(180deg,#fafafa,#f7f7f9);
+    }
+
+    .criterion-cloud-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 1px 2px 8px;
+      color: #6e6e73;
+      font-size: 11px;
+      font-weight: 760;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+
+    .criterion-cloud-items {
+      overflow: visible;
+      border-radius: 12px;
+      background: transparent;
+    }
+
+    .criterion-cloud .criterion {
+      padding: 12px 10px;
+      background: transparent;
+    }
+
+    .criterion-cloud .criterion:first-child {
+      border-top: 0;
+    }
+
+    .criterion-points-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-self: end;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .metric-info-badge {
+      position: relative;
+      flex: none;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,0,0,.1);
+      border-radius: 999px;
+      background: rgba(142,142,147,.12);
+      color: #6e6e73;
+      cursor: default;
+      font-size: 10.5px;
+      font-weight: 760;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .metric-info-badge:hover,
+    .metric-info-badge:focus {
+      border-color: rgba(0,122,255,.28);
+      background: rgba(0,122,255,.10);
+      color: #0066cc;
+      outline: none;
+    }
+
+    .metric-info-badge::before,
+    .metric-info-badge::after {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 60;
+    }
+
+    .metric-info-badge::after {
+      content: attr(data-tooltip);
+      right: -8px;
+      bottom: calc(100% + 9px);
+      width: 242px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(29,29,31,.96);
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 650;
+      line-height: 1.3;
+      text-align: left;
+      white-space: normal;
+      transform: translateY(4px);
+    }
+
+    .metric-info-badge::before {
+      content: "";
+      right: 4px;
+      bottom: calc(100% + 4px);
+      border: 5px solid transparent;
+      border-top-color: rgba(29,29,31,.96);
+      transform: translateY(4px);
+    }
+
+    .metric-info-badge:hover::before,
+    .metric-info-badge:hover::after,
+    .metric-info-badge:focus::before,
+    .metric-info-badge:focus::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+"""
+    html = replace_once(
+        html,
+        "    .criteria {\n",
+        cloud_css + "    .criteria {\n",
+    )
+    html = replace_once(
+        html,
+        "${criteria.map(criterionHTML).join('')}",
+        "${criteriaHTML(criteria)}",
+    )
+    html = replace_once(
+        html,
+        "    function criterionHTML(criterion) {\n",
+        """    function criteriaHTML(criteria) {
+      const chunks = [];
+      let currentCloud = null;
+
+      function flushCloud() {
+        if (!currentCloud) return;
+        chunks.push(`
+          <div class="criterion-cloud">
+            <div class="criterion-cloud-head">
+              <span>${esc(currentCloud.name)}</span>
+            </div>
+            <div class="criterion-cloud-items">
+              ${currentCloud.items.map(criterionHTML).join('')}
+            </div>
+          </div>
+        `);
+        currentCloud = null;
+      }
+
+      criteria.forEach((criterion) => {
+        const subgroup = String(criterion.metric_subgroup || '').trim();
+        if (!subgroup) {
+          flushCloud();
+          chunks.push(criterionHTML(criterion));
+          return;
+        }
+        if (!currentCloud || currentCloud.name !== subgroup) {
+          flushCloud();
+          currentCloud = { name: subgroup, items: [] };
+        }
+        currentCloud.items.push(criterion);
+      });
+      flushCloud();
+
+      return chunks.join('');
+    }
+
+    function criterionHTML(criterion) {
+""",
+    )
+    html = replace_once(
+        html,
+        "      const extra = metricButton ? `<div class=\"criterion-extra\">${metricButton}</div>` : '';\n\n      return `\n",
+        "      const extra = metricButton ? `<div class=\"criterion-extra\">${metricButton}</div>` : '';\n      const infoBadge = String(criterion.code || '').endsWith('.auto_regularity')\n        ? '<span class=\"metric-info-badge\" data-tooltip=\"Информационная метрика, не влияет на индексное значение\" aria-label=\"Информационная метрика, не влияет на индексное значение\" tabindex=\"0\">i</span>'\n        : '';\n\n      return `\n",
+    )
+    html = replace_once(
+        html,
+        '          <span class="criterion-points ${esc(criterion.pointsTone)}">${esc(criterion.points)}</span>\n',
+        '          <span class="criterion-points-wrap">${infoBadge}<span class="criterion-points ${esc(criterion.pointsTone)}">${esc(criterion.points)}</span></span>\n',
+    )
+
     disclaimer_css = """
     .report-disclaimer {
       display: grid;
