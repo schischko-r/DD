@@ -45,6 +45,11 @@ _TITLE = _load_embedded_module(_TITLE_SOURCE, "_embedded_title_from_excel")
 _DD_JSON2 = _load_embedded_module(_DD_JSON2_SOURCE, "_embedded_dd_json2")
 _DD_JSON2["SOURCE_HTML"] = _EmbeddedTextFile(_REPORT_TEMPLATE)
 _DD_FROM_EXCEL = _load_embedded_module(_DD_FROM_EXCEL_SOURCE, "_embedded_dd_from_excel")
+_DD_FROM_EXCEL["METRIC_CODES"][
+    ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
+] = "general.navigator_reporting_knowledge"
+_DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"] = 1_000_000
+_DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
 
 DEFAULT_INPUT = Path("Расчет_список(1).xlsx")
 DEFAULT_TITLE_SHEET = "титул"
@@ -78,10 +83,51 @@ def build_combined_data(
 
 def write_html(data: dict[str, Any], output_path: Path) -> None:
     build_embedded_html = _DD_JSON2["build_embedded_html"]
-    output_path.write_text(
-        build_embedded_html(data, "Data-Driven Index - отчет из Расчет"),
-        encoding="utf-8",
-    )
+    html = build_embedded_html(data, "Data-Driven Index - отчет из Расчет")
+    disclaimer_css = """
+    .report-disclaimer {
+      display: grid;
+      gap: 4px;
+      margin-bottom: 8px;
+      padding: 10px 14px;
+      border: 1px solid rgba(0,122,255,.14);
+      border-radius: 14px;
+      background: rgba(0,122,255,.07);
+      color: #3a3a3c;
+      font-size: 12px;
+      line-height: 1.32;
+      letter-spacing: 0;
+    }
+
+    .report-disclaimer b {
+      color: #0066cc;
+      font-weight: 760;
+    }
+
+    .report-disclaimer-main {
+      font-size: 13.5px;
+      font-weight: 700;
+      line-height: 1.28;
+    }
+
+"""
+    disclaimer_html = """            <div class="report-disclaimer" role="note">
+              <span class="report-disclaimer-main">Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</span>
+              <span><b>Расчет не включает A/B тесты.</b> Добавление – после 15 июля</span>
+            </div>
+"""
+    if "report-disclaimer" not in html:
+        html = html.replace(
+            "    body.report-modal-open {\n",
+            disclaimer_css + "    body.report-modal-open {\n",
+            1,
+        )
+        html = html.replace(
+            '          <div class="report-action-wrap">\n',
+            '          <div class="report-action-wrap">\n' + disclaimer_html,
+            1,
+        )
+    output_path.write_text(html, encoding="utf-8")
 
 
 def parse_args() -> argparse.Namespace:
