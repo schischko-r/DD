@@ -98,6 +98,20 @@ AI_SKILL_ORDER = tuple(AI_SKILL_LABELS)
 AI_SKILL_GROUP_TOOLS = {
     "attract": "Группа навыков «Привлечение»",
 }
+AI_MONTH_NAMES = {
+    1: "январь",
+    2: "февраль",
+    3: "март",
+    4: "апрель",
+    5: "май",
+    6: "июнь",
+    7: "июль",
+    8: "август",
+    9: "сентябрь",
+    10: "октябрь",
+    11: "ноябрь",
+    12: "декабрь",
+}
 _PD = _DD_FROM_EXCEL["pd"]
 
 
@@ -143,6 +157,21 @@ def ai_month_sort_key(value: Any) -> tuple[int, int, str]:
     if value is None or (isinstance(value, float) and math.isnan(value)):
         return (0, 0, "")
 
+    raw_text = clean_text(value)
+    month_year_match = re.match(r"^\s*([01]?\d)[./-](20\d{2})\s*$", raw_text)
+    if month_year_match:
+        month = int(month_year_match.group(1))
+        year = int(month_year_match.group(2))
+        if 1 <= month <= 12:
+            return (year, month, raw_text)
+
+    year_month_match = re.match(r"^\s*(20\d{2})[./-]([01]?\d)\s*$", raw_text)
+    if year_month_match:
+        year = int(year_month_match.group(1))
+        month = int(year_month_match.group(2))
+        if 1 <= month <= 12:
+            return (year, month, raw_text)
+
     parsed = _PD.to_datetime(value, errors="coerce", dayfirst=True)
     if not _PD.isna(parsed):
         return (int(parsed.year), int(parsed.month), clean_text(value))
@@ -175,11 +204,9 @@ def ai_month_sort_key(value: Any) -> tuple[int, int, str]:
 
 
 def ai_month_label(value: Any) -> str:
-    if value is None or (isinstance(value, float) and math.isnan(value)):
-        return ""
-    parsed = _PD.to_datetime(value, errors="coerce", dayfirst=True)
-    if not _PD.isna(parsed):
-        return f"{int(parsed.month):02d}.{int(parsed.year)}"
+    year, month, _ = ai_month_sort_key(value)
+    if year and month:
+        return f"{AI_MONTH_NAMES.get(month, str(month))} {year}"
     return clean_text(value)
 
 
@@ -274,7 +301,7 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
     return rows
 
 
-def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], str]:
+def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], list[str]]:
     if not path.exists() or path.name.startswith("~$"):
         return {}
 
@@ -286,14 +313,20 @@ def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], str]:
     if not dd_column or not key_column or not product_column:
         return {}
 
-    mapping: dict[tuple[str, str], str] = {}
+    mapping: dict[tuple[str, str], list[str]] = {}
+    seen: dict[tuple[str, str], set[str]] = {}
     for _, row in frame.dropna(how="all").iterrows():
         dd_product = clean_text(row.get(dd_column))
         skill_key = normalize_ai_skill_key(row.get(key_column))
         ai_product = clean_text(row.get(product_column))
         if not dd_product or not skill_key or not ai_product:
             continue
-        mapping[(normalize_lookup_key(dd_product), skill_key)] = ai_product
+        key = (normalize_lookup_key(dd_product), skill_key)
+        ai_product_key = normalize_lookup_key(ai_product)
+        if ai_product_key in seen.setdefault(key, set()):
+            continue
+        seen[key].add(ai_product_key)
+        mapping.setdefault(key, []).append(ai_product)
     return mapping
 
 
@@ -346,6 +379,63 @@ def unique_non_empty(values: list[str]) -> list[str]:
     return result
 
 
+def ai_products_count_label(count: int) -> str:
+    ones = count % 10
+    tens = count % 100
+    if ones == 1 and tens != 11:
+        return f"{count} продукт"
+    if 2 <= ones <= 4 and not 12 <= tens <= 14:
+        return f"{count} продукта"
+    return f"{count} продуктов"
+
+
+def worst_ai_light(lights: list[str]) -> str:
+    normalized = [parse_ai_light(value) for value in lights]
+    if "red" in normalized:
+        return "red"
+    if "yellow" in normalized:
+        return "yellow"
+    if "green" in normalized:
+        return "green"
+    return "gray"
+
+
+def ai_summary_footer(month: str, product_names: list[str]) -> str:
+    if len(product_names) == 1:
+        subject = product_names[0]
+    else:
+        subject = ai_products_count_label(len(product_names))
+    return f"AI-сводка ({month}) - {subject}" if month else f"AI-сводка - {subject}"
+
+
+def aggregate_ai_digests(digests: list[dict[str, Any]]) -> dict[str, Any]:
+    product_names = unique_non_empty([digest.get("mapped_product") or digest.get("ai_product_name", "") for digest in digests])
+    latest = max(digests, key=lambda digest: digest.get("digest_month_sort", (0, 0, "")))
+    single_product = len(product_names) == 1
+
+    texts: list[str] = []
+    for digest in digests:
+        digest_texts = digest.get("digest_texts", [])
+        if not digest_texts:
+            continue
+        product_name = clean_text(digest.get("mapped_product") or digest.get("ai_product_name", ""))
+        if single_product:
+            texts.extend(digest_texts)
+        else:
+            texts.append("\n".join([product_name, *digest_texts]))
+
+    return {
+        "traffic_light": worst_ai_light([digest.get("traffic_light", "") for digest in digests]),
+        "digest_texts": unique_non_empty(texts),
+        "digest_rule": "\n".join(unique_non_empty([digest.get("digest_rule", "") for digest in digests])),
+        "digest_indicator": ", ".join(unique_non_empty([digest.get("digest_indicator", "") for digest in digests])),
+        "digest_month": latest.get("digest_month", ""),
+        "ai_tool_product_name": ", ".join(product_names),
+        "ai_tool_product_names": product_names,
+        "footer": ai_summary_footer(latest.get("digest_month", ""), product_names),
+    }
+
+
 def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], dict[str, Any]]:
     buckets: dict[tuple[str, str], list[dict[str, Any]]] = {}
     for row in rows:
@@ -377,6 +467,8 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
                 "digest_rule": rules[0] if rules else "",
                 "digest_indicator": indicators[0] if indicators else "",
                 "digest_month": month,
+                "digest_month_sort": latest_key[0],
+                "ai_product_name": latest_rows[0]["product"],
             }
 
     return index
@@ -469,23 +561,26 @@ def apply_ai_skill_digest(
             if not block:
                 continue
 
-            mapped_product = mapping.get((product_key, skill_key), product_name)
-            digest = digest_index.get((skill_key, normalize_lookup_key(mapped_product)))
-            if not digest:
+            mapped_products = mapping.get((product_key, skill_key)) or [product_name]
+            matched_digests = []
+            for mapped_product in mapped_products:
+                digest = digest_index.get((skill_key, normalize_lookup_key(mapped_product)))
+                if digest:
+                    matched_digests.append({**digest, "mapped_product": mapped_product})
+            if not matched_digests:
                 continue
 
-            month = digest.get("digest_month")
-            indicator = digest.get("digest_indicator")
-            footer_parts = [part for part in ("AI-сводка", month, indicator) if part]
+            digest = aggregate_ai_digests(matched_digests)
             payload = {
                 "traffic_light": digest.get("traffic_light") or "gray",
                 "digest_texts": digest.get("digest_texts", []),
                 "digest_rule": digest.get("digest_rule", ""),
-                "digest_month": month or "",
-                "digest_indicator": indicator or "",
+                "digest_month": digest.get("digest_month", ""),
+                "digest_indicator": digest.get("digest_indicator", ""),
                 "ai_tool_key": skill_key,
-                "ai_tool_product_name": mapped_product,
-                "footer": " · ".join(footer_parts),
+                "ai_tool_product_name": digest.get("ai_tool_product_name", ""),
+                "ai_tool_product_names": digest.get("ai_tool_product_names", []),
+                "footer": digest.get("footer", ""),
             }
             if update_ai_tool(block, skill_key, payload):
                 matched += 1
@@ -929,6 +1024,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
 
     .ai-digest-panel p {
       margin: 0;
+      white-space: pre-line;
     }
 
     .ai-digest-rule {
