@@ -72,6 +72,7 @@ python build_calc_report.py --input "Расчет_список(1).xlsx" --title-
 
 ```powershell
 python build_calc_report.py
+python build_calc_report.py --no-update-ai-digest
 python build_calc_report.py --ai-digest-token "ваш_токен"
 python build_calc_report.py --no-download-ai-digest
 python build_calc_report.py --no-download-ai-digest --ai-digest-xlsx "ai_skill_digest_export.xlsx" --ai-product-map "ai_product_mapping.xlsx"
@@ -97,7 +98,7 @@ combined = {**detail_data, "title": title_payload}
 
 ### AI skill digest
 
-При обычном запуске сборщик делает `GET /api/skill-digest/export`, скачивает `ai_skill_digest_export.xlsx` из внутреннего API и обновляет светофоры AI-навыков в карточке продукта. Запрос отправляется с заголовком `Authorization: Bearer <token>`; пока токен по умолчанию в коде задан пустой строкой, позже его можно передать через `--ai-digest-token`. Если API недоступен, сборка падает с ошибкой, чтобы не подмешать устаревшую или синтетическую выгрузку. Для локальной проверки можно явно передать `--no-download-ai-digest --ai-digest-xlsx "ai_skill_digest_export.xlsx"`. Чтобы собрать отчет совсем без AI-обогащения, используйте `--skip-ai-digest`.
+При обычном запуске сборщик делает `GET /api/skill-digest/export`, скачивает `ai_skill_digest_export.xlsx` из внутреннего API и обновляет светофоры AI-навыков в карточке продукта. Запрос отправляется с заголовком `Authorization: Bearer <token>`; пока токен по умолчанию в коде задан пустой строкой, позже его можно передать через `--ai-digest-token`. Если API недоступен, сборка падает с ошибкой, чтобы не подмешать устаревшую или синтетическую выгрузку. Для локальной проверки можно явно передать `--no-update-ai-digest --ai-digest-xlsx "ai_skill_digest_export.xlsx"`: тогда API не вызывается, а сборщик берет текущий Excel-файл из папки. Старый флаг `--no-download-ai-digest` оставлен как алиас. Чтобы собрать отчет совсем без AI-обогащения, используйте `--skip-ai-digest`.
 
 Экспорт ожидается с колонками:
 

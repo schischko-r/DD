@@ -61,6 +61,7 @@ DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
 DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
 DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
+DEFAULT_UPDATE_AI_DIGEST = True
 DEFAULT_AI_DIGEST_TIMEOUT = 12
 AI_SKILL_DIGEST_BASE_URL = "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014"
 AI_SKILL_DIGEST_EXPORT_PATH = "/api/skill-digest/export"
@@ -1073,8 +1074,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")
     parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST_XLSX, help="Path to AI skill digest export .xlsx")
     parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP, help="Path to DD ↔ AI product mapping .xlsx")
-    parser.add_argument("--download-ai-digest", dest="download_ai_digest", action="store_true", default=True, help="Download AI skill digest export before building (default)")
-    parser.add_argument("--no-download-ai-digest", dest="download_ai_digest", action="store_false", help="Use local --ai-digest-xlsx without calling the export endpoint")
+    parser.set_defaults(update_ai_digest=DEFAULT_UPDATE_AI_DIGEST)
+    parser.add_argument("--update-ai-digest", dest="update_ai_digest", action="store_true", help="Update AI skill digest from API before building (default)")
+    parser.add_argument("--no-update-ai-digest", dest="update_ai_digest", action="store_false", help="Use local --ai-digest-xlsx without calling the export endpoint")
+    parser.add_argument("--download-ai-digest", dest="update_ai_digest", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--no-download-ai-digest", dest="update_ai_digest", action="store_false", help="Alias for --no-update-ai-digest")
     parser.add_argument("--ai-digest-url", default=AI_SKILL_DIGEST_URL, help="AI skill digest export URL")
     parser.add_argument("--ai-digest-token", default=AI_SKILL_DIGEST_TOKEN, help="Bearer token for GET /api/skill-digest/export")
     parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
@@ -1090,8 +1094,9 @@ def main() -> None:
         "downloaded": False,
         "download_error": "",
         "path": str(args.ai_digest_xlsx),
+        "update_requested": bool(args.update_ai_digest and not args.skip_ai_digest),
     }
-    if args.download_ai_digest and not args.skip_ai_digest:
+    if args.update_ai_digest and not args.skip_ai_digest:
         download_ai_skill_digest(
             args.ai_digest_xlsx,
             args.ai_digest_url,
@@ -1103,7 +1108,12 @@ def main() -> None:
             "downloaded": True,
             "download_error": "",
             "path": str(args.ai_digest_xlsx),
+            "update_requested": True,
         }
+    elif not args.skip_ai_digest and not args.ai_digest_xlsx.exists():
+        raise FileNotFoundError(
+            f"AI digest update disabled, but local file was not found: {args.ai_digest_xlsx}"
+        )
     ai_digest_path = None if args.skip_ai_digest else args.ai_digest_xlsx
     data, summary = build_combined_data(
         args.input,
