@@ -1842,7 +1842,109 @@
     }
 
     .block-infobox.cta {
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .block-infobox.cta .info-text,
+    .block-infobox.cta .info-links {
+      grid-column: 1 / -1;
+    }
+
+    .info-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .info-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid rgba(0,122,255,.22);
+      border-radius: 999px;
+      background: rgba(0,122,255,.08);
+      color: var(--blue);
+      text-decoration: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+    }
+
+    .info-link:hover {
+      background: rgba(0,122,255,.14);
+      text-decoration: none;
+    }
+
+    .info-link b {
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.05;
+      letter-spacing: -.01em;
+    }
+
+    .info-tooltip {
+      position: relative;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,122,255,.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: #0066cc;
+      font-size: 10.5px;
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .info-tooltip::before,
+    .info-tooltip::after {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 70;
+    }
+
+    .info-tooltip::after {
+      content: attr(data-tooltip);
+      left: 50%;
+      bottom: calc(100% + 9px);
+      width: max-content;
+      max-width: 220px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(29,29,31,.96);
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 650;
+      line-height: 1.3;
+      text-align: left;
+      white-space: normal;
+      transform: translate(-50%, 4px);
+    }
+
+    .info-tooltip::before {
+      content: "";
+      left: 50%;
+      bottom: calc(100% + 4px);
+      border: 5px solid transparent;
+      border-top-color: rgba(29,29,31,.96);
+      transform: translate(-50%, 4px);
+    }
+
+    .info-link:hover .info-tooltip::before,
+    .info-link:hover .info-tooltip::after,
+    .info-link:focus .info-tooltip::before,
+    .info-link:focus .info-tooltip::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
     }
 
     .block-infobox .info-count,
@@ -3457,6 +3559,16 @@
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
+                },
+                {
+                  "name": "Черновики",
+                  "traffic_light": "yellow",
+                  "button": {
+                    "type": "general",
+                    "label": "Перейти",
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+                  },
+                  "footer": "Общий светофор"
                 }
               ]
             }
@@ -4275,18 +4387,7 @@
           "type": "block",
           "code": "hyp",
           "name": "Гипотезы и инициативы",
-          "tools": [
-            {
-              "name": "Навык «Черновики»",
-              "traffic_light": "yellow",
-              "button": {
-                "type": "general",
-                "label": "Перейти",
-                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
-              },
-              "footer": "Общий светофор"
-            }
-          ],
+          "tools": [],
           "metrics": [
             {
               "code": "hyp.discovery_40_backlog",
@@ -4500,12 +4601,23 @@
           "info": {
             "type": "losshunter",
             "variant": "cta",
-            "title": "Аналитика клиентского пути в LossHunter",
+            "title": "Аналитика клиентского пути",
             "button": {
               "type": "metric",
               "label": "Перейти",
               "link": "https://losshunter.ru"
-            }
+            },
+            "links": [
+              {
+                "label": "CJXplorer",
+                "link": "https://cjxplorer.com/",
+                "sub": "Целевая платформа CX"
+              },
+              {
+                "label": "LossHunter",
+                "link": "https://losshunter.ru"
+              }
+            ]
           }
         }
       ]
@@ -4901,6 +5013,16 @@
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
+                },
+                {
+                  "name": "Черновики",
+                  "traffic_light": "green",
+                  "button": {
+                    "type": "general",
+                    "label": "Перейти",
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+                  },
+                  "footer": "Общий светофор"
                 }
               ]
             }
@@ -5723,18 +5845,7 @@
           "type": "block",
           "code": "hyp",
           "name": "Гипотезы и инициативы",
-          "tools": [
-            {
-              "name": "Навык «Черновики»",
-              "traffic_light": "green",
-              "button": {
-                "type": "general",
-                "label": "Перейти",
-                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
-              },
-              "footer": "Общий светофор"
-            }
-          ],
+          "tools": [],
           "metrics": [
             {
               "code": "hyp.discovery_40_backlog",
@@ -5943,12 +6054,23 @@
           "info": {
             "type": "losshunter",
             "variant": "cta",
-            "title": "Аналитика клиентского пути в LossHunter",
+            "title": "Аналитика клиентского пути",
             "button": {
               "type": "metric",
               "label": "Перейти",
               "link": "https://losshunter.ru"
-            }
+            },
+            "links": [
+              {
+                "label": "CJXplorer",
+                "link": "https://cjxplorer.com/",
+                "sub": "Целевая платформа CX"
+              },
+              {
+                "label": "LossHunter",
+                "link": "https://losshunter.ru"
+              }
+            ]
           }
         }
       ]
@@ -12032,6 +12154,16 @@
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
+                },
+                {
+                  "name": "Черновики",
+                  "traffic_light": "yellow",
+                  "button": {
+                    "type": "general",
+                    "label": "Перейти",
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+                  },
+                  "footer": "Общий светофор"
                 }
               ]
             }
@@ -12868,18 +13000,7 @@
           "type": "block",
           "code": "hyp",
           "name": "Гипотезы и инициативы",
-          "tools": [
-            {
-              "name": "Навык «Черновики»",
-              "traffic_light": "yellow",
-              "button": {
-                "type": "general",
-                "label": "Перейти",
-                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
-              },
-              "footer": "Общий светофор"
-            }
-          ],
+          "tools": [],
           "metrics": [
             {
               "code": "hyp.discovery_40_backlog",
@@ -13088,12 +13209,23 @@
           "info": {
             "type": "losshunter",
             "variant": "cta",
-            "title": "Аналитика клиентского пути в LossHunter",
+            "title": "Аналитика клиентского пути",
             "button": {
               "type": "metric",
               "label": "Перейти",
               "link": "https://losshunter.ru"
-            }
+            },
+            "links": [
+              {
+                "label": "CJXplorer",
+                "link": "https://cjxplorer.com/",
+                "sub": "Целевая платформа CX"
+              },
+              {
+                "label": "LossHunter",
+                "link": "https://losshunter.ru"
+              }
+            ]
           }
         }
       ]
@@ -13127,13 +13259,22 @@
           "tools": [
             {
               "name": "Навык «Ключевые метрики»",
-              "traffic_light": "green",
+              "traffic_light": "yellow",
               "button": {
                 "type": "general",
                 "label": "Перейти",
                 "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052527"
               },
-              "footer": "Общий светофор"
+              "footer": "AI-сводка · июнь 2026 · Ключевые метрики",
+              "digest_texts": [
+                "Часть клиентских метрик найдена, но не хватает регулярного текстового описания источников."
+              ],
+              "digest_rule": "yellow если найдена часть обязательных метрик",
+              "digest_month": "июнь 2026",
+              "digest_indicator": "Ключевые метрики",
+              "ai_tool_key": "client_metrics",
+              "ai_tool_product_name": "СберСпасибо",
+              "ai_digest": true
             }
           ],
           "metrics": [
@@ -13456,30 +13597,60 @@
               "buttons": [
                 {
                   "name": "Пилотные кампании",
-                  "traffic_light": "yellow",
+                  "traffic_light": "red",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
-                  }
+                  },
+                  "digest_texts": [
+                    "За последний месяц не найдено новых пилотов по росту активации участников."
+                  ],
+                  "digest_rule": "red если не найдено пилотов в последнем периоде",
+                  "digest_month": "июнь 2026",
+                  "digest_indicator": "Пилотные кампании",
+                  "ai_tool_key": "pilots",
+                  "ai_tool_product_name": "СберСпасибо",
+                  "footer": "AI-сводка · июнь 2026 · Пилотные кампании",
+                  "ai_digest": true
                 },
                 {
                   "name": "Воронка кампейнинга",
-                  "traffic_light": "yellow",
+                  "traffic_light": "green",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000049944"
-                  }
+                  },
+                  "digest_texts": [
+                    "Кампейнинговая воронка обновляется, критичных просадок не обнаружено."
+                  ],
+                  "digest_rule": "green если воронка обновлена и основные CR в норме",
+                  "digest_month": "июнь 2026",
+                  "digest_indicator": "Воронка кампейнинга",
+                  "ai_tool_key": "funnel",
+                  "ai_tool_product_name": "СберСпасибо",
+                  "footer": "AI-сводка · июнь 2026 · Воронка кампейнинга",
+                  "ai_digest": true
                 },
                 {
                   "name": "Воронка оформления в СБОЛ",
-                  "traffic_light": "yellow",
+                  "traffic_light": "green",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768"
-                  }
+                  },
+                  "digest_texts": [
+                    "Воронка оформления стабильна: ключевых провалов на последнем шаге не найдено."
+                  ],
+                  "digest_rule": "green если CR не ниже целевого порога и нет красных шагов",
+                  "digest_month": "июнь 2026",
+                  "digest_indicator": "Воронка оформления",
+                  "ai_tool_key": "clickstream_funnel",
+                  "ai_tool_product_name": "СберСпасибо",
+                  "footer": "AI-сводка · июнь 2026 · Воронка оформления",
+                  "ai_digest": true
                 },
                 {
                   "name": "Поиск по пилотам",
@@ -13489,6 +13660,16 @@
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
                   }
+                },
+                {
+                  "name": "Черновики",
+                  "traffic_light": "green",
+                  "button": {
+                    "type": "general",
+                    "label": "Перейти",
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+                  },
+                  "footer": "Общий светофор"
                 }
               ]
             }
@@ -14295,18 +14476,7 @@
           "type": "block",
           "code": "hyp",
           "name": "Гипотезы и инициативы",
-          "tools": [
-            {
-              "name": "Навык «Черновики»",
-              "traffic_light": "green",
-              "button": {
-                "type": "general",
-                "label": "Перейти",
-                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
-              },
-              "footer": "Общий светофор"
-            }
-          ],
+          "tools": [],
           "metrics": [
             {
               "code": "hyp.discovery_40_backlog",
@@ -14450,21 +14620,41 @@
               "buttons": [
                 {
                   "name": "Жалобы и обращения",
-                  "traffic_light": "gray",
+                  "traffic_light": "red",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050769"
-                  }
+                  },
+                  "digest_texts": [
+                    "Есть рост обращений по начислению бонусов. Нужна проверка причин и владельца корректирующего действия."
+                  ],
+                  "digest_rule": "red если есть негативная динамика жалоб",
+                  "digest_month": "июнь 2026",
+                  "digest_indicator": "Жалобы и обращения",
+                  "ai_tool_key": "complaints",
+                  "ai_tool_product_name": "СберСпасибо",
+                  "footer": "AI-сводка · июнь 2026 · Жалобы и обращения",
+                  "ai_digest": true
                 },
                 {
                   "name": "CSI",
-                  "traffic_light": "gray",
+                  "traffic_light": "yellow",
                   "button": {
                     "type": "general",
                     "label": "Перейти",
                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050769"
-                  }
+                  },
+                  "digest_texts": [
+                    "CSI около целевого уровня, но есть просадка в сценариях списания бонусов."
+                  ],
+                  "digest_rule": "yellow если CSI в зоне наблюдения",
+                  "digest_month": "июнь 2026",
+                  "digest_indicator": "CSI",
+                  "ai_tool_key": "csi",
+                  "ai_tool_product_name": "СберСпасибо",
+                  "footer": "AI-сводка · июнь 2026 · CSI",
+                  "ai_digest": true
                 }
               ]
             }
@@ -14515,12 +14705,23 @@
           "info": {
             "type": "losshunter",
             "variant": "cta",
-            "title": "Аналитика клиентского пути в LossHunter",
+            "title": "Аналитика клиентского пути",
             "button": {
               "type": "metric",
               "label": "Перейти",
               "link": "https://losshunter.ru"
-            }
+            },
+            "links": [
+              {
+                "label": "CJXplorer",
+                "link": "https://cjxplorer.com/",
+                "sub": "Целевая платформа CX"
+              },
+              {
+                "label": "LossHunter",
+                "link": "https://losshunter.ru"
+              }
+            ]
           }
         }
       ]
@@ -15154,6 +15355,13 @@
       "сегмент"
     ],
     "avgScore": 49
+  },
+  "ai_skill_digest": {
+    "enabled": true,
+    "source": "ai_skill_digest_export.xlsx",
+    "mapping": "ai_product_mapping.xlsx",
+    "rows": 18,
+    "matched_tools": 6
   }
 }
   </script>
@@ -15368,6 +15576,7 @@
           return {
             label: link.label || link.name || link.title || 'Открыть',
             url: normalizeUrl(url),
+            sub: link.sub || link.footer || link.description || '',
           };
         })
         .filter(Boolean);
@@ -15708,6 +15917,7 @@
           label: fallbackLabel,
           link: info.link || '',
         }) || { type: 'metric', label: fallbackLabel, link: '' },
+        links: normalizeLinks(info.links),
       };
     }
 
@@ -16380,12 +16590,21 @@
 
     function blockInfoHTML(info) {
       if (info.variant === 'cta') {
+        const links = Array.isArray(info.links) ? info.links : [];
+        const infoLinks = links.length
+          ? `<div class="info-links">${links.map((link) => `
+              <a class="info-link" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">
+                <b>${esc(link.label)}</b>
+                ${link.sub ? `<span class="info-tooltip" data-tooltip="${esc(link.sub)}" aria-label="${esc(link.sub)}">i</span>` : ''}
+              </a>
+            `).join('')}</div>`
+          : actionButtonHTML(info.button, 'metric-button');
         return `
           <div class="block-infobox cta">
             <div class="info-text">
               <b>${esc(info.title)}</b>
             </div>
-            ${actionButtonHTML(info.button, 'metric-button')}
+            ${infoLinks}
           </div>
         `;
       }

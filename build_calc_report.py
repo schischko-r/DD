@@ -81,6 +81,7 @@ AI_SKILL_LABELS = {
     "client_metrics": "Навык «Ключевые метрики»",
     "complaints": "Жалобы и обращения",
     "csi": "CSI",
+    "drafts": "Черновики",
     "funnel": "Воронка кампейнинга",
     "pilots": "Пилотные кампании",
 }
@@ -89,10 +90,14 @@ AI_SKILL_BLOCKS = {
     "client_metrics": "general",
     "complaints": "cx",
     "csi": "cx",
+    "drafts": "attract",
     "funnel": "attract",
     "pilots": "attract",
 }
 AI_SKILL_ORDER = tuple(AI_SKILL_LABELS)
+AI_SKILL_GROUP_TOOLS = {
+    "attract": "Группа навыков «Привлечение»",
+}
 _PD = _DD_FROM_EXCEL["pd"]
 
 
@@ -387,6 +392,7 @@ def find_block(product: dict[str, Any], block_code: str) -> dict[str, Any] | Non
 def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
     label = AI_SKILL_LABELS[skill_key]
     label_key = normalize_lookup_key(label)
+    block_code = clean_text(block.get("code"))
     tools = block.setdefault("tools", [])
 
     for tool in tools:
@@ -402,6 +408,24 @@ def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any
                     item.update(payload)
                     item["ai_digest"] = True
                     return True
+
+    group_tool_name = AI_SKILL_GROUP_TOOLS.get(block_code)
+    if group_tool_name:
+        group_tool_key = normalize_lookup_key(group_tool_name)
+        for tool in tools:
+            if normalize_lookup_key(tool.get("name")) == group_tool_key:
+                buttons = tool.setdefault("buttons", [])
+                buttons.append(
+                    {
+                        "name": label,
+                        "traffic_light": payload.get("traffic_light", "gray"),
+                        "button": {"type": "general", "label": "TBD", "link": ""},
+                        "footer": payload.get("footer", ""),
+                        "ai_digest": True,
+                        **payload,
+                    }
+                )
+                return True
 
     tools.append(
         {
@@ -566,6 +590,82 @@ def enrich_metric_layout(
     return data
 
 
+def move_drafts_skill_to_attract(data: dict[str, Any]) -> dict[str, Any]:
+    drafts_key = normalize_lookup_key("Черновики")
+    target_group_name = AI_SKILL_GROUP_TOOLS["attract"]
+    target_group_key = normalize_lookup_key(target_group_name)
+
+    for product in data.get("products", []):
+        attract_block = find_block(product, "attract")
+        hyp_block = find_block(product, "hyp")
+        if not attract_block or not hyp_block:
+            continue
+
+        moved_tools = []
+        remaining_tools = []
+        for tool in hyp_block.get("tools", []):
+            tool_name = normalize_lookup_key(tool.get("name"))
+            if drafts_key in tool_name:
+                moved_tools.append(tool)
+            else:
+                remaining_tools.append(tool)
+        hyp_block["tools"] = remaining_tools
+
+        if not moved_tools:
+            continue
+
+        attract_tools = attract_block.setdefault("tools", [])
+        group_tool = next(
+            (tool for tool in attract_tools if normalize_lookup_key(tool.get("name")) == target_group_key),
+            None,
+        )
+        if group_tool is None:
+            group_tool = {"name": target_group_name, "traffic_light": "gray", "buttons": []}
+            attract_tools.insert(0, group_tool)
+
+        buttons = group_tool.setdefault("buttons", [])
+        existing = {normalize_lookup_key(button.get("name")): button for button in buttons}
+        for tool in moved_tools:
+            button_item = {**tool, "name": "Черновики"}
+            existing_button = existing.get(drafts_key)
+            if existing_button:
+                existing_button.update(button_item)
+            else:
+                buttons.append(button_item)
+                existing[drafts_key] = button_item
+
+    return data
+
+
+def enrich_cx_journey_links(data: dict[str, Any]) -> dict[str, Any]:
+    for product in data.get("products", []):
+        cx_block = find_block(product, "cx")
+        if not cx_block:
+            continue
+        info = cx_block.get("info")
+        if not isinstance(info, dict):
+            continue
+        if info.get("type") != "losshunter" and "LossHunter" not in clean_text(info.get("title")):
+            continue
+
+        losshunter_button = info.get("button") if isinstance(info.get("button"), dict) else {}
+        losshunter_link = clean_text(losshunter_button.get("link")) or clean_text(info.get("link")) or "https://losshunter.ru"
+        info["title"] = "Аналитика клиентского пути"
+        info["links"] = [
+            {
+                "label": "CJXplorer",
+                "link": "https://cjxplorer.com/",
+                "sub": "Целевая платформа CX",
+            },
+            {
+                "label": "LossHunter",
+                "link": losshunter_link,
+            },
+        ]
+
+    return data
+
+
 def build_combined_data(
     input_path: Path,
     title_sheet: str,
@@ -584,6 +684,8 @@ def build_combined_data(
     title_payload = build_title_payload(title_rows)
     detail_data, detail_summary = build_report_data(input_path, detail_sheet, period)
     detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
+    detail_data = move_drafts_skill_to_attract(detail_data)
+    detail_data = enrich_cx_journey_links(detail_data)
     combined = {**detail_data, "title": title_payload}
     ai_map_created = False
     if create_ai_map:
@@ -991,6 +1093,183 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         html,
         "          </div>\n        </div>\n      `;\n    }\n\n    function actionLinkItemsHTML(actions) {\n",
         "          </div>\n          ${digestPanelHTML(tool)}\n        </div>\n      `;\n    }\n\n    function actionLinkItemsHTML(actions) {\n",
+    )
+    html = replace_once(
+        html,
+        """    .block-infobox.cta {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+""",
+        """    .block-infobox.cta {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .block-infobox.cta .info-text,
+    .block-infobox.cta .info-links {
+      grid-column: 1 / -1;
+    }
+
+    .info-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .info-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid rgba(0,122,255,.22);
+      border-radius: 999px;
+      background: rgba(0,122,255,.08);
+      color: var(--blue);
+      text-decoration: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);
+    }
+
+    .info-link:hover {
+      background: rgba(0,122,255,.14);
+      text-decoration: none;
+    }
+
+    .info-link b {
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.05;
+      letter-spacing: -.01em;
+    }
+
+    .info-tooltip {
+      position: relative;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,122,255,.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,.78);
+      color: #0066cc;
+      font-size: 10.5px;
+      font-weight: 760;
+      line-height: 1;
+    }
+
+    .info-tooltip::before,
+    .info-tooltip::after {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 70;
+    }
+
+    .info-tooltip::after {
+      content: attr(data-tooltip);
+      left: 50%;
+      bottom: calc(100% + 9px);
+      width: max-content;
+      max-width: 220px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(29,29,31,.96);
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 650;
+      line-height: 1.3;
+      text-align: left;
+      white-space: normal;
+      transform: translate(-50%, 4px);
+    }
+
+    .info-tooltip::before {
+      content: "";
+      left: 50%;
+      bottom: calc(100% + 4px);
+      border: 5px solid transparent;
+      border-top-color: rgba(29,29,31,.96);
+      transform: translate(-50%, 4px);
+    }
+
+    .info-link:hover .info-tooltip::before,
+    .info-link:hover .info-tooltip::after,
+    .info-link:focus .info-tooltip::before,
+    .info-link:focus .info-tooltip::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+""",
+    )
+    html = replace_once(
+        html,
+        """          return {
+            label: link.label || link.name || link.title || 'Открыть',
+            url: normalizeUrl(url),
+          };
+""",
+        """          return {
+            label: link.label || link.name || link.title || 'Открыть',
+            url: normalizeUrl(url),
+            sub: link.sub || link.footer || link.description || '',
+          };
+""",
+    )
+    html = replace_once(
+        html,
+        """        button: normalizeButton(info.button, {
+          type: 'metric',
+          label: fallbackLabel,
+          link: info.link || '',
+        }) || { type: 'metric', label: fallbackLabel, link: '' },
+""",
+        """        button: normalizeButton(info.button, {
+          type: 'metric',
+          label: fallbackLabel,
+          link: info.link || '',
+        }) || { type: 'metric', label: fallbackLabel, link: '' },
+        links: normalizeLinks(info.links),
+""",
+    )
+    html = replace_once(
+        html,
+        """      if (info.variant === 'cta') {
+        return `
+          <div class="block-infobox cta">
+            <div class="info-text">
+              <b>${esc(info.title)}</b>
+            </div>
+            ${actionButtonHTML(info.button, 'metric-button')}
+          </div>
+        `;
+      }
+""",
+        """      if (info.variant === 'cta') {
+        const links = Array.isArray(info.links) ? info.links : [];
+        const infoLinks = links.length
+          ? `<div class="info-links">${links.map((link) => `
+              <a class="info-link" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">
+                <b>${esc(link.label)}</b>
+                ${link.sub ? `<span class="info-tooltip" data-tooltip="${esc(link.sub)}" aria-label="${esc(link.sub)}">i</span>` : ''}
+              </a>
+            `).join('')}</div>`
+          : actionButtonHTML(info.button, 'metric-button');
+        return `
+          <div class="block-infobox cta">
+            <div class="info-text">
+              <b>${esc(info.title)}</b>
+            </div>
+            ${infoLinks}
+          </div>
+        `;
+      }
+""",
     )
     html = replace_once(
         html,

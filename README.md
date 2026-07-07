@@ -118,6 +118,7 @@ combined = {**detail_data, "title": title_payload}
 - `client_metrics` -> `Навык «Ключевые метрики»`;
 - `complaints` -> `Жалобы и обращения`;
 - `csi` -> `CSI`;
+- `drafts` -> `Черновики`;
 - `funnel` -> `Воронка кампейнинга`;
 - `pilots` -> `Пилотные кампании`.
 
