@@ -141,6 +141,10 @@ def normalize_lookup_key(value: Any) -> str:
     return re.sub(r"\s+", " ", clean_text(value)).casefold()
 
 
+def normalize_mapping_key(value: Any) -> str:
+    return normalize_lookup_key(value)
+
+
 def normalize_column_key(value: Any) -> str:
     return re.sub(r"[^0-9a-zа-яё]+", "", normalize_lookup_key(value))
 
@@ -150,7 +154,8 @@ def normalize_ai_product_key(value: Any) -> str:
 
 
 def normalize_ai_skill_key(value: Any) -> str:
-    return normalize_lookup_key(value).replace(" ", "_")
+    normalized = re.sub(r"[^0-9a-zа-яё]+", "_", normalize_mapping_key(value))
+    return normalized.strip("_")
 
 
 def parse_ai_light(value: Any) -> str:
@@ -351,7 +356,7 @@ def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], list[str]]:
         ai_product = clean_text(row.get(product_column))
         if not dd_product or not skill_key:
             continue
-        key = (normalize_lookup_key(dd_product), skill_key)
+        key = (normalize_mapping_key(dd_product), skill_key)
         if not ai_product:
             mapping.setdefault(key, [])
             continue
@@ -627,7 +632,7 @@ def apply_ai_skill_digest(
 
     for product in data.get("products", []):
         product_name = clean_text(product.get("name"))
-        product_key = normalize_lookup_key(product_name)
+        product_key = normalize_mapping_key(product_name)
 
         for skill_key in AI_SKILL_ORDER:
             block = find_block(product, AI_SKILL_BLOCKS[skill_key])
