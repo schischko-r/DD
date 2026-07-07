@@ -446,27 +446,98 @@ def ai_summary_footer(month: str, product_names: list[str]) -> str:
     return f"AI-сводка ({month}) - {subject}" if month else f"AI-сводка - {subject}"
 
 
+def digest_indicator_name(row: dict[str, Any]) -> str:
+    indicator = clean_text(row.get("indicator"))
+    return indicator or "Показатель"
+
+
+def digest_indicator_key(row: dict[str, Any]) -> str:
+    return normalize_lookup_key(clean_text(row.get("indicator")))
+
+
+def is_generic_digest_text_row(row: dict[str, Any]) -> bool:
+    indicator_key = digest_indicator_key(row)
+    return indicator_key in {"", "рекомендация", "recommendation", "текст", "text"}
+
+
+def build_digest_item(rows: list[dict[str, Any]], indicator: str, month: str, product_name: str) -> dict[str, Any]:
+    light_rows = [row for row in rows if is_ai_light_row(row)]
+    colors = [row.get("color", "") for row in light_rows if row.get("color")]
+    rules = unique_non_empty([row.get("rule", "") for row in rows])
+    texts = unique_non_empty([row.get("text", "") for row in rows])
+    return {
+        "indicator": indicator,
+        "traffic_light": worst_ai_light(colors) if colors else "gray",
+        "digest_texts": texts,
+        "digest_rule": rules[0] if rules else "",
+        "digest_month": month,
+        "ai_product_name": product_name,
+    }
+
+
+def build_digest_items(latest_rows: list[dict[str, Any]], month: str) -> list[dict[str, Any]]:
+    item_rows: dict[str, list[dict[str, Any]]] = {}
+    item_names: dict[str, str] = {}
+    product_name = latest_rows[0]["product"] if latest_rows else ""
+
+    for row in latest_rows:
+        if not is_ai_light_row(row):
+            continue
+        key = digest_indicator_key(row)
+        item_rows.setdefault(key, []).append(row)
+        item_names.setdefault(key, digest_indicator_name(row))
+
+    for row in latest_rows:
+        if is_ai_light_row(row):
+            continue
+        if not clean_text(row.get("text")) and not clean_text(row.get("rule")):
+            continue
+
+        key = digest_indicator_key(row)
+        if key in item_rows:
+            target_key = key
+        elif len(item_rows) == 1 and is_generic_digest_text_row(row):
+            target_key = next(iter(item_rows))
+        else:
+            target_key = key
+            item_names.setdefault(target_key, digest_indicator_name(row))
+
+        item_rows.setdefault(target_key, []).append(row)
+
+    return [
+        build_digest_item(rows, item_names.get(key, "Показатель"), month, product_name)
+        for key, rows in item_rows.items()
+    ]
+
+
 def aggregate_ai_digests(digests: list[dict[str, Any]]) -> dict[str, Any]:
     product_names = unique_non_empty([digest.get("mapped_product") or digest.get("ai_product_name", "") for digest in digests])
     latest = max(digests, key=lambda digest: digest.get("digest_month_sort", (0, 0, "")))
     single_product = len(product_names) == 1
 
     texts: list[str] = []
+    items: list[dict[str, Any]] = []
     for digest in digests:
         digest_texts = digest.get("digest_texts", [])
-        if not digest_texts:
-            continue
         product_name = clean_text(digest.get("mapped_product") or digest.get("ai_product_name", ""))
-        if single_product:
+        if digest_texts and single_product:
             texts.extend(digest_texts)
-        else:
+        elif digest_texts:
             texts.append("\n".join([product_name, *digest_texts]))
 
+        for item in digest.get("digest_items", []):
+            item_copy = dict(item)
+            item_copy["ai_product_name"] = product_name
+            if not single_product and product_name:
+                item_copy["product_label"] = product_name
+            items.append(item_copy)
+
     return {
-        "traffic_light": worst_ai_light([digest.get("traffic_light", "") for digest in digests]),
+        "traffic_light": worst_ai_light([item.get("traffic_light", "") for item in items] or [digest.get("traffic_light", "") for digest in digests]),
         "digest_texts": unique_non_empty(texts),
         "digest_rule": "\n".join(unique_non_empty([digest.get("digest_rule", "") for digest in digests])),
-        "digest_indicator": ", ".join(unique_non_empty([digest.get("digest_indicator", "") for digest in digests])),
+        "digest_indicator": ", ".join(unique_non_empty([item.get("indicator", "") for item in items] or [digest.get("digest_indicator", "") for digest in digests])),
+        "digest_items": items,
         "digest_month": latest.get("digest_month", ""),
         "ai_tool_product_name": ", ".join(product_names),
         "ai_tool_product_names": product_names,
@@ -488,18 +559,20 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
             if (row["month_sort"], order) == latest_key or row["month_sort"] == latest_key[0]
         ]
         light_rows = [row for row in latest_rows if is_ai_light_row(row)]
-        color = next((row["color"] for row in light_rows if row["color"]), "")
-        texts = unique_non_empty([row["text"] for row in latest_rows])
-        rules = unique_non_empty([row["rule"] for row in latest_rows])
-        indicators = unique_non_empty([row["indicator"] for row in light_rows or latest_rows])
         month = next((row["month_label"] for row in latest_rows if row["month_label"]), "")
+        digest_items = build_digest_items(latest_rows, month)
+        color = worst_ai_light([item.get("traffic_light", "") for item in digest_items])
+        texts = unique_non_empty([text for item in digest_items for text in item.get("digest_texts", [])])
+        rules = unique_non_empty([row["rule"] for row in latest_rows])
+        indicators = unique_non_empty([item.get("indicator", "") for item in digest_items] or [row["indicator"] for row in light_rows or latest_rows])
 
-        if color or texts or light_rows:
+        if digest_items or color or texts or light_rows:
             index[key] = {
                 "traffic_light": color or "gray",
                 "digest_texts": texts,
                 "digest_rule": rules[0] if rules else "",
                 "digest_indicator": indicators[0] if indicators else "",
+                "digest_items": digest_items,
                 "digest_month": month,
                 "digest_month_sort": latest_key[0],
                 "ai_product_name": latest_rows[0]["product"],
@@ -661,6 +734,7 @@ def apply_ai_skill_digest(
                 "digest_rule": digest.get("digest_rule", ""),
                 "digest_month": digest.get("digest_month", ""),
                 "digest_indicator": digest.get("digest_indicator", ""),
+                "digest_items": digest.get("digest_items", []),
                 "ai_tool_key": skill_key,
                 "ai_tool_product_name": digest.get("ai_tool_product_name", ""),
                 "ai_tool_product_names": digest.get("ai_tool_product_names", []),
@@ -1120,6 +1194,64 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       white-space: pre-line;
     }
 
+    .ai-digest-item {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr);
+      gap: 9px;
+      align-items: start;
+      padding: 2px 0;
+    }
+
+    .ai-digest-light {
+      width: 9px;
+      height: 9px;
+      margin-top: 4px;
+      border-radius: 999px;
+      background: #c7c7cc;
+      box-shadow: 0 0 0 3px rgba(199,199,204,.16);
+    }
+
+    .ai-digest-light.green {
+      background: #34c759;
+      box-shadow: 0 0 0 3px rgba(52,199,89,.14);
+    }
+
+    .ai-digest-light.yellow {
+      background: #ffcc00;
+      box-shadow: 0 0 0 3px rgba(255,204,0,.16);
+    }
+
+    .ai-digest-light.red {
+      background: #ff3b30;
+      box-shadow: 0 0 0 3px rgba(255,59,48,.14);
+    }
+
+    .ai-digest-item-title {
+      color: #1d1d1f;
+      font-size: 12px;
+      font-weight: 760;
+      line-height: 1.25;
+    }
+
+    .ai-digest-item-product {
+      margin-left: 6px;
+      color: #8e8e93;
+      font-weight: 650;
+    }
+
+    .ai-digest-item-text {
+      margin-top: 3px;
+      color: #3a3a3c;
+      white-space: pre-line;
+    }
+
+    .ai-digest-item-rule {
+      margin-top: 5px;
+      color: #6e6e73;
+      font-size: 11px;
+      line-height: 1.34;
+    }
+
     .ai-digest-rule {
       padding-top: 7px;
       border-top: 1px solid rgba(0,0,0,.07);
@@ -1208,30 +1340,70 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       `;
     }
 """,
-        """    function digestTexts(item) {
+"""    function digestTexts(item) {
       return Array.isArray(item.digest_texts)
         ? item.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
         : [];
+    }
+
+    function digestItems(item) {
+      return Array.isArray(item.digest_items)
+        ? item.digest_items.filter(Boolean)
+        : [];
+    }
+
+    function hasDigestPayload(item) {
+      return digestItems(item).length > 0
+        || digestTexts(item).length > 0
+        || String(item.digest_rule || '').trim().length > 0;
+    }
+
+    function digestLightClass(value) {
+      const normalized = String(value || '').trim().toLowerCase();
+      return ['green', 'yellow', 'red'].includes(normalized) ? normalized : 'gray';
     }
 
     function aiDigestToggleHTML() {
       return '<button type="button" class="ai-digest-toggle" data-ai-digest-toggle aria-expanded="false" aria-label="Показать рекомендации">›</button>';
     }
 
+    function digestItemHTML(entry) {
+      const title = String(entry.indicator || entry.digest_indicator || 'Показатель').trim();
+      const product = String(entry.product_label || '').trim();
+      const texts = Array.isArray(entry.digest_texts)
+        ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
+        : [];
+      const rule = String(entry.digest_rule || '').trim();
+      return `
+        <div class="ai-digest-item">
+          <span class="ai-digest-light ${digestLightClass(entry.traffic_light)}"></span>
+          <div>
+            <div class="ai-digest-item-title">
+              ${esc(title)}
+              ${product ? `<span class="ai-digest-item-product">${esc(product)}</span>` : ''}
+            </div>
+            ${texts.map((text) => `<div class="ai-digest-item-text">${esc(text)}</div>`).join('')}
+            ${rule ? `<div class="ai-digest-item-rule">Правило: ${esc(rule)}</div>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
     function digestPanelHTML(item) {
+      const items = digestItems(item);
       const texts = digestTexts(item);
       const rule = String(item.digest_rule || '').trim();
-      if (!texts.length && !rule) return '';
+      if (!items.length && !texts.length && !rule) return '';
       return `
         <div class="ai-digest-panel">
-          ${texts.map((text) => `<p>${esc(text)}</p>`).join('')}
-          ${rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
+          ${items.length ? items.map(digestItemHTML).join('') : texts.map((text) => `<p>${esc(text)}</p>`).join('')}
+          ${!items.length && rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
         </div>
       `;
     }
 
     function toolItemHTML(item, neutralLight = false) {
-      const hasDigest = digestTexts(item).length > 0 || String(item.digest_rule || '').trim();
+      const hasDigest = hasDigestPayload(item);
       return `
         <div class="tool-item${hasDigest ? ' has-ai-digest' : ''}">
           ${hasDigest ? aiDigestToggleHTML() : ''}
@@ -1251,22 +1423,22 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
     html = replace_once(
         html,
         "      const missingLink = !normalizedButton || !normalizedButton.link;\n",
-        "      const hasDigest = digestTexts(item).length > 0 || String(item.digest_rule || '').trim();\n      const missingLink = (!normalizedButton || !normalizedButton.link) && !hasDigest;\n",
+        "      const hasDigest = hasDigestPayload(item);\n      const missingLink = (!normalizedButton || !normalizedButton.link) && !hasDigest;\n",
     )
     html = replace_once(
         html,
         "        const missingLink = buttons.every((item) => !item.button || !item.button.link);\n",
-        "        const hasDigest = buttons.some((item) => digestTexts(item).length > 0 || String(item.digest_rule || '').trim());\n        const missingLink = buttons.every((item) => !item.button || !item.button.link) && !hasDigest;\n",
+        "        const hasDigest = buttons.some(hasDigestPayload);\n        const missingLink = buttons.every((item) => !item.button || !item.button.link) && !hasDigest;\n",
     )
     html = replace_once(
         html,
         "      const dots = tool.kind !== 'ai' && tool.showDots ? `<span class=\"note-dots\">${noteDotHTML(tool.active)}</span>` : '';\n",
-        "      const hasDigest = digestTexts(tool).length > 0 || String(tool.digest_rule || '').trim();\n      const dots = (tool.kind !== 'ai' || hasDigest) && tool.showDots ? `<span class=\"note-dots\">${noteDotHTML(tool.active)}</span>` : '';\n",
+        "      const hasDigest = hasDigestPayload(tool);\n      const dots = (tool.kind !== 'ai' || hasDigest) && tool.showDots ? `<span class=\"note-dots\">${noteDotHTML(tool.active)}</span>` : '';\n",
     )
     html = replace_once(
         html,
         "              ${toolItems.map((item) => toolItemHTML(item, true)).join('')}\n",
-        "              ${toolItems.map((item) => toolItemHTML(item, !digestTexts(item).length && !String(item.digest_rule || '').trim())).join('')}\n",
+        "              ${toolItems.map((item) => toolItemHTML(item, !hasDigestPayload(item))).join('')}\n",
     )
     html = replace_once(
         html,
