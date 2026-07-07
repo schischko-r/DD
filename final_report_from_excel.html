@@ -16772,6 +16772,7 @@
       return `
         <div class="block-note${mode}${hasDigest ? ' has-ai-digest' : ''}">
           <div class="note-copy">
+            ${hasDigest ? aiDigestToggleHTML() : ''}
             <span class="${badgeClass}">${badge}</span>
             <div class="note-copy-text">
               <div class="note-skill">${esc(tool.name || 'Инструмент')}</div>
@@ -16779,7 +16780,6 @@
             </div>
           </div>
           <div class="note-side">
-            ${hasDigest ? aiDigestToggleHTML() : ''}
             ${dots}
             ${generalButton}
           </div>
@@ -16864,22 +16864,22 @@
     }
 
     function blockAdvisoryHTML(block) {
-      if (block.code !== 'goals' || !criterionValueBelow(block, 'goals.monitored', 1)) return '';
-      const digitalGoalsValue = parseNumber(block.digital_goals_value, 0);
-
-      if (digitalGoalsValue >= 1) {
-        return `
-          <div class="block-advisory">
-            <span class="block-advisory-badge">i</span>
-            <div class="block-advisory-text">Обратите внимание, что в вашем юните имеется мастер-деш, с целями вашего продукта</div>
-          </div>
-        `;
-      }
+      if (block.code !== 'goals') return '';
+      const goalCriteria = (block.criteria || []).filter((criterion) => (
+        ['goals.monitored', 'goals.factor_analysis_l1_l2', 'goals.forecast'].includes(criterion.code)
+        && criterion.applicable !== false
+        && !criterion.excluded
+        && parseNumber(criterion.max, 0) > 0
+      ));
+      const hasIncompleteGoals = goalCriteria.some((criterion) => (
+        parseNumber(criterion.value, 0) < parseNumber(criterion.max, 0)
+      ));
+      if (!hasIncompleteGoals) return '';
 
       return `
         <div class="block-advisory">
           <span class="block-advisory-badge">i</span>
-          <div class="block-advisory-text">В вашем юните имеется мастер-деш. Вы можете использовать его для мониторинга целей. Для обогащения, обратитесь в штаб Юнита.</div>
+          <div class="block-advisory-text">В вашем юните имеется мастер-деш. Вы можете использовать его для мониторинга целей. Для обогащения, обратитесь в штаб Юнита</div>
           ${jiraDisabledButtonHTML()}
         </div>
       `;
