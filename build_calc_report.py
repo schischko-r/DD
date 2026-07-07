@@ -268,7 +268,9 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
         frame = frame.dropna(how="all").copy()
         frame.columns = [clean_text(column) for column in frame.columns]
         mapping = {key: find_column(list(frame.columns), names) for key, names in aliases.items()}
-        if not mapping["skill_key"] or not mapping["product"] or not mapping["row_type"]:
+        if not mapping["skill_key"] or not mapping["product"]:
+            continue
+        if not mapping["row_type"] and not mapping["color"] and not mapping["text"]:
             continue
 
         for _, source in frame.iterrows():
@@ -278,9 +280,11 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
             product = clean_text(source.get(mapping["product"]))
             if not product:
                 continue
-            row_type = normalize_lookup_key(source.get(mapping["row_type"]))
+            row_type = normalize_lookup_key(source.get(mapping["row_type"])) if mapping["row_type"] else ""
             text = clean_text(source.get(mapping["text"])) if mapping["text"] else ""
             color = parse_ai_light(source.get(mapping["color"])) if mapping["color"] else ""
+            if not row_type and not text and not color:
+                continue
             rows.append(
                 {
                     "skill_name": clean_text(source.get(mapping["skill_name"])) if mapping["skill_name"] else "",
@@ -454,8 +458,7 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
             if "светофор" in row["row_type"] or row["color"]
         ]
         color = next((row["color"] for row in light_rows if row["color"]), "")
-        text_rows = [row for row in latest_rows if "текст" in row["row_type"]]
-        texts = unique_non_empty([row["text"] for row in text_rows])
+        texts = unique_non_empty([row["text"] for row in latest_rows])
         rules = unique_non_empty([row["rule"] for row in latest_rows])
         indicators = unique_non_empty([row["indicator"] for row in light_rows or latest_rows])
         month = next((row["month_label"] for row in latest_rows if row["month_label"]), "")
