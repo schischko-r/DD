@@ -323,9 +323,12 @@ def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], list[str]]:
         dd_product = clean_text(row.get(dd_column))
         skill_key = normalize_ai_skill_key(row.get(key_column))
         ai_product = clean_text(row.get(product_column))
-        if not dd_product or not skill_key or not ai_product:
+        if not dd_product or not skill_key:
             continue
         key = (normalize_lookup_key(dd_product), skill_key)
+        if not ai_product:
+            mapping.setdefault(key, [])
+            continue
         ai_product_key = normalize_lookup_key(ai_product)
         if ai_product_key in seen.setdefault(key, set()):
             continue
@@ -568,7 +571,8 @@ def apply_ai_skill_digest(
             if not block:
                 continue
 
-            mapped_products = mapping.get((product_key, skill_key)) or [product_name]
+            mapping_key = (product_key, skill_key)
+            mapped_products = mapping[mapping_key] if mapping_key in mapping else [product_name]
             matched_digests = []
             for mapped_product in mapped_products:
                 digest = digest_index.get((skill_key, normalize_lookup_key(mapped_product)))
