@@ -1084,6 +1084,73 @@
       transform: translateY(0);
     }
 
+    .has-ai-digest {
+      position: relative;
+    }
+
+    .tool-item.has-ai-digest {
+      grid-template-columns: auto auto minmax(0, 1fr) auto;
+    }
+
+    .ai-digest-toggle {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,122,255,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      color: #0066cc;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 760;
+      line-height: 1;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+
+    .ai-digest-toggle:hover,
+    .ai-digest-toggle:focus {
+      border-color: rgba(0,122,255,.34);
+      background: #fff;
+      outline: none;
+    }
+
+    .ai-digest-toggle[aria-expanded="true"] {
+      transform: rotate(90deg);
+    }
+
+    .ai-digest-panel {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border: 1px solid rgba(0,122,255,.14);
+      border-radius: 12px;
+      background: rgba(255,255,255,.72);
+      color: #3a3a3c;
+      font-size: 12px;
+      line-height: 1.36;
+      letter-spacing: -.01em;
+    }
+
+    .ai-digest-panel.open {
+      display: grid;
+      gap: 7px;
+    }
+
+    .ai-digest-panel p {
+      margin: 0;
+    }
+
+    .ai-digest-rule {
+      padding-top: 7px;
+      border-top: 1px solid rgba(0,0,0,.07);
+      color: #6e6e73;
+      font-size: 11px;
+      line-height: 1.34;
+    }
+
     .criteria {
       display: flex;
       flex-direction: column;
@@ -15490,7 +15557,8 @@
       });
       const buttonLink = normalizedButton && normalizedButton.link;
       const extraLinks = links.filter((link) => link.url !== buttonLink);
-      const missingLink = !normalizedButton || !normalizedButton.link;
+      const hasDigest = digestTexts(item).length > 0 || String(item.digest_rule || '').trim();
+      const missingLink = (!normalizedButton || !normalizedButton.link) && !hasDigest;
       const footer = item.footer_dynamic === 'green_count'
         ? 'Выполняется ' + greenCount + ' из ' + criteria.length + ' целей'
         : item.footer;
@@ -15528,7 +15596,8 @@
               no_dots: tool.no_dots,
             }];
         const buttons = items.map((item) => normalizeToolButton(item, tool, criteria, greenCount));
-        const missingLink = buttons.every((item) => !item.button || !item.button.link);
+        const hasDigest = buttons.some((item) => digestTexts(item).length > 0 || String(item.digest_rule || '').trim());
+        const missingLink = buttons.every((item) => !item.button || !item.button.link) && !hasDigest;
         const active = missingLink ? 'gray' : (parseLight(tool.traffic_light) || buttons[0]?.active || 'gray');
         const footer = hasButtonGroup ? '' : buttons[0]?.footer;
         const button = hasButtonGroup ? null : buttons[0]?.button;
@@ -16193,9 +16262,33 @@
       return `<i class="tool-light" style="background:${dotColor(dot)}"></i>`;
     }
 
-    function toolItemHTML(item, neutralLight = false) {
+    function digestTexts(item) {
+      return Array.isArray(item.digest_texts)
+        ? item.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
+        : [];
+    }
+
+    function aiDigestToggleHTML() {
+      return '<button type="button" class="ai-digest-toggle" data-ai-digest-toggle aria-expanded="false" aria-label="Показать рекомендации">›</button>';
+    }
+
+    function digestPanelHTML(item) {
+      const texts = digestTexts(item);
+      const rule = String(item.digest_rule || '').trim();
+      if (!texts.length && !rule) return '';
       return `
-        <div class="tool-item">
+        <div class="ai-digest-panel">
+          ${texts.map((text) => `<p>${esc(text)}</p>`).join('')}
+          ${rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
+        </div>
+      `;
+    }
+
+    function toolItemHTML(item, neutralLight = false) {
+      const hasDigest = digestTexts(item).length > 0 || String(item.digest_rule || '').trim();
+      return `
+        <div class="tool-item${hasDigest ? ' has-ai-digest' : ''}">
+          ${hasDigest ? aiDigestToggleHTML() : ''}
           ${toolLightHTML(neutralLight ? 'gray' : item.active)}
           <div class="tool-item-copy">
             ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
@@ -16203,6 +16296,7 @@
             ${item.footer ? `<div class="tool-item-footer">${esc(item.footer)}</div>` : ''}
           </div>
           ${actionButtonHTML(item.button, 'note-action')}
+          ${digestPanelHTML(item)}
         </div>
       `;
     }
@@ -16217,7 +16311,8 @@
       const isInstruction = tool.kind === 'instruction';
       const badge = isInstruction ? 'i' : 'AI';
       const badgeClass = isInstruction ? 'note-badge instruction' : 'note-badge';
-      const dots = tool.kind !== 'ai' && tool.showDots ? `<span class="note-dots">${noteDotHTML(tool.active)}</span>` : '';
+      const hasDigest = digestTexts(tool).length > 0 || String(tool.digest_rule || '').trim();
+      const dots = (tool.kind !== 'ai' || hasDigest) && tool.showDots ? `<span class="note-dots">${noteDotHTML(tool.active)}</span>` : '';
 
       if (isGroup) {
         return `
@@ -16229,14 +16324,14 @@
               </div>
             </div>
             <div class="tool-items">
-              ${toolItems.map((item) => toolItemHTML(item, true)).join('')}
+              ${toolItems.map((item) => toolItemHTML(item, !digestTexts(item).length && !String(item.digest_rule || '').trim())).join('')}
             </div>
           </div>
         `;
       }
 
       return `
-        <div class="block-note${mode}">
+        <div class="block-note${mode}${hasDigest ? ' has-ai-digest' : ''}">
           <div class="note-copy">
             <span class="${badgeClass}">${badge}</span>
             <div class="note-copy-text">
@@ -16245,9 +16340,11 @@
             </div>
           </div>
           <div class="note-side">
+            ${hasDigest ? aiDigestToggleHTML() : ''}
             ${dots}
             ${generalButton}
           </div>
+          ${digestPanelHTML(tool)}
         </div>
       `;
     }
@@ -16518,6 +16615,19 @@
       });
 
       $('blocksGrid').addEventListener('click', (event) => {
+        const digestToggle = event.target.closest('[data-ai-digest-toggle]');
+        if (digestToggle) {
+          event.preventDefault();
+          event.stopPropagation();
+          const host = digestToggle.closest('.has-ai-digest');
+          const panel = host ? host.querySelector('.ai-digest-panel') : null;
+          const open = panel ? !panel.classList.contains('open') : false;
+          if (panel) panel.classList.toggle('open', open);
+          digestToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          digestToggle.setAttribute('aria-label', open ? 'Скрыть рекомендации' : 'Показать рекомендации');
+          return;
+        }
+
         const header = event.target.closest('[data-block-key]');
         if (!header) return;
         const key = header.dataset.blockKey;

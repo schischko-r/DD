@@ -1,5 +1,9 @@
 ~$*.xls
 ~$*.xlsx
+.DS_Store
+__pycache__/
+*.pyc
+ai_skill_digest_export.xlsx
 Agent.html
 build_dd_from_excel.py
 build_dd_json2.py

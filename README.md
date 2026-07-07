@@ -21,6 +21,18 @@ python build_calc_report.py
 python build_calc_report.py --input "Расчет_список(1).xlsx" --title-sheet "титул" --detail-sheet "деталка" --output "final_report_from_excel.html"
 ```
 
+Обычный запуск уже включает AI skill digest в общий пайплайн: генератор скачивает Excel из внутреннего API и использует свежий экспорт в HTML.
+
+```powershell
+python build_calc_report.py --output "final_report_from_excel.html"
+```
+
+Если нужно не стучаться в API и собрать из локального тестового Excel:
+
+```powershell
+python build_calc_report.py --no-download-ai-digest --ai-digest-xlsx "ai_skill_digest_export.xlsx"
+```
+
 Только титульная витрина:
 
 ```powershell
@@ -56,6 +68,16 @@ CLI:
 python build_calc_report.py --input "Расчет_список(1).xlsx" --title-sheet "титул" --detail-sheet "деталка" --period "II кв. 2026" --output "final_report_from_excel.html"
 ```
 
+Параметры AI skill digest:
+
+```powershell
+python build_calc_report.py
+python build_calc_report.py --no-download-ai-digest
+python build_calc_report.py --no-download-ai-digest --ai-digest-xlsx "ai_skill_digest_export.xlsx" --ai-product-map "ai_product_mapping.xlsx"
+python build_calc_report.py --skip-ai-digest
+python build_calc_report.py --refresh-ai-product-map
+```
+
 ### Шаги сборки
 
 1. `build_combined_data(...)` читает титульный лист через embedded-версию `read_rows(...)`.
@@ -71,6 +93,39 @@ combined = {**detail_data, "title": title_payload}
 6. `write_html(...)` передает объединенную модель в embedded-версию `build_embedded_html(...)`.
 7. HTML записывается в `final_report_from_excel.html`.
 8. В консоль печатается JSON-сводка: путь к HTML, строки деталки, число продуктов, юнитов, агрегированных метрик, строк титульника, юнитов и типов титульника.
+
+### AI skill digest
+
+При обычном запуске сборщик скачивает `ai_skill_digest_export.xlsx` из внутреннего API и обновляет светофоры AI-навыков в карточке продукта. Если API недоступен, сборка падает с ошибкой, чтобы не подмешать устаревшую или синтетическую выгрузку. Для локальной проверки можно явно передать `--no-download-ai-digest --ai-digest-xlsx "ai_skill_digest_export.xlsx"`. Чтобы собрать отчет совсем без AI-обогащения, используйте `--skip-ai-digest`.
+
+Экспорт ожидается с колонками:
+
+- `навык`;
+- `ключ навыка`;
+- `месяц`;
+- `продукт`;
+- `показатель`;
+- `тип` (`светофор` или `текст`);
+- `цвет` (`green`, `yellow`, `red`; может быть пустым для текстовых строк);
+- `текст`;
+- `правило светофора`.
+
+Маппинг ключей навыков:
+
+- `clickstream_funnel` -> `Воронка оформления в СБОЛ`;
+- `client_metrics` -> `Навык «Ключевые метрики»`;
+- `complaints` -> `Жалобы и обращения`;
+- `csi` -> `CSI`;
+- `funnel` -> `Воронка кампейнинга`;
+- `pilots` -> `Пилотные кампании`.
+
+Для сопоставления продуктовых названий сборщик создает шаблон `ai_product_mapping.xlsx` с колонками:
+
+- `dd_product`;
+- `ai_tool_key`;
+- `ai_tool_product name`.
+
+По умолчанию `ai_tool_product name` заполняется тем же названием, что и `dd_product`; если в AI-сервисе продукт называется иначе, нужно поправить только эту колонку. Сборщик берет последнюю дату по паре `продукт + ключ навыка`; цвет строки `тип = светофор` перекрашивает светофор навыка, а строки `тип = текст` попадают в раскрывающийся блок под стрелкой слева от светофора.
 
 ### Логика деталки
 

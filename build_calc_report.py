@@ -12,6 +12,8 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
+import urllib.request
 from pathlib import Path
 from typing import Any
 
@@ -57,6 +59,36 @@ DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
+DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
+DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
+DEFAULT_AI_DIGEST_TIMEOUT = 12
+AI_SKILL_DIGEST_URL = "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/api/skill-digest/export"
+AI_SKILL_DIGEST_HEADERS = {
+    "Referer": "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/admin?tab=api",
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": (
+        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 "
+        "Safari/537.36 SberBrowser/37.0.0.0"
+    ),
+}
+AI_SKILL_LABELS = {
+    "clickstream_funnel": "Воронка оформления в СБОЛ",
+    "client_metrics": "Навык «Ключевые метрики»",
+    "complaints": "Жалобы и обращения",
+    "csi": "CSI",
+    "funnel": "Воронка кампейнинга",
+    "pilots": "Пилотные кампании",
+}
+AI_SKILL_BLOCKS = {
+    "clickstream_funnel": "attract",
+    "client_metrics": "general",
+    "complaints": "cx",
+    "csi": "cx",
+    "funnel": "attract",
+    "pilots": "attract",
+}
+AI_SKILL_ORDER = tuple(AI_SKILL_LABELS)
 _PD = _DD_FROM_EXCEL["pd"]
 
 
@@ -71,6 +103,362 @@ def clean_number(value: Any) -> float | None:
     if _PD.isna(parsed):
         return None
     return float(parsed)
+
+
+def normalize_lookup_key(value: Any) -> str:
+    return re.sub(r"\s+", " ", clean_text(value)).casefold()
+
+
+def normalize_column_key(value: Any) -> str:
+    return re.sub(r"[^0-9a-zа-яё]+", "", normalize_lookup_key(value))
+
+
+def normalize_ai_skill_key(value: Any) -> str:
+    return normalize_lookup_key(value).replace(" ", "_")
+
+
+def parse_ai_light(value: Any) -> str:
+    normalized = normalize_lookup_key(value)
+    if normalized in {"green", "g", "зеленый", "зелёный", "зеленая", "зелёная"}:
+        return "green"
+    if normalized in {"yellow", "y", "amber", "orange", "желтый", "жёлтый", "оранжевый"}:
+        return "yellow"
+    if normalized in {"red", "r", "красный", "красная"}:
+        return "red"
+    if normalized in {"gray", "grey", "n", "none", "na", "n/a", "серый", "серая"}:
+        return "gray"
+    return ""
+
+
+def ai_month_sort_key(value: Any) -> tuple[int, int, str]:
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return (0, 0, "")
+
+    parsed = _PD.to_datetime(value, errors="coerce", dayfirst=True)
+    if not _PD.isna(parsed):
+        return (int(parsed.year), int(parsed.month), clean_text(value))
+
+    text = normalize_lookup_key(value)
+    year_match = re.search(r"(20\d{2})", text)
+    months = {
+        "январ": 1,
+        "феврал": 2,
+        "март": 3,
+        "апрел": 4,
+        "май": 5,
+        "мая": 5,
+        "июн": 6,
+        "июл": 7,
+        "август": 8,
+        "сентябр": 9,
+        "октябр": 10,
+        "ноябр": 11,
+        "декабр": 12,
+    }
+    month = next((number for marker, number in months.items() if marker in text), 0)
+    year = int(year_match.group(1)) if year_match else 0
+    numeric_month = re.search(r"(?:^|[^0-9])([01]?\d)(?:[^0-9]|$)", text)
+    if not month and numeric_month:
+        candidate = int(numeric_month.group(1))
+        if 1 <= candidate <= 12:
+            month = candidate
+    return (year, month, clean_text(value))
+
+
+def ai_month_label(value: Any) -> str:
+    if value is None or (isinstance(value, float) and math.isnan(value)):
+        return ""
+    parsed = _PD.to_datetime(value, errors="coerce", dayfirst=True)
+    if not _PD.isna(parsed):
+        return f"{int(parsed.month):02d}.{int(parsed.year)}"
+    return clean_text(value)
+
+
+def download_ai_skill_digest(
+    output_path: Path = DEFAULT_AI_DIGEST_XLSX,
+    url: str = AI_SKILL_DIGEST_URL,
+    timeout: int = DEFAULT_AI_DIGEST_TIMEOUT,
+) -> Path:
+    request = urllib.request.Request(url, headers=AI_SKILL_DIGEST_HEADERS)
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        payload = response.read()
+    if not payload:
+        raise ValueError("AI skill digest export вернул пустой ответ")
+    output_path.write_bytes(payload)
+    return output_path
+
+
+def find_column(columns: list[str], aliases: set[str]) -> str | None:
+    normalized = {normalize_column_key(column): column for column in columns}
+    for alias in aliases:
+        column = normalized.get(normalize_column_key(alias))
+        if column:
+            return column
+    return None
+
+
+def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
+    if not path.exists() or path.name.startswith("~$"):
+        return []
+
+    sheets = _PD.read_excel(path, sheet_name=None)
+    aliases = {
+        "skill_name": {"навык", "skill", "skill_name"},
+        "skill_key": {"ключ навыка", "ключ", "skill_key", "key"},
+        "month": {"месяц", "month", "period", "период"},
+        "product": {"продукт", "product", "product_name"},
+        "indicator": {"показатель", "indicator", "metric"},
+        "row_type": {"тип", "type"},
+        "color": {"цвет", "color", "traffic_light"},
+        "text": {"текст", "text", "recommendation", "рекомендация"},
+        "rule": {"правило светофора", "правило", "rule", "traffic_rule"},
+    }
+    rows: list[dict[str, Any]] = []
+
+    for _, frame in sheets.items():
+        if frame.empty:
+            continue
+        frame = frame.dropna(how="all").copy()
+        frame.columns = [clean_text(column) for column in frame.columns]
+        mapping = {key: find_column(list(frame.columns), names) for key, names in aliases.items()}
+        if not mapping["skill_key"] or not mapping["product"] or not mapping["row_type"]:
+            continue
+
+        for _, source in frame.iterrows():
+            skill_key = normalize_ai_skill_key(source.get(mapping["skill_key"]))
+            if skill_key not in AI_SKILL_LABELS:
+                continue
+            product = clean_text(source.get(mapping["product"]))
+            if not product:
+                continue
+            row_type = normalize_lookup_key(source.get(mapping["row_type"]))
+            text = clean_text(source.get(mapping["text"])) if mapping["text"] else ""
+            color = parse_ai_light(source.get(mapping["color"])) if mapping["color"] else ""
+            rows.append(
+                {
+                    "skill_name": clean_text(source.get(mapping["skill_name"])) if mapping["skill_name"] else "",
+                    "skill_key": skill_key,
+                    "month": source.get(mapping["month"]) if mapping["month"] else "",
+                    "month_label": ai_month_label(source.get(mapping["month"])) if mapping["month"] else "",
+                    "month_sort": ai_month_sort_key(source.get(mapping["month"])) if mapping["month"] else (0, 0, ""),
+                    "product": product,
+                    "product_key": normalize_lookup_key(product),
+                    "indicator": clean_text(source.get(mapping["indicator"])) if mapping["indicator"] else "",
+                    "row_type": row_type,
+                    "color": color,
+                    "text": text,
+                    "rule": clean_text(source.get(mapping["rule"])) if mapping["rule"] else "",
+                }
+            )
+
+    return rows
+
+
+def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], str]:
+    if not path.exists() or path.name.startswith("~$"):
+        return {}
+
+    frame = _PD.read_excel(path)
+    frame.columns = [clean_text(column) for column in frame.columns]
+    dd_column = find_column(list(frame.columns), {"dd_product"})
+    key_column = find_column(list(frame.columns), {"ai_tool_key"})
+    product_column = find_column(list(frame.columns), {"ai_tool_product name", "ai_tool_product_name"})
+    if not dd_column or not key_column or not product_column:
+        return {}
+
+    mapping: dict[tuple[str, str], str] = {}
+    for _, row in frame.dropna(how="all").iterrows():
+        dd_product = clean_text(row.get(dd_column))
+        skill_key = normalize_ai_skill_key(row.get(key_column))
+        ai_product = clean_text(row.get(product_column))
+        if not dd_product or not skill_key or not ai_product:
+            continue
+        mapping[(normalize_lookup_key(dd_product), skill_key)] = ai_product
+    return mapping
+
+
+def create_ai_product_mapping_template(
+    data: dict[str, Any],
+    output_path: Path = DEFAULT_AI_PRODUCT_MAP,
+    overwrite: bool = False,
+) -> bool:
+    if output_path.exists() and not overwrite:
+        return False
+
+    title_rows = data.get("title", {}).get("rows") or []
+    detail_names = [product.get("name") for product in data.get("products", [])]
+    names = []
+    seen = set()
+    for value in [*(row.get("name") for row in title_rows), *detail_names]:
+        name = clean_text(value)
+        key = normalize_lookup_key(name)
+        if not name or key in seen:
+            continue
+        seen.add(key)
+        names.append(name)
+
+    rows = [
+        {
+            "dd_product": name,
+            "ai_tool_key": skill_key,
+            "ai_tool_product name": name,
+        }
+        for name in names
+        for skill_key in AI_SKILL_ORDER
+    ]
+    _PD.DataFrame(rows, columns=["dd_product", "ai_tool_key", "ai_tool_product name"]).to_excel(
+        output_path,
+        index=False,
+    )
+    return True
+
+
+def unique_non_empty(values: list[str]) -> list[str]:
+    result = []
+    seen = set()
+    for value in values:
+        text = clean_text(value)
+        key = normalize_lookup_key(text)
+        if not text or key in seen:
+            continue
+        seen.add(key)
+        result.append(text)
+    return result
+
+
+def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], dict[str, Any]]:
+    buckets: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in rows:
+        buckets.setdefault((row["skill_key"], row["product_key"]), []).append(row)
+
+    index: dict[tuple[str, str], dict[str, Any]] = {}
+    for key, bucket in buckets.items():
+        latest_key = max((row["month_sort"], order) for order, row in enumerate(bucket))
+        latest_rows = [
+            row
+            for order, row in enumerate(bucket)
+            if (row["month_sort"], order) == latest_key or row["month_sort"] == latest_key[0]
+        ]
+        light_rows = [
+            row for row in latest_rows
+            if "светофор" in row["row_type"] or row["color"]
+        ]
+        color = next((row["color"] for row in light_rows if row["color"]), "")
+        text_rows = [row for row in latest_rows if "текст" in row["row_type"]]
+        texts = unique_non_empty([row["text"] for row in text_rows])
+        rules = unique_non_empty([row["rule"] for row in latest_rows])
+        indicators = unique_non_empty([row["indicator"] for row in light_rows or latest_rows])
+        month = next((row["month_label"] for row in latest_rows if row["month_label"]), "")
+
+        if color or texts:
+            index[key] = {
+                "traffic_light": color or "gray",
+                "digest_texts": texts,
+                "digest_rule": rules[0] if rules else "",
+                "digest_indicator": indicators[0] if indicators else "",
+                "digest_month": month,
+            }
+
+    return index
+
+
+def find_block(product: dict[str, Any], block_code: str) -> dict[str, Any] | None:
+    for block in product.get("metrics", []):
+        if clean_text(block.get("code")) == block_code:
+            return block
+    return None
+
+
+def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
+    label = AI_SKILL_LABELS[skill_key]
+    label_key = normalize_lookup_key(label)
+    tools = block.setdefault("tools", [])
+
+    for tool in tools:
+        if normalize_lookup_key(tool.get("name")) == label_key:
+            tool.update(payload)
+            tool["ai_digest"] = True
+            return True
+
+        buttons = tool.get("buttons")
+        if isinstance(buttons, list):
+            for item in buttons:
+                if normalize_lookup_key(item.get("name")) == label_key:
+                    item.update(payload)
+                    item["ai_digest"] = True
+                    return True
+
+    tools.append(
+        {
+            "name": label,
+            "traffic_light": payload.get("traffic_light", "gray"),
+            "button": {"type": "general", "label": "TBD", "link": ""},
+            "footer": payload.get("footer", ""),
+            "variant": "blue",
+            "ai_digest": True,
+            **payload,
+        }
+    )
+    return True
+
+
+def apply_ai_skill_digest(
+    data: dict[str, Any],
+    digest_path: Path,
+    mapping_path: Path,
+) -> dict[str, Any]:
+    rows = read_ai_digest_rows(digest_path)
+    if not rows:
+        data["ai_skill_digest"] = {
+            "enabled": False,
+            "source": str(digest_path),
+            "matched_tools": 0,
+            "rows": 0,
+        }
+        return data
+
+    mapping = read_ai_product_mapping(mapping_path)
+    digest_index = build_ai_digest_index(rows)
+    matched = 0
+
+    for product in data.get("products", []):
+        product_name = clean_text(product.get("name"))
+        product_key = normalize_lookup_key(product_name)
+
+        for skill_key in AI_SKILL_ORDER:
+            block = find_block(product, AI_SKILL_BLOCKS[skill_key])
+            if not block:
+                continue
+
+            mapped_product = mapping.get((product_key, skill_key), product_name)
+            digest = digest_index.get((skill_key, normalize_lookup_key(mapped_product)))
+            if not digest:
+                continue
+
+            month = digest.get("digest_month")
+            indicator = digest.get("digest_indicator")
+            footer_parts = [part for part in ("AI-сводка", month, indicator) if part]
+            payload = {
+                "traffic_light": digest.get("traffic_light") or "gray",
+                "digest_texts": digest.get("digest_texts", []),
+                "digest_rule": digest.get("digest_rule", ""),
+                "digest_month": month or "",
+                "digest_indicator": indicator or "",
+                "ai_tool_key": skill_key,
+                "ai_tool_product_name": mapped_product,
+                "footer": " · ".join(footer_parts),
+            }
+            if update_ai_tool(block, skill_key, payload):
+                matched += 1
+
+    data["ai_skill_digest"] = {
+        "enabled": True,
+        "source": str(digest_path),
+        "mapping": str(mapping_path),
+        "rows": len(rows),
+        "matched_tools": matched,
+    }
+    return data
 
 
 def metric_meta_key(
@@ -168,6 +556,10 @@ def build_combined_data(
     title_sheet: str,
     detail_sheet: str,
     period: str,
+    ai_digest_path: Path | None = DEFAULT_AI_DIGEST_XLSX,
+    ai_product_map: Path = DEFAULT_AI_PRODUCT_MAP,
+    create_ai_map: bool = True,
+    refresh_ai_map: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     read_title_rows = _TITLE["read_rows"]
     build_title_payload = _TITLE["build_payload"]
@@ -178,11 +570,24 @@ def build_combined_data(
     detail_data, detail_summary = build_report_data(input_path, detail_sheet, period)
     detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
     combined = {**detail_data, "title": title_payload}
+    ai_map_created = False
+    if create_ai_map:
+        ai_map_created = create_ai_product_mapping_template(
+            combined,
+            ai_product_map,
+            overwrite=refresh_ai_map,
+        )
+    if ai_digest_path:
+        combined = apply_ai_skill_digest(combined, ai_digest_path, ai_product_map)
     summary = {
         **detail_summary,
         "title_rows": len(title_rows),
         "title_units": len(title_payload["units"]),
         "title_types": len(title_payload["types"]),
+        "ai_product_mapping": str(ai_product_map),
+        "ai_product_mapping_created": ai_map_created,
+        "ai_digest_rows": combined.get("ai_skill_digest", {}).get("rows", 0),
+        "ai_digest_matched_tools": combined.get("ai_skill_digest", {}).get("matched_tools", 0),
     }
     return combined, summary
 
@@ -350,6 +755,73 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       transform: translateY(0);
     }
 
+    .has-ai-digest {
+      position: relative;
+    }
+
+    .tool-item.has-ai-digest {
+      grid-template-columns: auto auto minmax(0, 1fr) auto;
+    }
+
+    .ai-digest-toggle {
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,122,255,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.82);
+      color: #0066cc;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 760;
+      line-height: 1;
+      transition: transform .16s ease, background .16s ease, border-color .16s ease;
+    }
+
+    .ai-digest-toggle:hover,
+    .ai-digest-toggle:focus {
+      border-color: rgba(0,122,255,.34);
+      background: #fff;
+      outline: none;
+    }
+
+    .ai-digest-toggle[aria-expanded="true"] {
+      transform: rotate(90deg);
+    }
+
+    .ai-digest-panel {
+      display: none;
+      grid-column: 1 / -1;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border: 1px solid rgba(0,122,255,.14);
+      border-radius: 12px;
+      background: rgba(255,255,255,.72);
+      color: #3a3a3c;
+      font-size: 12px;
+      line-height: 1.36;
+      letter-spacing: -.01em;
+    }
+
+    .ai-digest-panel.open {
+      display: grid;
+      gap: 7px;
+    }
+
+    .ai-digest-panel p {
+      margin: 0;
+    }
+
+    .ai-digest-rule {
+      padding-top: 7px;
+      border-top: 1px solid rgba(0,0,0,.07);
+      color: #6e6e73;
+      font-size: 11px;
+      line-height: 1.34;
+    }
+
 """
     html = replace_once(
         html,
@@ -414,6 +886,121 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         '          <span class="criterion-points ${esc(criterion.pointsTone)}">${esc(criterion.points)}</span>\n',
         '          <span class="criterion-points-wrap">${infoBadge}<span class="criterion-points ${esc(criterion.pointsTone)}">${esc(criterion.points)}</span></span>\n',
     )
+    html = replace_once(
+        html,
+        """    function toolItemHTML(item, neutralLight = false) {
+      return `
+        <div class="tool-item">
+          ${toolLightHTML(neutralLight ? 'gray' : item.active)}
+          <div class="tool-item-copy">
+            ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
+            <div class="tool-item-name">${esc(item.name || 'Инструмент')}</div>
+            ${item.footer ? `<div class="tool-item-footer">${esc(item.footer)}</div>` : ''}
+          </div>
+          ${actionButtonHTML(item.button, 'note-action')}
+        </div>
+      `;
+    }
+""",
+        """    function digestTexts(item) {
+      return Array.isArray(item.digest_texts)
+        ? item.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
+        : [];
+    }
+
+    function aiDigestToggleHTML() {
+      return '<button type="button" class="ai-digest-toggle" data-ai-digest-toggle aria-expanded="false" aria-label="Показать рекомендации">›</button>';
+    }
+
+    function digestPanelHTML(item) {
+      const texts = digestTexts(item);
+      const rule = String(item.digest_rule || '').trim();
+      if (!texts.length && !rule) return '';
+      return `
+        <div class="ai-digest-panel">
+          ${texts.map((text) => `<p>${esc(text)}</p>`).join('')}
+          ${rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
+        </div>
+      `;
+    }
+
+    function toolItemHTML(item, neutralLight = false) {
+      const hasDigest = digestTexts(item).length > 0 || String(item.digest_rule || '').trim();
+      return `
+        <div class="tool-item${hasDigest ? ' has-ai-digest' : ''}">
+          ${hasDigest ? aiDigestToggleHTML() : ''}
+          ${toolLightHTML(neutralLight ? 'gray' : item.active)}
+          <div class="tool-item-copy">
+            ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
+            <div class="tool-item-name">${esc(item.name || 'Инструмент')}</div>
+            ${item.footer ? `<div class="tool-item-footer">${esc(item.footer)}</div>` : ''}
+          </div>
+          ${actionButtonHTML(item.button, 'note-action')}
+          ${digestPanelHTML(item)}
+        </div>
+      `;
+    }
+""",
+    )
+    html = replace_once(
+        html,
+        "      const missingLink = !normalizedButton || !normalizedButton.link;\n",
+        "      const hasDigest = digestTexts(item).length > 0 || String(item.digest_rule || '').trim();\n      const missingLink = (!normalizedButton || !normalizedButton.link) && !hasDigest;\n",
+    )
+    html = replace_once(
+        html,
+        "        const missingLink = buttons.every((item) => !item.button || !item.button.link);\n",
+        "        const hasDigest = buttons.some((item) => digestTexts(item).length > 0 || String(item.digest_rule || '').trim());\n        const missingLink = buttons.every((item) => !item.button || !item.button.link) && !hasDigest;\n",
+    )
+    html = replace_once(
+        html,
+        "      const dots = tool.kind !== 'ai' && tool.showDots ? `<span class=\"note-dots\">${noteDotHTML(tool.active)}</span>` : '';\n",
+        "      const hasDigest = digestTexts(tool).length > 0 || String(tool.digest_rule || '').trim();\n      const dots = (tool.kind !== 'ai' || hasDigest) && tool.showDots ? `<span class=\"note-dots\">${noteDotHTML(tool.active)}</span>` : '';\n",
+    )
+    html = replace_once(
+        html,
+        "              ${toolItems.map((item) => toolItemHTML(item, true)).join('')}\n",
+        "              ${toolItems.map((item) => toolItemHTML(item, !digestTexts(item).length && !String(item.digest_rule || '').trim())).join('')}\n",
+    )
+    html = replace_once(
+        html,
+        "        <div class=\"block-note${mode}\">\n",
+        "        <div class=\"block-note${mode}${hasDigest ? ' has-ai-digest' : ''}\">\n",
+    )
+    html = replace_once(
+        html,
+        "            ${dots}\n            ${generalButton}\n",
+        "            ${hasDigest ? aiDigestToggleHTML() : ''}\n            ${dots}\n            ${generalButton}\n",
+    )
+    html = replace_once(
+        html,
+        "          </div>\n        </div>\n      `;\n    }\n\n    function actionLinkItemsHTML(actions) {\n",
+        "          </div>\n          ${digestPanelHTML(tool)}\n        </div>\n      `;\n    }\n\n    function actionLinkItemsHTML(actions) {\n",
+    )
+    html = replace_once(
+        html,
+        """      $('blocksGrid').addEventListener('click', (event) => {
+        const header = event.target.closest('[data-block-key]');
+        if (!header) return;
+""",
+        """      $('blocksGrid').addEventListener('click', (event) => {
+        const digestToggle = event.target.closest('[data-ai-digest-toggle]');
+        if (digestToggle) {
+          event.preventDefault();
+          event.stopPropagation();
+          const host = digestToggle.closest('.has-ai-digest');
+          const panel = host ? host.querySelector('.ai-digest-panel') : null;
+          const open = panel ? !panel.classList.contains('open') : false;
+          if (panel) panel.classList.toggle('open', open);
+          digestToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+          digestToggle.setAttribute('aria-label', open ? 'Скрыть рекомендации' : 'Показать рекомендации');
+          return;
+        }
+
+        const header = event.target.closest('[data-block-key]');
+        if (!header) return;
+""",
+    )
 
     disclaimer_css = """
     .report-disclaimer {
@@ -470,14 +1057,49 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--detail-sheet", default=DEFAULT_DETAIL_SHEET, help="Detail sheet name")
     parser.add_argument("--period", default=DEFAULT_PERIOD, help="Period label")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")
+    parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST_XLSX, help="Path to AI skill digest export .xlsx")
+    parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP, help="Path to DD ↔ AI product mapping .xlsx")
+    parser.add_argument("--download-ai-digest", dest="download_ai_digest", action="store_true", default=True, help="Download AI skill digest export before building (default)")
+    parser.add_argument("--no-download-ai-digest", dest="download_ai_digest", action="store_false", help="Use local --ai-digest-xlsx without calling the export endpoint")
+    parser.add_argument("--ai-digest-url", default=AI_SKILL_DIGEST_URL, help="AI skill digest export URL")
+    parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
+    parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
+    parser.add_argument("--refresh-ai-product-map", action="store_true", help="Overwrite AI product mapping template")
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    data, summary = build_combined_data(args.input, args.title_sheet, args.detail_sheet, args.period)
+    download_status: dict[str, Any] = {
+        "download_attempted": False,
+        "downloaded": False,
+        "download_error": "",
+        "path": str(args.ai_digest_xlsx),
+    }
+    if args.download_ai_digest and not args.skip_ai_digest:
+        download_ai_skill_digest(
+            args.ai_digest_xlsx,
+            args.ai_digest_url,
+            timeout=args.ai_digest_timeout,
+        )
+        download_status = {
+            "download_attempted": True,
+            "downloaded": True,
+            "download_error": "",
+            "path": str(args.ai_digest_xlsx),
+        }
+    ai_digest_path = None if args.skip_ai_digest else args.ai_digest_xlsx
+    data, summary = build_combined_data(
+        args.input,
+        args.title_sheet,
+        args.detail_sheet,
+        args.period,
+        ai_digest_path=ai_digest_path,
+        ai_product_map=args.ai_product_map,
+        refresh_ai_map=args.refresh_ai_product_map,
+    )
     write_html(data, args.output)
-    print(json.dumps({"html": str(args.output), **summary}, ensure_ascii=False, indent=2))
+    print(json.dumps({"html": str(args.output), "ai_digest_download": download_status, **summary}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
