@@ -136,6 +136,10 @@ def normalize_column_key(value: Any) -> str:
     return re.sub(r"[^0-9a-zа-яё]+", "", normalize_lookup_key(value))
 
 
+def normalize_ai_product_key(value: Any) -> str:
+    return normalize_column_key(value)
+
+
 def normalize_ai_skill_key(value: Any) -> str:
     return normalize_lookup_key(value).replace(" ", "_")
 
@@ -150,7 +154,20 @@ def parse_ai_light(value: Any) -> str:
         return "red"
     if normalized in {"gray", "grey", "n", "none", "na", "n/a", "серый", "серая"}:
         return "gray"
+    if any(marker in normalized for marker in ("green", "зелен", "зелён")):
+        return "green"
+    if any(marker in normalized for marker in ("yellow", "amber", "orange", "желт", "жёлт", "оранж")):
+        return "yellow"
+    if any(marker in normalized for marker in ("red", "красн")):
+        return "red"
+    if any(marker in normalized for marker in ("gray", "grey", "сер", "n/a")):
+        return "gray"
     return ""
+
+
+def is_ai_light_row(row: dict[str, Any]) -> bool:
+    row_type = normalize_lookup_key(row.get("row_type"))
+    return bool(row.get("color")) or "светофор" in row_type or "traffic" in row_type or "light" in row_type
 
 
 def ai_month_sort_key(value: Any) -> tuple[int, int, str]:
@@ -293,7 +310,7 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
                     "month_label": ai_month_label(source.get(mapping["month"])) if mapping["month"] else "",
                     "month_sort": ai_month_sort_key(source.get(mapping["month"])) if mapping["month"] else (0, 0, ""),
                     "product": product,
-                    "product_key": normalize_lookup_key(product),
+                    "product_key": normalize_ai_product_key(product),
                     "indicator": clean_text(source.get(mapping["indicator"])) if mapping["indicator"] else "",
                     "row_type": row_type,
                     "color": color,
@@ -329,7 +346,7 @@ def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], list[str]]:
         if not ai_product:
             mapping.setdefault(key, [])
             continue
-        ai_product_key = normalize_lookup_key(ai_product)
+        ai_product_key = normalize_ai_product_key(ai_product)
         if ai_product_key in seen.setdefault(key, set()):
             continue
         seen[key].add(ai_product_key)
@@ -456,17 +473,14 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
             for order, row in enumerate(bucket)
             if (row["month_sort"], order) == latest_key or row["month_sort"] == latest_key[0]
         ]
-        light_rows = [
-            row for row in latest_rows
-            if "светофор" in row["row_type"] or row["color"]
-        ]
+        light_rows = [row for row in latest_rows if is_ai_light_row(row)]
         color = next((row["color"] for row in light_rows if row["color"]), "")
         texts = unique_non_empty([row["text"] for row in latest_rows])
         rules = unique_non_empty([row["rule"] for row in latest_rows])
         indicators = unique_non_empty([row["indicator"] for row in light_rows or latest_rows])
         month = next((row["month_label"] for row in latest_rows if row["month_label"]), "")
 
-        if color or texts:
+        if color or texts or light_rows:
             index[key] = {
                 "traffic_light": color or "gray",
                 "digest_texts": texts,
@@ -546,14 +560,16 @@ def apply_ai_skill_digest(
 ) -> dict[str, Any]:
     rows = read_ai_digest_rows(digest_path)
     mapping = read_ai_product_mapping(mapping_path)
-    mapping_rows = sum(len(products) for products in mapping.values())
+    mapping_total_rows = sum(len(products) for products in mapping.values())
     if not rows:
         data["ai_skill_digest"] = {
             "enabled": False,
             "source": str(digest_path),
             "mapping": str(mapping_path),
-            "mapping_keys": len(mapping),
-            "mapping_rows": mapping_rows,
+            "mapping_keys": 0,
+            "mapping_rows": 0,
+            "mapping_total_keys": len(mapping),
+            "mapping_total_rows": mapping_total_rows,
             "matched_tools": 0,
             "rows": 0,
         }
@@ -561,6 +577,8 @@ def apply_ai_skill_digest(
 
     digest_index = build_ai_digest_index(rows)
     matched = 0
+    matched_mapping_keys: set[tuple[str, str]] = set()
+    matched_mapping_rows = 0
 
     for product in data.get("products", []):
         product_name = clean_text(product.get("name"))
@@ -575,11 +593,13 @@ def apply_ai_skill_digest(
             mapped_products = mapping[mapping_key] if mapping_key in mapping else [product_name]
             matched_digests = []
             for mapped_product in mapped_products:
-                digest = digest_index.get((skill_key, normalize_lookup_key(mapped_product)))
+                digest = digest_index.get((skill_key, normalize_ai_product_key(mapped_product)))
                 if digest:
                     matched_digests.append({**digest, "mapped_product": mapped_product})
             if not matched_digests:
                 continue
+            matched_mapping_keys.add(mapping_key)
+            matched_mapping_rows += len(matched_digests)
 
             digest = aggregate_ai_digests(matched_digests)
             payload = {
@@ -600,8 +620,10 @@ def apply_ai_skill_digest(
         "enabled": True,
         "source": str(digest_path),
         "mapping": str(mapping_path),
-        "mapping_keys": len(mapping),
-        "mapping_rows": mapping_rows,
+        "mapping_keys": len(matched_mapping_keys),
+        "mapping_rows": matched_mapping_rows,
+        "mapping_total_keys": len(mapping),
+        "mapping_total_rows": mapping_total_rows,
         "rows": len(rows),
         "matched_tools": matched,
     }
@@ -815,6 +837,8 @@ def build_combined_data(
         "ai_digest_matched_tools": combined.get("ai_skill_digest", {}).get("matched_tools", 0),
         "ai_digest_mapping_keys": combined.get("ai_skill_digest", {}).get("mapping_keys", 0),
         "ai_digest_mapping_rows": combined.get("ai_skill_digest", {}).get("mapping_rows", 0),
+        "ai_digest_mapping_total_keys": combined.get("ai_skill_digest", {}).get("mapping_total_keys", 0),
+        "ai_digest_mapping_total_rows": combined.get("ai_skill_digest", {}).get("mapping_total_rows", 0),
     }
     return combined, summary
 
