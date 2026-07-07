@@ -1149,13 +1149,17 @@
       grid-template-columns: 10px minmax(0, 1fr);
       gap: 9px;
       align-items: start;
-      padding: 2px 0;
+      padding: 6px 0;
+    }
+
+    .ai-digest-item + .ai-digest-item {
+      border-top: 1px solid rgba(0,0,0,.06);
     }
 
     .ai-digest-light {
       width: 9px;
       height: 9px;
-      margin-top: 4px;
+      margin-top: 7px;
       border-radius: 999px;
       background: #c7c7cc;
       box-shadow: 0 0 0 3px rgba(199,199,204,.16);
@@ -1178,20 +1182,32 @@
 
     .ai-digest-item-title {
       color: #1d1d1f;
-      font-size: 12px;
-      font-weight: 760;
+      font-size: 12.5px;
+      font-weight: 820;
       line-height: 1.25;
     }
 
     .ai-digest-item-product {
-      margin-left: 6px;
-      color: #8e8e93;
-      font-weight: 650;
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      margin: 0 0 4px;
+      padding: 2px 7px;
+      border: 1px solid rgba(0,122,255,.14);
+      border-radius: 999px;
+      background: rgba(0,122,255,.08);
+      color: #006adc;
+      font-size: 10.5px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: .01em;
     }
 
     .ai-digest-item-text {
-      margin-top: 3px;
-      color: #3a3a3c;
+      margin-top: 4px;
+      color: #515154;
+      font-size: 12px;
+      line-height: 1.38;
       white-space: pre-line;
     }
 
@@ -16685,10 +16701,8 @@
         <div class="ai-digest-item">
           <span class="ai-digest-light ${digestLightClass(entry.traffic_light)}"></span>
           <div>
-            <div class="ai-digest-item-title">
-              ${esc(title)}
-              ${product ? `<span class="ai-digest-item-product">${esc(product)}</span>` : ''}
-            </div>
+            ${product ? `<div class="ai-digest-item-product">${esc(product)}</div>` : ''}
+            <div class="ai-digest-item-title">${esc(title)}</div>
             ${texts.map((text) => `<div class="ai-digest-item-text">${esc(text)}</div>`).join('')}
             ${rule ? `<div class="ai-digest-item-rule">Правило: ${esc(rule)}</div>` : ''}
           </div>
