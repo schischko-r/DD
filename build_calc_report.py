@@ -62,7 +62,10 @@ DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
 DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
 DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
 DEFAULT_AI_DIGEST_TIMEOUT = 12
-AI_SKILL_DIGEST_URL = "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/api/skill-digest/export"
+AI_SKILL_DIGEST_BASE_URL = "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014"
+AI_SKILL_DIGEST_EXPORT_PATH = "/api/skill-digest/export"
+AI_SKILL_DIGEST_URL = AI_SKILL_DIGEST_BASE_URL + AI_SKILL_DIGEST_EXPORT_PATH
+AI_SKILL_DIGEST_TOKEN = ""
 AI_SKILL_DIGEST_HEADERS = {
     "Referer": "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/admin?tab=api",
     "Upgrade-Insecure-Requests": "1",
@@ -174,12 +177,23 @@ def ai_month_label(value: Any) -> str:
     return clean_text(value)
 
 
+def build_ai_skill_digest_headers(token: str = AI_SKILL_DIGEST_TOKEN) -> dict[str, str]:
+    headers = dict(AI_SKILL_DIGEST_HEADERS)
+    headers["Authorization"] = f"Bearer {token}"
+    return headers
+
+
 def download_ai_skill_digest(
     output_path: Path = DEFAULT_AI_DIGEST_XLSX,
     url: str = AI_SKILL_DIGEST_URL,
     timeout: int = DEFAULT_AI_DIGEST_TIMEOUT,
+    token: str = AI_SKILL_DIGEST_TOKEN,
 ) -> Path:
-    request = urllib.request.Request(url, headers=AI_SKILL_DIGEST_HEADERS)
+    request = urllib.request.Request(
+        url,
+        headers=build_ai_skill_digest_headers(token),
+        method="GET",
+    )
     with urllib.request.urlopen(request, timeout=timeout) as response:
         payload = response.read()
     if not payload:
@@ -1062,6 +1076,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--download-ai-digest", dest="download_ai_digest", action="store_true", default=True, help="Download AI skill digest export before building (default)")
     parser.add_argument("--no-download-ai-digest", dest="download_ai_digest", action="store_false", help="Use local --ai-digest-xlsx without calling the export endpoint")
     parser.add_argument("--ai-digest-url", default=AI_SKILL_DIGEST_URL, help="AI skill digest export URL")
+    parser.add_argument("--ai-digest-token", default=AI_SKILL_DIGEST_TOKEN, help="Bearer token for GET /api/skill-digest/export")
     parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
     parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
     parser.add_argument("--refresh-ai-product-map", action="store_true", help="Overwrite AI product mapping template")
@@ -1081,6 +1096,7 @@ def main() -> None:
             args.ai_digest_xlsx,
             args.ai_digest_url,
             timeout=args.ai_digest_timeout,
+            token=args.ai_digest_token,
         )
         download_status = {
             "download_attempted": True,
