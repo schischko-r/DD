@@ -625,7 +625,10 @@ def apply_ai_skill_digest(
                 continue
 
             mapping_key = (product_key, skill_key)
-            mapped_products = mapping[mapping_key] if mapping_key in mapping else [product_name]
+            mapped_products = mapping.get(mapping_key, [])
+            if not mapped_products:
+                continue
+
             matched_digests = []
             for mapped_product in mapped_products:
                 digest = digest_index.get((skill_key, normalize_ai_product_key(mapped_product)))
