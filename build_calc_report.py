@@ -98,6 +98,15 @@ AI_SKILL_ORDER = tuple(AI_SKILL_LABELS)
 AI_SKILL_GROUP_TOOLS = {
     "attract": "Группа навыков «Привлечение»",
 }
+AI_TOOL_KEYS_BY_BLOCK_NAME = {
+    ("general", "Навык «Ключевые метрики»"): "client_metrics",
+    ("cx", "Жалобы и обращения"): "complaints",
+    ("cx", "CSI"): "csi",
+    ("attract", "Воронка оформления в СБОЛ"): "clickstream_funnel",
+    ("attract", "Воронка кампейнинга"): "funnel",
+    ("attract", "Пилотные кампании"): "pilots",
+    ("attract", "Черновики"): "drafts",
+}
 AI_MONTH_NAMES = {
     1: "январь",
     2: "февраль",
@@ -501,14 +510,40 @@ def find_block(product: dict[str, Any], block_code: str) -> dict[str, Any] | Non
     return None
 
 
+def ai_tool_key_for_item(block_code: str, item: dict[str, Any]) -> str:
+    existing_key = normalize_ai_skill_key(item.get("ai_tool_key"))
+    if existing_key in AI_SKILL_LABELS:
+        return existing_key
+    item_name = clean_text(item.get("name"))
+    return AI_TOOL_KEYS_BY_BLOCK_NAME.get((block_code, item_name), "")
+
+
+def tag_ai_tool_keys(data: dict[str, Any]) -> dict[str, Any]:
+    for product in data.get("products", []):
+        for block in product.get("metrics", []):
+            block_code = clean_text(block.get("code"))
+            for tool in block.get("tools", []):
+                tool_key = ai_tool_key_for_item(block_code, tool)
+                if tool_key:
+                    tool["ai_tool_key"] = tool_key
+
+                buttons = tool.get("buttons")
+                if isinstance(buttons, list):
+                    for item in buttons:
+                        item_key = ai_tool_key_for_item(block_code, item)
+                        if item_key:
+                            item["ai_tool_key"] = item_key
+
+    return data
+
+
 def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
     label = AI_SKILL_LABELS[skill_key]
-    label_key = normalize_lookup_key(label)
     block_code = clean_text(block.get("code"))
     tools = block.setdefault("tools", [])
 
     for tool in tools:
-        if normalize_lookup_key(tool.get("name")) == label_key:
+        if normalize_ai_skill_key(tool.get("ai_tool_key")) == skill_key:
             tool.update(payload)
             tool["ai_digest"] = True
             return True
@@ -516,7 +551,7 @@ def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any
         buttons = tool.get("buttons")
         if isinstance(buttons, list):
             for item in buttons:
-                if normalize_lookup_key(item.get("name")) == label_key:
+                if normalize_ai_skill_key(item.get("ai_tool_key")) == skill_key:
                     item.update(payload)
                     item["ai_digest"] = True
                     return True
@@ -815,6 +850,7 @@ def build_combined_data(
     detail_data, detail_summary = build_report_data(input_path, detail_sheet, period)
     detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
     detail_data = move_drafts_skill_to_attract(detail_data)
+    detail_data = tag_ai_tool_keys(detail_data)
     detail_data = enrich_cx_journey_links(detail_data)
     combined = {**detail_data, "title": title_payload}
     ai_map_created = False
