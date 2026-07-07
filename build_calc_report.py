@@ -539,16 +539,20 @@ def apply_ai_skill_digest(
     mapping_path: Path,
 ) -> dict[str, Any]:
     rows = read_ai_digest_rows(digest_path)
+    mapping = read_ai_product_mapping(mapping_path)
+    mapping_rows = sum(len(products) for products in mapping.values())
     if not rows:
         data["ai_skill_digest"] = {
             "enabled": False,
             "source": str(digest_path),
+            "mapping": str(mapping_path),
+            "mapping_keys": len(mapping),
+            "mapping_rows": mapping_rows,
             "matched_tools": 0,
             "rows": 0,
         }
         return data
 
-    mapping = read_ai_product_mapping(mapping_path)
     digest_index = build_ai_digest_index(rows)
     matched = 0
 
@@ -589,6 +593,8 @@ def apply_ai_skill_digest(
         "enabled": True,
         "source": str(digest_path),
         "mapping": str(mapping_path),
+        "mapping_keys": len(mapping),
+        "mapping_rows": mapping_rows,
         "rows": len(rows),
         "matched_tools": matched,
     }
@@ -800,6 +806,8 @@ def build_combined_data(
         "ai_product_mapping_created": ai_map_created,
         "ai_digest_rows": combined.get("ai_skill_digest", {}).get("rows", 0),
         "ai_digest_matched_tools": combined.get("ai_skill_digest", {}).get("matched_tools", 0),
+        "ai_digest_mapping_keys": combined.get("ai_skill_digest", {}).get("mapping_keys", 0),
+        "ai_digest_mapping_rows": combined.get("ai_skill_digest", {}).get("mapping_rows", 0),
     }
     return combined, summary
 
@@ -1464,12 +1472,15 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    download_status: dict[str, Any] = {
-        "download_attempted": False,
+    ai_digest_source: dict[str, Any] = {
+        "mode": "skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file"),
+        "request_enabled": bool(args.update_ai_digest and not args.skip_ai_digest),
+        "request_attempted": False,
         "downloaded": False,
         "download_error": "",
-        "path": str(args.ai_digest_xlsx),
-        "update_requested": bool(args.update_ai_digest and not args.skip_ai_digest),
+        "digest_path": str(args.ai_digest_xlsx),
+        "mapping_path": str(args.ai_product_map),
+        "local_digest_used": bool(not args.skip_ai_digest and args.ai_digest_xlsx.exists()),
     }
     if args.update_ai_digest and not args.skip_ai_digest:
         download_ai_skill_digest(
@@ -1478,13 +1489,14 @@ def main() -> None:
             timeout=args.ai_digest_timeout,
             token=args.ai_digest_token,
         )
-        download_status = {
-            "download_attempted": True,
-            "downloaded": True,
-            "download_error": "",
-            "path": str(args.ai_digest_xlsx),
-            "update_requested": True,
-        }
+        ai_digest_source.update(
+            {
+                "request_attempted": True,
+                "downloaded": True,
+                "download_error": "",
+                "local_digest_used": True,
+            }
+        )
     elif not args.skip_ai_digest and not args.ai_digest_xlsx.exists():
         raise FileNotFoundError(
             f"AI digest update disabled, but local file was not found: {args.ai_digest_xlsx}"
@@ -1500,7 +1512,7 @@ def main() -> None:
         refresh_ai_map=args.refresh_ai_product_map,
     )
     write_html(data, args.output)
-    print(json.dumps({"html": str(args.output), "ai_digest_download": download_status, **summary}, ensure_ascii=False, indent=2))
+    print(json.dumps({"html": str(args.output), "ai_digest_source": ai_digest_source, **summary}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
