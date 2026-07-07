@@ -1084,6 +1084,84 @@
       transform: translateY(0);
     }
 
+    .note-metric,
+    .tool-item-footer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .digest-stale-badge {
+      position: relative;
+      flex: none;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,149,0,.28);
+      border-radius: 999px;
+      background: rgba(255,204,0,.22);
+      color: #9a6500;
+      cursor: default;
+      font-size: 10.5px;
+      font-weight: 850;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .digest-stale-badge:hover,
+    .digest-stale-badge:focus {
+      border-color: rgba(255,149,0,.42);
+      background: rgba(255,204,0,.32);
+      outline: none;
+    }
+
+    .digest-stale-badge::before,
+    .digest-stale-badge::after {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 70;
+    }
+
+    .digest-stale-badge::after {
+      content: attr(data-tooltip);
+      right: -8px;
+      bottom: calc(100% + 9px);
+      width: 230px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(29,29,31,.96);
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 650;
+      line-height: 1.3;
+      text-align: left;
+      white-space: normal;
+      transform: translateY(4px);
+    }
+
+    .digest-stale-badge::before {
+      content: "";
+      right: 4px;
+      bottom: calc(100% + 4px);
+      border: 5px solid transparent;
+      border-top-color: rgba(29,29,31,.96);
+      transform: translateY(4px);
+    }
+
+    .digest-stale-badge:hover::before,
+    .digest-stale-badge:hover::after,
+    .digest-stale-badge:focus::before,
+    .digest-stale-badge:focus::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .has-ai-digest {
       position: relative;
     }
@@ -13368,6 +13446,9 @@
               ],
               "digest_rule": "yellow если найдена часть обязательных метрик",
               "digest_month": "июнь 2026",
+              "digest_month_raw": "июнь 2026",
+              "digest_is_stale": false,
+              "digest_stale_tooltip": "",
               "digest_indicator": "Ключевые метрики",
               "digest_items": [
                 {
@@ -13378,6 +13459,8 @@
                   ],
                   "digest_rule": "yellow если найдена часть обязательных метрик",
                   "digest_month": "июнь 2026",
+                  "digest_is_stale": false,
+                  "digest_stale_tooltip": "",
                   "ai_product_name": "спасибки"
                 }
               ],
@@ -13720,6 +13803,9 @@
                   ],
                   "digest_rule": "red если не найдено пилотов в последнем периоде",
                   "digest_month": "июнь 2026",
+                  "digest_month_raw": "июнь 2026",
+                  "digest_is_stale": false,
+                  "digest_stale_tooltip": "",
                   "digest_indicator": "Пилотные кампании",
                   "digest_items": [
                     {
@@ -13730,6 +13816,8 @@
                       ],
                       "digest_rule": "red если не найдено пилотов в последнем периоде",
                       "digest_month": "июнь 2026",
+                      "digest_is_stale": false,
+                      "digest_stale_tooltip": "",
                       "ai_product_name": "спасибки"
                     }
                   ],
@@ -13754,6 +13842,9 @@
                   ],
                   "digest_rule": "green если воронка обновлена и основные CR в норме",
                   "digest_month": "июнь 2026",
+                  "digest_month_raw": "июнь 2026",
+                  "digest_is_stale": false,
+                  "digest_stale_tooltip": "",
                   "digest_indicator": "Воронка кампейнинга",
                   "digest_items": [
                     {
@@ -13764,6 +13855,8 @@
                       ],
                       "digest_rule": "green если воронка обновлена и основные CR в норме",
                       "digest_month": "июнь 2026",
+                      "digest_is_stale": false,
+                      "digest_stale_tooltip": "",
                       "ai_product_name": "спасибки"
                     }
                   ],
@@ -13788,6 +13881,9 @@
                   ],
                   "digest_rule": "green если CR не ниже целевого порога и нет красных шагов",
                   "digest_month": "июнь 2026",
+                  "digest_month_raw": "июнь 2026",
+                  "digest_is_stale": false,
+                  "digest_stale_tooltip": "",
                   "digest_indicator": "Воронка оформления",
                   "digest_items": [
                     {
@@ -13798,6 +13894,8 @@
                       ],
                       "digest_rule": "green если CR не ниже целевого порога и нет красных шагов",
                       "digest_month": "июнь 2026",
+                      "digest_is_stale": false,
+                      "digest_stale_tooltip": "",
                       "ai_product_name": "спасибки"
                     }
                   ],
@@ -14789,6 +14887,9 @@
                   ],
                   "digest_rule": "red если есть негативная динамика жалоб",
                   "digest_month": "июнь 2026",
+                  "digest_month_raw": "июнь 2026",
+                  "digest_is_stale": false,
+                  "digest_stale_tooltip": "",
                   "digest_indicator": "Жалобы и обращения",
                   "digest_items": [
                     {
@@ -14799,6 +14900,8 @@
                       ],
                       "digest_rule": "red если есть негативная динамика жалоб",
                       "digest_month": "июнь 2026",
+                      "digest_is_stale": false,
+                      "digest_stale_tooltip": "",
                       "ai_product_name": "спасибки"
                     }
                   ],
@@ -14822,7 +14925,10 @@
                     "CSI 15 Ниже цели"
                   ],
                   "digest_rule": "",
-                  "digest_month": "июль 2026",
+                  "digest_month": "июнь 2026",
+                  "digest_month_raw": "июль 2026",
+                  "digest_is_stale": false,
+                  "digest_stale_tooltip": "",
                   "digest_indicator": "CSI vs цель",
                   "digest_items": [
                     {
@@ -14832,7 +14938,9 @@
                         "CSI 15 Ниже цели"
                       ],
                       "digest_rule": "",
-                      "digest_month": "июль 2026",
+                      "digest_month": "июнь 2026",
+                      "digest_is_stale": false,
+                      "digest_stale_tooltip": "",
                       "ai_product_name": "Спасибо"
                     }
                   ],
@@ -14840,7 +14948,7 @@
                   "ai_tool_product_names": [
                     "Спасибо"
                   ],
-                  "footer": "AI-сводка (июль 2026) - Спасибо",
+                  "footer": "AI-сводка (июнь 2026) - Спасибо",
                   "ai_digest": true
                 }
               ]
@@ -16686,6 +16794,19 @@
       return ['green', 'yellow', 'red'].includes(normalized) ? normalized : 'gray';
     }
 
+    function staleDigestBadgeHTML(item) {
+      const tooltip = String(item.digest_stale_tooltip || '').trim();
+      if (!item.digest_is_stale || !tooltip) return '';
+      return `<span class="digest-stale-badge" data-tooltip="${esc(tooltip)}" aria-label="${esc(tooltip)}" tabindex="0">!</span>`;
+    }
+
+    function footerWithStaleHTML(value, item, className) {
+      const footer = String(value || '').trim();
+      const staleBadge = staleDigestBadgeHTML(item || {});
+      if (!footer && !staleBadge) return '';
+      return `<div class="${className}">${footer ? `<span>${esc(footer)}</span>` : ''}${staleBadge}</div>`;
+    }
+
     function aiDigestToggleHTML() {
       return '<button type="button" class="ai-digest-toggle" data-ai-digest-toggle aria-expanded="false" aria-label="Показать рекомендации">›</button>';
     }
@@ -16732,7 +16853,7 @@
           <div class="tool-item-copy">
             ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
             <div class="tool-item-name">${esc(item.name || 'Инструмент')}</div>
-            ${item.footer ? `<div class="tool-item-footer">${esc(item.footer)}</div>` : ''}
+            ${footerWithStaleHTML(item.footer, item, 'tool-item-footer')}
           </div>
           ${actionButtonHTML(item.button, 'note-action')}
           ${digestPanelHTML(item)}
@@ -16776,7 +16897,7 @@
             <span class="${badgeClass}">${badge}</span>
             <div class="note-copy-text">
               <div class="note-skill">${esc(tool.name || 'Инструмент')}</div>
-              ${tool.footer ? `<div class="note-metric">${esc(tool.footer)}</div>` : ''}
+              ${footerWithStaleHTML(tool.footer, tool, 'note-metric')}
             </div>
           </div>
           <div class="note-side">

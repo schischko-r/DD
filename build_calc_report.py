@@ -14,6 +14,7 @@ import json
 import math
 import re
 import urllib.request
+from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -235,10 +236,79 @@ def ai_month_sort_key(value: Any) -> tuple[int, int, str]:
 
 
 def ai_month_label(value: Any) -> str:
-    year, month, _ = ai_month_sort_key(value)
+    return ai_month_label_from_sort(ai_month_sort_key(value))
+
+
+def ai_month_label_from_sort(month_sort: tuple[int, int, str]) -> str:
+    year, month, raw = month_sort
     if year and month:
         return f"{AI_MONTH_NAMES.get(month, str(month))} {year}"
-    return clean_text(value)
+    return clean_text(raw)
+
+
+def previous_ai_month(year: int, month: int) -> tuple[int, int]:
+    if month <= 1:
+        return year - 1, 12
+    return year, month - 1
+
+
+def ai_display_month_sort(
+    month_sort: tuple[int, int, str],
+    today: date | None = None,
+) -> tuple[int, int, str]:
+    year, month, raw = month_sort
+    if not year or not month:
+        return month_sort
+    today = today or date.today()
+    if year == today.year and month == today.month:
+        year, month = previous_ai_month(year, month)
+    return (year, month, raw)
+
+
+def ai_same_month(left: tuple[int, int, str], right: tuple[int, int, str]) -> bool:
+    if left[0] and left[1] and right[0] and right[1]:
+        return left[:2] == right[:2]
+    return left == right
+
+
+def ai_latest_closed_month_sort(
+    rows: list[dict[str, Any]],
+    today: date | None = None,
+) -> tuple[int, int, str]:
+    today = today or date.today()
+    valid_sorts = [
+        row.get("month_sort", (0, 0, ""))
+        for row in rows
+        if row.get("month_sort", (0, 0, ""))[0] and row.get("month_sort", (0, 0, ""))[1]
+    ]
+    if not valid_sorts:
+        return max((row.get("month_sort", (0, 0, "")) for row in rows), default=(0, 0, ""))
+
+    latest_sort = max(valid_sorts, key=lambda item: (item[0], item[1]))
+    if latest_sort[0] == today.year and latest_sort[1] == today.month:
+        closed_sorts = [
+            item
+            for item in valid_sorts
+            if (item[0], item[1]) < (today.year, today.month)
+        ]
+        if closed_sorts:
+            return max(closed_sorts, key=lambda item: (item[0], item[1]))
+    return latest_sort
+
+
+def ai_month_distance(month_sort: tuple[int, int, str], today: date | None = None) -> int:
+    year, month, _ = month_sort
+    if not year or not month:
+        return 0
+    today = today or date.today()
+    return today.year * 12 + today.month - (year * 12 + month)
+
+
+def ai_stale_tooltip(month_sort: tuple[int, int, str], today: date | None = None) -> str:
+    if ai_month_distance(month_sort, today=today) <= 3:
+        return ""
+    month_label = ai_month_label_from_sort(month_sort)
+    return f"Устаревшие данные, {month_label}" if month_label else ""
 
 
 def build_ai_skill_digest_headers(token: str = AI_SKILL_DIGEST_TOKEN) -> dict[str, str]:
@@ -460,7 +530,13 @@ def is_generic_digest_text_row(row: dict[str, Any]) -> bool:
     return indicator_key in {"", "рекомендация", "recommendation", "текст", "text"}
 
 
-def build_digest_item(rows: list[dict[str, Any]], indicator: str, month: str, product_name: str) -> dict[str, Any]:
+def build_digest_item(
+    rows: list[dict[str, Any]],
+    indicator: str,
+    month: str,
+    product_name: str,
+    stale_tooltip: str = "",
+) -> dict[str, Any]:
     light_rows = [row for row in rows if is_ai_light_row(row)]
     colors = [row.get("color", "") for row in light_rows if row.get("color")]
     rules = unique_non_empty([row.get("rule", "") for row in rows])
@@ -471,11 +547,13 @@ def build_digest_item(rows: list[dict[str, Any]], indicator: str, month: str, pr
         "digest_texts": texts,
         "digest_rule": rules[0] if rules else "",
         "digest_month": month,
+        "digest_is_stale": bool(stale_tooltip),
+        "digest_stale_tooltip": stale_tooltip,
         "ai_product_name": product_name,
     }
 
 
-def build_digest_items(latest_rows: list[dict[str, Any]], month: str) -> list[dict[str, Any]]:
+def build_digest_items(latest_rows: list[dict[str, Any]], month: str, stale_tooltip: str = "") -> list[dict[str, Any]]:
     item_rows: dict[str, list[dict[str, Any]]] = {}
     item_names: dict[str, str] = {}
     product_name = latest_rows[0]["product"] if latest_rows else ""
@@ -505,7 +583,7 @@ def build_digest_items(latest_rows: list[dict[str, Any]], month: str) -> list[di
         item_rows.setdefault(target_key, []).append(row)
 
     return [
-        build_digest_item(rows, item_names.get(key, "Показатель"), month, product_name)
+        build_digest_item(rows, item_names.get(key, "Показатель"), month, product_name, stale_tooltip)
         for key, rows in item_rows.items()
     ]
 
@@ -539,6 +617,11 @@ def aggregate_ai_digests(digests: list[dict[str, Any]]) -> dict[str, Any]:
         "digest_indicator": ", ".join(unique_non_empty([item.get("indicator", "") for item in items] or [digest.get("digest_indicator", "") for digest in digests])),
         "digest_items": items,
         "digest_month": latest.get("digest_month", ""),
+        "digest_month_raw": latest.get("digest_month_raw", ""),
+        "digest_month_sort": latest.get("digest_month_sort", (0, 0, "")),
+        "digest_display_month_sort": latest.get("digest_display_month_sort", (0, 0, "")),
+        "digest_is_stale": bool(latest.get("digest_stale_tooltip", "")),
+        "digest_stale_tooltip": latest.get("digest_stale_tooltip", ""),
         "ai_tool_product_name": ", ".join(product_names),
         "ai_tool_product_names": product_names,
         "footer": ai_summary_footer(latest.get("digest_month", ""), product_names),
@@ -552,15 +635,26 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
 
     index: dict[tuple[str, str], dict[str, Any]] = {}
     for key, bucket in buckets.items():
-        latest_key = max((row["month_sort"], order) for order, row in enumerate(bucket))
+        selected_month_sort = ai_latest_closed_month_sort(bucket)
         latest_rows = [
             row
-            for order, row in enumerate(bucket)
-            if (row["month_sort"], order) == latest_key or row["month_sort"] == latest_key[0]
+            for row in bucket
+            if ai_same_month(row["month_sort"], selected_month_sort)
         ]
+        if not latest_rows:
+            latest_key = max((row["month_sort"], order) for order, row in enumerate(bucket))
+            latest_rows = [
+                row
+                for order, row in enumerate(bucket)
+                if (row["month_sort"], order) == latest_key or row["month_sort"] == latest_key[0]
+            ]
+            selected_month_sort = latest_key[0]
         light_rows = [row for row in latest_rows if is_ai_light_row(row)]
-        month = next((row["month_label"] for row in latest_rows if row["month_label"]), "")
-        digest_items = build_digest_items(latest_rows, month)
+        raw_month_sort = selected_month_sort
+        display_month_sort = ai_display_month_sort(raw_month_sort)
+        month = ai_month_label_from_sort(display_month_sort)
+        stale_tooltip = ai_stale_tooltip(display_month_sort)
+        digest_items = build_digest_items(latest_rows, month, stale_tooltip)
         color = worst_ai_light([item.get("traffic_light", "") for item in digest_items])
         texts = unique_non_empty([text for item in digest_items for text in item.get("digest_texts", [])])
         rules = unique_non_empty([row["rule"] for row in latest_rows])
@@ -574,7 +668,11 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
                 "digest_indicator": indicators[0] if indicators else "",
                 "digest_items": digest_items,
                 "digest_month": month,
-                "digest_month_sort": latest_key[0],
+                "digest_month_raw": ai_month_label_from_sort(raw_month_sort),
+                "digest_month_sort": raw_month_sort,
+                "digest_display_month_sort": display_month_sort,
+                "digest_is_stale": bool(stale_tooltip),
+                "digest_stale_tooltip": stale_tooltip,
                 "ai_product_name": latest_rows[0]["product"],
             }
 
@@ -733,6 +831,9 @@ def apply_ai_skill_digest(
                 "digest_texts": digest.get("digest_texts", []),
                 "digest_rule": digest.get("digest_rule", ""),
                 "digest_month": digest.get("digest_month", ""),
+                "digest_month_raw": digest.get("digest_month_raw", ""),
+                "digest_is_stale": digest.get("digest_is_stale", False),
+                "digest_stale_tooltip": digest.get("digest_stale_tooltip", ""),
                 "digest_indicator": digest.get("digest_indicator", ""),
                 "digest_items": digest.get("digest_items", []),
                 "ai_tool_key": skill_key,
@@ -1134,6 +1235,84 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       transform: translateY(0);
     }
 
+    .note-metric,
+    .tool-item-footer {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .digest-stale-badge {
+      position: relative;
+      flex: none;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,149,0,.28);
+      border-radius: 999px;
+      background: rgba(255,204,0,.22);
+      color: #9a6500;
+      cursor: default;
+      font-size: 10.5px;
+      font-weight: 850;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .digest-stale-badge:hover,
+    .digest-stale-badge:focus {
+      border-color: rgba(255,149,0,.42);
+      background: rgba(255,204,0,.32);
+      outline: none;
+    }
+
+    .digest-stale-badge::before,
+    .digest-stale-badge::after {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 70;
+    }
+
+    .digest-stale-badge::after {
+      content: attr(data-tooltip);
+      right: -8px;
+      bottom: calc(100% + 9px);
+      width: 230px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(29,29,31,.96);
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 650;
+      line-height: 1.3;
+      text-align: left;
+      white-space: normal;
+      transform: translateY(4px);
+    }
+
+    .digest-stale-badge::before {
+      content: "";
+      right: 4px;
+      bottom: calc(100% + 4px);
+      border: 5px solid transparent;
+      border-top-color: rgba(29,29,31,.96);
+      transform: translateY(4px);
+    }
+
+    .digest-stale-badge:hover::before,
+    .digest-stale-badge:hover::after,
+    .digest-stale-badge:focus::before,
+    .digest-stale-badge:focus::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .has-ai-digest {
       position: relative;
     }
@@ -1379,6 +1558,19 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       return ['green', 'yellow', 'red'].includes(normalized) ? normalized : 'gray';
     }
 
+    function staleDigestBadgeHTML(item) {
+      const tooltip = String(item.digest_stale_tooltip || '').trim();
+      if (!item.digest_is_stale || !tooltip) return '';
+      return `<span class="digest-stale-badge" data-tooltip="${esc(tooltip)}" aria-label="${esc(tooltip)}" tabindex="0">!</span>`;
+    }
+
+    function footerWithStaleHTML(value, item, className) {
+      const footer = String(value || '').trim();
+      const staleBadge = staleDigestBadgeHTML(item || {});
+      if (!footer && !staleBadge) return '';
+      return `<div class="${className}">${footer ? `<span>${esc(footer)}</span>` : ''}${staleBadge}</div>`;
+    }
+
     function aiDigestToggleHTML() {
       return '<button type="button" class="ai-digest-toggle" data-ai-digest-toggle aria-expanded="false" aria-label="Показать рекомендации">›</button>';
     }
@@ -1425,7 +1617,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
           <div class="tool-item-copy">
             ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
             <div class="tool-item-name">${esc(item.name || 'Инструмент')}</div>
-            ${item.footer ? `<div class="tool-item-footer">${esc(item.footer)}</div>` : ''}
+            ${footerWithStaleHTML(item.footer, item, 'tool-item-footer')}
           </div>
           ${actionButtonHTML(item.button, 'note-action')}
           ${digestPanelHTML(item)}
@@ -1463,6 +1655,11 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         html,
         "        <div class=\"block-note${mode}${hasDigest ? ' has-ai-digest' : ''}\">\n          <div class=\"note-copy\">\n            <span class=\"${badgeClass}\">${badge}</span>\n",
         "        <div class=\"block-note${mode}${hasDigest ? ' has-ai-digest' : ''}\">\n          <div class=\"note-copy\">\n            ${hasDigest ? aiDigestToggleHTML() : ''}\n            <span class=\"${badgeClass}\">${badge}</span>\n",
+    )
+    html = replace_once(
+        html,
+        "              ${tool.footer ? `<div class=\"note-metric\">${esc(tool.footer)}</div>` : ''}\n",
+        "              ${footerWithStaleHTML(tool.footer, tool, 'note-metric')}\n",
     )
     html = replace_once(
         html,
