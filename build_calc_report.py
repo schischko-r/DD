@@ -537,6 +537,14 @@ def tag_ai_tool_keys(data: dict[str, Any]) -> dict[str, Any]:
     return data
 
 
+def refresh_group_tool_light(tool: dict[str, Any]) -> None:
+    buttons = tool.get("buttons")
+    if not isinstance(buttons, list) or not buttons:
+        return
+
+    tool["traffic_light"] = worst_ai_light([clean_text(item.get("traffic_light")) for item in buttons])
+
+
 def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
     label = AI_SKILL_LABELS[skill_key]
     block_code = clean_text(block.get("code"))
@@ -554,6 +562,7 @@ def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any
                 if normalize_ai_skill_key(item.get("ai_tool_key")) == skill_key:
                     item.update(payload)
                     item["ai_digest"] = True
+                    refresh_group_tool_light(tool)
                     return True
 
     group_tool_name = AI_SKILL_GROUP_TOOLS.get(block_code)
@@ -572,6 +581,7 @@ def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any
                         **payload,
                     }
                 )
+                refresh_group_tool_light(tool)
                 return True
 
     tools.append(
