@@ -16,11 +16,10 @@ import math
 import os
 import re
 import threading
-import urllib.parse
 import urllib.request
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 try:
     from tqdm.auto import tqdm
@@ -65,39 +64,9 @@ _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
 
 
-try:
-    from dotenv import load_dotenv
-except ModuleNotFoundError:
-    load_dotenv = None
+from dotenv import load_dotenv
 
-GIGACHAT_ENV_PATH = Path(__file__).resolve().parent / ".env"
-
-
-def load_project_env(path: Path) -> bool:
-    if load_dotenv is not None:
-        return bool(load_dotenv(path, override=True))
-    if not path.exists():
-        return False
-
-    loaded = False
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#"):
-            continue
-        if line.startswith("export "):
-            line = line[len("export "):].strip()
-        if "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        key = key.strip()
-        if not key:
-            continue
-        os.environ[key] = value.strip().strip('"').strip("'")
-        loaded = True
-    return loaded
-
-
-GIGACHAT_ENV_FILE_LOADED = load_project_env(GIGACHAT_ENV_PATH)
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 DEFAULT_INPUT = Path("Группа на заливку.xlsx")
 DEFAULT_TITLE_SHEET = "титул"
@@ -149,34 +118,15 @@ LLM_ATTRACT_SUMMARY_PROMPT = """
   "summary": "текст сводки"
 }
 """
-_RAW_GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
-
-
-def normalize_gigachat_credentials(value: str) -> str:
-    token = str(value or "").strip().strip('"').strip("'")
-    if token.lower().startswith("basic "):
-        token = token.split(None, 1)[1].strip()
-    return "".join(token.split())
-
-
-def safe_url_host(value: str) -> str:
-    try:
-        return urllib.parse.urlparse(str(value or "")).netloc
-    except ValueError:
-        return ""
-
-
-GIGACHAT_TOKEN = normalize_gigachat_credentials(_RAW_GIGACHAT_TOKEN)
-GIGACHAT_TOKEN_HAD_BASIC_PREFIX = _RAW_GIGACHAT_TOKEN.strip().lower().startswith("basic ")
-GIGACHAT_TOKEN_HAD_BEARER_PREFIX = _RAW_GIGACHAT_TOKEN.strip().lower().startswith("bearer ")
-GIGACHAT_TOKEN_NORMALIZED = GIGACHAT_TOKEN != _RAW_GIGACHAT_TOKEN
+GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
 GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
-GIGACHAT_AUTH_URL_HOST = safe_url_host(GIGACHAT_AUTH_URL)
 GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
 GIGACHAT_SCOPE = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_CORP")
 GIGACHAT_WORKERS = int(os.getenv("GIGACHAT_WORKERS", "5"))
 GIGACHAT_TIMEOUT = int(os.getenv("GIGACHAT_TIMEOUT", "120"))
-_GIGACHAT_SEMAPHORE = threading.Semaphore(GIGACHAT_WORKERS)
+
+# Семафор: не более GIGACHAT_WORKERS одновременных запросов к GigaChat
+_semaphore = threading.Semaphore(GIGACHAT_WORKERS)
 AI_SKILL_LABELS = {
     "clickstream_funnel": "Воронка оформления в СБОЛ",
     "client_metrics": "Навык «Ключевые метрики»",
@@ -560,7 +510,7 @@ def gigachat_is_configured() -> bool:
     return bool(GIGACHAT_TOKEN and GIGACHAT_AUTH_URL)
 
 
-def make_gigachat(model: str | None = None) -> Any:
+def make_gigachat(model: Optional[str] = None):
     from langchain_gigachat.chat_models.gigachat import GigaChat
 
     return GigaChat(
@@ -574,12 +524,14 @@ def make_gigachat(model: str | None = None) -> Any:
     )
 
 
-def run_gigachat(func: Any) -> Any:
+def run_gigachat(func):
+    """Выполнить func в слоте GigaChat-очереди. Блокирует, пока слот не освободится."""
+    # Python 3.9: asyncio.Lock() требует event loop в потоке — создаём, если его нет
     try:
         asyncio.get_event_loop()
     except RuntimeError:
         asyncio.set_event_loop(asyncio.new_event_loop())
-    with _GIGACHAT_SEMAPHORE:
+    with _semaphore:
         return func()
 
 
@@ -1293,13 +1245,8 @@ def apply_ai_skill_digest(
             {
                 "requested": llm_requested,
                 "enabled": llm_enabled,
-                "env_file_loaded": GIGACHAT_ENV_FILE_LOADED,
                 "token_configured": bool(GIGACHAT_TOKEN),
-                "token_had_basic_prefix": GIGACHAT_TOKEN_HAD_BASIC_PREFIX,
-                "token_had_bearer_prefix": GIGACHAT_TOKEN_HAD_BEARER_PREFIX,
-                "token_normalized": GIGACHAT_TOKEN_NORMALIZED,
                 "auth_url_configured": bool(GIGACHAT_AUTH_URL),
-                "auth_url_host": GIGACHAT_AUTH_URL_HOST,
                 "digest_rows": len(rows),
                 "mapping_keys": len(mapping),
                 "mapping_rows": mapping_total_rows,
@@ -1314,13 +1261,8 @@ def apply_ai_skill_digest(
                 "skip",
                 {
                     "reason": "gigachat_not_configured",
-                    "env_file_loaded": GIGACHAT_ENV_FILE_LOADED,
                     "token_configured": bool(GIGACHAT_TOKEN),
-                    "token_had_basic_prefix": GIGACHAT_TOKEN_HAD_BASIC_PREFIX,
-                    "token_had_bearer_prefix": GIGACHAT_TOKEN_HAD_BEARER_PREFIX,
-                    "token_normalized": GIGACHAT_TOKEN_NORMALIZED,
                     "auth_url_configured": bool(GIGACHAT_AUTH_URL),
-                    "auth_url_host": GIGACHAT_AUTH_URL_HOST,
                 },
             )
     if not rows:
