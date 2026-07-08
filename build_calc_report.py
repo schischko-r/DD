@@ -122,7 +122,20 @@ LLM_ATTRACT_SUMMARY_PROMPT = """
   "summary": "текст сводки"
 }
 """
-GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
+_RAW_GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
+
+
+def normalize_gigachat_credentials(value: str) -> str:
+    token = str(value or "").strip().strip('"').strip("'")
+    if token.lower().startswith("basic "):
+        token = token.split(None, 1)[1].strip()
+    return "".join(token.split())
+
+
+GIGACHAT_TOKEN = normalize_gigachat_credentials(_RAW_GIGACHAT_TOKEN)
+GIGACHAT_TOKEN_HAD_BASIC_PREFIX = _RAW_GIGACHAT_TOKEN.strip().lower().startswith("basic ")
+GIGACHAT_TOKEN_HAD_BEARER_PREFIX = _RAW_GIGACHAT_TOKEN.strip().lower().startswith("bearer ")
+GIGACHAT_TOKEN_NORMALIZED = GIGACHAT_TOKEN != _RAW_GIGACHAT_TOKEN
 GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
 GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
 GIGACHAT_SCOPE = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_CORP")
@@ -1246,6 +1259,9 @@ def apply_ai_skill_digest(
                 "requested": llm_requested,
                 "enabled": llm_enabled,
                 "token_configured": bool(GIGACHAT_TOKEN),
+                "token_had_basic_prefix": GIGACHAT_TOKEN_HAD_BASIC_PREFIX,
+                "token_had_bearer_prefix": GIGACHAT_TOKEN_HAD_BEARER_PREFIX,
+                "token_normalized": GIGACHAT_TOKEN_NORMALIZED,
                 "auth_url_configured": bool(GIGACHAT_AUTH_URL),
                 "digest_rows": len(rows),
                 "mapping_keys": len(mapping),
@@ -1262,6 +1278,9 @@ def apply_ai_skill_digest(
                 {
                     "reason": "gigachat_not_configured",
                     "token_configured": bool(GIGACHAT_TOKEN),
+                    "token_had_basic_prefix": GIGACHAT_TOKEN_HAD_BASIC_PREFIX,
+                    "token_had_bearer_prefix": GIGACHAT_TOKEN_HAD_BEARER_PREFIX,
+                    "token_normalized": GIGACHAT_TOKEN_NORMALIZED,
                     "auth_url_configured": bool(GIGACHAT_AUTH_URL),
                 },
             )
