@@ -89751,6 +89751,34 @@
                   },
                   "footer": "Общий светофор",
                   "ai_tool_key": "drafts"
+                },
+                {
+                  "name": "LLM-суммаризация",
+                  "traffic_light": "red",
+                  "footer": "AI-сводка (июнь 2026) - спасибки",
+                  "button": {
+                    "type": "general",
+                    "label": "",
+                    "link": ""
+                  },
+                  "ai_digest": true,
+                  "llm_summary": true,
+                  "digest_month": "июнь 2026",
+                  "digest_month_raw": "июнь 2026",
+                  "digest_is_stale": false,
+                  "digest_stale_tooltip": "",
+                  "digest_items": [
+                    {
+                      "indicator": "Основные выводы",
+                      "traffic_light": "red",
+                      "digest_texts": [
+                        "- Нет новых пилотных кампаний по привлечению.\n- Кампейнинговая и оформление-в-СБОЛ воронки стабильны, значимых проблем не выявлено."
+                      ],
+                      "digest_rule": "",
+                      "digest_month": "июнь 2026",
+                      "ai_product_name": "спасибки"
+                    }
+                  ]
                 }
               ]
             }
@@ -91654,6 +91682,11 @@
   },
   "ai_skill_digest": {
     "enabled": true,
+    "llm_requested": true,
+    "llm_enabled": true,
+    "llm_model": "GigaChat-2-Max",
+    "llm_summaries": 1,
+    "llm_errors": [],
     "source": "ai_skill_digest_export.xlsx",
     "mapping": "ai_product_mapping.xlsx",
     "mapping_keys": 6,

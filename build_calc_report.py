@@ -10,11 +10,16 @@ Python file.
 from __future__ import annotations
 
 import argparse
+import asyncio
 import json
 import math
+import os
 import re
+import ssl
+import threading
 import urllib.request
 from datetime import date
+from uuid import uuid4
 from pathlib import Path
 from typing import Any
 
@@ -55,6 +60,23 @@ _DD_FROM_EXCEL["METRIC_CODES"][
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"] = 1_000_000
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
 
+
+def load_local_env(path: Path = Path(__file__).resolve().parent / ".env") -> None:
+    if not path.exists():
+        return
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+
+
+load_local_env()
+
 DEFAULT_INPUT = Path("Группа на заливку.xlsx")
 DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
@@ -63,6 +85,7 @@ DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
 DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
 DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
 DEFAULT_UPDATE_AI_DIGEST = True
+DEFAULT_UPDATE_LLM_SUMMARY = False
 DEFAULT_AI_DIGEST_TIMEOUT = 12
 AI_SKILL_DIGEST_BASE_URL = "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014"
 AI_SKILL_DIGEST_EXPORT_PATH = "/api/skill-digest/export"
@@ -77,6 +100,37 @@ AI_SKILL_DIGEST_HEADERS = {
         "Safari/537.36 SberBrowser/37.0.0.0"
     ),
 }
+LLM_ATTRACT_SUMMARY_PROMPT = """
+Ты продуктовый аналитик штаба Data-Driven Index.
+
+Нужно подготовить короткую LLM-суммаризацию для последнего пункта
+в блоке "Группа навыков «Привлечение»".
+
+На входе один DD-продукт и данные по AI-навыкам привлечения:
+Пилотные кампании, Воронка кампейнинга, Воронка оформления в СБОЛ,
+Черновики и другие элементы группы, если по ним есть данные.
+
+Задача:
+1. Вычлени основные поинты по всем доступным навыкам группы.
+2. Приоритизируй красные и желтые сигналы выше зеленых.
+3. Если часть навыков зеленая, кратко зафиксируй, что стабильно.
+4. Не выдумывай факты, ссылки, значения и статусы, которых нет во входных данных.
+5. Пиши коротко: 3-5 строк, каждая строка должна быть самостоятельным выводом или действием.
+
+Верни строго JSON без markdown:
+{
+  "traffic_light": "red|yellow|green|gray",
+  "summary": "текст сводки"
+}
+"""
+GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
+GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
+GIGACHAT_API_URL = os.getenv("GIGACHAT_API_URL", "https://gigachat.devices.sberbank.ru/api/v1/chat/completions")
+GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
+GIGACHAT_SCOPE = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_CORP")
+GIGACHAT_WORKERS = int(os.getenv("GIGACHAT_WORKERS", "5"))
+GIGACHAT_TIMEOUT = int(os.getenv("GIGACHAT_TIMEOUT", "120"))
+_GIGACHAT_SEMAPHORE = threading.Semaphore(GIGACHAT_WORKERS)
 AI_SKILL_LABELS = {
     "clickstream_funnel": "Воронка оформления в СБОЛ",
     "client_metrics": "Навык «Ключевые метрики»",
@@ -454,6 +508,172 @@ def download_ai_skill_digest(
         raise ValueError("AI skill digest export вернул пустой ответ")
     output_path.write_bytes(payload)
     return output_path
+
+
+def gigachat_is_configured() -> bool:
+    return bool(GIGACHAT_TOKEN and GIGACHAT_AUTH_URL)
+
+
+def make_gigachat(model: str | None = None) -> Any:
+    from langchain_gigachat.chat_models.gigachat import GigaChat
+
+    return GigaChat(
+        credentials=GIGACHAT_TOKEN,
+        auth_url=GIGACHAT_AUTH_URL,
+        verify_ssl_certs=False,
+        scope=GIGACHAT_SCOPE,
+        model=model or GIGACHAT_MODEL,
+        profanity_check=False,
+        timeout=GIGACHAT_TIMEOUT,
+    )
+
+
+def call_gigachat_direct(prompt: str, model: str | None = None) -> str:
+    context = ssl._create_unverified_context()
+    auth_request = urllib.request.Request(
+        GIGACHAT_AUTH_URL,
+        data=f"scope={GIGACHAT_SCOPE}".encode("utf-8"),
+        headers={
+            "Authorization": f"Basic {GIGACHAT_TOKEN}",
+            "RqUID": str(uuid4()),
+            "Content-Type": "application/x-www-form-urlencoded",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(auth_request, timeout=GIGACHAT_TIMEOUT, context=context) as response:
+        auth_payload = json.loads(response.read().decode("utf-8"))
+    access_token = clean_text(auth_payload.get("access_token"))
+    if not access_token:
+        raise ValueError("GigaChat OAuth не вернул access_token")
+
+    chat_payload = json.dumps(
+        {
+            "model": model or GIGACHAT_MODEL,
+            "messages": [{"role": "user", "content": prompt}],
+            "temperature": 0.1,
+            "top_p": 0.9,
+        },
+        ensure_ascii=False,
+    ).encode("utf-8")
+    chat_request = urllib.request.Request(
+        GIGACHAT_API_URL,
+        data=chat_payload,
+        headers={
+            "Authorization": f"Bearer {access_token}",
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(chat_request, timeout=GIGACHAT_TIMEOUT, context=context) as response:
+        chat_response = json.loads(response.read().decode("utf-8"))
+    choices = chat_response.get("choices")
+    if not choices:
+        raise ValueError("GigaChat chat/completions вернул пустой choices")
+    return clean_text(choices[0].get("message", {}).get("content"))
+
+
+def run_gigachat(func: Any) -> Any:
+    try:
+        asyncio.get_event_loop()
+    except RuntimeError:
+        asyncio.set_event_loop(asyncio.new_event_loop())
+    with _GIGACHAT_SEMAPHORE:
+        return func()
+
+
+def extract_json_object(text_value: str) -> dict[str, Any] | None:
+    text_value = clean_text(text_value)
+    if not text_value:
+        return None
+    try:
+        return json.loads(text_value)
+    except json.JSONDecodeError:
+        pass
+
+    match = re.search(r"\{.*\}", text_value, flags=re.S)
+    if not match:
+        return None
+    try:
+        return json.loads(match.group(0))
+    except json.JSONDecodeError:
+        return None
+
+
+def llm_summary_input(product_name: str, block_code: str, digests: list[dict[str, Any]]) -> dict[str, Any]:
+    skills = []
+    for digest in digests:
+        skill_key = clean_text(digest.get("skill_key"))
+        items = []
+        for item in digest.get("digest_items", []):
+            if not isinstance(item, dict):
+                continue
+            items.append(
+                {
+                    "indicator": clean_text(item.get("indicator") or item.get("digest_indicator")),
+                    "traffic_light": clean_text(item.get("traffic_light")),
+                    "ai_product": clean_text(item.get("ai_product_name") or item.get("product_label")),
+                    "comments": [clean_text(value) for value in item.get("digest_texts", []) if clean_text(value)],
+                    "rule": clean_text(item.get("digest_rule")),
+                }
+            )
+        skills.append(
+            {
+                "skill_key": skill_key,
+                "skill_name": AI_SKILL_LABELS.get(skill_key, skill_key),
+                "period": clean_text(digest.get("digest_month")),
+                "traffic_light": clean_text(digest.get("traffic_light")),
+                "ai_products": digest.get("ai_tool_product_names", []),
+                "items": items,
+                "comments": digest.get("digest_texts", []),
+                "rule": clean_text(digest.get("digest_rule")),
+            }
+        )
+
+    return {
+        "dd_product": product_name,
+        "skill_group_key": block_code,
+        "skill_group_name": AI_SKILL_GROUP_TOOLS.get(block_code, block_code),
+        "skills": skills,
+    }
+
+
+def normalize_llm_summary(content: str, fallback_light: str) -> dict[str, str] | None:
+    payload = extract_json_object(content)
+    if isinstance(payload, dict):
+        summary = clean_text(payload.get("summary") or payload.get("text") or payload.get("result"))
+        points = payload.get("points") or payload.get("items")
+        if not summary and isinstance(points, list):
+            summary = "\n".join(clean_text(point) for point in points if clean_text(point))
+        traffic_light = parse_ai_light(payload.get("traffic_light") or payload.get("priority")) or fallback_light
+    else:
+        summary = clean_text(content)
+        traffic_light = fallback_light
+    if not summary:
+        return None
+    return {"summary": summary, "traffic_light": traffic_light}
+
+
+def build_llm_summary(product_name: str, block_code: str, digests: list[dict[str, Any]]) -> dict[str, str] | None:
+    if not gigachat_is_configured() or not digests:
+        return None
+    fallback_light = worst_ai_light([clean_text(digest.get("traffic_light")) for digest in digests])
+    prompt = (
+        LLM_ATTRACT_SUMMARY_PROMPT.strip()
+        + "\n\nВходные данные:\n"
+        + json.dumps(llm_summary_input(product_name, block_code, digests), ensure_ascii=False, indent=2)
+    )
+
+    def invoke() -> Any:
+        try:
+            return make_gigachat().invoke(prompt)
+        except ModuleNotFoundError:
+            return call_gigachat_direct(prompt)
+
+    response = run_gigachat(invoke)
+    content = clean_text(getattr(response, "content", response))
+    return normalize_llm_summary(content, fallback_light)
 
 
 def find_column(columns: list[str], aliases: set[str]) -> str | None:
@@ -841,6 +1061,75 @@ def refresh_group_tool_light(tool: dict[str, Any]) -> None:
     tool["traffic_light"] = worst_ai_light([clean_text(item.get("traffic_light")) for item in buttons])
 
 
+def find_group_tool(block: dict[str, Any], block_code: str) -> dict[str, Any] | None:
+    group_tool_name = AI_SKILL_GROUP_TOOLS.get(block_code)
+    if not group_tool_name:
+        return None
+    group_tool_key = normalize_lookup_key(group_tool_name)
+    for tool in block.get("tools", []):
+        if normalize_lookup_key(tool.get("name")) == group_tool_key:
+            return tool
+    return None
+
+
+def append_llm_summary_to_group(
+    block: dict[str, Any],
+    block_code: str,
+    summary: dict[str, str],
+    digests: list[dict[str, Any]],
+) -> bool:
+    tool = find_group_tool(block, block_code)
+    if not tool:
+        return False
+
+    buttons = tool.setdefault("buttons", [])
+    buttons[:] = [button for button in buttons if not button.get("llm_summary")]
+    latest = max(digests, key=lambda digest: digest.get("digest_display_month_sort", (0, 0, "")))
+    product_names = unique_non_empty(
+        [
+            product_name
+            for digest in digests
+            for product_name in digest.get("ai_tool_product_names", [])
+        ]
+    )
+    traffic_light = parse_ai_light(summary.get("traffic_light")) or worst_ai_light(
+        [clean_text(digest.get("traffic_light")) for digest in digests]
+    )
+    buttons.append(
+        {
+            "name": "LLM-суммаризация",
+            "traffic_light": traffic_light,
+            "footer": ai_summary_footer(latest.get("digest_month", ""), product_names),
+            "button": {"type": "general", "label": "", "link": ""},
+            "ai_digest": True,
+            "llm_summary": True,
+            "digest_month": latest.get("digest_month", ""),
+            "digest_month_raw": latest.get("digest_month_raw", ""),
+            "digest_is_stale": any(bool(digest.get("digest_is_stale")) for digest in digests),
+            "digest_stale_tooltip": next(
+                (
+                    clean_text(digest.get("digest_stale_tooltip"))
+                    for digest in digests
+                    if clean_text(digest.get("digest_stale_tooltip"))
+                ),
+                "",
+            ),
+            "digest_items": [
+                {
+                    "indicator": "Основные выводы",
+                    "traffic_light": traffic_light,
+                    "digest_texts": [summary["summary"]],
+                    "digest_rule": "",
+                    "digest_month": latest.get("digest_month", ""),
+                    "ai_product_name": ", ".join(product_names),
+                }
+            ],
+        }
+    )
+    refresh_group_tool_light(tool)
+    return True
+
+
 def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
     label = AI_SKILL_LABELS[skill_key]
     block_code = clean_text(block.get("code"))
@@ -898,13 +1187,22 @@ def apply_ai_skill_digest(
     data: dict[str, Any],
     digest_path: Path,
     mapping_path: Path,
+    update_llm_summary: bool = False,
 ) -> dict[str, Any]:
     rows = read_ai_digest_rows(digest_path)
     mapping = read_ai_product_mapping(mapping_path)
     mapping_total_rows = sum(len(products) for products in mapping.values())
+    llm_requested = bool(update_llm_summary)
+    llm_enabled = bool(llm_requested and gigachat_is_configured())
+    llm_summaries = 0
+    llm_errors: list[str] = []
     if not rows:
         data["ai_skill_digest"] = {
             "enabled": False,
+            "llm_requested": llm_requested,
+            "llm_enabled": llm_enabled,
+            "llm_summaries": 0,
+            "llm_errors": [],
             "source": str(digest_path),
             "mapping": str(mapping_path),
             "mapping_keys": 0,
@@ -924,9 +1222,11 @@ def apply_ai_skill_digest(
     for product in data.get("products", []):
         product_name = clean_text(product.get("name"))
         product_key = normalize_mapping_key(product_name)
+        group_llm_digests: dict[str, list[dict[str, Any]]] = {}
 
         for skill_key in AI_SKILL_ORDER:
-            block = find_block(product, AI_SKILL_BLOCKS[skill_key])
+            block_code = AI_SKILL_BLOCKS[skill_key]
+            block = find_block(product, block_code)
             if not block:
                 continue
 
@@ -946,6 +1246,8 @@ def apply_ai_skill_digest(
             matched_mapping_rows += len(matched_digests)
 
             digest = aggregate_ai_digests(matched_digests)
+            if llm_enabled and block_code in AI_SKILL_GROUP_TOOLS:
+                group_llm_digests.setdefault(block_code, []).append({"skill_key": skill_key, **digest})
             payload = {
                 "traffic_light": digest.get("traffic_light") or "gray",
                 "digest_texts": digest.get("digest_texts", []),
@@ -964,8 +1266,25 @@ def apply_ai_skill_digest(
             if update_ai_tool(block, skill_key, payload):
                 matched += 1
 
+        if llm_enabled:
+            for block_code, digests in group_llm_digests.items():
+                block = find_block(product, block_code)
+                if not block:
+                    continue
+                try:
+                    summary = build_llm_summary(product_name, block_code, digests)
+                    if summary and append_llm_summary_to_group(block, block_code, summary, digests):
+                        llm_summaries += 1
+                except Exception as error:
+                    llm_errors.append(f"{product_name} / {block_code}: {error}")
+
     data["ai_skill_digest"] = {
         "enabled": True,
+        "llm_requested": llm_requested,
+        "llm_enabled": llm_enabled,
+        "llm_model": GIGACHAT_MODEL if llm_enabled else "",
+        "llm_summaries": llm_summaries,
+        "llm_errors": llm_errors[:20],
         "source": str(digest_path),
         "mapping": str(mapping_path),
         "mapping_keys": len(matched_mapping_keys),
@@ -1620,6 +1939,7 @@ def build_combined_data(
     ai_product_map: Path = DEFAULT_AI_PRODUCT_MAP,
     create_ai_map: bool = True,
     refresh_ai_map: bool = False,
+    update_llm_summary: bool = DEFAULT_UPDATE_LLM_SUMMARY,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     read_title_rows = _TITLE["read_rows"]
     build_title_payload = _TITLE["build_payload"]
@@ -1653,7 +1973,12 @@ def build_combined_data(
             overwrite=refresh_ai_map,
         )
     if ai_digest_path:
-        combined = apply_ai_skill_digest(combined, ai_digest_path, ai_product_map)
+        combined = apply_ai_skill_digest(
+            combined,
+            ai_digest_path,
+            ai_product_map,
+            update_llm_summary=update_llm_summary,
+        )
     summary = {
         **detail_summary,
         "title_rows": title_rows_count,
@@ -1667,6 +1992,10 @@ def build_combined_data(
         "ai_digest_mapping_rows": combined.get("ai_skill_digest", {}).get("mapping_rows", 0),
         "ai_digest_mapping_total_keys": combined.get("ai_skill_digest", {}).get("mapping_total_keys", 0),
         "ai_digest_mapping_total_rows": combined.get("ai_skill_digest", {}).get("mapping_total_rows", 0),
+        "llm_summary_requested": combined.get("ai_skill_digest", {}).get("llm_requested", False),
+        "llm_summary_enabled": combined.get("ai_skill_digest", {}).get("llm_enabled", False),
+        "llm_summaries": combined.get("ai_skill_digest", {}).get("llm_summaries", 0),
+        "llm_summary_errors": len(combined.get("ai_skill_digest", {}).get("llm_errors", [])),
     }
     return combined, summary
 
@@ -2553,6 +2882,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
     parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
     parser.add_argument("--refresh-ai-product-map", action="store_true", help="Overwrite AI product mapping template")
+    parser.set_defaults(update_llm_summary=DEFAULT_UPDATE_LLM_SUMMARY)
+    parser.add_argument("--update-llm-summary", dest="update_llm_summary", action="store_true", help="Use GigaChat to add LLM summary into AI skill groups")
+    parser.add_argument("--no-update-llm-summary", dest="update_llm_summary", action="store_false", help="Do not call GigaChat for AI skill group summaries")
     return parser.parse_args()
 
 
@@ -2567,6 +2899,8 @@ def main() -> None:
         "digest_path": str(args.ai_digest_xlsx),
         "mapping_path": str(args.ai_product_map),
         "local_digest_used": bool(not args.skip_ai_digest and args.ai_digest_xlsx.exists()),
+        "llm_summary_requested": bool(args.update_llm_summary),
+        "llm_summary_configured": bool(gigachat_is_configured()),
     }
     if args.update_ai_digest and not args.skip_ai_digest:
         download_ai_skill_digest(
@@ -2596,6 +2930,7 @@ def main() -> None:
         ai_digest_path=ai_digest_path,
         ai_product_map=args.ai_product_map,
         refresh_ai_map=args.refresh_ai_product_map,
+        update_llm_summary=args.update_llm_summary,
     )
     write_html(data, args.output)
     print(json.dumps({"html": str(args.output), "ai_digest_source": ai_digest_source, **summary}, ensure_ascii=False, indent=2))
