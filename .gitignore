@@ -1,6 +1,7 @@
 ~$*.xls
 ~$*.xlsx
 .DS_Store
+.env
 __pycache__/
 *.pyc
 ai_skill_digest_export.xlsx
