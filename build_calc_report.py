@@ -599,6 +599,10 @@ def llm_log_write(message: str) -> None:
         print(message)
 
 
+def llm_log_event(kind: str, payload: dict[str, Any]) -> None:
+    llm_log_write(f"[LLM {kind}] " + json.dumps(payload, ensure_ascii=False, default=str))
+
+
 def extract_json_object(text_value: str) -> dict[str, Any] | None:
     text_value = clean_text(text_value)
     if not text_value:
@@ -1284,39 +1288,58 @@ def apply_ai_skill_digest(
     llm_enabled = bool(llm_requested and gigachat_is_configured())
     llm_summaries = 0
     llm_candidates = 0
+    llm_skipped_no_block = 0
     llm_skipped_no_mapping = 0
     llm_skipped_no_digest = 0
+    llm_skipped_disabled = 0
+    llm_skipped_empty_summary = 0
+    llm_skipped_append_failed = 0
     llm_skip_samples: list[str] = []
     llm_errors: list[str] = []
     llm_progress = tqdm(desc="LLM-суммаризация", unit="сводка") if llm_enabled and llm_log and tqdm is not None else None
     if llm_log:
-        llm_log_write(
-            "[LLM setup] "
-            + json.dumps(
+        llm_log_event(
+            "setup",
+            {
+                "requested": llm_requested,
+                "enabled": llm_enabled,
+                "token_configured": bool(GIGACHAT_TOKEN),
+                "auth_url_configured": bool(GIGACHAT_AUTH_URL),
+                "digest_rows": len(rows),
+                "mapping_keys": len(mapping),
+                "mapping_rows": mapping_total_rows,
+                "digest_path": str(digest_path),
+                "mapping_path": str(mapping_path),
+            },
+        )
+        if not llm_requested:
+            llm_log_event("skip", {"reason": "llm_not_requested", "hint": "pass --update-llm-summary"})
+        elif not llm_enabled:
+            llm_log_event(
+                "skip",
                 {
-                    "requested": llm_requested,
-                    "enabled": llm_enabled,
+                    "reason": "gigachat_not_configured",
                     "token_configured": bool(GIGACHAT_TOKEN),
                     "auth_url_configured": bool(GIGACHAT_AUTH_URL),
-                    "digest_rows": len(rows),
-                    "mapping_keys": len(mapping),
-                    "mapping_rows": mapping_total_rows,
-                    "digest_path": str(digest_path),
-                    "mapping_path": str(mapping_path),
                 },
-                ensure_ascii=False,
             )
-        )
     if not rows:
         if llm_progress is not None:
             llm_progress.close()
         if llm_log:
-            llm_log_write("[LLM summary] no digest rows, LLM candidates=0")
+            llm_log_event("skip", {"reason": "no_digest_rows", "digest_path": str(digest_path)})
+            llm_log_event("summary", {"reason": "no_digest_rows", "candidates": 0, "summaries": 0})
         data["ai_skill_digest"] = {
             "enabled": False,
             "llm_requested": llm_requested,
             "llm_enabled": llm_enabled,
             "llm_candidates": 0,
+            "llm_skipped_no_block": 0,
+            "llm_skipped_no_mapping": 0,
+            "llm_skipped_no_digest": 0,
+            "llm_skipped_disabled": 0,
+            "llm_skipped_empty_summary": 0,
+            "llm_skipped_append_failed": 0,
             "llm_summaries": 0,
             "llm_errors": [],
             "source": str(digest_path),
@@ -1336,7 +1359,7 @@ def apply_ai_skill_digest(
     try:
         digest_index = build_ai_digest_index(rows)
         if llm_log:
-            llm_log_write(f"[LLM setup] digest_index_keys={len(digest_index)}")
+            llm_log_event("setup", {"digest_index_keys": len(digest_index)})
 
         for product in data.get("products", []):
             product_name = clean_text(product.get("name"))
@@ -1347,6 +1370,19 @@ def apply_ai_skill_digest(
                 block_code = AI_SKILL_BLOCKS[skill_key]
                 block = find_block(product, block_code)
                 if not block:
+                    if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
+                        llm_skipped_no_block += 1
+                        if llm_log:
+                            llm_log_event(
+                                "skip",
+                                {
+                                    "reason": "no_block",
+                                    "product": product_name,
+                                    "product_key": product_key,
+                                    "skill_key": skill_key,
+                                    "block_code": block_code,
+                                },
+                            )
                     continue
 
                 mapping_key = (product_key, skill_key)
@@ -1354,6 +1390,17 @@ def apply_ai_skill_digest(
                 if not mapped_products:
                     if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
                         llm_skipped_no_mapping += 1
+                        if llm_log:
+                            llm_log_event(
+                                "skip",
+                                {
+                                    "reason": "no_mapping",
+                                    "product": product_name,
+                                    "product_key": product_key,
+                                    "skill_key": skill_key,
+                                    "mapping_key": [product_key, skill_key],
+                                },
+                            )
                     continue
 
                 matched_digests = []
@@ -1368,6 +1415,21 @@ def apply_ai_skill_digest(
                             llm_skip_samples.append(
                                 f"{product_name} / {skill_key}: no digest for {', '.join(mapped_products)}"
                             )
+                        if llm_log:
+                            llm_log_event(
+                                "skip",
+                                {
+                                    "reason": "no_digest_for_mapping",
+                                    "product": product_name,
+                                    "product_key": product_key,
+                                    "skill_key": skill_key,
+                                    "mapped_products": mapped_products,
+                                    "digest_keys": [
+                                        [skill_key, normalize_ai_product_key(mapped_product)]
+                                        for mapped_product in mapped_products
+                                    ],
+                                },
+                            )
                     continue
                 matched_mapping_keys.add(mapping_key)
                 matched_mapping_rows += len(matched_digests)
@@ -1375,6 +1437,18 @@ def apply_ai_skill_digest(
                 digest = aggregate_ai_digests(matched_digests)
                 if llm_enabled and block_code in AI_SKILL_GROUP_TOOLS:
                     group_llm_digests.setdefault(block_code, []).append({"skill_key": skill_key, **digest})
+                elif llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
+                    llm_skipped_disabled += 1
+                    if llm_log:
+                        llm_log_event(
+                            "skip",
+                            {
+                                "reason": "llm_disabled_after_digest_match",
+                                "product": product_name,
+                                "skill_key": skill_key,
+                                "mapped_products": mapped_products,
+                            },
+                        )
                 payload = {
                     "traffic_light": digest.get("traffic_light") or "gray",
                     "digest_texts": digest.get("digest_texts", []),
@@ -1397,23 +1471,64 @@ def apply_ai_skill_digest(
                 for block_code, digests in group_llm_digests.items():
                     llm_candidates += 1
                     if llm_log:
-                        llm_log_write(
-                            "[LLM candidate] "
-                            + product_name
-                            + " / "
-                            + block_code
-                            + " / skills="
-                            + ", ".join(clean_text(digest.get("skill_key")) for digest in digests)
+                        llm_log_event(
+                            "candidate",
+                            {
+                                "product": product_name,
+                                "block_code": block_code,
+                                "skills": [clean_text(digest.get("skill_key")) for digest in digests],
+                            },
                         )
                     block = find_block(product, block_code)
                     if not block:
+                        llm_skipped_no_block += 1
+                        if llm_log:
+                            llm_log_event(
+                                "skip",
+                                {
+                                    "reason": "candidate_block_missing",
+                                    "product": product_name,
+                                    "block_code": block_code,
+                                },
+                            )
                         continue
                     try:
                         summary = build_llm_summary(product_name, block_code, digests, log=llm_log)
-                        if summary and append_llm_summary_to_group(block, block_code, summary, digests):
+                        if not summary:
+                            llm_skipped_empty_summary += 1
+                            if llm_log:
+                                llm_log_event(
+                                    "skip",
+                                    {
+                                        "reason": "empty_llm_summary",
+                                        "product": product_name,
+                                        "block_code": block_code,
+                                    },
+                                )
+                        elif append_llm_summary_to_group(block, block_code, summary, digests):
                             llm_summaries += 1
+                        else:
+                            llm_skipped_append_failed += 1
+                            if llm_log:
+                                llm_log_event(
+                                    "skip",
+                                    {
+                                        "reason": "append_llm_summary_failed",
+                                        "product": product_name,
+                                        "block_code": block_code,
+                                    },
+                                )
                     except Exception as error:
                         llm_errors.append(f"{product_name} / {block_code}: {error}")
+                        if llm_log:
+                            llm_log_event(
+                                "error",
+                                {
+                                    "product": product_name,
+                                    "block_code": block_code,
+                                    "error": str(error),
+                                },
+                            )
                     finally:
                         if llm_progress is not None:
                             llm_progress.update(1)
@@ -1423,20 +1538,21 @@ def apply_ai_skill_digest(
     if llm_log:
         if llm_skip_samples:
             llm_log_write("[LLM skip samples]\n" + "\n".join(llm_skip_samples))
-        llm_log_write(
-            "[LLM summary] "
-            + json.dumps(
-                {
-                    "requested": llm_requested,
-                    "enabled": llm_enabled,
-                    "candidates": llm_candidates,
-                    "summaries": llm_summaries,
-                    "errors": len(llm_errors),
-                    "skipped_no_mapping": llm_skipped_no_mapping,
-                    "skipped_no_digest": llm_skipped_no_digest,
-                },
-                ensure_ascii=False,
-            )
+        llm_log_event(
+            "summary",
+            {
+                "requested": llm_requested,
+                "enabled": llm_enabled,
+                "candidates": llm_candidates,
+                "summaries": llm_summaries,
+                "errors": len(llm_errors),
+                "skipped_no_block": llm_skipped_no_block,
+                "skipped_no_mapping": llm_skipped_no_mapping,
+                "skipped_no_digest": llm_skipped_no_digest,
+                "skipped_disabled": llm_skipped_disabled,
+                "skipped_empty_summary": llm_skipped_empty_summary,
+                "skipped_append_failed": llm_skipped_append_failed,
+            },
         )
 
     data["ai_skill_digest"] = {
@@ -1445,8 +1561,12 @@ def apply_ai_skill_digest(
         "llm_enabled": llm_enabled,
         "llm_model": GIGACHAT_MODEL if llm_enabled else "",
         "llm_candidates": llm_candidates,
+        "llm_skipped_no_block": llm_skipped_no_block,
         "llm_skipped_no_mapping": llm_skipped_no_mapping,
         "llm_skipped_no_digest": llm_skipped_no_digest,
+        "llm_skipped_disabled": llm_skipped_disabled,
+        "llm_skipped_empty_summary": llm_skipped_empty_summary,
+        "llm_skipped_append_failed": llm_skipped_append_failed,
         "llm_summaries": llm_summaries,
         "llm_errors": llm_errors[:20],
         "source": str(digest_path),
@@ -2162,8 +2282,12 @@ def build_combined_data(
         "llm_summary_requested": combined.get("ai_skill_digest", {}).get("llm_requested", False),
         "llm_summary_enabled": combined.get("ai_skill_digest", {}).get("llm_enabled", False),
         "llm_candidates": combined.get("ai_skill_digest", {}).get("llm_candidates", 0),
+        "llm_skipped_no_block": combined.get("ai_skill_digest", {}).get("llm_skipped_no_block", 0),
         "llm_skipped_no_mapping": combined.get("ai_skill_digest", {}).get("llm_skipped_no_mapping", 0),
         "llm_skipped_no_digest": combined.get("ai_skill_digest", {}).get("llm_skipped_no_digest", 0),
+        "llm_skipped_disabled": combined.get("ai_skill_digest", {}).get("llm_skipped_disabled", 0),
+        "llm_skipped_empty_summary": combined.get("ai_skill_digest", {}).get("llm_skipped_empty_summary", 0),
+        "llm_skipped_append_failed": combined.get("ai_skill_digest", {}).get("llm_skipped_append_failed", 0),
         "llm_placeholders": llm_placeholders,
         "llm_summaries": combined.get("ai_skill_digest", {}).get("llm_summaries", 0),
         "llm_summary_errors": len(combined.get("ai_skill_digest", {}).get("llm_errors", [])),
