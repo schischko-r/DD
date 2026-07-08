@@ -55,7 +55,13 @@ def read_rows(path: Path, sheet_name: str) -> list[dict[str, Any]]:
     if path.name.startswith("~$"):
         raise ValueError("Временный Excel-файл Office нельзя использовать как источник")
 
-    df = pd.read_excel(path, sheet_name=sheet_name)
+    try:
+        df = pd.read_excel(path, sheet_name=sheet_name)
+    except ValueError:
+        upload_rows = read_rows_from_upload_workbook(path)
+        if upload_rows is not None:
+            return upload_rows
+        raise
     type_column = next((column for column in TYPE_COLUMNS if column in df.columns), None)
     missing = [column for column in BASE_REQUIRED_COLUMNS if column not in df.columns]
     if type_column is None:
@@ -95,6 +101,34 @@ def read_rows(path: Path, sheet_name: str) -> list[dict[str, Any]]:
 
     if not rows:
         raise ValueError("После очистки в Excel не осталось строк для отчета")
+    return rows
+
+
+def read_rows_from_upload_workbook(path: Path) -> list[dict[str, Any]] | None:
+    try:
+        from build_calc_report import (
+            DEFAULT_DETAIL_SHEET,
+            DEFAULT_PERIOD,
+            DEFAULT_TITLE_SHEET,
+            read_upload_workbook,
+        )
+    except Exception:
+        return None
+
+    upload_data = read_upload_workbook(
+        path,
+        DEFAULT_PERIOD,
+        DEFAULT_TITLE_SHEET,
+        DEFAULT_DETAIL_SHEET,
+    )
+    if upload_data is None:
+        return None
+
+    combined, _, _ = upload_data
+    title_payload = combined.get("title") or {}
+    rows = title_payload.get("rows") or []
+    if not rows:
+        return None
     return rows
 
 

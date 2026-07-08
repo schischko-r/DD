@@ -130,6 +130,8 @@ PRODUCT_ENTITY_TYPES = {"product", "продукт"}
 SEGMENT_UPLOAD_SHEET_NAMES = {"сегменты на заливку"}
 SEGMENT_ENTITY_TYPES = {"segment", "сегмент"}
 UPLOAD_INFORMATIONAL_METRIC_NAMES = {"цифр.факторы", "цифр.цели", "цифр.прогнозы"}
+AUTO_REGULARITY_METRIC_NAME = "регулярность (авто)"
+AUTO_REGULARITY_GROUPS = {"воронка привлечения", "воронка оттока"}
 UPLOAD_META_ROWS = (
     ("metric", "ID"),
     ("metric_name", "metric_name"),
@@ -154,6 +156,15 @@ def clean_number(value: Any) -> float | None:
     if _PD.isna(parsed):
         return None
     return float(parsed)
+
+
+def is_numeric_cell(value: Any) -> bool:
+    if value is None or _PD.isna(value):
+        return False
+    if isinstance(value, str):
+        value = value.strip().replace("%", "").replace(",", ".")
+    parsed = _PD.to_numeric(value, errors="coerce")
+    return not _PD.isna(parsed)
 
 
 def clean_optional_text(value: Any) -> str:
@@ -214,6 +225,29 @@ def is_allowed_upload_type(value: Any, allowed_types: set[str] | None) -> bool:
 
 def is_upload_informational_metric(value: Any) -> bool:
     return normalize_lookup_key(value) in UPLOAD_INFORMATIONAL_METRIC_NAMES
+
+
+def is_auto_regularity_metric(metric_group: Any, metric_name: Any) -> bool:
+    return (
+        normalize_lookup_key(metric_name) == AUTO_REGULARITY_METRIC_NAME
+        and normalize_lookup_key(metric_group) in AUTO_REGULARITY_GROUPS
+    )
+
+
+def fill_auto_regularity_max_from_value(df: Any) -> None:
+    if not {"metric_group", "metric_name_clean", "value", "max_value_num", "max_value"}.issubset(df.columns):
+        return
+
+    mask = (
+        df.apply(lambda row: is_auto_regularity_metric(row["metric_group"], row["metric_name_clean"]), axis=1)
+        & df["value"].map(is_numeric_cell)
+        & (df["max_value_num"] <= 0)
+    )
+    if not mask.any():
+        return
+
+    df.loc[mask, "max_value_num"] = 1.0
+    df.loc[mask, "max_value"] = 1.0
 
 
 def excel_scalar(value: Any) -> Any:
@@ -1239,6 +1273,7 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     df["_product_key"] = df["Продукт"].map(clean_text)
     df["value_num"] = df["value"].map(number)
     df["max_value_num"] = df["max_value"].map(number)
+    fill_auto_regularity_max_from_value(df)
 
     digital_goal_rows = df[
         (df["metric_name_clean"] == digital_goals_metric_name)
