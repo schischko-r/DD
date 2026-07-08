@@ -15,13 +15,9 @@ import json
 import math
 import os
 import re
-import ssl
 import threading
-import time
-import urllib.error
 import urllib.request
 from datetime import date
-from uuid import uuid4
 from pathlib import Path
 from typing import Any
 
@@ -68,21 +64,13 @@ _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
 
 
-def load_local_env(path: Path = Path(__file__).resolve().parent / ".env") -> None:
-    if not path.exists():
-        return
-    for raw_line in path.read_text(encoding="utf-8").splitlines():
-        line = raw_line.strip()
-        if not line or line.startswith("#") or "=" not in line:
-            continue
-        key, value = line.split("=", 1)
-        key = key.strip()
-        value = value.strip().strip('"').strip("'")
-        if key and key not in os.environ:
-            os.environ[key] = value
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:
+    load_dotenv = None
 
-
-load_local_env()
+if load_dotenv is not None:
+    load_dotenv(Path(__file__).resolve().parent / ".env")
 
 DEFAULT_INPUT = Path("Группа на заливку.xlsx")
 DEFAULT_TITLE_SHEET = "титул"
@@ -135,14 +123,11 @@ LLM_ATTRACT_SUMMARY_PROMPT = """
 }
 """
 GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
-GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "https://ngw.devices.sberbank.ru:9443/api/v2/oauth")
-GIGACHAT_API_URL = os.getenv("GIGACHAT_API_URL", "https://gigachat.devices.sberbank.ru/api/v1/chat/completions")
+GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
 GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
 GIGACHAT_SCOPE = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_CORP")
 GIGACHAT_WORKERS = int(os.getenv("GIGACHAT_WORKERS", "5"))
-GIGACHAT_TIMEOUT = int(os.getenv("GIGACHAT_TIMEOUT", "300"))
-GIGACHAT_RETRIES = int(os.getenv("GIGACHAT_RETRIES", "2"))
-GIGACHAT_USE_LANGCHAIN = os.getenv("GIGACHAT_USE_LANGCHAIN", "").strip().lower() in {"1", "true", "yes"}
+GIGACHAT_TIMEOUT = int(os.getenv("GIGACHAT_TIMEOUT", "120"))
 _GIGACHAT_SEMAPHORE = threading.Semaphore(GIGACHAT_WORKERS)
 AI_SKILL_LABELS = {
     "clickstream_funnel": "Воронка оформления в СБОЛ",
@@ -541,141 +526,9 @@ def make_gigachat(model: str | None = None) -> Any:
     )
 
 
-def gigachat_request_json(
-    request: urllib.request.Request,
-    stage: str,
-    context: ssl.SSLContext,
-    log: bool = False,
-) -> dict[str, Any]:
-    started = time.monotonic()
-    if log:
-        llm_log_event(
-            "http",
-            {
-                "stage": stage,
-                "status": "start",
-                "timeout": GIGACHAT_TIMEOUT,
-                "url": request.full_url,
-            },
-        )
-    try:
-        with urllib.request.urlopen(request, timeout=GIGACHAT_TIMEOUT, context=context) as response:
-            body = response.read()
-            elapsed = round(time.monotonic() - started, 2)
-            if log:
-                llm_log_event(
-                    "http",
-                    {
-                        "stage": stage,
-                        "status": "done",
-                        "elapsed_sec": elapsed,
-                        "http_status": getattr(response, "status", ""),
-                        "bytes": len(body),
-                    },
-                )
-            return json.loads(body.decode("utf-8"))
-    except Exception as error:
-        elapsed = round(time.monotonic() - started, 2)
-        if log:
-            llm_log_event(
-                "http",
-                {
-                    "stage": stage,
-                    "status": "error",
-                    "elapsed_sec": elapsed,
-                    "error": str(error),
-                    "error_type": type(error).__name__,
-                },
-            )
-        raise RuntimeError(f"GigaChat {stage} failed: {error}") from error
-
-
-def call_gigachat_direct_once(prompt: str, model: str | None = None, log: bool = False) -> str:
-    context = ssl._create_unverified_context()
-    auth_request = urllib.request.Request(
-        GIGACHAT_AUTH_URL,
-        data=f"scope={GIGACHAT_SCOPE}".encode("utf-8"),
-        headers={
-            "Authorization": f"Basic {GIGACHAT_TOKEN}",
-            "RqUID": str(uuid4()),
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Accept": "application/json",
-        },
-        method="POST",
-    )
-    auth_payload = gigachat_request_json(auth_request, "oauth", context, log=log)
-    access_token = clean_text(auth_payload.get("access_token"))
-    if not access_token:
-        raise ValueError("GigaChat OAuth не вернул access_token")
-
-    chat_payload = json.dumps(
-        {
-            "model": model or GIGACHAT_MODEL,
-            "messages": [{"role": "user", "content": prompt}],
-            "temperature": 0.1,
-            "top_p": 0.9,
-        },
-        ensure_ascii=False,
-    ).encode("utf-8")
-    chat_request = urllib.request.Request(
-        GIGACHAT_API_URL,
-        data=chat_payload,
-        headers={
-            "Authorization": f"Bearer {access_token}",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        },
-        method="POST",
-    )
-    chat_response = gigachat_request_json(chat_request, "chat", context, log=log)
-    choices = chat_response.get("choices")
-    if not choices:
-        raise ValueError("GigaChat chat/completions вернул пустой choices")
-    return clean_text(choices[0].get("message", {}).get("content"))
-
-
-def call_gigachat_direct(prompt: str, model: str | None = None, log: bool = False) -> str:
-    attempts = max(1, GIGACHAT_RETRIES + 1)
-    last_error: Exception | None = None
-    for attempt in range(1, attempts + 1):
-        if log:
-            llm_log_event(
-                "http",
-                {
-                    "stage": "request",
-                    "status": "attempt",
-                    "attempt": attempt,
-                    "attempts": attempts,
-                    "timeout": GIGACHAT_TIMEOUT,
-                    "model": model or GIGACHAT_MODEL,
-                },
-            )
-        try:
-            return call_gigachat_direct_once(prompt, model=model, log=log)
-        except Exception as error:
-            last_error = error
-            if attempt >= attempts:
-                break
-            sleep_seconds = min(2 ** (attempt - 1), 8)
-            if log:
-                llm_log_event(
-                    "http",
-                    {
-                        "stage": "request",
-                        "status": "retry",
-                        "attempt": attempt,
-                        "next_attempt": attempt + 1,
-                        "sleep_sec": sleep_seconds,
-                        "error": str(error),
-                    },
-                )
-            time.sleep(sleep_seconds)
-    raise RuntimeError(f"GigaChat request failed after {attempts} attempts: {last_error}") from last_error
-
-
 def run_gigachat(func: Any) -> Any:
     try:
-        asyncio.get_running_loop()
+        asyncio.get_event_loop()
     except RuntimeError:
         asyncio.set_event_loop(asyncio.new_event_loop())
     with _GIGACHAT_SEMAPHORE:
@@ -788,13 +641,7 @@ def build_llm_summary(
         )
 
     def invoke() -> Any:
-        if GIGACHAT_USE_LANGCHAIN:
-            try:
-                return make_gigachat().invoke(prompt)
-            except ModuleNotFoundError:
-                if log:
-                    llm_log_event("skip", {"reason": "langchain_gigachat_not_installed"})
-        return call_gigachat_direct(prompt, log=log)
+        return make_gigachat().invoke(prompt)
 
     response = run_gigachat(invoke)
     content = clean_text(getattr(response, "content", response))
@@ -3265,20 +3112,11 @@ def parse_args() -> argparse.Namespace:
     parser.set_defaults(llm_log=DEFAULT_LLM_LOG)
     parser.add_argument("--llm-log", dest="llm_log", action="store_true", help="Print LLM input/output with tqdm while building summaries")
     parser.add_argument("--no-llm-log", dest="llm_log", action="store_false", help="Disable verbose LLM input/output logging")
-    parser.add_argument("--llm-timeout", type=int, default=GIGACHAT_TIMEOUT, help="GigaChat request timeout in seconds")
-    parser.add_argument("--llm-retries", type=int, default=GIGACHAT_RETRIES, help="GigaChat retry count after the first failed attempt")
-    parser.set_defaults(llm_use_langchain=GIGACHAT_USE_LANGCHAIN)
-    parser.add_argument("--llm-use-langchain", dest="llm_use_langchain", action="store_true", help="Use langchain_gigachat client instead of direct HTTP")
-    parser.add_argument("--llm-direct-http", dest="llm_use_langchain", action="store_false", help="Use direct HTTP GigaChat client")
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    global GIGACHAT_TIMEOUT, GIGACHAT_RETRIES, GIGACHAT_USE_LANGCHAIN
-    GIGACHAT_TIMEOUT = max(1, int(args.llm_timeout))
-    GIGACHAT_RETRIES = max(0, int(args.llm_retries))
-    GIGACHAT_USE_LANGCHAIN = bool(args.llm_use_langchain)
     ai_digest_source: dict[str, Any] = {
         "mode": "skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file"),
         "request_enabled": bool(args.update_ai_digest and not args.skip_ai_digest),
@@ -3291,9 +3129,6 @@ def main() -> None:
         "llm_summary_requested": bool(args.update_llm_summary),
         "llm_summary_configured": bool(gigachat_is_configured()),
         "llm_log": bool(args.llm_log),
-        "llm_timeout": GIGACHAT_TIMEOUT,
-        "llm_retries": GIGACHAT_RETRIES,
-        "llm_client": "langchain" if GIGACHAT_USE_LANGCHAIN else "direct_http",
     }
     if args.update_ai_digest and not args.skip_ai_digest:
         download_ai_skill_digest(
