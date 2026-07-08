@@ -16,6 +16,7 @@ import math
 import os
 import re
 import threading
+import urllib.parse
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -69,8 +70,34 @@ try:
 except ModuleNotFoundError:
     load_dotenv = None
 
-if load_dotenv is not None:
-    load_dotenv(Path(__file__).resolve().parent / ".env")
+GIGACHAT_ENV_PATH = Path(__file__).resolve().parent / ".env"
+
+
+def load_project_env(path: Path) -> bool:
+    if load_dotenv is not None:
+        return bool(load_dotenv(path, override=True))
+    if not path.exists():
+        return False
+
+    loaded = False
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export "):].strip()
+        if "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip()
+        if not key:
+            continue
+        os.environ[key] = value.strip().strip('"').strip("'")
+        loaded = True
+    return loaded
+
+
+GIGACHAT_ENV_FILE_LOADED = load_project_env(GIGACHAT_ENV_PATH)
 
 DEFAULT_INPUT = Path("Группа на заливку.xlsx")
 DEFAULT_TITLE_SHEET = "титул"
@@ -132,11 +159,19 @@ def normalize_gigachat_credentials(value: str) -> str:
     return "".join(token.split())
 
 
+def safe_url_host(value: str) -> str:
+    try:
+        return urllib.parse.urlparse(str(value or "")).netloc
+    except ValueError:
+        return ""
+
+
 GIGACHAT_TOKEN = normalize_gigachat_credentials(_RAW_GIGACHAT_TOKEN)
 GIGACHAT_TOKEN_HAD_BASIC_PREFIX = _RAW_GIGACHAT_TOKEN.strip().lower().startswith("basic ")
 GIGACHAT_TOKEN_HAD_BEARER_PREFIX = _RAW_GIGACHAT_TOKEN.strip().lower().startswith("bearer ")
 GIGACHAT_TOKEN_NORMALIZED = GIGACHAT_TOKEN != _RAW_GIGACHAT_TOKEN
 GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
+GIGACHAT_AUTH_URL_HOST = safe_url_host(GIGACHAT_AUTH_URL)
 GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
 GIGACHAT_SCOPE = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_CORP")
 GIGACHAT_WORKERS = int(os.getenv("GIGACHAT_WORKERS", "5"))
@@ -1258,11 +1293,13 @@ def apply_ai_skill_digest(
             {
                 "requested": llm_requested,
                 "enabled": llm_enabled,
+                "env_file_loaded": GIGACHAT_ENV_FILE_LOADED,
                 "token_configured": bool(GIGACHAT_TOKEN),
                 "token_had_basic_prefix": GIGACHAT_TOKEN_HAD_BASIC_PREFIX,
                 "token_had_bearer_prefix": GIGACHAT_TOKEN_HAD_BEARER_PREFIX,
                 "token_normalized": GIGACHAT_TOKEN_NORMALIZED,
                 "auth_url_configured": bool(GIGACHAT_AUTH_URL),
+                "auth_url_host": GIGACHAT_AUTH_URL_HOST,
                 "digest_rows": len(rows),
                 "mapping_keys": len(mapping),
                 "mapping_rows": mapping_total_rows,
@@ -1277,11 +1314,13 @@ def apply_ai_skill_digest(
                 "skip",
                 {
                     "reason": "gigachat_not_configured",
+                    "env_file_loaded": GIGACHAT_ENV_FILE_LOADED,
                     "token_configured": bool(GIGACHAT_TOKEN),
                     "token_had_basic_prefix": GIGACHAT_TOKEN_HAD_BASIC_PREFIX,
                     "token_had_bearer_prefix": GIGACHAT_TOKEN_HAD_BEARER_PREFIX,
                     "token_normalized": GIGACHAT_TOKEN_NORMALIZED,
                     "auth_url_configured": bool(GIGACHAT_AUTH_URL),
+                    "auth_url_host": GIGACHAT_AUTH_URL_HOST,
                 },
             )
     if not rows:
