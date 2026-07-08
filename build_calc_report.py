@@ -55,7 +55,7 @@ _DD_FROM_EXCEL["METRIC_CODES"][
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"] = 1_000_000
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
 
-DEFAULT_INPUT = Path("Расчет_список(1).xlsx")
+DEFAULT_INPUT = Path("Группа на заливку.xlsx")
 DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
@@ -123,6 +123,24 @@ AI_MONTH_NAMES = {
     12: "декабрь",
 }
 _PD = _DD_FROM_EXCEL["pd"]
+UPLOAD_TITLE_COLUMNS = ("Юнит", "трайб", "Продукт", "Оценка", "Расчет", "delta", "Общий балл", "Группа", "тип")
+UPLOAD_EXCLUDED_TYPES = {"исключить"}
+PRODUCT_UPLOAD_SHEET_NAMES = {"продукты на заливку"}
+PRODUCT_ENTITY_TYPES = {"product", "продукт"}
+SEGMENT_UPLOAD_SHEET_NAMES = {"сегменты на заливку"}
+SEGMENT_ENTITY_TYPES = {"segment", "сегмент"}
+UPLOAD_INFORMATIONAL_METRIC_NAMES = {"цифр.факторы", "цифр.цели", "цифр.прогнозы"}
+UPLOAD_META_ROWS = (
+    ("metric", "ID"),
+    ("metric_name", "metric_name"),
+    ("metric_group", "metric_group"),
+    ("metric_type", "ТИП"),
+    ("metric_subgroup", "metric_subgroup"),
+    ("metric_footer", "metric_footer"),
+    ("recommendation", "recommendation"),
+    ("recommendation_group", "recommendation_group"),
+    ("sort", "sort"),
+)
 
 
 def clean_text(value: Any) -> str:
@@ -136,6 +154,74 @@ def clean_number(value: Any) -> float | None:
     if _PD.isna(parsed):
         return None
     return float(parsed)
+
+
+def clean_optional_text(value: Any) -> str:
+    text = clean_text(value)
+    return "" if text in {"0", "0.0"} else text
+
+
+def parse_score_percent(value: Any) -> int:
+    if value is None or _PD.isna(value):
+        return 0
+    if isinstance(value, str):
+        text = value.strip().replace("%", "").replace(",", ".")
+        parsed = _PD.to_numeric(text, errors="coerce")
+        if _PD.isna(parsed):
+            return 0
+        score = float(parsed)
+        if "%" in value:
+            return max(0, min(100, int(round(score))))
+    else:
+        score = clean_number(value)
+        if score is None:
+            return 0
+    if score <= 1:
+        score *= 100
+    return max(0, min(100, int(round(float(score)))))
+
+
+def is_excluded_upload_type(value: Any) -> bool:
+    return normalize_lookup_key(value) in UPLOAD_EXCLUDED_TYPES
+
+
+def normalize_upload_unit(value: Any) -> str:
+    return clean_optional_text(value) or "Без юнита"
+
+
+def normalize_upload_sheet_name(value: Any) -> str:
+    return normalize_lookup_key(value)
+
+
+def upload_allowed_entity_types(sheet_name: str, workbook_sheet_names: list[str]) -> set[str] | None:
+    normalized = normalize_upload_sheet_name(sheet_name)
+    has_product_upload_sheet = any(
+        normalize_upload_sheet_name(name) in PRODUCT_UPLOAD_SHEET_NAMES
+        for name in workbook_sheet_names
+    )
+    if normalized in PRODUCT_UPLOAD_SHEET_NAMES:
+        return PRODUCT_ENTITY_TYPES
+    if normalized in SEGMENT_UPLOAD_SHEET_NAMES:
+        return SEGMENT_ENTITY_TYPES
+    if normalized == "лист1" and len(workbook_sheet_names) == 1 and not has_product_upload_sheet:
+        return PRODUCT_ENTITY_TYPES
+    return None
+
+
+def is_allowed_upload_type(value: Any, allowed_types: set[str] | None) -> bool:
+    return allowed_types is None or normalize_lookup_key(value) in allowed_types
+
+
+def is_upload_informational_metric(value: Any) -> bool:
+    return normalize_lookup_key(value) in UPLOAD_INFORMATIONAL_METRIC_NAMES
+
+
+def excel_scalar(value: Any) -> Any:
+    if value is None or _PD.isna(value):
+        return ""
+    if isinstance(value, float) and value.is_integer():
+        return int(value)
+    return value
 
 
 def normalize_lookup_key(value: Any) -> str:
@@ -858,6 +944,463 @@ def apply_ai_skill_digest(
     return data
 
 
+def find_upload_header_row(raw: Any) -> int | None:
+    for row_index in range(min(30, len(raw))):
+        values = {normalize_lookup_key(value) for value in raw.iloc[row_index].tolist()}
+        if {"юнит", "продукт", "оценка", "value", "max_value"}.issubset(values):
+            return row_index
+    return None
+
+
+def upload_header_map(raw: Any, header_row: int) -> dict[str, int]:
+    result: dict[str, int] = {}
+    for column_index, value in enumerate(raw.iloc[header_row].tolist()):
+        key = normalize_lookup_key(value)
+        if key and key not in result:
+            result[key] = column_index
+    return result
+
+
+def upload_meta_text(raw: Any, row_index: int, column_index: int) -> str:
+    return clean_optional_text(raw.iat[row_index, column_index])
+
+
+def upload_metric_pairs(raw: Any, header_row: int) -> list[dict[str, Any]]:
+    meta_start = header_row - len(UPLOAD_META_ROWS)
+    if meta_start < 0:
+        raise ValueError("Не удалось найти 9 строк описания метрик над строкой value/max_value")
+
+    buckets: dict[tuple[str, str, str, str], dict[str, Any]] = {}
+    order: list[tuple[str, str, str, str]] = []
+    for column_index in range(raw.shape[1]):
+        marker = normalize_lookup_key(raw.iat[header_row, column_index])
+        if marker not in {"value", "max_value"}:
+            continue
+
+        metric_id = clean_text(raw.iat[meta_start, column_index])
+        metric_name = upload_meta_text(raw, meta_start + 1, column_index)
+        metric_group = upload_meta_text(raw, meta_start + 2, column_index)
+        sort = clean_text(raw.iat[meta_start + 8, column_index])
+        key = (metric_id, metric_name, metric_group, sort)
+        if key not in buckets:
+            buckets[key] = {}
+            order.append(key)
+        buckets[key][marker] = column_index
+
+    pairs = []
+    for key in order:
+        columns = buckets[key]
+        if "value" not in columns or "max_value" not in columns:
+            continue
+        value_col = columns["value"]
+        metric = excel_scalar(raw.iat[meta_start, value_col])
+        metric_name = upload_meta_text(raw, meta_start + 1, value_col)
+        metric_group = upload_meta_text(raw, meta_start + 2, value_col)
+        if not metric_name or not metric_group:
+            continue
+        pairs.append(
+            {
+                "value_col": value_col,
+                "max_value_col": columns["max_value"],
+                "metric": metric,
+                "metric_name": metric_name,
+                "metric_group": metric_group,
+                "metric_subgroup": upload_meta_text(raw, meta_start + 4, value_col),
+                "metric_footer": upload_meta_text(raw, meta_start + 5, value_col),
+                "recommendation": upload_meta_text(raw, meta_start + 6, value_col),
+                "recommendation_group": excel_scalar(raw.iat[meta_start + 7, value_col]),
+                "sort": excel_scalar(raw.iat[meta_start + 8, value_col]),
+            }
+        )
+    return pairs
+
+
+def flatten_upload_sheet(
+    raw: Any,
+    sheet_name: str,
+    allowed_entity_types: set[str] | None = None,
+) -> tuple[Any, Any, dict[str, Any]]:
+    header_row = find_upload_header_row(raw)
+    if header_row is None:
+        raise ValueError(f"На листе {sheet_name!r} не найдена строка заголовков upload-формата")
+
+    columns = upload_header_map(raw, header_row)
+    required = {"юнит", "продукт", "оценка", "группа", "тип"}
+    missing = sorted(required - set(columns))
+    if missing:
+        raise ValueError(f"На листе {sheet_name!r} нет колонок: {', '.join(missing)}")
+
+    pairs = upload_metric_pairs(raw, header_row)
+    title_records: list[dict[str, Any]] = []
+    detail_records: list[dict[str, Any]] = []
+    skipped_entities = 0
+    type_filtered_entities = 0
+
+    id_col = next((index for index in range(columns["юнит"]) if raw.iloc[header_row + 1 :, index].notna().any()), None)
+    id_col = 0 if id_col is None else id_col
+
+    for row_index in range(header_row + 1, len(raw)):
+        product_name = clean_optional_text(raw.iat[row_index, columns["продукт"]])
+        if not product_name:
+            continue
+        entity_type = clean_optional_text(raw.iat[row_index, columns["тип"]])
+        if is_excluded_upload_type(entity_type):
+            skipped_entities += 1
+            continue
+        if not is_allowed_upload_type(entity_type, allowed_entity_types):
+            skipped_entities += 1
+            type_filtered_entities += 1
+            continue
+
+        unit = normalize_upload_unit(raw.iat[row_index, columns["юнит"]])
+        source_id = excel_scalar(raw.iat[row_index, id_col])
+        title_record = {
+            "source_sheet": sheet_name,
+            "source_id": source_id,
+            "Юнит": unit,
+            "трайб": clean_optional_text(raw.iat[row_index, columns.get("трайб", columns["продукт"])]),
+            "Продукт": product_name,
+            "Оценка": excel_scalar(raw.iat[row_index, columns["оценка"]]),
+            "Расчет": excel_scalar(raw.iat[row_index, columns.get("расчет", columns["оценка"])]),
+            "delta": excel_scalar(raw.iat[row_index, columns.get("delta", columns["оценка"])]),
+            "Общий балл": excel_scalar(raw.iat[row_index, columns.get("общий балл", columns["оценка"])]),
+            "Группа": clean_optional_text(raw.iat[row_index, columns["группа"]]),
+            "тип": entity_type or "продукт",
+        }
+        title_records.append(title_record)
+
+        for pair in pairs:
+            value = excel_scalar(raw.iat[row_index, pair["value_col"]])
+            max_value = excel_scalar(raw.iat[row_index, pair["max_value_col"]])
+            if value == "" and max_value == "":
+                continue
+            detail_records.append(
+                {
+                    "fake_id": source_id,
+                    "perc_id": source_id,
+                    "value_id": pair["metric"],
+                    "max_value_id": pair["metric"],
+                    "Юнит": unit,
+                    "трайб": title_record["трайб"],
+                    "Продукт": product_name,
+                    "metric": pair["metric"],
+                    "metric_name": pair["metric_name"],
+                    "value": value,
+                    "max_value": max_value,
+                    "metric_group": pair["metric_group"],
+                    "metric_subgroup": pair["metric_subgroup"],
+                    "metric_footer": pair["metric_footer"],
+                    "recommendation": pair["recommendation"],
+                    "recommendation_group": pair["recommendation_group"],
+                    "type": title_record["тип"],
+                    "sort": pair["sort"],
+                    "source_sheet": sheet_name,
+                }
+            )
+
+    summary = {
+        "sheet": sheet_name,
+        "header_row": header_row + 1,
+        "metric_pairs": len(pairs),
+        "entities": len(title_records),
+        "rows": len(detail_records),
+        "skipped_entities": skipped_entities,
+        "type_filtered_entities": type_filtered_entities,
+    }
+    return _PD.DataFrame(title_records), _PD.DataFrame(detail_records), summary
+
+
+def flat_upload_sheet(
+    path: Path,
+    sheet_name: str,
+    allowed_entity_types: set[str] | None = None,
+) -> Any | None:
+    frame = _PD.read_excel(path, sheet_name=sheet_name)
+    required = _DD_FROM_EXCEL["REQUIRED_COLUMNS"]
+    if not required.issubset(set(frame.columns)):
+        return None
+    frame = frame.copy()
+    if "type" not in frame.columns and "тип" in frame.columns:
+        frame["type"] = frame["тип"]
+    if "type" not in frame.columns:
+        frame["type"] = "продукт"
+    for optional_column in ("metric_subgroup", "sort", "трайб", "Оценка", "Расчет", "delta", "Общий балл", "Группа", "тип"):
+        if optional_column not in frame.columns:
+            frame[optional_column] = ""
+    frame = frame[~frame["type"].map(is_excluded_upload_type)].copy()
+    if allowed_entity_types is not None:
+        frame = frame[frame["type"].map(lambda value: is_allowed_upload_type(value, allowed_entity_types))].copy()
+    frame["source_sheet"] = sheet_name
+    return frame
+
+
+def upload_title_payload(title_frame: Any) -> dict[str, Any]:
+    rows = []
+    seen: set[tuple[str, str]] = set()
+    for order, (_, row) in enumerate(title_frame.iterrows()):
+        product_name = clean_optional_text(row.get("Продукт"))
+        entity_type = clean_optional_text(row.get("тип") or row.get("type")) or "продукт"
+        if not product_name or is_excluded_upload_type(entity_type):
+            continue
+        key = (normalize_lookup_key(entity_type), normalize_lookup_key(product_name))
+        if key in seen:
+            continue
+        seen.add(key)
+        score = parse_score_percent(row.get("Оценка"))
+        order_value = clean_number(row.get("source_id"))
+        rows.append(
+            {
+                "id": f"upload-title-{len(rows) + 1}",
+                "order": order_value if order_value is not None else order,
+                "unit": normalize_upload_unit(row.get("Юнит")),
+                "tribe": clean_optional_text(row.get("трайб")),
+                "name": product_name,
+                "score": score,
+                "calculation": row.get("Расчет", ""),
+                "delta": row.get("delta", ""),
+                "total_score": row.get("Общий балл", ""),
+                "group": clean_optional_text(row.get("Группа")) or "",
+                "type": entity_type,
+            }
+        )
+
+    units = sorted({row["unit"] for row in rows}, key=str.casefold)
+    types = sorted({row["type"] for row in rows}, key=str.casefold)
+    avg_score = round(sum(row["score"] for row in rows) / len(rows)) if rows else 0
+    return {"rows": rows, "units": units, "types": types, "avgScore": avg_score}
+
+
+def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]:
+    rows = []
+    for order, product in enumerate(products):
+        earned = 0.0
+        max_value = 0.0
+        for block in product.get("metrics", []):
+            for metric in block.get("metrics", []):
+                code = clean_text(metric.get("code"))
+                if metric.get("excluded_from_index") or code.endswith(".auto_regularity") or code == "hyp.ab_tests":
+                    continue
+                if not metric.get("is_applicabble_flg", True):
+                    continue
+                metric_max = clean_number(metric.get("max_value")) or 0.0
+                if metric_max <= 0:
+                    continue
+                metric_value = clean_number(metric.get("value")) or 0.0
+                earned += metric_value
+                max_value += metric_max
+        score = round(earned / max_value * 100) if max_value > 0 else 0
+        rows.append(
+            {
+                "id": f"upload-title-{order + 1}",
+                "order": order,
+                "unit": clean_text(product.get("unit")) or "Без юнита",
+                "name": clean_text(product.get("name")),
+                "score": score,
+                "group": "",
+                "type": clean_text(product.get("type")) or "продукт",
+            }
+        )
+    units = sorted({row["unit"] for row in rows}, key=str.casefold)
+    types = sorted({row["type"] for row in rows}, key=str.casefold)
+    avg_score = round(sum(row["score"] for row in rows) / len(rows)) if rows else 0
+    return {"rows": rows, "units": units, "types": types, "avgScore": avg_score}
+
+
+def normalize_flat_metric_rows(flat_frame: Any) -> Any:
+    validate_columns = _DD_FROM_EXCEL["validate_columns"]
+    collect_product_links = _DD_FROM_EXCEL["collect_product_links"]
+    normalize_text = _DD_FROM_EXCEL["normalize_text"]
+    clean_metric_name = _DD_FROM_EXCEL["clean_metric_name"]
+    entity_type_from_row = _DD_FROM_EXCEL["entity_type_from_row"]
+    number = _DD_FROM_EXCEL["number"]
+    split_benchmarks = _DD_FROM_EXCEL["split_benchmarks"]
+    digital_goals_metric_name = _DD_FROM_EXCEL["DIGITAL_GOALS_METRIC_NAME"]
+
+    df = flat_frame.copy()
+    if "type" not in df.columns and "тип" in df.columns:
+        df["type"] = df["тип"]
+    if "type" not in df.columns:
+        df["type"] = "продукт"
+    for optional_column in ("metric_subgroup", "sort"):
+        if optional_column not in df.columns:
+            df[optional_column] = ""
+    validate_columns(df)
+
+    links_by_product = collect_product_links(df)
+    df["metric_group"] = df["metric_group"].map(normalize_text)
+    df["metric_name_clean"] = df["metric_name"].map(clean_metric_name)
+    df["metric_footer_clean"] = df["metric_footer"].map(normalize_text)
+    df["recommendation_clean"] = df["recommendation"].map(normalize_text)
+    df["recommendation_group_clean"] = df["recommendation_group"].map(normalize_text)
+    df["entity_type"] = df.apply(entity_type_from_row, axis=1)
+    df = df[~df["entity_type"].map(is_excluded_upload_type)].copy()
+    df["_unit_key"] = df["Юнит"].map(lambda value: clean_text(value) or "Без юнита")
+    df["Юнит"] = df["_unit_key"]
+    df["_product_key"] = df["Продукт"].map(clean_text)
+    df["value_num"] = df["value"].map(number)
+    df["max_value_num"] = df["max_value"].map(number)
+
+    digital_goal_rows = df[
+        (df["metric_name_clean"] == digital_goals_metric_name)
+        & (df["_product_key"] != "")
+        & (df["_unit_key"] != "")
+    ].copy()
+    digital_goals = (
+        digital_goal_rows.groupby(["entity_type", "_unit_key", "_product_key"], sort=False)
+        .agg(
+            digital_goals_value=("value_num", "max"),
+            digital_goals_max=("max_value_num", "max"),
+        )
+        .reset_index()
+    )
+
+    with_group = df[df["metric_group"] != ""].copy()
+    product_rows = with_group[
+        (with_group["_product_key"] != "")
+        & (with_group["_unit_key"] != "")
+        & (with_group["metric_name_clean"] != "")
+    ].copy()
+    template_rows_skipped = len(with_group) - len(product_rows)
+    informational_mask = product_rows["metric_name_clean"].map(is_upload_informational_metric)
+    informational_rows_skipped = int(informational_mask.sum())
+    if informational_rows_skipped:
+        product_rows = product_rows[~informational_mask].copy()
+    product_rows["metric_id_num"] = product_rows["metric"].map(number)
+    product_rows = product_rows.merge(
+        digital_goals,
+        on=["entity_type", "_unit_key", "_product_key"],
+        how="left",
+    )
+    product_rows.attrs["metric_group_rows"] = len(with_group)
+    product_rows.attrs["template_rows_skipped"] = template_rows_skipped
+    product_rows.attrs["upload_informational_rows_skipped"] = informational_rows_skipped
+    product_rows.attrs["links_by_product"] = links_by_product
+    product_rows = dedupe_upload_goal_rows(product_rows)
+    return split_benchmarks(product_rows)
+
+
+def dedupe_upload_goal_rows(product_rows: Any) -> Any:
+    if "source_sheet" not in product_rows.columns or product_rows.empty:
+        product_rows.attrs["upload_goal_duplicate_rows_skipped"] = 0
+        return product_rows
+
+    duplicate_key = ["entity_type", "_unit_key", "_product_key", "metric_group", "metric_name_clean"]
+    goal_mask = product_rows["metric_group"].eq("Цели")
+    duplicate_mask = goal_mask & product_rows.duplicated(duplicate_key, keep="first")
+    skipped = int(duplicate_mask.sum())
+    if not skipped:
+        product_rows.attrs["upload_goal_duplicate_rows_skipped"] = 0
+        return product_rows
+
+    result = product_rows.loc[~duplicate_mask].copy()
+    result.attrs.update(product_rows.attrs)
+    result.attrs["upload_goal_duplicate_rows_skipped"] = skipped
+    return result
+
+
+def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[dict[str, Any], dict[str, int]]:
+    aggregate_product = _DD_FROM_EXCEL["aggregate_product"]
+    entity_key = _DD_FROM_EXCEL["entity_key"]
+
+    links_by_product = product_rows.attrs.get("links_by_product", {})
+    products = []
+    for _, rows in product_rows.groupby(["entity_type", "Продукт"], sort=False):
+        product_name = clean_text(rows["Продукт"].iloc[0])
+        entity_type = clean_text(rows["entity_type"].iloc[0]) or "Продукт"
+        product = aggregate_product(
+            rows,
+            period,
+            links_by_product.get(entity_key(entity_type, product_name), {}),
+        )
+        if "трайб" in rows.columns:
+            product["tribe"] = clean_optional_text(rows["трайб"].iloc[0])
+        products.append(product)
+
+    metric_count = sum(len(block["metrics"]) for product in products for block in product["metrics"])
+    summary = {
+        "excel_rows_with_metric_group": product_rows.attrs["metric_group_rows"],
+        "template_rows_skipped": product_rows.attrs["template_rows_skipped"],
+        "benchmark_rows_split": product_rows.attrs.get("benchmark_rows_split", 0),
+        "product_metric_rows": len(product_rows),
+        "products": len(products),
+        "units": len({product["unit"] for product in products}),
+        "aggregated_metrics": metric_count,
+        "products_with_links": sum(1 for product_links in links_by_product.values() if product_links),
+        "upload_informational_rows_skipped": product_rows.attrs.get("upload_informational_rows_skipped", 0),
+        "upload_goal_duplicate_rows_skipped": product_rows.attrs.get("upload_goal_duplicate_rows_skipped", 0),
+    }
+    return {"products": products}, summary
+
+
+def read_upload_workbook(
+    path: Path,
+    period: str,
+    title_sheet: str,
+    detail_sheet: str,
+) -> tuple[dict[str, Any], dict[str, Any], Any] | None:
+    workbook = _PD.ExcelFile(path)
+    if title_sheet in workbook.sheet_names and detail_sheet in workbook.sheet_names:
+        return None
+
+    title_frames = []
+    flat_frames = []
+    sheet_summaries = []
+
+    for sheet_name in workbook.sheet_names:
+        allowed_entity_types = upload_allowed_entity_types(sheet_name, workbook.sheet_names)
+        raw = _PD.read_excel(path, sheet_name=sheet_name, header=None)
+        if find_upload_header_row(raw) is not None:
+            title_frame, flat_frame, sheet_summary = flatten_upload_sheet(
+                raw,
+                sheet_name,
+                allowed_entity_types=allowed_entity_types,
+            )
+            title_frames.append(title_frame)
+            flat_frames.append(flat_frame)
+            sheet_summaries.append(sheet_summary)
+            continue
+
+        flat_frame = flat_upload_sheet(path, sheet_name, allowed_entity_types=allowed_entity_types)
+        if flat_frame is not None:
+            flat_frames.append(flat_frame)
+            title_columns = [column for column in UPLOAD_TITLE_COLUMNS if column in flat_frame.columns]
+            if {"Юнит", "Продукт", "Оценка", "Группа", "тип"}.issubset(set(title_columns)):
+                title_frames.append(flat_frame.loc[:, title_columns].drop_duplicates())
+            sheet_summaries.append(
+                {
+                    "sheet": sheet_name,
+                    "header_row": 1,
+                    "metric_pairs": 0,
+                    "entities": int(flat_frame[["type", "Продукт"]].drop_duplicates().shape[0]),
+                    "rows": len(flat_frame),
+                    "skipped_entities": 0,
+                }
+            )
+
+    if not flat_frames:
+        return None
+
+    flat_detail = _PD.concat(flat_frames, ignore_index=True)
+    product_rows = normalize_flat_metric_rows(flat_detail)
+    detail_data, detail_summary = build_report_data_from_metric_rows(product_rows, period)
+    title_payload = (
+        upload_title_payload(_PD.concat(title_frames, ignore_index=True))
+        if title_frames
+        else upload_title_from_products(detail_data.get("products", []))
+    )
+    combined = {**detail_data, "title": title_payload}
+    summary = {
+        **detail_summary,
+        "title_rows": len(title_payload["rows"]),
+        "title_units": len(title_payload["units"]),
+        "title_types": len(title_payload["types"]),
+        "upload_source": str(path),
+        "upload_sheets": sheet_summaries,
+        "upload_flat_rows": len(flat_detail),
+    }
+    return combined, summary, product_rows
+
+
 def metric_meta_key(
     entity_type: str,
     product_name: str,
@@ -877,6 +1420,10 @@ def build_metric_layout_meta(
     detail_sheet: str,
 ) -> dict[tuple[str, str, str, str], dict[str, Any]]:
     rows = _DD_FROM_EXCEL["load_metric_rows"](input_path, detail_sheet)
+    return build_metric_layout_meta_from_rows(rows)
+
+
+def build_metric_layout_meta_from_rows(rows: Any) -> dict[tuple[str, str, str, str], dict[str, Any]]:
     meta: dict[tuple[str, str, str, str], dict[str, Any]] = {}
 
     for _, product_rows in rows.groupby(["entity_type", "Продукт"], sort=False):
@@ -916,8 +1463,13 @@ def enrich_metric_layout(
     data: dict[str, Any],
     input_path: Path,
     detail_sheet: str,
+    metric_rows: Any | None = None,
 ) -> dict[str, Any]:
-    meta = build_metric_layout_meta(input_path, detail_sheet)
+    meta = (
+        build_metric_layout_meta_from_rows(metric_rows)
+        if metric_rows is not None
+        else build_metric_layout_meta(input_path, detail_sheet)
+    )
 
     for product in data.get("products", []):
         entity_type = clean_text(product.get("type"))
@@ -1038,10 +1590,22 @@ def build_combined_data(
     build_title_payload = _TITLE["build_payload"]
     build_report_data = _DD_FROM_EXCEL["build_report_data"]
 
-    title_rows = read_title_rows(input_path, title_sheet)
-    title_payload = build_title_payload(title_rows)
-    detail_data, detail_summary = build_report_data(input_path, detail_sheet, period)
-    detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
+    upload_result = read_upload_workbook(input_path, period, title_sheet, detail_sheet)
+    if upload_result is not None:
+        combined, detail_summary, metric_rows = upload_result
+        title_payload = combined["title"]
+        title_rows_count = len(title_payload["rows"])
+        detail_data = {key: value for key, value in combined.items() if key != "title"}
+        detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet, metric_rows=metric_rows)
+        combined = {**detail_data, "title": title_payload}
+    else:
+        title_rows = read_title_rows(input_path, title_sheet)
+        title_payload = build_title_payload(title_rows)
+        title_rows_count = len(title_rows)
+        detail_data, detail_summary = build_report_data(input_path, detail_sheet, period)
+        detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
+        combined = {**detail_data, "title": title_payload}
+
     detail_data = move_drafts_skill_to_attract(detail_data)
     detail_data = tag_ai_tool_keys(detail_data)
     detail_data = enrich_cx_journey_links(detail_data)
@@ -1057,7 +1621,7 @@ def build_combined_data(
         combined = apply_ai_skill_digest(combined, ai_digest_path, ai_product_map)
     summary = {
         **detail_summary,
-        "title_rows": len(title_rows),
+        "title_rows": title_rows_count,
         "title_units": len(title_payload["units"]),
         "title_types": len(title_payload["types"]),
         "ai_product_mapping": str(ai_product_map),
@@ -1080,6 +1644,25 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         if old not in source:
             raise RuntimeError("Не найден ожидаемый фрагмент HTML-шаблона")
         return source.replace(old, new, 1)
+
+    html = replace_once(
+        html,
+        """    function normalizeTitleType(value) {
+      const normalized = normalizeKey(value);
+      if (['segment', 'сегмент'].includes(normalized)) return 'сегмент';
+      return 'продукт';
+    }
+""",
+        """    function normalizeTitleType(value) {
+      const normalized = normalizeKey(value);
+      if (['product', 'продукт'].includes(normalized)) return 'продукт';
+      if (['segment', 'сегмент'].includes(normalized)) return 'сегмент';
+      if (['channel', 'канал'].includes(normalized)) return 'канал';
+      if (['дзо'].includes(normalized)) return 'дзо';
+      return normalized || 'продукт';
+    }
+""",
+    )
 
     html = replace_once(
         html,
