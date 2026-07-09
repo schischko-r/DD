@@ -104,6 +104,8 @@ python build_calc_report.py --help
 
 - `--no-update-ai-digest` - не ходить в API, читать локальный `ai_skill_digest_export.xlsx`;
 - `--skip-ai-digest` - собрать отчет вообще без AI-digest;
+- `--ai-digest-token` - переопределить токен AI-digest из `.env`;
+- `--ai-digest-timeout` - переопределить таймаут AI-digest в секундах;
 - `--refresh-ai-product-map` - пересоздать шаблон `ai_product_mapping.xlsx`;
 - `--update-llm-summary` - вызвать GigaChat и сформировать LLM-суммаризацию;
 - `--no-update-llm-summary` - не вызывать GigaChat;
@@ -269,6 +271,15 @@ round(sum(value) / sum(max_value) * 100)
 
 Если по одному DD-продукту сматчено несколько AI-продуктов, каждый AI-продукт получает отдельное облако.
 
+Для загрузки AI-digest из API можно указать настройки в `.env` рядом со скриптом:
+
+```env
+AI_SKILL_DIGEST_TOKEN=
+AI_SKILL_DIGEST_TIMEOUT=600
+```
+
+`AI_SKILL_DIGEST_TIMEOUT` задается в секундах. Значение по умолчанию - `600`, то есть 10 минут.
+
 ## LLM-суммаризация
 
 LLM-суммаризация добавляется в `Группа навыков «Привлечение»`.
@@ -327,6 +338,7 @@ python build_calc_report.py \
 - Если нет маппинга, навык не обогащается AI-digest.
 - Если последняя дата AI-digest равна текущему месяцу, показывается предыдущий закрытый месяц.
 - Если данные старше 3 месяцев, показывается предупреждение об устаревших данных.
+- Токен AI-digest берется из `AI_SKILL_DIGEST_TOKEN` или из флага `--ai-digest-token`.
 - LLM-суммаризация зависит от доступности GigaChat и корректной `.env`.
 - `final_report_from_excel.html` является generated artifact: ручные правки в HTML будут потеряны при следующей сборке.
 

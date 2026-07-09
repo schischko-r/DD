@@ -78,11 +78,11 @@ DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
 DEFAULT_UPDATE_AI_DIGEST = True
 DEFAULT_UPDATE_LLM_SUMMARY = False
 DEFAULT_LLM_LOG = True
-DEFAULT_AI_DIGEST_TIMEOUT = 12
+DEFAULT_AI_DIGEST_TIMEOUT = int(os.getenv("AI_SKILL_DIGEST_TIMEOUT", "600"))
 AI_SKILL_DIGEST_BASE_URL = "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014"
 AI_SKILL_DIGEST_EXPORT_PATH = "/api/skill-digest/export"
 AI_SKILL_DIGEST_URL = AI_SKILL_DIGEST_BASE_URL + AI_SKILL_DIGEST_EXPORT_PATH
-AI_SKILL_DIGEST_TOKEN = ""
+AI_SKILL_DIGEST_TOKEN = os.getenv("AI_SKILL_DIGEST_TOKEN", "")
 AI_SKILL_DIGEST_HEADERS = {
     "Referer": "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/admin?tab=api",
     "Upgrade-Insecure-Requests": "1",
