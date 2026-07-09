@@ -273,6 +273,15 @@ def is_allowed_upload_type(value: Any, allowed_types: set[str] | None) -> bool:
     return allowed_types is None or normalize_lookup_key(value) in allowed_types
 
 
+def canonical_entity_type(value: Any) -> str:
+    normalized = normalize_lookup_key(value)
+    if normalized in PRODUCT_ENTITY_TYPES:
+        return "продукт"
+    if normalized in SEGMENT_ENTITY_TYPES:
+        return "Сегмент"
+    return clean_optional_text(value) or "продукт"
+
+
 def is_upload_informational_metric(value: Any) -> bool:
     return normalize_lookup_key(value) in UPLOAD_INFORMATIONAL_METRIC_NAMES
 
@@ -1041,7 +1050,26 @@ def refresh_group_tool_light(tool: dict[str, Any]) -> None:
     if not isinstance(buttons, list) or not buttons:
         return
 
+    sort_group_tool_buttons(tool)
     tool["traffic_light"] = worst_ai_light([clean_text(item.get("traffic_light")) for item in buttons])
+
+
+def sort_group_tool_buttons(tool: dict[str, Any]) -> None:
+    buttons = tool.get("buttons")
+    if not isinstance(buttons, list) or not buttons:
+        return
+
+    pilot_search_key = normalize_lookup_key("Поиск по пилотам")
+
+    def order(item: tuple[int, dict[str, Any]]) -> tuple[int, int]:
+        index, button = item
+        if button.get("llm_summary"):
+            return (0, index)
+        if normalize_lookup_key(button.get("name")) == pilot_search_key:
+            return (2, index)
+        return (1, index)
+
+    buttons[:] = [button for _, button in sorted(enumerate(buttons), key=order)]
 
 
 def find_group_tool(block: dict[str, Any], block_code: str) -> dict[str, Any] | None:
@@ -1078,9 +1106,10 @@ def append_llm_summary_to_group(
     traffic_light = parse_ai_light(summary.get("traffic_light")) or worst_ai_light(
         [clean_text(digest.get("traffic_light")) for digest in digests]
     )
-    buttons.append(
+    buttons.insert(
+        0,
         {
-            "name": "LLM-суммаризация",
+            "name": "LLM-cуммаризация",
             "traffic_light": traffic_light,
             "footer": ai_summary_footer(latest.get("digest_month", ""), product_names),
             "button": {"type": "general", "label": "", "link": ""},
@@ -1122,11 +1151,12 @@ def ensure_llm_summary_placeholder(block: dict[str, Any], block_code: str) -> bo
     if any(button.get("llm_summary") for button in buttons):
         return False
 
-    buttons.append(
+    buttons.insert(
+        0,
         {
-            "name": "LLM-суммаризация",
+            "name": "LLM-cуммаризация",
             "traffic_light": "gray",
-            "footer": "AI-сводка не сформирована",
+            "footer": "",
             "button": {"type": "general", "label": "", "link": ""},
             "ai_digest": True,
             "llm_summary": True,
@@ -1682,6 +1712,9 @@ def flat_upload_sheet(
     frame = _PD.read_excel(path, sheet_name=sheet_name)
     required = _DD_FROM_EXCEL["REQUIRED_COLUMNS"]
     if not required.issubset(set(frame.columns)):
+        raw = _PD.read_excel(path, sheet_name=sheet_name, header=None)
+        frame = headerless_flat_upload_sheet(raw)
+    if not required.issubset(set(frame.columns)):
         return None
     frame = frame.copy()
     if "type" not in frame.columns and "тип" in frame.columns:
@@ -1691,10 +1724,43 @@ def flat_upload_sheet(
     for optional_column in ("metric_subgroup", "sort", "трайб", "Оценка", "Расчет", "delta", "Общий балл", "Группа", "тип"):
         if optional_column not in frame.columns:
             frame[optional_column] = ""
+    frame["тип"] = frame["тип"].where(frame["тип"].map(clean_text).ne(""), frame["type"])
     frame = frame[~frame["type"].map(is_excluded_upload_type)].copy()
     if allowed_entity_types is not None:
         frame = frame[frame["type"].map(lambda value: is_allowed_upload_type(value, allowed_entity_types))].copy()
     frame["source_sheet"] = sheet_name
+    return frame
+
+
+def headerless_flat_upload_sheet(raw: Any) -> Any:
+    if raw.shape[1] < 17:
+        return _PD.DataFrame()
+
+    frame = raw.iloc[:, :17].copy()
+    frame.columns = [
+        "fake_id",
+        "perc_id",
+        "value_id",
+        "max_value_id",
+        "Юнит",
+        "Продукт",
+        "metric",
+        "metric_name",
+        "value",
+        "max_value",
+        "metric_group",
+        "metric_subgroup",
+        "metric_footer",
+        "recommendation",
+        "recommendation_group",
+        "type",
+        "sort",
+    ]
+    frame = frame[
+        frame["Продукт"].map(clean_text).ne("")
+        & frame["metric_name"].map(clean_text).ne("")
+        & frame["type"].map(clean_text).ne("")
+    ].copy()
     return frame
 
 
@@ -1703,7 +1769,7 @@ def upload_title_payload(title_frame: Any) -> dict[str, Any]:
     seen: set[tuple[str, str]] = set()
     for order, (_, row) in enumerate(title_frame.iterrows()):
         product_name = clean_optional_text(row.get("Продукт"))
-        entity_type = clean_optional_text(row.get("тип") or row.get("type")) or "продукт"
+        entity_type = canonical_entity_type(row.get("тип") or row.get("type"))
         if not product_name or is_excluded_upload_type(entity_type):
             continue
         key = (normalize_lookup_key(entity_type), normalize_lookup_key(product_name))
@@ -1727,6 +1793,27 @@ def upload_title_payload(title_frame: Any) -> dict[str, Any]:
                 "type": entity_type,
             }
         )
+
+    units = sorted({row["unit"] for row in rows}, key=str.casefold)
+    types = sorted({row["type"] for row in rows}, key=str.casefold)
+    avg_score = round(sum(row["score"] for row in rows) / len(rows)) if rows else 0
+    return {"rows": rows, "units": units, "types": types, "avgScore": avg_score}
+
+
+def merge_title_payloads(base: dict[str, Any], extra: dict[str, Any]) -> dict[str, Any]:
+    rows = [dict(row) for row in base.get("rows", [])]
+    seen = {
+        (normalize_lookup_key(canonical_entity_type(row.get("type"))), normalize_lookup_key(row.get("name")))
+        for row in rows
+    }
+    for row in extra.get("rows", []):
+        key = (normalize_lookup_key(canonical_entity_type(row.get("type"))), normalize_lookup_key(row.get("name")))
+        if key in seen:
+            continue
+        seen.add(key)
+        copied = dict(row)
+        copied["id"] = f"upload-title-{len(rows) + 1}"
+        rows.append(copied)
 
     units = sorted({row["unit"] for row in rows}, key=str.casefold)
     types = sorted({row["type"] for row in rows}, key=str.casefold)
@@ -1761,7 +1848,7 @@ def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]
                 "name": clean_text(product.get("name")),
                 "score": score,
                 "group": "",
-                "type": clean_text(product.get("type")) or "продукт",
+                "type": canonical_entity_type(product.get("type")),
             }
         )
     units = sorted({row["unit"] for row in rows}, key=str.casefold)
@@ -1948,10 +2035,14 @@ def read_upload_workbook(
     flat_detail = _PD.concat(flat_frames, ignore_index=True)
     product_rows = normalize_flat_metric_rows(flat_detail)
     detail_data, detail_summary = build_report_data_from_metric_rows(product_rows, period)
+    generated_title_payload = upload_title_from_products(detail_data.get("products", []))
     title_payload = (
-        upload_title_payload(_PD.concat(title_frames, ignore_index=True))
+        merge_title_payloads(
+            upload_title_payload(_PD.concat(title_frames, ignore_index=True)),
+            generated_title_payload,
+        )
         if title_frames
-        else upload_title_from_products(detail_data.get("products", []))
+        else generated_title_payload
     )
     combined = {**detail_data, "title": title_payload}
     summary = {
@@ -2108,6 +2199,8 @@ def move_drafts_skill_to_attract(data: dict[str, Any]) -> dict[str, Any]:
             else:
                 buttons.append(button_item)
                 existing[drafts_key] = button_item
+        sort_group_tool_buttons(group_tool)
+        refresh_group_tool_light(group_tool)
 
     return data
 
@@ -2626,6 +2719,60 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       line-height: 1.34;
     }
 
+    .llm-summary-card {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 12px 13px;
+      border: 1px solid rgba(0,122,255,.16);
+      border-radius: 14px;
+      background: rgba(248,251,255,.92);
+    }
+
+    .llm-summary-body {
+      min-width: 0;
+    }
+
+    .llm-summary-title {
+      color: #1d1d1f;
+      font-size: 12.5px;
+      font-weight: 820;
+      line-height: 1.25;
+    }
+
+    .llm-summary-card .ai-digest-panel {
+      display: grid;
+      gap: 7px;
+      margin-top: 7px;
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .llm-summary-card .ai-digest-item {
+      padding: 2px 0 0;
+    }
+
+    .llm-summary-card .ai-digest-light {
+      margin-top: 4px;
+    }
+
+    .llm-summary-text {
+      display: grid;
+      gap: 5px;
+      margin-top: 6px;
+      color: #515154;
+      font-size: 12px;
+      line-height: 1.38;
+      white-space: pre-line;
+    }
+
+    .llm-summary-text p {
+      margin: 0;
+    }
+
 """
     html = replace_once(
         html,
@@ -2779,7 +2926,35 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       `;
     }
 
+    function llmSummaryTexts(item) {
+      const directTexts = digestTexts(item);
+      const itemTexts = digestItems(item).flatMap((entry) => (
+        Array.isArray(entry.digest_texts)
+          ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
+          : []
+      ));
+      return [...directTexts, ...itemTexts].filter(Boolean);
+    }
+
+    function llmSummaryCardHTML(item) {
+      const texts = llmSummaryTexts(item);
+      const light = item.active || item.traffic_light;
+      const content = texts.length
+        ? texts.map((text) => `<p>${esc(text)}</p>`).join('')
+        : '<p>Нет сматченных AI-digest данных для суммаризации.</p>';
+      return `
+        <div class="llm-summary-card">
+          <span class="ai-digest-light ${digestLightClass(light)}"></span>
+          <div class="llm-summary-body">
+            <div class="llm-summary-title">LLM-cуммаризация${staleDigestBadgeHTML(item)}</div>
+            <div class="llm-summary-text">${content}</div>
+          </div>
+        </div>
+      `;
+    }
+
     function toolItemHTML(item, neutralLight = false) {
+      if (item.llm_summary) return llmSummaryCardHTML(item);
       const hasDigest = hasDigestPayload(item);
       return `
         <div class="tool-item${hasDigest ? ' has-ai-digest' : ''}">
