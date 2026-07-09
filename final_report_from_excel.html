@@ -1222,12 +1222,25 @@
       white-space: pre-line;
     }
 
+    .ai-digest-cloud {
+      display: grid;
+      gap: 5px;
+      padding: 9px 10px;
+      border: 1px solid rgba(0,122,255,.14);
+      border-radius: 12px;
+      background: rgba(248,251,255,.92);
+    }
+
+    .ai-digest-cloud + .ai-digest-cloud {
+      margin-top: 2px;
+    }
+
     .ai-digest-item {
       display: grid;
       grid-template-columns: 10px minmax(0, 1fr);
       gap: 9px;
       align-items: start;
-      padding: 6px 0;
+      padding: 5px 0;
     }
 
     .ai-digest-item + .ai-digest-item {
@@ -1269,7 +1282,7 @@
       display: inline-flex;
       align-items: center;
       width: fit-content;
-      margin: 0 0 4px;
+      margin: 0 0 3px;
       padding: 2px 7px;
       border: 1px solid rgba(0,122,255,.14);
       border-radius: 999px;
@@ -101443,9 +101456,61 @@
       return '<button type="button" class="ai-digest-toggle" data-ai-digest-toggle aria-expanded="false" aria-label="Показать рекомендации">›</button>';
     }
 
+    function digestProductName(entry) {
+      return String(entry.product_label || entry.ai_product_name || entry.ai_tool_product_name || '').trim();
+    }
+
+    function isRecommendationDigestEntry(entry) {
+      const title = String(entry.indicator || entry.digest_indicator || '').trim().toLowerCase();
+      return title.includes('рекомендац') || title === 'recommendation' || title === 'recommendations';
+    }
+
+    function isTrafficDigestEntry(entry) {
+      const rowType = String(entry.row_type || '').trim().toLowerCase();
+      const light = digestLightClass(entry.traffic_light);
+      return rowType.includes('светофор')
+        || rowType.includes('traffic')
+        || rowType.includes('light')
+        || ['green', 'yellow', 'red'].includes(light);
+    }
+
+    function digestEntryOrder(entry, index) {
+      if (isRecommendationDigestEntry(entry)) return [2, index];
+      if (isTrafficDigestEntry(entry)) return [0, index];
+      return [1, index];
+    }
+
+    function sortedDigestEntries(entries) {
+      return entries
+        .map((entry, index) => ({ entry, index }))
+        .sort((left, right) => {
+          const leftOrder = digestEntryOrder(left.entry, left.index);
+          const rightOrder = digestEntryOrder(right.entry, right.index);
+          return (leftOrder[0] - rightOrder[0]) || (leftOrder[1] - rightOrder[1]);
+        })
+        .map((item) => item.entry);
+    }
+
+    function groupedDigestItems(item, entries) {
+      const groups = [];
+      const byProduct = new Map();
+      entries.forEach((entry) => {
+        const product = digestProductName(entry) || String(item.ai_tool_product_name || '').trim() || 'Продукт';
+        if (!byProduct.has(product)) {
+          const group = { product, entries: [] };
+          byProduct.set(product, group);
+          groups.push(group);
+        }
+        byProduct.get(product).entries.push(entry);
+      });
+      return groups.map((group) => ({
+        ...group,
+        entries: sortedDigestEntries(group.entries),
+      }));
+    }
+
     function digestItemHTML(entry) {
       const title = String(entry.indicator || entry.digest_indicator || 'Показатель').trim();
-      const product = String(entry.product_label || '').trim();
       const texts = Array.isArray(entry.digest_texts)
         ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
         : [];
@@ -101454,7 +101519,6 @@
         <div class="ai-digest-item">
           <span class="ai-digest-light ${digestLightClass(entry.traffic_light)}"></span>
           <div>
-            ${product ? `<div class="ai-digest-item-product">${esc(product)}</div>` : ''}
             <div class="ai-digest-item-title">${esc(title)}</div>
             ${texts.map((text) => `<div class="ai-digest-item-text">${esc(text)}</div>`).join('')}
             ${rule ? `<div class="ai-digest-item-rule">Правило: ${esc(rule)}</div>` : ''}
@@ -101463,14 +101527,11 @@
       `;
     }
 
-    function digestPanelTextHTML(text) {
+    function digestCloudHTML(group) {
       return `
-        <div class="ai-digest-item ai-digest-text-item">
-          <span class="ai-digest-light gray"></span>
-          <div>
-            <div class="ai-digest-item-title">Текст</div>
-            <div class="ai-digest-item-text">${esc(text)}</div>
-          </div>
+        <div class="ai-digest-cloud">
+          <div class="ai-digest-item-product">${esc(group.product)}</div>
+          ${group.entries.map(digestItemHTML).join('')}
         </div>
       `;
     }
@@ -101488,12 +101549,19 @@
         ))
       );
       const extraTexts = texts.filter((text) => !itemTexts.has(text));
+      const extraItems = extraTexts.map((text) => ({
+        indicator: 'Текст',
+        row_type: 'текст',
+        traffic_light: 'gray',
+        digest_texts: [text],
+        digest_rule: '',
+        ai_product_name: String(item.ai_tool_product_name || '').trim(),
+      }));
+      const groups = groupedDigestItems(item, [...items, ...extraItems]);
       return `
         <div class="ai-digest-panel">
-          ${items.map(digestItemHTML).join('')}
-          ${extraTexts.map(digestPanelTextHTML).join('')}
-          ${!items.length && !extraTexts.length ? texts.map(digestPanelTextHTML).join('') : ''}
-          ${!items.length && rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
+          ${groups.map(digestCloudHTML).join('')}
+          ${!groups.length && rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
         </div>
       `;
     }
