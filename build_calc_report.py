@@ -895,38 +895,29 @@ def build_digest_item(
 
 
 def build_digest_items(latest_rows: list[dict[str, Any]], month: str, stale_tooltip: str = "") -> list[dict[str, Any]]:
-    item_rows: dict[str, list[dict[str, Any]]] = {}
-    item_names: dict[str, str] = {}
     product_name = latest_rows[0]["product"] if latest_rows else ""
-
+    items = []
     for row in latest_rows:
-        if not is_ai_light_row(row):
+        indicator = digest_indicator_name(row)
+        text = clean_text(row.get("text"))
+        rule = clean_text(row.get("rule"))
+        color = parse_ai_light(row.get("color")) or ("gray" if is_ai_light_row(row) else "")
+        if not indicator and not text and not rule and not color:
             continue
-        key = digest_indicator_key(row)
-        item_rows.setdefault(key, []).append(row)
-        item_names.setdefault(key, digest_indicator_name(row))
-
-    for row in latest_rows:
-        if is_ai_light_row(row):
-            continue
-        if not clean_text(row.get("text")) and not clean_text(row.get("rule")):
-            continue
-
-        key = digest_indicator_key(row)
-        if key in item_rows:
-            target_key = key
-        elif len(item_rows) == 1 and is_generic_digest_text_row(row):
-            target_key = next(iter(item_rows))
-        else:
-            target_key = key
-            item_names.setdefault(target_key, digest_indicator_name(row))
-
-        item_rows.setdefault(target_key, []).append(row)
-
-    return [
-        build_digest_item(rows, item_names.get(key, "Показатель"), month, product_name, stale_tooltip)
-        for key, rows in item_rows.items()
-    ]
+        items.append(
+            {
+                "indicator": indicator,
+                "row_type": clean_text(row.get("row_type")),
+                "traffic_light": color or "gray",
+                "digest_texts": [text] if text else [],
+                "digest_rule": rule,
+                "digest_month": month,
+                "digest_is_stale": bool(stale_tooltip),
+                "digest_stale_tooltip": stale_tooltip,
+                "ai_product_name": product_name,
+            }
+        )
+    return items
 
 
 def aggregate_ai_digests(digests: list[dict[str, Any]]) -> dict[str, Any]:
@@ -1203,6 +1194,10 @@ def ensure_llm_summary_visible(data: dict[str, Any]) -> int:
 def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
     label = AI_SKILL_LABELS[skill_key]
     block_code = clean_text(block.get("code"))
+    payload = dict(payload)
+    payload_light = parse_ai_light(payload.get("traffic_light")) or "gray"
+    payload.setdefault("traffic_light", payload_light)
+    payload.setdefault("active", payload_light)
     tools = block.setdefault("tools", [])
 
     for tool in tools:
@@ -2990,7 +2985,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       return `
         <div class="tool-item${hasDigest ? ' has-ai-digest' : ''}">
           ${hasDigest ? aiDigestToggleHTML() : ''}
-          ${toolLightHTML(neutralLight ? 'gray' : item.active)}
+          ${toolLightHTML(neutralLight ? 'gray' : (item.active || item.traffic_light))}
           <div class="tool-item-copy">
             ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
             <div class="tool-item-name">${esc(item.name || 'Инструмент')}</div>
