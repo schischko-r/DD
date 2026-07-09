@@ -64,7 +64,19 @@ _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
 
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError:
+    def load_dotenv(path: Path) -> bool:
+        if not path.exists():
+            return False
+        for line in path.read_text(encoding="utf-8").splitlines():
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#") or "=" not in stripped:
+                continue
+            key, value = stripped.split("=", 1)
+            os.environ.setdefault(key.strip(), value.strip().strip("\"'"))
+        return True
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
@@ -717,9 +729,10 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
         "row_type": {"тип", "type"},
         "color": {"цвет", "color", "traffic_light"},
         "text": {"текст", "text", "recommendation", "рекомендация"},
-        "rule": {"правило светофора", "правило", "rule", "traffic_rule"},
+        "rule": {"правило светофора", "правила светофора", "правило", "правила", "rule", "traffic_rule"},
     }
     rows: list[dict[str, Any]] = []
+    source_order = 0
 
     for _, frame in sheets.items():
         if frame.empty:
@@ -733,6 +746,7 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
             continue
 
         for _, source in frame.iterrows():
+            source_order += 1
             raw_skill_key = source.get(mapping["skill_key"]) if mapping["skill_key"] else ""
             skill_key = normalize_ai_skill_key(raw_skill_key)
             if skill_key not in AI_SKILL_LABELS and mapping["skill_name"]:
@@ -761,6 +775,7 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
                     "color": color,
                     "text": text,
                     "rule": clean_text(source.get(mapping["rule"])) if mapping["rule"] else "",
+                    "source_order": source_order,
                 }
             )
 
@@ -998,6 +1013,7 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
             for row in bucket
             if ai_same_month(row["month_sort"], selected_month_sort)
         ]
+        latest_rows.sort(key=lambda row: int(row.get("source_order", 0)))
         if not latest_rows:
             latest_key = max((row["month_sort"], order) for order, row in enumerate(bucket))
             latest_rows = [
@@ -1005,6 +1021,7 @@ def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], d
                 for order, row in enumerate(bucket)
                 if (row["month_sort"], order) == latest_key or row["month_sort"] == latest_key[0]
             ]
+            latest_rows.sort(key=lambda row: int(row.get("source_order", 0)))
             selected_month_sort = latest_key[0]
         light_rows = [row for row in latest_rows if is_ai_light_row(row)]
         raw_month_sort = selected_month_sort
@@ -3020,7 +3037,15 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       const texts = digestTexts(item);
       const rule = String(item.digest_rule || '').trim();
       if (!items.length && !texts.length && !rule) return '';
-      const groups = groupedDigestItems(item, items);
+      const fallbackItems = !items.length && (texts.length || rule) ? [{
+        indicator: String(item.digest_indicator || item.name || 'Показатель').trim(),
+        row_type: '',
+        traffic_light: item.active || item.traffic_light || 'gray',
+        digest_texts: texts,
+        digest_rule: rule,
+        ai_product_name: String(item.ai_tool_product_name || '').trim(),
+      }] : [];
+      const groups = groupedDigestItems(item, items.length ? items : fallbackItems);
       return `
         <div class="ai-digest-panel">
           ${groups.map(digestCloudHTML).join('')}

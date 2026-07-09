@@ -101541,7 +101541,15 @@
       const texts = digestTexts(item);
       const rule = String(item.digest_rule || '').trim();
       if (!items.length && !texts.length && !rule) return '';
-      const groups = groupedDigestItems(item, items);
+      const fallbackItems = !items.length && (texts.length || rule) ? [{
+        indicator: String(item.digest_indicator || item.name || 'Показатель').trim(),
+        row_type: '',
+        traffic_light: item.active || item.traffic_light || 'gray',
+        digest_texts: texts,
+        digest_rule: rule,
+        ai_product_name: String(item.ai_tool_product_name || '').trim(),
+      }] : [];
+      const groups = groupedDigestItems(item, items.length ? items : fallbackItems);
       return `
         <div class="ai-digest-panel">
           ${groups.map(digestCloudHTML).join('')}
