@@ -139,6 +139,27 @@ AI_SKILL_LABELS = {
 LLM_SKILL_LABEL_OVERRIDES = {
     "clickstream_funnel": "Воронка оформления в МП СБОЛ",
 }
+AI_SKILL_KEY_ALIASES = {
+    "анализ_кликстрим_воронок": "clickstream_funnel",
+    "clickstream": "clickstream_funnel",
+    "clickstream_funnels": "clickstream_funnel",
+    "client_metric": "client_metrics",
+    "key_metrics": "client_metrics",
+    "ключевые_метрики": "client_metrics",
+    "complaint": "complaints",
+    "жалобы": "complaints",
+    "жалобы_и_обращения": "complaints",
+    "draft": "drafts",
+    "drafts_sbol": "drafts",
+    "sbol_drafts": "drafts",
+    "черновик": "drafts",
+    "черновики": "drafts",
+    "campaign_funnel": "funnel",
+    "воронка_кампейнинга": "funnel",
+    "pilot": "pilots",
+    "campaign_pilots": "pilots",
+    "пилотные_кампании": "pilots",
+}
 AI_SKILL_BLOCKS = {
     "clickstream_funnel": "attract",
     "client_metrics": "general",
@@ -338,7 +359,8 @@ def normalize_ai_product_key(value: Any) -> str:
 
 def normalize_ai_skill_key(value: Any) -> str:
     normalized = re.sub(r"[^0-9a-zа-яё]+", "_", normalize_mapping_key(value))
-    return normalized.strip("_")
+    normalized = normalized.strip("_")
+    return AI_SKILL_KEY_ALIASES.get(normalized, normalized)
 
 
 def parse_ai_light(value: Any) -> str:
@@ -705,13 +727,16 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
         frame = frame.dropna(how="all").copy()
         frame.columns = [clean_text(column) for column in frame.columns]
         mapping = {key: find_column(list(frame.columns), names) for key, names in aliases.items()}
-        if not mapping["skill_key"] or not mapping["product"]:
+        if (not mapping["skill_key"] and not mapping["skill_name"]) or not mapping["product"]:
             continue
         if not mapping["row_type"] and not mapping["color"] and not mapping["text"]:
             continue
 
         for _, source in frame.iterrows():
-            skill_key = normalize_ai_skill_key(source.get(mapping["skill_key"]))
+            raw_skill_key = source.get(mapping["skill_key"]) if mapping["skill_key"] else ""
+            skill_key = normalize_ai_skill_key(raw_skill_key)
+            if skill_key not in AI_SKILL_LABELS and mapping["skill_name"]:
+                skill_key = normalize_ai_skill_key(source.get(mapping["skill_name"]))
             if skill_key not in AI_SKILL_LABELS:
                 continue
             product = clean_text(source.get(mapping["product"]))
