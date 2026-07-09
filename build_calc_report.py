@@ -3020,23 +3020,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       const texts = digestTexts(item);
       const rule = String(item.digest_rule || '').trim();
       if (!items.length && !texts.length && !rule) return '';
-      const itemTexts = new Set(
-        items.flatMap((entry) => (
-          Array.isArray(entry.digest_texts)
-            ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
-            : []
-        ))
-      );
-      const extraTexts = texts.filter((text) => !itemTexts.has(text));
-      const extraItems = extraTexts.map((text) => ({
-        indicator: 'Текст',
-        row_type: 'текст',
-        traffic_light: 'gray',
-        digest_texts: [text],
-        digest_rule: '',
-        ai_product_name: String(item.ai_tool_product_name || '').trim(),
-      }));
-      const groups = groupedDigestItems(item, [...items, ...extraItems]);
+      const groups = groupedDigestItems(item, items);
       return `
         <div class="ai-digest-panel">
           ${groups.map(digestCloudHTML).join('')}
