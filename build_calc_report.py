@@ -136,6 +136,9 @@ AI_SKILL_LABELS = {
     "funnel": "Воронка кампейнинга",
     "pilots": "Пилотные кампании",
 }
+LLM_SKILL_LABEL_OVERRIDES = {
+    "clickstream_funnel": "Воронка оформления в МП СБОЛ",
+}
 AI_SKILL_BLOCKS = {
     "clickstream_funnel": "attract",
     "client_metrics": "general",
@@ -577,6 +580,7 @@ def llm_summary_input(digests: list[dict[str, Any]]) -> dict[str, Any]:
     skills = []
     for digest in digests:
         skill_key = clean_text(digest.get("skill_key"))
+        skill_name = LLM_SKILL_LABEL_OVERRIDES.get(skill_key, AI_SKILL_LABELS.get(skill_key, skill_key))
         items = []
         for item in digest.get("digest_items", []):
             if not isinstance(item, dict):
@@ -593,7 +597,7 @@ def llm_summary_input(digests: list[dict[str, Any]]) -> dict[str, Any]:
         skills.append(
             {
                 "skill_key": skill_key,
-                "skill_name": AI_SKILL_LABELS.get(skill_key, skill_key),
+                "skill_name": skill_name,
                 "period": clean_text(digest.get("digest_month")),
                 "traffic_light": clean_text(digest.get("traffic_light")),
                 "ai_products": digest.get("ai_tool_product_names", []),
@@ -859,7 +863,12 @@ def digest_indicator_key(row: dict[str, Any]) -> str:
 
 def is_generic_digest_text_row(row: dict[str, Any]) -> bool:
     indicator_key = digest_indicator_key(row)
-    return indicator_key in {"", "рекомендация", "recommendation", "текст", "text"}
+    if indicator_key in {"", "recommendation", "recommendations", "текст", "text", "summary"}:
+        return True
+    return any(
+        marker in indicator_key
+        for marker in ("рекомендац", "коммент", "вывод", "итог", "summary")
+    )
 
 
 def build_digest_item(
