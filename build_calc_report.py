@@ -194,6 +194,12 @@ AI_TOOL_KEYS_BY_BLOCK_NAME = {
     ("attract", "Пилотные кампании"): "pilots",
     ("attract", "Черновики"): "drafts",
 }
+PILOTS_METRIC_KEYS = {
+    "всегопилотов": "total",
+    "selfservice": "self_service",
+    "запущено": "launched",
+    "значимых": "significant",
+}
 AI_MONTH_NAMES = {
     1: "январь",
     2: "февраль",
@@ -460,6 +466,11 @@ def ai_month_label_from_sort(month_sort: tuple[int, int, str]) -> str:
     if year and month:
         return f"{AI_MONTH_NAMES.get(month, str(month))} {year}"
     return clean_text(raw)
+
+
+def shift_ai_month(year: int, month: int, delta: int) -> tuple[int, int]:
+    index = year * 12 + month - 1 + delta
+    return index // 12, index % 12 + 1
 
 
 def previous_ai_month(year: int, month: int) -> tuple[int, int]:
@@ -960,6 +971,157 @@ def build_digest_items(latest_rows: list[dict[str, Any]], month: str, stale_tool
     return items
 
 
+def pilot_metric_key(row: dict[str, Any]) -> str:
+    return PILOTS_METRIC_KEYS.get(normalize_column_key(row.get("indicator")), "")
+
+
+def parse_pilot_count(value: Any) -> float:
+    text = clean_text(value)
+    if not text:
+        return 0.0
+    compact = text.replace("\xa0", " ").replace(" ", "").replace(",", ".")
+    match = re.search(r"-?\d+(?:\.\d+)?", compact)
+    if not match:
+        return 0.0
+    try:
+        return float(match.group(0))
+    except ValueError:
+        return 0.0
+
+
+def format_pilot_count(value: float) -> str:
+    if abs(value - round(value)) < 1e-9:
+        return str(int(round(value)))
+    text = f"{value:.1f}".rstrip("0").rstrip(".")
+    return text.replace(".", ",")
+
+
+def format_pilot_delta(current: float, previous: float) -> str:
+    if abs(previous) < 1e-9:
+        if abs(current) < 1e-9:
+            return "0%"
+        return "+∞%"
+    delta = (current - previous) / previous * 100
+    rounded = int(round(delta))
+    if rounded == 0:
+        return "0%"
+    sign = "+" if rounded > 0 else ""
+    return f"{sign}{rounded}%"
+
+
+def ai_month_range_label(start: tuple[int, int], end: tuple[int, int]) -> str:
+    return f"{ai_month_label_from_sort((start[0], start[1], ''))} - {ai_month_label_from_sort((end[0], end[1], ''))}"
+
+
+def pilot_window(today: date | None = None) -> tuple[tuple[int, int], tuple[int, int], tuple[int, int], tuple[int, int]]:
+    today = today or date.today()
+    end = previous_ai_month(today.year, today.month)
+    start = shift_ai_month(end[0], end[1], -2)
+    previous_end = shift_ai_month(end[0], end[1], -1)
+    previous_start = shift_ai_month(end[0], end[1], -3)
+    return start, end, previous_start, previous_end
+
+
+def pilot_metric_value_for_month(
+    rows: list[dict[str, Any]],
+    metric_key: str,
+    month: tuple[int, int],
+) -> float:
+    total = 0.0
+    for row in rows:
+        if pilot_metric_key(row) != metric_key:
+            continue
+        month_sort = row.get("month_sort", (0, 0, ""))
+        if month_sort[0] == month[0] and month_sort[1] == month[1]:
+            total += parse_pilot_count(row.get("text"))
+    return total
+
+
+def build_pilots_digest(
+    rows: list[dict[str, Any]],
+    mapped_products: list[str],
+    today: date | None = None,
+) -> dict[str, Any] | None:
+    product_keys = {normalize_ai_product_key(product) for product in mapped_products if clean_text(product)}
+    if not product_keys:
+        return None
+
+    pilot_rows = [
+        row
+        for row in rows
+        if row.get("skill_key") == "pilots"
+        and row.get("product_key") in product_keys
+        and pilot_metric_key(row)
+    ]
+    if not pilot_rows:
+        return None
+
+    start, end, previous_start, previous_end = pilot_window(today)
+    current_label = ai_month_range_label(start, end)
+    previous_label = ai_month_range_label(previous_start, previous_end)
+    current = {
+        key: pilot_metric_value_for_month(pilot_rows, key, end)
+        for key in ("total", "self_service", "launched", "significant")
+    }
+    previous = {
+        key: pilot_metric_value_for_month(pilot_rows, key, previous_end)
+        for key in ("total", "self_service", "launched", "significant")
+    }
+    if not any(current.values()) and not any(previous.values()):
+        return None
+
+    total = format_pilot_count(current["total"])
+    significant = format_pilot_count(current["significant"])
+    self_service = format_pilot_count(current["self_service"])
+    texts = [
+        f"В рамках последних трех месяцев ({current_label}) было запущено {total} пилотов.",
+        (
+            f"Из них, {significant} значимых "
+            f"({format_pilot_delta(current['significant'], previous['significant'])} к {previous_label})."
+        ),
+        (
+            f"Из {total} пилотов ({current_label}), было запущено {self_service} Self-service шт. "
+            f"({format_pilot_delta(current['self_service'], previous['self_service'])} к {previous_label})."
+        ),
+    ]
+    if current["launched"] or previous["launched"]:
+        texts.append(
+            f"Показатель «Запущено»: {format_pilot_count(current['launched'])} шт. "
+            f"({format_pilot_delta(current['launched'], previous['launched'])} к {previous_label})."
+        )
+
+    traffic_light = "green" if current["total"] > 0 else "red"
+    end_sort = (end[0], end[1], "")
+    product_names = unique_non_empty(mapped_products)
+    digest_item = {
+        "indicator": "Пилотные кампании",
+        "row_type": "агрегация",
+        "traffic_light": traffic_light,
+        "digest_texts": texts,
+        "digest_rule": "",
+        "digest_month": ai_month_label_from_sort(end_sort),
+        "digest_is_stale": False,
+        "digest_stale_tooltip": "",
+        "ai_product_name": ", ".join(product_names),
+    }
+    return {
+        "traffic_light": traffic_light,
+        "digest_texts": texts,
+        "digest_rule": "",
+        "digest_indicator": "Пилотные кампании",
+        "digest_items": [digest_item],
+        "digest_month": ai_month_label_from_sort(end_sort),
+        "digest_month_raw": ai_month_label_from_sort(end_sort),
+        "digest_month_sort": end_sort,
+        "digest_display_month_sort": end_sort,
+        "digest_is_stale": False,
+        "digest_stale_tooltip": "",
+        "ai_tool_product_name": ", ".join(product_names),
+        "ai_tool_product_names": product_names,
+        "footer": ai_summary_footer(ai_month_label_from_sort(end_sort), product_names),
+    }
+
+
 def aggregate_ai_digests(digests: list[dict[str, Any]]) -> dict[str, Any]:
     product_names = unique_non_empty([digest.get("mapped_product") or digest.get("ai_product_name", "") for digest in digests])
     latest = max(digests, key=lambda digest: digest.get("digest_month_sort", (0, 0, "")))
@@ -1416,23 +1578,29 @@ def apply_ai_skill_digest(
                             )
                     continue
 
-                matched_digests = []
-                for mapped_product in mapped_products:
-                    digest = digest_index.get((skill_key, normalize_ai_product_key(mapped_product)))
-                    if digest:
-                        matched_digests.append({**digest, "mapped_product": mapped_product})
-                if not matched_digests:
+                if skill_key == "pilots":
+                    digest = build_pilots_digest(rows, mapped_products)
+                    matched_count = len(digest.get("ai_tool_product_names", [])) if digest else 0
+                else:
+                    matched_digests = []
+                    for mapped_product in mapped_products:
+                        digest_item = digest_index.get((skill_key, normalize_ai_product_key(mapped_product)))
+                        if digest_item:
+                            matched_digests.append({**digest_item, "mapped_product": mapped_product})
+                    digest = aggregate_ai_digests(matched_digests) if matched_digests else None
+                    matched_count = len(matched_digests)
+
+                if not digest:
                     if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
                         llm_unmatched_no_digest += 1
                         if len(llm_unmatched_samples) < 20:
                             llm_unmatched_samples.append(
                                 f"{product_name} / {skill_key}: no digest for {', '.join(mapped_products)}"
-                            )
+                        )
                     continue
                 matched_mapping_keys.add(mapping_key)
-                matched_mapping_rows += len(matched_digests)
+                matched_mapping_rows += matched_count
 
-                digest = aggregate_ai_digests(matched_digests)
                 if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
                     group_llm_digests.setdefault(block_code, []).append({"skill_key": skill_key, **digest})
                 payload = {
