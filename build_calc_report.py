@@ -1090,22 +1090,23 @@ def build_pilots_digest(
             f"({format_pilot_delta(current['launched'], previous['launched'])} к {previous_label})."
         )
 
-    traffic_light = "green" if current["total"] > 0 else "red"
     end_sort = (end[0], end[1], "")
     product_names = unique_non_empty(mapped_products)
+    product_label = product_names[0] if len(product_names) == 1 else ai_products_count_label(len(product_names))
     digest_item = {
         "indicator": "Пилотные кампании",
         "row_type": "агрегация",
-        "traffic_light": traffic_light,
+        "traffic_light": "",
         "digest_texts": texts,
         "digest_rule": "",
         "digest_month": ai_month_label_from_sort(end_sort),
         "digest_is_stale": False,
         "digest_stale_tooltip": "",
-        "ai_product_name": ", ".join(product_names),
+        "ai_product_name": product_label,
+        "product_list": product_names,
     }
     return {
-        "traffic_light": traffic_light,
+        "traffic_light": "",
         "digest_texts": texts,
         "digest_rule": "",
         "digest_indicator": "Пилотные кампании",
@@ -1116,7 +1117,7 @@ def build_pilots_digest(
         "digest_display_month_sort": end_sort,
         "digest_is_stale": False,
         "digest_stale_tooltip": "",
-        "ai_tool_product_name": ", ".join(product_names),
+        "ai_tool_product_name": product_label,
         "ai_tool_product_names": product_names,
         "footer": ai_summary_footer(ai_month_label_from_sort(end_sort), product_names),
     }
@@ -2923,6 +2924,88 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       letter-spacing: .01em;
     }
 
+    .ai-digest-product-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      width: fit-content;
+      margin: 0 0 3px;
+    }
+
+    .ai-digest-product-head .ai-digest-item-product {
+      margin: 0;
+    }
+
+    .ai-digest-product-info {
+      position: relative;
+      flex: none;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0,122,255,.22);
+      border-radius: 999px;
+      background: rgba(0,122,255,.08);
+      color: #006adc;
+      cursor: default;
+      font-size: 10.5px;
+      font-weight: 850;
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .ai-digest-product-info:hover,
+    .ai-digest-product-info:focus {
+      border-color: rgba(0,122,255,.36);
+      background: rgba(0,122,255,.14);
+      outline: none;
+    }
+
+    .ai-digest-product-info::before,
+    .ai-digest-product-info::after {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .14s ease, transform .14s ease;
+      z-index: 75;
+    }
+
+    .ai-digest-product-info::after {
+      content: attr(data-tooltip);
+      left: -10px;
+      bottom: calc(100% + 9px);
+      width: 230px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: rgba(29,29,31,.96);
+      box-shadow: 0 10px 28px rgba(0,0,0,.18);
+      color: #fff;
+      font-size: 11.5px;
+      font-weight: 650;
+      line-height: 1.35;
+      text-align: left;
+      white-space: pre-line;
+      transform: translateY(4px);
+    }
+
+    .ai-digest-product-info::before {
+      content: "";
+      left: 3px;
+      bottom: calc(100% + 4px);
+      border: 5px solid transparent;
+      border-top-color: rgba(29,29,31,.96);
+      transform: translateY(4px);
+    }
+
+    .ai-digest-product-info:hover::before,
+    .ai-digest-product-info:hover::after,
+    .ai-digest-product-info:focus::before,
+    .ai-digest-product-info:focus::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     .ai-digest-item-text {
       margin-top: 4px;
       color: #515154;
@@ -3124,6 +3207,12 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       return String(entry.product_label || entry.ai_product_name || entry.ai_tool_product_name || '').trim();
     }
 
+    function digestProductList(entry) {
+      return Array.isArray(entry.product_list)
+        ? entry.product_list.map((product) => String(product || '').trim()).filter(Boolean)
+        : [];
+    }
+
     function isRecommendationDigestEntry(entry) {
       const title = String(entry.indicator || entry.digest_indicator || '').trim().toLowerCase();
       return title.includes('рекомендац') || title === 'recommendation' || title === 'recommendations';
@@ -3161,7 +3250,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       entries.forEach((entry) => {
         const product = digestProductName(entry) || String(item.ai_tool_product_name || '').trim() || 'Продукт';
         if (!byProduct.has(product)) {
-          const group = { product, entries: [] };
+          const group = { product, productList: digestProductList(entry), entries: [] };
           byProduct.set(product, group);
           groups.push(group);
         }
@@ -3179,9 +3268,10 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
         : [];
       const rule = String(entry.digest_rule || '').trim();
+      const hasTrafficLight = String(entry.traffic_light || '').trim().length > 0;
       return `
         <div class="ai-digest-item">
-          <span class="ai-digest-light ${digestLightClass(entry.traffic_light)}"></span>
+          ${hasTrafficLight ? `<span class="ai-digest-light ${digestLightClass(entry.traffic_light)}"></span>` : ''}
           <div>
             <div class="ai-digest-item-title">${esc(title)}</div>
             ${texts.map((text) => `<div class="ai-digest-item-text">${esc(text)}</div>`).join('')}
@@ -3192,9 +3282,14 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
     }
 
     function digestCloudHTML(group) {
+      const productList = Array.isArray(group.productList) ? group.productList.filter(Boolean) : [];
+      const productTooltip = productList.length > 1 ? productList.join('\n') : '';
       return `
         <div class="ai-digest-cloud">
-          <div class="ai-digest-item-product">${esc(group.product)}</div>
+          <div class="ai-digest-product-head">
+            <div class="ai-digest-item-product">${esc(group.product)}</div>
+            ${productTooltip ? `<span class="ai-digest-product-info" data-tooltip="${esc(productTooltip)}" aria-label="${esc(productTooltip)}" tabindex="0">i</span>` : ''}
+          </div>
           ${group.entries.map(digestItemHTML).join('')}
         </div>
       `;
