@@ -91679,8 +91679,8 @@
                     "Воронка оформления стабильна: ключевых провалов на последнем шаге не найдено."
                   ],
                   "digest_rule": "green если CR не ниже целевого порога и нет красных шагов",
-                  "digest_month": "июнь 2026",
-                  "digest_month_raw": "июнь 2026",
+                  "digest_month": "",
+                  "digest_month_raw": "",
                   "digest_is_stale": false,
                   "digest_stale_tooltip": "",
                   "digest_indicator": "Воронка оформления, Рекомендация",
@@ -91691,7 +91691,7 @@
                       "traffic_light": "green",
                       "digest_texts": [],
                       "digest_rule": "green если CR не ниже целевого порога и нет красных шагов",
-                      "digest_month": "июнь 2026",
+                      "digest_month": "",
                       "digest_is_stale": false,
                       "digest_stale_tooltip": "",
                       "ai_product_name": "спасибки"
@@ -91704,7 +91704,7 @@
                         "Воронка оформления стабильна: ключевых провалов на последнем шаге не найдено."
                       ],
                       "digest_rule": "green если CR не ниже целевого порога и нет красных шагов",
-                      "digest_month": "июнь 2026",
+                      "digest_month": "",
                       "digest_is_stale": false,
                       "digest_stale_tooltip": "",
                       "ai_product_name": "спасибки"
@@ -91714,7 +91714,7 @@
                   "ai_tool_product_names": [
                     "спасибки"
                   ],
-                  "footer": "AI-сводка (июнь 2026) - спасибки",
+                  "footer": "AI-сводка - спасибки",
                   "active": "green",
                   "ai_digest": true
                 },
@@ -101578,10 +101578,11 @@
       const productList = Array.isArray(group.productList) ? group.productList.filter(Boolean) : [];
       const productTooltip = productList.length > 1 ? productList.join('
 ') : '';
+      const productBadge = productTooltip ? '' : String(group.product || '').trim();
       return `
         <div class="ai-digest-cloud">
           <div class="ai-digest-product-head">
-            <div class="ai-digest-item-product">${esc(group.product)}</div>
+            ${productBadge ? `<div class="ai-digest-item-product">${esc(productBadge)}</div>` : ''}
             ${productTooltip ? `<span class="ai-digest-product-info" data-tooltip="${esc(productTooltip)}" aria-label="${esc(productTooltip)}" tabindex="0">i</span>` : ''}
           </div>
           ${group.entries.map(digestItemHTML).join('')}

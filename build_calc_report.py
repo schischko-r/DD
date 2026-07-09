@@ -200,6 +200,7 @@ PILOTS_METRIC_KEYS = {
     "запущено": "launched",
     "значимых": "significant",
 }
+AI_DRAFTS_PRODUCT_MARKER_RE = re.compile(r"\s*\(\s*черновики\s*\)\s*", re.IGNORECASE)
 AI_MONTH_NAMES = {
     1: "январь",
     2: "февраль",
@@ -379,6 +380,14 @@ def normalize_ai_skill_key(value: Any) -> str:
     normalized = re.sub(r"[^0-9a-zа-яё]+", "_", normalize_mapping_key(value))
     normalized = normalized.strip("_")
     return AI_SKILL_KEY_ALIASES.get(normalized, normalized)
+
+
+def normalize_ai_digest_skill_product(skill_key: str, product: Any) -> tuple[str, str]:
+    product_name = clean_text(product)
+    if skill_key == "funnel" and AI_DRAFTS_PRODUCT_MARKER_RE.search(product_name):
+        product_name = clean_text(AI_DRAFTS_PRODUCT_MARKER_RE.sub(" ", product_name))
+        return "drafts", product_name
+    return skill_key, product_name
 
 
 def parse_ai_light(value: Any) -> str:
@@ -767,6 +776,7 @@ def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
             product = clean_text(source.get(mapping["product"]))
             if not product:
                 continue
+            skill_key, product = normalize_ai_digest_skill_product(skill_key, product)
             row_type = normalize_lookup_key(source.get(mapping["row_type"])) if mapping["row_type"] else ""
             text = clean_text(source.get(mapping["text"])) if mapping["text"] else ""
             color = parse_ai_light(source.get(mapping["color"])) if mapping["color"] else ""
@@ -1161,6 +1171,29 @@ def aggregate_ai_digests(digests: list[dict[str, Any]]) -> dict[str, Any]:
         "ai_tool_product_names": product_names,
         "footer": ai_summary_footer(latest.get("digest_month", ""), product_names),
     }
+
+
+def digest_display_payload(skill_key: str, digest: dict[str, Any]) -> dict[str, Any]:
+    result = dict(digest)
+    if skill_key != "clickstream_funnel":
+        return result
+
+    product_names = list(result.get("ai_tool_product_names", []))
+    result["digest_month"] = ""
+    result["digest_month_raw"] = ""
+    result["digest_is_stale"] = False
+    result["digest_stale_tooltip"] = ""
+    result["footer"] = ai_summary_footer("", product_names)
+    result["digest_items"] = [
+        {
+            **item,
+            "digest_month": "",
+            "digest_is_stale": False,
+            "digest_stale_tooltip": "",
+        }
+        for item in result.get("digest_items", [])
+    ]
+    return result
 
 
 def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], dict[str, Any]]:
@@ -1604,20 +1637,21 @@ def apply_ai_skill_digest(
 
                 if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
                     group_llm_digests.setdefault(block_code, []).append({"skill_key": skill_key, **digest})
+                display_digest = digest_display_payload(skill_key, digest)
                 payload = {
-                    "traffic_light": digest.get("traffic_light") or "gray",
-                    "digest_texts": digest.get("digest_texts", []),
-                    "digest_rule": digest.get("digest_rule", ""),
-                    "digest_month": digest.get("digest_month", ""),
-                    "digest_month_raw": digest.get("digest_month_raw", ""),
-                    "digest_is_stale": digest.get("digest_is_stale", False),
-                    "digest_stale_tooltip": digest.get("digest_stale_tooltip", ""),
-                    "digest_indicator": digest.get("digest_indicator", ""),
-                    "digest_items": digest.get("digest_items", []),
+                    "traffic_light": display_digest.get("traffic_light") or "gray",
+                    "digest_texts": display_digest.get("digest_texts", []),
+                    "digest_rule": display_digest.get("digest_rule", ""),
+                    "digest_month": display_digest.get("digest_month", ""),
+                    "digest_month_raw": display_digest.get("digest_month_raw", ""),
+                    "digest_is_stale": display_digest.get("digest_is_stale", False),
+                    "digest_stale_tooltip": display_digest.get("digest_stale_tooltip", ""),
+                    "digest_indicator": display_digest.get("digest_indicator", ""),
+                    "digest_items": display_digest.get("digest_items", []),
                     "ai_tool_key": skill_key,
-                    "ai_tool_product_name": digest.get("ai_tool_product_name", ""),
-                    "ai_tool_product_names": digest.get("ai_tool_product_names", []),
-                    "footer": digest.get("footer", ""),
+                    "ai_tool_product_name": display_digest.get("ai_tool_product_name", ""),
+                    "ai_tool_product_names": display_digest.get("ai_tool_product_names", []),
+                    "footer": display_digest.get("footer", ""),
                 }
                 if update_ai_tool(block, skill_key, payload):
                     matched += 1
@@ -3284,10 +3318,11 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
     function digestCloudHTML(group) {
       const productList = Array.isArray(group.productList) ? group.productList.filter(Boolean) : [];
       const productTooltip = productList.length > 1 ? productList.join('\n') : '';
+      const productBadge = productTooltip ? '' : String(group.product || '').trim();
       return `
         <div class="ai-digest-cloud">
           <div class="ai-digest-product-head">
-            <div class="ai-digest-item-product">${esc(group.product)}</div>
+            ${productBadge ? `<div class="ai-digest-item-product">${esc(productBadge)}</div>` : ''}
             ${productTooltip ? `<span class="ai-digest-product-info" data-tooltip="${esc(productTooltip)}" aria-label="${esc(productTooltip)}" tabindex="0">i</span>` : ''}
           </div>
           ${group.entries.map(digestItemHTML).join('')}
