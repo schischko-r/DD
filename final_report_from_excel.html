@@ -101576,8 +101576,7 @@
 
     function digestCloudHTML(group) {
       const productList = Array.isArray(group.productList) ? group.productList.filter(Boolean) : [];
-      const productTooltip = productList.length > 1 ? productList.join('
-') : '';
+      const productTooltip = productList.length > 1 ? productList.join('\n') : '';
       const productBadge = productTooltip ? '' : String(group.product || '').trim();
       return `
         <div class="ai-digest-cloud">

@@ -3317,7 +3317,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
 
     function digestCloudHTML(group) {
       const productList = Array.isArray(group.productList) ? group.productList.filter(Boolean) : [];
-      const productTooltip = productList.length > 1 ? productList.join('\n') : '';
+      const productTooltip = productList.length > 1 ? productList.join('\\n') : '';
       const productBadge = productTooltip ? '' : String(group.product || '').trim();
       return `
         <div class="ai-digest-cloud">
