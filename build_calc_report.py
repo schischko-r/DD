@@ -2922,14 +2922,36 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       `;
     }
 
+    function digestPanelTextHTML(text) {
+      return `
+        <div class="ai-digest-item ai-digest-text-item">
+          <span class="ai-digest-light gray"></span>
+          <div>
+            <div class="ai-digest-item-title">Текст</div>
+            <div class="ai-digest-item-text">${esc(text)}</div>
+          </div>
+        </div>
+      `;
+    }
+
     function digestPanelHTML(item) {
       const items = digestItems(item);
       const texts = digestTexts(item);
       const rule = String(item.digest_rule || '').trim();
       if (!items.length && !texts.length && !rule) return '';
+      const itemTexts = new Set(
+        items.flatMap((entry) => (
+          Array.isArray(entry.digest_texts)
+            ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
+            : []
+        ))
+      );
+      const extraTexts = texts.filter((text) => !itemTexts.has(text));
       return `
         <div class="ai-digest-panel">
-          ${items.length ? items.map(digestItemHTML).join('') : texts.map((text) => `<p>${esc(text)}</p>`).join('')}
+          ${items.map(digestItemHTML).join('')}
+          ${extraTexts.map(digestPanelTextHTML).join('')}
+          ${!items.length && !extraTexts.length ? texts.map(digestPanelTextHTML).join('') : ''}
           ${!items.length && rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
         </div>
       `;
