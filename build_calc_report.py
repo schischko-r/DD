@@ -3412,7 +3412,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       const hasDigest = hasDigestPayload(item);
       return `
         <div class="tool-item${hasDigest ? ' has-ai-digest' : ''}">
-          ${hasDigest ? aiDigestToggleHTML() : ''}
+          ${hasDigest ? aiDigestToggleHTML() : '<span class="ai-digest-toggle-spacer" aria-hidden="true"></span>'}
           ${toolLightHTML(neutralLight ? 'gray' : (item.active || item.traffic_light))}
           <div class="tool-item-copy">
             ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : ''}
@@ -3430,6 +3430,45 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         html,
         "      const missingLink = !normalizedButton || !normalizedButton.link;\n",
         "      const hasDigest = hasDigestPayload(item);\n      const missingLink = (!normalizedButton || !normalizedButton.link) && !hasDigest;\n",
+    )
+    html = replace_once(
+        html,
+        "              ${actionsHTML(block.actions)}\n",
+        "              ${actionsHTML(block.actions, block.code)}\n",
+    )
+    html = replace_once(
+        html,
+        """    function actionsHTML(actions) {
+      const cleanActions = normalizeActions(actions);
+      if (!cleanActions.length) return '';
+
+      return `
+        <div class="block-actions">
+          ${actionLinkItemsHTML(cleanActions)}
+        </div>
+      `;
+    }
+""",
+        """    function actionsHTML(actions, blockCode = '') {
+      const cleanActions = normalizeActions(actions);
+      if (!cleanActions.length) return '';
+      const title = blockCode === 'goals'
+        ? '<div class="block-actions-title">Отчетность по блоку:</div>'
+        : '';
+
+      return `
+        <div class="block-actions${blockCode === 'goals' ? ' goals-actions' : ''}">
+          ${title}
+          ${actionLinkItemsHTML(cleanActions)}
+        </div>
+      `;
+    }
+""",
+    )
+    html = replace_once(
+        html,
+        '<div class="block-advisory-text">В вашем юните имеется мастер-деш. Вы можете использовать его для мониторинга целей. Для обогащения, обратитесь в штаб Юнита</div>',
+        '<div class="block-advisory-text">Для мониторинга целей используйте мастер-деш вашего юнита. Для его обогащения обратитесь в штаб юнита.</div>',
     )
     html = replace_once(
         html,
@@ -3884,6 +3923,71 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       background: transparent;
       color: #3a3a3c;
       box-shadow: none;
+    }
+
+    .block-note.tool-group {
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .block-note.tool-group > .note-copy {
+      padding: 2px 0 10px;
+    }
+
+    .block-note.tool-group .tool-items {
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 12px;
+      background: #fafafa;
+    }
+
+    .block-note.tool-group .tool-item {
+      grid-template-columns: 22px 10px minmax(0, 1fr) auto;
+      min-height: 46px;
+      padding: 8px 10px;
+      background: transparent;
+    }
+
+    .block-note.tool-group .tool-item + .tool-item {
+      border-top: 1px solid rgba(0,0,0,.07);
+    }
+
+    .ai-digest-toggle-spacer {
+      width: 22px;
+      height: 22px;
+    }
+
+    .block-note.tool-group .llm-summary-card {
+      border: 0;
+      border-bottom: 1px solid rgba(0,0,0,.07);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .block-note.tool-group .ai-digest-panel {
+      margin: 6px 0 2px;
+      padding: 10px 0 2px 32px;
+      border: 0;
+      border-top: 1px solid rgba(0,0,0,.07);
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .block-note.tool-group .ai-digest-cloud {
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+    }
+
+    .block-actions-title {
+      flex: 1 0 100%;
+      margin-bottom: 2px;
+      color: #6e6e73;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0;
     }
 
     .focus-side {
