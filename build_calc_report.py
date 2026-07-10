@@ -384,8 +384,9 @@ def normalize_ai_skill_key(value: Any) -> str:
 
 def normalize_ai_digest_skill_product(skill_key: str, product: Any) -> tuple[str, str]:
     product_name = clean_text(product)
-    if skill_key == "funnel" and AI_DRAFTS_PRODUCT_MARKER_RE.search(product_name):
-        product_name = clean_text(AI_DRAFTS_PRODUCT_MARKER_RE.sub(" ", product_name))
+    if skill_key == "funnel" and "черновик" in normalize_lookup_key(product_name):
+        cleaned_product_name = clean_text(AI_DRAFTS_PRODUCT_MARKER_RE.sub(" ", product_name))
+        product_name = cleaned_product_name or product_name
         return "drafts", product_name
     return skill_key, product_name
 
@@ -1066,7 +1067,19 @@ def build_pilots_digest(
     if not pilot_rows:
         return None
 
-    start, end, previous_start, previous_end = pilot_window(today)
+    march_sorts = [
+        row.get("month_sort", (0, 0, ""))
+        for row in pilot_rows
+        if row.get("month_sort", (0, 0, ""))[0] and row.get("month_sort", (0, 0, ""))[1] == 3
+    ]
+    if march_sorts:
+        latest_march = max(march_sorts, key=lambda item: item[0])
+        end = (latest_march[0], 3)
+        start = shift_ai_month(end[0], end[1], -2)
+        previous_end = shift_ai_month(end[0], end[1], -1)
+        previous_start = shift_ai_month(end[0], end[1], -3)
+    else:
+        start, end, previous_start, previous_end = pilot_window(today)
     current_label = ai_month_range_label(start, end)
     previous_label = ai_month_range_label(previous_start, previous_end)
     current = {
@@ -2567,6 +2580,21 @@ def build_combined_data(
 
 
 def write_html(data: dict[str, Any], output_path: Path) -> None:
+    for product in data.get("products", []):
+        for block in product.get("metrics", []):
+            block_code = clean_text(block.get("code"))
+            if block_code == "goals":
+                for tool in block.get("tools", []):
+                    tool["footer"] = ""
+                    tool["footer_dynamic"] = ""
+                    tool["ai_digest"] = False
+                    tool["digest_texts"] = []
+                    tool["digest_items"] = []
+                    tool["digest_rule"] = ""
+            for metric in block.get("metrics", []):
+                if clean_text(metric.get("code")) == "hyp.datadriven_rating_7_5":
+                    metric["name"] = "Оценка исследований >=7,5"
+
     build_embedded_html = _DD_JSON2["build_embedded_html"]
     html = build_embedded_html(data, "Data-Driven Index - отчет из Расчет")
 
@@ -2614,7 +2642,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         const blockScoreText = blockUnavailable ? '—' : block.score + '%';
         const blockMetaText = blockUnavailable
           ? 'нет применимых метрик'
-          : fmt(block.earned) + ' / ' + fmt(block.max) + ' · ' + block.greenCount + ' выполнено';
+          : fmt(block.earned) + ' / ' + fmt(block.max);
         const blockProgressWidth = blockUnavailable ? 0 : block.score;
 """,
     )
@@ -3372,7 +3400,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         <div class="llm-summary-card">
           <span class="ai-digest-light ${digestLightClass(light)}"></span>
           <div class="llm-summary-body">
-            <div class="llm-summary-title">LLM-cуммаризация${staleDigestBadgeHTML(item)}</div>
+            <div class="llm-summary-title">AI-рекомендации${staleDigestBadgeHTML(item)}</div>
             <div class="llm-summary-text">${content}</div>
           </div>
         </div>
@@ -3683,6 +3711,401 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
             '          <div class="report-action-wrap">\n' + disclaimer_html,
             1,
         )
+
+    focus_css = """
+    .focus-panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .focus-difficulty {
+      display: inline-flex;
+      align-items: center;
+      min-height: 20px;
+      margin-left: 7px;
+      padding: 3px 7px;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 780;
+      line-height: 1;
+      vertical-align: 1px;
+    }
+
+    .focus-difficulty.easy { background: #e8f7ed; color: #147a3d; }
+    .focus-difficulty.medium { background: #fff4d6; color: #8a5a00; }
+    .focus-difficulty.hard { background: #ffebe9; color: #b42318; }
+
+    .gain {
+      max-width: 132px;
+      line-height: 1.2;
+      text-align: right;
+      white-space: normal;
+    }
+
+    .all-focuses {
+      margin-top: 8px;
+      border-top: 1px solid rgba(0,0,0,.07);
+    }
+
+    .all-focuses summary {
+      padding: 11px 0 2px;
+      color: var(--blue);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 720;
+      list-style: none;
+    }
+
+    .all-focuses summary::-webkit-details-marker { display: none; }
+    .all-focuses summary::after { content: " ↓"; }
+    .all-focuses[open] summary::after { content: " ↑"; }
+    .all-focuses-list { margin-top: 6px; }
+"""
+    html = html.replace("    .focus-row {\n", focus_css + "    .focus-row {\n", 1)
+    html = replace_once(
+        html,
+        "      const focuses = aggregateRecommendationFocuses(rows, product.blocks.max).slice(0, 3);\n",
+        "      const allFocuses = aggregateRecommendationFocuses(rows, product.blocks.max);\n      const focuses = allFocuses.slice(0, 3);\n",
+    )
+    html = replace_once(
+        html,
+        """      $('focusList').innerHTML = focuses.map((item, index) => `
+        <div class="focus-row">
+          <span class="focus-num">${index + 1}</span>
+          <span class="focus-text">
+            <b>${esc(item.recommendation)}</b>
+            <span>${esc(item.caption)}</span>
+          </span>
+          <span class="gain">+${item.gain} п.п.</span>
+        </div>
+      `).join('');
+""",
+        """      const focusRowHTML = (item, index) => `
+        <div class="focus-row">
+          <span class="focus-num">${index + 1}</span>
+          <span class="focus-text">
+            <b>${esc(item.recommendation)}</b>
+            <span>${esc(item.caption)}</span>
+          </span>
+          <span class="focus-side">
+            <span class="focus-difficulty ${recommendationDifficulty(item.groupPriority).tone}">${recommendationDifficulty(item.groupPriority).label}</span>
+            <span class="gain" title="Расчётно ≈ +${item.gain} к общей оценке">≈ +${item.gain} ${item.gain === 1 ? 'балл' : (item.gain >= 2 && item.gain <= 4 ? 'балла' : 'баллов')}</span>
+          </span>
+        </div>
+      `;
+      const recommendationGroupsHTML = (items) => {
+        const indexed = items.map((item, index) => ({ item, index }));
+        return [
+          { tone: 'easy', label: 'Легко' },
+          { tone: 'medium', label: 'Средне' },
+          { tone: 'hard', label: 'Сложно' },
+        ].map((group) => {
+          const groupedItems = indexed.filter(({ item }) => recommendationDifficulty(item.groupPriority).tone === group.tone);
+          if (!groupedItems.length) return '';
+          return `
+            <section class="recommendations-group ${group.tone}">
+              <div class="recommendations-group-title">
+                <span>${group.label}</span><span class="recommendations-group-count">${groupedItems.length}</span>
+              </div>
+              <div class="recommendations-group-items">
+                ${groupedItems.map(({ item, index }) => focusRowHTML(item, index)).join('')}
+              </div>
+            </section>
+          `;
+        }).join('');
+      };
+      const allRecommendations = allFocuses.length > 3
+        ? `
+          <div class="focus-actions">
+            <button type="button" class="focus-all-button" data-open-recommendations>
+              <span>Все рекомендации</span><span class="focus-all-count">${allFocuses.length}</span><span aria-hidden="true">›</span>
+            </button>
+          </div>
+          <dialog class="recommendations-dialog" data-recommendations-dialog aria-labelledby="recommendationsDialogTitle">
+            <div class="recommendations-dialog-shell">
+              <header class="recommendations-dialog-head">
+                <div>
+                  <h2 id="recommendationsDialogTitle">Все рекомендации</h2>
+                  <p>${allFocuses.length} действий для повышения DD-рейтинга</p>
+                </div>
+                <button type="button" class="recommendations-dialog-close" data-close-recommendations aria-label="Закрыть">×</button>
+              </header>
+              <div class="recommendations-dialog-list">${recommendationGroupsHTML(allFocuses)}</div>
+            </div>
+          </dialog>
+        `
+        : '';
+      $('focusList').innerHTML = focuses.map(focusRowHTML).join('') + allRecommendations;
+      const recommendationsDialog = $('focusList').querySelector('[data-recommendations-dialog]');
+      const openRecommendations = $('focusList').querySelector('[data-open-recommendations]');
+      const closeRecommendations = $('focusList').querySelector('[data-close-recommendations]');
+      if (recommendationsDialog && openRecommendations && closeRecommendations) {
+        openRecommendations.addEventListener('click', () => recommendationsDialog.showModal());
+        closeRecommendations.addEventListener('click', () => recommendationsDialog.close());
+        recommendationsDialog.addEventListener('click', (event) => {
+          if (event.target === recommendationsDialog) recommendationsDialog.close();
+        });
+        recommendationsDialog.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            recommendationsDialog.close();
+          }
+        });
+      }
+""",
+    )
+    html = replace_once(
+        html,
+        """    function recommendationDifficultyPriority(value) {
+""",
+        """    function recommendationDifficulty(value) {
+      const priority = recommendationDifficultyPriority(value);
+      if (priority <= 3) return { label: 'Легко', tone: 'easy' };
+      if (priority <= 6) return { label: 'Средне', tone: 'medium' };
+      return { label: 'Сложно', tone: 'hard' };
+    }
+
+    function recommendationDifficultyPriority(value) {
+""",
+    )
+    focus_override_css = """
+    .focus-row {
+      grid-template-columns: 24px minmax(0, 1fr) minmax(88px, auto);
+      align-items: center;
+      column-gap: 12px;
+    }
+
+    .focus-text { min-width: 0; }
+
+    .focus-num {
+      border: 1px solid rgba(0,0,0,.18);
+      background: transparent;
+      color: #3a3a3c;
+      box-shadow: none;
+    }
+
+    .focus-side {
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      gap: 5px;
+      min-width: 88px;
+    }
+
+    .focus-side .focus-difficulty {
+      display: inline-flex;
+      width: fit-content;
+      min-height: 18px;
+      margin: 0;
+      padding: 3px 7px;
+      white-space: nowrap;
+    }
+
+    .focus-side .gain {
+      display: inline-flex;
+      width: fit-content;
+      max-width: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      line-height: 1;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .focus-actions {
+      margin-top: 2px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+
+    .focus-all-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 5px 9px;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--blue);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .focus-all-button:hover { background: rgba(0,122,255,.08); }
+    .focus-all-button:focus-visible { outline: 2px solid rgba(0,122,255,.45); outline-offset: 2px; }
+
+    .focus-all-count {
+      display: inline-grid;
+      place-items: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: rgba(0,122,255,.10);
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .recommendations-dialog {
+      width: min(720px, calc(100vw - 32px));
+      max-height: min(760px, calc(100vh - 48px));
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.10);
+      border-radius: 18px;
+      background: #fff;
+      box-shadow: 0 24px 80px rgba(0,0,0,.24);
+      color: var(--ink);
+    }
+
+    .recommendations-dialog::backdrop {
+      background: rgba(28,28,30,.32);
+      backdrop-filter: blur(8px);
+    }
+
+    .recommendations-dialog-shell {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      max-height: min(760px, calc(100vh - 48px));
+    }
+
+    .recommendations-dialog-head {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.94);
+      backdrop-filter: saturate(180%) blur(18px);
+    }
+
+    .recommendations-dialog-head h2 {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .recommendations-dialog-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .recommendations-dialog-close {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      flex: none;
+      border-radius: 999px;
+      background: #f2f2f7;
+      color: #6e6e73;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .recommendations-dialog-close:hover { background: #e8e8ed; }
+
+    .recommendations-dialog-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow: auto;
+      padding: 10px 22px 24px;
+      overscroll-behavior: contain;
+    }
+
+    .recommendations-group-title {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 38px;
+      padding: 8px 0;
+      background: rgba(255,255,255,.96);
+      color: #3a3a3c;
+      font-size: 12px;
+      font-weight: 780;
+      letter-spacing: 0;
+      backdrop-filter: saturate(180%) blur(14px);
+    }
+
+    .recommendations-group-title::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #34c759;
+    }
+
+    .recommendations-group.medium .recommendations-group-title::before { background: #ffcc00; }
+    .recommendations-group.hard .recommendations-group-title::before { background: #ff3b30; }
+
+    .recommendations-group-count {
+      display: inline-grid;
+      place-items: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 999px;
+      background: #f2f2f7;
+      color: #6e6e73;
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .recommendations-group-items {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .recommendations-group-items .focus-row {
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+
+    .recommendations-group-items .focus-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    @media (max-width: 700px) {
+      .focus-panel { padding: 18px; }
+      .focus-row {
+        grid-template-columns: 24px minmax(0, 1fr);
+        align-items: start;
+      }
+      .focus-side {
+        grid-column: 2;
+        align-items: center;
+        flex-direction: row;
+      }
+      .recommendations-dialog {
+        width: calc(100vw - 16px);
+        max-height: calc(100vh - 16px);
+        border-radius: 14px;
+      }
+      .recommendations-dialog-shell { max-height: calc(100vh - 16px); }
+      .recommendations-dialog-head { padding: 17px 18px 14px; }
+      .recommendations-dialog-list { padding: 16px 18px 20px; }
+    }
+
+"""
+    html = html.replace("  </style>", focus_override_css + "  </style>", 1)
     output_path.write_text(html, encoding="utf-8")
 
 
