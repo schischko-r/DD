@@ -1,11 +1,45 @@
-import tempfile
 import unittest
+import tempfile
 from pathlib import Path
 
 import build_calc_report as report
 
 
 class SyntheticReportTest(unittest.TestCase):
+    def test_remove_ai_skills_keeps_regular_tools(self) -> None:
+        data = {
+            "ai_skill_digest": {"rows": 2},
+            "products": [{"metrics": [{"tools": [
+                {"name": "Навык «Цели»", "kind": "ai"},
+                {"name": "Группа навыков «Привлечение»", "buttons": [{"ai_tool_key": "pilots"}]},
+                {"name": "Отчетность", "button": {"label": "Перейти", "link": "https://example.test"}},
+            ]}]}],
+        }
+
+        result = report.remove_ai_skills(data)
+
+        self.assertNotIn("ai_skill_digest", result)
+        self.assertEqual(
+            [tool["name"] for tool in result["products"][0]["metrics"][0]["tools"]],
+            ["Отчетность"],
+        )
+
+    def test_no_ai_report_has_recommendation_accent(self) -> None:
+        data = {
+            "ai_skills_enabled": False,
+            "products": [],
+            "title": {"rows": [], "units": [], "types": [], "avgScore": 0},
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir) / "no-ai-report.html"
+            report.write_html(data, output)
+            html = output.read_text(encoding="utf-8")
+
+        self.assertIn('class="report-action-panel no-ai-skills"', html)
+        self.assertIn("Мы подготовили для вас AI-рекомендации по вашим ключевым метрикам", html)
+        self.assertIn("linear-gradient(135deg, rgba(255,149,0,.22)", html)
+
     def test_goals_copy_and_tool_group_layout(self) -> None:
         data = {
             "products": [
@@ -92,6 +126,8 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertIn("Отчетность по блоку:", html)
         self.assertIn("ai-digest-toggle-spacer", html)
         self.assertIn("grid-template-columns: 22px 10px minmax(0, 1fr) auto", html)
+        self.assertIn("AI-рекомендации пока недоступны: для продукта нет данных в AI-digest.", html)
+        self.assertIn(".block-note.tool-group > .note-copy", html)
         self.assertIn("Синтетическая рекомендация", html)
 
 

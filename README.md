@@ -104,6 +104,7 @@ python build_calc_report.py --help
 
 - `--no-update-ai-digest` - не ходить в API, читать локальный `ai_skill_digest_export.xlsx`;
 - `--skip-ai-digest` - собрать отчет вообще без AI-digest;
+- `--no-ai-skills` - не читать AI Excel и маппинг, не вызывать LLM и не показывать AI-навыки в отчете;
 - `--ai-digest-token` - переопределить токен AI-digest из `.env`;
 - `--ai-digest-timeout` - переопределить таймаут AI-digest в секундах;
 - `--refresh-ai-product-map` - пересоздать шаблон `ai_product_mapping.xlsx`;

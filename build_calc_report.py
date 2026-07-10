@@ -1420,7 +1420,7 @@ def ensure_llm_summary_placeholder(block: dict[str, Any], block_code: str) -> bo
                 {
                     "indicator": "Основные выводы",
                     "traffic_light": "gray",
-                    "digest_texts": ["Нет сматченных AI-digest данных для суммаризации."],
+                    "digest_texts": ["AI-рекомендации пока недоступны: для продукта нет данных в AI-digest."],
                     "digest_rule": "",
                     "digest_month": "",
                     "ai_product_name": "",
@@ -2496,6 +2496,40 @@ def enrich_cx_journey_links(data: dict[str, Any]) -> dict[str, Any]:
     return data
 
 
+def remove_ai_skills(data: dict[str, Any]) -> dict[str, Any]:
+    def is_ai_tool(tool: dict[str, Any]) -> bool:
+        name = normalize_lookup_key(tool.get("name"))
+        buttons = tool.get("buttons") if isinstance(tool.get("buttons"), list) else []
+        return bool(
+            normalize_lookup_key(tool.get("kind")) == "ai"
+            or clean_text(tool.get("ai_tool_key"))
+            or tool.get("ai_digest")
+            or name.startswith("навык «")
+            or name.startswith("группа навыков «")
+            or any(
+                isinstance(button, dict)
+                and (
+                    clean_text(button.get("ai_tool_key"))
+                    or button.get("ai_digest")
+                    or button.get("digest_items")
+                    or button.get("digest_texts")
+                    or button.get("llm_summary")
+                )
+                for button in buttons
+            )
+        )
+
+    for product in data.get("products", []):
+        for block in product.get("metrics", []):
+            block["tools"] = [
+                tool
+                for tool in block.get("tools", [])
+                if isinstance(tool, dict) and not is_ai_tool(tool)
+            ]
+    data.pop("ai_skill_digest", None)
+    return data
+
+
 def build_combined_data(
     input_path: Path,
     title_sheet: str,
@@ -2507,6 +2541,7 @@ def build_combined_data(
     refresh_ai_map: bool = False,
     update_llm_summary: bool = DEFAULT_UPDATE_LLM_SUMMARY,
     llm_log: bool = DEFAULT_LLM_LOG,
+    include_ai_skills: bool = True,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     read_title_rows = _TITLE["read_rows"]
     build_title_payload = _TITLE["build_payload"]
@@ -2528,18 +2563,21 @@ def build_combined_data(
         detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
         combined = {**detail_data, "title": title_payload}
 
-    detail_data = move_drafts_skill_to_attract(detail_data)
-    detail_data = tag_ai_tool_keys(detail_data)
+    if include_ai_skills:
+        detail_data = move_drafts_skill_to_attract(detail_data)
+        detail_data = tag_ai_tool_keys(detail_data)
+    else:
+        detail_data = remove_ai_skills(detail_data)
     detail_data = enrich_cx_journey_links(detail_data)
     combined = {**detail_data, "title": title_payload}
     ai_map_created = False
-    if create_ai_map:
+    if include_ai_skills and create_ai_map:
         ai_map_created = create_ai_product_mapping_template(
             combined,
             ai_product_map,
             overwrite=refresh_ai_map,
         )
-    if ai_digest_path:
+    if include_ai_skills and ai_digest_path:
         combined = apply_ai_skill_digest(
             combined,
             ai_digest_path,
@@ -2547,13 +2585,15 @@ def build_combined_data(
             update_llm_summary=update_llm_summary,
             llm_log=llm_log,
         )
-    llm_placeholders = ensure_llm_summary_visible(combined)
+    llm_placeholders = ensure_llm_summary_visible(combined) if include_ai_skills else 0
+    combined["ai_skills_enabled"] = include_ai_skills
     summary = {
         **detail_summary,
         "title_rows": title_rows_count,
         "title_units": len(title_payload["units"]),
         "title_types": len(title_payload["types"]),
-        "ai_product_mapping": str(ai_product_map),
+        "ai_skills_enabled": include_ai_skills,
+        "ai_product_mapping": str(ai_product_map) if include_ai_skills else "",
         "ai_product_mapping_created": ai_map_created,
         "ai_digest_rows": combined.get("ai_skill_digest", {}).get("rows", 0),
         "ai_digest_matched_tools": combined.get("ai_skill_digest", {}).get("matched_tools", 0),
@@ -3395,7 +3435,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       const light = item.active || item.traffic_light;
       const content = texts.length
         ? texts.map((text) => `<p>${esc(text)}</p>`).join('')
-        : '<p>Нет сматченных AI-digest данных для суммаризации.</p>';
+        : '<p>AI-рекомендации пока недоступны: для продукта нет данных в AI-digest.</p>';
       return `
         <div class="llm-summary-card">
           <span class="ai-digest-light ${digestLightClass(light)}"></span>
@@ -3927,19 +3967,22 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
 
     .block-note.tool-group {
       padding: 0;
-      border: 0;
-      background: transparent;
-    }
-
-    .block-note.tool-group > .note-copy {
-      padding: 2px 0 10px;
-    }
-
-    .block-note.tool-group .tool-items {
       overflow: hidden;
       border: 1px solid rgba(0,0,0,.08);
       border-radius: 12px;
       background: #fafafa;
+    }
+
+    .block-note.tool-group > .note-copy {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(0,0,0,.07);
+    }
+
+    .block-note.tool-group .tool-items {
+      overflow: visible;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
     }
 
     .block-note.tool-group .tool-item {
@@ -4210,6 +4253,36 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
 
 """
     html = html.replace("  </style>", focus_override_css + "  </style>", 1)
+
+    if data.get("ai_skills_enabled") is False:
+        no_ai_report_css = """
+    .report-action-panel.no-ai-skills {
+      position: relative;
+      overflow: hidden;
+      background-color: rgba(255,255,255,.92);
+      background-image: linear-gradient(135deg, rgba(255,149,0,.22), rgba(255,204,0,.09) 44%, rgba(255,255,255,0) 72%);
+      background-repeat: no-repeat;
+      background-size: 190px 100%;
+    }
+
+    .report-action-panel.no-ai-skills .report-action-copy,
+    .report-action-panel.no-ai-skills .report-action-buttons {
+      position: relative;
+      z-index: 1;
+    }
+
+"""
+        html = html.replace("  </style>", no_ai_report_css + "  </style>", 1)
+        html = replace_once(
+            html,
+            '<div class="report-action-panel">',
+            '<div class="report-action-panel no-ai-skills">',
+        )
+        html = replace_once(
+            html,
+            "<span>Отчет по продукту формируется LLM и доступен по ссылке</span>",
+            "<span>Мы подготовили для вас AI-рекомендации по вашим ключевым метрикам</span>",
+        )
     output_path.write_text(html, encoding="utf-8")
 
 
@@ -4233,6 +4306,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ai-digest-token", default=AI_SKILL_DIGEST_TOKEN, help="Bearer token for GET /api/skill-digest/export")
     parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
     parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
+    parser.add_argument(
+        "--no-ai-skills",
+        action="store_true",
+        help="Do not read, generate, or render AI skills",
+    )
     parser.add_argument("--refresh-ai-product-map", action="store_true", help="Overwrite AI product mapping template")
     parser.set_defaults(update_llm_summary=DEFAULT_UPDATE_LLM_SUMMARY)
     parser.add_argument("--update-llm-summary", dest="update_llm_summary", action="store_true", help="Use GigaChat to add LLM summary into AI skill groups")
@@ -4245,20 +4323,22 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    ai_skills_enabled = not args.no_ai_skills
+    skip_ai_digest = args.skip_ai_digest or args.no_ai_skills
     ai_digest_source: dict[str, Any] = {
-        "mode": "skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file"),
-        "request_enabled": bool(args.update_ai_digest and not args.skip_ai_digest),
+        "mode": "disabled" if args.no_ai_skills else ("skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file")),
+        "request_enabled": bool(args.update_ai_digest and not skip_ai_digest),
         "request_attempted": False,
         "downloaded": False,
         "download_error": "",
-        "digest_path": str(args.ai_digest_xlsx),
-        "mapping_path": str(args.ai_product_map),
-        "local_digest_used": bool(not args.skip_ai_digest and args.ai_digest_xlsx.exists()),
-        "llm_summary_requested": bool(args.update_llm_summary),
-        "llm_summary_configured": bool(gigachat_is_configured()),
+        "digest_path": "" if args.no_ai_skills else str(args.ai_digest_xlsx),
+        "mapping_path": "" if args.no_ai_skills else str(args.ai_product_map),
+        "local_digest_used": bool(not skip_ai_digest and args.ai_digest_xlsx.exists()),
+        "llm_summary_requested": bool(args.update_llm_summary and ai_skills_enabled),
+        "llm_summary_configured": bool(ai_skills_enabled and gigachat_is_configured()),
         "llm_log": bool(args.llm_log),
     }
-    if args.update_ai_digest and not args.skip_ai_digest:
+    if args.update_ai_digest and not skip_ai_digest:
         download_ai_skill_digest(
             args.ai_digest_xlsx,
             args.ai_digest_url,
@@ -4273,11 +4353,11 @@ def main() -> None:
                 "local_digest_used": True,
             }
         )
-    elif not args.skip_ai_digest and not args.ai_digest_xlsx.exists():
+    elif not skip_ai_digest and not args.ai_digest_xlsx.exists():
         raise FileNotFoundError(
             f"AI digest update disabled, but local file was not found: {args.ai_digest_xlsx}"
         )
-    ai_digest_path = None if args.skip_ai_digest else args.ai_digest_xlsx
+    ai_digest_path = None if skip_ai_digest else args.ai_digest_xlsx
     data, summary = build_combined_data(
         args.input,
         args.title_sheet,
@@ -4285,9 +4365,11 @@ def main() -> None:
         args.period,
         ai_digest_path=ai_digest_path,
         ai_product_map=args.ai_product_map,
+        create_ai_map=ai_skills_enabled,
         refresh_ai_map=args.refresh_ai_product_map,
-        update_llm_summary=args.update_llm_summary,
+        update_llm_summary=args.update_llm_summary and ai_skills_enabled,
         llm_log=args.llm_log,
+        include_ai_skills=ai_skills_enabled,
     )
     write_html(data, args.output)
     print(json.dumps({"html": str(args.output), "ai_digest_source": ai_digest_source, **summary}, ensure_ascii=False, indent=2))
