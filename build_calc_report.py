@@ -2983,6 +2983,10 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       padding: 5px 0;
     }
 
+    .ai-digest-item.no-light {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .ai-digest-item + .ai-digest-item {
       border-top: 1px solid rgba(0,0,0,.06);
     }
@@ -3380,7 +3384,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       const rule = String(entry.digest_rule || '').trim();
       const hasTrafficLight = String(entry.traffic_light || '').trim().length > 0;
       return `
-        <div class="ai-digest-item">
+        <div class="ai-digest-item${hasTrafficLight ? '' : ' no-light'}">
           ${hasTrafficLight ? `<span class="ai-digest-light ${digestLightClass(entry.traffic_light)}"></span>` : ''}
           <div>
             <div class="ai-digest-item-title">${esc(title)}</div>

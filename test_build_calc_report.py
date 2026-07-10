@@ -129,6 +129,8 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertIn("Отчетность по блоку:", html)
         self.assertIn("ai-digest-toggle-spacer", html)
         self.assertIn("grid-template-columns: 22px 10px minmax(0, 1fr) auto", html)
+        self.assertIn(".ai-digest-item.no-light", html)
+        self.assertIn("ai-digest-item${hasTrafficLight ? '' : ' no-light'}", html)
         self.assertIn("AI-рекомендации пока недоступны: для продукта нет данных в AI-digest.", html)
         self.assertIn(".block-note.tool-group > .note-copy", html)
         self.assertIn("Синтетическая рекомендация", html)
