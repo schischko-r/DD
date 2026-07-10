@@ -123,6 +123,9 @@ class SyntheticReportTest(unittest.TestCase):
 
         self.assertIn("Для мониторинга целей используйте мастер-деш вашего юнита.", html)
         self.assertIn("Для его обогащения обратитесь в штаб юнита.", html)
+        self.assertIn("'Набрано ' + fmt(block.earned) + ' баллов из ' + fmt(block.max)", html)
+        self.assertIn("compact: true", html)
+        self.assertIn('id="detailCompactBtn" class="active"', html)
         self.assertIn("Отчетность по блоку:", html)
         self.assertIn("ai-digest-toggle-spacer", html)
         self.assertIn("grid-template-columns: 22px 10px minmax(0, 1fr) auto", html)

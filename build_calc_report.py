@@ -2661,6 +2661,14 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
     }
 """,
     )
+    html = replace_once(html, "      compact: false,", "      compact: true,")
+    html = replace_once(
+        html,
+        """              <button id="detailFullBtn" class="active" type="button">Подробно</button>
+              <button id="detailCompactBtn" type="button">Компактно</button>""",
+        """              <button id="detailFullBtn" type="button">Подробно</button>
+              <button id="detailCompactBtn" class="active" type="button">Компактно</button>""",
+    )
 
     html = replace_once(
         html,
@@ -2682,7 +2690,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         const blockScoreText = blockUnavailable ? '—' : block.score + '%';
         const blockMetaText = blockUnavailable
           ? 'нет применимых метрик'
-          : fmt(block.earned) + ' / ' + fmt(block.max);
+          : 'Набрано ' + fmt(block.earned) + ' баллов из ' + fmt(block.max);
         const blockProgressWidth = blockUnavailable ? 0 : block.score;
 """,
     )

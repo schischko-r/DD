@@ -2928,8 +2928,8 @@
           <div class="blocks-toolbar">
             <div class="caption">Ключевые блоки DD-рейтинга</div>
             <div class="segmented" role="group" aria-label="Вид деталей">
-              <button id="detailFullBtn" class="active" type="button">Подробно</button>
-              <button id="detailCompactBtn" type="button">Компактно</button>
+              <button id="detailFullBtn" type="button">Подробно</button>
+              <button id="detailCompactBtn" class="active" type="button">Компактно</button>
             </div>
           </div>
 
@@ -91117,7 +91117,7 @@
       unit: 'all',
       type: 'all',
       selectedId: null,
-      compact: false,
+      compact: true,
       expandedBlocks: {},
     };
 
@@ -92216,7 +92216,7 @@
         const blockScoreText = blockUnavailable ? '—' : block.score + '%';
         const blockMetaText = blockUnavailable
           ? 'нет применимых метрик'
-          : fmt(block.earned) + ' / ' + fmt(block.max);
+          : 'Набрано ' + fmt(block.earned) + ' баллов из ' + fmt(block.max);
         const blockProgressWidth = blockUnavailable ? 0 : block.score;
 
         return `
