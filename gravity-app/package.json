@@ -1,0 +1,23 @@
+{
+  "name": "data-driven-index-gravity-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@gravity-ui/icons": "2.20.0",
+    "@gravity-ui/navigation": "^6.1.2",
+    "@gravity-ui/uikit": "7.44.2",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "recharts": "^3.9.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "5.2.0",
+    "vite": "7.3.6",
+    "vite-plugin-singlefile": "2.3.3"
+  }
+}
