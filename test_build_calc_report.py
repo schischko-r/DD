@@ -89,12 +89,16 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(
             report.metric_recommendation_product_group(
                 deposit,
-                [
-                    "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442",
-                    "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)",
-                ],
+                ["\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442"],
             ),
             "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
+        )
+        self.assertEqual(
+            report.metric_recommendation_product_group(
+                deposit,
+                ["\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)"],
+            ),
+            "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)",
         )
 
     def test_remove_ai_skills_keeps_regular_tools(self) -> None:

@@ -687,6 +687,13 @@ function ProductMetricRecommendations({product, onOpenReport}) {
   );
 }
 
+function ProductMetricRows({items}) {
+  return items.map((item) => <div className="metric-row product-metric-row" key={item.id}>
+    <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><b>{item.indicator}</b>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Правило светофора: {item.rule}</small>}</div></div>
+    <div className="product-metric-row-side">{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}</div>
+  </div>);
+}
+
 function ProductMetricBlocks({product, onOpenReport}) {
   const [detailMode, setDetailMode] = useState('compact');
   const [open, setOpen] = useState(() => new Set());
@@ -747,14 +754,12 @@ function ProductMetricBlocks({product, onOpenReport}) {
                 {isOpen && <div className="metric-list product-metric-list">
                   {[...toolGroups.entries()].map(([toolName, productGroups]) => <section className="product-metric-tool-section" key={toolName}>
                     <div className="metric-group-title product-metric-tool-title"><span>{toolName}</span></div>
-                    <div className="product-metric-tool-content">
-                      {[...productGroups.entries()].map(([productName, productItems]) => <section className="product-metric-product-section" key={`${toolName}-${productName}`}>
-                        <div className="product-metric-product-title"><span>{productName}</span></div>
-                        {productItems.map((item) => <div className="metric-row product-metric-row" key={item.id}>
-                          <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><b>{item.indicator}</b>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Правило светофора: {item.rule}</small>}</div></div>
-                          <div className="product-metric-row-side">{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}</div>
-                        </div>)}
-                      </section>)}
+                    <div className={`product-metric-tool-content${productGroups.size === 1 ? ' product-metric-tool-content-single' : ''}`}>
+                      {productGroups.size === 1
+                        ? <ProductMetricRows items={[...productGroups.values()][0]} />
+                        : [...productGroups.entries()].map(([productName, productItems]) => <Disclosure className="product-metric-product-disclosure" size="m" summary={<span className="product-metric-product-title">{productName}</span>} key={`${toolName}-${productName}`}>
+                          <ProductMetricRows items={productItems} />
+                        </Disclosure>)}
                     </div>
                   </section>)}
                 </div>}
