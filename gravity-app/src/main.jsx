@@ -14,7 +14,6 @@ import {
   Magnifier,
   NodesRight,
   Persons,
-  Xmark,
 } from '@gravity-ui/icons';
 import {
   Alert,
@@ -42,6 +41,7 @@ import ocb2cLogo from './assets/ocb2c.png';
 const REPORT_ACCESS_REQUEST_URL = 'https://sberfriend.sberbank.ru/deeplink-hash-catcher/?path=L3NiZXJmcmllbmQv&callback=L2RlZXBsaW5rLWtlZXBlci8=#/application/F3C76EADA61AB8EBE053F7E9740A44EF?sberfriend.searchQuery=%D0%94%D1%80%D1%83%D0%B3%D0%B5%20%D0%BE%D1%84%D0%BE%D1%80%D0%BC%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D1%81%D1%82%D0%B5%D0%BD%D0%B4%D0%B0%D0%BC%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8%20%D0%B8%20%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F';
 const COMPLEX_REPORT_URL = 'http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/complex-report';
 const HELP_POPOVER_PROPS = {trigger: 'all', openDelay: 0, closeDelay: 80, rest: 0};
+const TEAM_CONTACT_EMAIL = 'MYCherkova@sberbank.ru';
 
 function scoreFor(product, rows) {
   return rows.find((row) => row.name === product.name && row.unit === product.unit)?.score ?? 0;
@@ -319,8 +319,9 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
   };
 
   return (
-    <Dialog open={Boolean(openType)} onClose={onClose} hasCloseButton={false} maxWidth="xl" fullWidth contentOverflow="auto">
-      <Dialog.Body>
+    <Dialog open={Boolean(openType)} onClose={onClose} hasCloseButton maxWidth="l" fullWidth className="catalog-dialog" contentOverflow="auto">
+      <Dialog.Header caption={`${'\u0412\u0441\u0435'} ${(selectedType?.label || '').toLowerCase()}`} />
+      <Dialog.Body className="catalog-dialog-body">
         <div className="catalog-toolbar">
           <div className="catalog-search">
             <div className="catalog-search-copy"><b>Поиск команды</b></div>
@@ -331,7 +332,6 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
               <Button selected={sort === 'name'} onClick={() => setSort('name')}>{'\u041f\u043e \u043d\u0430\u0437\u0432\u0430\u043d\u0438\u044e'}</Button>
               <Button selected={sort === 'score'} onClick={() => setSort('score')}>{'\u041f\u043e Data-Driven Index'}<Icon data={ArrowDown} size={14} /></Button>
             </div>
-            <Button view="flat" size="m" aria-label="Закрыть" title="Закрыть" onClick={onClose}><Icon data={Xmark} size={16} /></Button>
           </div>
         </div>
         <div className={`catalog-table ${isFlatCatalog ? 'catalog-table-flat' : 'catalog-table-product'}`}>
@@ -428,12 +428,23 @@ function Summary({products, rows, onOpen, initialType = ''}) {
 
 function DashboardSummary({products, rows, onOpen}) {
   const [catalogType, setCatalogType] = useState('');
+  const [teamContactOpen, setTeamContactOpen] = useState(false);
+  const [teamQuery, setTeamQuery] = useState('');
   const periods = useMemo(() => [...new Set(products.map((item) => item.period).filter(Boolean))].sort(compareNames), [products]);
   const [period, setPeriod] = useState(() => periods[0] || '');
   const [unit, setUnit] = useState('');
   const [hoveredBlock, setHoveredBlock] = useState('');
   const units = useMemo(() => [...new Set(products.filter((item) => !period || item.period === period).map((item) => item.unit).filter(Boolean))].sort(compareNames), [products, period]);
   const periodProducts = useMemo(() => products.filter((item) => !period || item.period === period), [products, period]);
+  const teamMatches = useMemo(() => {
+    const normalizedQuery = teamQuery.trim().toLowerCase();
+    if (!normalizedQuery) return [];
+    return periodProducts.filter((item) => [item.name, item.type, item.unit]
+      .filter(Boolean)
+      .some((value) => value.toLowerCase().includes(normalizedQuery)))
+      .sort((a, b) => compareNames(a.name, b.name))
+      .slice(0, 10);
+  }, [periodProducts, teamQuery]);
   const scopedProducts = useMemo(() => products.filter((item) => (!period || item.period === period) && (!unit || item.unit === unit)), [products, period, unit]);
   const rowForProduct = (product) => rows.find((row) => row.name === product.name && row.unit === product.unit);
   const categoryMeta = [
@@ -460,6 +471,13 @@ function DashboardSummary({products, rows, onOpen}) {
     };
     return {name: block.name, b2c: averageFor(periodProducts), unit: averageFor(scopedProducts)};
   });
+  const radarScoreValues = (unit ? scopedProducts : periodProducts)
+    .map((product) => rowForProduct(product)?.score)
+    .filter((score) => Number.isFinite(Number(score)))
+    .map(Number);
+  const radarAverage = radarScoreValues.length
+    ? Math.round(radarScoreValues.reduce((sum, score) => sum + score, 0) / radarScoreValues.length)
+    : null;
   const antiTop = useMemo(() => {
     const metricGroups = new Map();
     scopedProducts.forEach((product) => (product.metrics || []).forEach((block) => (block.metrics || []).forEach((metric) => {
@@ -482,8 +500,26 @@ function DashboardSummary({products, rows, onOpen}) {
     <main className="content dashboard-page">
       <header className="dashboard-header">
         <div><h1>Summary</h1><Text variant="body-1" color="secondary">Сводный профиль Data-Driven Index по B2C</Text></div>
-        <label className="dashboard-period"><span>Период</span><Select value={period ? [period] : []} onUpdate={(value) => setPeriod(value[0] || '')} width={190}>{periods.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
+        <div className="dashboard-header-actions">
+          <div className="dashboard-team-search">
+            <div className="dashboard-team-search-head">
+              <Text variant="subheader-1">Найти свою команду</Text>
+              <Button view="flat-danger" size="s" onClick={() => setTeamContactOpen(true)}>Не нашли свою команду?</Button>
+            </div>
+            <TextInput value={teamQuery} onUpdate={setTeamQuery} placeholder="Начните вводить название" size="m" hasClear />
+            {teamQuery && <div className="dashboard-team-search-menu">{teamMatches.length ? teamMatches.map((item) => <Button key={item.id} view="flat" width="max" onClick={() => { setTeamQuery(''); onOpen(item); }}><span className="dashboard-team-search-result"><b>{item.name}</b><small>{item.type} · {item.unit}</small></span></Button>) : <Text color="secondary">Команда не найдена</Text>}</div>}
+          </div>
+          <label className="dashboard-period"><span>Период</span><Select value={period ? [period] : []} onUpdate={(value) => setPeriod(value[0] || '')} width={190}>{periods.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
+        </div>
       </header>
+
+      <Dialog open={teamContactOpen} onClose={() => setTeamContactOpen(false)} hasCloseButton maxWidth="s">
+        <Dialog.Header caption="Не нашли свою команду?" />
+        <Dialog.Body>
+          <Text variant="body-2">Для добавления команды или уточнения статуса напишите Марии Черковой:</Text>
+          <a className="team-contact-email" href={`mailto:${TEAM_CONTACT_EMAIL}`}>{TEAM_CONTACT_EMAIL}</a>
+        </Dialog.Body>
+      </Dialog>
 
       <section className="dashboard-category-grid" aria-label="Сводка по типам команд">
         {categoryCards.map((category) => <Card key={category.key} className={`dashboard-category-card dashboard-category-${category.tone}`} view="outlined">
@@ -497,7 +533,7 @@ function DashboardSummary({products, rows, onOpen}) {
       <CatalogDialogFiltered openType={catalogType} products={scopedProducts} rows={rows} onOpen={onOpen} onClose={() => setCatalogType('')} />
 
       <section className="dashboard-analysis-grid">
-        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2><span>Средний индекс по ключевым блокам</span></div><label className="dashboard-unit"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="B2C" width={170}><Select.Option value="">B2C</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
+        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2><span>Средний Data Driven Index · {radarAverage === null ? '—' : `${radarAverage}%`}</span></div><label className="dashboard-unit"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="B2C" width={170}><Select.Option value="">B2C</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Процент команд, закрывающих метрику</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small>{item.block} · {item.teams} команд</small></div><div><strong>{item.score}%</strong><Progress value={item.score} theme={progressTheme(item.score)} size="xs" /></div></div>)}</div></Card>
       </section>
     </main>
@@ -584,7 +620,7 @@ function Detail({product, products, rows, onBack, onProduct}) {
 
   return (
     <main className="content detail-page">
-      <Button view="flat" onClick={onBack}><Icon data={ArrowLeft} size={16} />Назад к Главной</Button>
+      <Button view="flat" onClick={onBack}><Icon data={ArrowLeft} size={16} />Назад к Summary</Button>
       <header className="detail-header">
         <div><h1>{product.name}</h1><div className="detail-meta">{product.unit} · {product.period} · <Label size="xs">{product.type}</Label><Button view="outlined-danger" size="s" href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank">Нашли ошибку?</Button></div></div>
         <div className="detail-controls"><label className="product-select"><span>Команда</span><Select filterable filterPlaceholder="Найти команду" value={[product.id]} onUpdate={(value) => onProduct(products.find((item) => item.id === value[0]))} width={300}>
@@ -593,8 +629,6 @@ function Detail({product, products, rows, onBack, onProduct}) {
       </header>
 
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b><span>Расчет не включает A/B тесты. Добавление – после 15 июля</span></div></div>
-      <Card className="promo" view="outlined"><div><Text variant="subheader-1">Комплексный отчет по продукту</Text><Text variant="body-1" color="secondary">AI-рекомендации по ключевым метрикам продукта</Text></div><Button view="action" size="m" onClick={() => setReportAccessOpen(true)}>Открыть отчет <Icon data={ChevronRight} size={14} /></Button></Card>
-
       <section className="detail-overview">
         <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}`}><span>{product.name}</span><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div><div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div></div><div className="profile-card"><Text variant="subheader-1">Профиль DD-индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={{fill: 'var(--g-color-text-secondary)', fontSize: 10}} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
         <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.count} {metricWord(item.count)} · {item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. DD-индекса</b><span>+{item.gap.toFixed(2)} балла</span></div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
@@ -656,7 +690,7 @@ function Detail({product, products, rows, onBack, onProduct}) {
 
 function App() {
   const [data, setData] = useState(null);
-  const [view, setView] = useState('summary');
+  const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
   useEffect(() => { fetch('./report-data.json').then((response) => response.json()).then(setData); }, []);
   if (!data) return <div className="loading"><Spin size="xl" /></div>;
@@ -665,22 +699,6 @@ function App() {
   const openProduct = (item) => { setSelected(item); setView('detail'); window.scrollTo(0, 0); };
   const menuItems = [
     {
-      id: 'summary',
-      title: 'Главная',
-      tooltipText: 'Главная',
-      icon: ChartColumn,
-      current: view === 'summary',
-      onItemClick: () => setView('summary'),
-    },
-    {
-      id: 'detail',
-      title: 'Профиль команды',
-      tooltipText: 'Профиль команды',
-      icon: BarsAscendingAlignLeft,
-      current: view === 'detail',
-      onItemClick: () => setView('detail'),
-    },
-    {
       id: 'dashboard',
       title: 'Summary',
       tooltipText: 'Summary',
@@ -688,12 +706,28 @@ function App() {
       current: view === 'dashboard',
       onItemClick: () => setView('dashboard'),
     },
+    {
+      id: 'detail',
+      title: '\u041f\u0440\u043e\u0444\u0438\u043b\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u044b',
+      tooltipText: '\u041f\u0440\u043e\u0444\u0438\u043b\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u044b',
+      icon: BarsAscendingAlignLeft,
+      current: view === 'detail',
+      onItemClick: () => setView('detail'),
+    },
+    {
+      id: 'summary',
+      title: '\u0421\u0432\u043e\u0434\u043d\u0430\u044f \u0442\u0430\u0431\u043b\u0438\u0446\u0430',
+      tooltipText: '\u0421\u0432\u043e\u0434\u043d\u0430\u044f \u0442\u0430\u0431\u043b\u0438\u0446\u0430',
+      icon: ChartColumn,
+      current: view === 'summary',
+      onItemClick: () => setView('summary'),
+    },
   ];
   const content = view === 'summary'
     ? <Summary products={data.products} rows={rows} onOpen={openProduct} />
     : view === 'dashboard'
       ? <DashboardSummary products={data.products} rows={rows} onOpen={openProduct} />
-      : <Detail product={product} products={data.products} rows={rows} onBack={() => setView('summary')} onProduct={setSelected} />;
+      : <Detail product={product} products={data.products} rows={rows} onBack={() => setView('dashboard')} onProduct={setSelected} />;
   return (
     <AsideHeader
       compact
