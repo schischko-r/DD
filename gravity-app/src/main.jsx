@@ -20,11 +20,14 @@ import {
   Button,
   Card,
   Dialog,
+  Disclosure,
   HelpMark,
   Icon,
   Label,
+  Link,
   Progress,
   Select,
+  SegmentedRadioGroup,
   Spin,
   Text,
   TextInput,
@@ -561,6 +564,209 @@ function MetricRow({metric}) {
   );
 }
 
+function digestTheme(light) {
+  if (light === 'red') return 'danger';
+  if (light === 'yellow') return 'warning';
+  if (light === 'green') return 'success';
+  return 'normal';
+}
+
+function digestStatus(light) {
+  if (light === 'red') return 'Требует внимания';
+  if (light === 'yellow') return 'Наблюдать';
+  if (light === 'green') return 'Стабильно';
+  return 'Нет оценки';
+}
+
+function worstDigestLight(items) {
+  const order = ['red', 'yellow', 'green', 'gray'];
+  return order.find((light) => items.some((item) => (item.traffic_light || 'gray') === light)) || 'gray';
+}
+
+function linkifyRecommendation(text) {
+  const value = String(text || '');
+  const urlPattern = /\b((?:https?:\/\/|www\.)[^\s<>()]+|(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}(?:\/[^\s<>()]*)?)/gi;
+  const parts = [];
+  let cursor = 0;
+  for (const match of value.matchAll(urlPattern)) {
+    const raw = match[0];
+    const url = raw.replace(/[.,;:!?]+$/, '');
+    const suffix = raw.slice(url.length);
+    if (match.index > cursor) parts.push(value.slice(cursor, match.index));
+    const href = /^https?:\/\//i.test(url) ? url : `https://${url.replace(/^www\./i, '')}`;
+    parts.push(<Link href={href} target="_blank" rel="noreferrer" key={`${match.index}-${url}`}>{url}</Link>);
+    if (suffix) parts.push(suffix);
+    cursor = match.index + raw.length;
+  }
+  if (cursor < value.length) parts.push(value.slice(cursor));
+  return parts.length ? parts : value;
+}
+
+function ProductMetricRecommendations({product, onOpenReport}) {
+  const [filter, setFilter] = useState('all');
+  const recommendations = product.metric_recommendations || [];
+  const counts = recommendations.reduce((result, item) => {
+    const light = item.traffic_light || 'gray';
+    result[light] = (result[light] || 0) + 1;
+    return result;
+  }, {red: 0, yellow: 0, green: 0, gray: 0});
+  const visible = recommendations.filter((item) => {
+    if (filter === 'attention') return item.traffic_light === 'red' || item.traffic_light === 'yellow';
+    if (filter === 'stable') return item.traffic_light === 'green';
+    if (filter === 'unknown') return !item.traffic_light || item.traffic_light === 'gray';
+    return true;
+  });
+  const blockNames = new Map((product.metrics || []).map((block) => [block.code, block.name]));
+  const groups = visible.reduce((result, item) => {
+    const key = item.block_code || 'other';
+    if (!result.has(key)) result.set(key, {name: blockNames.get(key) || 'Другие показатели', items: []});
+    result.get(key).items.push(item);
+    return result;
+  }, new Map());
+  const months = [...new Set(recommendations.map((item) => item.month).filter(Boolean))];
+
+  return (
+    <section className="metric-recommendations-page">
+      <header className="metric-recommendations-header">
+        <div><h2>Рекомендации по продуктовым метрикам</h2></div>
+        {months.length > 0 && <Label theme="info" size="s">{months.join(' · ')}</Label>}
+      </header>
+
+      <Card className="promo metric-report-promo" view="outlined">
+        <div><Text variant="subheader-1">Посмотреть комплексный отчет по продукту</Text><Text variant="body-1" color="secondary">Мы подготовили для вас AI-рекомендации по вашим ключевым метрикам</Text></div>
+        <Button view="action" size="m" onClick={onOpenReport}>Перейти <Icon data={ChevronRight} size={14} /></Button>
+      </Card>
+
+      {recommendations.length === 0 ? (
+        <Card className="metric-recommendations-empty" view="outlined">
+          <Text variant="subheader-1">Рекомендаций пока нет</Text>
+          <Text variant="body-1" color="secondary">Для {product.type.toLowerCase()} «{product.name}» нет совпавших записей в ai_product_mapping и текущем AI Skill Digest.</Text>
+        </Card>
+      ) : (
+        <>
+          <div className="metric-recommendations-toolbar">
+            <Text variant="subheader-1">Ключевые блоки DD-рейтинга</Text>
+            <SegmentedRadioGroup value={filter} onUpdate={setFilter} size="m">
+              <SegmentedRadioGroup.Option value="all">Все</SegmentedRadioGroup.Option>
+              <SegmentedRadioGroup.Option value="attention">В фокусе</SegmentedRadioGroup.Option>
+              <SegmentedRadioGroup.Option value="stable">Стабильно</SegmentedRadioGroup.Option>
+              {counts.gray > 0 && <SegmentedRadioGroup.Option value="unknown">Без оценки</SegmentedRadioGroup.Option>}
+            </SegmentedRadioGroup>
+          </div>
+
+          <div className="metric-recommendation-groups">
+            {visible.length === 0 && <Card className="metric-recommendations-filter-empty" view="outlined"><Text variant="body-1" color="secondary">В выбранной категории нет сигналов.</Text></Card>}
+            {[...groups.entries()].map(([blockCode, group]) => (
+              <Card className={`metric-recommendation-block tone-${digestTheme(worstDigestLight(group.items))}`} view="outlined" key={blockCode}>
+                <Disclosure
+                  className="metric-recommendation-disclosure"
+                  size="l"
+                  defaultExpanded={worstDigestLight(group.items) === 'red'}
+                  summary={<div className="metric-recommendation-block-head"><i className={`digest-light digest-light-${worstDigestLight(group.items)}`} aria-hidden="true" /><div><h3>{group.name}</h3><span>{digestStatus(worstDigestLight(group.items))}</span></div></div>}
+                >
+                  <div className="metric-recommendation-list">
+                    {group.items.map((item) => (
+                      <div className="metric-recommendation-row" key={item.id}>
+                        <i className={`digest-light digest-light-${item.traffic_light || 'gray'}`} aria-hidden="true" />
+                        <div className="metric-recommendation-copy">
+                          <div className="metric-recommendation-row-title"><h4>{item.indicator}</h4><Label theme={digestTheme(item.traffic_light)} size="xs">{digestStatus(item.traffic_light)}</Label></div>
+                          {(item.recommendations || []).map((text, index) => <Text variant="body-1" key={`${item.id}-${index}`}>{text}</Text>)}
+                          <div className="metric-recommendation-meta"><Label theme="utility" size="xs">{item.skill_name}</Label>{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}{item.ai_products?.length > 0 && <Text variant="caption-1" color="secondary">Источник: {item.ai_products.join(', ')}</Text>}</div>
+                          {item.rule && <Text className="metric-recommendation-rule" variant="caption-1" color="secondary">Правило светофора: {item.rule}</Text>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Disclosure>
+              </Card>
+            ))}
+          </div>
+        </>
+      )}
+    </section>
+  );
+}
+
+function ProductMetricBlocks({product, onOpenReport}) {
+  const [detailMode, setDetailMode] = useState('compact');
+  const [open, setOpen] = useState(() => new Set());
+  const recommendations = product.metric_recommendations || [];
+  const itemsByBlock = recommendations.reduce((result, item) => {
+    const key = item.block_code || 'other';
+    if (!result.has(key)) result.set(key, []);
+    result.get(key).push(item);
+    return result;
+  }, new Map());
+  const activeBlockCodes = (product.metrics || []).filter((block) => itemsByBlock.has(block.code)).map((block) => block.code);
+  const toggle = (code) => setOpen((current) => {
+    const next = new Set(current);
+    next.has(code) ? next.delete(code) : next.add(code);
+    return next;
+  });
+
+  return (
+    <section className="metric-recommendations-page">
+      <Alert
+        className="metric-recommendations-intro"
+        theme="info"
+        view="outlined"
+        size="m"
+        title="Рекомендации по продуктовым метрикам"
+        message="К ключевым блокам Data Driven мы подтянули доступные продуктовые показатели из текущей отчётности и подготовили рекомендации по зонам внимания."
+      />
+
+      <Card className="promo metric-report-promo" view="outlined">
+        <div><Text variant="subheader-1">Посмотреть комплексный отчет по продукту</Text><Text variant="body-1" color="secondary">Больше подробностей можно посмотреть в комплексном отчёте. Мы подготовили его на основе расширенного пула источников, которые вы можете использовать.</Text></div>
+        <Button view="action" size="m" onClick={onOpenReport}>Перейти <Icon data={ChevronRight} size={14} /></Button>
+      </Card>
+
+      <section className="metrics-section product-metrics-section">
+        <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид продуктовых метрик"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set(activeBlockCodes)); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
+        <div className="metrics-grid product-metrics-grid">
+          {(product.metrics || []).map((block) => {
+            const items = itemsByBlock.get(block.code) || [];
+            const hasRecommendations = items.length > 0;
+            const isOpen = hasRecommendations && open.has(block.code);
+            const light = hasRecommendations ? worstDigestLight(items) : 'gray';
+            const toolGroups = items.reduce((result, item) => {
+              const toolName = item.skill_name || 'Другие показатели';
+              if (!result.has(toolName)) result.set(toolName, new Map());
+              const productGroups = result.get(toolName);
+              const productName = item.product_group || (item.ai_products?.length ? item.ai_products.join(' + ') : 'Продукт не указан');
+              if (!productGroups.has(productName)) productGroups.set(productName, []);
+              productGroups.get(productName).push(item);
+              return result;
+            }, new Map());
+            return (
+              <Card key={block.code} className={`metric-block product-metric-block tone-${hasRecommendations ? digestTheme(light) : 'default'}${hasRecommendations ? '' : ' product-metric-block-empty'}`} view="outlined">
+                <button className="metric-block-head" onClick={() => hasRecommendations && toggle(block.code)} aria-expanded={isOpen} disabled={!hasRecommendations}>
+                  <Icon data={isOpen ? ChevronDown : ChevronRight} size={14} />
+                  <div><h3>{block.name}</h3><span>{hasRecommendations ? 'Продуктовые метрики и рекомендации' : 'Рекомендаций пока нет'}</span></div>
+                  <span className="product-metric-block-status"><i className={`metric-light metric-light-${digestTheme(light)}${hasRecommendations ? '' : ' product-metric-empty-light'}`} aria-hidden="true" /></span>
+                </button>
+                {isOpen && <div className="metric-list product-metric-list">
+                  {[...toolGroups.entries()].map(([toolName, productGroups]) => <section className="product-metric-tool-section" key={toolName}>
+                    <div className="metric-group-title product-metric-tool-title"><span>{toolName}</span></div>
+                    <div className="product-metric-tool-content">
+                      {[...productGroups.entries()].map(([productName, productItems]) => <section className="product-metric-product-section" key={`${toolName}-${productName}`}>
+                        <div className="product-metric-product-title"><span>{productName}</span></div>
+                        {productItems.map((item) => <div className="metric-row product-metric-row" key={item.id}>
+                          <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><b>{item.indicator}</b>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Правило светофора: {item.rule}</small>}</div></div>
+                          <div className="product-metric-row-side">{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}</div>
+                        </div>)}
+                      </section>)}
+                    </div>
+                  </section>)}
+                </div>}
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+    </section>
+  );
+}
+
 function Detail({product, products, rows, onBack, onProduct}) {
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
@@ -579,6 +785,7 @@ function Detail({product, products, rows, onBack, onProduct}) {
   const percentToNextLevel = nextLevel ? Math.max(0, nextLevel.threshold - score) : 0;
   const pointsToNextLevel = nextLevel ? Math.max(0.05, maxPoints * nextLevel.threshold / 100 - earnedPoints) : 0;
   const [detailMode, setDetailMode] = useState('compact');
+  const [lens, setLens] = useState('dd');
   const [recommendationsOpen, setRecommendationsOpen] = useState(false);
   const [reportAccessOpen, setReportAccessOpen] = useState(false);
   const [open, setOpen] = useState(() => new Set());
@@ -628,6 +835,14 @@ function Detail({product, products, rows, onBack, onProduct}) {
         </Select></label></div>
       </header>
 
+      <div className="detail-lens-bar">
+        <SegmentedRadioGroup value={lens} onUpdate={setLens} size="l">
+          <SegmentedRadioGroup.Option value="dd">Data-Driven Index</SegmentedRadioGroup.Option>
+          <SegmentedRadioGroup.Option value="metrics">Продуктовые метрики</SegmentedRadioGroup.Option>
+        </SegmentedRadioGroup>
+      </div>
+
+      <div className={lens === 'dd' ? 'detail-lens-content' : 'detail-lens-content detail-lens-hidden'}>
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b><span>Расчет не включает A/B тесты. Добавление – после 15 июля</span></div></div>
       <section className="detail-overview">
         <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}`}><span>{product.name}</span><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div><div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div></div><div className="profile-card"><Text variant="subheader-1">Профиль DD-индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={{fill: 'var(--g-color-text-secondary)', fontSize: 10}} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
@@ -641,20 +856,6 @@ function Detail({product, products, rows, onBack, onProduct}) {
           </div>
         </Dialog.Body>
       </Dialog>
-      <Dialog open={reportAccessOpen} onClose={() => setReportAccessOpen(false)} hasCloseButton maxWidth="m" fullWidth>
-        <Dialog.Header caption="Доступ к системе" />
-        <Dialog.Body>
-          <div className="report-access-content">
-            <Text variant="body-2">Для доступа непосредственно к системе необходимо в АС Друг в поисковой строке ввести «Доступ к стендам разработки и тестирования», далее:</Text>
-            <ul>
-              <li><Text variant="body-1">В поле «Стенд» указать «ТС AI Навыки Штаба B2C (CI09261834) (DEV) (CI09933741)»</Text></li>
-              <li><Text variant="body-1">В обосновании указать «Для разработки и тестирования инструмента AI суммаризации»</Text></li>
-            </ul>
-            <div className="report-access-actions"><Button view="outlined" size="m" href={REPORT_ACCESS_REQUEST_URL} target="_blank">Завести заявку на доступ</Button><Button view="action" size="m" href={COMPLEX_REPORT_URL} target="_blank">Перейти</Button></div>
-          </div>
-        </Dialog.Body>
-      </Dialog>
-
       <section className="metrics-section">
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид деталей"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set((product.metrics || []).map((item) => item.code))); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
         <div className="metrics-grid">
@@ -684,6 +885,22 @@ function Detail({product, products, rows, onBack, onProduct}) {
           })}
         </div>
       </section>
+      </div>
+      {lens === 'metrics' && <ProductMetricBlocks key={product.id} product={product} onOpenReport={() => setReportAccessOpen(true)} />}
+      <Dialog open={reportAccessOpen} onClose={() => setReportAccessOpen(false)} hasCloseButton maxWidth="m" fullWidth>
+        <Dialog.Header caption="Комплексный отчет" />
+        <Dialog.Body>
+          <div className="report-access-content">
+            <Text variant="subheader-1">Доступ к системе</Text>
+            <Text variant="body-2">Для доступа непосредственно к системе необходимо в АС Друг в поисковой строке ввести «Доступ к стендам разработки и тестирования», далее:</Text>
+            <ul>
+              <li><Text variant="body-1">В поле стенд указать «ТС AI Навыки Штаба B2C (CI09261834) (DEV) (CI09933741)»</Text></li>
+              <li><Text variant="body-1">В обосновании — «Для разработки и тестирования инструмента AI суммаризации»</Text></li>
+            </ul>
+            <div className="report-access-actions"><Button view="outlined" size="m" href={REPORT_ACCESS_REQUEST_URL} target="_blank">Завести заявку на доступ</Button><Button view="action" size="m" href={COMPLEX_REPORT_URL} target="_blank">Перейти</Button></div>
+          </div>
+        </Dialog.Body>
+      </Dialog>
     </main>
   );
 }

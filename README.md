@@ -26,6 +26,17 @@ python build_calc_report.py \
   --no-update-llm-summary
 ```
 
+Обновление данных Gravity UI из тех же DD, mapping и digest источников:
+
+```bash
+python build_calc_report.py \
+  --input "Группа на заливку.xlsx" \
+  --output "final_report_from_excel.html" \
+  --json-output "gravity-app/public/report-data.json" \
+  --no-update-ai-digest \
+  --no-update-llm-summary
+```
+
 Только титульная витрина из отдельного плоского списка:
 
 ```bash

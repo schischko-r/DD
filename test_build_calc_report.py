@@ -6,6 +6,97 @@ import build_calc_report as report
 
 
 class SyntheticReportTest(unittest.TestCase):
+    def test_metric_recommendations_use_mapping_without_dd_block(self) -> None:
+        rows = [
+            {
+                "skill_name": "CSI",
+                "skill_key": "csi",
+                "month": "2026-06",
+                "month_label": "Июнь 2026",
+                "month_sort": (2026, 6, ""),
+                "product": "AI Segment",
+                "product_key": report.normalize_ai_product_key("AI Segment"),
+                "indicator": "CSI",
+                "row_type": "recommendation",
+                "color": "red",
+                "text": "Разобрать причины снижения CSI",
+                "rule": "Красный ниже целевого значения",
+                "source_order": 1,
+            }
+        ]
+        mapping = {
+            (report.normalize_mapping_key("DD Segment"), "csi"): ["AI Segment"]
+        }
+        digest_index = report.build_ai_digest_index(rows)
+
+        result = report.build_metric_recommendations(
+            "DD Segment", rows, mapping, digest_index
+        )
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["skill_key"], "csi")
+        self.assertEqual(result[0]["block_code"], "cx")
+        self.assertFalse(result[0]["is_traffic_light"])
+        self.assertEqual(result[0]["traffic_light"], "red")
+        self.assertEqual(
+            result[0]["recommendations"], ["Разобрать причины снижения CSI"]
+        )
+
+    def test_metric_recommendations_keep_item_product_scope(self) -> None:
+        rows = []
+        for order, product in enumerate(("Вклад", "Накопительные счета"), start=1):
+            rows.append(
+                {
+                    "skill_name": "Ключевые метрики",
+                    "skill_key": "client_metrics",
+                    "month": "2026-06",
+                    "month_label": "Июнь 2026",
+                    "month_sort": (2026, 6, ""),
+                    "product": product,
+                    "product_key": report.normalize_ai_product_key(product),
+                    "indicator": "MAU",
+                    "row_type": "светофор",
+                    "color": "yellow",
+                    "text": f"Проверить MAU: {product}",
+                    "rule": "Жёлтый при отклонении",
+                    "source_order": order,
+                }
+            )
+        mapping = {
+            (report.normalize_mapping_key("Вклады+НС"), "client_metrics"): [
+                "Вклад",
+                "Накопительные счета",
+            ]
+        }
+        result = report.build_metric_recommendations(
+            "Вклады+НС", rows, mapping, report.build_ai_digest_index(rows)
+        )
+
+        self.assertEqual(
+            {tuple(item["ai_products"]) for item in result},
+            {("Вклад",), ("Накопительные счета",)},
+        )
+
+    def test_deposit_metric_product_aliases_use_two_user_facing_groups(self) -> None:
+        deposit = "\u0412\u043a\u043b\u0430\u0434\u044b+\u041d\u0421"
+
+        self.assertEqual(
+            report.metric_recommendation_product_group(
+                deposit, ["\u0412\u043a\u043b\u0430\u0434", "\u0412\u043a\u043b\u0430\u0434\u044b, \u0440\u0443\u0431."]
+            ),
+            "\u0412\u043a\u043b\u0430\u0434\u044b",
+        )
+        self.assertEqual(
+            report.metric_recommendation_product_group(
+                deposit,
+                [
+                    "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442",
+                    "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)",
+                ],
+            ),
+            "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
+        )
+
     def test_remove_ai_skills_keeps_regular_tools(self) -> None:
         data = {
             "ai_skill_digest": {"rows": 2},

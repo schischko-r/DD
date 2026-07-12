@@ -1499,6 +1499,160 @@ def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any
     return True
 
 
+def metric_recommendation_product_group(
+    product_name: str, ai_products: list[str]
+) -> str:
+    if normalize_mapping_key(product_name) != normalize_mapping_key("\u0412\u043a\u043b\u0430\u0434\u044b+\u041d\u0421"):
+        return " + ".join(ai_products)
+
+    aliases = {
+        normalize_ai_product_key("\u0412\u043a\u043b\u0430\u0434"): "\u0412\u043a\u043b\u0430\u0434\u044b",
+        normalize_ai_product_key("\u0412\u043a\u043b\u0430\u0434\u044b"): "\u0412\u043a\u043b\u0430\u0434\u044b",
+        normalize_ai_product_key("\u0412\u043a\u043b\u0430\u0434\u044b, \u0440\u0443\u0431."): "\u0412\u043a\u043b\u0430\u0434\u044b",
+        normalize_ai_product_key("\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442"): "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
+        normalize_ai_product_key("\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)"): "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
+        normalize_ai_product_key("\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430"): "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
+    }
+    groups = unique_non_empty(
+        [aliases.get(normalize_ai_product_key(name), name) for name in ai_products]
+    )
+    return " + ".join(groups)
+
+
+def build_metric_recommendations(
+    product_name: str,
+    rows: list[dict[str, Any]],
+    mapping: dict[tuple[str, str], list[str]],
+    digest_index: dict[tuple[str, str], dict[str, Any]],
+) -> list[dict[str, Any]]:
+    product_key = normalize_mapping_key(product_name)
+    recommendations: list[dict[str, Any]] = []
+    seen: set[tuple[Any, ...]] = set()
+
+    for skill_key in AI_SKILL_ORDER:
+        mapped_products = mapping.get((product_key, skill_key), [])
+        if not mapped_products:
+            continue
+
+        if skill_key == "pilots":
+            digest = build_pilots_digest(rows, mapped_products)
+        else:
+            matched_digests = []
+            for mapped_product in mapped_products:
+                digest_item = digest_index.get(
+                    (skill_key, normalize_ai_product_key(mapped_product))
+                )
+                if digest_item:
+                    matched_digests.append(
+                        {**digest_item, "mapped_product": mapped_product}
+                    )
+            digest = aggregate_ai_digests(matched_digests) if matched_digests else None
+
+        if not digest:
+            continue
+
+        display_digest = digest_display_payload(skill_key, digest)
+        items = list(display_digest.get("digest_items", []))
+        if not items and display_digest.get("digest_texts"):
+            items = [
+                {
+                    "indicator": display_digest.get("digest_indicator", ""),
+                    "traffic_light": display_digest.get("traffic_light", "gray"),
+                    "digest_texts": display_digest.get("digest_texts", []),
+                    "digest_rule": display_digest.get("digest_rule", ""),
+                    "digest_month": display_digest.get("digest_month", ""),
+                }
+            ]
+
+        for item in items:
+            texts = unique_non_empty(item.get("digest_texts", []))
+            row_type = clean_text(item.get("row_type"))
+            normalized_row_type = normalize_lookup_key(row_type)
+            is_traffic_light = any(
+                marker in normalized_row_type
+                for marker in ("светофор", "traffic", "light")
+            )
+            indicator = clean_text(
+                item.get("indicator")
+                or item.get("digest_indicator")
+                or display_digest.get("digest_indicator")
+                or AI_SKILL_LABELS.get(skill_key)
+                or skill_key
+            )
+            if not texts and not indicator:
+                continue
+
+            ai_products = unique_non_empty(
+                [
+                    item.get("ai_product_name"),
+                    item.get("product_label"),
+                    *item.get("product_list", []),
+                ]
+            )
+            if not ai_products:
+                ai_products = unique_non_empty(
+                    display_digest.get("ai_tool_product_names", [])
+                )
+            traffic_light = (
+                parse_ai_light(item.get("traffic_light"))
+                or parse_ai_light(display_digest.get("traffic_light"))
+                or "gray"
+            )
+            rule = clean_text(
+                item.get("digest_rule") or display_digest.get("digest_rule")
+            )
+            month = clean_text(
+                item.get("digest_month") or display_digest.get("digest_month")
+            )
+            dedupe_key = (
+                skill_key,
+                indicator,
+                tuple(texts),
+                rule,
+                tuple(ai_products),
+            )
+            if dedupe_key in seen:
+                continue
+            seen.add(dedupe_key)
+            recommendations.append(
+                {
+                    "id": f"{skill_key}-{len(recommendations) + 1}",
+                    "skill_key": skill_key,
+                    "skill_name": AI_SKILL_LABELS.get(skill_key, skill_key),
+                    "block_code": AI_SKILL_BLOCKS.get(skill_key, "other"),
+                    "row_type": row_type,
+                    "is_traffic_light": is_traffic_light,
+                    "indicator": indicator,
+                    "traffic_light": traffic_light,
+                    "recommendations": texts,
+                    "rule": rule,
+                    "month": month,
+                    "is_stale": bool(
+                        item.get("digest_is_stale")
+                        or display_digest.get("digest_is_stale")
+                    ),
+                    "stale_tooltip": clean_text(
+                        item.get("digest_stale_tooltip")
+                        or display_digest.get("digest_stale_tooltip")
+                    ),
+                    "ai_products": ai_products,
+                    "product_group": metric_recommendation_product_group(
+                        product_name, ai_products
+                    ),
+                }
+            )
+
+    light_order = {"red": 0, "yellow": 1, "green": 2, "gray": 3}
+    return sorted(
+        recommendations,
+        key=lambda item: (
+            light_order.get(item.get("traffic_light", "gray"), 3),
+            AI_SKILL_ORDER.index(item["skill_key"]),
+            normalize_lookup_key(item.get("indicator")),
+        ),
+    )
+
+
 def apply_ai_skill_digest(
     data: dict[str, Any],
     digest_path: Path,
@@ -1594,6 +1748,12 @@ def apply_ai_skill_digest(
             product_name = clean_text(product.get("name"))
             product_key = normalize_mapping_key(product_name)
             group_llm_digests: dict[str, list[dict[str, Any]]] = {}
+            product["metric_recommendations"] = build_metric_recommendations(
+                product_name,
+                rows,
+                mapping,
+                digest_index,
+            )
 
             for skill_key in AI_SKILL_ORDER:
                 block_code = AI_SKILL_BLOCKS[skill_key]
@@ -1796,6 +1956,14 @@ def apply_ai_skill_digest(
         "mapping_total_rows": mapping_total_rows,
         "rows": len(rows),
         "matched_tools": matched,
+        "recommendation_entities": sum(
+            1 for product in data.get("products", [])
+            if product.get("metric_recommendations")
+        ),
+        "recommendation_items": sum(
+            len(product.get("metric_recommendations", []))
+            for product in data.get("products", [])
+        ),
     }
     return data
 
@@ -4307,6 +4475,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--detail-sheet", default=DEFAULT_DETAIL_SHEET, help="Detail sheet name")
     parser.add_argument("--period", default=DEFAULT_PERIOD, help="Period label")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")
+    parser.add_argument("--json-output", type=Path, help="Optional combined report JSON output path")
     parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST_XLSX, help="Path to AI skill digest export .xlsx")
     parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP, help="Path to DD ↔ AI product mapping .xlsx")
     parser.set_defaults(update_ai_digest=DEFAULT_UPDATE_AI_DIGEST)
@@ -4384,6 +4553,12 @@ def main() -> None:
         include_ai_skills=ai_skills_enabled,
     )
     write_html(data, args.output)
+    if args.json_output:
+        args.json_output.parent.mkdir(parents=True, exist_ok=True)
+        args.json_output.write_text(
+            json.dumps(data, ensure_ascii=False, indent=2) + "\n",
+            encoding="utf-8",
+        )
     print(json.dumps({"html": str(args.output), "ai_digest_source": ai_digest_source, **summary}, ensure_ascii=False, indent=2))
 
 
