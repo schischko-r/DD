@@ -6,6 +6,48 @@ import build_calc_report as report
 
 
 class SyntheticReportTest(unittest.TestCase):
+    def test_single_funnel_benchmark_is_split_between_attract_and_churn(self) -> None:
+        rows = report._PD.DataFrame(
+            [
+                {
+                    "entity_type": "продукт",
+                    "_unit_key": "Юнит",
+                    "_product_key": "Продукт",
+                    "metric_group": "Воронка оттока",
+                    "metric_name_clean": "Наличие бенчмарков",
+                    "value_num": 1.0,
+                    "max_value_num": 1.0,
+                    "value": 1.0,
+                    "max_value": 1.0,
+                },
+                {
+                    "entity_type": "продукт",
+                    "_unit_key": "Юнит",
+                    "_product_key": "Продукт",
+                    "metric_group": "Алерты",
+                    "metric_name_clean": "Контрольная метрика",
+                    "value_num": 1.0,
+                    "max_value_num": 1.0,
+                    "value": 1.0,
+                    "max_value": 1.0,
+                },
+            ]
+        )
+
+        result = report.split_named_funnel_benchmarks(rows)
+        benchmarks = result[
+            result["metric_name_clean"].eq("Наличие бенчмарков")
+        ].sort_values("metric_group")
+
+        self.assertEqual(
+            set(benchmarks["metric_group"]),
+            {"Воронка привлечения", "Воронка оттока"},
+        )
+        self.assertEqual(benchmarks["value_num"].tolist(), [0.5, 0.5])
+        self.assertEqual(benchmarks["max_value_num"].tolist(), [0.5, 0.5])
+        self.assertEqual(result.attrs["named_benchmark_rows_split"], 1)
+        self.assertEqual(len(result[result["metric_group"].eq("Алерты")]), 1)
+
     def test_channel_upload_frame_is_normalized_as_channels(self) -> None:
         frame = report._PD.DataFrame(
             [

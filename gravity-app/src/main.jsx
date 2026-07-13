@@ -711,6 +711,57 @@ function AlertsHelpContent() {
   return <div className="goals-help-content"><p>Настроены автоматические алерты по системным сбоям — событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов, — и алерты по бизнес-метрикам.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — настроены алерты по системным сбоям и бизнес-метрикам.</li><li><b>0,5 балла (50%)</b> — алерты настроены частично: по системным сбоям или бизнес-метрикам.</li></ul></div>;
 }
 
+function AttractReportingHelpContent() {
+  return <div className="goals-help-content attract-reporting-help-content">
+    <section>
+      <p>Настроена регулярная отчётность по воронке привлечения.</p>
+      <strong>Оценка:</strong>
+      <ul>
+        <li><b>0,5 балла (100%)</b> — формируется автоматически.</li>
+        <li><b>0,25 балла (50%)</b> — формируется по запросу.</li>
+        <li><b>0 баллов (0%)</b> — отчётность отсутствует.</li>
+      </ul>
+    </section>
+    <section>
+      <p>Полнота отчёта по воронке привлечения.</p>
+      <strong>Оценка:</strong>
+      <ul>
+        <li><b>0,5 балла (100%)</b> — комплексный отчёт: источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный или когортный разрез, UX/UI.</li>
+        <li><b>0,25 балла (50%)</b> — неполный отчёт.</li>
+      </ul>
+    </section>
+  </div>;
+}
+
+function AttractAnalysisHelpContent() {
+  return <div className="goals-help-content attract-reporting-help-content">
+    <section>
+      <p>Анализ воронки привлечения.</p>
+      <strong>Оценка:</strong>
+      <ul>
+        <li><b>1 балл (100%)</b> — комплексный анализ: анализ процесса оформления продукта, сравнение с конкурентами, кампании продаж, ключевые точки потери клиентов.</li>
+        <li><b>0,5 балла (50%)</b> — неполный анализ.</li>
+      </ul>
+    </section>
+    <section>
+      <p>Перечень инициатив по отклонениям.</p>
+      <strong>Оценка:</strong>
+      <ul>
+        <li><b>1 балл (100%)</b> — составлен перечень инициатив.</li>
+        <li><b>0,5 балла (50%)</b> — перечень отсутствует.</li>
+      </ul>
+    </section>
+    <section>
+      <p>Бенчмарки по показателям воронки: цели, динамика, рыночный бенчмарк.</p>
+      <strong>Оценка:</strong>
+      <ul>
+        <li><b>1 балл (100%)</b> — есть бенчмарки.</li>
+        <li><b>0 баллов (0%)</b> — бенчмарки отсутствуют.</li>
+      </ul>
+    </section>
+  </div>;
+}
+
 function IndexFormulaHelp() {
   return <div className="index-formula-help"><div>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</div><p>Нерелевантные критерии исключаются и из набранных баллов, и из максимального балла продукта.</p></div>;
 }
@@ -1169,7 +1220,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Нерелевантно</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{group.toLowerCase() === 'отчетность' && <HelpMark aria-label="Учитываемые поверхности" popoverProps={HELP_POPOVER_PROPS}>Учитываются поверхности: Навигатор, Clickstream, приложенные к опросу</HelpMark>}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); const normalizedGroup = group.toLowerCase(); const isReportingGroup = normalizedGroup === 'отчетность'; const isAnalysisGroup = normalizedGroup === 'анализ'; return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isReportingGroup && (block.code === 'attract' ? <HelpMark aria-label="Критерии оценки отчётности по воронке привлечения" popoverProps={HELP_POPOVER_PROPS}><AttractReportingHelpContent /></HelpMark> : <HelpMark aria-label="Учитываемые поверхности" popoverProps={HELP_POPOVER_PROPS}>Учитываются поверхности: Навигатор, Clickstream, приложенные к опросу</HelpMark>)}{isAnalysisGroup && block.code === 'attract' && <HelpMark aria-label="Критерии оценки анализа воронки привлечения" popoverProps={HELP_POPOVER_PROPS}><AttractAnalysisHelpContent /></HelpMark>}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Полезные ссылки</div><div className="block-actions">{blockLinks.map((action) => <Button key={`${action.label}-${action.url}`} view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
               </Card>
             );

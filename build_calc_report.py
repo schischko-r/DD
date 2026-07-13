@@ -2416,7 +2416,52 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     product_rows.attrs["upload_informational_rows_skipped"] = informational_rows_skipped
     product_rows.attrs["links_by_product"] = links_by_product
     product_rows = dedupe_upload_goal_rows(product_rows)
+    product_rows = split_named_funnel_benchmarks(product_rows)
     return split_benchmarks(product_rows)
+
+
+def split_named_funnel_benchmarks(product_rows: Any) -> Any:
+    benchmark_name = normalize_lookup_key("Наличие бенчмарков")
+    funnel_groups = {
+        normalize_lookup_key("Воронка привлечения"),
+        normalize_lookup_key("Воронка оттока"),
+    }
+    benchmark_mask = (
+        product_rows["metric_name_clean"].map(normalize_lookup_key).eq(benchmark_name)
+        & product_rows["metric_group"].map(normalize_lookup_key).isin(funnel_groups)
+    )
+    benchmark_rows = product_rows[benchmark_mask]
+    if benchmark_rows.empty:
+        product_rows.attrs["named_benchmark_rows_split"] = 0
+        return product_rows
+
+    entity_columns = ["entity_type", "_unit_key", "_product_key"]
+    rows_to_split = []
+    for _, rows in benchmark_rows.groupby(entity_columns, sort=False):
+        groups = set(rows["metric_group"].map(normalize_lookup_key))
+        if len(rows) == 1 and len(groups) == 1:
+            rows_to_split.extend(rows.index.tolist())
+
+    if not rows_to_split:
+        product_rows.attrs["named_benchmark_rows_split"] = 0
+        return product_rows
+
+    source_rows = product_rows.loc[rows_to_split]
+    regular_rows = product_rows.drop(index=rows_to_split)
+    split_parts = []
+    for target_group in ("Воронка привлечения", "Воронка оттока"):
+        part = source_rows.copy()
+        part["metric_group"] = target_group
+        part["value_num"] = part["value_num"] / 2
+        part["max_value_num"] = part["max_value_num"] / 2
+        part["value"] = part["value_num"]
+        part["max_value"] = part["max_value_num"]
+        split_parts.append(part)
+
+    result = _PD.concat([regular_rows, *split_parts], ignore_index=True)
+    result.attrs.update(product_rows.attrs)
+    result.attrs["named_benchmark_rows_split"] = len(source_rows)
+    return result
 
 
 def dedupe_upload_goal_rows(product_rows: Any) -> Any:
@@ -2462,6 +2507,7 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
         "excel_rows_with_metric_group": product_rows.attrs["metric_group_rows"],
         "template_rows_skipped": product_rows.attrs["template_rows_skipped"],
         "benchmark_rows_split": product_rows.attrs.get("benchmark_rows_split", 0),
+        "named_benchmark_rows_split": product_rows.attrs.get("named_benchmark_rows_split", 0),
         "product_metric_rows": len(product_rows),
         "products": len(products),
         "units": len({product["unit"] for product in products}),
