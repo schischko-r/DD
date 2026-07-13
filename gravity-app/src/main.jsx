@@ -8,18 +8,12 @@ import {
   ChartColumn,
   ChartLinePoints,
   ChartMixed,
-  Check,
   CircleDollar,
   ChevronDown,
   ChevronRight,
   CircleInfo,
-  Flag,
-  ListCheck,
-  Magnifier,
   NodesRight,
   Persons,
-  Rocket,
-  Target,
 } from '@gravity-ui/icons';
 import {
   Accordion,
@@ -614,22 +608,10 @@ function AboutDataDriven({onBack}) {
     {title: 'A/B-тесты', text: 'Практика экспериментов; в исходной методологии блок отмечен как развивающийся.'},
   ];
   const levels = [
-    {range: '81–100%', title: 'Лидеры', note: 'Ориентир для экосистемы'},
-    {range: '61–80%', title: 'Зрелые', note: 'Практики работают регулярно'},
-    {range: '40–60%', title: 'Развивающиеся', note: 'База формируется'},
-    {range: '<40%', title: 'Требуют внимания', note: 'Нет устойчивого фундамента'},
-  ];
-  const assessmentSteps = [
-    {title: 'Оценить', text: 'Продукт, канал или сегмент', icon: ListCheck},
-    {title: 'Сравнить', text: 'Профиль по восьми практикам', icon: ChartMixed},
-    {title: 'Найти гэпы', text: 'Слабые и незакрытые зоны', icon: Magnifier},
-    {title: 'Выбрать фокус', text: 'Приоритет для команды', icon: Target},
-  ];
-  const actionSteps = [
-    {title: 'Гэп', text: 'Чек-лист фиксирует недостаток', icon: Flag},
-    {title: 'Приоритет', text: 'Команда выбирает вызов', icon: Persons},
-    {title: 'Действие', text: 'Запускается улучшение', icon: Rocket},
-    {title: 'Результат', text: 'Проверяется бизнес-метрика', icon: Check},
+    {range: '<40%', title: 'Требуют внимания', note: 'Нет устойчивого фундамента', tone: 'attention'},
+    {range: '40–60%', title: 'Развивающиеся', note: 'База формируется', tone: 'developing'},
+    {range: '61–80%', title: 'Зрелые', note: 'Практики работают регулярно', tone: 'mature'},
+    {range: '81–100%', title: 'Лидеры Data-Driven', note: 'Ориентир для экосистемы', tone: 'leader'},
   ];
   return (
     <main className="content about-page">
@@ -654,21 +636,18 @@ function AboutDataDriven({onBack}) {
         <a href="#system">Система</a>
         <a href="#assessment">Оценка</a>
         <a href="#practices">Практики</a>
-        <a href="#action">Действие</a>
       </nav>
 
       <section className="about-section" id="system">
         <div className="about-section-heading"><Text variant="caption-2" color="secondary">ОСНОВА</Text><h2>Data Driven работает как система</h2><Text color="secondary">Сильный результат появляется, когда четыре элемента связаны общим процессом принятия решений.</Text></div>
         <div className="about-elements">{elements.map((item) => <Card view="outlined" type="container" size="l" key={item.title}><div className="about-element-icon"><Icon data={item.icon} size={20} /></div><h3>{item.title}</h3><Text color="secondary">{item.text}</Text></Card>)}</div>
-        <div className="about-principle"><Icon data={NodesRight} size={20} /><div><b>Главная проверка</b><Text color="secondary">Отдельная сильная практика ещё не делает команду Data Driven. Ценность появляется, когда данные, отчётность, инструменты и люди работают вместе.</Text></div></div>
       </section>
 
       <section className="about-section about-diagnosis" id="assessment">
         <div className="about-section-heading"><Text variant="caption-2" color="secondary">ДИАГНОСТИКА</Text><h2>От чек-листа к приоритету</h2><Text color="secondary">Оценка собирается по цифровым следам и опросу команды, а затем превращается в понятный маршрут действий.</Text></div>
-        <div className="about-assessment-flow">{assessmentSteps.map((step, index) => <div className="about-assessment-step" key={step.title}><div className="about-step-icon"><Icon data={step.icon} size={18} /></div><span>{String(index + 1).padStart(2, '0')}</span><b>{step.title}</b><Text color="secondary">{step.text}</Text></div>)}</div>
         <div className="about-maturity">
-          <div className="about-maturity-head"><div><b>Уровни зрелости</b><Text color="secondary">По убыванию Data-Driven Index команды</Text></div></div>
-          <ul className="about-levels">{levels.map((level) => <li className="about-level" key={level.title}><b>{level.range}</b><span>{level.title}</span><small>{level.note}</small></li>)}</ul>
+          <div className="about-maturity-head"><div><b>Уровни зрелости</b><Text color="secondary">По возрастанию Data-Driven Index команды</Text></div></div>
+          <ul className="about-levels">{levels.map((level) => <li className={`about-level about-level-${level.tone}`} key={level.title}><b>{level.range}</b><span>{level.title}</span><small>{level.note}</small></li>)}</ul>
         </div>
       </section>
 
@@ -684,12 +663,6 @@ function AboutDataDriven({onBack}) {
             </Accordion>
           </div>
         </div>
-      </section>
-
-      <section className="about-section about-loop" id="action">
-        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ЦИКЛ УЛУЧШЕНИЙ</Text><h2>Оценка полезна только после действия</h2><Text color="secondary">Команда превращает найденный гэп в проверяемое изменение бизнес-метрики.</Text></div>
-        <div className="about-action-flow">{actionSteps.map((step, index) => <div className="about-action-step" key={step.title}><div><Icon data={step.icon} size={18} /></div><span>{String(index + 1).padStart(2, '0')}</span><b>{step.title}</b><Text color="secondary">{step.text}</Text></div>)}</div>
-        <div className="about-outcome"><div><Label theme="success">Пример результата</Label><Text color="secondary">Сократить долю отклонений в целях в два раза</Text></div><div className="about-outcome-metric"><strong>30%</strong><Icon data={ChevronRight} size={20} /><strong>15%</strong></div></div>
       </section>
 
       <section className="about-summary-cta">
