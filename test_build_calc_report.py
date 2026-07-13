@@ -6,6 +6,69 @@ import build_calc_report as report
 
 
 class SyntheticReportTest(unittest.TestCase):
+    def test_channel_upload_frame_is_normalized_as_channels(self) -> None:
+        frame = report._PD.DataFrame(
+            [
+                {
+                    "metric_code": 6,
+                    "metric_name": "Цели выведены на мониторинг",
+                    "product": "СБОЛ",
+                    "макс балл": 1,
+                    "факт": 1,
+                    "metric_group": "Цели",
+                    "metric_footer": "Мониторинг",
+                    "recommendation": "Настроить мониторинг",
+                    "recommendation_group": 1,
+                }
+            ]
+        )
+
+        result = report.normalize_channel_upload_frame(frame)
+
+        self.assertEqual(result.loc[0, "Продукт"], "СБОЛ")
+        self.assertEqual(result.loc[0, "Юнит"], "Каналы")
+        self.assertEqual(result.loc[0, "type"], "Канал")
+        self.assertEqual(result.loc[0, "metric"], 6)
+        self.assertEqual(result.loc[0, "value"], 1)
+        self.assertEqual(result.loc[0, "max_value"], 1)
+
+    def test_requested_channel_metrics_are_excluded_from_index(self) -> None:
+        excluded_ids = sorted(report.CHANNEL_EXCLUDED_METRIC_IDS)
+        metric_names = [f"Метрика {metric_id}" for metric_id in excluded_ids]
+        rows = report._PD.DataFrame(
+            {
+                "metric_id_num": [*excluded_ids, 999],
+                "metric_group": ["Тестовый блок"] * (len(excluded_ids) + 1),
+                "metric_name_clean": [*metric_names, "Контрольная метрика"],
+            }
+        )
+        block_code, _ = report._DD_FROM_EXCEL["block_info"]("Тестовый блок")
+        excluded_codes = [
+            report._DD_FROM_EXCEL["metric_code"]("Тестовый блок", name)
+            for name in metric_names
+        ]
+        included_code = report._DD_FROM_EXCEL["metric_code"](
+            "Тестовый блок", "Контрольная метрика"
+        )
+        product = {
+            "type": "Канал",
+            "metrics": [
+                {
+                    "code": block_code,
+                    "metrics": [
+                        *[{"code": code} for code in excluded_codes],
+                        {"code": included_code},
+                    ],
+                }
+            ],
+        }
+
+        report.mark_channel_metrics_excluded(product, rows)
+
+        metrics = product["metrics"][0]["metrics"]
+        self.assertTrue(all(metric["excluded_from_index"] for metric in metrics[:-1]))
+        self.assertNotIn("excluded_from_index", metrics[-1])
+
     def test_metric_recommendations_use_mapping_without_dd_block(self) -> None:
         rows = [
             {

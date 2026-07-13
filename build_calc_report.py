@@ -223,6 +223,20 @@ PRODUCT_UPLOAD_SHEET_NAMES = {"продукты на заливку"}
 PRODUCT_ENTITY_TYPES = {"product", "продукт"}
 SEGMENT_UPLOAD_SHEET_NAMES = {"сегменты на заливку"}
 SEGMENT_ENTITY_TYPES = {"segment", "сегмент"}
+CHANNEL_UPLOAD_SHEET_NAMES = {"каналы на заливку"}
+CHANNEL_ENTITY_TYPES = {"channel", "канал"}
+CHANNEL_EXCLUDED_METRIC_IDS = {6, 7, 8, 11, 14, 103, 207, 210}
+CHANNEL_FLAT_REQUIRED_COLUMNS = {
+    "metric_code",
+    "metric_name",
+    "product",
+    "макс балл",
+    "факт",
+    "metric_group",
+    "metric_footer",
+    "recommendation",
+    "recommendation_group",
+}
 UPLOAD_INFORMATIONAL_METRIC_NAMES = {"цифр.факторы", "цифр.цели", "цифр.прогнозы"}
 AUTO_REGULARITY_METRIC_NAME = "регулярность (авто)"
 AUTO_REGULARITY_GROUPS = {"воронка привлечения", "воронка оттока"}
@@ -308,6 +322,8 @@ def upload_allowed_entity_types(sheet_name: str, workbook_sheet_names: list[str]
         return PRODUCT_ENTITY_TYPES
     if normalized in SEGMENT_UPLOAD_SHEET_NAMES:
         return SEGMENT_ENTITY_TYPES
+    if normalized in CHANNEL_UPLOAD_SHEET_NAMES:
+        return CHANNEL_ENTITY_TYPES
     if normalized == "лист1" and len(workbook_sheet_names) == 1 and not has_product_upload_sheet:
         return PRODUCT_ENTITY_TYPES
     return None
@@ -323,6 +339,8 @@ def canonical_entity_type(value: Any) -> str:
         return "продукт"
     if normalized in SEGMENT_ENTITY_TYPES:
         return "Сегмент"
+    if normalized in CHANNEL_ENTITY_TYPES:
+        return "Канал"
     return clean_optional_text(value) or "продукт"
 
 
@@ -2152,6 +2170,8 @@ def flat_upload_sheet(
     allowed_entity_types: set[str] | None = None,
 ) -> Any | None:
     frame = _PD.read_excel(path, sheet_name=sheet_name)
+    if normalize_upload_sheet_name(sheet_name) in CHANNEL_UPLOAD_SHEET_NAMES:
+        frame = normalize_channel_upload_frame(frame)
     required = _DD_FROM_EXCEL["REQUIRED_COLUMNS"]
     if not required.issubset(set(frame.columns)):
         raw = _PD.read_excel(path, sheet_name=sheet_name, header=None)
@@ -2172,6 +2192,24 @@ def flat_upload_sheet(
         frame = frame[frame["type"].map(lambda value: is_allowed_upload_type(value, allowed_entity_types))].copy()
     frame["source_sheet"] = sheet_name
     return frame
+
+
+def normalize_channel_upload_frame(frame: Any) -> Any:
+    if not CHANNEL_FLAT_REQUIRED_COLUMNS.issubset(set(frame.columns)):
+        return frame
+
+    normalized = frame.rename(
+        columns={
+            "metric_code": "metric",
+            "product": "Продукт",
+            "макс балл": "max_value",
+            "факт": "value",
+        }
+    ).copy()
+    normalized["Юнит"] = "Каналы"
+    normalized["type"] = "Канал"
+    normalized["тип"] = "Канал"
+    return normalized
 
 
 def headerless_flat_upload_sheet(raw: Any) -> Any:
@@ -2414,6 +2452,7 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
             period,
             links_by_product.get(entity_key(entity_type, product_name), {}),
         )
+        mark_channel_metrics_excluded(product, rows)
         if "трайб" in rows.columns:
             product["tribe"] = clean_optional_text(rows["трайб"].iloc[0])
         products.append(product)
@@ -2430,8 +2469,39 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
         "products_with_links": sum(1 for product_links in links_by_product.values() if product_links),
         "upload_informational_rows_skipped": product_rows.attrs.get("upload_informational_rows_skipped", 0),
         "upload_goal_duplicate_rows_skipped": product_rows.attrs.get("upload_goal_duplicate_rows_skipped", 0),
+        "channel_metrics_excluded_from_index": sum(
+            1
+            for product in products
+            for block in product.get("metrics", [])
+            for metric in block.get("metrics", [])
+            if canonical_entity_type(product.get("type")) == "Канал"
+            and metric.get("excluded_from_index")
+        ),
     }
     return {"products": products}, summary
+
+
+def mark_channel_metrics_excluded(product: dict[str, Any], rows: Any) -> None:
+    if canonical_entity_type(product.get("type")) != "Канал":
+        return
+
+    block_info = _DD_FROM_EXCEL["block_info"]
+    metric_code = _DD_FROM_EXCEL["metric_code"]
+    excluded_rows = rows[
+        rows["metric_id_num"].isin(CHANNEL_EXCLUDED_METRIC_IDS)
+    ]
+    excluded_codes = {
+        (block_info(metric_group)[0], metric_code(metric_group, metric_name))
+        for metric_group, metric_name in excluded_rows[
+            ["metric_group", "metric_name_clean"]
+        ].itertuples(index=False, name=None)
+    }
+
+    for block in product.get("metrics", []):
+        block_code = clean_text(block.get("code"))
+        for metric in block.get("metrics", []):
+            if (block_code, clean_text(metric.get("code"))) in excluded_codes:
+                metric["excluded_from_index"] = True
 
 
 def read_upload_workbook(

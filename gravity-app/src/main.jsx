@@ -598,14 +598,14 @@ function AboutDataDriven({onBack}) {
     {title: 'Люди', text: 'Команды с необходимыми навыками и компетенциями.', icon: Persons},
   ];
   const zones = [
-    {title: 'Цели, драйверы и прогнозы', text: 'Полнота целей и наличие драйверной модели и прогнозов в регулярном мониторинге.'},
-    {title: 'Воронки привлечения и оттока', text: 'Полнота и регулярность отчётности, анализ гэпов и мероприятия по улучшению.'},
-    {title: 'Механики', text: 'Удержание, возврат, cross-sell, upsell и персонализация вместе с метриками эффективности.'},
-    {title: 'Черновики', text: 'Покрытие потенциала продукта механиками работы с брошенными корзинами.'},
-    {title: 'Алерты', text: 'Автоматические оповещения о системных сбоях и изменениях бизнес-метрик.'},
-    {title: 'Кампейнинг', text: 'Запуски кампаний, успешные бизнес-запуски и использование self-service.'},
-    {title: 'Инициативы и исследования', text: 'Доля исследований в бэклоге аналитиков и инициативы сверх бизнес-плана.'},
-    {title: 'A/B-тесты', text: 'Практика экспериментов; в исходной методологии блок отмечен как развивающийся.'},
+    {title: 'Цели, драйверы и прогнозы', text: 'Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе; учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд.', points: '1 балл (100%)'}, {name: 'Мониторинг в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}, {name: 'Мониторинг отсутствует.', points: '0 баллов (0%)'}]},
+    {title: 'Воронки привлечения и оттока', text: 'Полнота и регулярность отчётности, анализ гэпов и мероприятия по улучшению.', criteria: [{name: 'Регулярная отчётность по воронке', points: '0,5 балла'}, {name: 'Полнота отчёта', points: '0,5 балла'}, {name: 'Анализ воронки', points: '1 балл'}, {name: 'Инициативы или мероприятия по отклонениям', points: '1 балл'}]},
+    {title: 'Механики', text: 'Удержание, возврат, cross-sell, upsell и персонализация вместе с метриками эффективности.', criteria: [{name: 'Каждая применимая механика', points: '1 балл'}, {name: 'Мониторинг механик', points: '0,25 балла'}]},
+    {title: 'Черновики', text: 'Покрытие потенциала продукта механиками работы с брошенными корзинами.', criteria: [{name: 'Покрытие черновиков в СБОЛ ≥70%', points: '1 балл'}]},
+    {title: 'Алерты', text: 'Настроены автоматические алерты по системным сбоям — событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов, — и алерты по бизнес-метрикам.', criteria: [{name: 'Настроены алерты по системным сбоям и бизнес-метрикам.', points: '1 балл (100%)'}, {name: 'Алерты настроены частично: по системным сбоям или бизнес-метрикам.', points: '0,5 балла (50%)'}]},
+    {title: 'Кампейнинг', text: 'Запуски кампаний, успешные бизнес-запуски и использование self-service.', criteria: [{name: 'Запуски кампаний за квартал', points: '0,5 балла'}, {name: 'Успешные бизнес-запуски', points: '0,5 балла'}, {name: 'Наличие Self-service', points: '0,5 балла'}]},
+    {title: 'Инициативы и исследования', text: 'Доля исследований в бэклоге аналитиков и инициативы сверх бизнес-плана.', criteria: [{name: 'Discovery ≥40% бэклога', points: '1 балл'}, {name: 'Оценка исследований ≥7,5', points: '1 балл'}, {name: 'Дополнительные инициативы сверх БП', points: '1 балл'}]},
+    {title: 'A/B-тесты', text: 'Практика экспериментов; в текущей методике показатель не влияет на индекс.', criteria: [{name: 'Проведение A/B-тестов', points: 'Не входит в индекс', excluded: true}]},
   ];
   const levels = [
     {range: '<40%', title: 'Требуют внимания', note: 'Нет устойчивого фундамента', tone: 'attention'},
@@ -644,9 +644,8 @@ function AboutDataDriven({onBack}) {
       </section>
 
       <section className="about-section about-diagnosis" id="assessment">
-        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ДИАГНОСТИКА</Text><h2>От чек-листа к приоритету</h2><Text color="secondary">Оценка собирается по цифровым следам и опросу команды, а затем превращается в понятный маршрут действий.</Text></div>
         <div className="about-maturity">
-          <div className="about-maturity-head"><div><b>Уровни зрелости</b><Text color="secondary">По возрастанию Data-Driven Index команды</Text></div></div>
+          <div className="about-maturity-head"><div><h2>Уровни зрелости</h2><Text color="secondary">По возрастанию Data-Driven Index команды</Text></div></div>
           <ul className="about-levels">{levels.map((level) => <li className={`about-level about-level-${level.tone}`} key={level.title}><b>{level.range}</b><span>{level.title}</span><small>{level.note}</small></li>)}</ul>
         </div>
       </section>
@@ -654,12 +653,13 @@ function AboutDataDriven({onBack}) {
       <section className="about-section" id="practices">
         <div className="about-practices-layout">
           <div className="about-practices-intro">
-            <div className="about-section-heading"><Text variant="caption-2" color="secondary">ПОКРЫТИЕ</Text><h2>Восемь практик в одном профиле</h2><Text color="secondary">Индекс помогает быстро локализовать зону развития, не смешивая разные типы работы с данными.</Text></div>
-            <div className="about-practices-stat"><strong>8</strong><span>практик формируют итоговый профиль команды</span></div>
+            <h2>Восемь практик<br />в одном профиле</h2>
+            <Text className="about-practices-lead" color="secondary">Индекс помогает быстро локализовать зону развития, не смешивая разные типы работы с данными.</Text>
+            <div className="about-scoring-method"><span>Расчёт индекса</span><b>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</b><small>Нерелевантные критерии исключаются и из набранных баллов, и из максимального балла продукта.</small></div>
           </div>
           <div className="about-accordion-card">
             <Accordion view="top-bottom" size="l">
-              {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><Text color="secondary">{zone.text}</Text></Accordion.Item>)}
+              {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><div className="about-zone-detail"><Text color="secondary">{zone.text}</Text><div className="about-zone-criteria">{zone.criteria.map((criterion) => <div className="about-zone-criterion" key={criterion.name}><Label theme={criterion.excluded ? 'normal' : 'info'} size="xs">{criterion.points}</Label><span>{criterion.name}</span></div>)}</div></div></Accordion.Item>)}
             </Accordion>
           </div>
         </div>
@@ -709,6 +709,10 @@ function GoalsHelpContent() {
 
 function AlertsHelpContent() {
   return <div className="goals-help-content"><p>Настроены автоматические алерты по системным сбоям — событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов, — и алерты по бизнес-метрикам.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — настроены алерты по системным сбоям и бизнес-метрикам.</li><li><b>0,5 балла (50%)</b> — алерты настроены частично: по системным сбоям или бизнес-метрикам.</li></ul></div>;
+}
+
+function IndexFormulaHelp() {
+  return <div className="index-formula-help"><div>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</div><p>Нерелевантные критерии исключаются и из набранных баллов, и из максимального балла продукта.</p></div>;
 }
 
 function MetricRow({metric, detailScore, instruction, library, aiMetricInsight, aiMetricInsights = [], grouped}) {
@@ -1128,7 +1132,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
       <div className={lens === 'dd' ? 'detail-lens-content' : 'detail-lens-content detail-lens-hidden'}>
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b><span>Расчет не включает A/B тесты. Добавление – после 15 июля</span></div></div>
       <section className="detail-overview">
-        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><span>{product.name}</span><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={{fill: 'var(--g-color-text-secondary)', fontSize: 10}} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
+        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={{fill: 'var(--g-color-text-secondary)', fontSize: 10}} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
         <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
       </section>
       <Dialog open={recommendationsOpen} onClose={() => setRecommendationsOpen(false)} hasCloseButton maxWidth="m" fullWidth contentOverflow="auto">
@@ -1203,6 +1207,11 @@ function App() {
   const rows = data.title?.rows || [];
   const product = selected || data.products[0];
   const openProduct = (item) => { setSelected(item); setView('detail'); window.scrollTo(0, 0); };
+  const toggleDetailScore = () => setDetailScore((value) => {
+    const nextValue = !value;
+    if (!nextValue && view === 'summary') setView('dashboard');
+    return nextValue;
+  });
   const menuItems = [
     {
       id: 'dashboard',
@@ -1220,14 +1229,14 @@ function App() {
       current: view === 'detail',
       onItemClick: () => setView('detail'),
     },
-    {
+    ...(detailScore ? [{
       id: 'summary',
       title: '\u0421\u0432\u043e\u0434\u043d\u0430\u044f \u0442\u0430\u0431\u043b\u0438\u0446\u0430',
       tooltipText: '\u0421\u0432\u043e\u0434\u043d\u0430\u044f \u0442\u0430\u0431\u043b\u0438\u0446\u0430',
       icon: ChartColumn,
       current: view === 'summary',
       onItemClick: () => setView('summary'),
-    },
+    }] : []),
     {
       id: 'about',
       title: 'О Data Driven',
@@ -1248,10 +1257,10 @@ function App() {
     <AsideHeader
       compact
       className="dd-navigation"
-      logo={{text: 'Data-Driven Index', iconSrc: ocb2cLogo, iconSize: 30, iconClassName: 'dd-navigation-logo', 'aria-label': 'Data-Driven Index'}}
+      logo={{text: 'Data-Driven Index', iconSrc: ocb2cLogo, iconSize: 30, iconClassName: 'dd-navigation-logo', href: '#', onClick: (event) => { event.preventDefault(); setView('dashboard'); window.scrollTo(0, 0); }, 'aria-label': 'Открыть Summary'}}
       menuItems={menuItems}
       hideCollapseButton
-      renderFooter={() => <button type="button" className="navigation-period" aria-pressed={detailScore} title={detailScore ? 'Скрыть детализацию в баллах' : 'Показать детализацию в баллах'} onClick={() => setDetailScore((value) => !value)}><Icon data={CircleInfo} size={16} /></button>}
+      renderFooter={() => <button type="button" className="navigation-period" aria-pressed={detailScore} title={detailScore ? 'Скрыть служебный режим' : 'Показать служебный режим'} onClick={toggleDetailScore}><Icon data={CircleInfo} size={16} /></button>}
       renderContent={() => content}
     />
   );
