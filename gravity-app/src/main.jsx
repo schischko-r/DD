@@ -16,10 +16,13 @@ import {
   Persons,
 } from '@gravity-ui/icons';
 import {
+  Accordion,
   Alert,
   Button,
   Card,
+  DefinitionList,
   Dialog,
+  Divider,
   Disclosure,
   HelpMark,
   Icon,
@@ -29,6 +32,7 @@ import {
   Select,
   SegmentedRadioGroup,
   Spin,
+  Stepper,
   Text,
   TextInput,
   ThemeProvider,
@@ -429,7 +433,7 @@ function Summary({products, rows, onOpen, initialType = ''}) {
   );
 }
 
-function DashboardSummary({products, rows, onOpen}) {
+function DashboardSummary({products, rows, onOpen, onAbout}) {
   const [catalogType, setCatalogType] = useState('');
   const [teamContactOpen, setTeamContactOpen] = useState(false);
   const [teamQuery, setTeamQuery] = useState('');
@@ -539,6 +543,109 @@ function DashboardSummary({products, rows, onOpen}) {
         <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2><span>Средний Data Driven Index · {radarAverage === null ? '—' : `${radarAverage}%`}</span></div><label className="dashboard-unit"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="B2C" width={170}><Select.Option value="">B2C</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Процент команд, закрывающих метрику</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small>{item.block} · {item.teams} команд</small></div><div><strong>{item.score}%</strong><Progress value={item.score} theme={progressTheme(item.score)} size="xs" /></div></div>)}</div></Card>
       </section>
+
+      <Card className="dashboard-about-card" view="outlined">
+        <div className="dashboard-about-icon"><Icon data={CircleInfo} size={24} /></div>
+        <div className="dashboard-about-copy">
+          <Text variant="subheader-2">О Data Driven</Text>
+          <Text variant="body-1" color="secondary">Что такое Data Driven, какие практики оценивает индекс, как читать рейтинг зрелости и выбирать следующие шаги для команды.</Text>
+        </div>
+        <Button view="outlined-info" onClick={onAbout}>Открыть методологию <Icon data={ChevronRight} size={14} /></Button>
+      </Card>
+    </main>
+  );
+}
+
+function AboutDataDriven({onBack}) {
+  const elements = [
+    {title: 'Данные', text: 'Качественная и актуальная основа для анализа и решений.', icon: ChartColumn},
+    {title: 'Отчётность', text: 'Система зрения и информирования организации.', icon: ChartMixed},
+    {title: 'Исследования и инструменты', text: 'Инсайты и доказательства, которые можно встроить в промышленные решения.', icon: BarsAscendingAlignLeft},
+    {title: 'Люди', text: 'Команды с необходимыми навыками и компетенциями.', icon: Persons},
+  ];
+  const zones = [
+    {title: 'Цели, драйверы и прогнозы', text: 'Полнота целей и наличие драйверной модели и прогнозов в регулярном мониторинге.'},
+    {title: 'Воронки привлечения и оттока', text: 'Полнота и регулярность отчётности, анализ гэпов и мероприятия по улучшению.'},
+    {title: 'Механики', text: 'Удержание, возврат, cross-sell, upsell и персонализация вместе с метриками эффективности.'},
+    {title: 'Черновики', text: 'Покрытие потенциала продукта механиками работы с брошенными корзинами.'},
+    {title: 'Алерты', text: 'Автоматические оповещения о системных сбоях и изменениях бизнес-метрик.'},
+    {title: 'Кампейнинг', text: 'Запуски кампаний, успешные бизнес-запуски и использование self-service.'},
+    {title: 'Инициативы и исследования', text: 'Доля исследований в бэклоге аналитиков и инициативы сверх бизнес-плана.'},
+    {title: 'A/B-тесты', text: 'Практика экспериментов; в исходной методологии блок отмечен как развивающийся.'},
+  ];
+  const levels = [
+    {range: '81–100%', title: 'Лидеры Data Driven', theme: 'success', value: 100, note: 'Образец для экосистемы'},
+    {range: '61–80%', title: 'Зрелые', theme: 'info', value: 80, note: 'Устойчивая база, точечные пробелы'},
+    {range: '40–60%', title: 'Развивающиеся', theme: 'warning', value: 60, note: 'База закладывается, много слепых зон'},
+    {range: '<40%', title: 'Требуют внимания', theme: 'danger', value: 39, note: 'Data-Driven фундамент отсутствует'},
+  ];
+  return (
+    <main className="content about-page">
+      <Button className="about-back" view="flat" onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</Button>
+      <Card className="about-hero" view="outlined" size="l">
+        <div className="about-hero-main">
+          <Label theme="info" size="m">Методология Data Driven B2C</Label>
+          <h1>Решения на данных,<br />а не только на интуиции</h1>
+          <Text variant="body-2" color="secondary">Data Driven — подход, при котором решения опираются на анализ фактов. Данные используются на всех уровнях, а спор мнений превращается в проверяемую гипотезу.</Text>
+          <Button view="action" size="l" onClick={onBack}>Перейти к рейтингу <Icon data={ChevronRight} size={16} /></Button>
+        </div>
+        <div className="about-hero-side">
+          <Text variant="subheader-2">Что вы узнаете</Text>
+          <DefinitionList direction="vertical" responsive>
+            <DefinitionList.Item name="Что оценивает индекс">Восемь практик работы с данными</DefinitionList.Item>
+            <DefinitionList.Item name="Как читать результат">Четыре уровня зрелости команды</DefinitionList.Item>
+            <DefinitionList.Item name="Что делать дальше">Путь от найденного гэпа к действию</DefinitionList.Item>
+          </DefinitionList>
+        </div>
+      </Card>
+
+      <section className="about-section">
+        <div className="about-section-heading"><span>01</span><div><h2>Data Driven работает как система</h2><Text color="secondary">Сильный результат появляется, когда все элементы работают вместе.</Text></div></div>
+        <div className="about-elements">{elements.map((item) => <Card view="outlined" type="container" size="l" key={item.title}><div className="about-element-icon"><Icon data={item.icon} size={20} /></div><h3>{item.title}</h3><Text color="secondary">{item.text}</Text></Card>)}</div>
+        <Alert className="about-principle" theme="info" title="Главная проверка" message="Высокая зрелость отдельных элементов ещё не делает организацию Data Driven: практики должны работать вместе и приводить к измеримому результату." />
+      </section>
+
+      <section className="about-section about-diagnosis">
+        <div className="about-section-heading"><span>02</span><div><h2>Чек-лист — быстрый диагноз</h2><Text color="secondary">Оценка собирается по цифровым следам и опросу команды, а затем превращается в рейтинг Data Driven B2C.</Text></div></div>
+        <Card className="about-stepper-card" view="outlined" size="l">
+          <Stepper>
+            <Stepper.Item view="success"><b>Оценить</b><span>Продукт, канал или сегмент</span></Stepper.Item>
+            <Stepper.Item><b>Сравнить</b><span>Профиль по восьми практикам</span></Stepper.Item>
+            <Stepper.Item><b>Найти гэпы</b><span>Слабые и незакрытые зоны</span></Stepper.Item>
+            <Stepper.Item><b>Выбрать действие</b><span>Фокус для PO, DA и владельцев инструментов</span></Stepper.Item>
+          </Stepper>
+        </Card>
+        <div className="about-levels">{levels.map((level) => <Card view="outlined" size="m" key={level.title}><div className="about-level-head"><b>{level.range}</b><Label theme={level.theme}>{level.title}</Label></div><Progress value={level.value} theme={level.theme} size="s" /><Text variant="caption-1" color="secondary">{level.note}</Text></Card>)}</div>
+      </section>
+
+      <section className="about-section">
+        <div className="about-section-heading"><span>03</span><div><h2>Что именно оцениваем</h2><Text color="secondary">Индекс показывает зрелость практик Data Driven и помогает локализовать зоны развития.</Text></div></div>
+        <Card className="about-accordion-card" view="outlined" size="l">
+          <Accordion view="top-bottom" size="l">
+            {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><Text color="secondary">{zone.text}</Text></Accordion.Item>)}
+          </Accordion>
+        </Card>
+      </section>
+
+      <section className="about-section about-loop">
+        <div className="about-section-heading"><span>04</span><div><h2>От инсайта к результату</h2><Text color="secondary">Рейтинг создаёт вызов, а понимание проблем запускает цепочку решений.</Text></div></div>
+        <Card className="about-action-card" view="outlined" size="l">
+          <div className="about-action-copy"><Label theme="info">Рабочий цикл</Label><h3>Оценка становится полезной только после действия</h3><Text color="secondary">PO и DA используют данные, проводят анализ, применяют механики и формируют запрос на развитие инструментов.</Text></div>
+          <Divider orientation="vertical" />
+          <DefinitionList direction="vertical" responsive>
+            <DefinitionList.Item name="1. Гэп">Чек-лист фиксирует недостаток</DefinitionList.Item>
+            <DefinitionList.Item name="2. Вызов">Команда выбирает приоритет</DefinitionList.Item>
+            <DefinitionList.Item name="3. Действие">Запускает анализ, механику или улучшение</DefinitionList.Item>
+            <DefinitionList.Item name="4. Результат">Проверяет изменение бизнес-метрики</DefinitionList.Item>
+          </DefinitionList>
+        </Card>
+        <Alert className="about-outcome" theme="success" title="Ориентир результата" message="Сократить количество отклонений в целях в два раза: с 30% до 15%." />
+      </section>
+
+      <Card className="about-summary-cta" view="outlined" type="action" size="l" onClick={onBack}>
+        <div><Text variant="subheader-2">Посмотреть Data-Driven Index команд</Text><Text color="secondary">Откройте Summary, найдите свою команду и перейдите к профилю с зонами развития.</Text></div>
+        <Icon data={ChevronRight} size={20} />
+      </Card>
     </main>
   );
 }
@@ -944,12 +1051,22 @@ function App() {
       current: view === 'summary',
       onItemClick: () => setView('summary'),
     },
+    {
+      id: 'about',
+      title: 'О Data Driven',
+      tooltipText: 'О Data Driven',
+      icon: CircleInfo,
+      current: view === 'about',
+      onItemClick: () => setView('about'),
+    },
   ];
   const content = view === 'summary'
     ? <Summary products={data.products} rows={rows} onOpen={openProduct} />
     : view === 'dashboard'
-      ? <DashboardSummary products={data.products} rows={rows} onOpen={openProduct} />
-      : <Detail product={product} products={data.products} rows={rows} onBack={() => setView('dashboard')} onProduct={setSelected} />;
+      ? <DashboardSummary products={data.products} rows={rows} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
+      : view === 'about'
+        ? <AboutDataDriven onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
+        : <Detail product={product} products={data.products} rows={rows} onBack={() => setView('dashboard')} onProduct={setSelected} />;
   return (
     <AsideHeader
       compact
