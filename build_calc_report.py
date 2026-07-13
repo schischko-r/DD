@@ -182,6 +182,7 @@ AI_SKILL_BLOCKS = {
     "pilots": "attract",
 }
 AI_SKILL_ORDER = tuple(AI_SKILL_LABELS)
+CLIENT_METRICS_MIN_MONTH = (2026, 5)
 AI_SKILL_GROUP_TOOLS = {
     "attract": "Группа навыков «Привлечение»",
 }
@@ -1519,6 +1520,17 @@ def metric_recommendation_product_group(
     return " + ".join(groups)
 
 
+def ai_digest_meets_minimum_month(skill_key: str, digest: dict[str, Any]) -> bool:
+    if skill_key != "client_metrics":
+        return True
+    month_sort = digest.get("digest_display_month_sort") or digest.get("digest_month_sort") or (0, 0, "")
+    try:
+        month = (int(month_sort[0]), int(month_sort[1]))
+    except (IndexError, TypeError, ValueError):
+        return False
+    return month >= CLIENT_METRICS_MIN_MONTH
+
+
 def build_metric_recommendations(
     product_name: str,
     rows: list[dict[str, Any]],
@@ -1542,7 +1554,7 @@ def build_metric_recommendations(
                 digest_item = digest_index.get(
                     (skill_key, normalize_ai_product_key(mapped_product))
                 )
-                if digest_item:
+                if digest_item and ai_digest_meets_minimum_month(skill_key, digest_item):
                     matched_digests.append(
                         {**digest_item, "mapped_product": mapped_product}
                     )
@@ -1792,7 +1804,7 @@ def apply_ai_skill_digest(
                     matched_digests = []
                     for mapped_product in mapped_products:
                         digest_item = digest_index.get((skill_key, normalize_ai_product_key(mapped_product)))
-                        if digest_item:
+                        if digest_item and ai_digest_meets_minimum_month(skill_key, digest_item):
                             matched_digests.append({**digest_item, "mapped_product": mapped_product})
                     digest = aggregate_ai_digests(matched_digests) if matched_digests else None
                     matched_count = len(matched_digests)
@@ -2270,6 +2282,14 @@ def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]
                 earned += metric_value
                 max_value += metric_max
         score = round(earned / max_value * 100) if max_value > 0 else 0
+        if score >= 81:
+            group = "Лидеры"
+        elif score >= 61:
+            group = "Зрелые"
+        elif score >= 40:
+            group = "Развивающиеся"
+        else:
+            group = "Требуют внимания"
         rows.append(
             {
                 "id": f"upload-title-{order + 1}",
@@ -2277,7 +2297,7 @@ def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]
                 "unit": clean_text(product.get("unit")) or "Без юнита",
                 "name": clean_text(product.get("name")),
                 "score": score,
-                "group": "",
+                "group": group,
                 "type": canonical_entity_type(product.get("type")),
             }
         )
@@ -2447,7 +2467,10 @@ def read_upload_workbook(
             flat_frames.append(flat_frame)
             title_columns = [column for column in UPLOAD_TITLE_COLUMNS if column in flat_frame.columns]
             if {"Юнит", "Продукт", "Оценка", "Группа", "тип"}.issubset(set(title_columns)):
-                title_frames.append(flat_frame.loc[:, title_columns].drop_duplicates())
+                title_candidate = flat_frame.loc[:, title_columns].drop_duplicates()
+                has_source_scores = title_candidate["Оценка"].map(clean_optional_text).ne("").any()
+                if has_source_scores:
+                    title_frames.append(title_candidate)
             sheet_summaries.append(
                 {
                     "sheet": sheet_name,

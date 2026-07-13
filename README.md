@@ -8,6 +8,17 @@
 
 ## Быстрый Запуск
 
+Полная локальная сборка Gravity UI из upload-книги, включая JSON, Vite bundle и standalone HTML:
+
+```bash
+python build_gravity_report.py
+```
+
+Команда использует upload-пайплайн из `build_calc_report.py`, локальные
+`ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx` и не выполняет сетевые
+запросы к AI-digest API или GigaChat. Результаты записываются в
+`gravity-app/public/report-data.json` и `gravity-standalone.html`.
+
 Основная сборка из текущей книги:
 
 ```bash

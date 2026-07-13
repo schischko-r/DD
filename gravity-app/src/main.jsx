@@ -6,23 +6,27 @@ import {
   ArrowUpRightFromSquare,
   BarsAscendingAlignLeft,
   ChartColumn,
+  ChartLinePoints,
   ChartMixed,
+  Check,
   CircleDollar,
   ChevronDown,
   ChevronRight,
   CircleInfo,
+  Flag,
+  ListCheck,
   Magnifier,
   NodesRight,
   Persons,
+  Rocket,
+  Target,
 } from '@gravity-ui/icons';
 import {
   Accordion,
   Alert,
   Button,
   Card,
-  DefinitionList,
   Dialog,
-  Divider,
   Disclosure,
   HelpMark,
   Icon,
@@ -32,7 +36,6 @@ import {
   Select,
   SegmentedRadioGroup,
   Spin,
-  Stepper,
   Text,
   TextInput,
   ThemeProvider,
@@ -49,6 +52,15 @@ const REPORT_ACCESS_REQUEST_URL = 'https://sberfriend.sberbank.ru/deeplink-hash-
 const COMPLEX_REPORT_URL = 'http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/complex-report';
 const HELP_POPOVER_PROPS = {trigger: 'all', openDelay: 0, closeDelay: 80, rest: 0};
 const TEAM_CONTACT_EMAIL = 'MYCherkova@sberbank.ru';
+const PRODUCT_KEY_METRIC_LINKS = [
+  {label: 'Воронки активности продуктов', url: 'https://navigator.sigma.sbrf.ru/gdash/12215/1000034254'},
+  {label: 'Продукты-спутники', url: 'https://navigator.sigma.sbrf.ru/gdash/12215/1000030917'},
+];
+const SEGMENT_KEY_METRIC_LINKS = [
+  {label: 'Отчет "Активная клиентская база"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000000301'},
+  {label: 'Отчет "Major"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1'},
+  {label: 'Отчет "Клиенты с 1+2+"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000001389'},
+];
 
 function scoreFor(product, rows) {
   return rows.find((row) => row.name === product.name && row.unit === product.unit)?.score ?? 0;
@@ -89,6 +101,16 @@ function metricGroup(metric) {
   return String(metric.metric_subgroup || '').trim();
 }
 
+function metricDomId(code) {
+  return `dd-metric-${encodeURIComponent(String(code || ''))}`;
+}
+
+function isVisibleMetric(metric) {
+  const isOwnMechanics = /(?:^|\.)nalichie_sobstvennyh_mehanik$/i.test(String(metric.code || ''))
+    || /^наличие собственных механик$/i.test(String(metric.name || '').trim());
+  return !isOwnMechanics || metric.is_applicabble_flg !== false;
+}
+
 function collectBlockLinks(block) {
   const links = [];
   const add = (item, fallbackLabel) => {
@@ -108,13 +130,19 @@ function collectBlockLinks(block) {
   return links.filter((item, index) => links.findIndex((candidate) => candidate.label === item.label && candidate.url === item.url) === index);
 }
 
-function linksForBlock(block, allBlocks = []) {
+function linksForBlock(block, allBlocks = [], entityType = 'Продукт') {
   const draftLinks = allBlocks.flatMap(collectBlockLinks).filter((item) => /черновик/i.test(item.label));
-  const ownLinks = collectBlockLinks(block).filter((item) => block.code === 'attract' || !/черновик/i.test(item.label));
+  const isKeyMetricsBlock = block.code === 'general' || /знание ключевых метрик/i.test(String(block.name || ''));
+  const keyMetricLinks = isKeyMetricsBlock
+    ? (String(entityType).toLowerCase().includes('сегмент') ? SEGMENT_KEY_METRIC_LINKS : PRODUCT_KEY_METRIC_LINKS)
+    : [];
+  const ownLinks = [...collectBlockLinks(block), ...keyMetricLinks].filter((item) => block.code === 'attract' || !/черновик/i.test(item.label));
   const relocatedLinks = block.code === 'attract' ? [...ownLinks, ...draftLinks] : ownLinks;
-  const uniqueLinks = relocatedLinks.filter((item, index) => relocatedLinks.findIndex((candidate) => candidate.label === item.label && candidate.url === item.url) === index);
+  const uniqueLinks = relocatedLinks
+    .filter((item) => !/библиотек[ау] решений/i.test(item.label))
+    .filter((item, index, items) => items.findIndex((candidate) => candidate.label === item.label && candidate.url === item.url) === index);
   return block.code === 'cx'
-    ? uniqueLinks.filter((item) => /^(открыть )?(cx|ux) score$/i.test(item.label))
+    ? uniqueLinks.filter((item) => /^(?:(?:открыть )?(?:cx|ux) score|cjxplorer|losshunter)$/i.test(item.label))
     : uniqueLinks;
 }
 
@@ -264,7 +292,7 @@ function CatalogDialog({openType, products, rows, onOpen, onClose}) {
   );
 }
 
-function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
+function CatalogDialogFiltered({openType, openMaturity, products, rows, onOpen, onClose}) {
   const [expandedUnits, setExpandedUnits] = useState({});
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('score');
@@ -275,6 +303,7 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
       const row = rows.find((item) => item.name === product.name && item.unit === product.unit);
       const type = product.type || row?.type || catalogGroups[0].type;
       if (!selectedType || type !== selectedType.type) return;
+      if (openMaturity && maturityTheme(row?.group) !== openMaturity.theme) return;
       const unitName = product.unit || '\u0411\u0435\u0437 \u044e\u043d\u0438\u0442\u0430';
       if (!map.has(unitName)) map.set(unitName, {name: unitName, items: []});
       map.get(unitName).items.push({
@@ -291,7 +320,7 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
         avg: Math.round(unit.items.reduce((sum, item) => sum + item.score, 0) / Math.max(unit.items.length, 1)),
       }))
       .sort((a, b) => compareNames(a.name, b.name));
-  }, [products, rows, selectedType]);
+  }, [products, rows, selectedType, openMaturity]);
   const isFlatCatalog = selectedType?.tone !== 'product';
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const visibleUnits = useMemo(() => units
@@ -311,7 +340,7 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
     setExpandedUnits({});
     setQuery('');
     setSort('score');
-  }, [openType, units]);
+  }, [openType, openMaturity, units]);
 
   const renderItemRow = (item, key, flat = false) => {
     const tone = maturityTheme(item.group);
@@ -327,7 +356,7 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
 
   return (
     <Dialog open={Boolean(openType)} onClose={onClose} hasCloseButton maxWidth="l" fullWidth className="catalog-dialog" contentOverflow="auto">
-      <Dialog.Header caption={`${'\u0412\u0441\u0435'} ${(selectedType?.label || '').toLowerCase()}`} />
+      <Dialog.Header caption={`${'\u0412\u0441\u0435'} ${(selectedType?.label || '').toLowerCase()}${openMaturity ? ` · ${openMaturity.label}` : ''}`} />
       <Dialog.Body className="catalog-dialog-body">
         <div className="catalog-toolbar">
           <div className="catalog-search">
@@ -344,7 +373,7 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
         <div className={`catalog-table ${isFlatCatalog ? 'catalog-table-flat' : 'catalog-table-product'}`}>
           <div className="catalog-table-head"><span>{isFlatCatalog ? (selectedType?.label || '') : `${'\u042e\u043d\u0438\u0442'} / ${selectedType?.label || ''}`}</span><span>{isFlatCatalog ? '\u042e\u043d\u0438\u0442' : 'Data-Driven Index'}</span><span>{isFlatCatalog ? 'Data-Driven Index' : '\u0421\u0442\u0430\u0442\u0443\u0441'}</span><span>{isFlatCatalog ? '\u0421\u0442\u0430\u0442\u0443\u0441' : '\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435'}</span></div>
           {isFlatCatalog ? flatItems.map((item) => renderItemRow(item, `${item.unit}-${openType}-${item.name}`, true)) : visibleUnits.map((unit) => {
-            const unitOpen = Boolean(normalizedQuery || expandedUnits[unit.name]);
+            const unitOpen = Boolean(visibleUnits.length === 1 || normalizedQuery || expandedUnits[unit.name]);
             return (
               <React.Fragment key={unit.name}>
                 <button type="button" className="catalog-row catalog-unit-row" onClick={() => setExpandedUnits((state) => ({...state, [unit.name]: !unitOpen}))}>
@@ -364,7 +393,7 @@ function CatalogDialogFiltered({openType, products, rows, onOpen, onClose}) {
   );
 }
 
-function Summary({products, rows, onOpen, initialType = ''}) {
+function Summary({products, rows, initialType = ''}) {
   const [unit, setUnit] = useState([]);
   const [type, setType] = useState(initialType ? [initialType] : []);
   const [sort, setSort] = useState('name');
@@ -386,8 +415,6 @@ function Summary({products, rows, onOpen, initialType = ''}) {
     }));
     return result.sort((a, b) => sort === 'score' ? (b.avg - a.avg) || compareNames(a.name, b.name) : compareNames(a.name, b.name));
   }, [filteredRows, sort]);
-  const productByRow = (row) => products.find((item) => item.name === row.name && item.unit === row.unit);
-
   return (
     <main className="content">
       <header className="page-header">
@@ -417,14 +444,12 @@ function Summary({products, rows, onOpen, initialType = ''}) {
         {grouped.map((group) => <section className="unit-group" key={group.name}>
           <div className="unit-row"><div><i /> <b>{group.name}</b><span>{group.items.length} команд</span></div><span>средний Data-Driven Index <b>{group.avg}%</b></span></div>
           {group.items.map((row) => {
-            const product = productByRow(row);
             const tone = maturityTheme(row.group);
-            const openRow = () => product && onOpen(product);
-            return <div className={`report-row tone-${tone}${product ? ' report-row-action' : ''}`} key={row.id} role={product ? 'button' : undefined} tabIndex={product ? 0 : undefined} onClick={openRow} onKeyDown={(event) => { if (product && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); openRow(); } }}>
+            return <div className={`report-row tone-${tone}`} key={row.id}>
               <div className="team-cell"><span className={`type-label type-label-${typeTone(row.type)}`}>{row.type}</span><b title={row.name}>{row.name}</b></div>
               <div className="score-cell"><strong>{row.score}%</strong><Progress value={row.score} theme={tone} size="xs" /></div>
               <div><Label theme={tone}>{row.group}</Label></div>
-              <div><Button view="outlined-info" disabled={!product} onClick={(event) => { event.stopPropagation(); openRow(); }}>Перейти</Button></div>
+              <div><Button view="outlined-info" disabled>Перейти</Button></div>
             </div>;
           })}
         </section>)}
@@ -435,6 +460,7 @@ function Summary({products, rows, onOpen, initialType = ''}) {
 
 function DashboardSummary({products, rows, onOpen, onAbout}) {
   const [catalogType, setCatalogType] = useState('');
+  const [catalogMaturity, setCatalogMaturity] = useState(null);
   const [teamContactOpen, setTeamContactOpen] = useState(false);
   const [teamQuery, setTeamQuery] = useState('');
   const periods = useMemo(() => [...new Set(products.map((item) => item.period).filter(Boolean))].sort(compareNames), [products]);
@@ -443,29 +469,42 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
   const [hoveredBlock, setHoveredBlock] = useState('');
   const units = useMemo(() => [...new Set(products.filter((item) => !period || item.period === period).map((item) => item.unit).filter(Boolean))].sort(compareNames), [products, period]);
   const periodProducts = useMemo(() => products.filter((item) => !period || item.period === period), [products, period]);
+  const scopedProducts = useMemo(() => periodProducts.filter((item) => !unit || item.unit === unit), [periodProducts, unit]);
+  useEffect(() => {
+    if (unit && !units.includes(unit)) setUnit('');
+  }, [unit, units]);
   const teamMatches = useMemo(() => {
     const normalizedQuery = teamQuery.trim().toLowerCase();
     if (!normalizedQuery) return [];
-    return periodProducts.filter((item) => [item.name, item.type, item.unit]
+    return scopedProducts.filter((item) => [item.name, item.type, item.unit]
       .filter(Boolean)
       .some((value) => value.toLowerCase().includes(normalizedQuery)))
       .sort((a, b) => compareNames(a.name, b.name))
       .slice(0, 10);
-  }, [periodProducts, teamQuery]);
-  const scopedProducts = useMemo(() => products.filter((item) => (!period || item.period === period) && (!unit || item.unit === unit)), [products, period, unit]);
+  }, [scopedProducts, teamQuery]);
   const rowForProduct = (product) => rows.find((row) => row.name === product.name && row.unit === product.unit);
   const categoryMeta = [
     {key: 'product', label: 'Продукты', typeLabel: 'Продукт', icon: CircleDollar, tone: 'product'},
     {key: 'segment', label: 'Сегменты', typeLabel: 'Сегмент', icon: Persons, tone: 'segment'},
     {key: 'channel', label: 'Каналы', typeLabel: 'Канал', icon: NodesRight, tone: 'channel'},
   ];
+  const maturityLevels = [
+    {theme: 'success', label: 'Лидеры'},
+    {theme: 'info', label: 'Зрелые'},
+    {theme: 'warning', label: 'Развивающиеся'},
+    {theme: 'danger', label: 'Требуют внимания'},
+  ];
   const categoryCards = categoryMeta.map((category) => {
     const items = scopedProducts
       .filter((item) => typeTone(item.type) === category.key)
-      .map((item) => ({...item, score: Number(rowForProduct(item)?.score || 0)}))
+      .map((item) => {
+        const row = rowForProduct(item);
+        return {...item, score: Number(row?.score || 0), maturity: maturityTheme(row?.group)};
+      })
       .sort((a, b) => (b.score - a.score) || compareNames(a.name, b.name));
     const average = items.length ? Math.round(items.reduce((sum, item) => sum + item.score, 0) / items.length) : null;
-    return {...category, items, average};
+    const maturityCounts = maturityLevels.map((level) => ({...level, count: items.filter((item) => item.maturity === level.theme).length}));
+    return {...category, items, average, maturityCounts};
   });
   const blockNames = scopedProducts[0]?.metrics?.map((block) => ({code: block.code, name: block.name})) || [];
   const radarData = blockNames.map((block) => {
@@ -516,6 +555,7 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
             <TextInput value={teamQuery} onUpdate={setTeamQuery} placeholder="Начните вводить название" size="m" hasClear />
             {teamQuery && <div className="dashboard-team-search-menu">{teamMatches.length ? teamMatches.map((item) => <Button key={item.id} view="flat" width="max" onClick={() => { setTeamQuery(''); onOpen(item); }}><span className="dashboard-team-search-result"><b>{item.name}</b><small>{item.type} · {item.unit}</small></span></Button>) : <Text color="secondary">Команда не найдена</Text>}</div>}
           </div>
+          <label className="dashboard-unit-filter"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="Все юниты" width={190}><Select.Option value="">Все юниты</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
           <label className="dashboard-period"><span>Период</span><Select value={period ? [period] : []} onUpdate={(value) => setPeriod(value[0] || '')} width={190}>{periods.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
         </div>
       </header>
@@ -532,15 +572,15 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
         {categoryCards.map((category) => <Card key={category.key} className={`dashboard-category-card dashboard-category-${category.tone}`} view="outlined">
           <div className="dashboard-category-head"><div className="dashboard-category-icon"><Icon data={category.icon} size={20} /></div><h2>{category.label}</h2></div>
           <div className="dashboard-category-score"><div>{category.average === null ? <Text variant="subheader-2" color="secondary">Нет данных</Text> : <><strong>{category.average}%</strong><span>/100</span></>}</div><span className="dashboard-category-caption">Средний Data-Driven Index</span><small>Оценено команд: <b>{category.items.length}</b></small></div>
-          <div className="dashboard-examples"><span>Топ команд</span>{category.items.length ? category.items.slice(0, 3).map((item) => <button type="button" className="dashboard-example" key={`${item.unit}-${item.name}`} onClick={() => onOpen(item)}><b title={item.name}>{item.name}</b><Progress value={item.score} theme={progressTheme(item.score)} size="xs" /><strong>{item.score}</strong></button>) : <Text variant="body-1" color="secondary">Команды этого типа не добавлены</Text>}</div>
-          <Button className="dashboard-category-footer" view="flat-info" onClick={() => setCatalogType(category.typeLabel)}>Все {category.label.toLowerCase()}</Button>
+          <div className="dashboard-maturity"><span>По уровню зрелости</span><div className="dashboard-maturity-grid">{category.maturityCounts.map((level) => <button type="button" className="dashboard-maturity-counter" key={level.theme} disabled={!level.count} onClick={() => { setCatalogMaturity(level); setCatalogType(category.typeLabel); }}><span>{level.label}</span><strong>{level.count}</strong><Icon data={ChevronRight} size={13} /></button>)}</div></div>
+          <Button className="dashboard-category-footer" view="flat-info" onClick={() => { setCatalogMaturity(null); setCatalogType(category.typeLabel); }}>Все {category.label.toLowerCase()}</Button>
         </Card>)}
       </section>
 
-      <CatalogDialogFiltered openType={catalogType} products={scopedProducts} rows={rows} onOpen={onOpen} onClose={() => setCatalogType('')} />
+      <CatalogDialogFiltered openType={catalogType} openMaturity={catalogMaturity} products={scopedProducts} rows={rows} onOpen={onOpen} onClose={() => { setCatalogType(''); setCatalogMaturity(null); }} />
 
       <section className="dashboard-analysis-grid">
-        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2><span>Средний Data Driven Index · {radarAverage === null ? '—' : `${radarAverage}%`}</span></div><label className="dashboard-unit"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="B2C" width={170}><Select.Option value="">B2C</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
+        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2><span>Средний Data Driven Index · {radarAverage === null ? '—' : `${radarAverage}%`}</span></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Процент команд, закрывающих метрику</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small>{item.block} · {item.teams} команд</small></div><div><strong>{item.score}%</strong><Progress value={item.score} theme={progressTheme(item.score)} size="xs" /></div></div>)}</div></Card>
       </section>
 
@@ -574,88 +614,147 @@ function AboutDataDriven({onBack}) {
     {title: 'A/B-тесты', text: 'Практика экспериментов; в исходной методологии блок отмечен как развивающийся.'},
   ];
   const levels = [
-    {range: '81–100%', title: 'Лидеры Data Driven', theme: 'success', value: 100, note: 'Образец для экосистемы'},
-    {range: '61–80%', title: 'Зрелые', theme: 'info', value: 80, note: 'Устойчивая база, точечные пробелы'},
-    {range: '40–60%', title: 'Развивающиеся', theme: 'warning', value: 60, note: 'База закладывается, много слепых зон'},
-    {range: '<40%', title: 'Требуют внимания', theme: 'danger', value: 39, note: 'Data-Driven фундамент отсутствует'},
+    {range: '81–100%', title: 'Лидеры', note: 'Ориентир для экосистемы'},
+    {range: '61–80%', title: 'Зрелые', note: 'Практики работают регулярно'},
+    {range: '40–60%', title: 'Развивающиеся', note: 'База формируется'},
+    {range: '<40%', title: 'Требуют внимания', note: 'Нет устойчивого фундамента'},
+  ];
+  const assessmentSteps = [
+    {title: 'Оценить', text: 'Продукт, канал или сегмент', icon: ListCheck},
+    {title: 'Сравнить', text: 'Профиль по восьми практикам', icon: ChartMixed},
+    {title: 'Найти гэпы', text: 'Слабые и незакрытые зоны', icon: Magnifier},
+    {title: 'Выбрать фокус', text: 'Приоритет для команды', icon: Target},
+  ];
+  const actionSteps = [
+    {title: 'Гэп', text: 'Чек-лист фиксирует недостаток', icon: Flag},
+    {title: 'Приоритет', text: 'Команда выбирает вызов', icon: Persons},
+    {title: 'Действие', text: 'Запускается улучшение', icon: Rocket},
+    {title: 'Результат', text: 'Проверяется бизнес-метрика', icon: Check},
   ];
   return (
     <main className="content about-page">
       <Button className="about-back" view="flat" onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</Button>
-      <Card className="about-hero" view="outlined" size="l">
+      <section className="about-hero">
         <div className="about-hero-main">
-          <Label theme="info" size="m">Методология Data Driven B2C</Label>
-          <h1>Решения на данных,<br />а не только на интуиции</h1>
-          <Text variant="body-2" color="secondary">Data Driven — подход, при котором решения опираются на анализ фактов. Данные используются на всех уровнях, а спор мнений превращается в проверяемую гипотезу.</Text>
-          <Button view="action" size="l" onClick={onBack}>Перейти к рейтингу <Icon data={ChevronRight} size={16} /></Button>
+          <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Методология Data Driven B2C</span></div>
+          <h1>Как команда принимает решения на данных</h1>
+          <Text variant="body-2" color="secondary">Индекс показывает, насколько данные встроены в ежедневную работу: от постановки целей и мониторинга до экспериментов и измеримого результата.</Text>
+          <div className="about-hero-actions">
+            <Button view="action" size="l" onClick={onBack}>Открыть рейтинг <Icon data={ChevronRight} size={16} /></Button>
+            <Button view="flat" size="l" href="#assessment">Как считается индекс</Button>
+          </div>
         </div>
-        <div className="about-hero-side">
-          <Text variant="subheader-2">Что вы узнаете</Text>
-          <DefinitionList direction="vertical" responsive>
-            <DefinitionList.Item name="Что оценивает индекс">Восемь практик работы с данными</DefinitionList.Item>
-            <DefinitionList.Item name="Как читать результат">Четыре уровня зрелости команды</DefinitionList.Item>
-            <DefinitionList.Item name="Что делать дальше">Путь от найденного гэпа к действию</DefinitionList.Item>
-          </DefinitionList>
+        <div className="about-system-map" role="img" aria-label="Четыре элемента Data Driven системы">
+          <div className="about-system-core"><strong>Data Driven</strong><span>единый контур решений</span></div>
+          {elements.map((item) => <div className="about-system-node" key={item.title}><span><Icon data={item.icon} size={18} /></span><b>{item.title}</b></div>)}
         </div>
-      </Card>
+      </section>
 
-      <section className="about-section">
-        <div className="about-section-heading"><span>01</span><div><h2>Data Driven работает как система</h2><Text color="secondary">Сильный результат появляется, когда все элементы работают вместе.</Text></div></div>
+      <nav className="about-nav" aria-label="Разделы методологии">
+        <a href="#system">Система</a>
+        <a href="#assessment">Оценка</a>
+        <a href="#practices">Практики</a>
+        <a href="#action">Действие</a>
+      </nav>
+
+      <section className="about-section" id="system">
+        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ОСНОВА</Text><h2>Data Driven работает как система</h2><Text color="secondary">Сильный результат появляется, когда четыре элемента связаны общим процессом принятия решений.</Text></div>
         <div className="about-elements">{elements.map((item) => <Card view="outlined" type="container" size="l" key={item.title}><div className="about-element-icon"><Icon data={item.icon} size={20} /></div><h3>{item.title}</h3><Text color="secondary">{item.text}</Text></Card>)}</div>
-        <Alert className="about-principle" theme="info" title="Главная проверка" message="Высокая зрелость отдельных элементов ещё не делает организацию Data Driven: практики должны работать вместе и приводить к измеримому результату." />
+        <div className="about-principle"><Icon data={NodesRight} size={20} /><div><b>Главная проверка</b><Text color="secondary">Отдельная сильная практика ещё не делает команду Data Driven. Ценность появляется, когда данные, отчётность, инструменты и люди работают вместе.</Text></div></div>
       </section>
 
-      <section className="about-section about-diagnosis">
-        <div className="about-section-heading"><span>02</span><div><h2>Чек-лист — быстрый диагноз</h2><Text color="secondary">Оценка собирается по цифровым следам и опросу команды, а затем превращается в рейтинг Data Driven B2C.</Text></div></div>
-        <Card className="about-stepper-card" view="outlined" size="l">
-          <Stepper>
-            <Stepper.Item view="success"><b>Оценить</b><span>Продукт, канал или сегмент</span></Stepper.Item>
-            <Stepper.Item><b>Сравнить</b><span>Профиль по восьми практикам</span></Stepper.Item>
-            <Stepper.Item><b>Найти гэпы</b><span>Слабые и незакрытые зоны</span></Stepper.Item>
-            <Stepper.Item><b>Выбрать действие</b><span>Фокус для PO, DA и владельцев инструментов</span></Stepper.Item>
-          </Stepper>
-        </Card>
-        <div className="about-levels">{levels.map((level) => <Card view="outlined" size="m" key={level.title}><div className="about-level-head"><b>{level.range}</b><Label theme={level.theme}>{level.title}</Label></div><Progress value={level.value} theme={level.theme} size="s" /><Text variant="caption-1" color="secondary">{level.note}</Text></Card>)}</div>
+      <section className="about-section about-diagnosis" id="assessment">
+        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ДИАГНОСТИКА</Text><h2>От чек-листа к приоритету</h2><Text color="secondary">Оценка собирается по цифровым следам и опросу команды, а затем превращается в понятный маршрут действий.</Text></div>
+        <div className="about-assessment-flow">{assessmentSteps.map((step, index) => <div className="about-assessment-step" key={step.title}><div className="about-step-icon"><Icon data={step.icon} size={18} /></div><span>{String(index + 1).padStart(2, '0')}</span><b>{step.title}</b><Text color="secondary">{step.text}</Text></div>)}</div>
+        <div className="about-maturity">
+          <div className="about-maturity-head"><div><b>Уровни зрелости</b><Text color="secondary">По убыванию Data-Driven Index команды</Text></div></div>
+          <ul className="about-levels">{levels.map((level) => <li className="about-level" key={level.title}><b>{level.range}</b><span>{level.title}</span><small>{level.note}</small></li>)}</ul>
+        </div>
       </section>
 
-      <section className="about-section">
-        <div className="about-section-heading"><span>03</span><div><h2>Что именно оцениваем</h2><Text color="secondary">Индекс показывает зрелость практик Data Driven и помогает локализовать зоны развития.</Text></div></div>
-        <Card className="about-accordion-card" view="outlined" size="l">
-          <Accordion view="top-bottom" size="l">
-            {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><Text color="secondary">{zone.text}</Text></Accordion.Item>)}
-          </Accordion>
-        </Card>
+      <section className="about-section" id="practices">
+        <div className="about-practices-layout">
+          <div className="about-practices-intro">
+            <div className="about-section-heading"><Text variant="caption-2" color="secondary">ПОКРЫТИЕ</Text><h2>Восемь практик в одном профиле</h2><Text color="secondary">Индекс помогает быстро локализовать зону развития, не смешивая разные типы работы с данными.</Text></div>
+            <div className="about-practices-stat"><strong>8</strong><span>практик формируют итоговый профиль команды</span></div>
+          </div>
+          <div className="about-accordion-card">
+            <Accordion view="top-bottom" size="l">
+              {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><Text color="secondary">{zone.text}</Text></Accordion.Item>)}
+            </Accordion>
+          </div>
+        </div>
       </section>
 
-      <section className="about-section about-loop">
-        <div className="about-section-heading"><span>04</span><div><h2>От инсайта к результату</h2><Text color="secondary">Рейтинг создаёт вызов, а понимание проблем запускает цепочку решений.</Text></div></div>
-        <Card className="about-action-card" view="outlined" size="l">
-          <div className="about-action-copy"><Label theme="info">Рабочий цикл</Label><h3>Оценка становится полезной только после действия</h3><Text color="secondary">PO и DA используют данные, проводят анализ, применяют механики и формируют запрос на развитие инструментов.</Text></div>
-          <Divider orientation="vertical" />
-          <DefinitionList direction="vertical" responsive>
-            <DefinitionList.Item name="1. Гэп">Чек-лист фиксирует недостаток</DefinitionList.Item>
-            <DefinitionList.Item name="2. Вызов">Команда выбирает приоритет</DefinitionList.Item>
-            <DefinitionList.Item name="3. Действие">Запускает анализ, механику или улучшение</DefinitionList.Item>
-            <DefinitionList.Item name="4. Результат">Проверяет изменение бизнес-метрики</DefinitionList.Item>
-          </DefinitionList>
-        </Card>
-        <Alert className="about-outcome" theme="success" title="Ориентир результата" message="Сократить количество отклонений в целях в два раза: с 30% до 15%." />
+      <section className="about-section about-loop" id="action">
+        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ЦИКЛ УЛУЧШЕНИЙ</Text><h2>Оценка полезна только после действия</h2><Text color="secondary">Команда превращает найденный гэп в проверяемое изменение бизнес-метрики.</Text></div>
+        <div className="about-action-flow">{actionSteps.map((step, index) => <div className="about-action-step" key={step.title}><div><Icon data={step.icon} size={18} /></div><span>{String(index + 1).padStart(2, '0')}</span><b>{step.title}</b><Text color="secondary">{step.text}</Text></div>)}</div>
+        <div className="about-outcome"><div><Label theme="success">Пример результата</Label><Text color="secondary">Сократить долю отклонений в целях в два раза</Text></div><div className="about-outcome-metric"><strong>30%</strong><Icon data={ChevronRight} size={20} /><strong>15%</strong></div></div>
       </section>
 
-      <Card className="about-summary-cta" view="outlined" type="action" size="l" onClick={onBack}>
-        <div><Text variant="subheader-2">Посмотреть Data-Driven Index команд</Text><Text color="secondary">Откройте Summary, найдите свою команду и перейдите к профилю с зонами развития.</Text></div>
-        <Icon data={ChevronRight} size={20} />
-      </Card>
+      <section className="about-summary-cta">
+        <div><Text variant="subheader-2">Посмотрите Data-Driven Index своей команды</Text><Text color="secondary">Найдите профиль, сравните практики и определите ближайший фокус развития.</Text></div>
+        <Button view="action" size="l" onClick={onBack}>Открыть рейтинг <Icon data={ChevronRight} size={16} /></Button>
+      </section>
     </main>
   );
 }
 
-function MetricRow({metric}) {
+function MetricInlineAction({title, subtitle, href, onClick, tone = 'info', actionLabel = 'Перейти'}) {
+  const className = `metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-${tone}`;
+  const content = <><span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span><span className="metric-inline-instruction-copy"><strong>{title}</strong>{subtitle && <small>{subtitle}</small>}</span><span className="metric-inline-instruction-action">{actionLabel} <Icon data={ChevronRight} size={13} /></span></>;
+  return href
+    ? <Link className={className} href={href} target="_blank" rel="noreferrer">{content}</Link>
+    : <button className={className} type="button" onClick={onClick}>{content}</button>;
+}
+
+function metricAiInsight(subject, onClick) {
+  const labels = {
+    'динамике MAU': 'Динамика MAU',
+    'черновикам в СБОЛ': 'Черновики в СБОЛ',
+    'воронке кампейнинга': 'Воронка кампейнинга',
+    'воронке оформления в СБОЛ': 'Оформление в СБОЛ',
+    'CSI': 'CSI',
+    'жалобам и обращениям': 'Жалобы и обращения',
+  };
+  return {
+    title: `AI-анализ по ${subject}`,
+    label: labels[subject] || subject,
+    tone: 'info',
+    onClick,
+  };
+}
+
+function MetricAiActions({insights}) {
+  if (!insights.length) return null;
+  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={ChartLinePoints} size={15} /><strong>AI-анализ</strong></span><div className="metric-ai-actions-buttons">{insights.map((insight) => <button type="button" onClick={insight.onClick} key={insight.title}>{insight.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
+}
+
+function GoalsHelpContent() {
+  return <div className="goals-help-content"><p>Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — мониторинг в Навигаторе; учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд.</li><li><b>0,5 балла (50%)</b> — мониторинг в локальной отчётности, не в Навигаторе.</li><li><b>0 баллов (0%)</b> — мониторинг отсутствует.</li></ul></div>;
+}
+
+function AlertsHelpContent() {
+  return <div className="goals-help-content"><p>Настроены автоматические алерты по системным сбоям — событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов, — и алерты по бизнес-метрикам.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — настроены алерты по системным сбоям и бизнес-метрикам.</li><li><b>0,5 балла (50%)</b> — алерты настроены частично: по системным сбоям или бизнес-метрикам.</li></ul></div>;
+}
+
+function MetricRow({metric, detailScore, instruction, library, aiMetricInsight, aiMetricInsights = [], grouped}) {
   const value = percent(metric.value, metric.max_value);
   const theme = metric.max_value ? progressTheme(value) : 'default';
   const isTbd = /a\s*\/\s*b/i.test(String(metric.name || ''));
   const isIrrelevant = metric.is_applicabble_flg === false && !isTbd;
-  const isMissingCxTeam = isIrrelevant && /^cx score$/i.test(String(metric.name || '').trim());
+  const isNotApplicable = metric.is_applicabble_flg === false;
+  const isMissingCxTeam = isNotApplicable && /^cx score$/i.test(String(metric.name || '').trim());
+  const status = isTbd
+    ? {label: 'TBD', theme: 'normal'}
+    : isNotApplicable
+      ? {label: isMissingCxTeam ? 'Команда еще не добавлена' : 'Неприменимо', theme: 'normal'}
+    : Number(metric.max_value) > 0
+      ? {
+          label: `${value}%`,
+          theme: Number(metric.value) >= Number(metric.max_value) ? 'success' : Number(metric.value) > 0 ? 'warning' : 'danger',
+        }
+      : {label: 'Нет данных', theme: 'normal'};
   const valueLabel = isTbd
     ? 'TBD'
     : isIrrelevant
@@ -663,10 +762,15 @@ function MetricRow({metric}) {
     : metric.max_value
       ? `Набрано ${metric.value} баллов из ${metric.max_value}`
       : 'Нет данных';
+  const lightTheme = detailScore ? (isTbd ? 'default' : theme) : (status.theme === 'normal' ? 'default' : status.theme);
+  const insights = [...(aiMetricInsight ? [aiMetricInsight] : []), ...aiMetricInsights];
   return (
-    <div className={`metric-row${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}`}>
-      <div className="metric-copy"><i className={`metric-light metric-light-${isTbd ? 'default' : theme}`} aria-hidden="true" /><div><b>{metric.name}</b>{metric.footer && <span>{metric.footer}</span>}</div></div>
-      <div className="metric-value"><span>{valueLabel}</span>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</div>
+    <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}`}>
+      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><b>{metric.name}</b>{metric.footer && <span>{metric.footer}</span>}</div></div>
+      <div className="metric-value">{detailScore ? <><span>{valueLabel}</span>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <Label className="metric-status-label" theme={status.theme}>{status.label}</Label>}</div>
+      {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
+      {library && <MetricInlineAction title="Библиотека решений" subtitle="Практики для повышения оценки исследований" href={library.link} actionLabel="Открыть" />}
+      <MetricAiActions insights={insights} />
     </div>
   );
 }
@@ -683,6 +787,10 @@ function digestStatus(light) {
   if (light === 'yellow') return 'Наблюдать';
   if (light === 'green') return 'Стабильно';
   return 'Нет оценки';
+}
+
+function displaySkillName(name) {
+  return String(name || '').replace(/^Навык\s+[«"]Ключевые метрики[»"]$/i, 'Ключевые метрики');
 }
 
 function worstDigestLight(items) {
@@ -778,7 +886,7 @@ function ProductMetricRecommendations({product, onOpenReport}) {
                         <div className="metric-recommendation-copy">
                           <div className="metric-recommendation-row-title"><h4>{item.indicator}</h4><Label theme={digestTheme(item.traffic_light)} size="xs">{digestStatus(item.traffic_light)}</Label></div>
                           {(item.recommendations || []).map((text, index) => <Text variant="body-1" key={`${item.id}-${index}`}>{text}</Text>)}
-                          <div className="metric-recommendation-meta"><Label theme="utility" size="xs">{item.skill_name}</Label>{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}{item.ai_products?.length > 0 && <Text variant="caption-1" color="secondary">Источник: {item.ai_products.join(', ')}</Text>}</div>
+                          <div className="metric-recommendation-meta"><Label theme="utility" size="xs">{displaySkillName(item.skill_name)}</Label>{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}{item.ai_products?.length > 0 && <Text variant="caption-1" color="secondary">Источник: {item.ai_products.join(', ')}</Text>}</div>
                           {item.rule && <Text className="metric-recommendation-rule" variant="caption-1" color="secondary">Правило светофора: {item.rule}</Text>}
                         </div>
                       </div>
@@ -801,17 +909,38 @@ function ProductMetricRows({items}) {
   </div>);
 }
 
-function ProductMetricBlocks({product, onOpenReport}) {
+function recommendationBlockCode(product, requestedCode) {
+  const blocks = product.metrics || [];
+  if (blocks.some((block) => block.code === requestedCode)) return requestedCode;
+  if (requestedCode === 'general') {
+    return blocks.find((block) =>
+      /знание ключевых метрик/i.test(String(block.name || ''))
+      || (block.metrics || []).some((metric) => /\.mau_produkta$/i.test(String(metric.code || ''))),
+    )?.code || requestedCode;
+  }
+  return requestedCode;
+}
+
+function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill}) {
   const [detailMode, setDetailMode] = useState('compact');
   const [open, setOpen] = useState(() => new Set());
   const recommendations = product.metric_recommendations || [];
   const itemsByBlock = recommendations.reduce((result, item) => {
-    const key = item.block_code || 'other';
+    const key = recommendationBlockCode(product, item.block_code || 'other');
     if (!result.has(key)) result.set(key, []);
     result.get(key).push(item);
     return result;
   }, new Map());
   const activeBlockCodes = (product.metrics || []).filter((block) => itemsByBlock.has(block.code)).map((block) => block.code);
+  useEffect(() => {
+    if (!focusBlock || !itemsByBlock.has(focusBlock)) return;
+    setOpen((current) => new Set(current).add(focusBlock));
+    const frame = requestAnimationFrame(() => requestAnimationFrame(() => {
+      const skillTarget = focusSkill ? document.getElementById(`ai-recommendation-skill-${focusBlock}-${encodeURIComponent(focusSkill)}`) : null;
+      (skillTarget || document.getElementById(`ai-recommendation-block-${focusBlock}`))?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    }));
+    return () => cancelAnimationFrame(frame);
+  }, [focusBlock, focusSkill, product.id]);
   const toggle = (code) => setOpen((current) => {
     const next = new Set(current);
     next.has(code) ? next.delete(code) : next.add(code);
@@ -843,7 +972,7 @@ function ProductMetricBlocks({product, onOpenReport}) {
             const isOpen = hasRecommendations && open.has(block.code);
             const light = hasRecommendations ? worstDigestLight(items) : 'gray';
             const toolGroups = items.reduce((result, item) => {
-              const toolName = item.skill_name || 'Другие показатели';
+              const toolName = displaySkillName(item.skill_name) || 'Другие показатели';
               if (!result.has(toolName)) result.set(toolName, new Map());
               const productGroups = result.get(toolName);
               const productName = item.product_group || (item.ai_products?.length ? item.ai_products.join(' + ') : 'Продукт не указан');
@@ -852,19 +981,19 @@ function ProductMetricBlocks({product, onOpenReport}) {
               return result;
             }, new Map());
             return (
-              <Card key={block.code} className={`metric-block product-metric-block tone-${hasRecommendations ? digestTheme(light) : 'default'}${hasRecommendations ? '' : ' product-metric-block-empty'}`} view="outlined">
+              <Card id={`ai-recommendation-block-${block.code}`} key={block.code} className={`metric-block product-metric-block tone-${hasRecommendations ? digestTheme(light) : 'default'}${hasRecommendations ? '' : ' product-metric-block-empty'}`} view="outlined">
                 <button className="metric-block-head" onClick={() => hasRecommendations && toggle(block.code)} aria-expanded={isOpen} disabled={!hasRecommendations}>
                   <Icon data={isOpen ? ChevronDown : ChevronRight} size={14} />
                   <div><h3>{block.name}</h3><span>{hasRecommendations ? 'Продуктовые метрики и рекомендации' : 'Рекомендаций пока нет'}</span></div>
                   <span className="product-metric-block-status"><i className={`metric-light metric-light-${digestTheme(light)}${hasRecommendations ? '' : ' product-metric-empty-light'}`} aria-hidden="true" /></span>
                 </button>
                 {isOpen && <div className="metric-list product-metric-list">
-                  {[...toolGroups.entries()].map(([toolName, productGroups]) => <section className="product-metric-tool-section" key={toolName}>
+                  {[...toolGroups.entries()].map(([toolName, productGroups]) => <section id={`ai-recommendation-skill-${block.code}-${encodeURIComponent(toolName)}`} className="product-metric-tool-section" key={toolName}>
                     <div className="metric-group-title product-metric-tool-title"><span>{toolName}</span></div>
                     <div className={`product-metric-tool-content${productGroups.size === 1 ? ' product-metric-tool-content-single' : ''}`}>
                       {productGroups.size === 1
                         ? <ProductMetricRows items={[...productGroups.values()][0]} />
-                        : [...productGroups.entries()].map(([productName, productItems]) => <Disclosure className="product-metric-product-disclosure" size="m" summary={<span className="product-metric-product-title">{productName}</span>} key={`${toolName}-${productName}`}>
+                        : [...productGroups.entries()].map(([productName, productItems], productIndex) => <Disclosure className="product-metric-product-disclosure" size="m" defaultExpanded={productIndex === 0} summary={<span className="product-metric-product-title">{productName}</span>} key={`${toolName}-${productName}`}>
                           <ProductMetricRows items={productItems} />
                         </Disclosure>)}
                     </div>
@@ -879,10 +1008,14 @@ function ProductMetricBlocks({product, onOpenReport}) {
   );
 }
 
-function Detail({product, products, rows, onBack, onProduct}) {
+function Detail({product, products, rows, detailScore, onBack, onProduct}) {
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
+  const aiRecommendations = product.metric_recommendations || [];
+  const hasAiRecommendations = aiRecommendations.length > 0;
+  const aiRecommendationLight = hasAiRecommendations ? worstDigestLight(aiRecommendations) : 'gray';
+  const aiRecommendationTheme = aiRecommendationLight === 'gray' ? 'default' : digestTheme(aiRecommendationLight);
   const profileSeries = radarSeries(product.type);
   const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter((metric) => metric.is_applicabble_flg !== false);
   const earnedPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
@@ -898,9 +1031,72 @@ function Detail({product, products, rows, onBack, onProduct}) {
   const pointsToNextLevel = nextLevel ? Math.max(0.05, maxPoints * nextLevel.threshold / 100 - earnedPoints) : 0;
   const [detailMode, setDetailMode] = useState('compact');
   const [lens, setLens] = useState('dd');
+  const [aiFocusBlock, setAiFocusBlock] = useState(null);
+  const [aiFocusSkill, setAiFocusSkill] = useState(null);
+  const [aiReturnMetric, setAiReturnMetric] = useState(null);
   const [recommendationsOpen, setRecommendationsOpen] = useState(false);
   const [reportAccessOpen, setReportAccessOpen] = useState(false);
   const [open, setOpen] = useState(() => new Set());
+  const generalRecommendationBlock = recommendationBlockCode(product, 'general');
+  const mauMetricCode = (product.metrics || []).flatMap((block) => block.metrics || []).find((metric) => /\.mau_produkta$/i.test(String(metric.code || '')))?.code || 'general.mau_produkta';
+  useEffect(() => {
+    if (!hasAiRecommendations && lens === 'metrics') setLens('dd');
+  }, [hasAiRecommendations, lens, product.id]);
+  useEffect(() => setAiReturnMetric(null), [product.id]);
+  const mauAiRecommendation = (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')) && !/\bYAU\b/i.test(String(item.indicator || '')))
+    || (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')));
+  const hasMauAiRecommendation = Boolean(mauAiRecommendation);
+  const funnelAiRecommendation = (product.metric_recommendations || []).find((item) => item.skill_key === 'clickstream_funnel' || item.skill_name === 'Воронка оформления в СБОЛ');
+  const draftAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'drafts' || item.skill_name === 'Черновики');
+  const campaignFunnelAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'funnel' || item.skill_name === 'Воронка кампейнинга');
+  const csiAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'csi' || item.skill_name === 'CSI');
+  const complaintsAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'complaints' || item.skill_name === 'Жалобы и обращения');
+  const openMauAiRecommendation = () => {
+    setAiFocusBlock(generalRecommendationBlock);
+    setAiFocusSkill('Ключевые метрики');
+    setAiReturnMetric(mauMetricCode);
+    setLens('metrics');
+  };
+  const openFunnelAiRecommendation = () => {
+    setAiFocusBlock('attract');
+    setAiFocusSkill('Воронка оформления в СБОЛ');
+    setAiReturnMetric('attract.funnel_analysis');
+    setLens('metrics');
+  };
+  const openDraftAiRecommendation = () => {
+    setAiFocusBlock('attract');
+    setAiFocusSkill('Черновики');
+    setAiReturnMetric('attract.chernoviki_v_sbol_70');
+    setLens('metrics');
+  };
+  const openCampaignFunnelAiRecommendation = () => {
+    setAiFocusBlock('attract');
+    setAiFocusSkill('Воронка кампейнинга');
+    setAiReturnMetric('attract.funnel_analysis');
+    setLens('metrics');
+  };
+  const openCsiAiRecommendation = () => {
+    setAiFocusBlock('cx');
+    setAiFocusSkill('CSI');
+    setAiReturnMetric('cx.score');
+    setLens('metrics');
+  };
+  const openComplaintsAiRecommendation = () => {
+    setAiFocusBlock('cx');
+    setAiFocusSkill('Жалобы и обращения');
+    setAiReturnMetric('cx.score');
+    setLens('metrics');
+  };
+  const returnToDataDriven = () => {
+    const target = aiReturnMetric;
+    setLens('dd');
+    setAiReturnMetric(null);
+    setAiFocusBlock(null);
+    setAiFocusSkill(null);
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      document.getElementById(metricDomId(target))?.scrollIntoView({behavior: 'smooth', block: 'center'});
+    }));
+  };
   const toggle = (code) => setOpen((current) => {
     const next = new Set(current);
     next.has(code) ? next.delete(code) : next.add(code);
@@ -942,29 +1138,31 @@ function Detail({product, products, rows, onBack, onProduct}) {
       <Button view="flat" onClick={onBack}><Icon data={ArrowLeft} size={16} />Назад к Summary</Button>
       <header className="detail-header">
         <div><h1>{product.name}</h1><div className="detail-meta">{product.unit} · {product.period} · <Label size="xs">{product.type}</Label><Button view="outlined-danger" size="s" href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank">Нашли ошибку?</Button></div></div>
-        <div className="detail-controls"><label className="product-select"><span>Команда</span><Select filterable filterPlaceholder="Найти команду" value={[product.id]} onUpdate={(value) => onProduct(products.find((item) => item.id === value[0]))} width={300}>
+        <div className="detail-controls">
+          <div className="product-select detail-section-select">
+            <span>Раздел</span>
+            <SegmentedRadioGroup value={lens} onUpdate={(value) => { setLens(value); setAiFocusBlock(null); setAiFocusSkill(null); setAiReturnMetric(null); }} size="l">
+              <SegmentedRadioGroup.Option value="dd">Data-Driven Index</SegmentedRadioGroup.Option>
+              <SegmentedRadioGroup.Option value="metrics" disabled={!hasAiRecommendations}><span className="detail-lens-option" title={hasAiRecommendations ? digestStatus(aiRecommendationLight) : 'Рекомендаций пока нет'}>AI-рекомендации<i className={`metric-light metric-light-${aiRecommendationTheme}${aiRecommendationLight === 'gray' ? ' detail-lens-light-empty' : ''}`} aria-hidden="true" /><span className="visually-hidden">{hasAiRecommendations ? digestStatus(aiRecommendationLight) : 'Рекомендаций пока нет'}</span></span></SegmentedRadioGroup.Option>
+            </SegmentedRadioGroup>
+          </div>
+          <label className="product-select"><span>Команда</span><Select filterable filterPlaceholder="Найти команду" value={[product.id]} onUpdate={(value) => onProduct(products.find((item) => item.id === value[0]))} width={300} size="l">
           {[...products].sort((a, b) => compareNames(a.name, b.name)).map((item) => <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>)}
-        </Select></label></div>
+          </Select></label>
+        </div>
       </header>
-
-      <div className="detail-lens-bar">
-        <SegmentedRadioGroup value={lens} onUpdate={setLens} size="l">
-          <SegmentedRadioGroup.Option value="dd">Data-Driven Index</SegmentedRadioGroup.Option>
-          <SegmentedRadioGroup.Option value="metrics">Продуктовые метрики</SegmentedRadioGroup.Option>
-        </SegmentedRadioGroup>
-      </div>
 
       <div className={lens === 'dd' ? 'detail-lens-content' : 'detail-lens-content detail-lens-hidden'}>
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b><span>Расчет не включает A/B тесты. Добавление – после 15 июля</span></div></div>
       <section className="detail-overview">
-        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}`}><span>{product.name}</span><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div><div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div></div><div className="profile-card"><Text variant="subheader-1">Профиль DD-индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={{fill: 'var(--g-color-text-secondary)', fontSize: 10}} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
-        <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.count} {metricWord(item.count)} · {item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. DD-индекса</b><span>+{item.gap.toFixed(2)} балла</span></div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
+        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><span>{product.name}</span><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={{fill: 'var(--g-color-text-secondary)', fontSize: 10}} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
+        <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
       </section>
       <Dialog open={recommendationsOpen} onClose={() => setRecommendationsOpen(false)} hasCloseButton maxWidth="m" fullWidth contentOverflow="auto">
         <Dialog.Header caption={`Все рекомендации · ${recommendations.length}`} />
         <Dialog.Body>
           <div className="recommendations-dialog-list">
-            {recommendations.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="dialog-recommendation" key={`${item.block}-${item.recommendation}-${index}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.count} {metricWord(item.count)} · {item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. DD-индекса</b><span>+{item.gap.toFixed(2)} балла</span></div></div></div>; })}
+            {recommendations.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="dialog-recommendation" key={`${item.block}-${item.recommendation}-${index}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.count} {metricWord(item.count)} · {item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}
           </div>
         </Dialog.Body>
       </Dialog>
@@ -972,25 +1170,29 @@ function Detail({product, products, rows, onBack, onProduct}) {
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид деталей"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set((product.metrics || []).map((item) => item.code))); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
         <div className="metrics-grid">
           {(product.metrics || []).map((block) => {
-            const metrics = block.metrics || [];
+            const metrics = (block.metrics || []).filter(isVisibleMetric);
             const blockScore = blockPercent(block);
             const allIrrelevant = metrics.length > 0 && metrics.every((metric) => metric.is_applicabble_flg === false);
             const isOpen = open.has(block.code);
             const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
             const max = metrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
-            const blockLinks = linksForBlock(block, product.metrics || []);
+            const blockLinks = linksForBlock(block, product.metrics || [], product.type);
             const instructions = (block.tools || []).filter((tool) => tool.kind === 'instruction' && tool.button?.link);
             return (
               <Card key={block.code} className={`metric-block tone-${allIrrelevant ? 'default' : progressTheme(blockScore)}`} view="outlined">
-                <button className="metric-block-head" onClick={() => toggle(block.code)} aria-expanded={isOpen}>
-                  <Icon data={isOpen ? ChevronDown : ChevronRight} size={14} />
-                  <div><h3>{block.name}</h3><span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span></div>
-                  {allIrrelevant ? <span className="metric-block-na">Нерелевантно</span> : <strong>{blockScore}%</strong>}
-                </button>
-                {block.code === 'goals' && <HelpMark className="metric-block-help" aria-label="Учитываемые поверхности" popoverProps={HELP_POPOVER_PROPS}>Вывод в Навигатор &gt;90%</HelpMark>}
-                {block.code === 'general' && <HelpMark className="metric-block-help metric-block-help-general" aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>На основании пройденной самооценки в Oprosso</HelpMark>}
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{group.toLowerCase() === 'отчетность' && <HelpMark aria-label="Учитываемые поверхности" popoverProps={HELP_POPOVER_PROPS}>Учитываются поверхности: Навигатор, Clickstream, приложенные к отчету</HelpMark>}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} /></React.Fragment>; })}</div>}
-                {isOpen && instructions.length > 0 && <div className="block-instructions">{instructions.map((instruction) => <Alert key={instruction.button.link} theme="info" view="outlined" size="s" title={instruction.name} message={instruction.name === 'Инструкция' ? 'по настройке алертов к бизнес-метрикам' : instruction.footer} layout="horizontal" actions={<Alert.Actions><Alert.Action href={instruction.button.link} target="_blank">{instruction.button.label}</Alert.Action></Alert.Actions>} />)}</div>}
+                <div className="dd-metric-block-head">
+                  <button className="dd-metric-block-main" onClick={() => toggle(block.code)} aria-expanded={isOpen}>
+                    <Icon data={isOpen ? ChevronDown : ChevronRight} size={14} />
+                    <div><h3>{block.name}</h3>{detailScore && <span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span>}</div>
+                  </button>
+                  <div className="dd-metric-block-help">
+                    {block.code === 'goals' && <HelpMark aria-label="Критерии оценки мониторинга целей" popoverProps={HELP_POPOVER_PROPS}><GoalsHelpContent /></HelpMark>}
+                    {block.code === 'alerts' && <HelpMark aria-label="Критерии оценки алертов" popoverProps={HELP_POPOVER_PROPS}><AlertsHelpContent /></HelpMark>}
+                    {block.code === 'general' && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>На основании пройденной самооценки в Oprosso</HelpMark>}
+                  </div>
+                  <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Нерелевантно</span> : <strong>{blockScore}%</strong>}</div>
+                </div>
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{group.toLowerCase() === 'отчетность' && <HelpMark aria-label="Учитываемые поверхности" popoverProps={HELP_POPOVER_PROPS}>Учитываются поверхности: Навигатор, Clickstream, приложенные к опросу</HelpMark>}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Полезные ссылки</div><div className="block-actions">{blockLinks.map((action) => <Button key={`${action.label}-${action.url}`} view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
               </Card>
             );
@@ -998,7 +1200,8 @@ function Detail({product, products, rows, onBack, onProduct}) {
         </div>
       </section>
       </div>
-      {lens === 'metrics' && <ProductMetricBlocks key={product.id} product={product} onOpenReport={() => setReportAccessOpen(true)} />}
+      {lens === 'metrics' && <ProductMetricBlocks key={product.id} product={product} onOpenReport={() => setReportAccessOpen(true)} focusBlock={aiFocusBlock} focusSkill={aiFocusSkill} />}
+      {lens === 'metrics' && aiReturnMetric && <div className="ai-return-action"><Button view="action" size="l" onClick={returnToDataDriven}><Icon data={ArrowLeft} size={16} />Назад к Data-Driven индексу</Button></div>}
       <Dialog open={reportAccessOpen} onClose={() => setReportAccessOpen(false)} hasCloseButton maxWidth="m" fullWidth>
         <Dialog.Header caption="Комплексный отчет" />
         <Dialog.Body>
@@ -1021,6 +1224,7 @@ function App() {
   const [data, setData] = useState(null);
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
+  const [detailScore, setDetailScore] = useState(false);
   useEffect(() => { fetch('./report-data.json').then((response) => response.json()).then(setData); }, []);
   if (!data) return <div className="loading"><Spin size="xl" /></div>;
   const rows = data.title?.rows || [];
@@ -1061,12 +1265,12 @@ function App() {
     },
   ];
   const content = view === 'summary'
-    ? <Summary products={data.products} rows={rows} onOpen={openProduct} />
+    ? <Summary products={data.products} rows={rows} />
     : view === 'dashboard'
       ? <DashboardSummary products={data.products} rows={rows} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
       : view === 'about'
         ? <AboutDataDriven onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
-        : <Detail product={product} products={data.products} rows={rows} onBack={() => setView('dashboard')} onProduct={setSelected} />;
+        : <Detail product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} />;
   return (
     <AsideHeader
       compact
@@ -1074,7 +1278,7 @@ function App() {
       logo={{text: 'Data-Driven Index', iconSrc: ocb2cLogo, iconSize: 30, iconClassName: 'dd-navigation-logo', 'aria-label': 'Data-Driven Index'}}
       menuItems={menuItems}
       hideCollapseButton
-      renderFooter={() => <div className="navigation-period" title="II кв. 2026"><Icon data={CircleInfo} size={16} /></div>}
+      renderFooter={() => <button type="button" className="navigation-period" aria-pressed={detailScore} title={detailScore ? 'Скрыть детализацию в баллах' : 'Показать детализацию в баллах'} onClick={() => setDetailScore((value) => !value)}><Icon data={CircleInfo} size={16} /></button>}
       renderContent={() => content}
     />
   );
