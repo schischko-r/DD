@@ -7,8 +7,6 @@ import {DashboardPage} from '../pages/DashboardPage.jsx';
 import {SummaryPage} from '../pages/SummaryPage.jsx';
 import {TeamProfilePage} from '../pages/TeamProfilePage.jsx';
 import ocb2cLogo from '../assets/ocb2c.png';
-import '../theme.css';
-import '../styles.css';
 
 export function App() {
   const [data, setData] = useState(null);

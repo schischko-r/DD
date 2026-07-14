@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleInfo, NodesRight} from '@gravity-ui/icons';
-import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
+import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, PRODUCT_KEY_METRIC_LINKS, REPORT_ACCESS_REQUEST_URL, SEGMENT_KEY_METRIC_LINKS, ProductRadarTick, blockPercent, collectBlockLinks, difficultyMeta, groupFor, isVisibleMetric, linksForBlock, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, radarSeries, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
+import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, PRODUCT_KEY_METRIC_LINKS, REPORT_ACCESS_REQUEST_URL, SEGMENT_KEY_METRIC_LINKS, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, groupFor, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarSeries, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
 function MetricInlineAction({title, subtitle, href, onClick, tone = 'info', actionLabel = 'Перейти'}) {
