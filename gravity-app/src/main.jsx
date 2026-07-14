@@ -1397,7 +1397,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
                     <div><h3>{block.name}</h3>{detailScore && <span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span>}</div>
                   </button>
                   <div className="dd-metric-block-help">
-                    {isProduct && <ProductBlockHelp blockCode={block.code} />}
+                    {(isProduct || block.code === 'goals') && <ProductBlockHelp blockCode={block.code} />}
                     {isKeyMetricsBlock && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>На основании пройденной самооценки в Oprosso</HelpMark>}
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
