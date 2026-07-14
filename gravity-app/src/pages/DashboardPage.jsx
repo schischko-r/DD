@@ -1,7 +1,8 @@
-import React, {useEffect, useMemo, useState} from 'react';
-import {ChevronRight, CircleInfo} from '@gravity-ui/icons';
-import {Alert, Button, Card, Dialog, Icon, Label, Link, Progress, Text, TextInput} from '@gravity-ui/uikit';
-import {CatalogDialogFiltered, TEAM_CONTACT_EMAIL, catalogGroups, compareNames, groupFor, maturityTheme, progressTheme, scoreFor} from '../features/catalog/Catalog.jsx';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {ChevronRight, CircleDollar, CircleInfo, NodesRight, Persons} from '@gravity-ui/icons';
+import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
+import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
+import {CatalogDialogFiltered, TEAM_CONTACT_EMAIL, blockPercent, compareNames, isUnitFilterOption, maturityTheme, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
 export function DashboardPage({products, rows, onOpen, onAbout}) {
