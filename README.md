@@ -8,7 +8,7 @@
 
 ## Быстрый Запуск
 
-Полная локальная сборка Gravity UI из upload-книги, включая JSON, Vite bundle и standalone HTML:
+Полная локальная сборка Gravity UI из единого `flat_table.xlsx`, включая JSON, Vite bundle и standalone HTML:
 
 ```bash
 python build_gravity_report.py
@@ -23,7 +23,7 @@ python build_gravity_report.py
 
 ```bash
 python build_calc_report.py \
-  --input "Группа на заливку.xlsx" \
+  --input "flat_table.xlsx" \
   --output "final_report_from_excel.html"
 ```
 
@@ -31,7 +31,7 @@ python build_calc_report.py \
 
 ```bash
 python build_calc_report.py \
-  --input "Группа на заливку.xlsx" \
+  --input "flat_table.xlsx" \
   --output "final_report_from_excel.html" \
   --no-update-ai-digest \
   --no-update-llm-summary
@@ -41,7 +41,7 @@ python build_calc_report.py \
 
 ```bash
 python build_calc_report.py \
-  --input "Группа на заливку.xlsx" \
+  --input "flat_table.xlsx" \
   --output "final_report_from_excel.html" \
   --json-output "gravity-app/public/report-data.json" \
   --no-update-ai-digest \
@@ -61,21 +61,10 @@ python build_title_from_excel.py \
 
 ```mermaid
 flowchart TD
-    A["Группа на заливку.xlsx"] --> B{"Есть листы титул + деталка?"}
-
-    B -->|нет| C["Upload-пайплайн"]
-    C --> C1["Продукты на заливку"]
-    C --> C2["Сегменты на заливку"]
-    C1 --> D["flatten_upload_sheet"]
-    C2 --> D
-    D --> E["Плоские строки метрик"]
-
-    B -->|да| F["Legacy-пайплайн"]
-    F --> F1["лист титул"]
-    F --> F2["лист деталка"]
-    F1 --> G["title payload"]
-    F2 --> E
-
+    A["flat_table.xlsx / main"] --> B["Проверка колонок и flg"]
+    B --> C["Нормализация product, unit, tribe и type"]
+    C --> D["Разделение одинаковых имен по metric_code"]
+    D --> E["flg=1: расчет / flg=0: только отображение"]
     E --> H["normalize_flat_metric_rows"]
     H --> I["aggregate_product"]
     I --> J["detail data: products + blocks + metrics"]
@@ -97,7 +86,6 @@ flowchart TD
     V --> X["combined report model"]
     W --> X
 
-    G --> X
     X --> Y["build_embedded_html"]
     Y --> Z["final_report_from_excel.html"]
 ```
@@ -108,7 +96,7 @@ flowchart TD
 
 По умолчанию:
 
-- вход: `Группа на заливку.xlsx`;
+- вход: `flat_table.xlsx`, лист `main`;
 - старый титульный лист, если используется legacy-режим: `титул`;
 - старый детальный лист, если используется legacy-режим: `деталка`;
 - период: `II кв. 2026`;
@@ -136,6 +124,22 @@ python build_calc_report.py --help
 - `--no-llm-log` - выключить подробный лог.
 
 ## Источники Данных
+
+### Основной flat_table-формат
+
+`flat_table.xlsx` является единым источником титульного рейтинга и детальных
+метрик. Поле `flg` управляет участием строки в Data Driven Index:
+
+- `flg = 1` — значение и максимальный балл участвуют в расчете;
+- `flg = 0` — строка остается в детализации, но исключается из числителя и знаменателя.
+
+`СХ` нормализуется в `CX`. Каналы сохраняют исходные юниты `DP`/`PC` и не
+объединяются в искусственный юнит `Каналы`.
+
+До появления явной колонки `type` тип временно выводится так: наличие
+`Column4 = канал` означает `Канал`, полностью пустой `Column4` — `Сегмент`,
+остальные строки — `продукт`. Если в книге появится заполненная колонка `type`,
+она автоматически получит приоритет над временным правилом.
 
 ### Upload-формат
 

@@ -4,18 +4,20 @@
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-DEFAULT_INPUT = ROOT / "Группа на заливку.xlsx"
+DEFAULT_INPUT = ROOT / "flat_table.xlsx"
 DEFAULT_LEGACY_OUTPUT = ROOT / "final_report_from_excel.html"
 DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
 DEFAULT_AI_DIGEST = ROOT / "ai_skill_digest_export.xlsx"
 DEFAULT_AI_PRODUCT_MAP = ROOT / "ai_product_mapping.xlsx"
+NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
 
 
 def run(command: list[str], cwd: Path = ROOT) -> None:
@@ -51,7 +53,7 @@ def build(args: argparse.Namespace) -> None:
     if args.data_only:
         return
 
-    run(["npm", "run", "build"], cwd=ROOT / "gravity-app")
+    run([NPM_COMMAND, "run", "build"], cwd=ROOT / "gravity-app")
     run(
         [
             sys.executable,
@@ -68,7 +70,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Build report-data.json and the Gravity UI standalone report from "
-            "Группа на заливку.xlsx"
+            "flat_table.xlsx"
         )
     )
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)

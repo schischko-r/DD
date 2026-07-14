@@ -80,7 +80,7 @@ except ModuleNotFoundError:
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
-DEFAULT_INPUT = Path("Группа на заливку.xlsx")
+DEFAULT_INPUT = Path("flat_table.xlsx")
 DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
@@ -236,6 +236,20 @@ CHANNEL_FLAT_REQUIRED_COLUMNS = {
     "metric_footer",
     "recommendation",
     "recommendation_group",
+}
+FLAT_TABLE_REQUIRED_COLUMNS = {
+    "metric_code",
+    "metric_name",
+    "Юнит",
+    "трайб",
+    "product",
+    "макс балл",
+    "факт",
+    "metric_group",
+    "metric_footer",
+    "recommendation",
+    "recommendation_group",
+    "flg",
 }
 UPLOAD_INFORMATIONAL_METRIC_NAMES = {"цифр.факторы", "цифр.цели", "цифр.прогнозы"}
 AUTO_REGULARITY_METRIC_NAME = "регулярность (авто)"
@@ -2173,7 +2187,9 @@ def flat_upload_sheet(
     allowed_entity_types: set[str] | None = None,
 ) -> Any | None:
     frame = _PD.read_excel(path, sheet_name=sheet_name)
-    if normalize_upload_sheet_name(sheet_name) in CHANNEL_UPLOAD_SHEET_NAMES:
+    frame = normalize_flat_table_frame(frame)
+    is_flat_table = "_flat_table_source" in frame.columns
+    if not is_flat_table and normalize_upload_sheet_name(sheet_name) in CHANNEL_UPLOAD_SHEET_NAMES:
         frame = normalize_channel_upload_frame(frame)
     required = _DD_FROM_EXCEL["REQUIRED_COLUMNS"]
     if not required.issubset(set(frame.columns)):
@@ -2195,6 +2211,54 @@ def flat_upload_sheet(
         frame = frame[frame["type"].map(lambda value: is_allowed_upload_type(value, allowed_entity_types))].copy()
     frame["source_sheet"] = sheet_name
     return frame
+
+
+def derive_flat_table_entity_types(frame: Any) -> dict[str, str]:
+    """Derive entity types until flat_table.xlsx gets an explicit type column."""
+    result: dict[str, str] = {}
+    for product_name, rows in frame.groupby("product", sort=False, dropna=False):
+        product = clean_text(product_name)
+        markers = {
+            normalize_lookup_key(value)
+            for value in rows.get("Column4", _PD.Series(dtype="object"))
+            if clean_text(value)
+        }
+        if "канал" in markers:
+            result[product] = "Канал"
+        elif not markers:
+            result[product] = "Сегмент"
+        else:
+            result[product] = "продукт"
+    return result
+
+
+def normalize_flat_table_frame(frame: Any) -> Any:
+    if not FLAT_TABLE_REQUIRED_COLUMNS.issubset(set(frame.columns)):
+        return frame
+
+    normalized = frame.rename(
+        columns={
+            "metric_code": "metric",
+            "product": "Продукт",
+            "макс балл": "max_value",
+            "факт": "value",
+        }
+    ).copy()
+    normalized["_flat_table_source"] = True
+
+    explicit_type = normalized.get("type")
+    derived_types = derive_flat_table_entity_types(frame)
+    derived = normalized["Продукт"].map(
+        lambda value: derived_types.get(clean_text(value), "продукт")
+    )
+    if explicit_type is None:
+        normalized["type"] = derived
+    else:
+        normalized["type"] = explicit_type.where(
+            explicit_type.map(clean_text).ne(""), derived
+        )
+    normalized["тип"] = normalized["type"]
+    return normalized
 
 
 def normalize_channel_upload_frame(frame: Any) -> Any:
@@ -2311,8 +2375,7 @@ def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]
         max_value = 0.0
         for block in product.get("metrics", []):
             for metric in block.get("metrics", []):
-                code = clean_text(metric.get("code"))
-                if metric.get("excluded_from_index") or code.endswith(".auto_regularity") or code == "hyp.ab_tests":
+                if metric.get("excluded_from_index"):
                     continue
                 if not metric.get("is_applicabble_flg", True):
                     continue
@@ -2348,6 +2411,39 @@ def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]
     return {"rows": rows, "units": units, "types": types, "avgScore": avg_score}
 
 
+def disambiguate_flat_metric_names(product_rows: Any) -> int:
+    """Keep equal display names with different metric_code values as separate metrics."""
+    product_rows["metric_display_name_clean"] = product_rows["metric_name_clean"]
+    group_columns = [
+        "entity_type",
+        "_unit_key",
+        "_product_key",
+        "metric_group",
+        "metric_name_clean",
+    ]
+    changed = 0
+    for _, indexes in product_rows.groupby(group_columns, sort=False, dropna=False).groups.items():
+        group = product_rows.loc[indexes]
+        if group["metric"].nunique(dropna=False) <= 1:
+            continue
+        ordered = sorted(
+            indexes,
+            key=lambda index: (
+                not bool(product_rows.at[index, "included_in_dd"]),
+                clean_number(product_rows.at[index, "metric"]) or float("inf"),
+                index,
+            ),
+        )
+        for index in ordered[1:]:
+            display_name = clean_text(product_rows.at[index, "metric_display_name_clean"])
+            metric_id = clean_text(product_rows.at[index, "metric"])
+            product_rows.at[index, "metric_name_clean"] = (
+                f"{display_name} [flat metric {metric_id}]"
+            )
+            changed += 1
+    return changed
+
+
 def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     validate_columns = _DD_FROM_EXCEL["validate_columns"]
     collect_product_links = _DD_FROM_EXCEL["collect_product_links"]
@@ -2376,12 +2472,33 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     df["recommendation_group_clean"] = df["recommendation_group"].map(normalize_text)
     df["entity_type"] = df.apply(entity_type_from_row, axis=1)
     df = df[~df["entity_type"].map(is_excluded_upload_type)].copy()
+    is_flat_table = "_flat_table_source" in df.columns
     df["_unit_key"] = df["Юнит"].map(normalize_upload_unit)
     df["Юнит"] = df["_unit_key"]
     df["_product_key"] = df["Продукт"].map(clean_text)
     df["value_num"] = df["value"].map(number)
     df["max_value_num"] = df["max_value"].map(number)
     fill_auto_regularity_max_from_value(df)
+    if is_flat_table:
+        source_flg = _PD.to_numeric(df["flg"], errors="coerce")
+        display_only_without_group = (
+            source_flg.eq(0)
+            & df["metric_group"].eq("")
+            & df["metric_name_clean"].ne("")
+        )
+        df.loc[display_only_without_group, "metric_group"] = df.loc[
+            display_only_without_group, "metric_name_clean"
+        ]
+        for index in df.index[display_only_without_group]:
+            if clean_text(df.at[index, "metric_footer_clean"]):
+                continue
+            raw_value = clean_text(df.at[index, "value"])
+            raw_max = clean_text(df.at[index, "max_value"])
+            display_text = raw_value if clean_number(raw_value) is None else ""
+            if not display_text and clean_number(raw_max) is None:
+                display_text = raw_max
+            if display_text:
+                df.at[index, "metric_footer_clean"] = display_text
 
     digital_goal_rows = df[
         (df["metric_name_clean"] == digital_goals_metric_name)
@@ -2408,6 +2525,40 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     informational_rows_skipped = int(informational_mask.sum())
     if informational_rows_skipped:
         product_rows = product_rows[~informational_mask].copy()
+    if is_flat_table:
+        flg_num = _PD.to_numeric(product_rows["flg"], errors="coerce")
+        invalid_flg = flg_num.isna() | ~flg_num.isin([0, 1])
+        if invalid_flg.any():
+            samples = product_rows.loc[
+                invalid_flg, ["Продукт", "metric", "metric_name", "flg"]
+            ].head(10)
+            raise ValueError(
+                "В расчетных строках flat_table.xlsx поле flg должно быть 0 или 1: "
+                + samples.to_dict(orient="records").__repr__()
+            )
+        product_rows["included_in_dd"] = flg_num.eq(1)
+        disambiguated_metrics = disambiguate_flat_metric_names(product_rows)
+        mixed = (
+            product_rows.groupby(
+                [
+                    "entity_type",
+                    "_unit_key",
+                    "_product_key",
+                    "metric_group",
+                    "metric_name_clean",
+                    "metric",
+                ],
+                dropna=False,
+            )["included_in_dd"]
+            .nunique()
+            .gt(1)
+        )
+        if mixed.any():
+            raise ValueError(
+                "Одна метрика продукта не может одновременно иметь flg=0 и flg=1"
+            )
+    else:
+        disambiguated_metrics = 0
     product_rows["metric_id_num"] = product_rows["metric"].map(number)
     product_rows = product_rows.merge(
         digital_goals,
@@ -2418,6 +2569,14 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     product_rows.attrs["template_rows_skipped"] = template_rows_skipped
     product_rows.attrs["upload_informational_rows_skipped"] = informational_rows_skipped
     product_rows.attrs["links_by_product"] = links_by_product
+    product_rows.attrs["flat_table_source"] = is_flat_table
+    product_rows.attrs["flg_included_rows"] = int(
+        product_rows.get("included_in_dd", _PD.Series(dtype="bool")).sum()
+    )
+    product_rows.attrs["flg_display_only_rows"] = int(
+        (~product_rows.get("included_in_dd", _PD.Series(dtype="bool"))).sum()
+    ) if is_flat_table else 0
+    product_rows.attrs["flat_metric_names_disambiguated"] = disambiguated_metrics
     product_rows = dedupe_upload_goal_rows(product_rows)
     product_rows = split_named_funnel_benchmarks(product_rows)
     return split_benchmarks(product_rows)
@@ -2492,6 +2651,7 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
 
     links_by_product = product_rows.attrs.get("links_by_product", {})
     products = []
+    flg_excluded_metrics = 0
     for _, rows in product_rows.groupby(["entity_type", "Продукт"], sort=False):
         product_name = clean_text(rows["Продукт"].iloc[0])
         entity_type = clean_text(rows["entity_type"].iloc[0]) or "Продукт"
@@ -2500,7 +2660,10 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
             period,
             links_by_product.get(entity_key(entity_type, product_name), {}),
         )
-        mark_channel_metrics_excluded(product, rows)
+        if "included_in_dd" in rows.columns:
+            flg_excluded_metrics += apply_flat_flg_exclusions(product, rows)
+        else:
+            mark_channel_metrics_excluded(product, rows)
         if "трайб" in rows.columns:
             product["tribe"] = clean_optional_text(rows["трайб"].iloc[0])
         products.append(product)
@@ -2518,6 +2681,10 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
         "products_with_links": sum(1 for product_links in links_by_product.values() if product_links),
         "upload_informational_rows_skipped": product_rows.attrs.get("upload_informational_rows_skipped", 0),
         "upload_goal_duplicate_rows_skipped": product_rows.attrs.get("upload_goal_duplicate_rows_skipped", 0),
+        "flg_included_rows": product_rows.attrs.get("flg_included_rows", 0),
+        "flg_display_only_rows": product_rows.attrs.get("flg_display_only_rows", 0),
+        "flg_excluded_metrics": flg_excluded_metrics,
+        "flat_metric_names_disambiguated": product_rows.attrs.get("flat_metric_names_disambiguated", 0),
         "channel_metrics_excluded_from_index": sum(
             1
             for product in products
@@ -2528,6 +2695,66 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
         ),
     }
     return {"products": products}, summary
+
+
+def apply_flat_flg_exclusions(product: dict[str, Any], rows: Any) -> int:
+    """Make flat_table.xlsx flg the sole index-inclusion rule for its metrics."""
+    block_info = _DD_FROM_EXCEL["block_info"]
+    metric_code = _DD_FROM_EXCEL["metric_code"]
+    clean_float = _DD_FROM_EXCEL["clean_float"]
+    traffic_light = _DD_FROM_EXCEL["traffic_light"]
+    inclusion: dict[tuple[str, str], tuple[bool, str, float, float]] = {}
+    for (metric_group, metric_name), metric_rows in rows.groupby(
+        ["metric_group", "metric_name_clean"], sort=False
+    ):
+        values = set(bool(value) for value in metric_rows["included_in_dd"])
+        if len(values) != 1:
+            raise ValueError(
+                f"Неоднозначный flg для {product.get('name')}: {metric_group} / {metric_name}"
+            )
+        display_names = [
+            clean_text(value)
+            for value in metric_rows.get("metric_display_name_clean", [])
+            if clean_text(value)
+        ]
+        inclusion[(block_info(metric_group)[0], metric_code(metric_group, metric_name))] = (
+            values.pop(),
+            display_names[0] if display_names else clean_text(metric_name),
+            float(metric_rows["value_num"].sum()),
+            float(metric_rows["max_value_num"].sum()),
+        )
+
+    excluded = 0
+    for block in product.get("metrics", []):
+        block_code = clean_text(block.get("code"))
+        for metric in block.get("metrics", []):
+            key = (block_code, clean_text(metric.get("code")))
+            if key not in inclusion:
+                continue
+            included, display_name, value, max_value = inclusion[key]
+            applicable = max_value > 0
+            metric["excluded_from_index"] = not included
+            metric["dd_calculation_flg"] = 1 if included else 0
+            metric["name"] = display_name
+            metric["value"] = clean_float(value)
+            metric["max_value"] = clean_float(max_value)
+            metric["is_applicabble_flg"] = applicable
+            metric["traffic_light"] = traffic_light(value, max_value, applicable)
+            metric.pop("tbd", None)
+            if not included:
+                excluded += 1
+
+    with_tools = _DD_FROM_EXCEL.get("with_tools")
+    if with_tools:
+        for block in product.get("metrics", []):
+            block["tools"] = []
+            with_tools(
+                block,
+                product.get("links", {}),
+                clean_text(product.get("unit")),
+                clean_text(product.get("type")),
+            )
+    return excluded
 
 
 def mark_channel_metrics_excluded(product: dict[str, Any], rows: Any) -> None:

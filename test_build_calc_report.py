@@ -6,6 +6,29 @@ import build_calc_report as report
 
 
 class SyntheticReportTest(unittest.TestCase):
+    @staticmethod
+    def flat_row(**overrides):
+        row = {
+            "metric_code": 1,
+            "metric_name": "Тестовая метрика",
+            "Юнит": "СХ",
+            "трайб": "Тестовый трайб",
+            "product": "Тестовый продукт",
+            "макс балл": 1,
+            "факт": 0,
+            "metric_group": "Цели",
+            "Column4": "продукт",
+            "Column5": None,
+            "metric_subgroup": None,
+            "metric_footer": "Описание",
+            "recommendation": "Рекомендация",
+            "recommendation_group": 1,
+            "sort": 1,
+            "flg": 1,
+        }
+        row.update(overrides)
+        return row
+
     def test_cyrillic_cx_unit_is_normalized_to_latin(self) -> None:
         self.assertEqual(report.normalize_upload_unit("CX"), "CX")
         self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
@@ -77,6 +100,91 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(result.loc[0, "metric"], 6)
         self.assertEqual(result.loc[0, "value"], 1)
         self.assertEqual(result.loc[0, "max_value"], 1)
+
+    def test_flat_table_derives_types_without_artificial_channels_unit(self) -> None:
+        frame = report._PD.DataFrame(
+            [
+                self.flat_row(product="Обычный продукт", Column4="продукт"),
+                self.flat_row(product="Канал", Юнит="DP", Column4="канал"),
+                self.flat_row(product="Сегмент", Column4=None),
+            ]
+        )
+
+        result = report.normalize_flat_table_frame(frame)
+
+        types = result.groupby("Продукт")["type"].first().to_dict()
+        self.assertEqual(types["Обычный продукт"], "продукт")
+        self.assertEqual(types["Канал"], "Канал")
+        self.assertEqual(types["Сегмент"], "Сегмент")
+        self.assertEqual(result.loc[result["Продукт"].eq("Канал"), "Юнит"].iloc[0], "DP")
+
+    def test_flat_table_flg_is_the_only_rating_inclusion_rule(self) -> None:
+        frame = report._PD.DataFrame(
+            [
+                self.flat_row(metric_code=3, metric_name="Одинаковое имя", факт=0, flg=1),
+                self.flat_row(metric_code=6, metric_name="Одинаковое имя", факт=1, flg=0),
+                self.flat_row(
+                    metric_code=43,
+                    metric_name="A/B-тесты",
+                    metric_group="Гипотезы и инициативы",
+                    факт=1,
+                    flg=1,
+                ),
+            ]
+        )
+        normalized = report.normalize_flat_table_frame(frame)
+        rows = report.normalize_flat_metric_rows(normalized)
+        data, summary = report.build_report_data_from_metric_rows(rows, "Тест")
+        title = report.upload_title_from_products(data["products"])
+
+        metrics = [
+            metric
+            for block in data["products"][0]["metrics"]
+            for metric in block["metrics"]
+        ]
+        same_name = [metric for metric in metrics if metric["name"] == "Одинаковое имя"]
+        ab_test = next(metric for metric in metrics if metric["name"] == "A/B-тесты")
+
+        self.assertEqual(len(same_name), 2)
+        self.assertEqual(sorted(metric["dd_calculation_flg"] for metric in same_name), [0, 1])
+        self.assertEqual(sum(bool(metric.get("excluded_from_index")) for metric in same_name), 1)
+        self.assertFalse(ab_test["excluded_from_index"])
+        self.assertEqual(ab_test["value"], 1)
+        self.assertEqual(ab_test["max_value"], 1)
+        self.assertEqual(title["rows"][0]["score"], 50)
+        self.assertEqual(title["rows"][0]["unit"], "CX")
+        self.assertEqual(summary["flg_excluded_metrics"], 1)
+
+    def test_flat_table_display_only_text_without_group_stays_visible(self) -> None:
+        frame = report._PD.DataFrame(
+            [
+                self.flat_row(
+                    metric_code=37,
+                    metric_name="Потребности",
+                    metric_group=None,
+                    metric_footer=None,
+                    **{"макс балл": "Нужна автоматизация отчетности", "факт": None, "flg": 0},
+                )
+            ]
+        )
+
+        normalized = report.normalize_flat_table_frame(frame)
+        rows = report.normalize_flat_metric_rows(normalized)
+        data, summary = report.build_report_data_from_metric_rows(rows, "Тест")
+        metric = data["products"][0]["metrics"][0]["metrics"][0]
+
+        self.assertEqual(metric["name"], "Потребности")
+        self.assertEqual(metric["footer"], "Нужна автоматизация отчетности")
+        self.assertEqual(metric["dd_calculation_flg"], 0)
+        self.assertTrue(metric["excluded_from_index"])
+        self.assertEqual(summary["flg_display_only_rows"], 1)
+
+    def test_flat_table_rejects_invalid_flg_for_metric_rows(self) -> None:
+        frame = report._PD.DataFrame([self.flat_row(flg=2)])
+        normalized = report.normalize_flat_table_frame(frame)
+
+        with self.assertRaisesRegex(ValueError, "flg должно быть 0 или 1"):
+            report.normalize_flat_metric_rows(normalized)
 
     def test_requested_channel_metrics_are_excluded_from_index(self) -> None:
         excluded_ids = sorted(report.CHANNEL_EXCLUDED_METRIC_IDS)
