@@ -114,6 +114,7 @@ function blockPercent(block) {
 }
 
 function metricGroup(metric) {
+  if (/^churn\.(?:funnel_analysis|deviation_actions|benchmarks)$/i.test(String(metric.code || ''))) return 'Анализ';
   return String(metric.metric_subgroup || '').trim();
 }
 
@@ -631,17 +632,49 @@ function AboutDataDriven({onBack}) {
     {title: 'Объект оценки', text: 'Команда продукта, сегмента или канала. Индекс отражает состояние практик команды в расчётном периоде.', icon: Persons},
     {title: 'Источники фактов', text: 'Цифровые следы, действующая отчётность и ответы команды. Для каждого критерия фиксируется подтверждённое значение.', icon: ChartColumn},
     {title: 'Балльная модель', text: 'Каждый применимый критерий имеет фактический и максимальный балл. Баллы суммируются внутри блоков и по профилю.', icon: BarsAscendingAlignLeft},
-    {title: 'Применимость', text: 'Нерелевантные критерии исключаются из числителя и знаменателя, поэтому они не занижают итоговую оценку.', icon: ChartMixed},
+    {title: 'Применимость', text: 'Не применимые критерии исключаются из числителя и знаменателя, поэтому они не занижают итоговую оценку.', icon: ChartMixed},
   ];
   const zones = [
-    {title: 'Цели, драйверы и прогнозы', text: 'Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе; учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд.', points: '1 балл (100%)'}, {name: 'Мониторинг в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}, {name: 'Мониторинг отсутствует.', points: '0 баллов (0%)'}]},
-    {title: 'Воронки привлечения и оттока', text: 'Полнота и регулярность отчётности, анализ гэпов и мероприятия по улучшению.', criteria: [{name: 'Регулярная отчётность по воронке', points: '0,5 балла'}, {name: 'Полнота отчёта', points: '0,5 балла'}, {name: 'Анализ воронки', points: '1 балл'}, {name: 'Инициативы или мероприятия по отклонениям', points: '1 балл'}]},
-    {title: 'Механики', text: 'Удержание, возврат, cross-sell, upsell и персонализация вместе с метриками эффективности.', criteria: [{name: 'Каждая применимая механика', points: '1 балл'}, {name: 'Мониторинг механик', points: '0,25 балла'}]},
-    {title: 'Черновики', text: 'Покрытие потенциала продукта механиками работы с брошенными корзинами.', criteria: [{name: 'Покрытие черновиков в СБОЛ ≥70%', points: '1 балл'}]},
-    {title: 'Алерты', text: 'Настроены автоматические алерты по системным сбоям — событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов, — и алерты по бизнес-метрикам.', criteria: [{name: 'Настроены алерты по системным сбоям и бизнес-метрикам.', points: '1 балл (100%)'}, {name: 'Алерты настроены частично: по системным сбоям или бизнес-метрикам.', points: '0,5 балла (50%)'}]},
-    {title: 'Кампейнинг', text: 'Запуски кампаний, успешные бизнес-запуски и использование self-service.', criteria: [{name: 'Запуски кампаний за квартал', points: '0,5 балла'}, {name: 'Успешные бизнес-запуски', points: '0,5 балла'}, {name: 'Наличие Self-service', points: '0,5 балла'}]},
-    {title: 'Инициативы и исследования', text: 'Доля исследований в бэклоге аналитиков и инициативы сверх бизнес-плана.', criteria: [{name: 'Discovery ≥40% бэклога', points: '1 балл'}, {name: 'Оценка исследований ≥7,5', points: '1 балл'}, {name: 'Дополнительные инициативы сверх БП', points: '1 балл'}]},
-    {title: 'A/B-тесты', text: 'Практика экспериментов; в текущей методике показатель не влияет на индекс.', criteria: [{name: 'Проведение A/B-тестов', points: 'Не входит в индекс', excluded: true}]},
+    {title: 'Знание ключевых метрик и инструментов', text: 'Самооценка знания продуктовых метрик и доступной отчётности.', criteria: [{name: 'Объём целевого рынка в России', points: '0,2 балла'}, {name: 'Объём целевого рынка в Сбере', points: '0,2 балла'}, {name: 'Клиенты с продуктом', points: '0,2 балла'}, {name: 'MAU продукта', points: '0,2 балла'}, {name: 'Знание продуктов-спутников', points: '0,2 балла'}, {name: 'Знание отчётности в Навигаторе', points: '0,5 балла'}]},
+    {title: 'Цели', text: 'Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе: выведено более 90% целей, лидер продукта знает про BI-дашборд.', points: '1 балл (100%)'}, {name: 'Мониторинг ведётся в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}, {name: 'Мониторинг отсутствует.', points: '0 баллов (0%)'}]},
+    {title: 'Воронка привлечения', text: 'Оцениваются отчётность, анализ отклонений, кампейнинг и покрытие черновиков. Для кампаний используются данные предыдущего квартала.', criteria: [
+      {section: 'Отчётность', name: 'Регулярная отчётность формируется автоматически.', points: '0,5 балла'},
+      {section: 'Отчётность', name: 'Регулярная отчётность формируется по запросу.', points: '0,25 балла'},
+      {section: 'Отчётность', name: 'Комплексный отчёт: источники, пошаговая воронка, CR, объёмы, механики, сегментный или когортный разрез, UX/UI.', points: '0,5 балла'},
+      {section: 'Отчётность', name: 'Неполный отчёт.', points: '0,25 балла'},
+      {section: 'Анализ', name: 'Комплексный анализ оформления, конкурентов, кампаний продаж и точек потери клиентов.', points: '1 балл'},
+      {section: 'Анализ', name: 'Неполный анализ.', points: '0,5 балла'},
+      {section: 'Анализ', name: 'Составлен перечень инициатив по отклонениям.', points: '1 балл'},
+      {section: 'Анализ', name: 'Есть бенчмарки: цели, динамика или рыночное сравнение.', points: '1 балл'},
+      {section: 'Кампейнинг', name: 'Есть запуски кампаний с результатом.', points: '0,5 балла'},
+      {section: 'Кампейнинг', name: 'Есть успешные бизнес-запуски.', points: '0,5 балла'},
+      {section: 'Кампейнинг', name: 'Используется Self-service.', points: '0,5 балла'},
+      {section: 'Кампейнинг', name: 'Черновики покрывают не менее 70% потенциала продукта.', points: '1 балл'},
+      {section: 'Кампейнинг', name: 'Черновики покрывают более 15%, но менее 70% потенциала.', points: '0,5 балла'},
+    ]},
+    {title: 'Воронка оттока', text: 'Оцениваются полнота и регулярность отчётности, анализ причин оттока, инициативы по отклонениям и бенчмарки.', criteria: [
+      {section: 'Отчётность', name: 'Регулярная отчётность формируется автоматически.', points: '0,5 балла'},
+      {section: 'Отчётность', name: 'Регулярная отчётность формируется по запросу.', points: '0,25 балла'},
+      {section: 'Отчётность', name: 'Комплексный отчёт: пошаговая воронка, CR, объёмы, механики, сегментный или когортный разрез, UX/UI.', points: '0,5 балла'},
+      {section: 'Отчётность', name: 'Неполный отчёт.', points: '0,25 балла'},
+      {section: 'Анализ', name: 'Комплексный анализ: воронка, CTR, объёмы, сегменты или когорты, retention, механики удержания, UX/UI.', points: '1 балл'},
+      {section: 'Анализ', name: 'Неполный анализ.', points: '0,5 балла'},
+      {section: 'Анализ', name: 'Составлен перечень инициатив по отклонениям.', points: '1 балл'},
+      {section: 'Анализ', name: 'Есть бенчмарки: цели, динамика или рыночное сравнение.', points: '1 балл'},
+    ]},
+    {title: 'Алерты', text: 'Автоматические алерты по системным сбоям и бизнес-метрикам продукта.', criteria: [{name: 'Настроены алерты по системным сбоям и бизнес-метрикам.', points: '1 балл (100%)'}, {name: 'Алерты настроены частично: только по одному из двух направлений.', points: '0,5 балла (50%)'}]},
+    {title: 'Механики', text: 'Оцениваются продуктовые механики и наличие метрик их эффективности.', criteria: [
+      {section: 'Удержание и возврат', name: 'Удержание через ценность; возврат через ценность.', points: 'до 1 балла'},
+      {section: 'Удержание и возврат', name: 'Удержание или возврат только через информационную коммуникацию.', points: '0,5 балла'},
+      {section: 'Продажи', name: 'Cross-sell при оформлении и после покупки.', points: '1 балл'},
+      {section: 'Продажи', name: 'Cross-sell только на одном этапе.', points: '0,5 балла'},
+      {section: 'Продажи', name: 'Дополнительные продажи (upsell).', points: '1 балл'},
+      {section: 'Гибкость', name: 'Изменение условий без IT с персонализацией до клиентских подсегментов.', points: '1 балл'},
+      {section: 'Гибкость', name: 'Изменение набора опций без IT, но без персонализации.', points: '0,5 балла'},
+      {section: 'Мониторинг', name: 'Есть метрики эффективности механик.', points: '0,25 балла'},
+    ]},
+    {title: 'Гипотезы и инициативы', text: 'Исследовательская загрузка аналитиков, качество исследований и инициативы сверх бизнес-плана.', criteria: [{name: 'Не менее 40% бэклога аналитиков приходится на исследования.', points: '1 балл'}, {name: 'Не менее 20% бэклога приходится на исследования.', points: '0,5 балла'}, {name: 'Средняя оценка исследований с начала года не ниже 7,5.', points: '1 балл'}, {name: 'Есть минимум одна доходная или расходная инициатива сверх БП.', points: '1 балл'}, {name: 'A/B-тесты отображаются, но не входят в расчёт индекса.', points: 'Не входит', excluded: true}]},
+    {title: 'Клиентский опыт', text: 'CX Score рассчитывается по данным дашборда «Здоровье CX продуктов».', criteria: [{name: 'Зелёная зона CX Score.', points: '1 балл (100%)'}, {name: 'Жёлтая зона CX Score.', points: '0,5 балла (50%)'}]},
   ];
   const levels = [
     {range: '<40%', title: 'Требуют внимания', note: 'Нет устойчивого фундамента', tone: 'attention'},
@@ -664,7 +697,7 @@ function AboutDataDriven({onBack}) {
         </div>
         <div className="about-method-summary" aria-label="Основные параметры методики">
           <div><span>Результат</span><strong>0–100%</strong><small>нормированный индекс</small></div>
-          <div><span>Структура</span><strong>8 практик</strong><small>от целей до исследований</small></div>
+          <div><span>Структура</span><strong>8 практик</strong><small>от ключевых метрик до клиентского опыта</small></div>
           <div><span>Основа</span><strong>Факт / максимум</strong><small>только применимые критерии</small></div>
           <div><span>Детализация</span><strong>По блокам</strong><small>для локализации отклонений</small></div>
         </div>
@@ -693,11 +726,11 @@ function AboutDataDriven({onBack}) {
           <div className="about-practices-intro">
             <h2>Критерии<br />и максимальные баллы</h2>
             <Text className="about-practices-lead" color="secondary">Каждая практика раскрывается в набор измеримых критериев. Карточка команды показывает факт, максимум и статус по каждому применимому критерию.</Text>
-            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Нерелевантные критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
+            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
           </div>
           <div className="about-accordion-card">
             <Accordion view="top-bottom" size="l">
-              {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><div className="about-zone-detail"><Text color="secondary">{zone.text}</Text><div className="about-zone-criteria">{zone.criteria.map((criterion) => <div className="about-zone-criterion" key={criterion.name}><Label theme={criterion.excluded ? 'normal' : 'info'} size="xs">{criterion.points}</Label><span>{criterion.name}</span></div>)}</div></div></Accordion.Item>)}
+              {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><div className="about-zone-detail"><Text color="secondary">{zone.text}</Text><div className="about-zone-criteria">{zone.criteria.map((criterion, criterionIndex) => <React.Fragment key={`${criterion.section || ''}-${criterion.name}-${criterion.points}`}>{criterion.section && criterion.section !== zone.criteria[criterionIndex - 1]?.section && <div className="about-zone-subgroup">{criterion.section}</div>}<div className="about-zone-criterion"><Label theme={criterion.excluded ? 'normal' : 'info'} size="xs">{criterion.points}</Label><span>{criterion.name}</span></div></React.Fragment>)}</div></div></Accordion.Item>)}
             </Accordion>
           </div>
         </div>
@@ -754,7 +787,7 @@ function AlertsHelpContent() {
 function AttractReportingHelpContent() {
   return <div className="goals-help-content attract-reporting-help-content">
     <section>
-      <p>Настроена регулярная отчётность по воронке привлечения.</p>
+      <p>Настроена регулярная отчётность по воронке привлечения. Учитываются все поверхности: ClickStream, Навигатор и другая отчётность.</p>
       <strong>Оценка:</strong>
       <ul>
         <li><b>0,5 балла (100%)</b> — формируется автоматически.</li>
@@ -802,8 +835,116 @@ function AttractAnalysisHelpContent() {
   </div>;
 }
 
+function AttractCampaigningHelpContent() {
+  return <div className="goals-help-content attract-reporting-help-content">
+    <p>Использование централизованного кампейнинга и Self-service. В расчёт входят данные предыдущего квартала, чтобы кампании успели вызреть.</p>
+    <section>
+      <p>Наличие запусков кампаний с результатом.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>0,5 балла (100%)</b> — есть запуски с результатом.</li><li><b>0 баллов (0%)</b> — запуски отсутствуют.</li></ul>
+    </section>
+    <section>
+      <p>Наличие успешных бизнес-запусков.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>0,5 балла (100%)</b> — есть успешные бизнес-запуски.</li><li><b>0 баллов (0%)</b> — успешные бизнес-запуски отсутствуют.</li></ul>
+    </section>
+    <section>
+      <p>Использование Self-service.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>0,5 балла (100%)</b> — настроен Self-service.</li><li><b>0 баллов (0%)</b> — Self-service отсутствует.</li></ul>
+    </section>
+    <section>
+      <p>Запуски коммуникаций по черновикам (брошенным корзинам) в СБОЛ за квартал.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>1 балл (100%)</b> — покрытие черновиками не менее 70% потенциала продукта.</li><li><b>0,5 балла (50%)</b> — покрытие менее 70%, но более 15% потенциала продукта.</li></ul>
+    </section>
+  </div>;
+}
+
+function ChurnReportingHelpContent() {
+  return <div className="goals-help-content attract-reporting-help-content">
+    <section>
+      <p>Настроена регулярная отчётность по воронке оттока. Учитываются все поверхности: ClickStream, Навигатор и другая отчётность.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>0,5 балла (100%)</b> — формируется автоматически.</li><li><b>0,25 балла (50%)</b> — формируется по запросу.</li><li><b>0 баллов (0%)</b> — отчётность отсутствует.</li></ul>
+    </section>
+    <section>
+      <p>Полнота отчёта по воронке оттока.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>0,5 балла (100%)</b> — комплексный отчёт: источники, пошаговая воронка, CR, объёмы, механики, сегментный или когортный разрез, UX/UI.</li><li><b>0,25 балла (50%)</b> — неполный отчёт.</li></ul>
+    </section>
+  </div>;
+}
+
+function ChurnAnalysisHelpContent() {
+  return <div className="goals-help-content attract-reporting-help-content">
+    <section>
+      <p>Анализ воронки оттока.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>1 балл (100%)</b> — комплексный анализ: пошаговая воронка, CTR, объёмы, сегментный или когортный разрез, retention, механики удержания, UX/UI.</li><li><b>0,5 балла (50%)</b> — неполный анализ.</li></ul>
+    </section>
+    <section>
+      <p>Перечень инициатив по отклонениям.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>1 балл (100%)</b> — составлен перечень инициатив.</li><li><b>0,5 балла (50%)</b> — перечень отсутствует.</li></ul>
+    </section>
+    <section>
+      <p>Бенчмарки по показателям воронки: цели, динамика, рыночный бенчмарк.</p>
+      <strong>Оценка:</strong>
+      <ul><li><b>1 балл (100%)</b> — есть бенчмарки.</li><li><b>0 баллов (0%)</b> — бенчмарки отсутствуют.</li></ul>
+    </section>
+  </div>;
+}
+
+function MechanicsHelpContent() {
+  return <div className="goals-help-content attract-reporting-help-content">
+    <p>Наличие настроенных механик по продукту.</p>
+    <section><p>Удержание клиентов.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — через создание ценности.</li><li><b>0,5 балла (50%)</b> — только через информационную коммуникацию.</li></ul></section>
+    <section><p>Возврат клиентов.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — через создание ценности.</li><li><b>0,5 балла (50%)</b> — только через информационную коммуникацию.</li></ul></section>
+    <section><p>Перекрёстные продажи (cross-sell).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — в процессе оформления и после покупки.</li><li><b>0,5 балла (50%)</b> — в процессе оформления или после покупки.</li></ul></section>
+    <section><p>Дополнительные продажи (upsell).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — механика настроена.</li></ul></section>
+    <section><p>Гибкость изменений без IT. Ценообразование не учитывается.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — изменение условий с персонализацией до клиентских подсегментов.</li><li><b>0,5 балла (50%)</b> — изменение набора опций без персонализации.</li></ul></section>
+    <section><p>Мониторинг эффективности механик.</p><strong>Оценка:</strong><ul><li><b>0,25 балла (100%)</b> — есть метрики мониторинга.</li></ul></section>
+  </div>;
+}
+
+function CxHelpContent() {
+  return <div className="goals-help-content"><p>CX Score рассчитывается на основе данных дашборда «Здоровье CX продуктов».</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — зелёная зона CX Score.</li><li><b>0,5 балла (50%)</b> — жёлтая зона CX Score.</li></ul></div>;
+}
+
+function HypothesesHelpContent() {
+  return <div className="goals-help-content attract-reporting-help-content">
+    <section><p>Доля задач аналитиков по продукту, связанных с исследованиями. Бэклог в Jira или Сбертрек анализируется с помощью LLM-модели.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — не менее 40% бэклога приходится на исследования.</li><li><b>0,5 балла (50%)</b> — не менее 20% бэклога приходится на исследования.</li></ul></section>
+    <section><p>Дополнительные доходные или расходные инициативы сверх бизнес-плана в реестре инициатив.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — есть минимум одна инициатива.</li></ul></section>
+    <section><p>Оценка исследований по шкале DataDriven. В расчёт входят все исследования с начала года.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — средняя оценка не ниже 7,5.</li></ul></section>
+  </div>;
+}
+
+function ProductBlockHelp({blockCode}) {
+  const help = {
+    goals: {label: 'Критерии оценки мониторинга целей', content: <GoalsHelpContent />},
+    alerts: {label: 'Критерии оценки алертов', content: <AlertsHelpContent />},
+    mehaniki: {label: 'Критерии оценки механик', content: <MechanicsHelpContent />},
+    cx: {label: 'Критерии оценки клиентского опыта', content: <CxHelpContent />},
+    hyp: {label: 'Критерии оценки гипотез и инициатив', content: <HypothesesHelpContent />},
+  }[blockCode];
+  return help ? <HelpMark aria-label={help.label} popoverProps={HELP_POPOVER_PROPS}>{help.content}</HelpMark> : null;
+}
+
+function ProductMetricGroupHelp({blockCode, group}) {
+  const key = `${blockCode}|${String(group || '').toLowerCase()}`;
+  const help = {
+    'attract|отчетность': {label: 'Критерии оценки отчётности по воронке привлечения', content: <AttractReportingHelpContent />},
+    'attract|анализ': {label: 'Критерии оценки анализа воронки привлечения', content: <AttractAnalysisHelpContent />},
+    'attract|кампейнинг': {label: 'Критерии оценки кампейнинга', content: <AttractCampaigningHelpContent />},
+    'churn|отчетность': {label: 'Критерии оценки отчётности по воронке оттока', content: <ChurnReportingHelpContent />},
+    'churn|анализ': {label: 'Критерии оценки анализа воронки оттока', content: <ChurnAnalysisHelpContent />},
+  }[key];
+  return help ? <HelpMark aria-label={help.label} popoverProps={HELP_POPOVER_PROPS}>{help.content}</HelpMark> : null;
+}
+
 function IndexFormulaHelp() {
-  return <div className="index-formula-help"><div>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</div><p>Нерелевантные критерии исключаются и из набранных баллов, и из максимального балла продукта.</p></div>;
+  return <div className="index-formula-help"><div>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</div><p>Не применимые критерии исключаются и из набранных баллов, и из максимального балла продукта.</p></div>;
 }
 
 function MetricRow({metric, detailScore, instruction, library, aiMetricInsight, aiMetricInsights = [], grouped}) {
@@ -816,7 +957,7 @@ function MetricRow({metric, detailScore, instruction, library, aiMetricInsight, 
   const status = isTbd
     ? {label: 'TBD', theme: 'normal'}
     : isNotApplicable
-      ? {label: isMissingCxTeam ? 'Команда еще не добавлена' : 'Неприменимо', theme: 'normal'}
+      ? {label: isMissingCxTeam ? 'Команда еще не добавлена' : 'Не применимо', theme: 'normal'}
     : Number(metric.max_value) > 0
       ? {
           label: `${value}%`,
@@ -826,7 +967,7 @@ function MetricRow({metric, detailScore, instruction, library, aiMetricInsight, 
   const valueLabel = isTbd
     ? 'TBD'
     : isIrrelevant
-    ? (isMissingCxTeam ? 'Команда еще не добавлена' : 'Нерелевантно')
+    ? (isMissingCxTeam ? 'Команда еще не добавлена' : 'Не применимо')
     : metric.max_value
       ? `Набрано ${metric.value} баллов из ${metric.max_value}`
       : 'Нет данных';
@@ -1080,6 +1221,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
+  const isProduct = /^(?:продукт|product)$/i.test(String(product.type || '').trim());
   const aiRecommendations = product.metric_recommendations || [];
   const hasAiRecommendations = aiRecommendations.length > 0;
   const aiRecommendationLight = hasAiRecommendations ? worstDigestLight(aiRecommendations) : 'gray';
@@ -1254,13 +1396,12 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
                     <div><h3>{block.name}</h3>{detailScore && <span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span>}</div>
                   </button>
                   <div className="dd-metric-block-help">
-                    {block.code === 'goals' && <HelpMark aria-label="Критерии оценки мониторинга целей" popoverProps={HELP_POPOVER_PROPS}><GoalsHelpContent /></HelpMark>}
-                    {block.code === 'alerts' && <HelpMark aria-label="Критерии оценки алертов" popoverProps={HELP_POPOVER_PROPS}><AlertsHelpContent /></HelpMark>}
+                    {isProduct && <ProductBlockHelp blockCode={block.code} />}
                     {block.code === 'general' && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>На основании пройденной самооценки в Oprosso</HelpMark>}
                   </div>
-                  <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Нерелевантно</span> : <strong>{blockScore}%</strong>}</div>
+                  <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); const normalizedGroup = group.toLowerCase(); const isReportingGroup = normalizedGroup === 'отчетность'; const isAnalysisGroup = normalizedGroup === 'анализ'; return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isReportingGroup && (block.code === 'attract' ? <HelpMark aria-label="Критерии оценки отчётности по воронке привлечения" popoverProps={HELP_POPOVER_PROPS}><AttractReportingHelpContent /></HelpMark> : <HelpMark aria-label="Учитываемые поверхности" popoverProps={HELP_POPOVER_PROPS}>Учитываются поверхности: Навигатор, Clickstream, приложенные к опросу</HelpMark>)}{isAnalysisGroup && block.code === 'attract' && <HelpMark aria-label="Критерии оценки анализа воронки привлечения" popoverProps={HELP_POPOVER_PROPS}><AttractAnalysisHelpContent /></HelpMark>}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isProduct && <ProductMetricGroupHelp blockCode={block.code} group={group} />}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Полезные ссылки</div><div className="block-actions">{blockLinks.map((action) => <Button key={`${action.label}-${action.url}`} view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
               </Card>
             );
@@ -1296,7 +1437,10 @@ function App() {
   useEffect(() => { fetch('./report-data.json').then((response) => response.json()).then(setData); }, []);
   if (!data) return <div className="loading"><Spin size="xl" /></div>;
   const rows = data.title?.rows || [];
-  const product = selected || data.products[0];
+  const defaultProduct = data.products.find((item) => /^вклады$/i.test(String(item.name || '').trim()))
+    || data.products.find((item) => /^вклады\s*\+\s*нс$/i.test(String(item.name || '').trim()))
+    || data.products[0];
+  const product = selected || defaultProduct;
   const openProduct = (item) => { setSelected(item); setView('detail'); window.scrollTo(0, 0); };
   const toggleDetailScore = () => setDetailScore((value) => {
     const nextValue = !value;
