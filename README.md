@@ -1,8 +1,13 @@
 # Data-Driven Index
 
-Локальный генератор standalone HTML-отчета Data-Driven Index. Основной артефакт:
+Локальный генератор рейтинга и детальных карточек Data-Driven Index. Канонический
+источник данных — одна книга `flat_table.xlsx`, лист `main`.
 
-- `final_report_from_excel.html` - титульная витрина + детальная карточка продукта/сегмента.
+Основные артефакты:
+
+- `gravity-app/public/report-data.json` — данные для Gravity UI;
+- `gravity-standalone.html` — переносимая версия Gravity UI без сервера;
+- `final_report_from_excel.html` — совместимый standalone-отчет.
 
 Отчет открывается как обычный HTML-файл. Данные встраиваются внутрь страницы в JSON-блок, отдельный backend для просмотра не нужен.
 
@@ -14,10 +19,20 @@
 python build_gravity_report.py
 ```
 
-Команда использует upload-пайплайн из `build_calc_report.py`, локальные
+Команда использует flat-table-пайплайн из `build_calc_report.py`, локальные
 `ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx` и не выполняет сетевые
 запросы к AI-digest API или GigaChat. Результаты записываются в
 `gravity-app/public/report-data.json` и `gravity-standalone.html`.
+
+Локальный сервер для разработки:
+
+```bash
+cd gravity-app
+npm install
+npm run dev
+```
+
+После запуска интерфейс доступен на `http://127.0.0.1:5173`.
 
 Основная сборка из текущей книги:
 
@@ -86,8 +101,10 @@ flowchart TD
     V --> X["combined report model"]
     W --> X
 
-    X --> Y["build_embedded_html"]
-    Y --> Z["final_report_from_excel.html"]
+    X --> Y["gravity-app/public/report-data.json"]
+    X --> Z["final_report_from_excel.html"]
+    Y --> AA["Vite build"]
+    AA --> AB["gravity-standalone.html"]
 ```
 
 ## Основной Сборщик
@@ -141,7 +158,19 @@ python build_calc_report.py --help
 остальные строки — `продукт`. Если в книге появится заполненная колонка `type`,
 она автоматически получит приоритет над временным правилом.
 
-### Upload-формат
+Обязательные колонки листа `main`:
+
+- идентификация: `metric_code`, `metric_name`, `Юнит`, `трайб`, `product`;
+- расчет: `факт`, `макс балл`, `flg`;
+- отображение: `metric_group`, `metric_footer`, `recommendation`, `recommendation_group`.
+
+Одинаковые пользовательские названия метрик не склеиваются, если у строк разные
+`metric_code`.
+
+### Совместимость: upload-формат
+
+Этот путь сохранен для старых входных книг, но не является основным способом
+сборки рейтинга.
 
 Если в книге нет пары листов `титул` и `деталка`, включается upload-пайплайн. Он сканирует листы книги и собирает данные из распознанных upload-таблиц.
 
@@ -167,7 +196,10 @@ python build_calc_report.py --help
 
 Также поддерживается уже плоский формат, как на листе `Сегменты на заливку`: каждая строка уже содержит продукт/сегмент, метрику, `value`, `max_value`, группу, футер, рекомендацию и сортировку.
 
-### Legacy-формат
+### Совместимость: legacy-формат
+
+Этот путь сохранен для воспроизводимости старых отчетов. Новые расчеты следует
+собирать из `flat_table.xlsx`.
 
 Если в книге есть листы `титул` и `деталка`, upload-пайплайн не используется. Генератор читает:
 
