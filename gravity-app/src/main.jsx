@@ -1388,6 +1388,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
             const max = metrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
             const blockLinks = linksForBlock(block, product.metrics || [], product.type);
             const instructions = (block.tools || []).filter((tool) => tool.kind === 'instruction' && tool.button?.link);
+            const isKeyMetricsBlock = block.code === 'general' || /знание ключевых метрик/i.test(String(block.name || ''));
             return (
               <Card key={block.code} className={`metric-block tone-${allIrrelevant ? 'default' : progressTheme(blockScore)}`} view="outlined">
                 <div className="dd-metric-block-head">
@@ -1397,7 +1398,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
                   </button>
                   <div className="dd-metric-block-help">
                     {isProduct && <ProductBlockHelp blockCode={block.code} />}
-                    {block.code === 'general' && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>На основании пройденной самооценки в Oprosso</HelpMark>}
+                    {isKeyMetricsBlock && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>На основании пройденной самооценки в Oprosso</HelpMark>}
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
