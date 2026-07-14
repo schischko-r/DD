@@ -17,6 +17,7 @@ import os
 import re
 import threading
 import urllib.request
+import llm_summarization as _llm
 from datetime import date
 from pathlib import Path
 from typing import Any, Optional
@@ -104,32 +105,7 @@ AI_SKILL_DIGEST_HEADERS = {
         "Safari/537.36 SberBrowser/37.0.0.0"
     ),
 }
-LLM_ATTRACT_SUMMARY_PROMPT = """
-Ты продуктовый аналитик штаба Data-Driven Index.
-
-Нужно подготовить короткую LLM-суммаризацию для последнего пункта
-в блоке "Группа навыков «Привлечение»".
-
-На входе один DD-продукт и данные по AI-навыкам привлечения:
-Пилотные кампании, Воронка кампейнинга, Воронка оформления в СБОЛ,
-Черновики и другие элементы группы, если по ним есть данные.
-
-Во входных данных есть только строки, которые сматчились с ai-digest.
-Не используй и не запрашивай DD-метрики, индексные расчеты и данные карточки.
-
-Задача:
-1. Вычлени основные поинты по всем доступным навыкам группы.
-2. Приоритизируй красные и желтые сигналы выше зеленых.
-3. Если часть навыков зеленая, кратко зафиксируй, что стабильно.
-4. Не выдумывай факты, ссылки, значения и статусы, которых нет во входных данных.
-5. Пиши коротко: 3-5 строк, каждая строка должна быть самостоятельным выводом или действием.
-
-Верни строго JSON без markdown:
-{
-  "traffic_light": "red|yellow|green|gray",
-  "summary": "текст сводки"
-}
-"""
+LLM_ATTRACT_SUMMARY_PROMPT = _llm.DEFAULT_ATTRACT_SUMMARY_PROMPT
 GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
 GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
 GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
@@ -610,113 +586,54 @@ def download_ai_skill_digest(
 
 
 def gigachat_is_configured() -> bool:
-    return bool(GIGACHAT_TOKEN and GIGACHAT_AUTH_URL)
+    return _llm.gigachat_is_configured(GIGACHAT_TOKEN, GIGACHAT_AUTH_URL)
 
 
 def make_gigachat(model: Optional[str] = None):
-    from langchain_gigachat.chat_models.gigachat import GigaChat
-
-    return GigaChat(
-        credentials=GIGACHAT_TOKEN,
+    return _llm.make_gigachat(
+        token=GIGACHAT_TOKEN,
         auth_url=GIGACHAT_AUTH_URL,
-        verify_ssl_certs=False,
         scope=GIGACHAT_SCOPE,
-        model=model or GIGACHAT_MODEL,
-        profanity_check=False,
+        default_model=GIGACHAT_MODEL,
         timeout=GIGACHAT_TIMEOUT,
+        model=model,
     )
 
 
 def run_gigachat(func):
     """Выполнить func в слоте GigaChat-очереди. Блокирует, пока слот не освободится."""
-    # Python 3.9: asyncio.Lock() требует event loop в потоке — создаём, если его нет
-    try:
-        asyncio.get_event_loop()
-    except RuntimeError:
-        asyncio.set_event_loop(asyncio.new_event_loop())
-    with _semaphore:
-        return func()
+    return _llm.run_gigachat(func, _semaphore)
 
 
 def llm_log_write(message: str) -> None:
-    if tqdm is not None:
-        tqdm.write(message)
-    else:
-        print(message)
+    _llm.llm_log_write(message, tqdm)
 
 
 def llm_log_event(kind: str, payload: dict[str, Any]) -> None:
-    llm_log_write(f"[LLM {kind}] " + json.dumps(payload, ensure_ascii=False, default=str))
+    _llm.llm_log_event(kind, payload, llm_log_write)
 
 
 def extract_json_object(text_value: str) -> dict[str, Any] | None:
-    text_value = clean_text(text_value)
-    if not text_value:
-        return None
-    try:
-        return json.loads(text_value)
-    except json.JSONDecodeError:
-        pass
-
-    match = re.search(r"\{.*\}", text_value, flags=re.S)
-    if not match:
-        return None
-    try:
-        return json.loads(match.group(0))
-    except json.JSONDecodeError:
-        return None
+    return _llm.extract_json_object(text_value, clean_text)
 
 
 def llm_summary_input(digests: list[dict[str, Any]]) -> dict[str, Any]:
-    skills = []
-    for digest in digests:
-        skill_key = clean_text(digest.get("skill_key"))
-        skill_name = LLM_SKILL_LABEL_OVERRIDES.get(skill_key, AI_SKILL_LABELS.get(skill_key, skill_key))
-        items = []
-        for item in digest.get("digest_items", []):
-            if not isinstance(item, dict):
-                continue
-            items.append(
-                {
-                    "indicator": clean_text(item.get("indicator") or item.get("digest_indicator")),
-                    "traffic_light": clean_text(item.get("traffic_light")),
-                    "ai_product": clean_text(item.get("ai_product_name") or item.get("product_label")),
-                    "comments": [clean_text(value) for value in item.get("digest_texts", []) if clean_text(value)],
-                    "rule": clean_text(item.get("digest_rule")),
-                }
-            )
-        skills.append(
-            {
-                "skill_key": skill_key,
-                "skill_name": skill_name,
-                "period": clean_text(digest.get("digest_month")),
-                "traffic_light": clean_text(digest.get("traffic_light")),
-                "ai_products": digest.get("ai_tool_product_names", []),
-                "items": items,
-                "comments": digest.get("digest_texts", []),
-                "rule": clean_text(digest.get("digest_rule")),
-            }
-        )
-
-    return {
-        "matched_ai_digest": skills,
-    }
+    return _llm.llm_summary_input(
+        digests,
+        clean_text=clean_text,
+        skill_label_overrides=LLM_SKILL_LABEL_OVERRIDES,
+        skill_labels=AI_SKILL_LABELS,
+    )
 
 
 def normalize_llm_summary(content: str, fallback_light: str) -> dict[str, str] | None:
-    payload = extract_json_object(content)
-    if isinstance(payload, dict):
-        summary = clean_text(payload.get("summary") or payload.get("text") or payload.get("result"))
-        points = payload.get("points") or payload.get("items")
-        if not summary and isinstance(points, list):
-            summary = "\n".join(clean_text(point) for point in points if clean_text(point))
-        traffic_light = parse_ai_light(payload.get("traffic_light") or payload.get("priority")) or fallback_light
-    else:
-        summary = clean_text(content)
-        traffic_light = fallback_light
-    if not summary:
-        return None
-    return {"summary": summary, "traffic_light": traffic_light}
+    return _llm.normalize_llm_summary(
+        content,
+        fallback_light,
+        clean_text=clean_text,
+        parse_ai_light=parse_ai_light,
+        extract_object=extract_json_object,
+    )
 
 
 def build_llm_summary(
@@ -725,42 +642,21 @@ def build_llm_summary(
     digests: list[dict[str, Any]],
     log: bool = False,
 ) -> dict[str, str] | None:
-    if not gigachat_is_configured() or not digests:
-        return None
-    fallback_light = worst_ai_light([clean_text(digest.get("traffic_light")) for digest in digests])
-    input_payload = llm_summary_input(digests)
-    prompt = (
-        LLM_ATTRACT_SUMMARY_PROMPT.strip()
-        + "\n\nВходные данные:\n"
-        + json.dumps(input_payload, ensure_ascii=False, indent=2)
+    return _llm.build_llm_summary(
+        product_name,
+        block_code,
+        digests,
+        log,
+        is_configured=gigachat_is_configured,
+        clean_text=clean_text,
+        worst_ai_light=worst_ai_light,
+        make_summary_input=llm_summary_input,
+        prompt_template=LLM_ATTRACT_SUMMARY_PROMPT,
+        log_write=llm_log_write,
+        make_client=make_gigachat,
+        run_client=run_gigachat,
+        normalize_summary=normalize_llm_summary,
     )
-    if log:
-        llm_log_write(
-            "\n[LLM input] "
-            + product_name
-            + " / "
-            + block_code
-            + "\n"
-            + json.dumps(input_payload, ensure_ascii=False, indent=2)
-        )
-
-    def invoke() -> Any:
-        return make_gigachat().invoke(prompt)
-
-    response = run_gigachat(invoke)
-    content = clean_text(getattr(response, "content", response))
-    summary = normalize_llm_summary(content, fallback_light)
-    if log:
-        llm_log_write("[LLM raw output] " + product_name + " / " + block_code + "\n" + content)
-        llm_log_write(
-            "[LLM parsed output] "
-            + product_name
-            + " / "
-            + block_code
-            + "\n"
-            + json.dumps(summary or {}, ensure_ascii=False, indent=2)
-        )
-    return summary
 
 
 def find_column(columns: list[str], aliases: set[str]) -> str | None:
@@ -1376,106 +1272,37 @@ def append_llm_summary_to_group(
     summary: dict[str, str],
     digests: list[dict[str, Any]],
 ) -> bool:
-    tool = find_group_tool(block, block_code)
-    if not tool:
-        return False
-
-    buttons = tool.setdefault("buttons", [])
-    buttons[:] = [button for button in buttons if not button.get("llm_summary")]
-    latest = max(digests, key=lambda digest: digest.get("digest_display_month_sort", (0, 0, "")))
-    product_names = unique_non_empty(
-        [
-            product_name
-            for digest in digests
-            for product_name in digest.get("ai_tool_product_names", [])
-        ]
+    return _llm.append_llm_summary_to_group(
+        block,
+        block_code,
+        summary,
+        digests,
+        find_group_tool=find_group_tool,
+        unique_non_empty=unique_non_empty,
+        parse_ai_light=parse_ai_light,
+        worst_ai_light=worst_ai_light,
+        clean_text=clean_text,
+        ai_summary_footer=ai_summary_footer,
+        refresh_group_tool_light=refresh_group_tool_light,
     )
-    traffic_light = parse_ai_light(summary.get("traffic_light")) or worst_ai_light(
-        [clean_text(digest.get("traffic_light")) for digest in digests]
-    )
-    buttons.insert(
-        0,
-        {
-            "name": "LLM-cуммаризация",
-            "traffic_light": traffic_light,
-            "footer": ai_summary_footer(latest.get("digest_month", ""), product_names),
-            "button": {"type": "general", "label": "", "link": ""},
-            "ai_digest": True,
-            "llm_summary": True,
-            "digest_month": latest.get("digest_month", ""),
-            "digest_month_raw": latest.get("digest_month_raw", ""),
-            "digest_is_stale": any(bool(digest.get("digest_is_stale")) for digest in digests),
-            "digest_stale_tooltip": next(
-                (
-                    clean_text(digest.get("digest_stale_tooltip"))
-                    for digest in digests
-                    if clean_text(digest.get("digest_stale_tooltip"))
-                ),
-                "",
-            ),
-            "digest_items": [
-                {
-                    "indicator": "Основные выводы",
-                    "traffic_light": traffic_light,
-                    "digest_texts": [summary["summary"]],
-                    "digest_rule": "",
-                    "digest_month": latest.get("digest_month", ""),
-                    "ai_product_name": ", ".join(product_names),
-                }
-            ],
-        }
-    )
-    refresh_group_tool_light(tool)
-    return True
 
 
 def ensure_llm_summary_placeholder(block: dict[str, Any], block_code: str) -> bool:
-    tool = find_group_tool(block, block_code)
-    if not tool:
-        return False
-
-    buttons = tool.setdefault("buttons", [])
-    if any(button.get("llm_summary") for button in buttons):
-        return False
-
-    buttons.insert(
-        0,
-        {
-            "name": "LLM-cуммаризация",
-            "traffic_light": "gray",
-            "footer": "",
-            "button": {"type": "general", "label": "", "link": ""},
-            "ai_digest": True,
-            "llm_summary": True,
-            "llm_placeholder": True,
-            "digest_month": "",
-            "digest_month_raw": "",
-            "digest_is_stale": False,
-            "digest_stale_tooltip": "",
-            "digest_items": [
-                {
-                    "indicator": "Основные выводы",
-                    "traffic_light": "gray",
-                    "digest_texts": ["AI-рекомендации пока недоступны: для продукта нет данных в AI-digest."],
-                    "digest_rule": "",
-                    "digest_month": "",
-                    "ai_product_name": "",
-                }
-            ],
-        }
+    return _llm.ensure_llm_summary_placeholder(
+        block,
+        block_code,
+        find_group_tool=find_group_tool,
+        refresh_group_tool_light=refresh_group_tool_light,
     )
-    refresh_group_tool_light(tool)
-    return True
 
 
 def ensure_llm_summary_visible(data: dict[str, Any]) -> int:
-    added = 0
-    for product in data.get("products", []):
-        for block_code in AI_SKILL_GROUP_TOOLS:
-            block = find_block(product, block_code)
-            if block and ensure_llm_summary_placeholder(block, block_code):
-                added += 1
-    return added
+    return _llm.ensure_llm_summary_visible(
+        data,
+        block_codes=AI_SKILL_GROUP_TOOLS,
+        find_block=find_block,
+        ensure_placeholder=ensure_llm_summary_placeholder,
+    )
 
 
 def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
