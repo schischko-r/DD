@@ -217,9 +217,9 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .metric-ai-actions { width: calc(100% - 17px); min-height: 44px; margin: 0 0 2px 17px; padding: 6px 8px 6px 11px; grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid var(--g-color-line-info); border-radius: 7px; background: color-mix(in srgb, var(--g-color-base-info-light) 45%, var(--g-color-base-background)); }
 .metric-ai-actions-title { display: inline-flex; align-items: center; gap: 7px; color: var(--g-color-base-brand); font-size: 12px; white-space: nowrap; }
 .metric-ai-actions-buttons { min-width: 0; display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 4px; }
-.metric-ai-actions-buttons button { min-height: 30px; padding: 5px 8px; display: inline-flex; align-items: center; gap: 4px; border: 0; border-radius: 6px; background: transparent; color: var(--g-color-base-brand); cursor: pointer; font: 600 11px/1.2 var(--dd-font-sans); white-space: nowrap; }
-.metric-ai-actions-buttons button:hover { background: var(--g-color-base-info-light-hover); }
-.metric-ai-actions-buttons button:focus-visible { outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
+.metric-ai-actions-buttons button, .metric-ai-actions-buttons a { min-height: 30px; padding: 5px 8px; display: inline-flex; align-items: center; gap: 4px; border: 0; border-radius: 6px; background: transparent; color: var(--g-color-base-brand); cursor: pointer; font: 600 11px/1.2 var(--dd-font-sans); text-decoration: none; white-space: nowrap; }
+.metric-ai-actions-buttons button:hover, .metric-ai-actions-buttons a:hover { background: var(--g-color-base-info-light-hover); }
+.metric-ai-actions-buttons button:focus-visible, .metric-ai-actions-buttons a:focus-visible { outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
 .ai-return-action { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 60; padding: 4px; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: color-mix(in srgb, var(--g-color-base-background) 88%, transparent); box-shadow: 0 10px 30px rgba(0, 0, 0, .18); backdrop-filter: saturate(180%) blur(16px); transform: translateX(-50%); }
 .ai-return-action .g-button { white-space: nowrap; }
 .metric-light { width: 7px; height: 7px; margin-top: 6px; justify-self: center; border-radius: 50%; background: var(--g-color-base-generic-medium); animation: metric-light-pulse 1.8s ease-out infinite; }
@@ -228,7 +228,8 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .metric-light-danger { background: var(--g-color-base-danger-heavy); --metric-light-ring: var(--g-color-base-danger-light-hover); }
 .metric-light-default { background: var(--g-color-base-generic-medium); --metric-light-ring: var(--g-color-base-generic-medium-hover); }
 @keyframes metric-light-pulse { 0% { box-shadow: 0 0 0 0 var(--metric-light-ring); } 65%, 100% { box-shadow: 0 0 0 6px transparent; } }
-@media (prefers-reduced-motion: reduce) { .metric-light { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .metric-light { animation: none; } .leader-confetti { display: none; } }
+.leader-confetti { position: fixed; inset: 0; z-index: 90; overflow: hidden; pointer-events: none; }
 .product-metric-block-status { min-width: 28px; min-height: 28px; display: grid; place-items: center; }
 .product-metric-block-status .metric-light { width: 9px; height: 9px; margin-top: 0; }
 .product-metric-empty-light { animation: none; }

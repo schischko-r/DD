@@ -128,6 +128,19 @@ function isVisibleMetric(metric) {
   return !isOwnMechanics || metric.is_applicabble_flg !== false;
 }
 
+function pilotToolLinks(block) {
+  const links = [];
+  const collect = (tool) => {
+    if (/^(?:пилотные кампании|поиск по пилотам)$/i.test(String(tool?.name || '').trim()) && tool.button?.link) {
+      links.push({label: tool.name, href: tool.button.link});
+    }
+    (tool?.buttons || []).forEach(collect);
+    (tool?.tools || []).forEach(collect);
+  };
+  (block.tools || []).forEach(collect);
+  return links.filter((item, index) => links.findIndex((candidate) => candidate.label === item.label && candidate.href === item.href) === index);
+}
+
 function collectBlockLinks(block) {
   const links = [];
   const add = (item, fallbackLabel) => {
@@ -636,7 +649,7 @@ function AboutDataDriven({onBack}) {
   ];
   const zones = [
     {title: 'Знание ключевых метрик и инструментов', text: 'Самооценка знания продуктовых метрик и доступной отчётности.', criteria: [{name: 'Объём целевого рынка в России', points: '0,2 балла'}, {name: 'Объём целевого рынка в Сбере', points: '0,2 балла'}, {name: 'Клиенты с продуктом', points: '0,2 балла'}, {name: 'MAU продукта', points: '0,2 балла'}, {name: 'Знание продуктов-спутников', points: '0,2 балла'}, {name: 'Знание отчётности в Навигаторе', points: '0,5 балла'}]},
-    {title: 'Цели', text: 'Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе: выведено более 90% целей, лидер продукта знает про BI-дашборд.', points: '1 балл (100%)'}, {name: 'Мониторинг ведётся в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}, {name: 'Мониторинг отсутствует.', points: '0 баллов (0%)'}]},
+    {title: 'Цели', text: 'Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе: выведено более 90% целей, лидер продукта знает про BI-дашборд.', points: '1 балл (100%)'}, {name: 'Мониторинг ведётся в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}]},
     {title: 'Воронка привлечения', text: 'Оцениваются отчётность, анализ отклонений, кампейнинг и покрытие черновиков. Для кампаний используются данные предыдущего квартала.', criteria: [
       {section: 'Отчётность', name: 'Регулярная отчётность формируется автоматически.', points: '0,5 балла'},
       {section: 'Отчётность', name: 'Регулярная отчётность формируется по запросу.', points: '0,25 балла'},
@@ -673,7 +686,7 @@ function AboutDataDriven({onBack}) {
       {section: 'Гибкость', name: 'Изменение набора опций без IT, но без персонализации.', points: '0,5 балла'},
       {section: 'Мониторинг', name: 'Есть метрики эффективности механик.', points: '0,25 балла'},
     ]},
-    {title: 'Гипотезы и инициативы', text: 'Исследовательская загрузка аналитиков, качество исследований и инициативы сверх бизнес-плана.', criteria: [{name: 'Не менее 40% бэклога аналитиков приходится на исследования.', points: '1 балл'}, {name: 'Не менее 20% бэклога приходится на исследования.', points: '0,5 балла'}, {name: 'Средняя оценка исследований с начала года не ниже 7,5.', points: '1 балл'}, {name: 'Есть минимум одна доходная или расходная инициатива сверх БП.', points: '1 балл'}, {name: 'A/B-тесты отображаются, но не входят в расчёт индекса.', points: 'Не входит', excluded: true}]},
+    {title: 'Гипотезы и инициативы', text: 'Исследовательская загрузка аналитиков, качество исследований и инициативы сверх бизнес-плана.', criteria: [{name: 'Не менее 40% бэклога аналитиков приходится на исследования.', points: '1 балл'}, {name: 'Не менее 20% бэклога приходится на исследования.', points: '0,5 балла'}, {name: 'Средняя оценка исследований с начала года не ниже 7,5.', points: '1 балл'}, {name: 'Есть минимум одна доходная или расходная инициатива сверх БП.', points: '1 балл'}]},
     {title: 'Клиентский опыт', text: 'CX Score рассчитывается по данным дашборда «Здоровье CX продуктов».', criteria: [{name: 'Зелёная зона CX Score.', points: '1 балл (100%)'}, {name: 'Жёлтая зона CX Score.', points: '0,5 балла (50%)'}]},
   ];
   const levels = [
@@ -771,13 +784,13 @@ function metricAiInsight(subject, onClick) {
   };
 }
 
-function MetricAiActions({insights}) {
-  if (!insights.length) return null;
-  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={ChartLinePoints} size={15} /><strong>Быстрая аналитика и AI-рекомендации</strong></span><div className="metric-ai-actions-buttons">{insights.map((insight) => <button type="button" onClick={insight.onClick} key={insight.title}>{insight.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
+function MetricActionGroup({title, actions}) {
+  if (!actions.length) return null;
+  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={ChartLinePoints} size={15} /><strong>{title}</strong></span><div className="metric-ai-actions-buttons">{actions.map((action) => action.href ? <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a> : <button type="button" onClick={action.onClick} key={action.title}>{action.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
 }
 
 function GoalsHelpContent() {
-  return <div className="goals-help-content"><p>Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — мониторинг в Навигаторе; учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд.</li><li><b>0,5 балла (50%)</b> — мониторинг в локальной отчётности, не в Навигаторе.</li><li><b>0 баллов (0%)</b> — мониторинг отсутствует.</li></ul></div>;
+  return <div className="goals-help-content"><p>Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — мониторинг в Навигаторе; учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд.</li><li><b>0,5 балла (50%)</b> — мониторинг в локальной отчётности, не в Навигаторе.</li></ul></div>;
 }
 
 function AlertsHelpContent() {
@@ -792,7 +805,6 @@ function AttractReportingHelpContent() {
       <ul>
         <li><b>0,5 балла (100%)</b> — формируется автоматически.</li>
         <li><b>0,25 балла (50%)</b> — формируется по запросу.</li>
-        <li><b>0 баллов (0%)</b> — отчётность отсутствует.</li>
       </ul>
     </section>
     <section>
@@ -829,7 +841,6 @@ function AttractAnalysisHelpContent() {
       <strong>Оценка:</strong>
       <ul>
         <li><b>1 балл (100%)</b> — есть бенчмарки.</li>
-        <li><b>0 баллов (0%)</b> — бенчмарки отсутствуют.</li>
       </ul>
     </section>
   </div>;
@@ -841,17 +852,17 @@ function AttractCampaigningHelpContent() {
     <section>
       <p>Наличие запусков кампаний с результатом.</p>
       <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — есть запуски с результатом.</li><li><b>0 баллов (0%)</b> — запуски отсутствуют.</li></ul>
+      <ul><li><b>0,5 балла (100%)</b> — есть запуски с результатом.</li></ul>
     </section>
     <section>
       <p>Наличие успешных бизнес-запусков.</p>
       <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — есть успешные бизнес-запуски.</li><li><b>0 баллов (0%)</b> — успешные бизнес-запуски отсутствуют.</li></ul>
+      <ul><li><b>0,5 балла (100%)</b> — есть успешные бизнес-запуски.</li></ul>
     </section>
     <section>
       <p>Использование Self-service.</p>
       <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — настроен Self-service.</li><li><b>0 баллов (0%)</b> — Self-service отсутствует.</li></ul>
+      <ul><li><b>0,5 балла (100%)</b> — настроен Self-service.</li></ul>
     </section>
     <section>
       <p>Запуски коммуникаций по черновикам (брошенным корзинам) в СБОЛ за квартал.</p>
@@ -866,7 +877,7 @@ function ChurnReportingHelpContent() {
     <section>
       <p>Настроена регулярная отчётность по воронке оттока. Учитываются все поверхности: ClickStream, Навигатор и другая отчётность.</p>
       <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — формируется автоматически.</li><li><b>0,25 балла (50%)</b> — формируется по запросу.</li><li><b>0 баллов (0%)</b> — отчётность отсутствует.</li></ul>
+      <ul><li><b>0,5 балла (100%)</b> — формируется автоматически.</li><li><b>0,25 балла (50%)</b> — формируется по запросу.</li></ul>
     </section>
     <section>
       <p>Полнота отчёта по воронке оттока.</p>
@@ -891,7 +902,7 @@ function ChurnAnalysisHelpContent() {
     <section>
       <p>Бенчмарки по показателям воронки: цели, динамика, рыночный бенчмарк.</p>
       <strong>Оценка:</strong>
-      <ul><li><b>1 балл (100%)</b> — есть бенчмарки.</li><li><b>0 баллов (0%)</b> — бенчмарки отсутствуют.</li></ul>
+      <ul><li><b>1 балл (100%)</b> — есть бенчмарки.</li></ul>
     </section>
   </div>;
 }
@@ -947,7 +958,7 @@ function IndexFormulaHelp() {
   return <div className="index-formula-help"><div>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</div><p>Не применимые критерии исключаются и из набранных баллов, и из максимального балла продукта.</p></div>;
 }
 
-function MetricRow({metric, detailScore, instruction, library, aiMetricInsight, aiMetricInsights = [], grouped}) {
+function MetricRow({metric, detailScore, instruction, library, zeroAction, aiMetricInsight, aiMetricInsights = [], pilotActions = [], grouped}) {
   const value = percent(metric.value, metric.max_value);
   const theme = metric.max_value ? progressTheme(value) : 'default';
   const isTbd = /a\s*\/\s*b/i.test(String(metric.name || ''));
@@ -979,7 +990,9 @@ function MetricRow({metric, detailScore, instruction, library, aiMetricInsight, 
       <div className="metric-value">{detailScore ? <><span>{valueLabel}</span>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <Label className="metric-status-label" theme={status.theme}>{status.label}</Label>}</div>
       {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
       {library && <MetricInlineAction title="Библиотека решений" subtitle="Практики для повышения оценки исследований" href={library.link} actionLabel="Открыть" />}
-      <MetricAiActions insights={insights} />
+      {zeroAction && <MetricInlineAction title="Запустить" subtitle="первый пилот в Self-Service" href={zeroAction.link || zeroAction.url} />}
+      <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={insights} />
+      <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={pilotActions} />
     </div>
   );
 }
@@ -1217,6 +1230,102 @@ function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill}) {
   );
 }
 
+const LEADER_CONFETTI_COLORS = ['#ff6363', '#ffb224', '#7bd65c', '#35b9e9', '#7567f4', '#eb62c5'];
+
+function LeaderConfetti({productId}) {
+  const [visible, setVisible] = useState(false);
+  const canvasRef = useRef(null);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    setVisible(true);
+    return undefined;
+  }, [productId]);
+  useEffect(() => {
+    if (!visible || !canvasRef.current) return undefined;
+    const canvas = canvasRef.current;
+    const context = canvas.getContext('2d');
+    if (!context) return undefined;
+    const resize = () => {
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(window.innerWidth * pixelRatio);
+      canvas.height = Math.round(window.innerHeight * pixelRatio);
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    const makeParticle = (side, index) => {
+      const fromLeft = side === 'left';
+      const angle = (fromLeft ? -78 + Math.random() * 46 : -148 + Math.random() * 46) * Math.PI / 180;
+      const speed = 12 + Math.random() * 10;
+      return {
+        x: fromLeft ? 18 : window.innerWidth - 18,
+        y: window.innerHeight + 8,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        gravity: 0.16 + Math.random() * 0.09,
+        drag: 0.982 + Math.random() * 0.008,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.42,
+        wobble: Math.random() * Math.PI * 2,
+        wobbleSpeed: 0.08 + Math.random() * 0.08,
+        width: index % 5 === 0 ? 5 : 6 + Math.random() * 4,
+        height: index % 5 === 0 ? 15 : 6 + Math.random() * 7,
+        color: LEADER_CONFETTI_COLORS[index % LEADER_CONFETTI_COLORS.length],
+        circle: index % 4 === 0,
+        age: 0,
+        life: 108 + Math.random() * 34,
+      };
+    };
+    const particles = ['left', 'right'].flatMap((side) => Array.from({length: 34}, (_, index) => makeParticle(side, index)));
+    let animationFrame;
+    let previousTime = performance.now();
+    const draw = (time) => {
+      const step = Math.min((time - previousTime) / 16.67, 2);
+      previousTime = time;
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      let active = false;
+      particles.forEach((particle) => {
+        particle.age += step;
+        if (particle.age >= particle.life) return;
+        active = true;
+        particle.vx *= Math.pow(particle.drag, step);
+        particle.vy += particle.gravity * step;
+        particle.x += (particle.vx + Math.sin(particle.wobble) * 0.35) * step;
+        particle.y += particle.vy * step;
+        particle.rotation += particle.rotationSpeed * step;
+        particle.wobble += particle.wobbleSpeed * step;
+        const fadeStart = particle.life * 0.72;
+        const opacity = particle.age > fadeStart ? 1 - (particle.age - fadeStart) / (particle.life - fadeStart) : Math.min(1, particle.age / 5);
+        context.save();
+        context.globalAlpha = Math.max(0, opacity);
+        context.fillStyle = particle.color;
+        context.translate(particle.x, particle.y);
+        context.rotate(particle.rotation);
+        context.scale(Math.cos(particle.wobble), 1);
+        if (particle.circle) {
+          context.beginPath();
+          context.arc(0, 0, particle.width / 2, 0, Math.PI * 2);
+          context.fill();
+        } else {
+          context.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
+        }
+        context.restore();
+      });
+      if (active) animationFrame = window.requestAnimationFrame(draw);
+      else setVisible(false);
+    };
+    animationFrame = window.requestAnimationFrame(draw);
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener('resize', resize);
+    };
+  }, [visible, productId]);
+  if (!visible) return null;
+  return <canvas ref={canvasRef} className="leader-confetti" aria-hidden="true" key={productId} />;
+}
+
 function Detail({product, products, rows, detailScore, onBack, onProduct}) {
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
@@ -1345,6 +1454,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
 
   return (
     <main className="content detail-page">
+      {!nextLevel && <LeaderConfetti productId={product.id || product.name} />}
       <Button view="flat" onClick={onBack}><Icon data={ArrowLeft} size={16} />Назад к Summary</Button>
       <header className="detail-header">
         <div><h1>{product.name}</h1><div className="detail-meta">{product.unit} · {product.period} · <Label size="xs">{product.type}</Label><Button view="outlined-danger" size="s" href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank">Нашли ошибку?</Button></div></div>
@@ -1365,7 +1475,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
       <div className={lens === 'dd' ? 'detail-lens-content' : 'detail-lens-content detail-lens-hidden'}>
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b><span>Расчет не включает A/B тесты. Добавление – после 15 июля</span></div></div>
       <section className="detail-overview">
-        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
+        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
         <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
       </section>
       <Dialog open={recommendationsOpen} onClose={() => setRecommendationsOpen(false)} hasCloseButton maxWidth="m" fullWidth contentOverflow="auto">
@@ -1387,7 +1497,10 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
             const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
             const max = metrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
             const blockLinks = linksForBlock(block, product.metrics || [], product.type);
+            const participantLinks = (block.participant_links || []).filter((item) => item?.label && (item.url || item.link));
             const instructions = (block.tools || []).filter((tool) => tool.kind === 'instruction' && tool.button?.link);
+            const blockPilotActions = pilotToolLinks(block);
+            const firstPilotAction = metrics.find((metric) => /^attract\.campaign_launches$/i.test(metric.code) && metric.is_applicabble_flg !== false && Number(metric.value || 0) === 0 && (metric.zero_button?.link || metric.zero_button?.url))?.zero_button || null;
             const isKeyMetricsBlock = block.code === 'general' || /знание ключевых метрик/i.test(String(block.name || ''));
             return (
               <Card key={block.code} className={`metric-block tone-${allIrrelevant ? 'default' : progressTheme(blockScore)}`} view="outlined">
@@ -1402,7 +1515,8 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isProduct && <ProductMetricGroupHelp blockCode={block.code} group={group} />}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isProduct && <ProductMetricGroupHelp blockCode={block.code} group={group} />}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
+                {participantLinks.length > 0 && isOpen && <div className="block-links participant-links"><div className="block-links-title">Ссылки, приложенные при прохождении самооценки в Oprosso</div><div className="block-actions">{participantLinks.map((action) => <Button key={`${action.label}-${action.url || action.link}`} view="outlined-info" size="s" width="auto" href={action.url || action.link} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Полезные ссылки</div><div className="block-actions">{blockLinks.map((action) => <Button key={`${action.label}-${action.url}`} view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
               </Card>
             );
