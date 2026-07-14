@@ -6,6 +6,10 @@ import build_calc_report as report
 
 
 class SyntheticReportTest(unittest.TestCase):
+    def test_cyrillic_cx_unit_is_normalized_to_latin(self) -> None:
+        self.assertEqual(report.normalize_upload_unit("CX"), "CX")
+        self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
+
     def test_single_funnel_benchmark_is_split_between_attract_and_churn(self) -> None:
         rows = report._PD.DataFrame(
             [

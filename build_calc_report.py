@@ -305,7 +305,10 @@ def is_excluded_upload_type(value: Any) -> bool:
 
 
 def normalize_upload_unit(value: Any) -> str:
-    return clean_optional_text(value) or "Без юнита"
+    unit = clean_optional_text(value)
+    if unit == "СХ":
+        return "CX"
+    return unit or "Без юнита"
 
 
 def normalize_upload_sheet_name(value: Any) -> str:
@@ -2373,7 +2376,7 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     df["recommendation_group_clean"] = df["recommendation_group"].map(normalize_text)
     df["entity_type"] = df.apply(entity_type_from_row, axis=1)
     df = df[~df["entity_type"].map(is_excluded_upload_type)].copy()
-    df["_unit_key"] = df["Юнит"].map(lambda value: clean_text(value) or "Без юнита")
+    df["_unit_key"] = df["Юнит"].map(normalize_upload_unit)
     df["Юнит"] = df["_unit_key"]
     df["_product_key"] = df["Продукт"].map(clean_text)
     df["value_num"] = df["value"].map(number)

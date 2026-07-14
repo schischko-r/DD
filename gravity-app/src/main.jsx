@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {
   ArrowLeft,
@@ -35,7 +35,7 @@ import {
   ThemeProvider,
 } from '@gravity-ui/uikit';
 import {AsideHeader} from '@gravity-ui/navigation';
-import {Legend, PolarAngleAxis, PolarGrid, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
+import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import '@gravity-ui/uikit/styles/fonts.css';
 import '@gravity-ui/uikit/styles/styles.css';
 import './theme.css';
@@ -62,6 +62,28 @@ function scoreFor(product, rows) {
 
 function groupFor(product, rows) {
   return rows.find((row) => row.name === product.name && row.unit === product.unit)?.group || 'Нет данных';
+}
+
+function wrapRadarLabel(value, maxLength = 15) {
+  const words = String(value || '').replace(/([/–—-])/g, '$1 ').trim().split(/\s+/);
+  return words.reduce((lines, word) => {
+    const current = lines[lines.length - 1];
+    if (!current || `${current} ${word}`.length > maxLength) lines.push(word);
+    else lines[lines.length - 1] = `${current} ${word}`;
+    return lines;
+  }, []);
+}
+
+function ProductRadarTick({x, y, cx, payload}) {
+  const lines = wrapRadarLabel(payload?.value);
+  const anchor = x < cx - 4 ? 'end' : x > cx + 4 ? 'start' : 'middle';
+  const adjustedX = x + (anchor === 'start' ? 4 : anchor === 'end' ? -4 : 0);
+  const lineHeight = 11;
+  return (
+    <text className="product-radar-axis" x={adjustedX} y={y} textAnchor={anchor} dominantBaseline="central">
+      {lines.map((line, index) => <tspan key={`${line}-${index}`} x={adjustedX} dy={index === 0 ? -((lines.length - 1) * lineHeight) / 2 : lineHeight}>{line}</tspan>)}
+    </text>
+  );
 }
 
 function progressTheme(value) {
@@ -142,6 +164,7 @@ function linksForBlock(block, allBlocks = [], entityType = 'Продукт') {
 
 const nameCollator = new Intl.Collator('en', {sensitivity: 'base', numeric: true});
 const compareNames = (a, b) => nameCollator.compare(String(a || ''), String(b || ''));
+const isUnitFilterOption = (value) => String(value || '').trim().toLowerCase() !== 'каналы';
 
 function typeTone(type) {
   const value = String(type || '').toLowerCase();
@@ -152,9 +175,8 @@ function typeTone(type) {
 
 function radarSeries(type) {
   const tone = typeTone(type);
-  if (tone === 'segment') return {label: 'Сегмент', stroke: 'var(--g-color-text-warning-heavy)', fill: 'var(--g-color-base-warning-heavy)'};
-  if (tone === 'channel') return {label: 'Канал', stroke: 'var(--g-color-text-info-heavy)', fill: 'var(--g-color-base-info-heavy)'};
-  return {label: 'Продукт', stroke: 'var(--g-color-text-positive-heavy)', fill: 'var(--g-color-base-positive-heavy)'};
+  const label = tone === 'segment' ? 'Сегмент' : tone === 'channel' ? 'Канал' : 'Продукт';
+  return {label, stroke: 'var(--g-color-base-brand)', fill: 'var(--g-color-base-brand)'};
 }
 
 function metricWord(count) {
@@ -323,7 +345,10 @@ function CatalogDialogFiltered({openType, openMaturity, products, rows, onOpen, 
       const items = !normalizedQuery || unitMatches
         ? unit.items
         : unit.items.filter((item) => item.name.toLocaleLowerCase().includes(normalizedQuery));
-      return {...unit, items, avg: items.length ? Math.round(items.reduce((sum, item) => sum + item.score, 0) / items.length) : 0};
+      const sortedItems = [...items].sort((a, b) => sort === 'score'
+        ? (b.score - a.score) || compareNames(a.name, b.name)
+        : compareNames(a.name, b.name));
+      return {...unit, items: sortedItems, avg: items.length ? Math.round(items.reduce((sum, item) => sum + item.score, 0) / items.length) : 0};
     })
     .filter((unit) => unit.items.length > 0)
     .sort((a, b) => sort === 'score' ? (b.avg - a.avg) || compareNames(a.name, b.name) : compareNames(a.name, b.name)), [units, normalizedQuery, sort]);
@@ -391,7 +416,7 @@ function Summary({products, rows, initialType = ''}) {
   const [unit, setUnit] = useState([]);
   const [type, setType] = useState(initialType ? [initialType] : []);
   const [sort, setSort] = useState('name');
-  const units = useMemo(() => [...new Set(products.map((item) => item.unit).filter(Boolean))].sort(compareNames), [products]);
+  const units = useMemo(() => [...new Set(products.map((item) => item.unit).filter((item) => item && isUnitFilterOption(item)))].sort(compareNames), [products]);
   const types = useMemo(() => [...new Set(rows.map((item) => item.type).filter(Boolean))].sort(compareNames), [rows]);
   const filteredRows = rows.filter((item) => (!unit.length || unit.includes(item.unit)) && (!type.length || type.includes(item.type)));
   const filteredUnits = new Set(filteredRows.map((item) => item.unit).filter(Boolean));
@@ -457,24 +482,31 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
   const [catalogMaturity, setCatalogMaturity] = useState(null);
   const [teamContactOpen, setTeamContactOpen] = useState(false);
   const [teamQuery, setTeamQuery] = useState('');
+  const [teamSearchOpen, setTeamSearchOpen] = useState(false);
+  const teamSearchRef = useRef(null);
   const periods = useMemo(() => [...new Set(products.map((item) => item.period).filter(Boolean))].sort(compareNames), [products]);
   const [period, setPeriod] = useState(() => periods[0] || '');
   const [unit, setUnit] = useState('');
   const [hoveredBlock, setHoveredBlock] = useState('');
-  const units = useMemo(() => [...new Set(products.filter((item) => !period || item.period === period).map((item) => item.unit).filter(Boolean))].sort(compareNames), [products, period]);
+  const units = useMemo(() => [...new Set(products.filter((item) => !period || item.period === period).map((item) => item.unit).filter((item) => item && isUnitFilterOption(item)))].sort(compareNames), [products, period]);
   const periodProducts = useMemo(() => products.filter((item) => !period || item.period === period), [products, period]);
   const scopedProducts = useMemo(() => periodProducts.filter((item) => !unit || item.unit === unit), [periodProducts, unit]);
   useEffect(() => {
     if (unit && !units.includes(unit)) setUnit('');
   }, [unit, units]);
+  useEffect(() => {
+    const closeTeamSearch = (event) => {
+      if (!teamSearchRef.current?.contains(event.target)) setTeamSearchOpen(false);
+    };
+    document.addEventListener('pointerdown', closeTeamSearch);
+    return () => document.removeEventListener('pointerdown', closeTeamSearch);
+  }, []);
   const teamMatches = useMemo(() => {
     const normalizedQuery = teamQuery.trim().toLowerCase();
-    if (!normalizedQuery) return [];
     return scopedProducts.filter((item) => [item.name, item.type, item.unit]
       .filter(Boolean)
-      .some((value) => value.toLowerCase().includes(normalizedQuery)))
-      .sort((a, b) => compareNames(a.name, b.name))
-      .slice(0, 10);
+      .some((value) => !normalizedQuery || value.toLowerCase().includes(normalizedQuery)))
+      .sort((a, b) => compareNames(a.name, b.name));
   }, [scopedProducts, teamQuery]);
   const rowForProduct = (product) => rows.find((row) => row.name === product.name && row.unit === product.unit);
   const categoryMeta = [
@@ -511,7 +543,7 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
     };
     return {name: block.name, b2c: averageFor(periodProducts), unit: averageFor(scopedProducts)};
   });
-  const radarScoreValues = (unit ? scopedProducts : periodProducts)
+  const radarScoreValues = periodProducts
     .map((product) => rowForProduct(product)?.score)
     .filter((score) => Number.isFinite(Number(score)))
     .map(Number);
@@ -523,17 +555,18 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
     scopedProducts.forEach((product) => (product.metrics || []).forEach((block) => (block.metrics || []).forEach((metric) => {
       if (metric.is_applicabble_flg === false || !Number(metric.max_value)) return;
       const key = `${block.code}:${metric.code}`;
-      if (!metricGroups.has(key)) metricGroups.set(key, {name: metric.name, block: block.name, values: [], teams: new Set()});
+      if (!metricGroups.has(key)) metricGroups.set(key, {name: metric.name, block: block.name, teams: new Set(), incompleteTeams: new Set()});
       const group = metricGroups.get(key);
-      group.values.push(percent(metric.value, metric.max_value));
       group.teams.add(product.name);
+      if (Number(metric.value || 0) / Number(metric.max_value) < 1) group.incompleteTeams.add(product.name);
     })));
     return [...metricGroups.values()].map((item) => ({
       name: item.name,
       block: item.block,
       teams: item.teams.size,
-      score: Math.round(item.values.reduce((sum, value) => sum + value, 0) / item.values.length),
-    })).sort((a, b) => (a.score - b.score) || compareNames(a.name, b.name)).slice(0, 7);
+      incompleteTeams: item.incompleteTeams.size,
+      incompleteShare: item.teams.size ? Math.round(item.incompleteTeams.size / item.teams.size * 100) : 0,
+    })).sort((a, b) => (b.incompleteTeams - a.incompleteTeams) || (b.incompleteShare - a.incompleteShare) || (b.teams - a.teams) || compareNames(a.name, b.name)).slice(0, 7);
   }, [scopedProducts]);
 
   return (
@@ -541,15 +574,18 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
       <header className="dashboard-header">
         <div><h1>Summary</h1><Text variant="body-1" color="secondary">Сводный профиль Data-Driven Index по B2C</Text></div>
         <div className="dashboard-header-actions">
-          <div className="dashboard-team-search">
+          <label className="dashboard-unit-filter"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="Все юниты" width={190}><Select.Option value="">Все юниты</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
+          <div ref={teamSearchRef} className="dashboard-team-search" onFocusCapture={() => setTeamSearchOpen(true)} onKeyDown={(event) => { if (event.key === 'Escape') setTeamSearchOpen(false); }}>
             <div className="dashboard-team-search-head">
               <Text variant="subheader-1">Найти свою команду</Text>
-              <Button view="flat-danger" size="s" onClick={() => setTeamContactOpen(true)}>Не нашли свою команду?</Button>
+              <Button view="flat-danger" size="s" onClick={() => { setTeamSearchOpen(false); setTeamContactOpen(true); }}>Не нашли свою команду?</Button>
             </div>
-            <TextInput value={teamQuery} onUpdate={setTeamQuery} placeholder="Начните вводить название" size="m" hasClear />
-            {teamQuery && <div className="dashboard-team-search-menu">{teamMatches.length ? teamMatches.map((item) => <Button key={item.id} view="flat" width="max" onClick={() => { setTeamQuery(''); onOpen(item); }}><span className="dashboard-team-search-result"><b>{item.name}</b><small>{item.type} · {item.unit}</small></span></Button>) : <Text color="secondary">Команда не найдена</Text>}</div>}
+            <TextInput value={teamQuery} onUpdate={setTeamQuery} placeholder={unit ? `Команды юнита ${unit}` : 'Все команды'} size="m" hasClear />
+            {teamSearchOpen && <div className="dashboard-team-search-menu" role="listbox" aria-label={unit ? `Команды юнита ${unit}` : 'Все команды'}>
+              <div className="dashboard-team-search-menu-meta">{unit ? `Юнит ${unit}` : 'Все юниты'} · {teamMatches.length} команд</div>
+              {teamMatches.length ? teamMatches.map((item) => <Button key={item.id} view="flat" width="max" role="option" onClick={() => { setTeamSearchOpen(false); setTeamQuery(''); onOpen(item); }}><span className="dashboard-team-search-result"><b>{item.name}</b><small>{item.type} · {item.unit}</small></span></Button>) : <Text color="secondary">Команда не найдена</Text>}
+            </div>}
           </div>
-          <label className="dashboard-unit-filter"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="Все юниты" width={190}><Select.Option value="">Все юниты</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
           <label className="dashboard-period"><span>Период</span><Select value={period ? [period] : []} onUpdate={(value) => setPeriod(value[0] || '')} width={190}>{periods.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
         </div>
       </header>
@@ -563,39 +599,39 @@ function DashboardSummary({products, rows, onOpen, onAbout}) {
       </Dialog>
 
       <section className="dashboard-category-grid" aria-label="Сводка по типам команд">
-        {categoryCards.map((category) => <Card key={category.key} className={`dashboard-category-card dashboard-category-${category.tone}`} view="outlined">
+        {categoryCards.map((category) => <Card key={category.key} className={`dashboard-category-card dashboard-category-${category.tone}${category.items.length ? '' : ' is-empty'}`} view="outlined">
           <div className="dashboard-category-head"><div className="dashboard-category-icon"><Icon data={category.icon} size={20} /></div><h2>{category.label}</h2></div>
           <div className="dashboard-category-score"><div>{category.average === null ? <Text variant="subheader-2" color="secondary">Нет данных</Text> : <><strong>{category.average}%</strong><span>/100</span></>}</div><span className="dashboard-category-caption">Средний Data-Driven Index</span><small>Оценено команд: <b>{category.items.length}</b></small></div>
           <div className="dashboard-maturity"><span>По уровню зрелости</span><div className="dashboard-maturity-grid">{category.maturityCounts.map((level) => <button type="button" className="dashboard-maturity-counter" key={level.theme} disabled={!level.count} onClick={() => { setCatalogMaturity(level); setCatalogType(category.typeLabel); }}><span>{level.label}</span><strong>{level.count}</strong><Icon data={ChevronRight} size={13} /></button>)}</div></div>
-          <Button className="dashboard-category-footer" view="flat-info" onClick={() => { setCatalogMaturity(null); setCatalogType(category.typeLabel); }}>Все {category.label.toLowerCase()}</Button>
+          <Button className="dashboard-category-footer" view="flat-info" disabled={!category.items.length} onClick={() => { setCatalogMaturity(null); setCatalogType(category.typeLabel); }}>Все {category.label.toLowerCase()}</Button>
         </Card>)}
       </section>
 
       <CatalogDialogFiltered openType={catalogType} openMaturity={catalogMaturity} products={scopedProducts} rows={rows} onOpen={onOpen} onClose={() => { setCatalogType(''); setCatalogMaturity(null); }} />
 
       <section className="dashboard-analysis-grid">
-        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2><span>Средний Data Driven Index · {radarAverage === null ? '—' : `${radarAverage}%`}</span></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
-        <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Процент команд, закрывающих метрику</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small>{item.block} · {item.teams} команд</small></div><div><strong>{item.score}%</strong><Progress value={item.score} theme={progressTheme(item.score)} size="xs" /></div></div>)}</div></Card>
+        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2></div><div className="dashboard-radar-score" aria-label={`Средний Data-Driven Index B2C: ${radarAverage === null ? 'нет данных' : `${radarAverage}%`}`}><div><strong>{radarAverage === null ? '—' : radarAverage}</strong>{radarAverage !== null && <span>%</span>}</div><small>Средний Data-Driven Index</small></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
+        <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small>{item.block}</small></div><div className="dashboard-antitop-result"><strong>{item.incompleteShare}%</strong><small>{item.incompleteTeams} из {item.teams} команд</small></div></div>)}</div></Card>
       </section>
 
       <Card className="dashboard-about-card" view="outlined">
         <div className="dashboard-about-icon"><Icon data={CircleInfo} size={24} /></div>
         <div className="dashboard-about-copy">
           <Text variant="subheader-2">О Data Driven</Text>
-          <Text variant="body-1" color="secondary">Что такое Data Driven, какие практики оценивает индекс, как читать рейтинг зрелости и выбирать следующие шаги для команды.</Text>
+          <Text variant="body-1" color="secondary">Формула индекса, критерии и баллы, правила применимости и шкала зрелости команд.</Text>
         </div>
-        <Button view="outlined-info" onClick={onAbout}>Открыть методологию <Icon data={ChevronRight} size={14} /></Button>
+        <Button view="outlined-info" onClick={onAbout}>Методология <Icon data={ChevronRight} size={14} /></Button>
       </Card>
     </main>
   );
 }
 
 function AboutDataDriven({onBack}) {
-  const elements = [
-    {title: 'Данные', text: 'Качественная и актуальная основа для анализа и решений.', icon: ChartColumn},
-    {title: 'Отчётность', text: 'Система зрения и информирования организации.', icon: ChartMixed},
-    {title: 'Исследования и инструменты', text: 'Инсайты и доказательства, которые можно встроить в промышленные решения.', icon: BarsAscendingAlignLeft},
-    {title: 'Люди', text: 'Команды с необходимыми навыками и компетенциями.', icon: Persons},
+  const principles = [
+    {title: 'Объект оценки', text: 'Команда продукта, сегмента или канала. Индекс отражает состояние практик команды в расчётном периоде.', icon: Persons},
+    {title: 'Источники фактов', text: 'Цифровые следы, действующая отчётность и ответы команды. Для каждого критерия фиксируется подтверждённое значение.', icon: ChartColumn},
+    {title: 'Балльная модель', text: 'Каждый применимый критерий имеет фактический и максимальный балл. Баллы суммируются внутри блоков и по профилю.', icon: BarsAscendingAlignLeft},
+    {title: 'Применимость', text: 'Нерелевантные критерии исключаются из числителя и знаменателя, поэтому они не занижают итоговую оценку.', icon: ChartMixed},
   ];
   const zones = [
     {title: 'Цели, драйверы и прогнозы', text: 'Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе; учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд.', points: '1 балл (100%)'}, {name: 'Мониторинг в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}, {name: 'Мониторинг отсутствует.', points: '0 баллов (0%)'}]},
@@ -619,33 +655,35 @@ function AboutDataDriven({onBack}) {
       <section className="about-hero">
         <div className="about-hero-main">
           <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Методология Data Driven B2C</span></div>
-          <h1>Как команда принимает решения на данных</h1>
-          <Text variant="body-2" color="secondary">Индекс показывает, насколько данные встроены в ежедневную работу: от постановки целей и мониторинга до экспериментов и измеримого результата.</Text>
+          <h1>Методология Data-Driven Index</h1>
+          <Text variant="body-2" color="secondary">Нормированная оценка зрелости практик работы с данными для команд продуктов, сегментов и каналов. Итоговый индекс рассчитывается по применимым критериям и дополняется профилем по отдельным блокам.</Text>
           <div className="about-hero-actions">
-            <Button view="action" size="l" onClick={onBack}>Открыть рейтинг <Icon data={ChevronRight} size={16} /></Button>
-            <Button view="flat" size="l" href="#assessment">Как считается индекс</Button>
+            <Button view="outlined-info" size="l" href="#assessment">Формула и шкала</Button>
+            <Button view="flat" size="l" href="#practices">Критерии оценки</Button>
           </div>
         </div>
-        <div className="about-system-map" role="img" aria-label="Четыре элемента Data Driven системы">
-          <div className="about-system-core"><strong>Data Driven</strong><span>единый контур решений</span></div>
-          {elements.map((item) => <div className="about-system-node" key={item.title}><span><Icon data={item.icon} size={18} /></span><b>{item.title}</b></div>)}
+        <div className="about-method-summary" aria-label="Основные параметры методики">
+          <div><span>Результат</span><strong>0–100%</strong><small>нормированный индекс</small></div>
+          <div><span>Структура</span><strong>8 практик</strong><small>от целей до исследований</small></div>
+          <div><span>Основа</span><strong>Факт / максимум</strong><small>только применимые критерии</small></div>
+          <div><span>Детализация</span><strong>По блокам</strong><small>для локализации отклонений</small></div>
         </div>
       </section>
 
       <nav className="about-nav" aria-label="Разделы методологии">
-        <a href="#system">Система</a>
-        <a href="#assessment">Оценка</a>
-        <a href="#practices">Практики</a>
+        <a href="#system">Принципы</a>
+        <a href="#assessment">Формула и шкала</a>
+        <a href="#practices">Критерии и баллы</a>
       </nav>
 
       <section className="about-section" id="system">
-        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ОСНОВА</Text><h2>Data Driven работает как система</h2><Text color="secondary">Сильный результат появляется, когда четыре элемента связаны общим процессом принятия решений.</Text></div>
-        <div className="about-elements">{elements.map((item) => <Card view="outlined" type="container" size="l" key={item.title}><div className="about-element-icon"><Icon data={item.icon} size={20} /></div><h3>{item.title}</h3><Text color="secondary">{item.text}</Text></Card>)}</div>
+        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ПРИНЦИПЫ ОЦЕНКИ</Text><h2>Как формируется индекс</h2><Text color="secondary">Расчёт строится на подтверждённых фактах и единой балльной модели. Итоговый процент сопоставим между командами только при одинаковой версии методики и расчётном периоде.</Text></div>
+        <div className="about-elements">{principles.map((item) => <Card view="outlined" type="container" size="l" key={item.title}><div className="about-element-icon"><Icon data={item.icon} size={20} /></div><h3>{item.title}</h3><Text color="secondary">{item.text}</Text></Card>)}</div>
       </section>
 
       <section className="about-section about-diagnosis" id="assessment">
         <div className="about-maturity">
-          <div className="about-maturity-head"><div><h2>Уровни зрелости</h2><Text color="secondary">По возрастанию Data-Driven Index команды</Text></div></div>
+          <div className="about-maturity-head"><div><h2>Формула и уровни зрелости</h2><Text color="secondary">Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%. Итоговый процент определяет уровень зрелости команды.</Text></div></div>
           <ul className="about-levels">{levels.map((level) => <li className={`about-level about-level-${level.tone}`} key={level.title}><b>{level.range}</b><span>{level.title}</span><small>{level.note}</small></li>)}</ul>
         </div>
       </section>
@@ -653,9 +691,9 @@ function AboutDataDriven({onBack}) {
       <section className="about-section" id="practices">
         <div className="about-practices-layout">
           <div className="about-practices-intro">
-            <h2>Восемь практик<br />в одном профиле</h2>
-            <Text className="about-practices-lead" color="secondary">Индекс помогает быстро локализовать зону развития, не смешивая разные типы работы с данными.</Text>
-            <div className="about-scoring-method"><span>Расчёт индекса</span><b>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</b><small>Нерелевантные критерии исключаются и из набранных баллов, и из максимального балла продукта.</small></div>
+            <h2>Критерии<br />и максимальные баллы</h2>
+            <Text className="about-practices-lead" color="secondary">Каждая практика раскрывается в набор измеримых критериев. Карточка команды показывает факт, максимум и статус по каждому применимому критерию.</Text>
+            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Нерелевантные критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
           </div>
           <div className="about-accordion-card">
             <Accordion view="top-bottom" size="l">
@@ -665,9 +703,11 @@ function AboutDataDriven({onBack}) {
         </div>
       </section>
 
-      <section className="about-summary-cta">
-        <div><Text variant="subheader-2">Посмотрите Data-Driven Index своей команды</Text><Text color="secondary">Найдите профиль, сравните практики и определите ближайший фокус развития.</Text></div>
-        <Button view="action" size="l" onClick={onBack}>Открыть рейтинг <Icon data={ChevronRight} size={16} /></Button>
+      <section className="about-method-notes" aria-labelledby="method-notes-title">
+        <div><Text variant="caption-2" color="secondary">ИНТЕРПРЕТАЦИЯ</Text><h2 id="method-notes-title">Как читать результат</h2></div>
+        <div className="about-method-note"><b>Итоговый индекс</b><span>Показывает общий уровень зрелости, но не заменяет разбор оценок по отдельным практикам.</span></div>
+        <div className="about-method-note"><b>Профиль по блокам</b><span>Показывает, в каких практиках сформированы устойчивые процессы, а где остаются незакрытые критерии.</span></div>
+        <div className="about-method-note"><b>Ограничение методики</b><span>A/B-тесты отображаются в профиле как отдельная практика, но в текущей версии не влияют на индекс.</span></div>
       </section>
     </main>
   );
@@ -700,7 +740,7 @@ function metricAiInsight(subject, onClick) {
 
 function MetricAiActions({insights}) {
   if (!insights.length) return null;
-  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={ChartLinePoints} size={15} /><strong>AI-анализ</strong></span><div className="metric-ai-actions-buttons">{insights.map((insight) => <button type="button" onClick={insight.onClick} key={insight.title}>{insight.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
+  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={ChartLinePoints} size={15} /><strong>Быстрая аналитика и AI-рекомендации</strong></span><div className="metric-ai-actions-buttons">{insights.map((insight) => <button type="button" onClick={insight.onClick} key={insight.title}>{insight.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
 }
 
 function GoalsHelpContent() {
@@ -1183,7 +1223,7 @@ function Detail({product, products, rows, detailScore, onBack, onProduct}) {
       <div className={lens === 'dd' ? 'detail-lens-content' : 'detail-lens-content detail-lens-hidden'}>
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b><span>Расчет не включает A/B тесты. Добавление – после 15 июля</span></div></div>
       <section className="detail-overview">
-        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={{fill: 'var(--g-color-text-secondary)', fontSize: 10}} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
+        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Максимальный уровень достигнут'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
         <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
       </section>
       <Dialog open={recommendationsOpen} onClose={() => setRecommendationsOpen(false)} hasCloseButton maxWidth="m" fullWidth contentOverflow="auto">

@@ -40,18 +40,25 @@
     --g-color-private-brand-100-solid: rgb(233 242 252);
     --g-color-private-brand-50-solid: rgb(240 247 253);
 
-    --g-color-text-brand: var(--g-color-private-brand-700-solid);
-    --g-color-text-brand-heavy: var(--g-color-private-brand-700-solid);
-    --g-color-text-link: var(--g-color-private-brand-600-solid);
-    --g-color-text-link-hover: var(--g-color-private-brand-800-solid);
+    --g-color-text-brand: #147fb9;
+    --g-color-text-brand-heavy: #0f6f9f;
+    --g-color-text-link: #147fb9;
+    --g-color-text-link-hover: #0f6f9f;
     --g-color-text-link-visited: var(--g-color-private-purple-550-solid);
     --g-color-text-link-visited-hover: var(--g-color-private-purple-800-solid);
     --g-color-base-background: rgb(255, 255, 255);
-    --g-color-base-brand: var(--g-color-private-brand-550-solid);
-    --g-color-base-brand-hover: var(--g-color-private-brand-600-solid);
-    --g-color-base-selection: var(--g-color-private-brand-200);
-    --g-color-base-selection-hover: var(--g-color-private-brand-300);
-    --g-color-line-brand: var(--g-color-private-brand-600-solid);
+    --g-color-base-brand: #239ee2;
+    --g-color-base-brand-hover: #168dcc;
+    --g-color-base-selection: rgb(35 158 226 / 0.16);
+    --g-color-base-selection-hover: rgb(35 158 226 / 0.23);
+    --g-color-line-brand: #239ee2;
+    --g-color-text-info: #147fb9;
+    --g-color-text-info-heavy: #147fb9;
+    --g-color-base-info-light: rgb(35 158 226 / 0.10);
+    --g-color-base-info-light-hover: rgb(35 158 226 / 0.16);
+    --g-color-base-info-medium: rgb(35 158 226 / 0.20);
+    --g-color-base-info-heavy: #239ee2;
+    --g-color-line-info: rgb(35 158 226 / 0.45);
 
     --gil-color-object-base: var(--g-color-private-brand-550-solid);
     --gil-color-object-hightlight: var(--g-color-private-brand-350-solid);

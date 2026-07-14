@@ -800,7 +800,7 @@ __DATA_JSON__
       if (normalized === 'зрелые') {
         return { accent: '#e8c46a', text: '#7a5a10', bg: '#fff8df', border: '#efd98d' };
       }
-      if (normalized === 'лидеры') {
+      if (normalized === 'лидеры data driven') {
         return { accent: '#8fd6b0', text: '#1f7a4d', bg: '#eefaf3', border: '#bde8cf' };
       }
       return { accent: '#c7c7cc', text: '#6e6e73', bg: '#f5f5f7', border: '#d1d1d6' };
@@ -812,13 +812,13 @@ __DATA_JSON__
         'требуют внимания': 1,
         'развивающиеся': 2,
         'зрелые': 3,
-        'лидеры': 4,
+        'лидеры data driven': 4,
       };
       const labels = {
         1: 'Требуют внимания',
         2: 'Развивающиеся',
         3: 'Зрелые',
-        4: 'Лидеры',
+        4: 'Лидеры Data-Driven',
       };
       const avg = Math.round(rows.reduce((sum, row) => sum + (rank[normalizeGroup(row.group)] || 0), 0) / rows.length);
       return labels[avg] || '';
