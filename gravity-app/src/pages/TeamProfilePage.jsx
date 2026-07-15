@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleCheckFill, CircleInfo, CircleInfoFill, NodesRight} from '@gravity-ui/icons';
 import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, PRODUCT_KEY_METRIC_LINKS, REPORT_ACCESS_REQUEST_URL, SEGMENT_KEY_METRIC_LINKS, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarSeries, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
+import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, PRODUCT_KEY_METRIC_LINKS, REPORT_ACCESS_REQUEST_URL, SEGMENT_KEY_METRIC_LINKS, ProductRadarTick, blockPercent, churnHelpAudience, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarSeries, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {
   ProductMetricBlocks,
@@ -137,27 +137,35 @@ function AttractCampaigningHelpContent() {
   </div>;
 }
 
-function ChurnReportingHelpContent() {
+function ChurnReportingHelpContent({audience}) {
+  const isProduct = audience === 'product';
   return <div className="goals-help-content attract-reporting-help-content">
     <section>
-      <p>Настроена регулярная отчётность по воронке оттока. Учитываются все поверхности: ClickStream, Навигатор и другая отчётность.</p>
+      <p>{isProduct
+        ? 'Настроена регулярная отчётность по воронке оттока/закрытию продукта/пролонгации (учитываются все поверхности: ClickStream, Навигатор и другая отчётность).'
+        : 'Настроена регулярная отчётность по воронке оттока (учитываются все поверхности: ClickStream, Навигатор и другая отчётность).'}</p>
       <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — формируется автоматически.</li><li><b>0,25 балла (50%)</b> — формируется по запросу.</li></ul>
+      <ul><li><b>0,5 балла (100%)</b> — формируется автоматически.</li><li><b>0,25 балла (50%)</b> — формируется по запросу.</li>{isProduct && <li><b>0 баллов (0%)</b> — отчётность отсутствует.</li>}</ul>
     </section>
     <section>
       <p>Полнота отчёта по воронке оттока.</p>
       <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — комплексный отчёт: источники, пошаговая воронка, CR, объёмы, механики, сегментный или когортный разрез, UX/UI.</li><li><b>0,25 балла (50%)</b> — неполный отчёт.</li></ul>
+      <ul><li><b>0,5 балла (100%)</b> — {isProduct
+        ? 'комплексный отчёт: источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный или когортный разрез, UX/UI.'
+        : 'комплексный отчёт: предотточные клиенты, пошаговая воронка, % оттока, объёмы, когортный retention, кампании.'}</li><li><b>0,25 балла (50%)</b> — неполный отчёт.</li></ul>
     </section>
   </div>;
 }
 
-function ChurnAnalysisHelpContent() {
+function ChurnAnalysisHelpContent({audience}) {
+  const isProduct = audience === 'product';
   return <div className="goals-help-content attract-reporting-help-content">
     <section>
-      <p>Анализ воронки оттока.</p>
+      <p>{isProduct ? 'Анализ воронки оттока/закрытия продукта/пролонгации.' : 'Анализ воронки оттока.'}</p>
       <strong>Оценка:</strong>
-      <ul><li><b>1 балл (100%)</b> — комплексный анализ: пошаговая воронка, CTR, объёмы, сегментный или когортный разрез, retention, механики удержания, UX/UI.</li><li><b>0,5 балла (50%)</b> — неполный анализ.</li></ul>
+      <ul><li><b>1 балл (100%)</b> — {isProduct
+        ? 'комплексный анализ: пошаговая воронка, CTR, объёмы, сегментный или когортный разрез, retention, механики удержания, UX/UI.'
+        : 'комплексный анализ: предотточные сигналы, анализ CJM, конверсия на каждом шаге воронки и по кампаниям удержания, выявление ключевых точек потери клиентов.'}</li><li><b>0,5 балла (50%)</b> — неполный анализ.</li></ul>
     </section>
     <section>
       <p>Перечень инициатив по отклонениям.</p>
@@ -167,7 +175,7 @@ function ChurnAnalysisHelpContent() {
     <section>
       <p>Бенчмарки по показателям воронки: цели, динамика, рыночный бенчмарк.</p>
       <strong>Оценка:</strong>
-      <ul><li><b>1 балл (100%)</b> — есть бенчмарки.</li></ul>
+      <ul><li><b>1 балл (100%)</b> — есть бенчмарки.</li><li><b>0 баллов (0%)</b> — бенчмарки отсутствуют.</li></ul>
     </section>
   </div>;
 }
@@ -210,14 +218,16 @@ function ProductBlockHelp({blockCode}) {
   return help ? <HelpMark aria-label={help.label} popoverProps={HELP_POPOVER_PROPS}>{help.content}</HelpMark> : null;
 }
 
-function ProductMetricGroupHelp({blockCode, group}) {
+function ProductMetricGroupHelp({blockCode, group, product}) {
   const key = `${blockCode}|${String(group || '').toLowerCase()}`;
+  const audience = churnHelpAudience(product);
+  if (!audience || (blockCode === 'attract' && audience !== 'product')) return null;
   const help = {
     'attract|отчетность': {label: 'Критерии оценки отчётности по воронке привлечения', content: <AttractReportingHelpContent />},
     'attract|анализ': {label: 'Критерии оценки анализа воронки привлечения', content: <AttractAnalysisHelpContent />},
     'attract|кампейнинг': {label: 'Критерии оценки кампейнинга', content: <AttractCampaigningHelpContent />},
-    'churn|отчетность': {label: 'Критерии оценки отчётности по воронке оттока', content: <ChurnReportingHelpContent />},
-    'churn|анализ': {label: 'Критерии оценки анализа воронки оттока', content: <ChurnAnalysisHelpContent />},
+    'churn|отчетность': {label: 'Критерии оценки отчётности по воронке оттока', content: <ChurnReportingHelpContent audience={audience} />},
+    'churn|анализ': {label: 'Критерии оценки анализа воронки оттока', content: <ChurnAnalysisHelpContent audience={audience} />},
   }[key];
   return help ? <HelpMark aria-label={help.label} popoverProps={HELP_POPOVER_PROPS}>{help.content}</HelpMark> : null;
 }
@@ -569,7 +579,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({label: 'Перейти', href: CROSS_SELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isProduct && <ProductMetricGroupHelp blockCode={block.code} group={group} />}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({label: 'Перейти', href: CROSS_SELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
                 {participantLinks.length > 0 && isOpen && <div className="block-links participant-links"><div className="block-links-title">Ссылки, приложенные при прохождении самооценки в Oprosso</div><div className="block-actions">{participantLinks.map((action) => <Button key={`${action.label}-${action.url || action.link}`} view="outlined-info" size="s" width="auto" href={action.url || action.link} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Где посмотреть</div><div className="block-actions">{blockLinks.map((action) => <Button key={`${action.label}-${action.url}`} view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
               </Card>

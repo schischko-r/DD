@@ -70,6 +70,19 @@ export function isCrossSellDigitallyConfirmed(product, block, metric) {
     && DIGITAL_TRACE_CROSS_SELL_PRODUCTS.has(String(product?.name || '').trim());
 }
 
+const AGE_SEGMENT_NAMES = new Set(['Молодежь', 'Дети', 'Рабочий возраст', 'Зрелость']);
+const INCOME_SEGMENT_NAMES = new Set(['Top Affluent', 'PB', 'МВС']);
+
+export function churnHelpAudience(product) {
+  const type = String(product?.type || '').trim().toLowerCase();
+  const name = String(product?.name || '').trim();
+  if (type === 'продукт' || type === 'product') return 'product';
+  if (!type.includes('сегмент')) return '';
+  if (AGE_SEGMENT_NAMES.has(name)) return 'age';
+  if (INCOME_SEGMENT_NAMES.has(name)) return 'income';
+  return 'segment';
+}
+
 export function filterInapplicableMetricSubgroups(metrics, groupForMetric = (metric) => metric?.metric_subgroup) {
   const groupApplicability = new Map();
   metrics.forEach((metric) => {
