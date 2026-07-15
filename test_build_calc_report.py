@@ -279,35 +279,6 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(title["rows"][0]["unit"], "CX")
         self.assertEqual(summary["flg_excluded_metrics"], 1)
 
-    def test_goal_monitoring_copy_is_corrected_without_changing_score(self) -> None:
-        frame = report._PD.DataFrame(
-            [
-                self.flat_row(
-                    metric_code=3,
-                    metric_name="Цели выведены на мониторинг",
-                    факт=0.5,
-                    metric_footer="Регулярное обновление в Навигаторе",
-                    recommendation="Обогащение целей/драйверов/прогнозов в Навигаторе",
-                )
-            ]
-        )
-
-        normalized = report.normalize_flat_table_frame(frame)
-        rows = report.normalize_flat_metric_rows(normalized)
-        data, _ = report.build_report_data_from_metric_rows(rows, "Тест")
-        metric = data["products"][0]["metrics"][0]["metrics"][0]
-        title = report.upload_title_from_products(data["products"])
-
-        self.assertEqual(metric["code"], "goals.monitored")
-        self.assertEqual(metric["name"], report.BUSINESS_PLANNING_DRIVERS_NAME)
-        self.assertEqual(metric["footer"], report.BUSINESS_PLANNING_DRIVERS_FOOTER)
-        self.assertEqual(
-            metric["recommendation"], report.BUSINESS_PLANNING_DRIVERS_RECOMMENDATION
-        )
-        self.assertEqual((metric["value"], metric["max_value"]), (0.5, 1))
-        self.assertFalse(metric["excluded_from_index"])
-        self.assertEqual(title["rows"][0]["score"], 50)
-
     def test_flat_table_keeps_duplicate_display_only_rows_separate(self) -> None:
         frame = report._PD.DataFrame(
             [
@@ -709,8 +680,6 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertIn("AI-рекомендации пока недоступны: для продукта нет данных в AI-digest.", html)
         self.assertIn(".block-note.tool-group > .note-copy", html)
         self.assertIn("Синтетическая рекомендация", html)
-        self.assertIn("Вывести драйверы модели бизнес-планирования в Навигатор.", html)
-        self.assertNotIn("Использовать мониторинг целей в Навигаторе.", html)
 
 
 if __name__ == "__main__":

@@ -60,17 +60,9 @@ _REPORT_TEMPLATE = _REPORT_TEMPLATE.replace(
     "Подготовить A/B-план после TBD.",
     "Запустить A/B-тестирование.",
 )
-_REPORT_TEMPLATE = _REPORT_TEMPLATE.replace(
-    "Использовать мониторинг целей в Навигаторе.",
-    "Вывести драйверы модели бизнес-планирования в Навигатор.",
-)
 _DD_JSON2["V2_SCRIPT"] = _DD_JSON2["V2_SCRIPT"].replace(
     "Подготовить A/B-план после TBD.",
     "Запустить A/B-тестирование.",
-)
-_DD_JSON2["V2_SCRIPT"] = _DD_JSON2["V2_SCRIPT"].replace(
-    "Использовать мониторинг целей в Навигаторе.",
-    "Вывести драйверы модели бизнес-планирования в Навигатор.",
 )
 _DD_JSON2["SOURCE_HTML"] = _EmbeddedTextFile(_REPORT_TEMPLATE)
 _DD_FROM_EXCEL = _load_embedded_module(_DD_FROM_EXCEL_SOURCE, "_embedded_dd_from_excel")
@@ -80,14 +72,6 @@ _DD_FROM_EXCEL["METRIC_CODES"][
 ] = "general.navigator_reporting_knowledge"
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"] = 1_000_000
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
-BUSINESS_PLANNING_DRIVERS_NAME = "Драйверы согласно модели бизнес-планирования"
-BUSINESS_PLANNING_DRIVERS_FOOTER = "Выведены в Навигатор"
-BUSINESS_PLANNING_DRIVERS_RECOMMENDATION = (
-    "Вывести драйверы модели бизнес-планирования в Навигатор"
-)
-_DD_FROM_EXCEL["METRIC_CODES"][
-    ("Цели", BUSINESS_PLANNING_DRIVERS_NAME)
-] = "goals.monitored"
 
 
 try:
@@ -2333,16 +2317,6 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
         if optional_column not in df.columns:
             df[optional_column] = ""
     validate_columns(df)
-
-    planning_driver_mask = (
-        df["metric_group"].map(normalize_lookup_key).eq("цели")
-        & df["metric_name"].map(normalize_lookup_key).eq("цели выведены на мониторинг")
-    )
-    df.loc[planning_driver_mask, "metric_name"] = BUSINESS_PLANNING_DRIVERS_NAME
-    df.loc[planning_driver_mask, "metric_footer"] = BUSINESS_PLANNING_DRIVERS_FOOTER
-    df.loc[planning_driver_mask, "recommendation"] = (
-        BUSINESS_PLANNING_DRIVERS_RECOMMENDATION
-    )
 
     is_flat_table = "_flat_table_source" in df.columns
     if is_flat_table and "is_visible" not in df.columns:
