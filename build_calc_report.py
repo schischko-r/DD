@@ -382,6 +382,7 @@ def fill_auto_regularity_max_from_value(df: Any) -> None:
     if not mask.any():
         return
 
+    df["max_value"] = df["max_value"].astype(object)
     df.loc[mask, "max_value_num"] = 1.0
     df.loc[mask, "max_value"] = 1.0
 

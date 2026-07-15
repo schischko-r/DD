@@ -396,6 +396,23 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(not_relevant["max_value"], 0)
         self.assertFalse(not_relevant["is_applicabble_flg"])
 
+    def test_regularity_max_accepts_pandas_string_dtype(self) -> None:
+        frame = report._PD.DataFrame(
+            {
+                "metric_group": ["Воронка продаж"],
+                "metric_name_clean": ["Регулярность"],
+                "value": report._PD.Series(["0.5"], dtype="string"),
+                "max_value_num": [float("nan")],
+                "max_value": report._PD.Series([report._PD.NA], dtype="string"),
+            }
+        )
+
+        report.fill_auto_regularity_max_from_value(frame)
+
+        self.assertEqual(frame.at[0, "max_value_num"], 1.0)
+        self.assertEqual(frame.at[0, "max_value"], 1.0)
+        self.assertEqual(frame["max_value"].dtype, object)
+
     def test_flat_table_rejects_invalid_flg_for_metric_rows(self) -> None:
         frame = report._PD.DataFrame([self.flat_row(flg=2)])
         normalized = report.normalize_flat_table_frame(frame)
