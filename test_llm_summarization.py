@@ -19,6 +19,7 @@ class LlmSummarizationTest(unittest.TestCase):
             "append_llm_summary_to_group",
             "ensure_llm_summary_placeholder",
             "ensure_llm_summary_visible",
+            "sync_llm_summary_recommendations",
         ):
             self.assertTrue(callable(getattr(report, name)))
         self.assertTrue(callable(llm_summarization.build_llm_summary))
@@ -96,6 +97,43 @@ class LlmSummarizationTest(unittest.TestCase):
         self.assertNotIn("llm_placeholder", summary)
         self.assertEqual(summary["traffic_light"], "red")
         self.assertEqual(summary["digest_items"][0]["digest_texts"], ["Главный вывод"])
+
+    def test_llm_summary_is_synced_to_ai_recommendations(self) -> None:
+        group_name = report.AI_SKILL_GROUP_TOOLS["attract"]
+        block = {"code": "attract", "tools": [{"name": group_name, "buttons": []}]}
+        data = {
+            "products": [
+                {
+                    "name": "Продукт",
+                    "metrics": [block],
+                    "metric_recommendations": [{"id": "existing", "indicator": "Сигнал"}],
+                }
+            ],
+            "ai_skill_digest": {},
+        }
+        digest = {
+            "digest_display_month_sort": (2026, 5, ""),
+            "digest_month": "май 2026",
+            "digest_month_raw": "2026-05",
+            "ai_tool_product_names": ["Продукт AI"],
+            "traffic_light": "yellow",
+        }
+        report.append_llm_summary_to_group(
+            block,
+            "attract",
+            {"summary": "Главный вывод", "traffic_light": "red"},
+            [digest],
+        )
+
+        self.assertEqual(report.sync_llm_summary_recommendations(data), 1)
+        summary = data["products"][0]["metric_recommendations"][0]
+        self.assertTrue(summary["llm_summary"])
+        self.assertFalse(summary["llm_placeholder"])
+        self.assertEqual(summary["skill_name"], "LLM-cуммаризация")
+        self.assertEqual(summary["indicator"], "Основные выводы")
+        self.assertEqual(summary["recommendations"], ["Главный вывод"])
+        self.assertEqual(data["products"][0]["metric_recommendations"][1]["id"], "existing")
+        self.assertEqual(data["ai_skill_digest"]["recommendation_items"], 2)
 
 
 if __name__ == "__main__":
