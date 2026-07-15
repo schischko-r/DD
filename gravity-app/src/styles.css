@@ -170,7 +170,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .metric-list .metric-group-title { padding-left: 28px; }
 .metric-group-break { height: 6px; border-top: 1px solid var(--g-color-line-generic); border-bottom: 1px solid var(--g-color-line-generic); background: var(--g-color-base-generic); }
 .metric-row { min-height: 54px; padding: 8px 14px; display: grid; grid-template-columns: minmax(0, 1fr) 174px; gap: 12px; align-items: center; border-bottom: 1px solid var(--g-color-line-generic); }
-.metric-row-status { grid-template-columns: minmax(0, 1fr) minmax(190px, auto); }
+.metric-row-status { grid-template-columns: minmax(0, 1fr) 210px; }
 .metric-row-grouped { box-shadow: inset 3px 0 var(--g-color-line-brand); }
 .detail-page .metric-list > .metric-group-title { min-height: 46px; padding: 11px 20px 11px 28px; background: rgb(35 158 226 / 0.1); color: var(--g-color-text-brand); font-size: 14px; text-transform: none; box-shadow: inset 3px 0 var(--g-color-base-brand); }
 .detail-page .metric-list > .metric-row-grouped { box-shadow: inset 3px 0 rgb(35 158 226 / 0.35); }
@@ -267,16 +267,17 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .product-metric-row .metric-copy small { display: block; margin-top: 9px; color: var(--g-color-text-secondary); font-size: 12px; line-height: 1.45; }
 .product-metric-row-side { min-width: 0; display: grid; justify-items: end; gap: 5px; text-align: right; }
 .product-metric-row-side .g-text { font-size: 12px; line-height: 1.4; }
-.metric-value-caption, .metric-status-with-confirmation { max-width: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.metric-value-caption, .metric-status-with-confirmation { width: 100%; max-width: 100%; display: grid; grid-template-columns: 18px 18px max-content; align-items: center; justify-content: end; column-gap: 6px; }
 .metric-value-caption { margin-bottom: 5px; }
-.metric-value-caption > span { color: var(--g-color-text-primary); font: 500 12px/1.35 var(--dd-font-sans); font-variant-numeric: tabular-nums; }
-.mechanics-metric-help { width: 18px; height: 18px; display: inline-grid; flex: 0 0 auto; place-items: center; color: var(--g-color-text-secondary); }
+.metric-value-label { min-width: 126px; grid-column: 3; justify-self: end; color: var(--g-color-text-primary); font: 500 12px/1.35 var(--dd-font-sans); font-variant-numeric: tabular-nums; text-align: right; }
+.mechanics-metric-help { width: 18px; height: 18px; grid-column: 2; display: inline-grid; place-items: center; color: var(--g-color-text-secondary); }
 .mechanics-metric-help-content { width: min(380px, calc(100vw - 48px)); }
 .mechanics-metric-help-content section { display: grid; gap: 7px; }
 .mechanics-metric-help-content section > p { font-weight: 700; }
-.metric-digital-trace-confirmation { width: 18px; height: 18px; display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; color: var(--g-color-base-info-heavy); cursor: help; }
+.metric-digital-trace-confirmation { width: 18px; height: 18px; grid-column: 1; display: inline-flex; align-items: center; justify-content: center; color: var(--g-color-base-info-heavy); cursor: help; }
 .metric-digital-trace-confirmation:focus-visible { border-radius: 50%; outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
-.metric-status-label { max-width: 100%; }
+.metric-status-label { min-width: 48px; max-width: 100%; grid-column: 3; justify-self: end; justify-content: center; text-align: center; }
+.metric-status-label .g-label__text { justify-content: center; }
 .block-links { border-top: 1px solid var(--g-color-line-generic); background: var(--g-color-base-generic-ultralight); }
 .block-links-title { padding: 9px 16px 0; color: var(--g-color-text-secondary); font-size: 11px; font-weight: 600; text-transform: uppercase; }
 .block-actions { padding: 8px 16px 12px; display: flex; flex-wrap: wrap; gap: 8px; }
