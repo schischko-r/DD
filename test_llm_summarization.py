@@ -67,6 +67,40 @@ class LlmSummarizationTest(unittest.TestCase):
         self.assertEqual(payload["matched_ai_digest"][0]["skill_key"], "pilots")
         self.assertEqual(payload["matched_ai_digest"][0]["items"][0]["comments"], ["Действие"])
 
+    def test_summary_prompt_demands_facts_instead_of_traffic_light_prose(self) -> None:
+        prompt = llm_summarization.DEFAULT_ATTRACT_SUMMARY_PROMPT
+        self.assertIn("traffic_light нужен только для приоритизации", prompt)
+        self.assertIn("запрещены формулировки «красная динамика»", prompt)
+        self.assertIn("Сохраняй числа, знаки, проценты, единицы, MoM", prompt)
+        self.assertIn("2–4 строки", prompt)
+
+    def test_builder_passes_dd_product_name_to_the_prompt(self) -> None:
+        captured = {}
+
+        class Client:
+            def invoke(self, prompt):
+                captured["prompt"] = prompt
+                return type("Response", (), {"content": '{"summary":"Факт","traffic_light":"green"}'})()
+
+        result = llm_summarization.build_llm_summary(
+            "Вклады",
+            "attract",
+            [{"traffic_light": "green"}],
+            False,
+            is_configured=lambda: True,
+            clean_text=lambda value: str(value or "").strip(),
+            worst_ai_light=lambda lights: "green",
+            make_summary_input=lambda digests: {"matched_ai_digest": digests},
+            prompt_template="PROMPT",
+            log_write=lambda message: None,
+            make_client=Client,
+            run_client=lambda call: call(),
+            normalize_summary=lambda content, fallback: {"summary": "Факт", "traffic_light": fallback},
+        )
+
+        self.assertEqual(result, {"summary": "Факт", "traffic_light": "green"})
+        self.assertIn('"dd_product": "Вклады"', captured["prompt"])
+
     def test_placeholder_and_summary_keep_rendering_shape(self) -> None:
         group_name = report.AI_SKILL_GROUP_TOOLS["attract"]
         block = {"code": "attract", "tools": [{"name": group_name, "buttons": []}]}
