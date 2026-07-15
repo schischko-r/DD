@@ -1,8 +1,8 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleInfo, NodesRight} from '@gravity-ui/icons';
-import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text} from '@gravity-ui/uikit';
+import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleCheckFill, CircleInfo, CircleInfoFill, NodesRight} from '@gravity-ui/icons';
+import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, PRODUCT_KEY_METRIC_LINKS, REPORT_ACCESS_REQUEST_URL, SEGMENT_KEY_METRIC_LINKS, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, groupFor, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarSeries, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
+import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, PRODUCT_KEY_METRIC_LINKS, REPORT_ACCESS_REQUEST_URL, SEGMENT_KEY_METRIC_LINKS, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarSeries, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {
   ProductMetricBlocks,
@@ -13,12 +13,23 @@ import {
   worstDigestLight,
 } from '../features/llm-summary/LlmSummary.jsx';
 
+const CROSS_SELL_ANALYTICS_URL = 'https://losshunter.ru/showcase/crosssell/#screen=pult';
+const AB_TEST_INSTRUCTION_LINKS = [
+  {label: 'Онлайн курс по АБ на КУ', href: 'https://hr.sberbank.ru/platform/catalog/c515dcab-a8b7-4f03-a76a-e1b7349f857d'},
+  {label: 'Демо платформы АБ SW', href: 'https://sbervideo.sberbank.ru/watch/kpgpJi35gzwMIVu3X51'},
+];
+
 function MetricInlineAction({title, subtitle, href, onClick, tone = 'info', actionLabel = 'Перейти'}) {
   const className = `metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-${tone}`;
   const content = <><span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span><span className="metric-inline-instruction-copy"><strong>{title}</strong>{subtitle && <small>{subtitle}</small>}</span><span className="metric-inline-instruction-action">{actionLabel} <Icon data={ChevronRight} size={13} /></span></>;
   return href
     ? <Link className={className} href={href} target="_blank" rel="noreferrer">{content}</Link>
     : <button className={className} type="button" onClick={onClick}>{content}</button>;
+}
+
+function MetricInlineResources({title, actions}) {
+  if (!actions.length) return null;
+  return <div className="metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-resources"><span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span><span className="metric-inline-instruction-copy"><strong>{title}</strong></span><span className="metric-inline-instruction-resource-actions">{actions.map((action) => <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a>)}</span></div>;
 }
 
 function metricAiInsight(subject, onClick) {
@@ -38,9 +49,9 @@ function metricAiInsight(subject, onClick) {
   };
 }
 
-function MetricActionGroup({title, actions}) {
+function MetricActionGroup({title, actions, icon = ChartLinePoints}) {
   if (!actions.length) return null;
-  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={ChartLinePoints} size={15} /><strong>{title}</strong></span><div className="metric-ai-actions-buttons">{actions.map((action) => action.href ? <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a> : <button type="button" onClick={action.onClick} key={action.title}>{action.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
+  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={icon} size={15} /><strong>{title}</strong></span><div className="metric-ai-actions-buttons">{actions.map((action) => action.href ? <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a> : <button type="button" onClick={action.onClick} key={action.title}>{action.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
 }
 
 function GoalsHelpContent() {
@@ -212,10 +223,16 @@ function IndexFormulaHelp() {
   return <div className="index-formula-help"><div>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</div><p>Не применимые критерии исключаются и из набранных баллов, и из максимального балла продукта.</p></div>;
 }
 
-function MetricRow({metric, detailScore, instruction, library, zeroAction, aiMetricInsight, aiMetricInsights = [], pilotActions = [], grouped}) {
+function DigitalTraceConfirmation() {
+  const message = 'Подтверждено на Цифровых следах';
+  return <GravityTooltip content={message} openDelay={200}><span className="metric-digital-trace-confirmation" tabIndex={0} aria-label={message}><Icon data={CircleCheckFill} size={16} /></span></GravityTooltip>;
+}
+
+function MetricRow({metric, detailScore, instruction, instructionLinks = [], library, zeroAction, aiMetricInsight, aiMetricInsights = [], pilotActions = [], grouped, digitallyConfirmed}) {
   const value = percent(metric.value, metric.max_value);
   const theme = metric.max_value ? progressTheme(value) : 'default';
-  const isTbd = /a\s*\/\s*b/i.test(String(metric.name || ''));
+  const isTbd = isTbdMetric(metric);
+  const isInformational = isInformationalMetric(metric);
   const isIrrelevant = metric.is_applicabble_flg === false && !isTbd;
   const isNotApplicable = metric.is_applicabble_flg === false;
   const isMissingCxTeam = isNotApplicable && /^cx score$/i.test(String(metric.name || '').trim());
@@ -240,9 +257,10 @@ function MetricRow({metric, detailScore, instruction, library, zeroAction, aiMet
   const insights = [...(aiMetricInsight ? [aiMetricInsight] : []), ...aiMetricInsights];
   return (
     <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}`}>
-      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><b>{metric.name}</b>{metric.footer && <span>{metric.footer}</span>}</div></div>
-      <div className="metric-value">{detailScore ? <><span>{valueLabel}</span>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <Label className="metric-status-label" theme={status.theme}>{status.label}</Label>}</div>
+      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line"><b>{metric.name}</b>{isInformational && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{metric.footer}</span>}</div></div>
+      <div className="metric-value">{detailScore ? <><div className="metric-value-caption">{digitallyConfirmed && <DigitalTraceConfirmation />}<span>{valueLabel}</span></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{digitallyConfirmed && <DigitalTraceConfirmation />}<Label className="metric-status-label" theme={status.theme}>{status.label}</Label></div>}</div>
       {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
+      <MetricInlineResources title="Инструкция к А/В тестам" actions={instructionLinks} />
       {library && <MetricInlineAction title="Библиотека решений" subtitle="Практики для повышения оценки исследований" href={library.link} actionLabel="Открыть" />}
       {zeroAction && <MetricInlineAction title="Запустить" subtitle="первый пилот в Self-Service" href={zeroAction.link || zeroAction.url} />}
       <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={insights} />
@@ -378,6 +396,14 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const [reportAccessOpen, setReportAccessOpen] = useState(false);
   const [open, setOpen] = useState(() => new Set());
   const generalRecommendationBlock = recommendationBlockCode(product, 'general');
+  const aiRecommendationBlockCodes = useMemo(
+    () => new Set(aiRecommendations.map((item) => recommendationBlockCode(product, item.block_code || 'other'))),
+    [aiRecommendations, product],
+  );
+  const visibleMetricBlocks = useMemo(
+    () => filterInapplicableMetricGroups(product.metrics || [], aiRecommendationBlockCodes, isVisibleMetric),
+    [aiRecommendationBlockCodes, product],
+  );
   const mauMetricCode = (product.metrics || []).flatMap((block) => block.metrics || []).find((metric) => /\.mau_produkta$/i.test(String(metric.code || '')))?.code || 'general.mau_produkta';
   useEffect(() => {
     if (!hasAiRecommendations && lens === 'metrics') setLens('dd');
@@ -457,7 +483,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   }, [product, maxPoints]);
   const radarData = useMemo(() => {
     const benchmarkProducts = products.filter((item) => /продукт|сегмент|product|segment/i.test(String(item.type || '')));
-    return (product.metrics || []).map((block) => {
+    return visibleMetricBlocks.map((block) => {
       const benchmarkValues = benchmarkProducts.flatMap((item) => {
         const benchmarkBlock = (item.metrics || []).find((candidate) => candidate.code === block.code);
         if (!benchmarkBlock) return [];
@@ -471,7 +497,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
         benchmark: benchmarkValues.length ? Math.round(benchmarkValues.reduce((sum, value) => sum + value, 0) / benchmarkValues.length) : 0,
       };
     });
-  }, [product, products]);
+  }, [products, visibleMetricBlocks]);
 
   return (
     <main className="content detail-page">
@@ -494,7 +520,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
       </header>
 
       <div className={lens === 'dd' ? 'detail-lens-content' : 'detail-lens-content detail-lens-hidden'}>
-      <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b><span>Расчет не включает A/B тесты. Добавление – после 15 июля</span></div></div>
+      <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b></div></div>
       <section className="detail-overview">
         <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} dot={{r: 2, fill: profileSeries.fill}} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
         <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
@@ -508,12 +534,14 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
         </Dialog.Body>
       </Dialog>
       <section className="metrics-section">
-        <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид деталей"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set((product.metrics || []).map((item) => item.code))); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
+        <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид деталей"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set(visibleMetricBlocks.map((item) => item.code))); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
         <div className="metrics-grid">
-          {(product.metrics || []).map((block) => {
-            const metrics = (block.metrics || []).filter(isVisibleMetric);
+          {visibleMetricBlocks.map((block) => {
+            const visibleMetrics = (block.metrics || []).filter(isVisibleMetric);
+            const blockMetrics = filterMetricsForBlock(block, visibleMetrics);
+            const metrics = filterInapplicableMetricSubgroups(blockMetrics, metricGroup);
             const blockScore = blockPercent(block);
-            const allIrrelevant = metrics.length > 0 && metrics.every((metric) => metric.is_applicabble_flg === false);
+            const allIrrelevant = visibleMetrics.length > 0 && visibleMetrics.every((metric) => metric.is_applicabble_flg === false);
             const isOpen = open.has(block.code);
             const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
             const max = metrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
@@ -536,7 +564,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isProduct && <ProductMetricGroupHelp blockCode={block.code} group={group} />}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({label: 'Перейти', href: CROSS_SELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span>{isProduct && <ProductMetricGroupHelp blockCode={block.code} group={group} />}</div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
                 {participantLinks.length > 0 && isOpen && <div className="block-links participant-links"><div className="block-links-title">Ссылки, приложенные при прохождении самооценки в Oprosso</div><div className="block-actions">{participantLinks.map((action) => <Button key={`${action.label}-${action.url || action.link}`} view="outlined-info" size="s" width="auto" href={action.url || action.link} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Полезные ссылки</div><div className="block-actions">{blockLinks.map((action) => <Button key={`${action.label}-${action.url}`} view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
               </Card>

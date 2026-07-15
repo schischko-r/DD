@@ -18,6 +18,113 @@ export function blockPercent(block) {
   return percent(value, max);
 }
 
+export function antiTopBlockLabel(blockName) {
+  return String(blockName || '').trim() === 'Цели'
+    ? 'Мониторинг: Цели/Факторный анализ/Прогнозы'
+    : blockName;
+}
+
+export function isTbdMetric(metric) {
+  return metric?.tbd === true;
+}
+
+export function isInformationalMetric(metric) {
+  return Number(metric?.dd_calculation_flg) === 0;
+}
+
+const DIGITAL_TRACE_CROSS_SELL_PRODUCTS = new Set([
+  'ОСАГО',
+  'КАСКО',
+  'Брокерский счет',
+  'ВЗР',
+  'Страхование залога',
+  'ЗЛС',
+  'Вклады+НС',
+  'ОМС',
+  'Потребительский кредит',
+  'Выписки, справки',
+  'Кредитные карты',
+  'Платежи',
+  'Переводы по РФ',
+  'Дебетовая карта',
+  'SberPay NFC',
+  'Детская карта',
+  'СберСпасибо',
+]);
+
+export function isCrossSellDigitallyConfirmed(product, block, metric) {
+  const isProduct = /^продукт$/i.test(String(product?.type || '').trim());
+  const isMechanics = /^mehaniki$/i.test(String(block?.code || '').trim())
+    || /^механики$/i.test(String(block?.name || '').trim());
+  const isCrossSell = /^mehaniki\.cross_sell$/i.test(String(metric?.code || '').trim())
+    || /^cross-sell$/i.test(String(metric?.name || '').trim());
+  return isProduct && isMechanics && isCrossSell
+    && DIGITAL_TRACE_CROSS_SELL_PRODUCTS.has(String(product?.name || '').trim());
+}
+
+export function filterInapplicableMetricSubgroups(metrics, groupForMetric = (metric) => metric?.metric_subgroup) {
+  const groupApplicability = new Map();
+  metrics.forEach((metric) => {
+    const group = String(groupForMetric(metric) || '').trim();
+    if (!group) return;
+    groupApplicability.set(
+      group,
+      Boolean(groupApplicability.get(group)) || metric.is_applicabble_flg !== false,
+    );
+  });
+  return metrics.filter((metric) => {
+    const group = String(groupForMetric(metric) || '').trim();
+    return !group || groupApplicability.get(group);
+  });
+}
+
+export function filterInapplicableMetricGroups(blocks, aiRecommendationBlockCodes = [], isMetricVisible = () => true) {
+  const preservedCodes = new Set(aiRecommendationBlockCodes);
+  return blocks.filter((block) => {
+    const metrics = (block.metrics || []).filter(isMetricVisible);
+    return metrics.some((metric) => metric.is_applicabble_flg !== false)
+      || preservedCodes.has(block.code);
+  });
+}
+
+export function filterMetricsForBlock(block, metrics) {
+  const blockCode = String(block?.code || '').trim().toLowerCase();
+  const blockName = String(block?.name || '').trim().toLowerCase();
+  const hidesInapplicable = blockCode === 'general'
+    || blockCode === 'mehaniki'
+    || blockName === 'знание ключевых метрик'
+    || blockName === 'механики';
+  return hidesInapplicable
+    ? metrics.filter((metric) => metric.is_applicabble_flg !== false)
+    : metrics;
+}
+
+export function isCampaigningRelevant(block) {
+  const campaignMetric = (block?.metrics || []).find((metric) =>
+    /^attract\.campaign_launches$/i.test(String(metric?.code || ''))
+    || /^запуски кампаний за квартал$/i.test(String(metric?.name || '').trim()),
+  );
+  return Boolean(campaignMetric && campaignMetric.is_applicabble_flg !== false);
+}
+
+export function filterCampaigningLinks(block, links) {
+  if (block?.code !== 'attract' || isCampaigningRelevant(block)) return links;
+  return links.filter((item) => !/пилот|воронк.*(?:камп|коммуникац)/i.test(String(item?.label || '')));
+}
+
+export function isDraftsRelevant(block) {
+  const draftsMetric = (block?.metrics || []).find((metric) =>
+    /^attract\.chernoviki_v_sbol_70$/i.test(String(metric?.code || ''))
+    || /^черновики в сбол/i.test(String(metric?.name || '').trim()),
+  );
+  return Boolean(draftsMetric && draftsMetric.is_applicabble_flg !== false);
+}
+
+export function filterDraftLinks(block, links) {
+  if (block?.code !== 'attract' || isDraftsRelevant(block)) return links;
+  return links.filter((item) => !/черновик/i.test(String(item?.label || '')));
+}
+
 export function metricDomId(code) {
   return `dd-metric-${encodeURIComponent(String(code || ''))}`;
 }

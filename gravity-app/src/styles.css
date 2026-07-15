@@ -190,6 +190,9 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .metric-copy { display: grid; grid-template-columns: 10px minmax(0, 1fr); gap: 7px; align-items: start; }
 .metric-copy b { display: block; font-size: 13px; line-height: 1.35; font-weight: 600; }
 .metric-copy span { display: block; margin-top: 2px; color: var(--g-color-text-secondary); font-size: 12px; line-height: 1.35; }
+.metric-name-line { min-width: 0; display: flex; align-items: center; gap: 5px; }
+.metric-copy .metric-info-icon { width: 16px; height: 16px; margin: 0; display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; color: var(--g-color-text-secondary); cursor: help; }
+.metric-copy .metric-info-icon:focus-visible { border-radius: 3px; outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
 .metric-value { width: 100%; display: grid; justify-items: end; justify-self: end; text-align: right; }
 .metric-inline-instruction { width: calc(100% - 17px); min-height: 48px; margin: 0 0 2px 17px; padding: 7px 10px; grid-column: 1 / -1; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 9px; border: 1px solid var(--g-color-line-info); border-radius: 7px; background: color-mix(in srgb, var(--g-color-base-info-light) 45%, var(--g-color-base-background)); color: var(--g-color-text-primary); text-decoration: none; }
 .metric-inline-instruction-icon { width: 28px; height: 28px; margin: 0 !important; display: grid !important; place-items: center; border-radius: 6px; background: var(--g-color-base-info-medium); color: var(--g-color-text-info-heavy) !important; }
@@ -201,6 +204,11 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .metric-inline-instruction-button .metric-inline-instruction-copy strong { font-size: 13px; line-height: 1.3; }
 .metric-inline-instruction-button .metric-inline-instruction-copy small { font-size: 11px; line-height: 1.3; }
 .metric-inline-instruction-button .metric-inline-instruction-action { font-size: 11px !important; }
+.metric-inline-instruction-resources { grid-template-columns: 28px minmax(150px, 1fr) minmax(0, 2fr); cursor: default; }
+.metric-inline-instruction-resource-actions { min-width: 0; margin: 0 !important; display: flex !important; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 4px; }
+.metric-inline-instruction-resource-actions a { min-height: 30px; padding: 5px 8px; display: inline-flex; align-items: center; gap: 4px; border-radius: 6px; color: var(--g-color-base-brand); font: 600 11px/1.2 var(--dd-font-sans); text-decoration: none; white-space: nowrap; }
+.metric-inline-instruction-resource-actions a:hover { background: var(--g-color-base-info-light-hover); }
+.metric-inline-instruction-resource-actions a:focus-visible { outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
 .metric-inline-instruction:hover, .metric-inline-instruction:focus-visible { border-color: var(--g-color-line-brand); background: var(--g-color-base-info-light-hover); outline: none; }
 .metric-inline-instruction-warning { border-color: var(--g-color-line-warning); background: linear-gradient(90deg, transparent 0%, var(--g-color-base-warning-light) 100%); }
 .metric-inline-instruction-warning .metric-inline-instruction-icon { background: var(--g-color-base-warning-medium); color: var(--g-color-text-warning-heavy) !important; }
@@ -249,7 +257,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .product-metric-product-disclosure .g-disclosure__trigger { width: 100%; min-height: 42px; padding: 9px 20px 9px 32px; background: var(--g-color-base-generic-ultralight); }
 .product-metric-product-disclosure .g-disclosure__trigger:hover { background: var(--g-color-base-generic-hover); }
 .product-metric-product-title { width: 100%; color: var(--g-color-text-primary); font-size: 13px; font-weight: 600; text-align: left; }
-.product-metric-row { min-height: 104px; align-items: start; padding-top: 15px; padding-bottom: 15px; }
+.product-metric-row { align-items: start; padding-top: 15px; padding-bottom: 15px; }
 .metric-list .product-metric-row { padding-left: 44px; }
 .metric-list .product-metric-tool-content-single .product-metric-row { padding-left: 32px; }
 .product-metric-row .metric-copy { gap: 9px; }
@@ -259,7 +267,11 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .product-metric-row .metric-copy small { display: block; margin-top: 9px; color: var(--g-color-text-secondary); font-size: 12px; line-height: 1.45; }
 .product-metric-row-side { min-width: 0; display: grid; justify-items: end; gap: 5px; text-align: right; }
 .product-metric-row-side .g-text { font-size: 12px; line-height: 1.4; }
-.metric-value > span { display: block; margin-bottom: 5px; color: var(--g-color-text-primary); font: 500 12px/1.35 var(--dd-font-sans); font-variant-numeric: tabular-nums; }
+.metric-value-caption, .metric-status-with-confirmation { max-width: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.metric-value-caption { margin-bottom: 5px; }
+.metric-value-caption > span { color: var(--g-color-text-primary); font: 500 12px/1.35 var(--dd-font-sans); font-variant-numeric: tabular-nums; }
+.metric-digital-trace-confirmation { width: 18px; height: 18px; display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; color: var(--g-color-base-info-heavy); cursor: help; }
+.metric-digital-trace-confirmation:focus-visible { border-radius: 50%; outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
 .metric-status-label { max-width: 100%; }
 .block-links { border-top: 1px solid var(--g-color-line-generic); background: var(--g-color-base-generic-ultralight); }
 .block-links-title { padding: 9px 16px 0; color: var(--g-color-text-secondary); font-size: 11px; font-weight: 600; text-transform: uppercase; }
@@ -295,7 +307,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .digest-light-yellow { background: var(--g-color-base-warning-heavy); }
 .digest-light-green { background: var(--g-color-base-positive-heavy); }
 .metric-recommendation-list { border-top: 1px solid var(--g-color-line-generic); }
-.metric-recommendation-row { min-height: 112px; padding: 18px 20px; display: grid; grid-template-columns: 10px minmax(0, 1fr); align-items: start; gap: 12px; border-bottom: 1px solid var(--g-color-line-generic); }
+.metric-recommendation-row { padding: 18px 20px; display: grid; grid-template-columns: 10px minmax(0, 1fr); align-items: start; gap: 12px; border-bottom: 1px solid var(--g-color-line-generic); }
 .metric-recommendation-row:last-child { border-bottom: 0; }
 .metric-recommendation-copy { min-width: 0; display: grid; gap: 8px; }
 .metric-recommendation-copy h4 { margin: 0; font-size: 14px; line-height: 1.35; }
@@ -371,6 +383,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .dashboard-antitop-row > span { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 5px; background: var(--g-color-base-danger-light); color: var(--g-color-text-danger-heavy); font: 600 10px/1 var(--dd-font-sans); }
 .dashboard-antitop-row b { display: block; overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .dashboard-antitop-row small { display: block; margin-top: 3px; overflow: hidden; color: var(--g-color-text-secondary); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+.dashboard-antitop-row .dashboard-antitop-block { overflow: visible; line-height: 1.25; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
 .dashboard-antitop-row > div:last-child strong { display: block; margin-bottom: 5px; color: var(--g-color-text-danger-heavy); text-align: right; font: 600 13px/1 var(--dd-font-sans); font-variant-numeric: tabular-nums; }
 .dashboard-antitop-result small { text-align: right; }
 .dashboard-about-card { margin-top: 12px; min-height: 104px; padding: 22px 24px; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 18px; border-radius: 8px; border-color: var(--g-color-line-generic); background: linear-gradient(110deg, var(--g-color-base-info-light), var(--g-color-base-background) 58%); }
@@ -472,6 +485,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .about-method-note b { font-size: 13px; }
 .about-method-note span { color: var(--g-color-text-secondary); font-size: 12px; line-height: 1.5; }
 .catalog-dialog-body { padding-top: 18px; padding-bottom: 28px; }
+.team-contact-dialog-body { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; }
 .catalog-toolbar { width: 100%; display: grid; grid-template-columns: minmax(280px, 1fr) auto; align-items: end; gap: 20px; margin-bottom: 18px; }
 .catalog-search { min-width: 0; display: grid; gap: 7px; }
 .catalog-search-copy { display: grid; gap: 3px; }
@@ -509,6 +523,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 @media (max-width: 1000px) { .content { padding: 32px 24px 60px; } .page-header { align-items: flex-start; } .summary-stats { grid-template-columns: repeat(3, 110px); } .report-controls { flex-wrap: wrap; } .report-table { overflow-x: auto; } .report-table-head, .report-row { min-width: 900px; } .unit-row { min-width: 900px; } }
 @media (max-width: 760px) { .detail-lens-bar { overflow-x: auto; } .metric-recommendations-header, .metric-recommendations-toolbar { align-items: flex-start; display: grid; } .metric-recommendation-groups { grid-template-columns: 1fr; } .metric-recommendation-row-title { display: grid; } }
 @media (max-width: 760px) { .metric-list .metric-group-title, .metric-list .metric-row { padding-left: 20px; } }
+@media (max-width: 760px) { .metric-inline-instruction-resources { grid-template-columns: 28px minmax(0, 1fr); } .metric-inline-instruction-resource-actions { grid-column: 2; justify-content: flex-start; } }
 @media (max-width: 760px) { .metric-ai-actions { align-items: flex-start; flex-direction: column; } .metric-ai-actions-buttons { justify-content: flex-start; width: 100%; } }
 @media (max-width: 760px) { .ai-return-action { bottom: calc(12px + env(safe-area-inset-bottom, 0px)); } .ai-return-action .g-button { max-width: calc(100vw - 40px); } }
 @media (max-width: 760px) { .product-metric-tool-title { padding-left: 20px !important; } .product-metric-product-disclosure .g-disclosure__trigger { padding-left: 22px; } .metric-list .product-metric-row { padding-left: 34px; } .metric-list .product-metric-tool-content-single .product-metric-row { padding-left: 24px; } }

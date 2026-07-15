@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 
 
@@ -23,11 +24,12 @@ def build(template_path: Path, data_path: Path, output_path: Path) -> None:
     )
     replacement = f"Promise.resolve({{json: () => Promise.resolve({data})}})"
 
-    markers = ('fetch("./report-data.json")', "fetch('./report-data.json')")
-    for marker in markers:
-        template = template.replace(marker, replacement)
+    fetch_pattern = re.compile(
+        r"fetch\(([\"'])\./report-data\.json\1(?:\s*,\s*\{\s*cache\s*:\s*([\"'])no-store\2\s*\})?\)"
+    )
+    template, replacement_count = fetch_pattern.subn(replacement, template)
 
-    if template == template_path.read_text(encoding="utf-8"):
+    if replacement_count == 0:
         raise ValueError("The bundle does not contain the report-data fetch marker")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)

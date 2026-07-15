@@ -2,7 +2,8 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ChevronRight, CircleDollar, CircleInfo, NodesRight, Persons} from '@gravity-ui/icons';
 import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {CatalogDialogFiltered, TEAM_CONTACT_EMAIL, blockPercent, compareNames, isUnitFilterOption, maturityTheme, typeTone} from '../features/catalog/Catalog.jsx';
+import {antiTopBlockLabel} from '../domain/report.js';
+import {CatalogDialogFiltered, TEAM_CONTACT_EMAILS, blockPercent, compareNames, isUnitFilterOption, maturityTheme, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
 export function DashboardPage({products, rows, onOpen, onAbout}) {
@@ -120,9 +121,9 @@ export function DashboardPage({products, rows, onOpen, onAbout}) {
 
       <Dialog open={teamContactOpen} onClose={() => setTeamContactOpen(false)} hasCloseButton maxWidth="s">
         <Dialog.Header caption="Не нашли свою команду?" />
-        <Dialog.Body>
-          <Text variant="body-2">Для добавления команды или уточнения статуса напишите Марии Черковой:</Text>
-          <a className="team-contact-email" href={`mailto:${TEAM_CONTACT_EMAIL}`}>{TEAM_CONTACT_EMAIL}</a>
+        <Dialog.Body className="team-contact-dialog-body">
+          <Text variant="body-2">Для добавления команды или уточнения статуса напишите</Text>
+          <Button view="action" size="m" href={`mailto:${TEAM_CONTACT_EMAILS.join(',')}`}>Напишите нам</Button>
         </Dialog.Body>
       </Dialog>
 
@@ -139,7 +140,7 @@ export function DashboardPage({products, rows, onOpen, onAbout}) {
 
       <section className="dashboard-analysis-grid">
         <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2></div><div className="dashboard-radar-score" aria-label={`Средний Data-Driven Index B2C: ${radarAverage === null ? 'нет данных' : `${radarAverage}%`}`}><div><strong>{radarAverage === null ? '—' : radarAverage}</strong>{radarAverage !== null && <span>%</span>}</div><small>Средний Data-Driven Index</small></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [`${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" dot={{r: 2, fill: 'var(--g-color-text-secondary)'}} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} dot={{r: 2, fill: 'var(--g-color-base-info-heavy)'}} />}</RadarChart></ResponsiveContainer></div></Card>
-        <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small>{item.block}</small></div><div className="dashboard-antitop-result"><strong>{item.incompleteShare}%</strong><small>{item.incompleteTeams} из {item.teams} команд</small></div></div>)}</div></Card>
+        <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small className="dashboard-antitop-block" title={antiTopBlockLabel(item.block)}>{antiTopBlockLabel(item.block)}</small></div><div className="dashboard-antitop-result"><strong>{item.incompleteShare}%</strong><small>{item.incompleteTeams} из {item.teams} команд</small></div></div>)}</div></Card>
       </section>
 
       <Card className="dashboard-about-card" view="outlined">

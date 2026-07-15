@@ -56,8 +56,17 @@ def _load_embedded_module(source: str, module_name: str) -> dict[str, Any]:
 
 _TITLE = _load_embedded_module(_TITLE_SOURCE, "_embedded_title_from_excel")
 _DD_JSON2 = _load_embedded_module(_DD_JSON2_SOURCE, "_embedded_dd_json2")
+_REPORT_TEMPLATE = _REPORT_TEMPLATE.replace(
+    "Подготовить A/B-план после TBD.",
+    "Запустить A/B-тестирование.",
+)
+_DD_JSON2["V2_SCRIPT"] = _DD_JSON2["V2_SCRIPT"].replace(
+    "Подготовить A/B-план после TBD.",
+    "Запустить A/B-тестирование.",
+)
 _DD_JSON2["SOURCE_HTML"] = _EmbeddedTextFile(_REPORT_TEMPLATE)
 _DD_FROM_EXCEL = _load_embedded_module(_DD_FROM_EXCEL_SOURCE, "_embedded_dd_from_excel")
+_DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")
 _DD_FROM_EXCEL["METRIC_CODES"][
     ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
 ] = "general.navigator_reporting_knowledge"
@@ -201,6 +210,23 @@ SEGMENT_UPLOAD_SHEET_NAMES = {"сегменты на заливку"}
 SEGMENT_ENTITY_TYPES = {"segment", "сегмент"}
 CHANNEL_UPLOAD_SHEET_NAMES = {"каналы на заливку"}
 CHANNEL_ENTITY_TYPES = {"channel", "канал"}
+REPORT_ENTITY_TYPES = PRODUCT_ENTITY_TYPES | SEGMENT_ENTITY_TYPES | CHANNEL_ENTITY_TYPES
+METRIC_BLOCK_DISPLAY_ORDER = (
+    "general",
+    "goals",
+    "attract",
+    "churn",
+    "voronka_vhoda_v_kanal",
+    "voronka_onbordinga",
+    "voronka_prodazh",
+    "alerts",
+    "mehaniki",
+    "hyp",
+    "cx",
+)
+METRIC_BLOCK_DISPLAY_RANK = {
+    block_code: index for index, block_code in enumerate(METRIC_BLOCK_DISPLAY_ORDER)
+}
 CHANNEL_EXCLUDED_METRIC_IDS = {6, 7, 8, 11, 14, 103, 207, 210}
 CHANNEL_FLAT_REQUIRED_COLUMNS = {
     "metric_code",
@@ -228,8 +254,7 @@ FLAT_TABLE_REQUIRED_COLUMNS = {
     "flg",
 }
 UPLOAD_INFORMATIONAL_METRIC_NAMES = {"цифр.факторы", "цифр.цели", "цифр.прогнозы"}
-AUTO_REGULARITY_METRIC_NAME = "регулярность (авто)"
-AUTO_REGULARITY_GROUPS = {"воронка привлечения", "воронка оттока"}
+REGULARITY_METRIC_NAMES = {"регулярность", "регулярность (авто)"}
 UPLOAD_META_ROWS = (
     ("metric", "ID"),
     ("metric_name", "metric_name"),
@@ -341,11 +366,8 @@ def is_upload_informational_metric(value: Any) -> bool:
     return normalize_lookup_key(value) in UPLOAD_INFORMATIONAL_METRIC_NAMES
 
 
-def is_auto_regularity_metric(metric_group: Any, metric_name: Any) -> bool:
-    return (
-        normalize_lookup_key(metric_name) == AUTO_REGULARITY_METRIC_NAME
-        and normalize_lookup_key(metric_group) in AUTO_REGULARITY_GROUPS
-    )
+def is_regularity_share_metric(metric_name: Any) -> bool:
+    return normalize_lookup_key(metric_name) in REGULARITY_METRIC_NAMES
 
 
 def fill_auto_regularity_max_from_value(df: Any) -> None:
@@ -353,9 +375,9 @@ def fill_auto_regularity_max_from_value(df: Any) -> None:
         return
 
     mask = (
-        df.apply(lambda row: is_auto_regularity_metric(row["metric_group"], row["metric_name_clean"]), axis=1)
+        df["metric_name_clean"].map(is_regularity_share_metric)
         & df["value"].map(is_numeric_cell)
-        & (df["max_value_num"] <= 0)
+        & (df["max_value_num"].isna() | df["max_value_num"].le(0))
     )
     if not mask.any():
         return
@@ -2016,6 +2038,8 @@ def flat_upload_sheet(
     frame = _PD.read_excel(path, sheet_name=sheet_name)
     frame = normalize_flat_table_frame(frame)
     is_flat_table = "_flat_table_source" in frame.columns
+    if is_flat_table:
+        allowed_entity_types = REPORT_ENTITY_TYPES
     if not is_flat_table and normalize_upload_sheet_name(sheet_name) in CHANNEL_UPLOAD_SHEET_NAMES:
         frame = normalize_channel_upload_frame(frame)
     required = _DD_FROM_EXCEL["REQUIRED_COLUMNS"]
@@ -2074,6 +2098,8 @@ def normalize_flat_table_frame(frame: Any) -> Any:
     normalized["_flat_table_source"] = True
 
     explicit_type = normalized.get("type")
+    if explicit_type is None:
+        explicit_type = normalized.get("тип")
     derived_types = derive_flat_table_entity_types(frame)
     derived = normalized["Продукт"].map(
         lambda value: derived_types.get(clean_text(value), "продукт")
@@ -2081,9 +2107,13 @@ def normalize_flat_table_frame(frame: Any) -> Any:
     if explicit_type is None:
         normalized["type"] = derived
     else:
-        normalized["type"] = explicit_type.where(
-            explicit_type.map(clean_text).ne(""), derived
+        normalized["type"] = explicit_type
+    normalized = normalized[
+        normalized["type"].map(
+            lambda value: is_allowed_upload_type(value, REPORT_ENTITY_TYPES)
         )
+    ].copy()
+    normalized["type"] = normalized["type"].map(canonical_entity_type)
     normalized["тип"] = normalized["type"]
     return normalized
 
@@ -2239,7 +2269,7 @@ def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]
 
 
 def disambiguate_flat_metric_names(product_rows: Any) -> int:
-    """Keep equal display names with different metric_code values as separate metrics."""
+    """Aggregate calculation rows by name while keeping display-only rows separate."""
     product_rows["metric_display_name_clean"] = product_rows["metric_name_clean"]
     group_columns = [
         "entity_type",
@@ -2250,22 +2280,18 @@ def disambiguate_flat_metric_names(product_rows: Any) -> int:
     ]
     changed = 0
     for _, indexes in product_rows.groupby(group_columns, sort=False, dropna=False).groups.items():
-        group = product_rows.loc[indexes]
-        if group["metric"].nunique(dropna=False) <= 1:
+        display_only_indexes = [
+            index
+            for index in indexes
+            if not bool(product_rows.at[index, "included_in_dd"])
+        ]
+        if not display_only_indexes or len(indexes) == 1:
             continue
-        ordered = sorted(
-            indexes,
-            key=lambda index: (
-                not bool(product_rows.at[index, "included_in_dd"]),
-                clean_number(product_rows.at[index, "metric"]) or float("inf"),
-                index,
-            ),
-        )
-        for index in ordered[1:]:
+        for order, index in enumerate(display_only_indexes, start=1):
             display_name = clean_text(product_rows.at[index, "metric_display_name_clean"])
-            metric_id = clean_text(product_rows.at[index, "metric"])
+            metric_id = clean_text(product_rows.at[index, "metric"]) or "row"
             product_rows.at[index, "metric_name_clean"] = (
-                f"{display_name} [flat metric {metric_id}]"
+                f"{display_name} [flat display {metric_id}:{order}]"
             )
             changed += 1
     return changed
@@ -2291,7 +2317,12 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
             df[optional_column] = ""
     validate_columns(df)
 
-    links_by_product = collect_product_links(df)
+    is_flat_table = "_flat_table_source" in df.columns
+    if is_flat_table and "is_visible" not in df.columns:
+        if "is_viisible" in df.columns:
+            df["is_visible"] = df["is_viisible"]
+        else:
+            df["is_visible"] = 1
     df["metric_group"] = df["metric_group"].map(normalize_text)
     df["metric_name_clean"] = df["metric_name"].map(clean_metric_name)
     df["metric_footer_clean"] = df["metric_footer"].map(normalize_text)
@@ -2299,7 +2330,28 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     df["recommendation_group_clean"] = df["recommendation_group"].map(normalize_text)
     df["entity_type"] = df.apply(entity_type_from_row, axis=1)
     df = df[~df["entity_type"].map(is_excluded_upload_type)].copy()
-    is_flat_table = "_flat_table_source" in df.columns
+    visibility_hidden_rows = 0
+    if is_flat_table:
+        visibility = _PD.to_numeric(df["is_visible"], errors="coerce")
+        meaningful_rows = (
+            df["metric_name_clean"].ne("")
+            & df["Продукт"].map(clean_text).ne("")
+        )
+        invalid_visibility = meaningful_rows & (
+            visibility.isna() | ~visibility.isin([0, 1])
+        )
+        if invalid_visibility.any():
+            samples = df.loc[
+                invalid_visibility,
+                ["Продукт", "metric", "metric_name", "is_visible"],
+            ].head(10)
+            raise ValueError(
+                "В строках flat_table.xlsx поле is_visible должно быть 0 или 1: "
+                + samples.to_dict(orient="records").__repr__()
+            )
+        visibility_hidden_rows = int(visibility.eq(0).sum())
+        df = df[visibility.eq(1)].copy()
+    links_by_product = collect_product_links(df)
     df["_unit_key"] = df["Юнит"].map(normalize_upload_unit)
     df["Юнит"] = df["_unit_key"]
     df["_product_key"] = df["Продукт"].map(clean_text)
@@ -2395,6 +2447,7 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     product_rows.attrs["metric_group_rows"] = len(with_group)
     product_rows.attrs["template_rows_skipped"] = template_rows_skipped
     product_rows.attrs["upload_informational_rows_skipped"] = informational_rows_skipped
+    product_rows.attrs["visibility_hidden_rows"] = visibility_hidden_rows
     product_rows.attrs["links_by_product"] = links_by_product
     product_rows.attrs["flat_table_source"] = is_flat_table
     product_rows.attrs["flg_included_rows"] = int(
@@ -2404,7 +2457,15 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
         (~product_rows.get("included_in_dd", _PD.Series(dtype="bool"))).sum()
     ) if is_flat_table else 0
     product_rows.attrs["flat_metric_names_disambiguated"] = disambiguated_metrics
-    product_rows = dedupe_upload_goal_rows(product_rows)
+    if is_flat_table:
+        product_rows.attrs["upload_goal_duplicate_rows_skipped"] = 0
+    else:
+        product_rows = dedupe_upload_goal_rows(product_rows)
+    benchmark_group_mask = product_rows["metric_group"].map(normalize_lookup_key).eq(
+        normalize_lookup_key("BENCHMARKS")
+    )
+    if benchmark_group_mask.any():
+        product_rows.loc[benchmark_group_mask, "metric_subgroup"] = "Анализ"
     product_rows = split_named_funnel_benchmarks(product_rows)
     return split_benchmarks(product_rows)
 
@@ -2507,6 +2568,7 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
         "aggregated_metrics": metric_count,
         "products_with_links": sum(1 for product_links in links_by_product.values() if product_links),
         "upload_informational_rows_skipped": product_rows.attrs.get("upload_informational_rows_skipped", 0),
+        "visibility_hidden_rows": product_rows.attrs.get("visibility_hidden_rows", 0),
         "upload_goal_duplicate_rows_skipped": product_rows.attrs.get("upload_goal_duplicate_rows_skipped", 0),
         "flg_included_rows": product_rows.attrs.get("flg_included_rows", 0),
         "flg_display_only_rows": product_rows.attrs.get("flg_display_only_rows", 0),
@@ -2741,6 +2803,23 @@ def metric_sort_key(metric: dict[str, Any], original_index: int) -> tuple[float,
     return (100_000 + original_index, original_index)
 
 
+def sort_metric_blocks(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    indexed_blocks = list(enumerate(blocks))
+    return [
+        block
+        for original_index, block in sorted(
+            indexed_blocks,
+            key=lambda item: (
+                METRIC_BLOCK_DISPLAY_RANK.get(
+                    clean_text(item[1].get("code")).strip().lower(),
+                    len(METRIC_BLOCK_DISPLAY_ORDER),
+                ),
+                item[0],
+            ),
+        )
+    ]
+
+
 def enrich_metric_layout(
     data: dict[str, Any],
     input_path: Path,
@@ -2778,6 +2857,8 @@ def enrich_metric_layout(
                 metric
                 for index, metric in sorted(indexed_metrics, key=lambda item: metric_sort_key(item[1], item[0]))
             ]
+
+        product["metrics"] = sort_metric_blocks(product.get("metrics", []))
 
     return data
 
@@ -4152,7 +4233,6 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
 """
     disclaimer_html = """            <div class="report-disclaimer" role="note">
               <span class="report-disclaimer-main">Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</span>
-              <span><b>Расчет не включает A/B тесты.</b> Добавление – после 15 июля</span>
             </div>
 """
     if "report-disclaimer" not in html:

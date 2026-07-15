@@ -116,7 +116,7 @@ export function AboutPage({onBack}) {
         <div><Text variant="caption-2" color="secondary">ИНТЕРПРЕТАЦИЯ</Text><h2 id="method-notes-title">Как читать результат</h2></div>
         <div className="about-method-note"><b>Итоговый индекс</b><span>Показывает общий уровень зрелости, но не заменяет разбор оценок по отдельным практикам.</span></div>
         <div className="about-method-note"><b>Профиль по блокам</b><span>Показывает, в каких практиках сформированы устойчивые процессы, а где остаются незакрытые критерии.</span></div>
-        <div className="about-method-note"><b>Ограничение методики</b><span>A/B-тесты отображаются в профиле как отдельная практика, но в текущей версии не влияют на индекс.</span></div>
+        <div className="about-method-note"><b>A/B-тесты</b><span>Учитываются в индексе для применимых команд по факту и максимальному баллу из flat_table.xlsx.</span></div>
       </section>
     </main>
   );

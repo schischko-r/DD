@@ -13,7 +13,11 @@ export function App() {
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
   const [detailScore, setDetailScore] = useState(false);
-  useEffect(() => { fetch('./report-data.json').then((response) => response.json()).then(setData); }, []);
+  useEffect(() => {
+    fetch('./report-data.json', {cache: 'no-store'})
+      .then((response) => response.json())
+      .then(setData);
+  }, []);
   if (!data) return <div className="loading"><Spin size="xl" /></div>;
   const rows = data.title?.rows || [];
   const defaultProduct = data.products.find((item) => /^вклады$/i.test(String(item.name || '').trim()))

@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
+import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
 import {digestStatus, digestTheme, worstDigestLight} from './digestPresentation.js';
 
@@ -143,7 +144,8 @@ export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSki
     result.get(key).push(item);
     return result;
   }, new Map());
-  const activeBlockCodes = (product.metrics || []).filter((block) => itemsByBlock.has(block.code)).map((block) => block.code);
+  const visibleBlocks = filterInapplicableMetricGroups(product.metrics || [], itemsByBlock.keys());
+  const activeBlockCodes = visibleBlocks.filter((block) => itemsByBlock.has(block.code)).map((block) => block.code);
   useEffect(() => {
     if (!focusBlock || !itemsByBlock.has(focusBlock)) return;
     setOpen((current) => new Set(current).add(focusBlock));
@@ -178,7 +180,7 @@ export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSki
       <section className="metrics-section product-metrics-section">
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид продуктовых метрик"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set(activeBlockCodes)); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
         <div className="metrics-grid product-metrics-grid">
-          {(product.metrics || []).map((block) => {
+          {visibleBlocks.map((block) => {
             const items = itemsByBlock.get(block.code) || [];
             const hasRecommendations = items.length > 0;
             const isOpen = hasRecommendations && open.has(block.code);
