@@ -3,7 +3,7 @@ import {ChevronRight, CircleDollar, CircleInfo, NodesRight, Persons} from '@grav
 import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {antiTopBlockLabel} from '../domain/report.js';
-import {CatalogDialogFiltered, TEAM_CONTACT_EMAILS, blockPercent, compareNames, isUnitFilterOption, maturityTheme, typeTone} from '../features/catalog/Catalog.jsx';
+import {CatalogDialogFiltered, TEAM_CONTACT_MAILTO, blockPercent, compareNames, isUnitFilterOption, maturityTheme, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
 export function DashboardPage({products, rows, onOpen, onAbout}) {
@@ -123,7 +123,7 @@ export function DashboardPage({products, rows, onOpen, onAbout}) {
         <Dialog.Header caption="Не нашли свою команду?" />
         <Dialog.Body className="team-contact-dialog-body">
           <Text variant="body-2">Для добавления команды или уточнения статуса напишите</Text>
-          <Button view="action" size="m" href={`mailto:${TEAM_CONTACT_EMAILS.join(',')}`}>Напишите нам</Button>
+          <Button view="action" size="m" href={TEAM_CONTACT_MAILTO}>Напишите нам</Button>
         </Dialog.Body>
       </Dialog>
 
