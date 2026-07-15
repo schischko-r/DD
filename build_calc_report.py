@@ -1320,6 +1320,96 @@ def ensure_llm_summary_visible(data: dict[str, Any]) -> int:
     )
 
 
+def sync_llm_summary_recommendations(data: dict[str, Any]) -> int:
+    added = 0
+    for product in data.get("products", []):
+        product_name = clean_text(product.get("name"))
+        recommendations = [
+            item
+            for item in product.get("metric_recommendations", [])
+            if not item.get("llm_summary")
+        ]
+        llm_recommendations: list[dict[str, Any]] = []
+
+        for block_code in AI_SKILL_GROUP_TOOLS:
+            block = find_block(product, block_code)
+            tool = find_group_tool(block, block_code) if block else None
+            if not tool:
+                continue
+            for button in tool.get("buttons", []):
+                if not button.get("llm_summary"):
+                    continue
+                for item_index, digest_item in enumerate(button.get("digest_items", []), start=1):
+                    texts = unique_non_empty(digest_item.get("digest_texts", []))
+                    indicator = clean_text(digest_item.get("indicator")) or "Основные выводы"
+                    if not texts and not indicator:
+                        continue
+                    product_list = digest_item.get("product_list", [])
+                    if not isinstance(product_list, list):
+                        product_list = []
+                    button_products = button.get("ai_tool_product_names", [])
+                    if not isinstance(button_products, list):
+                        button_products = []
+                    ai_products = unique_non_empty(
+                        [
+                            digest_item.get("ai_product_name"),
+                            digest_item.get("product_label"),
+                            *product_list,
+                            *button_products,
+                        ]
+                    )
+                    llm_recommendations.append(
+                        {
+                            "id": f"llm-summary-{block_code}-{item_index}",
+                            "skill_key": "llm_summary",
+                            "skill_name": clean_text(button.get("name")) or "LLM-cуммаризация",
+                            "block_code": block_code,
+                            "row_type": "суммаризация",
+                            "is_traffic_light": True,
+                            "indicator": indicator,
+                            "traffic_light": (
+                                parse_ai_light(digest_item.get("traffic_light"))
+                                or parse_ai_light(button.get("traffic_light"))
+                                or "gray"
+                            ),
+                            "recommendations": texts,
+                            "rule": clean_text(digest_item.get("digest_rule")),
+                            "month": clean_text(
+                                digest_item.get("digest_month")
+                                or button.get("digest_month")
+                            ),
+                            "is_stale": bool(
+                                digest_item.get("digest_is_stale")
+                                or button.get("digest_is_stale")
+                            ),
+                            "stale_tooltip": clean_text(
+                                digest_item.get("digest_stale_tooltip")
+                                or button.get("digest_stale_tooltip")
+                            ),
+                            "ai_products": ai_products,
+                            "product_group": product_name,
+                            "llm_summary": True,
+                            "llm_placeholder": bool(button.get("llm_placeholder")),
+                        }
+                    )
+
+        product["metric_recommendations"] = [*llm_recommendations, *recommendations]
+        added += len(llm_recommendations)
+
+    digest_meta = data.get("ai_skill_digest")
+    if isinstance(digest_meta, dict):
+        digest_meta["recommendation_entities"] = sum(
+            1
+            for product in data.get("products", [])
+            if product.get("metric_recommendations")
+        )
+        digest_meta["recommendation_items"] = sum(
+            len(product.get("metric_recommendations", []))
+            for product in data.get("products", [])
+        )
+    return added
+
+
 def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
     label = AI_SKILL_LABELS[skill_key]
     block_code = clean_text(block.get("code"))
@@ -3024,6 +3114,9 @@ def build_combined_data(
             llm_log=llm_log,
         )
     llm_placeholders = ensure_llm_summary_visible(combined) if include_ai_skills else 0
+    llm_summary_recommendations = (
+        sync_llm_summary_recommendations(combined) if include_ai_skills else 0
+    )
     combined["ai_skills_enabled"] = include_ai_skills
     summary = {
         **detail_summary,
@@ -3051,6 +3144,7 @@ def build_combined_data(
         "llm_skipped_empty_summary": combined.get("ai_skill_digest", {}).get("llm_skipped_empty_summary", 0),
         "llm_skipped_append_failed": combined.get("ai_skill_digest", {}).get("llm_skipped_append_failed", 0),
         "llm_placeholders": llm_placeholders,
+        "llm_summary_recommendations": llm_summary_recommendations,
         "llm_summaries": combined.get("ai_skill_digest", {}).get("llm_summaries", 0),
         "llm_summary_errors": len(combined.get("ai_skill_digest", {}).get("llm_errors", [])),
     }

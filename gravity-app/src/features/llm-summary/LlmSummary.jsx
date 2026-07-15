@@ -135,9 +135,13 @@ export function recommendationBlockCode(product, requestedCode) {
 }
 
 export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill}) {
-  const [detailMode, setDetailMode] = useState('compact');
-  const [open, setOpen] = useState(() => new Set());
   const recommendations = product.metric_recommendations || [];
+  const [detailMode, setDetailMode] = useState('compact');
+  const [open, setOpen] = useState(() => new Set(
+    recommendations
+      .filter((item) => item.llm_summary)
+      .map((item) => recommendationBlockCode(product, item.block_code || 'other')),
+  ));
   const itemsByBlock = recommendations.reduce((result, item) => {
     const key = recommendationBlockCode(product, item.block_code || 'other');
     if (!result.has(key)) result.set(key, []);
