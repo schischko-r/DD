@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor} from './report.js';
+import {antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -30,6 +30,9 @@ test('report presentation helpers preserve stable output', () => {
   assert.equal(isInformationalMetric({dd_calculation_flg: 0}), true);
   assert.equal(isInformationalMetric({dd_calculation_flg: '0'}), true);
   assert.equal(isInformationalMetric({dd_calculation_flg: 1, excluded_from_index: true}), false);
+  assert.equal(inapplicableMetricLabel({code: 'hyp.ab_tests'}), 'Нет плана по A/B');
+  assert.equal(inapplicableMetricLabel({name: 'A/B-тесты'}), 'Нет плана по A/B');
+  assert.equal(inapplicableMetricLabel({name: 'Другая метрика'}), 'Не применимо');
 });
 
 test('fully inapplicable metric subgroups are removed', () => {
