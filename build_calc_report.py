@@ -185,6 +185,7 @@ PILOTS_METRIC_KEYS = {
     "selfservice": "self_service",
     "запущено": "launched",
     "значимых": "significant",
+    "значимыезапуски": "successful",
 }
 AI_DRAFTS_PRODUCT_MARKER_RE = re.compile(r"\s*\(\s*черновики\s*\)\s*", re.IGNORECASE)
 AI_MONTH_NAMES = {
@@ -1031,42 +1032,33 @@ def build_pilots_digest(
         latest_march = max(march_sorts, key=lambda item: item[0])
         end = (latest_march[0], 3)
         start = shift_ai_month(end[0], end[1], -2)
-        previous_end = shift_ai_month(end[0], end[1], -1)
-        previous_start = shift_ai_month(end[0], end[1], -3)
     else:
-        start, end, previous_start, previous_end = pilot_window(today)
-    current_label = ai_month_range_label(start, end)
-    previous_label = ai_month_range_label(previous_start, previous_end)
+        start, end, _, _ = pilot_window(today)
     current = {
         key: pilot_metric_value_for_month(pilot_rows, key, end)
-        for key in ("total", "self_service", "launched", "significant")
+        for key in ("total", "self_service", "launched", "significant", "successful")
     }
-    previous = {
-        key: pilot_metric_value_for_month(pilot_rows, key, previous_end)
-        for key in ("total", "self_service", "launched", "significant")
-    }
-    if not any(current.values()) and not any(previous.values()):
+    if not any(current.values()):
         return None
 
     total = format_pilot_count(current["total"])
+    launched = format_pilot_count(current["launched"])
     significant = format_pilot_count(current["significant"])
+    successful = format_pilot_count(current["successful"])
     self_service = format_pilot_count(current["self_service"])
+    period_label = (
+        f"январь-март {end[0]}"
+        if start[1] == 1 and end[1] == 3 and start[0] == end[0]
+        else ai_month_range_label(start, end)
+    )
     texts = [
-        f"В рамках последних трех месяцев ({current_label}) было запущено {total} пилотов.",
-        (
-            f"Из них, {significant} значимых "
-            f"({format_pilot_delta(current['significant'], previous['significant'])} к {previous_label})."
-        ),
-        (
-            f"Из {total} пилотов ({current_label}), было запущено {self_service} Self-service шт. "
-            f"({format_pilot_delta(current['self_service'], previous['self_service'])} к {previous_label})."
-        ),
+        f"В рамках первого квартала ({period_label}) было запущено {total} пилотов.",
+        "Из них:",
+        f"- {launched} запущено",
+        f"- {significant} значимых",
+        f"- {successful} успешных",
+        f"Из {total} пилотов, было {self_service} Self-Service запусков.",
     ]
-    if current["launched"] or previous["launched"]:
-        texts.append(
-            f"Показатель «Запущено»: {format_pilot_count(current['launched'])} шт. "
-            f"({format_pilot_delta(current['launched'], previous['launched'])} к {previous_label})."
-        )
 
     end_sort = (end[0], end[1], "")
     product_names = unique_non_empty(mapped_products)

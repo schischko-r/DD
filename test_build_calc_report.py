@@ -552,6 +552,40 @@ class SyntheticReportTest(unittest.TestCase):
             "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)",
         )
 
+    def test_pilots_digest_uses_quarter_summary_format(self) -> None:
+        product = "Тестовый продукт"
+        rows = [
+            {
+                "skill_key": "pilots",
+                "product_key": report.normalize_ai_product_key(product),
+                "indicator": indicator,
+                "month_sort": (2026, 3, ""),
+                "text": value,
+            }
+            for indicator, value in (
+                ("Всего пилотов", "12"),
+                ("Запущено", "9"),
+                ("Значимых", "5"),
+                ("Значимые запуски", "3"),
+                ("Self-service", "4"),
+            )
+        ]
+
+        digest = report.build_pilots_digest(rows, [product])
+
+        self.assertIsNotNone(digest)
+        self.assertEqual(
+            digest["digest_texts"],
+            [
+                "В рамках первого квартала (январь-март 2026) было запущено 12 пилотов.",
+                "Из них:",
+                "- 9 запущено",
+                "- 5 значимых",
+                "- 3 успешных",
+                "Из 12 пилотов, было 4 Self-Service запусков.",
+            ],
+        )
+
     def test_remove_ai_skills_keeps_regular_tools(self) -> None:
         data = {
             "ai_skill_digest": {"rows": 2},
