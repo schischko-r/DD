@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {antiTopBlockLabel, blockPercent, churnHelpAudience, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor} from './report.js';
+import {antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -148,10 +148,10 @@ test('digital trace confirmation is limited to listed product cross-sell metrics
   assert.equal(isCrossSellDigitallyConfirmed(product, block, {code: 'mehaniki.upsell'}), false);
 });
 
-test('churn help audience distinguishes products and segment types', () => {
-  assert.equal(churnHelpAudience({type: 'Продукт', name: 'ОСАГО'}), 'product');
-  assert.equal(churnHelpAudience({type: 'Сегмент', name: 'Дети'}), 'age');
-  assert.equal(churnHelpAudience({type: 'Сегмент', name: 'PB'}), 'income');
-  assert.equal(churnHelpAudience({type: 'Сегмент', name: 'Другой сегмент'}), 'segment');
-  assert.equal(churnHelpAudience({type: 'Канал', name: 'СБОЛ'}), '');
+test('team help audience distinguishes products and segment types', () => {
+  assert.equal(teamHelpAudience({type: 'Продукт', name: 'ОСАГО'}), 'product');
+  assert.equal(teamHelpAudience({type: 'Сегмент', name: 'Дети'}), 'age');
+  assert.equal(teamHelpAudience({type: 'Сегмент', name: 'PB'}), 'income');
+  assert.equal(teamHelpAudience({type: 'Сегмент', name: 'Другой сегмент'}), 'segment');
+  assert.equal(teamHelpAudience({type: 'Канал', name: 'СБОЛ'}), '');
 });

@@ -73,7 +73,7 @@ export function isCrossSellDigitallyConfirmed(product, block, metric) {
 const AGE_SEGMENT_NAMES = new Set(['Молодежь', 'Дети', 'Рабочий возраст', 'Зрелость']);
 const INCOME_SEGMENT_NAMES = new Set(['Top Affluent', 'PB', 'МВС']);
 
-export function churnHelpAudience(product) {
+export function teamHelpAudience(product) {
   const type = String(product?.type || '').trim().toLowerCase();
   const name = String(product?.name || '').trim();
   if (type === 'продукт' || type === 'product') return 'product';
