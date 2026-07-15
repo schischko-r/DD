@@ -65,7 +65,7 @@ export function AboutPage({onBack}) {
         <div className="about-hero-main">
           <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Методология Data Driven B2C</span></div>
           <h1>Методология Data-Driven Index</h1>
-          <Text variant="body-2" color="secondary">Нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов. Итоговый индекс рассчитывается по применимым критериям и дополняется профилем по отдельным блокам.</Text>
+          <Text variant="body-2" color="secondary">Нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text>
           <div className="about-hero-actions">
             <Button view="outlined-info" size="l" href="#assessment">Формула и шкала</Button>
             <Button view="flat" size="l" href="#practices">Критерии оценки</Button>
@@ -92,7 +92,28 @@ export function AboutPage({onBack}) {
 
       <section className="about-section about-diagnosis" id="assessment">
         <div className="about-maturity">
-          <div className="about-maturity-head"><div><h2>Формула и уровни зрелости</h2><Text color="secondary">Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%. Итоговый процент определяет уровень зрелости команды.</Text></div></div>
+          <div className="about-maturity-head"><div><h2>Формула Data-Driven Index</h2><Text color="secondary">Data-Driven Index — это нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text></div></div>
+          <Card className="about-formula-card" view="outlined" type="container" size="l">
+            <div className="about-formula" aria-label="Data-Driven Index равен фактически набранные баллы, делённые на максимальный балл, умноженные на сто процентов">
+              <strong>Data-Driven Index</strong>
+              <span className="about-formula-sign">=</span>
+              <span className="about-formula-fraction">
+                <span>фактически набранные баллы</span>
+                <span>максимальный балл</span>
+              </span>
+              <span className="about-formula-sign">× 100%</span>
+            </div>
+            <div className="about-formula-definitions">
+              <div><b>Фактические баллы</b><span>Сумма баллов, которую продукт, канал или сегмент набрал по разделам чек-листа.</span></div>
+              <div><b>Максимальный балл</b><span>Потолок для конкретного продукта, канала или сегмента за вычетом нерелевантных критериев.</span></div>
+            </div>
+            <div className="about-formula-example">
+              <span>Пример</span>
+              <p>Продукт набрал 15 баллов из 25 возможных.</p>
+              <strong>Индекс = 15 / 25 × 100% = 60%</strong>
+            </div>
+          </Card>
+          <div className="about-levels-heading"><h2>Уровни зрелости</h2><Text color="secondary">Итоговый процент определяет уровень зрелости.</Text></div>
           <ul className="about-levels">{levels.map((level) => <li className={`about-level about-level-${level.tone}`} key={level.title}><b>{level.range}</b><span>{level.title}</span><small>{level.note}</small></li>)}</ul>
         </div>
       </section>
