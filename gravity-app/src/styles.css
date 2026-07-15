@@ -73,7 +73,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .detail-lens-option .metric-light { width: 8px; height: 8px; margin-top: 0; }
 .detail-lens-light-empty { animation: none; }
 .detail-lens-hidden { display: none; }
-.detail-meta { display: flex; align-items: center; gap: 5px; color: var(--g-color-text-secondary); font-size: 13px; }
+.detail-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; color: var(--g-color-text-secondary); font-size: 13px; }
 .detail-meta > .g-label { background: var(--g-color-base-generic); color: var(--g-color-text-secondary); }
 .detail-page .detail-mode .g-button_selected { border-color: rgba(35, 158, 226, .28); background: rgba(35, 158, 226, .14); color: #147fb9; }
 .detail-page .detail-mode .g-button_selected:hover { background: rgba(35, 158, 226, .21); color: #147fb9; }

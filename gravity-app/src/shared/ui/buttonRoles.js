@@ -3,6 +3,7 @@ export const BUTTON_INTENT = Object.freeze({
   secondary: 'secondary',
   navigation: 'navigation',
   destructive: 'destructive',
+  feedback: 'feedback',
   compactIcon: 'compact-icon',
 });
 
@@ -11,6 +12,7 @@ const BUTTON_PROPS = Object.freeze({
   [BUTTON_INTENT.secondary]: Object.freeze({view: 'outlined-info', size: 'm'}),
   [BUTTON_INTENT.navigation]: Object.freeze({view: 'flat', size: 'm'}),
   [BUTTON_INTENT.destructive]: Object.freeze({view: 'outlined-danger', size: 's'}),
+  [BUTTON_INTENT.feedback]: Object.freeze({view: 'outlined-info', size: 's'}),
   [BUTTON_INTENT.compactIcon]: Object.freeze({view: 'flat', size: 's'}),
 });
 
