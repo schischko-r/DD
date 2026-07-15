@@ -65,7 +65,7 @@ export function AboutPage({onBack}) {
         <div className="about-hero-main">
           <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Методология Data Driven B2C</span></div>
           <h1>Методология Data-Driven Index</h1>
-          <Text variant="body-2" color="secondary">Нормированная оценка зрелости практик работы с данными для команд продуктов, сегментов и каналов. Итоговый индекс рассчитывается по применимым критериям и дополняется профилем по отдельным блокам.</Text>
+          <Text variant="body-2" color="secondary">Нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов. Итоговый индекс рассчитывается по применимым критериям и дополняется профилем по отдельным блокам.</Text>
           <div className="about-hero-actions">
             <Button view="outlined-info" size="l" href="#assessment">Формула и шкала</Button>
             <Button view="flat" size="l" href="#practices">Критерии оценки</Button>
