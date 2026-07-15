@@ -396,6 +396,12 @@ python build_calc_report.py \
   --llm-log
 ```
 
+Полная сборка JSON, Gravity UI и итогового standalone HTML одной командой:
+
+```bash
+./build_with_llm.sh
+```
+
 Если LLM не запрошена или не настроена, в группе навыков показывается placeholder `LLM-cуммаризация`.
 
 ## Выходная Модель
