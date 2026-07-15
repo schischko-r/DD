@@ -270,6 +270,10 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .metric-value-caption, .metric-status-with-confirmation { max-width: 100%; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
 .metric-value-caption { margin-bottom: 5px; }
 .metric-value-caption > span { color: var(--g-color-text-primary); font: 500 12px/1.35 var(--dd-font-sans); font-variant-numeric: tabular-nums; }
+.mechanics-metric-help { width: 18px; height: 18px; display: inline-grid; flex: 0 0 auto; place-items: center; color: var(--g-color-text-secondary); }
+.mechanics-metric-help-content { width: min(380px, calc(100vw - 48px)); }
+.mechanics-metric-help-content section { display: grid; gap: 7px; }
+.mechanics-metric-help-content section > p { font-weight: 700; }
 .metric-digital-trace-confirmation { width: 18px; height: 18px; display: inline-flex; flex: 0 0 auto; align-items: center; justify-content: center; color: var(--g-color-base-info-heavy); cursor: help; }
 .metric-digital-trace-confirmation:focus-visible { border-radius: 50%; outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
 .metric-status-label { max-width: 100%; }

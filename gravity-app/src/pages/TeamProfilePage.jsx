@@ -172,16 +172,20 @@ function ChurnAnalysisHelpContent() {
   </div>;
 }
 
-function MechanicsHelpContent() {
-  return <div className="goals-help-content attract-reporting-help-content">
-    <p>Наличие настроенных механик по продукту.</p>
-    <section><p>Удержание клиентов.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — через создание ценности.</li><li><b>0,5 балла (50%)</b> — только через информационную коммуникацию.</li></ul></section>
-    <section><p>Возврат клиентов.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — через создание ценности.</li><li><b>0,5 балла (50%)</b> — только через информационную коммуникацию.</li></ul></section>
-    <section><p>Перекрёстные продажи (cross-sell).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — в процессе оформления и после покупки.</li><li><b>0,5 балла (50%)</b> — в процессе оформления или после покупки.</li></ul></section>
-    <section><p>Дополнительные продажи (upsell).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — механика настроена.</li></ul></section>
-    <section><p>Гибкость изменений без IT. Ценообразование не учитывается.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — изменение условий с персонализацией до клиентских подсегментов.</li><li><b>0,5 балла (50%)</b> — изменение набора опций без персонализации.</li></ul></section>
-    <section><p>Мониторинг эффективности механик.</p><strong>Оценка:</strong><ul><li><b>0,25 балла (100%)</b> — есть метрики мониторинга.</li></ul></section>
-  </div>;
+const MECHANICS_METRIC_HELP_CONTENT = {
+    'mehaniki.nalichie_sobstvennyh_mehanik': <div className="goals-help-content mechanics-metric-help-content"><p>Наличие настроенных механик по продукту.</p></div>,
+    'mehaniki.uderzhanie_klientov': <div className="goals-help-content mechanics-metric-help-content"><section><p>Удержание клиентов.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — через создание ценности.</li><li><b>0,5 балла (50%)</b> — только через информационную коммуникацию.</li></ul></section></div>,
+    'mehaniki.vozvrat_klientov': <div className="goals-help-content mechanics-metric-help-content"><section><p>Возврат клиентов.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — через создание ценности.</li><li><b>0,5 балла (50%)</b> — только через информационную коммуникацию.</li></ul></section></div>,
+    'mehaniki.cross_sell': <div className="goals-help-content mechanics-metric-help-content"><section><p>Перекрёстные продажи (cross-sell).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — в процессе оформления и после покупки.</li><li><b>0,5 балла (50%)</b> — в процессе оформления или после покупки.</li></ul></section></div>,
+    'mehaniki.doprodazhi_upsell': <div className="goals-help-content mechanics-metric-help-content"><section><p>Дополнительные продажи (upsell).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — механика настроена.</li></ul></section></div>,
+    'mehaniki.gibkoe_izmenenie_usloviy_produkta': <div className="goals-help-content mechanics-metric-help-content"><section><p>Гибкость изменений без IT. Ценообразование не учитывается.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — изменение условий с персонализацией до клиентских подсегментов.</li><li><b>0,5 балла (50%)</b> — изменение набора опций без персонализации.</li></ul></section></div>,
+    'mehaniki.monitoring_mehanik': <div className="goals-help-content mechanics-metric-help-content"><section><p>Мониторинг эффективности механик.</p><strong>Оценка:</strong><ul><li><b>0,25 балла (100%)</b> — есть метрики мониторинга.</li></ul></section></div>,
+};
+
+function MechanicsMetricHelp({metric}) {
+  const content = MECHANICS_METRIC_HELP_CONTENT[String(metric?.code || '').trim().toLowerCase()];
+  if (!content) return null;
+  return <span className="mechanics-metric-help"><HelpMark aria-label={`Критерии оценки: ${metric.name}`} popoverProps={HELP_POPOVER_PROPS}>{content}</HelpMark></span>;
 }
 
 function CxHelpContent() {
@@ -200,7 +204,6 @@ function ProductBlockHelp({blockCode}) {
   const help = {
     goals: {label: 'Критерии оценки мониторинга целей', content: <GoalsHelpContent />},
     alerts: {label: 'Критерии оценки алертов', content: <AlertsHelpContent />},
-    mehaniki: {label: 'Критерии оценки механик', content: <MechanicsHelpContent />},
     cx: {label: 'Критерии оценки клиентского опыта', content: <CxHelpContent />},
     hyp: {label: 'Критерии оценки гипотез и инициатив', content: <HypothesesHelpContent />},
   }[blockCode];
@@ -256,10 +259,11 @@ function MetricRow({metric, detailScore, instruction, instructionLinks = [], lib
       : 'Нет данных';
   const lightTheme = detailScore ? (isTbd ? 'default' : theme) : (status.theme === 'normal' ? 'default' : status.theme);
   const insights = [...(aiMetricInsight ? [aiMetricInsight] : []), ...aiMetricInsights];
+  const mechanicsHelp = <MechanicsMetricHelp metric={metric} />;
   return (
     <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}`}>
       <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line"><b>{metric.name}</b>{isInformational && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{metric.footer}</span>}</div></div>
-      <div className="metric-value">{detailScore ? <><div className="metric-value-caption">{digitallyConfirmed && <DigitalTraceConfirmation />}<span>{valueLabel}</span></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{digitallyConfirmed && <DigitalTraceConfirmation />}<Label className="metric-status-label" theme={status.theme}>{status.label}</Label></div>}</div>
+      <div className="metric-value">{detailScore ? <><div className="metric-value-caption">{mechanicsHelp}{digitallyConfirmed && <DigitalTraceConfirmation />}<span>{valueLabel}</span></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{mechanicsHelp}{digitallyConfirmed && <DigitalTraceConfirmation />}<Label className="metric-status-label" theme={status.theme}>{status.label}</Label></div>}</div>
       {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
       <MetricInlineResources title="Инструкция к А/В тестам" actions={instructionLinks} />
       {library && <MetricInlineAction title="Библиотека решений" subtitle="Практики для повышения оценки исследований" href={library.link} actionLabel="Открыть" />}
