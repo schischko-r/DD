@@ -32,6 +32,14 @@ export function isInformationalMetric(metric) {
   return Number(metric?.dd_calculation_flg) === 0;
 }
 
+export function inapplicableMetricLabel(metric) {
+  const code = String(metric?.code || '').trim();
+  const name = String(metric?.name || '').trim();
+  const isAbTests = /^hyp\.ab_tests$/i.test(code)
+    || /^(?:A\/B|А\/В)[-\s]?тесты$/i.test(name);
+  return isAbTests ? 'Нет плана по A/B' : 'Не применимо';
+}
+
 const DIGITAL_TRACE_CROSS_SELL_PRODUCTS = new Set([
   'ОСАГО',
   'КАСКО',
