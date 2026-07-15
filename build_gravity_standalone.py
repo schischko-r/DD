@@ -22,12 +22,19 @@ def build(template_path: Path, data_path: Path, output_path: Path) -> None:
         ensure_ascii=False,
         separators=(",", ":"),
     )
+    data = (
+        data.replace("&", "\\u0026")
+        .replace("<", "\\u003c")
+        .replace(">", "\\u003e")
+        .replace("\u2028", "\\u2028")
+        .replace("\u2029", "\\u2029")
+    )
     replacement = f"Promise.resolve({{json: () => Promise.resolve({data})}})"
 
     fetch_pattern = re.compile(
         r"fetch\(([\"'])\./report-data\.json\1(?:\s*,\s*\{\s*cache\s*:\s*([\"'])no-store\2\s*\})?\)"
     )
-    template, replacement_count = fetch_pattern.subn(replacement, template)
+    template, replacement_count = fetch_pattern.subn(lambda _match: replacement, template)
 
     if replacement_count == 0:
         raise ValueError("The bundle does not contain the report-data fetch marker")

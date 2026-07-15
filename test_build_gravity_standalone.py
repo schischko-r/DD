@@ -17,13 +17,20 @@ class BuildGravityStandaloneTest(unittest.TestCase):
                 '<script>fetch("./report-data.json",{cache:"no-store"}).then(load)</script>',
                 encoding="utf-8",
             )
-            data.write_text(json.dumps({"products": [{"name": "Тест"}]}), encoding="utf-8")
+            data.write_text(
+                json.dumps({"products": [{"name": "Тест\n</script>"}]}),
+                encoding="utf-8",
+            )
 
             build(template, data, output)
 
             result = output.read_text(encoding="utf-8")
             self.assertNotIn("fetch(\"./report-data.json\"", result)
-            self.assertIn('Promise.resolve({json: () => Promise.resolve({"products":[{"name":"Тест"}]})})', result)
+            self.assertIn(
+                'Promise.resolve({json: () => Promise.resolve({"products":[{"name":"Тест\\n\\u003c/script\\u003e"}]})})',
+                result,
+            )
+            self.assertNotIn('"name":"Тест\n', result)
 
 
 if __name__ == "__main__":
