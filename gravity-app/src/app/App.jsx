@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo} from '@gravity-ui/icons';
 import {Icon, Spin} from '@gravity-ui/uikit';
 import {AsideHeader} from '@gravity-ui/navigation';
@@ -13,6 +13,10 @@ export function App() {
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
   const [detailScore, setDetailScore] = useState(false);
+  const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
+  const updateSummaryFilters = useCallback((patch) => {
+    setSummaryFilters((current) => ({...current, ...patch}));
+  }, []);
   useEffect(() => {
     fetch('./report-data.json', {cache: 'no-store'})
       .then((response) => response.json())
@@ -67,7 +71,7 @@ export function App() {
   const content = view === 'summary'
     ? <SummaryPage products={data.products} rows={rows} />
     : view === 'dashboard'
-      ? <DashboardPage products={data.products} rows={rows} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
+      ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
       : view === 'about'
         ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
         : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} />;

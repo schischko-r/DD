@@ -6,7 +6,7 @@ import {antiTopBlockLabel} from '../domain/report.js';
 import {CatalogDialogFiltered, TEAM_CONTACT_MAILTO, blockPercent, compareNames, isUnitFilterOption, maturityTheme, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
-export function DashboardPage({products, rows, onOpen, onAbout}) {
+export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout}) {
   const [catalogType, setCatalogType] = useState('');
   const [catalogMaturity, setCatalogMaturity] = useState(null);
   const [teamContactOpen, setTeamContactOpen] = useState(false);
@@ -14,15 +14,15 @@ export function DashboardPage({products, rows, onOpen, onAbout}) {
   const [teamSearchOpen, setTeamSearchOpen] = useState(false);
   const teamSearchRef = useRef(null);
   const periods = useMemo(() => [...new Set(products.map((item) => item.period).filter(Boolean))].sort(compareNames), [products]);
-  const [period, setPeriod] = useState(() => periods[0] || '');
-  const [unit, setUnit] = useState('');
+  const period = summaryFilters?.period || periods[0] || '';
+  const unit = summaryFilters?.unit || '';
   const [hoveredBlock, setHoveredBlock] = useState('');
   const units = useMemo(() => [...new Set(products.filter((item) => !period || item.period === period).map((item) => item.unit).filter((item) => item && isUnitFilterOption(item)))].sort(compareNames), [products, period]);
   const periodProducts = useMemo(() => products.filter((item) => !period || item.period === period), [products, period]);
   const scopedProducts = useMemo(() => periodProducts.filter((item) => !unit || item.unit === unit), [periodProducts, unit]);
   useEffect(() => {
-    if (unit && !units.includes(unit)) setUnit('');
-  }, [unit, units]);
+    if (unit && !units.includes(unit)) onSummaryFiltersChange({unit: ''});
+  }, [onSummaryFiltersChange, unit, units]);
   useEffect(() => {
     const closeTeamSearch = (event) => {
       if (!teamSearchRef.current?.contains(event.target)) setTeamSearchOpen(false);
@@ -103,7 +103,7 @@ export function DashboardPage({products, rows, onOpen, onAbout}) {
       <header className="dashboard-header">
         <div><h1>Summary</h1><Text variant="body-1" color="secondary">Сводный профиль Data-Driven Index по B2C</Text></div>
         <div className="dashboard-header-actions">
-          <label className="dashboard-unit-filter"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => setUnit(value[0] || '')} placeholder="Все юниты" width={190}><Select.Option value="">Все юниты</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
+          <label className="dashboard-unit-filter"><span>Юнит</span><Select value={unit ? [unit] : []} onUpdate={(value) => onSummaryFiltersChange({unit: value[0] || ''})} placeholder="Все юниты" width={190}><Select.Option value="">Все юниты</Select.Option>{units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
           <div ref={teamSearchRef} className="dashboard-team-search" onFocusCapture={() => setTeamSearchOpen(true)} onKeyDown={(event) => { if (event.key === 'Escape') setTeamSearchOpen(false); }}>
             <div className="dashboard-team-search-head">
               <Text variant="subheader-1">Найти свою команду</Text>
@@ -115,7 +115,7 @@ export function DashboardPage({products, rows, onOpen, onAbout}) {
               {teamMatches.length ? teamMatches.map((item) => <Button key={item.id} view="flat" width="max" role="option" onClick={() => { setTeamSearchOpen(false); setTeamQuery(''); onOpen(item); }}><span className="dashboard-team-search-result"><b>{item.name}</b><small>{item.type} · {item.unit}</small></span></Button>) : <Text color="secondary">Команда не найдена</Text>}
             </div>}
           </div>
-          <label className="dashboard-period"><span>Период</span><Select value={period ? [period] : []} onUpdate={(value) => setPeriod(value[0] || '')} width={190}>{periods.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
+          <label className="dashboard-period"><span>Период</span><Select value={period ? [period] : []} onUpdate={(value) => onSummaryFiltersChange({period: value[0] || ''})} width={190}>{periods.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>
         </div>
       </header>
 
