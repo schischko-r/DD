@@ -9,6 +9,7 @@ import {
   ProductMetricRecommendations,
   digestStatus,
   digestTheme,
+  hasAvailableRecommendations,
   recommendationBlockCode,
   worstDigestLight,
 } from '../features/llm-summary/LlmSummary.jsx';
@@ -436,7 +437,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
   const aiRecommendations = product.metric_recommendations || [];
-  const hasAiRecommendations = aiRecommendations.length > 0;
+  const hasAiRecommendations = hasAvailableRecommendations(aiRecommendations);
   const aiRecommendationLight = hasAiRecommendations ? worstDigestLight(aiRecommendations) : 'gray';
   const aiRecommendationTheme = aiRecommendationLight === 'gray' ? 'default' : digestTheme(aiRecommendationLight);
   const profileSeries = radarSeries(product.type);

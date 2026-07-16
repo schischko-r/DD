@@ -47,6 +47,14 @@ class SyntheticReportTest(unittest.TestCase):
             expected,
         )
 
+    def test_csi_link_uses_the_ai_skill_dashboard(self) -> None:
+        expected = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053756"
+        self.assertEqual(report.CSI_SKILL_URL, expected)
+        self.assertEqual(
+            report._DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["cx.csi"]["link"],
+            expected,
+        )
+
     def test_metric_blocks_follow_requested_display_order(self) -> None:
         blocks = [
             {"code": "cx"},

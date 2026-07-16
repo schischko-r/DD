@@ -5,7 +5,7 @@ import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
 import {digestStatus, digestTheme, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
-export {digestStatus, digestTheme, worstDigestLight} from './digestPresentation.js';
+export {digestStatus, digestTheme, hasAvailableRecommendations, worstDigestLight} from './digestPresentation.js';
 
 function displaySkillName(name) {
   return String(name || '').replace(/^Навык\s+[«"]Ключевые метрики[»"]$/i, 'Ключевые метрики');

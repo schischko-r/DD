@@ -69,6 +69,8 @@ _DD_FROM_EXCEL = _load_embedded_module(_DD_FROM_EXCEL_SOURCE, "_embedded_dd_from
 PILOT_CAMPAIGNS_URL = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
 _DD_FROM_EXCEL["COMMON_BUTTONS"]["attract_pilot_campaigns"]["link"] = PILOT_CAMPAIGNS_URL
 _DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["attract_pilots"]["link"] = PILOT_CAMPAIGNS_URL
+CSI_SKILL_URL = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053756"
+_DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["cx.csi"]["link"] = CSI_SKILL_URL
 _DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")
 _DD_FROM_EXCEL["METRIC_CODES"][
     ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
