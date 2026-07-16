@@ -113,12 +113,6 @@ export function AboutPage({onBack}) {
             <span>Data-Driven Index</span>
             <strong>Σ фактических баллов / Σ максимальных применимых баллов × 100%</strong>
           </div>
-          <div className="about-method-summary" aria-label="Основные параметры методики">
-            <div><span>Результат</span><strong>0–100%</strong><small>нормированный индекс</small></div>
-            <div><span>Структура</span><strong>8 практик</strong><small>от ключевых метрик до клиентского опыта</small></div>
-            <div><span>Основа</span><strong>Факт / максимум</strong><small>только применимые критерии</small></div>
-            <div><span>Детализация</span><strong>По блокам</strong><small>для локализации отклонений</small></div>
-          </div>
         </div>
       </section>
 
