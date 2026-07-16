@@ -63,19 +63,31 @@ export function AboutPage({onBack}) {
       <SemanticButton className="about-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton>
       <section className="about-hero">
         <div className="about-hero-main">
-          <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Методология Data Driven B2C</span></div>
-          <h1>Методология Data-Driven Index</h1>
-          <Text variant="body-2" color="secondary">Нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text>
+          <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Data Driven B2C</span></div>
+          <h1>Что такое Data Driven</h1>
+          <div className="about-hero-definition">
+            <Text variant="body-2" color="secondary">Data Driven — это метод принятия решений, основанный на анализе данных, а не только на интуиции или личном опыте.</Text>
+            <Text variant="body-2" color="secondary">Главный принцип — решения основываются на фактических данных и их анализе. При этом сами данные должны быть качественными и актуальными.</Text>
+          </div>
           <div className="about-hero-actions">
             <Button view="outlined-info" size="l" href="#assessment">Формула и шкала</Button>
             <Button view="flat" size="l" href="#practices">Критерии оценки</Button>
           </div>
         </div>
-        <div className="about-method-summary" aria-label="Основные параметры методики">
-          <div><span>Результат</span><strong>0–100%</strong><small>нормированный индекс</small></div>
-          <div><span>Структура</span><strong>8 практик</strong><small>от ключевых метрик до клиентского опыта</small></div>
-          <div><span>Основа</span><strong>Факт / максимум</strong><small>только применимые критерии</small></div>
-          <div><span>Детализация</span><strong>По блокам</strong><small>для локализации отклонений</small></div>
+        <div className="about-index-overview">
+          <Text variant="caption-2" color="secondary">МЕТОДИКА ОЦЕНКИ</Text>
+          <h2>Что такое Data-Driven Index</h2>
+          <Text color="secondary">Data-Driven Index — это нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text>
+          <div className="about-index-equation" aria-label="Data-Driven Index равен сумме фактических баллов, делённой на сумму максимальных применимых баллов, умноженной на сто процентов">
+            <span>Data-Driven Index</span>
+            <strong>Σ фактических баллов / Σ максимальных применимых баллов × 100%</strong>
+          </div>
+          <div className="about-method-summary" aria-label="Основные параметры методики">
+            <div><span>Результат</span><strong>0–100%</strong><small>нормированный индекс</small></div>
+            <div><span>Структура</span><strong>8 практик</strong><small>от ключевых метрик до клиентского опыта</small></div>
+            <div><span>Основа</span><strong>Факт / максимум</strong><small>только применимые критерии</small></div>
+            <div><span>Детализация</span><strong>По блокам</strong><small>для локализации отклонений</small></div>
+          </div>
         </div>
       </section>
 
