@@ -537,9 +537,10 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .about-methodology-subsection-head { margin-bottom: 12px; }
 .about-methodology-browser { margin-top: 14px; display: grid; grid-template-columns: minmax(230px, .52fr) minmax(0, 1.48fr); align-items: start; gap: 16px; }
 .about-methodology-blocks { position: sticky; top: 64px; padding: 10px; display: grid; gap: 3px; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); }
-.about-methodology-blocks-head { min-height: 38px; padding: 0 8px 7px; display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--g-color-text-secondary); font-size: 10px; font-weight: 600; text-transform: uppercase; }
+.about-methodology-blocks-head { min-height: 42px; padding: 4px 8px 9px; display: flex; align-items: center; color: var(--g-color-text-primary); font-size: 11px; font-weight: 600; line-height: 1.35; text-transform: uppercase; }
 .about-methodology-block-button { min-height: 46px; justify-content: flex-start; text-align: left; }
-.about-methodology-block-button > span { min-width: 0; width: 100%; display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: center; gap: 8px; }
+.about-methodology-block-button .g-button__text { min-width: 0; width: 100%; text-align: left; }
+.about-methodology-block-button .g-button__text > span { min-width: 0; width: 100%; display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: center; gap: 8px; }
 .about-methodology-block-button small { color: var(--g-color-text-secondary); font-size: 10px; font-weight: 600; }
 .about-methodology-block-button b { min-width: 0; font-size: 12px; line-height: 1.3; white-space: normal; }
 .about-methodology-panel { min-width: 0; padding: 22px; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); }
@@ -556,8 +557,8 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .about-methodology-criterion-head .g-text { font-size: 12px; line-height: 1.5; }
 .about-methodology-score-table { margin: 14px 0 0 39px; overflow: hidden; border: 1px solid var(--g-color-line-generic); border-radius: 7px; }
 .about-methodology-score-head { min-height: 32px; padding: 7px 12px; display: grid; grid-template-columns: 145px minmax(0, 1fr); align-items: center; gap: 14px; background: var(--g-color-base-generic-ultralight); color: var(--g-color-text-secondary); font-size: 10px; font-weight: 600; text-transform: uppercase; }
-.about-methodology-score { min-height: 46px; padding: 9px 12px; display: grid; grid-template-columns: 145px minmax(0, 1fr); align-items: center; gap: 14px; border-top: 1px solid var(--g-color-line-generic); }
-.about-methodology-score > .g-label { width: 100%; min-width: 0; justify-content: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.about-methodology-score { min-height: 46px; padding: 11px 12px; display: grid; grid-template-columns: 145px minmax(0, 1fr); align-items: start; gap: 14px; border-top: 1px solid var(--g-color-line-generic); }
+.about-methodology-score > .g-label { width: max-content; max-width: 100%; min-width: 0; justify-content: flex-start; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .about-methodology-score > span { min-width: 0; font-size: 12px; line-height: 1.45; }
 .about-summary-cta { min-height: 112px; margin-top: 64px; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--g-color-line-generic); border-bottom: 1px solid var(--g-color-line-generic); background: var(--g-color-base-background); }
 .about-summary-cta > div { display: grid; gap: 5px; }
