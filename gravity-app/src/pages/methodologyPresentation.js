@@ -1,0 +1,78 @@
+export function groupMethodologySections(sections) {
+  const groups = new Map();
+  for (const section of sections || []) {
+    if (!groups.has(section.title)) groups.set(section.title, {title: section.title, subsections: []});
+    groups.get(section.title).subsections.push(section);
+  }
+  return [...groups.values()];
+}
+
+function scoreLine(line) {
+  if (!/^\d+(?:[,.]\d+)?\s*балл/i.test(line)) return null;
+  const match = line.match(/^(.+?\(\s*\d+\s*%\s*\))\s*-?\s*(.*)$/);
+  if (!match) return {kind: 'score', label: 'Баллы', text: line};
+  return {kind: 'score', label: match[1].trim(), text: match[2].trim()};
+}
+
+function needsContinuation(text) {
+  const opening = (text.match(/\(/g) || []).length;
+  const closing = (text.match(/\)/g) || []).length;
+  return opening > closing || /[\/,]$/.test(text);
+}
+
+export function parseMethodologyContent(body) {
+  const lines = String(body || '').replace(/\r\n?/g, '\n').split('\n');
+  const tokens = [];
+  let paragraphStart = true;
+  let afterScore = false;
+  let pendingScore = null;
+
+  const flushScore = () => {
+    if (!pendingScore) return;
+    tokens.push(pendingScore);
+    pendingScore = null;
+  };
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index].replace(/\s+/g, ' ').trim();
+    if (!line) {
+      flushScore();
+      if (tokens.length && tokens[tokens.length - 1].kind !== 'break') tokens.push({kind: 'break'});
+      paragraphStart = true;
+      afterScore = false;
+      continue;
+    }
+    if (/^оценка\s*:?$/i.test(line)) continue;
+
+    const score = scoreLine(line);
+    if (score) {
+      flushScore();
+      pendingScore = score;
+      paragraphStart = false;
+      afterScore = true;
+      continue;
+    }
+
+    if (pendingScore && needsContinuation(pendingScore.text)) {
+      pendingScore.text = `${pendingScore.text} ${line}`.trim();
+      continue;
+    }
+
+    flushScore();
+    const isSupportingText = line.startsWith('(') || line.length > 180;
+    tokens.push({kind: paragraphStart || afterScore ? (isSupportingText ? 'text' : 'heading') : 'text', text: line});
+    paragraphStart = false;
+    afterScore = false;
+  }
+  flushScore();
+  if (tokens[tokens.length - 1]?.kind === 'break') tokens.pop();
+  return tokens;
+}
+
+export function methodologyScoreTheme(label) {
+  const percent = Number(String(label || '').match(/\((\d+)\s*%\)/)?.[1]);
+  if (percent === 100) return 'success';
+  if (percent === 50) return 'warning';
+  if (percent === 0) return 'danger';
+  return 'info';
+}

@@ -1,9 +1,35 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ArrowLeft, BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Persons} from '@gravity-ui/icons';
-import {Accordion, Button, Card, Icon, Label, Text} from '@gravity-ui/uikit';
+import {Accordion, Alert, Button, Card, Icon, Label, SegmentedRadioGroup, Select, Text} from '@gravity-ui/uikit';
+import methodologyProfiles from '../data/methodologyCriteria.json';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
+import {groupMethodologySections, methodologyScoreTheme, parseMethodologyContent} from './methodologyPresentation.js';
+
+const METHODOLOGY_ENTITY_TYPES = [
+  {key: 'product', label: 'Продукт'},
+  {key: 'segment', label: 'Сегмент'},
+  {key: 'channel', label: 'Канал'},
+];
+
+function MethodologyContent({body}) {
+  return <div className="about-methodology-content">{parseMethodologyContent(body).map((token, index) => {
+    if (token.kind === 'break') return <div className="about-methodology-break" aria-hidden="true" key={`break-${index}`} />;
+    if (token.kind === 'heading') return <h4 key={`heading-${index}`}>{token.text}</h4>;
+    if (token.kind === 'score') return <div className="about-methodology-score" key={`score-${index}`}><Label theme={methodologyScoreTheme(token.label)} size="xs">{token.label}</Label><span>{token.text}</span></div>;
+    return <Text color="secondary" key={`text-${index}`}>{token.text}</Text>;
+  })}</div>;
+}
 
 export function AboutPage({onBack}) {
+  const [methodologyEntityType, setMethodologyEntityType] = useState('product');
+  const [methodologyProfileKey, setMethodologyProfileKey] = useState('product');
+  const availableProfiles = methodologyProfiles.filter((profile) => profile.entityType === methodologyEntityType);
+  const activeProfile = availableProfiles.find((profile) => profile.key === methodologyProfileKey) || availableProfiles[0];
+  const methodologyGroups = groupMethodologySections(activeProfile?.sections || []);
+  const selectMethodologyEntityType = (entityType) => {
+    setMethodologyEntityType(entityType);
+    setMethodologyProfileKey(methodologyProfiles.find((profile) => profile.entityType === entityType)?.key || '');
+  };
   const principles = [
     {title: 'Объект оценки', text: 'Команда продукта, сегмента или канала. Индекс отражает состояние практик команды в расчётном периоде.', icon: Persons},
     {title: 'Источники фактов', text: 'Цифровые следы, действующая отчётность и ответы команды. Для каждого критерия фиксируется подтверждённое значение.', icon: ChartColumn},
@@ -131,17 +157,25 @@ export function AboutPage({onBack}) {
       </section>
 
       <section className="about-section" id="practices">
-        <div className="about-practices-layout">
-          <div className="about-practices-intro">
-            <h2>Критерии<br />и максимальные баллы</h2>
-            <Text className="about-practices-lead" color="secondary">Каждая практика раскрывается в набор измеримых критериев. Карточка команды показывает факт, максимум и статус по каждому применимому критерию.</Text>
-            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
-          </div>
-          <div className="about-accordion-card">
-            <Accordion view="top-bottom" size="l">
-              {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><div className="about-zone-detail"><Text color="secondary">{zone.text}</Text><div className="about-zone-criteria">{zone.criteria.map((criterion, criterionIndex) => <React.Fragment key={`${criterion.section || ''}-${criterion.name}-${criterion.points}`}>{criterion.section && criterion.section !== zone.criteria[criterionIndex - 1]?.section && <div className="about-zone-subgroup">{criterion.section}</div>}<div className="about-zone-criterion"><Label theme={criterion.excluded ? 'normal' : 'info'} size="xs">{criterion.points}</Label><span>{criterion.name}</span></div></React.Fragment>)}</div></div></Accordion.Item>)}
-            </Accordion>
-          </div>
+        <div className="about-practices-heading">
+          <div><Text variant="caption-2" color="secondary">МЕТОДИКА ИЗ EXCEL</Text><h2>Критерии и баллы</h2><Text color="secondary">Выберите тип команды: список покажет только релевантные блоки, условия оценки и баллы из соответствующего столбца методики.</Text></div>
+          <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
+        </div>
+
+        <Card className="about-methodology-controls" view="outlined" type="container" size="l">
+          <div className="about-methodology-control"><Text variant="subheader-2">Тип команды</Text><SegmentedRadioGroup value={methodologyEntityType} onUpdate={selectMethodologyEntityType} size="l">{METHODOLOGY_ENTITY_TYPES.map((type) => <SegmentedRadioGroup.Option value={type.key} key={type.key}>{type.label}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>
+          {availableProfiles.length > 1 && <label className="about-methodology-control"><Text variant="subheader-2">Профиль методики</Text><Select value={activeProfile ? [activeProfile.key] : []} onUpdate={(value) => setMethodologyProfileKey(value[0] || availableProfiles[0]?.key || '')} width="max" size="l">{availableProfiles.map((profile) => <Select.Option value={profile.key} key={profile.key}>{profile.shortLabel}</Select.Option>)}</Select></label>}
+        </Card>
+
+        {activeProfile && <Alert className="about-methodology-profile" theme="info" view="outlined" title={activeProfile.shortLabel} message={`Методика для: ${activeProfile.label}. Доступно блоков: ${methodologyGroups.length}.`} />}
+
+        <div className="about-methodology-accordion">
+          <Accordion view="top-bottom" size="l">
+            {methodologyGroups.map((group, index) => {
+              const subgroupNames = [...new Set(group.subsections.map((section) => section.subgroup).filter(Boolean))];
+              return <Accordion.Item key={group.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><div><b>{group.title}</b>{subgroupNames.length > 0 && <span>{subgroupNames.join(' · ')}</span>}</div><Label className="about-zone-count" theme="info" size="xs">{group.subsections.length}</Label></div>}><div className="about-methodology-subsections">{group.subsections.map((section) => <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div><MethodologyContent body={section.body} /></section>)}</div></Accordion.Item>;
+            })}
+          </Accordion>
         </div>
       </section>
 
