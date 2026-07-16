@@ -237,7 +237,7 @@ function MechanicsMetricHelp({metric, product}) {
 
 function CxHelpContent({audience}) {
   if (audience === 'digital-channel') {
-    return <div className="goals-help-content"><p>UX Score.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — зелёная зона UX Score.</li><li><b>0,5 балла (50%)</b> — жёлтая зона UX Score.</li></ul></div>;
+    return <div className="goals-help-content"><p>Зеленая зона UX Score.</p><p>UX Score определяет вес каждой UX-проблемы на основе разметки задач в Jira, затем вычисляет итоговую метрику команды, продукта или трайба на основе связанных с ними задач.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — зеленая зона UX Score.</li><li><b>0,5 балла (100%)</b> — желтая зона UX Score.</li></ul></div>;
   }
   return <div className="goals-help-content"><p>CX Score рассчитывается на основе данных дашборда «Здоровье CX продуктов».</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — зелёная зона CX Score.</li><li><b>0,5 балла (50%)</b> — жёлтая зона CX Score.</li></ul></div>;
 }
