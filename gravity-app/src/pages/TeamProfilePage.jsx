@@ -15,8 +15,8 @@ import {
 
 const CROSS_SELL_ANALYTICS_URL = 'https://losshunter.ru/showcase/crosssell/#screen=pult';
 const AB_TEST_INSTRUCTION_LINKS = [
-  {label: 'Онлайн курс по АБ на КУ', href: 'https://hr.sberbank.ru/platform/catalog/c515dcab-a8b7-4f03-a76a-e1b7349f857d'},
-  {label: 'Демо платформы АБ SW', href: 'https://sbervideo.sberbank.ru/watch/kpgpJi35gzwMIVu3X51'},
+  {label: 'Онлайн курс по A/B', href: 'https://hr.sberbank.ru/platform/catalog/c515dcab-a8b7-4f03-a76a-e1b7349f857d'},
+  {label: 'Демо A/B-платформы', href: 'https://sbervideo.sberbank.ru/watch/kpgpJi35gzwMIVu3X51'},
 ];
 
 function MetricInlineAction({title, subtitle, href, onClick, tone = 'info', actionLabel = 'Перейти'}) {
