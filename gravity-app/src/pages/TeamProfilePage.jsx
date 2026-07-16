@@ -298,6 +298,7 @@ function MetricRow({metric, product, detailScore, instruction, instructionLinks 
   const theme = metric.max_value ? progressTheme(value) : 'default';
   const isTbd = isTbdMetric(metric);
   const isInformational = isInformationalMetric(metric);
+  const showInformationalBadge = isInformational && !/^регулярность$/i.test(String(metric.name || '').trim());
   const isIrrelevant = metric.is_applicabble_flg === false && !isTbd;
   const isNotApplicable = metric.is_applicabble_flg === false;
   const isMissingCxTeam = isNotApplicable && /^cx score$/i.test(String(metric.name || '').trim());
@@ -324,7 +325,7 @@ function MetricRow({metric, product, detailScore, instruction, instructionLinks 
   const mechanicsHelp = <MechanicsMetricHelp metric={metric} product={product} />;
   return (
     <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}`}>
-      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line"><b>{metric.name}</b>{isInformational && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{metric.footer}</span>}</div></div>
+      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line"><b>{metric.name}</b>{showInformationalBadge && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{metric.footer}</span>}</div></div>
       <div className="metric-value">{detailScore ? <><div className="metric-value-caption">{digitallyConfirmed && <DigitalTraceConfirmation />}{mechanicsHelp}<span className="metric-value-label">{valueLabel}</span></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{digitallyConfirmed && <DigitalTraceConfirmation />}{mechanicsHelp}<Label className="metric-status-label" theme={status.theme}>{status.label}</Label></div>}</div>
       {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
       <MetricInlineResources title="Инструкция к А/В тестам" actions={instructionLinks} />
