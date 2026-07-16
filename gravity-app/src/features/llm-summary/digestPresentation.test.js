@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {digestStatus, digestTheme, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {digestStatus, digestTheme, hasAvailableRecommendations, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestTheme('red'), 'danger');
@@ -18,6 +18,16 @@ test('worst digest light keeps existing priority order', () => {
   assert.equal(worstDigestLight([{traffic_light: 'green'}, {traffic_light: 'red'}]), 'red');
   assert.equal(worstDigestLight([{}]), 'gray');
   assert.equal(worstDigestLight([]), 'gray');
+});
+
+test('recommendations are unavailable when only an empty LLM summary exists', () => {
+  assert.equal(hasAvailableRecommendations([]), false);
+  assert.equal(hasAvailableRecommendations([{llm_summary: true, llm_placeholder: true}]), false);
+  assert.equal(hasAvailableRecommendations([
+    {llm_summary: true, llm_placeholder: true},
+    {skill_key: 'csi'},
+  ]), true);
+  assert.equal(hasAvailableRecommendations([{llm_summary: true}]), true);
 });
 
 test('recommendation skill link uses the matching AI tool from the metric block', () => {

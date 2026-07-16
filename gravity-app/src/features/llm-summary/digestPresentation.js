@@ -17,6 +17,10 @@ export function worstDigestLight(items) {
   return order.find((light) => items.some((item) => (item.traffic_light || 'gray') === light)) || 'gray';
 }
 
+export function hasAvailableRecommendations(items) {
+  return (items || []).some((item) => !item.llm_placeholder);
+}
+
 export function recommendationSkillLink(block, items) {
   const skillKeys = new Set(
     (items || []).map((item) => String(item.skill_key || '').trim()).filter(Boolean),
