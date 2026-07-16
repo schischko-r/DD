@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ArrowLeft, BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Persons} from '@gravity-ui/icons';
-import {Accordion, Alert, Button, Card, Icon, Label, SegmentedRadioGroup, Select, Text} from '@gravity-ui/uikit';
+import {Accordion, Button, Card, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
 import methodologyProfiles from '../data/methodologyCriteria.json';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {groupMethodologySections, methodologyScoreTheme, parseMethodologyContent} from './methodologyPresentation.js';
@@ -163,11 +163,14 @@ export function AboutPage({onBack}) {
         </div>
 
         <Card className="about-methodology-controls" view="outlined" type="container" size="l">
-          <div className="about-methodology-control"><Text variant="subheader-2">Тип команды</Text><SegmentedRadioGroup value={methodologyEntityType} onUpdate={selectMethodologyEntityType} size="l">{METHODOLOGY_ENTITY_TYPES.map((type) => <SegmentedRadioGroup.Option value={type.key} key={type.key}>{type.label}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>
-          {availableProfiles.length > 1 && <label className="about-methodology-control"><Text variant="subheader-2">Профиль методики</Text><Select value={activeProfile ? [activeProfile.key] : []} onUpdate={(value) => setMethodologyProfileKey(value[0] || availableProfiles[0]?.key || '')} width="max" size="l">{availableProfiles.map((profile) => <Select.Option value={profile.key} key={profile.key}>{profile.shortLabel}</Select.Option>)}</Select></label>}
+          <div className="about-methodology-controls-copy"><Text variant="subheader-1">Критерии для команды</Text><Text color="secondary">Сначала выберите объект оценки, затем нужное направление.</Text></div>
+          <div className="about-methodology-switches">
+            <SegmentedRadioGroup aria-label="Объект оценки" value={methodologyEntityType} onUpdate={selectMethodologyEntityType} size="l">{METHODOLOGY_ENTITY_TYPES.map((type) => <SegmentedRadioGroup.Option value={type.key} key={type.key}>{type.label}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup>
+            {availableProfiles.length > 1 && <SegmentedRadioGroup className="about-methodology-profile-switch" aria-label="Направление методики" value={activeProfile?.key || ''} onUpdate={setMethodologyProfileKey} size="m">{availableProfiles.map((profile) => <SegmentedRadioGroup.Option value={profile.key} key={profile.key}>{profile.shortLabel}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup>}
+          </div>
         </Card>
 
-        {activeProfile && <Alert className="about-methodology-profile" theme="info" view="outlined" title={activeProfile.shortLabel} message={`Методика для: ${activeProfile.label}. Доступно блоков: ${methodologyGroups.length}.`} />}
+        {activeProfile && <div className="about-methodology-profile"><div><b>{activeProfile.shortLabel}</b><span>{activeProfile.label}</span></div><Label theme="info">{methodologyGroups.length} блоков</Label></div>}
 
         <div className="about-methodology-accordion">
           <Accordion view="top-bottom" size="l">
