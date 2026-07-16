@@ -4,7 +4,6 @@ import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravi
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {antiTopBlockLabel} from '../domain/report.js';
 import {CatalogDialogFiltered, TEAM_CONTACT_MAILTO, blockPercent, compareNames, isUnitFilterOption, maturityTheme, typeTone} from '../features/catalog/Catalog.jsx';
-import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
 export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout}) {
   const [catalogType, setCatalogType] = useState('');
@@ -143,13 +142,26 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{item.name}</b><small className="dashboard-antitop-block" title={antiTopBlockLabel(item.block)}>{antiTopBlockLabel(item.block)}</small></div><div className="dashboard-antitop-result"><strong>{item.incompleteShare}%</strong><small>{item.incompleteTeams} из {item.teams} команд</small></div></div>)}</div></Card>
       </section>
 
-      <Card className="dashboard-about-card" view="outlined">
+      <Card
+        className="dashboard-about-card"
+        view="outlined"
+        role="button"
+        tabIndex={0}
+        aria-label="О Data Driven: открыть методологию"
+        onClick={onAbout}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            onAbout();
+          }
+        }}
+      >
         <div className="dashboard-about-icon"><Icon data={CircleInfo} size={24} /></div>
         <div className="dashboard-about-copy">
           <Text variant="subheader-2">О Data Driven</Text>
           <Text variant="body-1" color="secondary">Формула индекса, критерии и баллы, правила применимости и шкала зрелости команд.</Text>
         </div>
-        <SemanticButton intent={BUTTON_INTENT.secondary} onClick={onAbout}>Методология <Icon data={ChevronRight} size={14} /></SemanticButton>
+        <span className="dashboard-about-action">Методология <Icon data={ChevronRight} size={14} /></span>
       </Card>
     </main>
   );
