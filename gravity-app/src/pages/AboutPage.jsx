@@ -158,7 +158,7 @@ export function AboutPage({onBack}) {
 
       <section className="about-section" id="practices">
         <div className="about-practices-heading">
-          <div><Text variant="caption-2" color="secondary">МЕТОДИКА ИЗ EXCEL</Text><h2>Критерии и баллы</h2><Text color="secondary">Выберите тип команды: список покажет только релевантные блоки, условия оценки и баллы из соответствующего столбца методики.</Text></div>
+          <div><h2>Критерии и баллы</h2><Text color="secondary">Выберите тип команды: список покажет только релевантные блоки, условия оценки и баллы из соответствующего столбца методики.</Text></div>
           <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
         </div>
 
