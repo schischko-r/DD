@@ -527,6 +527,11 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .about-methodology-subsections { display: grid; gap: 18px; }
 .about-methodology-subsection + .about-methodology-subsection { padding-top: 24px; border-top: 1px solid var(--g-color-line-generic); }
 .about-methodology-subsection-head { margin-bottom: 12px; }
+.about-methodology-verification { margin: 0 0 18px; padding: 0 0 14px; display: grid; grid-template-columns: 18px minmax(0, 1fr); align-items: start; gap: 9px; border-bottom: 1px solid var(--g-color-line-generic); color: var(--g-color-text-secondary); }
+.about-methodology-verification > svg { margin-top: 1px; color: var(--g-color-text-secondary); }
+.about-methodology-verification > div { min-width: 0; display: grid; gap: 4px; }
+.about-methodology-verification b { color: var(--g-color-text-primary); font-size: 11px; font-weight: 600; }
+.about-methodology-verification span { font-size: 12px; line-height: 1.5; white-space: pre-line; }
 .about-methodology-browser { margin-top: 14px; display: grid; grid-template-columns: minmax(230px, .52fr) minmax(0, 1.48fr); align-items: start; gap: 16px; }
 .about-methodology-blocks { position: sticky; top: 64px; overflow: hidden; display: grid; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); }
 .about-methodology-blocks-head { min-height: 48px; padding: 14px; display: flex; align-items: center; border-bottom: 1px solid var(--g-color-line-generic); color: var(--g-color-text-primary); font-size: 13px; font-weight: 600; line-height: 1.4; }

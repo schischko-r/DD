@@ -4,6 +4,7 @@ import {Button, Card, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/
 import methodologyProfiles from '../data/methodologyCriteria.json';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {groupMethodologySections, methodologyCriteria, methodologyScoreTheme} from './methodologyPresentation.js';
+import {methodologyVerificationComment} from './methodologyVerification.js';
 
 const METHODOLOGY_ENTITY_TYPES = [
   {key: 'product', label: 'Продукт'},
@@ -171,7 +172,10 @@ export function AboutPage({onBack}) {
 
         {activeMethodologyGroup && <div className="about-methodology-browser">
           <nav className="about-methodology-blocks" aria-label="Ключевые блоки Data Driven"><div className="about-methodology-blocks-head">Ключевые блоки Data Driven</div>{methodologyGroups.map((group, index) => <Button className="about-methodology-block-button" view="flat" pin="clear-clear" width="max" selected={group.title === activeMethodologyGroup.title} onClick={() => setMethodologyGroupTitle(group.title)} key={group.title}><span><small>{String(index + 1).padStart(2, '0')}</small><span className="about-methodology-block-title">{group.title}</span></span></Button>)}</nav>
-          <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary">{activeProfile.shortLabel}</Text><h3>{activeMethodologyGroup.title}</h3></div></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div><MethodologyContent body={section.body} /></section>)}</div></section>
+          <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary">{activeProfile.shortLabel}</Text><h3>{activeMethodologyGroup.title}</h3></div></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => {
+            const verificationComment = methodologyVerificationComment(activeProfile.key, activeMethodologyGroup.title, section.subgroup);
+            return <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div>{verificationComment && <div className="about-methodology-verification"><Icon data={CircleInfo} size={16} /><div><b>Источник оценки</b><span>{verificationComment}</span></div></div>}<MethodologyContent body={section.body} /></section>;
+          })}</div></section>
         </div>}
       </section>
 
