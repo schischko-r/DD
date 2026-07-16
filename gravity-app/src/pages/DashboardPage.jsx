@@ -144,17 +144,9 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
 
       <Card
         className="dashboard-about-card"
-        view="outlined"
-        role="button"
-        tabIndex={0}
+        type="action"
         aria-label="О Data Driven: открыть методологию"
         onClick={onAbout}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault();
-            onAbout();
-          }
-        }}
       >
         <div className="dashboard-about-icon"><Icon data={CircleInfo} size={24} /></div>
         <div className="dashboard-about-copy">
