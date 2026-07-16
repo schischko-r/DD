@@ -58,63 +58,30 @@ function GoalsHelpContent() {
   return <div className="goals-help-content"><p>Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — мониторинг в Навигаторе (учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд).</li><li><b>0,5 балла (50%)</b> — мониторинг в локальной отчётности (не в Навигаторе).</li><li><b>0 баллов (0%)</b> — мониторинг отсутствует.</li></ul></div>;
 }
 
-function AlertsHelpContent({isProduct}) {
-  if (!isProduct) {
+function AlertsHelpContent({audience}) {
+  const isSegment = ['age', 'income'].includes(audience);
+  const isDigitalChannel = audience === 'digital-channel';
+  if (isSegment) {
     return <div className="goals-help-content"><p>Настроены автоматические алерты по бизнес-метрикам.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — настроены автоматические алерты по всем ключевым метрикам.</li><li><b>0,5 балла (50%)</b> — алерты настроены частично.</li></ul></div>;
   }
-  return <div className="goals-help-content"><p>Настроены автоматические алерты по системным сбоям (событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов) и алерты по бизнес-метрикам.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — настроены алерты по системным сбоям и бизнес-метрикам.</li><li><b>0,5 балла (50%)</b> — алерты настроены частично: по системным сбоям или бизнес-метрикам.</li></ul></div>;
+  const scope = isDigitalChannel
+    ? 'системным сбоям (событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов), бизнес-метрикам и проблемам, связанным с UX и пользовательским опытом'
+    : 'системным сбоям (событиям в IT-инфраструктуре, которые приводят к недоступности или некорректной работе продукта для клиентов) и бизнес-метрикам';
+  return <div className="goals-help-content"><p>Настроены автоматические алерты по {scope}.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — {isDigitalChannel ? 'алерты настроены на все ключевые метрики.' : 'настроены алерты по системным сбоям и бизнес-метрикам.'}</li><li><b>0,5 балла (50%)</b> — {isDigitalChannel ? 'алерты настроены частично.' : 'алерты настроены частично: по системным сбоям или бизнес-метрикам.'}</li></ul></div>;
 }
 
-function AttractReportingHelpContent({isProduct}) {
-  const reportScope = isProduct
-    ? 'источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный или когортный разрез, UX/UI'
-    : 'источники привлечения, пошаговая воронка, CR (% конверсии), кросс-перетоки, объёмы, механики, сегментный или когортный разрез';
+function FunnelReportingHelpContent({title, description, completenessTitle, reportScope, includeMissing = false}) {
   return <div className="goals-help-content attract-reporting-help-content">
-    <section>
-      <p>Настроена регулярная отчётность по воронке {isProduct ? 'привлечения/оформления' : 'привлечения'} (учитываются все поверхности: ClickStream, Навигатор и другая отчётность).</p>
-      <strong>Оценка:</strong>
-      <ul>
-        <li><b>0,5 балла (100%)</b> — формируется автоматически.</li>
-        <li><b>0,25 балла (50%)</b> — формируется по запросу.</li>
-        <li><b>0 баллов (0%)</b> — отчётность отсутствует.</li>
-      </ul>
-    </section>
-    <section>
-      <p>Полнота отчёта по воронке привлечения.</p>
-      <strong>Оценка:</strong>
-      <ul>
-        <li><b>0,5 балла (100%)</b> — комплексный отчёт ({reportScope}).</li>
-        <li><b>0,25 балла (50%)</b> — неполный отчёт.</li>
-      </ul>
-    </section>
+    <section><p>{title}{description ? ` ${description}` : ''}</p><strong>Оценка:</strong><ul><li><b>0,5 балла (100%)</b> — формируется автоматически.</li><li><b>0,25 балла (50%)</b> — формируется по запросу.</li>{includeMissing && <li><b>0 баллов (0%)</b> — отчётность отсутствует.</li>}</ul></section>
+    <section><p>{completenessTitle}</p><strong>Оценка:</strong><ul><li><b>0,5 балла (100%)</b> — комплексный отчёт ({reportScope}).</li><li><b>0,25 балла (50%)</b> — неполный отчёт.</li></ul></section>
   </div>;
 }
 
-function AttractAnalysisHelpContent() {
+function FunnelAnalysisHelpContent({title, analysisScope}) {
   return <div className="goals-help-content attract-reporting-help-content">
-    <section>
-      <p>Анализ воронки привлечения.</p>
-      <strong>Оценка:</strong>
-      <ul>
-        <li><b>1 балл (100%)</b> — комплексный анализ: анализ процесса оформления продукта, сравнение с конкурентами, кампании продаж, ключевые точки потери клиентов.</li>
-        <li><b>0,5 балла (50%)</b> — неполный анализ.</li>
-      </ul>
-    </section>
-    <section>
-      <p>Перечень инициатив по отклонениям.</p>
-      <strong>Оценка:</strong>
-      <ul>
-        <li><b>1 балл (100%)</b> — составлен перечень инициатив.</li>
-        <li><b>0,5 балла (50%)</b> — перечень отсутствует.</li>
-      </ul>
-    </section>
-    <section>
-      <p>Бенчмарки по показателям воронки: цели, динамика, рыночный бенчмарк.</p>
-      <strong>Оценка:</strong>
-      <ul>
-        <li><b>1 балл (100%)</b> — есть бенчмарки.</li>
-      </ul>
-    </section>
+    <section><p>{title}</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — комплексный анализ ({analysisScope}).</li><li><b>0,5 балла (50%)</b> — неполный анализ.</li></ul></section>
+    <section><p>Перечень инициатив по отклонениям.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — составлен перечень инициатив.</li><li><b>0,5 балла (50%)</b> — перечень отсутствует.</li></ul></section>
+    <section><p>Бенчмарки по показателям воронки: цели, динамика, рыночные бенчмарки.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — есть бенчмарки.</li><li><b>0 баллов (0%)</b> — бенчмарки отсутствуют.</li></ul></section>
   </div>;
 }
 
@@ -144,48 +111,47 @@ function AttractCampaigningHelpContent() {
   </div>;
 }
 
-function ChurnReportingHelpContent({audience}) {
-  const isProduct = audience === 'product';
-  return <div className="goals-help-content attract-reporting-help-content">
-    <section>
-      <p>{isProduct
-        ? 'Настроена регулярная отчётность по воронке оттока/закрытию продукта/пролонгации (учитываются все поверхности: ClickStream, Навигатор и другая отчётность).'
-        : 'Настроена регулярная отчётность по воронке оттока (учитываются все поверхности: ClickStream, Навигатор и другая отчётность).'}</p>
-      <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — формируется автоматически.</li><li><b>0,25 балла (50%)</b> — формируется по запросу.</li>{isProduct && <li><b>0 баллов (0%)</b> — отчётность отсутствует.</li>}</ul>
-    </section>
-    <section>
-      <p>Полнота отчёта по воронке оттока.</p>
-      <strong>Оценка:</strong>
-      <ul><li><b>0,5 балла (100%)</b> — {isProduct
-        ? 'комплексный отчёт: источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный или когортный разрез, UX/UI.'
-        : 'комплексный отчёт: предотточные клиенты, пошаговая воронка, % оттока, объёмы, когортный retention, кампании.'}</li><li><b>0,25 балла (50%)</b> — неполный отчёт.</li></ul>
-    </section>
-  </div>;
-}
+const PRODUCT_FUNNEL_HELP = {
+  'attract|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке привлечения', title: 'Настроена регулярная отчётность по воронке привлечения/оформления.', description: 'Учитываются все поверхности: ClickStream, Навигатор и другая отчётность.', completenessTitle: 'Полнота отчёта по воронке привлечения.', reportScope: 'источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный или когортный разрез, UX/UI', includeMissing: true},
+  'attract|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки привлечения', title: 'Анализ воронки привлечения/оформления.', analysisScope: 'анализ процесса оформления продукта, сравнение с конкурентами, кампании продаж, ключевые точки потери клиентов'},
+  'attract|кампейнинг': {type: 'campaigning', label: 'Критерии оценки кампейнинга'},
+  'churn|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке оттока', title: 'Настроена регулярная отчётность по воронке оттока, закрытию продукта и пролонгации.', description: 'Учитываются все поверхности: ClickStream, Навигатор и другая отчётность.', completenessTitle: 'Полнота отчёта по воронке оттока.', reportScope: 'источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный или когортный разрез, UX/UI', includeMissing: true},
+  'churn|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки оттока', title: 'Анализ воронки оттока, закрытия продукта и пролонгации.', analysisScope: 'пошаговая воронка, CTR, объёмы, сегментный или когортный разрез, retention, механики удержания, UX/UI'},
+};
 
-function ChurnAnalysisHelpContent({audience}) {
-  const isProduct = audience === 'product';
-  return <div className="goals-help-content attract-reporting-help-content">
-    <section>
-      <p>{isProduct ? 'Анализ воронки оттока/закрытия продукта/пролонгации.' : 'Анализ воронки оттока.'}</p>
-      <strong>Оценка:</strong>
-      <ul><li><b>1 балл (100%)</b> — {isProduct
-        ? 'комплексный анализ: пошаговая воронка, CTR, объёмы, сегментный или когортный разрез, retention, механики удержания, UX/UI.'
-        : 'комплексный анализ: предотточные сигналы, анализ CJM, конверсия на каждом шаге воронки и по кампаниям удержания, выявление ключевых точек потери клиентов.'}</li><li><b>0,5 балла (50%)</b> — неполный анализ.</li></ul>
-    </section>
-    <section>
-      <p>Перечень инициатив по отклонениям.</p>
-      <strong>Оценка:</strong>
-      <ul><li><b>1 балл (100%)</b> — составлен перечень инициатив.</li><li><b>0,5 балла (50%)</b> — перечень отсутствует.</li></ul>
-    </section>
-    <section>
-      <p>Бенчмарки по показателям воронки: цели, динамика, рыночный бенчмарк.</p>
-      <strong>Оценка:</strong>
-      <ul><li><b>1 балл (100%)</b> — есть бенчмарки.</li><li><b>0 баллов (0%)</b> — бенчмарки отсутствуют.</li></ul>
-    </section>
-  </div>;
-}
+const SEGMENT_FUNNEL_HELP = {
+  'attract|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке привлечения', title: 'Настроена регулярная отчётность по воронке привлечения.', description: 'Учитываются все поверхности: ClickStream, Навигатор и другая отчётность.', completenessTitle: 'Полнота отчёта по воронке привлечения.', reportScope: 'источники привлечения, пошаговая воронка, CR (% конверсии), кросс-перетоки, объёмы, механики, сегментный или когортный разрез', includeMissing: true},
+  'attract|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки привлечения', title: 'Анализ воронки привлечения.', analysisScope: 'анализ CJM, конверсия на каждом шаге воронки, анализ входящего потока, кампании продаж, продукты-драйверы притока'},
+  'churn|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки оттока', title: 'Анализ воронки оттока.', analysisScope: 'предотточные сигналы, анализ CJM, конверсия на каждом шаге воронки, кампании удержания, выявление ключевых точек потери клиентов'},
+};
+
+const DIGITAL_CHANNEL_FUNNEL_HELP = {
+  'attract|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке привлечения', title: 'Настроена регулярная отчётность по воронке привлечения по каналам и поверхностям.', completenessTitle: 'Полнота отчёта по воронке привлечения.', reportScope: 'каналы привлечения, пошаговая воронка, CR и CTR, объёмы коммуникаций, количество целевых действий, сегментный или когортный разрез, UX/UI-дизайн'},
+  'attract|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки привлечения', title: 'Анализ воронки привлечения по каналам и поверхностям.', analysisScope: 'сравнение с конкурентами процесса оформления и условий продукта или мониторинг новых функций; воронка внутри кампаний, количество достигших целевого действия и оценка результативности кампаний; A/B-тесты; сегментный или когортный анализ; UX/UI'},
+  'voronka_onbordinga|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке онбординга', title: 'Настроена регулярная отчётность по воронке онбординга.', completenessTitle: 'Полнота отчёта по воронке онбординга.', reportScope: 'источники привлечения, количество входов, пошаговая воронка, количество или доля клиентов с целевым действием, время до целевого действия, UX/UI'},
+  'voronka_onbordinga|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки онбординга', title: 'Анализ воронки онбординга.', analysisScope: 'сравнение с конкурентами процесса оформления и условий продукта или мониторинг новых функций; воронка внутри кампаний, количество достигших целевого действия и оценка результативности кампаний; A/B-тесты; сегментный или когортный анализ; UX/UI'},
+  'churn|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке оттока', title: 'Настроена регулярная отчётность по воронке оттока и снижению активности в канале.', completenessTitle: 'Полнота отчёта по воронке оттока.', reportScope: 'определение предотточных клиентов, сегментный или когортный разрез, когортный retention, механики удержания, % оттока'},
+  'churn|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки оттока', title: 'Анализ воронки оттока и снижения активности в канале.', analysisScope: 'процесс использования канала: время в канале, количество просмотренных страниц и отзывы; топ-3 фактора и причины потери клиентов; сегментный или когортный анализ; A/B-тесты'},
+};
+
+const SERVICE_CHANNEL_FUNNEL_HELP = {
+  'voronka_vhoda_v_kanal|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке входа в канал', title: 'Настроена регулярная отчётность по воронке входа в канал.', description: 'Воронка отражает общий объём входящего трафика и распределение первой волны входа: бот, оператор, отложенные обращения.', completenessTitle: 'Полнота отчёта по воронке входа в канал.', reportScope: 'пошаговая воронка, CR, % автоматизации, % отложенных обращений, % закрытых обращений, CSAT'},
+  'voronka_vhoda_v_kanal|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки входа в канал', title: 'Анализ воронки входа в канал.', analysisScope: 'доля обращений, переведённых на оператора; CR; топ-3 причины или тематики перехода на оператора; доля обращений, ушедших в отложенные; причины, по которым обращения не решены в моменте'},
+};
+
+const TELEMARKETING_FUNNEL_HELP = {
+  'voronka_prodazh|отчетность': {type: 'reporting', label: 'Критерии оценки отчётности по воронке продаж', title: 'Настроена регулярная отчётность по воронке продаж.', description: 'Воронка отражает общий объём исходящего трафика и распределение первой волны дозвона: бот, оператор, целевое действие, отказ, недозвоны.', completenessTitle: 'Полнота отчёта по воронке продаж.', reportScope: 'пошаговая воронка, CR в целевое действие, % недозвонов, % отказов и согласий, CSAT'},
+  'voronka_prodazh|анализ': {type: 'analysis', label: 'Критерии оценки анализа воронки продаж', title: 'Анализ воронки продаж.', analysisScope: 'объём трафика, доля дозвонов, CR от входа до целевого действия, топ-3 причины отказов, доля недозвонов по волнам, оптимальность волн и времени'},
+};
+
+const FUNNEL_HELP_BY_AUDIENCE = {
+  product: PRODUCT_FUNNEL_HELP,
+  age: SEGMENT_FUNNEL_HELP,
+  income: SEGMENT_FUNNEL_HELP,
+  'digital-channel': DIGITAL_CHANNEL_FUNNEL_HELP,
+  'service-channel': SERVICE_CHANNEL_FUNNEL_HELP,
+  telemarketing: TELEMARKETING_FUNNEL_HELP,
+};
 
 const PRODUCT_MECHANICS_HELP = {
   'mehaniki.nalichie_sobstvennyh_mehanik': [],
@@ -218,29 +184,71 @@ const INCOME_SEGMENT_MECHANICS_HELP = {
   'mehaniki.povyshenie_urovnya_klienta': [{title: 'Миграция вверх (повышение уровня).', description: 'Информационная коммуникация, персональный оффер, пробный период для потенциальных клиентов.', items: [['1 балл (100%)', 'настроена для сегмента.'], ['0,5 балла (50%)', 'настроена частично.']]}],
 };
 
+const DIGITAL_CHANNEL_MECHANICS_HELP = {
+  'mehaniki.uderzhanie_klientov': [{title: 'Удержание клиентов.', items: [['1 балл (100%)', 'через создание ценности.'], ['0,5 балла (50%)', 'только через информационную коммуникацию.']]}],
+  'mehaniki.vozvrat_klientov': [{title: 'Возврат клиентов.', items: [['1 балл (100%)', 'через создание ценности.'], ['0,5 балла (50%)', 'только через информационную коммуникацию.']]}],
+  'mehaniki.personalizaciya_interfeysa_kontenta': [{title: 'Персонализация интерфейса, контента и рекомендаций.', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'mehaniki.stimulirovanie_klienta': [{title: 'Стимулирование клиента.', description: 'Геймификация, push-уведомления, побуждающие рассылки и другие механики.', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'mehaniki.obuchayuschie_mehaniki': [{title: 'Обучающие механики.', description: 'Подсказки, пошаговое знакомство и другие обучающие сценарии.', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'mehaniki.gibkoe_izmenenie_usloviy_produkta': [{title: 'Гибкость изменений без IT.', items: [['1 балл (100%)', 'изменения учитывают персонализацию до клиентских подсегментов.'], ['0,5 балла (50%)', 'изменяется набор опций без персонализации.']]}],
+  'mehaniki.monitoring_mehanik': [{title: 'Мониторинг эффективности механик.', items: [['0,25 балла (100%)', 'есть метрики мониторинга.']]}],
+};
+
+const SERVICE_CHANNEL_MECHANICS_HELP = {
+  'mehaniki.avtomatizacii': [{title: 'Автоматизация.', description: 'Автоклассификация обращений, распределение очередей, сплитов и лидов.', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'mehaniki.informirovaniya_klienta': [{title: 'Информирование клиента о статусе обращения.', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'mehaniki.personalizaciya': [{title: 'Персонализация скриптов.', description: 'Разные скрипты и предложения для разных сегментов вплоть до конкретного человека; скрипт меняется в зависимости от волны контакта.', items: [['1 балл (100%)', 'настроена по большинству компонентов.'], ['0,5 балла (50%)', 'настроена частично.']]}],
+  'mehaniki.kontrolya_kachestva_rechi': [{title: 'Контроль качества речи.', description: 'Автоматический анализ обязательных фраз и соблюдения скрипта, выборочные прослушивания, подсказки оператору в реальном времени.', items: [['1 балл (100%)', 'настроен по большинству компонентов.'], ['0,5 балла (50%)', 'настроен частично.']]}],
+  'mehaniki.uderzhaniya_klienta': [{title: 'Удержание клиента.', description: 'При обращении клиента по закрытию продукта настроен специальный сценарий удержания или механики upsell.', items: [['1 балл (100%)', 'механика настроена.']]}],
+};
+
+const TELEMARKETING_MECHANICS_HELP = {
+  ...SERVICE_CHANNEL_MECHANICS_HELP,
+  'mehaniki.nailuchshego_vremeni_zvonka': [{title: 'Наилучшее время звонка.', description: 'Механика настроена для всех клиентов либо только для определённой доли клиентов или сегмента.', items: [['1 балл (100%)', 'настроена полностью.'], ['0,5 балла (50%)', 'настроена частично.']]}],
+};
+
+const MECHANICS_BLOCK_HELP = {
+  'digital-channel': [{title: 'Информирование клиента о статусе обращения.', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'service-channel': [{title: 'Мониторинг эффективности механик.', items: [['0,25 балла (100%)', 'есть метрики мониторинга.']]}],
+  telemarketing: [{title: 'Мониторинг эффективности механик.', items: [['0,25 балла (100%)', 'есть метрики мониторинга.']]}],
+};
+
 function MechanicsHelpContent({audience, sections}) {
-  const entity = audience === 'product' ? 'продукту' : 'сегменту';
+  const entity = audience === 'product' ? 'продукту' : ['age', 'income'].includes(audience) ? 'сегменту' : 'каналу';
   return <div className="goals-help-content mechanics-metric-help-content"><p>Наличие настроенных механик по {entity}.</p>{sections.map((section, index) => <section key={`${section.title || 'score'}-${index}`}>{section.title && <p>{section.title}</p>}{section.description && <p>{section.description}</p>}{section.items?.length > 0 && <><strong>Оценка:</strong><ul>{section.items.map(([score, description]) => <li key={`${score}-${description}`}><b>{score}</b> — {description}</li>)}</ul></>}</section>)}</div>;
 }
 
 function MechanicsMetricHelp({metric, product}) {
   const audience = teamHelpAudience(product);
-  const helpByMetric = audience === 'product' ? PRODUCT_MECHANICS_HELP : audience === 'income' ? INCOME_SEGMENT_MECHANICS_HELP : audience === 'age' ? AGE_SEGMENT_MECHANICS_HELP : null;
+  const helpByMetric = {
+    product: PRODUCT_MECHANICS_HELP,
+    age: AGE_SEGMENT_MECHANICS_HELP,
+    income: INCOME_SEGMENT_MECHANICS_HELP,
+    'digital-channel': DIGITAL_CHANNEL_MECHANICS_HELP,
+    'service-channel': SERVICE_CHANNEL_MECHANICS_HELP,
+    telemarketing: TELEMARKETING_MECHANICS_HELP,
+  }[audience];
   const code = String(metric?.code || '').trim().toLowerCase();
   const sections = helpByMetric?.[code];
   if (!sections) return null;
   return <span className="mechanics-metric-help"><HelpMark aria-label={`Критерии оценки: ${metric.name}`} popoverProps={HELP_POPOVER_PROPS}><MechanicsHelpContent audience={audience} sections={sections} /></HelpMark></span>;
 }
 
-function CxHelpContent() {
+function CxHelpContent({audience}) {
+  if (audience === 'digital-channel') {
+    return <div className="goals-help-content"><p>UX Score.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — зелёная зона UX Score.</li><li><b>0,5 балла (50%)</b> — жёлтая зона UX Score.</li></ul></div>;
+  }
   return <div className="goals-help-content"><p>CX Score рассчитывается на основе данных дашборда «Здоровье CX продуктов».</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — зелёная зона CX Score.</li><li><b>0,5 балла (50%)</b> — жёлтая зона CX Score.</li></ul></div>;
 }
 
 function HypothesesHelpContent({audience}) {
-  const isProduct = audience === 'product';
+  const isSegment = ['age', 'income'].includes(audience);
+  const source = isSegment || audience === 'product'
+    ? 'анализ бэклога в Jira/Сбертрек на основе LLM-модели'
+    : 'самооценка продукта и верификация по цифровым следам Jira/Сбертрек';
   return <div className="goals-help-content attract-reporting-help-content">
-    <section><p>Доля задач аналитиков по продукту, связанных с исследованиями (самооценка продукта и верификация по цифровым следам).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — не менее 40% бэклога приходится на исследования.</li><li><b>0,5 балла (50%)</b> — не менее 20% бэклога приходится на исследования.</li></ul></section>
-    {isProduct && <section><p>Наличие дополнительных инициатив в реестре инициатив сверх бизнес-плана. Учитываются доходные и расходные инициативы.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — есть минимум одна инициатива.</li></ul></section>}
+    <section><p>Доля задач аналитиков по продукту, связанных с исследованиями ({source}).</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — не менее 40% бэклога приходится на исследования.</li><li><b>0,5 балла (50%)</b> — не менее 20% бэклога приходится на исследования.</li></ul></section>
+    {!isSegment && <section><p>Наличие дополнительных инициатив в реестре инициатив сверх бизнес-плана. Учитываются доходные и расходные инициативы.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — есть минимум одна инициатива.</li></ul></section>}
     <section><p>Оценка исследований по шкале DataDriven. В расчёт входят все исследования с начала года.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — средняя оценка не ниже 7,5.</li></ul></section>
     <section><p>Выполнен план по запуску A/B-тестов.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — проведено не менее 80% A/B-тестов от общего числа инициатив, подходящих под критерии A/B.</li><li><b>0,5 балла (50%)</b> — проведено не менее 30% A/B-тестов от общего числа инициатив, подходящих под критерии A/B.</li><li><b>0 баллов (0%)</b> — есть план по A/B, но тесты отсутствуют.</li></ul></section>
   </div>;
@@ -248,14 +256,16 @@ function HypothesesHelpContent({audience}) {
 
 function ProductBlockHelp({blockCode, product}) {
   const audience = teamHelpAudience(product);
-  if (blockCode === 'hyp' && !audience) return null;
-  const isSegmentAlert = blockCode === 'alerts' && ['age', 'income'].includes(audience);
-  if (!['goals', 'hyp'].includes(blockCode) && audience !== 'product' && !isSegmentAlert) return null;
+  const knownAudience = ['product', 'age', 'income', 'digital-channel', 'service-channel', 'telemarketing'].includes(audience);
+  if (!knownAudience) return null;
+  if (blockCode === 'cx' && !['product', 'digital-channel'].includes(audience)) return null;
+  if (blockCode === 'mehaniki' && !MECHANICS_BLOCK_HELP[audience]) return null;
   const help = {
     goals: {label: 'Критерии оценки мониторинга целей', content: <GoalsHelpContent />},
-    alerts: {label: 'Критерии оценки алертов', content: <AlertsHelpContent isProduct={audience === 'product'} />},
-    cx: {label: 'Критерии оценки клиентского опыта', content: <CxHelpContent />},
+    alerts: {label: 'Критерии оценки алертов', content: <AlertsHelpContent audience={audience} />},
+    cx: {label: audience === 'digital-channel' ? 'Критерии оценки UX Score' : 'Критерии оценки клиентского опыта', content: <CxHelpContent audience={audience} />},
     hyp: {label: 'Критерии оценки гипотез и инициатив', content: <HypothesesHelpContent audience={audience} />},
+    mehaniki: {label: 'Дополнительные критерии оценки механик', content: <MechanicsHelpContent audience={audience} sections={MECHANICS_BLOCK_HELP[audience] || []} />},
   }[blockCode];
   return help ? <HelpMark aria-label={help.label} popoverProps={HELP_POPOVER_PROPS}>{help.content}</HelpMark> : null;
 }
@@ -263,16 +273,14 @@ function ProductBlockHelp({blockCode, product}) {
 function ProductMetricGroupHelp({blockCode, group, product}) {
   const key = `${blockCode}|${String(group || '').toLowerCase()}`;
   const audience = teamHelpAudience(product);
-  const isSegmentAttractReporting = key === 'attract|отчетность' && ['age', 'income'].includes(audience);
-  if (!audience || (blockCode === 'attract' && audience !== 'product' && !isSegmentAttractReporting)) return null;
-  const help = {
-    'attract|отчетность': {label: 'Критерии оценки отчётности по воронке привлечения', content: <AttractReportingHelpContent isProduct={audience === 'product'} />},
-    'attract|анализ': {label: 'Критерии оценки анализа воронки привлечения', content: <AttractAnalysisHelpContent />},
-    'attract|кампейнинг': {label: 'Критерии оценки кампейнинга', content: <AttractCampaigningHelpContent />},
-    'churn|отчетность': {label: 'Критерии оценки отчётности по воронке оттока', content: <ChurnReportingHelpContent audience={audience} />},
-    'churn|анализ': {label: 'Критерии оценки анализа воронки оттока', content: <ChurnAnalysisHelpContent audience={audience} />},
-  }[key];
-  return help ? <HelpMark aria-label={help.label} popoverProps={HELP_POPOVER_PROPS}>{help.content}</HelpMark> : null;
+  const help = FUNNEL_HELP_BY_AUDIENCE[audience]?.[key];
+  if (!help) return null;
+  const content = help.type === 'reporting'
+    ? <FunnelReportingHelpContent {...help} />
+    : help.type === 'analysis'
+      ? <FunnelAnalysisHelpContent {...help} />
+      : <AttractCampaigningHelpContent />;
+  return <HelpMark aria-label={help.label} popoverProps={HELP_POPOVER_PROPS}>{content}</HelpMark>;
 }
 
 function IndexFormulaHelp() {
@@ -427,8 +435,6 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
-  const isProduct = /^(?:продукт|product)$/i.test(String(product.type || '').trim());
-  const isSegment = /^(?:сегмент|segment)$/i.test(String(product.type || '').trim());
   const aiRecommendations = product.metric_recommendations || [];
   const hasAiRecommendations = aiRecommendations.length > 0;
   const aiRecommendationLight = hasAiRecommendations ? worstDigestLight(aiRecommendations) : 'gray';
@@ -618,7 +624,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
                     <div><h3>{block.name}</h3>{detailScore && <span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span>}</div>
                   </button>
                   <div className="dd-metric-block-help">
-                    {(isProduct || block.code === 'goals' || block.code === 'hyp' || (isSegment && block.code === 'alerts')) && <ProductBlockHelp blockCode={block.code} product={product} />}
+                    <ProductBlockHelp blockCode={block.code} product={product} />
                     {isKeyMetricsBlock && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>На основании пройденной самооценки в Oprosso</HelpMark>}
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>

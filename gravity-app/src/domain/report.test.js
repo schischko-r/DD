@@ -148,10 +148,13 @@ test('digital trace confirmation is limited to listed product cross-sell metrics
   assert.equal(isCrossSellDigitallyConfirmed(product, block, {code: 'mehaniki.upsell'}), false);
 });
 
-test('team help audience distinguishes products and segment types', () => {
+test('team help audience distinguishes products, segments, and channel types', () => {
   assert.equal(teamHelpAudience({type: 'Продукт', name: 'ОСАГО'}), 'product');
   assert.equal(teamHelpAudience({type: 'Сегмент', name: 'Дети'}), 'age');
   assert.equal(teamHelpAudience({type: 'Сегмент', name: 'PB'}), 'income');
   assert.equal(teamHelpAudience({type: 'Сегмент', name: 'Другой сегмент'}), 'segment');
-  assert.equal(teamHelpAudience({type: 'Канал', name: 'СБОЛ'}), '');
+  assert.equal(teamHelpAudience({type: 'Канал', name: 'СБОЛ'}), 'digital-channel');
+  assert.equal(teamHelpAudience({type: 'Канал', name: 'Чат'}), 'service-channel');
+  assert.equal(teamHelpAudience({type: 'Канал', name: 'Телемаркетинг'}), 'telemarketing');
+  assert.equal(teamHelpAudience({type: 'Канал', name: 'Другой канал'}), 'channel');
 });

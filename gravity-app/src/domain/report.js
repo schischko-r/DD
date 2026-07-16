@@ -72,15 +72,23 @@ export function isCrossSellDigitallyConfirmed(product, block, metric) {
 
 const AGE_SEGMENT_NAMES = new Set(['Молодежь', 'Дети', 'Рабочий возраст', 'Зрелость']);
 const INCOME_SEGMENT_NAMES = new Set(['Top Affluent', 'PB', 'МВС']);
+const DIGITAL_CHANNEL_NAMES = new Set(['СБОЛ', 'СберKids', 'СберИнвестор', 'Уведомления']);
+const SERVICE_CHANNEL_NAMES = new Set(['Чат', 'Колл-центр']);
 
 export function teamHelpAudience(product) {
   const type = String(product?.type || '').trim().toLowerCase();
   const name = String(product?.name || '').trim();
   if (type === 'продукт' || type === 'product') return 'product';
-  if (!type.includes('сегмент')) return '';
   if (AGE_SEGMENT_NAMES.has(name)) return 'age';
   if (INCOME_SEGMENT_NAMES.has(name)) return 'income';
-  return 'segment';
+  if (type.includes('сегмент')) return 'segment';
+  if (type.includes('канал')) {
+    if (DIGITAL_CHANNEL_NAMES.has(name)) return 'digital-channel';
+    if (SERVICE_CHANNEL_NAMES.has(name)) return 'service-channel';
+    if (name === 'Телемаркетинг') return 'telemarketing';
+    return 'channel';
+  }
+  return '';
 }
 
 export function filterInapplicableMetricSubgroups(metrics, groupForMetric = (metric) => metric?.metric_subgroup) {
