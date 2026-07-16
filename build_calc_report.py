@@ -2555,7 +2555,60 @@ def normalize_flat_metric_rows(flat_frame: Any) -> Any:
     if benchmark_group_mask.any():
         product_rows.loc[benchmark_group_mask, "metric_subgroup"] = "Анализ"
     product_rows = split_named_funnel_benchmarks(product_rows)
-    return split_benchmarks(product_rows)
+    return route_benchmark_rows(product_rows)
+
+
+SINGLE_FUNNEL_BENCHMARK_TARGETS = {
+    normalize_lookup_key("ЧАТ"): "Воронка входа в канал",
+    normalize_lookup_key("Колл-центр"): "Воронка входа в канал",
+    normalize_lookup_key("Коллцентр"): "Воронка входа в канал",
+    normalize_lookup_key("Колл центр"): "Воронка входа в канал",
+    normalize_lookup_key("Телемаркетинг"): "Воронка продаж",
+}
+
+
+def route_benchmark_rows(product_rows: Any) -> Any:
+    benchmark_mask = product_rows["metric_group"].map(normalize_lookup_key).eq(
+        normalize_lookup_key("BENCHMARKS")
+    )
+    benchmark_rows = product_rows[benchmark_mask]
+    if benchmark_rows.empty:
+        product_rows.attrs["benchmark_rows_split"] = 0
+        product_rows.attrs["benchmark_rows_single_funnel"] = 0
+        return product_rows
+
+    target_groups = benchmark_rows["_product_key"].map(normalize_lookup_key).map(
+        SINGLE_FUNNEL_BENCHMARK_TARGETS
+    )
+    single_rows = benchmark_rows[target_groups.notna()].copy()
+    split_rows = benchmark_rows[target_groups.isna()].copy()
+    parts = []
+
+    for target_group, rows in single_rows.groupby(
+        target_groups[target_groups.notna()], sort=False
+    ):
+        part = rows.copy()
+        part["metric_group"] = target_group
+        part["metric_subgroup"] = "Анализ"
+        part["metric_name_clean"] = "Наличие бенчмарков"
+        parts.append(part)
+
+    for target_group in ("Воронка привлечения", "Воронка оттока"):
+        part = split_rows.copy()
+        part["metric_group"] = target_group
+        part["metric_subgroup"] = "Анализ"
+        part["metric_name_clean"] = "Наличие бенчмарков"
+        part["value_num"] = part["value_num"] / 2
+        part["max_value_num"] = part["max_value_num"] / 2
+        part["value"] = part["value_num"]
+        part["max_value"] = part["max_value_num"]
+        parts.append(part)
+
+    result = _PD.concat([product_rows[~benchmark_mask], *parts], ignore_index=True)
+    result.attrs.update(product_rows.attrs)
+    result.attrs["benchmark_rows_split"] = len(split_rows)
+    result.attrs["benchmark_rows_single_funnel"] = len(single_rows)
+    return result
 
 
 def split_named_funnel_benchmarks(product_rows: Any) -> Any:

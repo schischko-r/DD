@@ -170,6 +170,38 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(len(benchmarks), 2)
         self.assertTrue(all(metric["metric_subgroup"] == "Анализ" for metric in benchmarks))
 
+    def test_channel_benchmarks_are_routed_to_single_funnel_without_division(self) -> None:
+        rows = report._PD.DataFrame(
+            [
+                {
+                    "entity_type": "Канал",
+                    "_unit_key": "Каналы",
+                    "_product_key": product,
+                    "metric_group": "BENCHMARKS",
+                    "metric_subgroup": "Анализ",
+                    "metric_name_clean": "Наличие бенчмарков",
+                    "value_num": 1.0,
+                    "max_value_num": 1.0,
+                    "value": 1.0,
+                    "max_value": 1.0,
+                }
+                for product in ("ЧАТ", "Колл-центр", "Телемаркетинг")
+            ]
+        )
+
+        result = report.route_benchmark_rows(rows)
+
+        expected = {
+            "ЧАТ": "Воронка входа в канал",
+            "Колл-центр": "Воронка входа в канал",
+            "Телемаркетинг": "Воронка продаж",
+        }
+        for product, target_group in expected.items():
+            actual = result[result["_product_key"].eq(product)]
+            self.assertEqual(actual["metric_group"].tolist(), [target_group])
+            self.assertEqual(actual["value_num"].tolist(), [1.0])
+            self.assertEqual(actual["max_value_num"].tolist(), [1.0])
+
     def test_channel_upload_frame_is_normalized_as_channels(self) -> None:
         frame = report._PD.DataFrame(
             [
