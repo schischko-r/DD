@@ -532,13 +532,16 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .about-methodology-subsection + .about-methodology-subsection { padding-top: 24px; border-top: 1px solid var(--g-color-line-generic); }
 .about-methodology-subsection-head { margin-bottom: 12px; }
 .about-methodology-browser { margin-top: 14px; display: grid; grid-template-columns: minmax(230px, .52fr) minmax(0, 1.48fr); align-items: start; gap: 16px; }
-.about-methodology-blocks { position: sticky; top: 64px; padding: 10px; display: grid; gap: 3px; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); }
-.about-methodology-blocks-head { min-height: 42px; padding: 4px 8px 9px; display: flex; align-items: center; color: var(--g-color-text-primary); font-size: 11px; font-weight: 600; line-height: 1.35; text-transform: uppercase; }
-.about-methodology-block-button { min-height: 46px; justify-content: flex-start; text-align: left; }
-.about-methodology-block-button .g-button__text { min-width: 0; width: 100%; text-align: left; }
-.about-methodology-block-button .g-button__text > span { min-width: 0; width: 100%; display: grid; grid-template-columns: 26px minmax(0, 1fr); align-items: center; gap: 8px; }
-.about-methodology-block-button small { color: var(--g-color-text-secondary); font-size: 10px; font-weight: 600; }
-.about-methodology-block-button b { min-width: 0; font-size: 12px; line-height: 1.3; white-space: normal; }
+.about-methodology-blocks { position: sticky; top: 64px; overflow: hidden; display: grid; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); }
+.about-methodology-blocks-head { min-height: 48px; padding: 14px; display: flex; align-items: center; border-bottom: 1px solid var(--g-color-line-generic); color: var(--g-color-text-primary); font-size: 13px; font-weight: 600; line-height: 1.4; }
+.about-methodology-block-button { --g-button-border-radius: 0; height: auto; min-height: 50px; padding: 11px 14px; align-items: flex-start; justify-content: flex-start; border-left: 3px solid transparent; border-bottom: 1px solid var(--g-color-line-generic); line-height: normal; text-align: left; }
+.about-methodology-block-button:last-child { border-bottom: 0; }
+.about-methodology-block-button.g-button_selected { padding-left: 11px; border-left-color: var(--g-color-line-brand); }
+.about-methodology-block-button .g-button__text { min-width: 0; width: 100%; display: block; line-height: normal; text-align: left; white-space: normal; }
+.about-methodology-block-button .g-button__text > span { min-width: 0; width: 100%; display: grid; grid-template-columns: 22px minmax(0, 1fr); align-items: start; gap: 8px; }
+.about-methodology-block-button small { padding-top: 2px; color: var(--g-color-text-secondary); font-size: 10px; font-weight: 500; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.about-methodology-block-title { min-width: 0; color: var(--g-color-text-primary); font-size: 13px; font-weight: 500; line-height: 1.4; white-space: normal; }
+.about-methodology-block-button.g-button_selected .about-methodology-block-title { color: var(--g-color-text-brand-heavy); font-weight: 600; }
 .about-methodology-panel { min-width: 0; padding: 22px; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); }
 .about-methodology-panel-head { min-height: 64px; margin-bottom: 22px; padding-bottom: 16px; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--g-color-line-generic); }
 .about-methodology-panel-head > div { min-width: 0; display: grid; gap: 5px; }
