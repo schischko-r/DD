@@ -35,6 +35,18 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(report.normalize_upload_unit("CX"), "CX")
         self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
 
+    def test_pilot_campaign_links_use_the_ai_skill_dashboard(self) -> None:
+        expected = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
+        self.assertEqual(report.PILOT_CAMPAIGNS_URL, expected)
+        self.assertEqual(
+            report._DD_FROM_EXCEL["COMMON_BUTTONS"]["attract_pilot_campaigns"]["link"],
+            expected,
+        )
+        self.assertEqual(
+            report._DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["attract_pilots"]["link"],
+            expected,
+        )
+
     def test_metric_blocks_follow_requested_display_order(self) -> None:
         blocks = [
             {"code": "cx"},

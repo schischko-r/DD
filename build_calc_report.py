@@ -66,6 +66,9 @@ _DD_JSON2["V2_SCRIPT"] = _DD_JSON2["V2_SCRIPT"].replace(
 )
 _DD_JSON2["SOURCE_HTML"] = _EmbeddedTextFile(_REPORT_TEMPLATE)
 _DD_FROM_EXCEL = _load_embedded_module(_DD_FROM_EXCEL_SOURCE, "_embedded_dd_from_excel")
+PILOT_CAMPAIGNS_URL = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
+_DD_FROM_EXCEL["COMMON_BUTTONS"]["attract_pilot_campaigns"]["link"] = PILOT_CAMPAIGNS_URL
+_DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["attract_pilots"]["link"] = PILOT_CAMPAIGNS_URL
 _DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")
 _DD_FROM_EXCEL["METRIC_CODES"][
     ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
