@@ -1,9 +1,40 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ArrowLeft, BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Persons} from '@gravity-ui/icons';
-import {Accordion, Button, Card, Icon, Label, Text} from '@gravity-ui/uikit';
+import {Button, Card, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
+import methodologyProfiles from '../data/methodologyCriteria.json';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
+import {groupMethodologySections, methodologyCriteria, methodologyScoreTheme} from './methodologyPresentation.js';
+
+const METHODOLOGY_ENTITY_TYPES = [
+  {key: 'product', label: 'Продукт'},
+  {key: 'segment', label: 'Сегмент'},
+  {key: 'channel', label: 'Канал'},
+];
+
+function MethodologyContent({body}) {
+  return <div className="about-methodology-content">{methodologyCriteria(body).map((criterion, index) => <section className="about-methodology-criterion" key={`${criterion.title}-${index}`}>
+    <header className="about-methodology-criterion-head"><span>{String(index + 1).padStart(2, '0')}</span><div><h4>{criterion.title}</h4>{criterion.description.map((text) => <Text color="secondary" key={text}>{text}</Text>)}</div></header>
+    {criterion.scores.length > 0 && <div className="about-methodology-score-table"><div className="about-methodology-score-head"><span>Баллы</span><span>Условие</span></div>{criterion.scores.map((score, scoreIndex) => <div className="about-methodology-score" key={`${score.label}-${scoreIndex}`}><Label theme={methodologyScoreTheme(score.label)} size="xs">{score.label}</Label><span>{score.text}</span></div>)}</div>}
+  </section>)}</div>;
+}
 
 export function AboutPage({onBack}) {
+  const [methodologyEntityType, setMethodologyEntityType] = useState('product');
+  const [methodologyProfileKey, setMethodologyProfileKey] = useState('product');
+  const [methodologyGroupTitle, setMethodologyGroupTitle] = useState('');
+  const availableProfiles = methodologyProfiles.filter((profile) => profile.entityType === methodologyEntityType);
+  const activeProfile = availableProfiles.find((profile) => profile.key === methodologyProfileKey) || availableProfiles[0];
+  const methodologyGroups = groupMethodologySections(activeProfile?.sections || []);
+  const activeMethodologyGroup = methodologyGroups.find((group) => group.title === methodologyGroupTitle) || methodologyGroups[0];
+  const selectMethodologyEntityType = (entityType) => {
+    setMethodologyEntityType(entityType);
+    setMethodologyProfileKey(methodologyProfiles.find((profile) => profile.entityType === entityType)?.key || '');
+    setMethodologyGroupTitle('');
+  };
+  const selectMethodologyProfile = (profileKey) => {
+    setMethodologyProfileKey(profileKey);
+    setMethodologyGroupTitle('');
+  };
   const principles = [
     {title: 'Объект оценки', text: 'Команда продукта, сегмента или канала. Индекс отражает состояние практик команды в расчётном периоде.', icon: Persons},
     {title: 'Источники фактов', text: 'Цифровые следы, действующая отчётность и ответы команды. Для каждого критерия фиксируется подтверждённое значение.', icon: ChartColumn},
@@ -131,18 +162,25 @@ export function AboutPage({onBack}) {
       </section>
 
       <section className="about-section" id="practices">
-        <div className="about-practices-layout">
-          <div className="about-practices-intro">
-            <h2>Критерии<br />и максимальные баллы</h2>
-            <Text className="about-practices-lead" color="secondary">Каждая практика раскрывается в набор измеримых критериев. Карточка команды показывает факт, максимум и статус по каждому применимому критерию.</Text>
-            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
-          </div>
-          <div className="about-accordion-card">
-            <Accordion view="top-bottom" size="l">
-              {zones.map((zone, index) => <Accordion.Item key={zone.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><b>{zone.title}</b></div>}><div className="about-zone-detail"><Text color="secondary">{zone.text}</Text><div className="about-zone-criteria">{zone.criteria.map((criterion, criterionIndex) => <React.Fragment key={`${criterion.section || ''}-${criterion.name}-${criterion.points}`}>{criterion.section && criterion.section !== zone.criteria[criterionIndex - 1]?.section && <div className="about-zone-subgroup">{criterion.section}</div>}<div className="about-zone-criterion"><Label theme={criterion.excluded ? 'normal' : 'info'} size="xs">{criterion.points}</Label><span>{criterion.name}</span></div></React.Fragment>)}</div></div></Accordion.Item>)}
-            </Accordion>
-          </div>
+        <div className="about-practices-heading">
+          <div><Text variant="caption-2" color="secondary">МЕТОДИКА ИЗ EXCEL</Text><h2>Критерии и баллы</h2><Text color="secondary">Выберите тип команды: список покажет только релевантные блоки, условия оценки и баллы из соответствующего столбца методики.</Text></div>
+          <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
         </div>
+
+        <Card className="about-methodology-controls" view="outlined" type="container" size="l">
+          <div className="about-methodology-controls-copy"><Text variant="subheader-1">Критерии для команды</Text><Text color="secondary">Сначала выберите объект оценки, затем нужное направление.</Text></div>
+          <div className="about-methodology-switches">
+            <div className="about-methodology-switch"><span>1. Объект оценки</span><SegmentedRadioGroup aria-label="Объект оценки" value={methodologyEntityType} onUpdate={selectMethodologyEntityType} size="l">{METHODOLOGY_ENTITY_TYPES.map((type) => <SegmentedRadioGroup.Option value={type.key} key={type.key}>{type.label}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>
+            {availableProfiles.length > 1 && <div className="about-methodology-switch"><span>2. Направление</span><SegmentedRadioGroup className="about-methodology-profile-switch" aria-label="Направление методики" value={activeProfile?.key || ''} onUpdate={selectMethodologyProfile} size="m">{availableProfiles.map((profile) => <SegmentedRadioGroup.Option value={profile.key} key={profile.key}>{profile.shortLabel}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>}
+          </div>
+        </Card>
+
+        {activeProfile && <div className="about-methodology-profile"><div><b>{activeProfile.shortLabel}</b><span>{activeProfile.label}</span></div><Label theme="info">{methodologyGroups.length} блоков</Label></div>}
+
+        {activeMethodologyGroup && <div className="about-methodology-browser">
+          <nav className="about-methodology-blocks" aria-label="Блоки методики"><div className="about-methodology-blocks-head"><span>Блоки методики</span><Label theme="utility" size="xs">{methodologyGroups.length}</Label></div>{methodologyGroups.map((group, index) => <Button className="about-methodology-block-button" view="flat" width="max" selected={group.title === activeMethodologyGroup.title} onClick={() => setMethodologyGroupTitle(group.title)} key={group.title}><span><small>{String(index + 1).padStart(2, '0')}</small><b>{group.title}</b></span></Button>)}</nav>
+          <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary">{activeProfile.shortLabel}</Text><h3>{activeMethodologyGroup.title}</h3></div><Label theme="info">Разделов: {activeMethodologyGroup.subsections.length}</Label></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div><MethodologyContent body={section.body} /></section>)}</div></section>
+        </div>}
       </section>
 
       <section className="about-method-notes" aria-labelledby="method-notes-title">
