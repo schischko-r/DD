@@ -35,6 +35,19 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(report.normalize_upload_unit("CX"), "CX")
         self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
 
+    def test_complex_funnel_analysis_names_keep_stable_metric_codes(self) -> None:
+        metric_code = report._DD_FROM_EXCEL["metric_code"]
+        expected = {
+            ("Воронка привлечения", "Проведение комплексного анализа воронки привлечения"): "attract.funnel_analysis",
+            ("Воронка оттока", "Проведение комплексного анализа воронки оттока"): "churn.funnel_analysis",
+            ("Воронка онбординга", "Проведение комплексного анализа воронки онбординга"): "voronka_onbordinga.provedenie_analiza_voronki_onbordinga",
+            ("Воронка входа в канал", "Проведение комплексного анализа воронки входа в канал"): "voronka_vhoda_v_kanal.provedenie_analiza_voronki_vhoda_v_kanal",
+            ("Воронка продаж", "Проведение комплексного анализа воронки продаж"): "voronka_prodazh.provedenie_analiza_voronki_prodazh",
+        }
+
+        for (group, name), code in expected.items():
+            self.assertEqual(metric_code(group, name), code)
+
     def test_pilot_campaign_links_use_the_ai_skill_dashboard(self) -> None:
         expected = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
         self.assertEqual(report.PILOT_CAMPAIGNS_URL, expected)

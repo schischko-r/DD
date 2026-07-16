@@ -75,6 +75,30 @@ _DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")
 _DD_FROM_EXCEL["METRIC_CODES"][
     ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
 ] = "general.navigator_reporting_knowledge"
+_DD_FROM_EXCEL["METRIC_CODES"].update(
+    {
+        (
+            "Воронка привлечения",
+            "Проведение комплексного анализа воронки привлечения",
+        ): "attract.funnel_analysis",
+        (
+            "Воронка оттока",
+            "Проведение комплексного анализа воронки оттока",
+        ): "churn.funnel_analysis",
+        (
+            "Воронка онбординга",
+            "Проведение комплексного анализа воронки онбординга",
+        ): "voronka_onbordinga.provedenie_analiza_voronki_onbordinga",
+        (
+            "Воронка входа в канал",
+            "Проведение комплексного анализа воронки входа в канал",
+        ): "voronka_vhoda_v_kanal.provedenie_analiza_voronki_vhoda_v_kanal",
+        (
+            "Воронка продаж",
+            "Проведение комплексного анализа воронки продаж",
+        ): "voronka_prodazh.provedenie_analiza_voronki_prodazh",
+    }
+)
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.navigator_reporting_knowledge"] = 1_000_000
 _DD_FROM_EXCEL["METRIC_ORDER_OVERRIDES"]["general.znanie_ob_otchetnosti_v_navigatore"] = 1_000_000
 
