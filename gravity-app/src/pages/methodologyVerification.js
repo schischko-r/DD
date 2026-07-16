@@ -15,6 +15,16 @@ const commonChannelComments = [
   ['Гипотезы и инициативы', '', HYPOTHESES_AND_INITIATIVES],
 ];
 
+const commonSegmentComments = [
+  ['Мониторинг: цели, драйверы и прогнозы', '', SELF_ASSESSMENT_AND_TRACES],
+  ['Алерты', '', SELF_ASSESSMENT],
+  ['Воронка привлечения/оформления', 'Отчетность', SELF_ASSESSMENT],
+  ['Воронка привлечения/оформления', 'Анализ', SELF_ASSESSMENT],
+  ['Воронка оттока', 'Анализ', SELF_ASSESSMENT],
+  ['Механики', '', SELF_ASSESSMENT],
+  ['Гипотезы и инициативы', '', HYPOTHESES_AND_INITIATIVES],
+];
+
 const commentsByProfile = {
   product: [
     ['Мониторинг: цели, драйверы и прогнозы', '', SELF_ASSESSMENT_AND_TRACES],
@@ -28,6 +38,8 @@ const commentsByProfile = {
     ['UX / CX Score', '', DIGITAL_TRACES],
     ['Гипотезы и инициативы', '', HYPOTHESES_AND_INITIATIVES],
   ],
+  segment_age: commonSegmentComments,
+  segment_income: commonSegmentComments,
   channel_digital: [
     ['Мониторинг: цели, драйверы и прогнозы', '', SELF_ASSESSMENT_AND_TRACES],
     ['Алерты', '', SELF_ASSESSMENT],

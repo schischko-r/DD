@@ -29,7 +29,11 @@ test('channel verification comments follow the matching workbook sheet', () => {
   );
 });
 
-test('profiles without a digital-trace column do not receive inferred comments', () => {
-  assert.equal(methodologyVerificationComment('segment_age', 'Алерты'), '');
-  assert.equal(methodologyVerificationComment('segment_income', 'Механики'), '');
+test('segment profiles receive relevant verification comments from the second sheet', () => {
+  assert.match(methodologyVerificationComment('segment_age', 'Мониторинг: цели, драйверы и прогнозы'), /цифровым следам/);
+  assert.equal(
+    methodologyVerificationComment('segment_income', 'Механики'),
+    'Расчет на основании самооценке PO',
+  );
+  assert.equal(methodologyVerificationComment('segment_age', 'Воронка привлечения/оформления', 'Кампейнинг'), '');
 });
