@@ -68,6 +68,68 @@ class SyntheticReportTest(unittest.TestCase):
             expected,
         )
 
+    def test_master_dash_notice_is_added_only_for_team_with_zero_coverage_fact(self) -> None:
+        data = {
+            "products": [
+                {
+                    "type": "Продукт",
+                    "name": "С нулем",
+                    "metrics": [
+                        {
+                            "code": "goals",
+                            "actions": [
+                                {"label": 'Отчет "Цели в мастер-деше"', "url": "https://example.test/master"},
+                                {"label": "Другая ссылка", "url": "https://example.test/other"},
+                            ],
+                        }
+                    ],
+                },
+                {
+                    "type": "Продукт",
+                    "name": "Без нуля",
+                    "metrics": [
+                        {
+                            "code": "goals",
+                            "actions": [
+                                {"label": 'Отчет "Цели в мастер-деше"', "url": "https://example.test/master"},
+                            ],
+                        }
+                    ],
+                },
+            ]
+        }
+        rows = report._PD.DataFrame(
+            [
+                {
+                    "type": "Продукт",
+                    "Продукт": "С нулем",
+                    "value": 0,
+                    "Column5": report.MASTER_DASH_COVERAGE_VALUE,
+                },
+                {
+                    "type": "Продукт",
+                    "Продукт": "Без нуля",
+                    "value": 0.5,
+                    "Column5": report.MASTER_DASH_COVERAGE_VALUE,
+                },
+                {
+                    "type": "Продукт",
+                    "Продукт": "Без нуля",
+                    "value": 0,
+                    "Column5": "Другое значение",
+                },
+            ]
+        )
+
+        count = report.add_master_dash_enrichment_notices(data, rows)
+
+        self.assertEqual(count, 1)
+        first_actions = data["products"][0]["metrics"][0]["actions"]
+        second_actions = data["products"][1]["metrics"][0]["actions"]
+        self.assertEqual(first_actions[0]["notice"], report.MASTER_DASH_ENRICHMENT_NOTICE)
+        self.assertNotIn("notice", first_actions[1])
+        self.assertNotIn("notice", second_actions[0])
+
     def test_metric_blocks_follow_requested_display_order(self) -> None:
         blocks = [
             {"code": "cx"},

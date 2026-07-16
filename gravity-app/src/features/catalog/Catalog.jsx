@@ -79,7 +79,7 @@ export function collectBlockLinks(block) {
   const add = (item, fallbackLabel) => {
     const url = item?.url || item?.link || item?.button?.link;
     const label = item?.label || item?.button?.label || fallbackLabel;
-    if (url && label) links.push({label, url});
+    if (url && label) links.push({label, url, ...(item?.notice ? {notice: item.notice} : {})});
   };
 
   (block.actions || []).forEach((item) => add(item));

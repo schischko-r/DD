@@ -71,6 +71,8 @@ _DD_FROM_EXCEL["COMMON_BUTTONS"]["attract_pilot_campaigns"]["link"] = PILOT_CAMP
 _DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["attract_pilots"]["link"] = PILOT_CAMPAIGNS_URL
 CSI_SKILL_URL = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053756"
 _DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["cx.csi"]["link"] = CSI_SKILL_URL
+MASTER_DASH_COVERAGE_VALUE = "В навигаторе (покрытие >90% целей)"
+MASTER_DASH_ENRICHMENT_NOTICE = "Для обогащения мастер-деша обратитесь в штаб Юнита"
 _DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")
 _DD_FROM_EXCEL["METRIC_CODES"][
     ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
@@ -2751,6 +2753,49 @@ def build_report_data_from_metric_rows(product_rows: Any, period: str) -> tuple[
     return {"products": products}, summary
 
 
+def add_master_dash_enrichment_notices(data: dict[str, Any], source_rows: Any) -> int:
+    """Mark master-dash links for teams with an uncovered Navigator goal metric."""
+    if source_rows.empty or "Column5" not in source_rows.columns:
+        return 0
+
+    entity_column = "entity_type" if "entity_type" in source_rows.columns else "type"
+    fact_column = "value_num" if "value_num" in source_rows.columns else "value"
+    if entity_column not in source_rows.columns or fact_column not in source_rows.columns:
+        return 0
+
+    coverage_mask = source_rows["Column5"].map(normalize_lookup_key).eq(
+        normalize_lookup_key(MASTER_DASH_COVERAGE_VALUE)
+    )
+    zero_fact_mask = _PD.to_numeric(source_rows[fact_column], errors="coerce").eq(0)
+    qualifying_rows = source_rows.loc[
+        coverage_mask & zero_fact_mask,
+        [entity_column, "Продукт"],
+    ]
+    qualifying_teams = {
+        (canonical_entity_type(entity_type), normalize_lookup_key(product_name))
+        for entity_type, product_name in qualifying_rows.itertuples(index=False, name=None)
+    }
+
+    notices_added = 0
+    for product in data.get("products", []):
+        product_key = (
+            canonical_entity_type(product.get("type")),
+            normalize_lookup_key(product.get("name")),
+        )
+        if product_key not in qualifying_teams:
+            continue
+        for block in product.get("metrics", []):
+            if clean_text(block.get("code")) != "goals":
+                continue
+            for action in block.get("actions", []):
+                if "мастер-деш" not in clean_text(action.get("label")).casefold():
+                    continue
+                action["notice"] = MASTER_DASH_ENRICHMENT_NOTICE
+                notices_added += 1
+
+    return notices_added
+
+
 def apply_flat_flg_exclusions(product: dict[str, Any], rows: Any) -> int:
     """Make flat_table.xlsx flg the sole index-inclusion rule for its metrics."""
     block_info = _DD_FROM_EXCEL["block_info"]
@@ -2888,6 +2933,10 @@ def read_upload_workbook(
     flat_detail = _PD.concat(flat_frames, ignore_index=True)
     product_rows = normalize_flat_metric_rows(flat_detail)
     detail_data, detail_summary = build_report_data_from_metric_rows(product_rows, period)
+    detail_summary["master_dash_enrichment_notices"] = add_master_dash_enrichment_notices(
+        detail_data,
+        flat_detail,
+    )
     generated_title_payload = upload_title_from_products(detail_data.get("products", []))
     title_payload = (
         merge_title_payloads(
