@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {digestStatus, digestTheme, worstDigestLight} from './digestPresentation.js';
+import {digestStatus, digestTheme, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestTheme('red'), 'danger');
@@ -18,4 +18,22 @@ test('worst digest light keeps existing priority order', () => {
   assert.equal(worstDigestLight([{traffic_light: 'green'}, {traffic_light: 'red'}]), 'red');
   assert.equal(worstDigestLight([{}]), 'gray');
   assert.equal(worstDigestLight([]), 'gray');
+});
+
+test('recommendation skill link uses the matching AI tool from the metric block', () => {
+  const block = {
+    tools: [{
+      name: 'Группа навыков',
+      buttons: [
+        {ai_tool_key: 'drafts', button: {link: 'https://example.test/drafts'}},
+        {ai_tool_key: 'clickstream_funnel', button: {link: 'https://example.test/funnel'}},
+      ],
+    }],
+  };
+
+  assert.equal(
+    recommendationSkillLink(block, [{skill_key: 'clickstream_funnel'}]),
+    'https://example.test/funnel',
+  );
+  assert.equal(recommendationSkillLink(block, [{skill_key: 'llm_summary'}]), '');
 });

@@ -16,3 +16,16 @@ export function worstDigestLight(items) {
   const order = ['red', 'yellow', 'green', 'gray'];
   return order.find((light) => items.some((item) => (item.traffic_light || 'gray') === light)) || 'gray';
 }
+
+export function recommendationSkillLink(block, items) {
+  const skillKeys = new Set(
+    (items || []).map((item) => String(item.skill_key || '').trim()).filter(Boolean),
+  );
+  if (skillKeys.size === 0) return '';
+
+  const tools = (block?.tools || []).flatMap((tool) => [tool, ...(tool.buttons || [])]);
+  const matchedTool = tools.find((tool) =>
+    skillKeys.has(String(tool.ai_tool_key || '').trim()) && tool.button?.link,
+  );
+  return matchedTool?.button?.link || '';
+}

@@ -3,7 +3,7 @@ import {ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
 import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
-import {digestStatus, digestTheme, worstDigestLight} from './digestPresentation.js';
+import {digestStatus, digestTheme, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 export {digestStatus, digestTheme, worstDigestLight} from './digestPresentation.js';
 
@@ -206,16 +206,23 @@ export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSki
                   <span className="product-metric-block-status"><i className={`metric-light metric-light-${digestTheme(light)}${hasRecommendations ? '' : ' product-metric-empty-light'}`} aria-hidden="true" /></span>
                 </button>
                 {isOpen && <div className="metric-list product-metric-list">
-                  {[...toolGroups.entries()].map(([toolName, productGroups]) => <section id={`ai-recommendation-skill-${block.code}-${encodeURIComponent(toolName)}`} className="product-metric-tool-section" key={toolName}>
-                    <div className="metric-group-title product-metric-tool-title"><span>{toolName}</span></div>
-                    <div className={`product-metric-tool-content${productGroups.size === 1 ? ' product-metric-tool-content-single' : ''}`}>
-                      {productGroups.size === 1
-                        ? <ProductMetricRows items={[...productGroups.values()][0]} />
-                        : [...productGroups.entries()].map(([productName, productItems], productIndex) => <Disclosure className="product-metric-product-disclosure" size="m" defaultExpanded={productIndex === 0} summary={<span className="product-metric-product-title">{productName}</span>} key={`${toolName}-${productName}`}>
-                          <ProductMetricRows items={productItems} />
-                        </Disclosure>)}
-                    </div>
-                  </section>)}
+                  {[...toolGroups.entries()].map(([toolName, productGroups]) => {
+                    const toolItems = [...productGroups.values()].flat();
+                    const toolLink = recommendationSkillLink(block, toolItems);
+                    return <section id={`ai-recommendation-skill-${block.code}-${encodeURIComponent(toolName)}`} className="product-metric-tool-section" key={toolName}>
+                      <div className="metric-group-title product-metric-tool-title">
+                        <span>{toolName}</span>
+                        {toolLink && <Link className="product-metric-tool-link" href={toolLink} target="_blank" rel="noreferrer">Перейти <Icon data={ChevronRight} size={14} /></Link>}
+                      </div>
+                      <div className={`product-metric-tool-content${productGroups.size === 1 ? ' product-metric-tool-content-single' : ''}`}>
+                        {productGroups.size === 1
+                          ? <ProductMetricRows items={toolItems} />
+                          : [...productGroups.entries()].map(([productName, productItems], productIndex) => <Disclosure className="product-metric-product-disclosure" size="m" defaultExpanded={productIndex === 0} summary={<span className="product-metric-product-title">{productName}</span>} key={`${toolName}-${productName}`}>
+                            <ProductMetricRows items={productItems} />
+                          </Disclosure>)}
+                      </div>
+                    </section>;
+                  })}
                 </div>}
               </Card>
             );
