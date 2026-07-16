@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {ArrowLeft, BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Persons} from '@gravity-ui/icons';
-import {Accordion, Button, Card, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
+import {Button, Card, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
 import methodologyProfiles from '../data/methodologyCriteria.json';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
-import {groupMethodologySections, methodologyScoreTheme, parseMethodologyContent} from './methodologyPresentation.js';
+import {groupMethodologySections, methodologyCriteria, methodologyScoreTheme} from './methodologyPresentation.js';
 
 const METHODOLOGY_ENTITY_TYPES = [
   {key: 'product', label: 'Продукт'},
@@ -12,23 +12,28 @@ const METHODOLOGY_ENTITY_TYPES = [
 ];
 
 function MethodologyContent({body}) {
-  return <div className="about-methodology-content">{parseMethodologyContent(body).map((token, index) => {
-    if (token.kind === 'break') return <div className="about-methodology-break" aria-hidden="true" key={`break-${index}`} />;
-    if (token.kind === 'heading') return <h4 key={`heading-${index}`}>{token.text}</h4>;
-    if (token.kind === 'score') return <div className="about-methodology-score" key={`score-${index}`}><Label theme={methodologyScoreTheme(token.label)} size="xs">{token.label}</Label><span>{token.text}</span></div>;
-    return <Text color="secondary" key={`text-${index}`}>{token.text}</Text>;
-  })}</div>;
+  return <div className="about-methodology-content">{methodologyCriteria(body).map((criterion, index) => <section className="about-methodology-criterion" key={`${criterion.title}-${index}`}>
+    <header className="about-methodology-criterion-head"><span>{String(index + 1).padStart(2, '0')}</span><div><h4>{criterion.title}</h4>{criterion.description.map((text) => <Text color="secondary" key={text}>{text}</Text>)}</div></header>
+    {criterion.scores.length > 0 && <div className="about-methodology-score-table"><div className="about-methodology-score-head"><span>Баллы</span><span>Условие</span></div>{criterion.scores.map((score, scoreIndex) => <div className="about-methodology-score" key={`${score.label}-${scoreIndex}`}><Label theme={methodologyScoreTheme(score.label)} size="xs">{score.label}</Label><span>{score.text}</span></div>)}</div>}
+  </section>)}</div>;
 }
 
 export function AboutPage({onBack}) {
   const [methodologyEntityType, setMethodologyEntityType] = useState('product');
   const [methodologyProfileKey, setMethodologyProfileKey] = useState('product');
+  const [methodologyGroupTitle, setMethodologyGroupTitle] = useState('');
   const availableProfiles = methodologyProfiles.filter((profile) => profile.entityType === methodologyEntityType);
   const activeProfile = availableProfiles.find((profile) => profile.key === methodologyProfileKey) || availableProfiles[0];
   const methodologyGroups = groupMethodologySections(activeProfile?.sections || []);
+  const activeMethodologyGroup = methodologyGroups.find((group) => group.title === methodologyGroupTitle) || methodologyGroups[0];
   const selectMethodologyEntityType = (entityType) => {
     setMethodologyEntityType(entityType);
     setMethodologyProfileKey(methodologyProfiles.find((profile) => profile.entityType === entityType)?.key || '');
+    setMethodologyGroupTitle('');
+  };
+  const selectMethodologyProfile = (profileKey) => {
+    setMethodologyProfileKey(profileKey);
+    setMethodologyGroupTitle('');
   };
   const principles = [
     {title: 'Объект оценки', text: 'Команда продукта, сегмента или канала. Индекс отражает состояние практик команды в расчётном периоде.', icon: Persons},
@@ -165,21 +170,17 @@ export function AboutPage({onBack}) {
         <Card className="about-methodology-controls" view="outlined" type="container" size="l">
           <div className="about-methodology-controls-copy"><Text variant="subheader-1">Критерии для команды</Text><Text color="secondary">Сначала выберите объект оценки, затем нужное направление.</Text></div>
           <div className="about-methodology-switches">
-            <SegmentedRadioGroup aria-label="Объект оценки" value={methodologyEntityType} onUpdate={selectMethodologyEntityType} size="l">{METHODOLOGY_ENTITY_TYPES.map((type) => <SegmentedRadioGroup.Option value={type.key} key={type.key}>{type.label}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup>
-            {availableProfiles.length > 1 && <SegmentedRadioGroup className="about-methodology-profile-switch" aria-label="Направление методики" value={activeProfile?.key || ''} onUpdate={setMethodologyProfileKey} size="m">{availableProfiles.map((profile) => <SegmentedRadioGroup.Option value={profile.key} key={profile.key}>{profile.shortLabel}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup>}
+            <div className="about-methodology-switch"><span>1. Объект оценки</span><SegmentedRadioGroup aria-label="Объект оценки" value={methodologyEntityType} onUpdate={selectMethodologyEntityType} size="l">{METHODOLOGY_ENTITY_TYPES.map((type) => <SegmentedRadioGroup.Option value={type.key} key={type.key}>{type.label}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>
+            {availableProfiles.length > 1 && <div className="about-methodology-switch"><span>2. Направление</span><SegmentedRadioGroup className="about-methodology-profile-switch" aria-label="Направление методики" value={activeProfile?.key || ''} onUpdate={selectMethodologyProfile} size="m">{availableProfiles.map((profile) => <SegmentedRadioGroup.Option value={profile.key} key={profile.key}>{profile.shortLabel}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>}
           </div>
         </Card>
 
         {activeProfile && <div className="about-methodology-profile"><div><b>{activeProfile.shortLabel}</b><span>{activeProfile.label}</span></div><Label theme="info">{methodologyGroups.length} блоков</Label></div>}
 
-        <div className="about-methodology-accordion">
-          <Accordion view="top-bottom" size="l">
-            {methodologyGroups.map((group, index) => {
-              const subgroupNames = [...new Set(group.subsections.map((section) => section.subgroup).filter(Boolean))];
-              return <Accordion.Item key={group.title} summary={<div className="about-zone-summary"><Label theme="utility">{String(index + 1).padStart(2, '0')}</Label><div><b>{group.title}</b>{subgroupNames.length > 0 && <span>{subgroupNames.join(' · ')}</span>}</div><Label className="about-zone-count" theme="info" size="xs">{group.subsections.length}</Label></div>}><div className="about-methodology-subsections">{group.subsections.map((section) => <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div><MethodologyContent body={section.body} /></section>)}</div></Accordion.Item>;
-            })}
-          </Accordion>
-        </div>
+        {activeMethodologyGroup && <div className="about-methodology-browser">
+          <nav className="about-methodology-blocks" aria-label="Блоки методики"><div className="about-methodology-blocks-head"><span>Блоки методики</span><Label theme="utility" size="xs">{methodologyGroups.length}</Label></div>{methodologyGroups.map((group, index) => <Button className="about-methodology-block-button" view="flat" width="max" selected={group.title === activeMethodologyGroup.title} onClick={() => setMethodologyGroupTitle(group.title)} key={group.title}><span><small>{String(index + 1).padStart(2, '0')}</small><b>{group.title}</b></span></Button>)}</nav>
+          <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary">{activeProfile.shortLabel}</Text><h3>{activeMethodologyGroup.title}</h3></div><Label theme="info">Разделов: {activeMethodologyGroup.subsections.length}</Label></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div><MethodologyContent body={section.body} /></section>)}</div></section>
+        </div>}
       </section>
 
       <section className="about-method-notes" aria-labelledby="method-notes-title">

@@ -76,3 +76,46 @@ export function methodologyScoreTheme(label) {
   if (percent === 0) return 'danger';
   return 'info';
 }
+
+export function methodologyCriteria(body) {
+  const criteria = [];
+  let current = null;
+  const ensureCurrent = () => {
+    if (!current) current = {title: 'Условие оценки', description: [], scores: []};
+    return current;
+  };
+  const flush = () => {
+    if (!current) return;
+    if (current.description.length || current.scores.length || current.title !== 'Условие оценки') criteria.push(current);
+    current = null;
+  };
+
+  for (const token of parseMethodologyContent(body)) {
+    if (token.kind === 'break') {
+      flush();
+    } else if (token.kind === 'heading') {
+      flush();
+      current = {title: token.text, description: [], scores: []};
+    } else if (token.kind === 'score') {
+      ensureCurrent().scores.push({label: token.label, text: token.text});
+    } else {
+      ensureCurrent().description.push(token.text);
+    }
+  }
+  flush();
+  const normalized = criteria.map((criterion) => {
+    if (criterion.title !== 'Условие оценки' || criterion.description.length === 0) return criterion;
+    return {...criterion, title: criterion.description[0], description: criterion.description.slice(1)};
+  });
+  const result = [];
+  for (const criterion of normalized) {
+    const previous = result[result.length - 1];
+    if (previous && previous.scores.length === 0 && criterion.title === 'Условие оценки') {
+      previous.description.push(...criterion.description);
+      previous.scores.push(...criterion.scores);
+      continue;
+    }
+    result.push(criterion.title === 'Условие оценки' ? {...criterion, title: 'Дополнительные условия'} : criterion);
+  }
+  return result;
+}
