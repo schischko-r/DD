@@ -155,6 +155,7 @@ test('team help audience distinguishes products, segments, and channel types', (
   assert.equal(teamHelpAudience({type: 'Сегмент', name: 'Другой сегмент'}), 'segment');
   assert.equal(teamHelpAudience({type: 'Канал', name: 'СБОЛ'}), 'digital-channel');
   assert.equal(teamHelpAudience({type: 'Канал', name: 'Чат'}), 'service-channel');
+  assert.equal(teamHelpAudience({type: 'Канал', name: 'Коллцентр'}), 'service-channel');
   assert.equal(teamHelpAudience({type: 'Канал', name: 'Телемаркетинг'}), 'telemarketing');
   assert.equal(teamHelpAudience({type: 'Канал', name: 'Другой канал'}), 'channel');
 });

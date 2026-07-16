@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleCheckFill, CircleInfo, CircleInfoFill, NodesRight} from '@gravity-ui/icons';
 import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, PRODUCT_KEY_METRIC_LINKS, REPORT_ACCESS_REQUEST_URL, SEGMENT_KEY_METRIC_LINKS, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarSeries, scoreFor, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
+import {COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, REPORT_ACCESS_REQUEST_URL, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarSeries, scoreFor, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {
   ProductMetricBlocks,
@@ -611,7 +611,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
             const isOpen = open.has(block.code);
             const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
             const max = metrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
-            const blockLinks = linksForBlock(block, product.metrics || [], product.type);
+            const blockLinks = linksForBlock(block, product.metrics || [], product);
             const participantLinks = (block.participant_links || []).filter((item) => item?.label && (item.url || item.link));
             const instructions = (block.tools || []).filter((tool) => tool.kind === 'instruction' && tool.button?.link);
             const blockPilotActions = pilotToolLinks(block);

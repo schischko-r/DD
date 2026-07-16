@@ -2,6 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {ArrowDown, ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Button, Dialog, Icon, Label, Progress, SegmentedRadioGroup, Text, TextInput} from '@gravity-ui/uikit';
 import {blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor, teamHelpAudience} from '../../domain/report.js';
+import {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS, isLegacyProductKeyMetricLink, keyMetricLinksForAudience} from './keyMetricLinks.js';
 
 export {blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor, teamHelpAudience};
 
@@ -9,15 +10,7 @@ export const REPORT_ACCESS_REQUEST_URL = 'https://sberfriend.sberbank.ru/deeplin
 export const COMPLEX_REPORT_URL = 'http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/complex-report';
 export const HELP_POPOVER_PROPS = {trigger: 'all', openDelay: 0, closeDelay: 80, rest: 0};
 export const TEAM_CONTACT_MAILTO = 'mailto:MYCherkova@sberbank.ru?cc=yspetukhova%40sberbank.ru';
-export const PRODUCT_KEY_METRIC_LINKS = [
-  {label: 'Воронки активности продуктов', url: 'https://navigator.sigma.sbrf.ru/gdash/12215/1000034254'},
-  {label: 'Продукты-спутники', url: 'https://navigator.sigma.sbrf.ru/gdash/12215/1000030917'},
-];
-export const SEGMENT_KEY_METRIC_LINKS = [
-  {label: 'Отчет "Активная клиентская база"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000000301'},
-  {label: 'Отчет "Major"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1'},
-  {label: 'Отчет "Клиенты с 1+2+"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000001389'},
-];
+export {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS};
 
 export function wrapRadarLabel(value, maxLength = 15) {
   const words = String(value || '').replace(/([/–—-])/g, '$1 ').trim().split(/\s+/);
@@ -100,13 +93,16 @@ export function collectBlockLinks(block) {
   return links.filter((item, index) => links.findIndex((candidate) => candidate.label === item.label && candidate.url === item.url) === index);
 }
 
-export function linksForBlock(block, allBlocks = [], entityType = 'Продукт') {
+export function linksForBlock(block, allBlocks = [], product = {type: 'Продукт'}) {
   const draftLinks = allBlocks.flatMap(collectBlockLinks).filter((item) => /черновик/i.test(item.label));
   const isKeyMetricsBlock = block.code === 'general' || /знание ключевых метрик/i.test(String(block.name || ''));
-  const keyMetricLinks = isKeyMetricsBlock
-    ? (String(entityType).toLowerCase().includes('сегмент') ? SEGMENT_KEY_METRIC_LINKS : PRODUCT_KEY_METRIC_LINKS)
-    : [];
-  const ownLinks = [...collectBlockLinks(block), ...keyMetricLinks].filter((item) => block.code === 'attract' || !/черновик/i.test(item.label));
+  const productDescriptor = typeof product === 'string' ? {type: product} : product;
+  const audience = teamHelpAudience(productDescriptor);
+  const isPhygitalChannel = audience === 'service-channel' || audience === 'telemarketing';
+  const keyMetricLinks = isKeyMetricsBlock ? keyMetricLinksForAudience(audience) : [];
+  const collectedLinks = collectBlockLinks(block)
+    .filter((item) => !(isKeyMetricsBlock && isPhygitalChannel && isLegacyProductKeyMetricLink(item)));
+  const ownLinks = [...collectedLinks, ...keyMetricLinks].filter((item) => block.code === 'attract' || !/черновик/i.test(item.label));
   const relocatedLinks = block.code === 'attract' ? [...ownLinks, ...draftLinks] : ownLinks;
   const uniqueLinks = filterDraftLinks(block, filterCampaigningLinks(block, relocatedLinks))
     .filter((item) => !/библиотек[ау] решений/i.test(item.label))
