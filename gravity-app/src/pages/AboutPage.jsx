@@ -175,8 +175,6 @@ export function AboutPage({onBack}) {
           </div>
         </Card>
 
-        {activeProfile && <div className="about-methodology-profile"><div><b>{activeProfile.shortLabel}</b><span>{activeProfile.label}</span></div></div>}
-
         {activeMethodologyGroup && <div className="about-methodology-browser">
           <nav className="about-methodology-blocks" aria-label="Ключевые блоки Data Driven"><div className="about-methodology-blocks-head">Ключевые блоки Data Driven</div>{methodologyGroups.map((group, index) => <Button className="about-methodology-block-button" view="flat" width="max" selected={group.title === activeMethodologyGroup.title} onClick={() => setMethodologyGroupTitle(group.title)} key={group.title}><span><small>{String(index + 1).padStart(2, '0')}</small><b>{group.title}</b></span></Button>)}</nav>
           <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary">{activeProfile.shortLabel}</Text><h3>{activeMethodologyGroup.title}</h3></div></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div><MethodologyContent body={section.body} /></section>)}</div></section>
