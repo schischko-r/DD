@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {ArrowDown, ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Button, Dialog, Icon, Label, Progress, SegmentedRadioGroup, Text, TextInput} from '@gravity-ui/uikit';
 import {blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor, teamHelpAudience} from '../../domain/report.js';
-import {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS, isLegacyProductKeyMetricLink, keyMetricLinksForAudience} from './keyMetricLinks.js';
+import {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS, contextualBlockLinksForTeam, isLegacyProductKeyMetricLink, isProductSatelliteLink, keyMetricLinksForTeam} from './keyMetricLinks.js';
 
 export {blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor, teamHelpAudience};
 
@@ -99,10 +99,13 @@ export function linksForBlock(block, allBlocks = [], product = {type: 'Прод�
   const productDescriptor = typeof product === 'string' ? {type: product} : product;
   const audience = teamHelpAudience(productDescriptor);
   const isPhygitalChannel = audience === 'service-channel' || audience === 'telemarketing';
-  const keyMetricLinks = isKeyMetricsBlock ? keyMetricLinksForAudience(audience) : [];
+  const isDpDigitalChannel = audience === 'digital-channel' && String(productDescriptor?.unit || '').trim().toLowerCase() === 'dp';
+  const keyMetricLinks = isKeyMetricsBlock ? keyMetricLinksForTeam(productDescriptor, audience) : [];
+  const contextualLinks = contextualBlockLinksForTeam(productDescriptor, block);
   const collectedLinks = collectBlockLinks(block)
-    .filter((item) => !(isKeyMetricsBlock && isPhygitalChannel && isLegacyProductKeyMetricLink(item)));
-  const ownLinks = [...collectedLinks, ...keyMetricLinks].filter((item) => block.code === 'attract' || !/черновик/i.test(item.label));
+    .filter((item) => !(isKeyMetricsBlock && isPhygitalChannel && isLegacyProductKeyMetricLink(item)))
+    .filter((item) => !(isKeyMetricsBlock && isDpDigitalChannel && isProductSatelliteLink(item)));
+  const ownLinks = [...collectedLinks, ...keyMetricLinks, ...contextualLinks].filter((item) => block.code === 'attract' || !/черновик/i.test(item.label));
   const relocatedLinks = block.code === 'attract' ? [...ownLinks, ...draftLinks] : ownLinks;
   const uniqueLinks = filterDraftLinks(block, filterCampaigningLinks(block, relocatedLinks))
     .filter((item) => !/библиотек[ау] решений/i.test(item.label))
