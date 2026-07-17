@@ -44,6 +44,21 @@ test('team-specific funnel links are limited to Chat and SBOL blocks', () => {
   assert.deepEqual(contextualBlockLinksForTeam({name: 'Уведомления'}, {code: 'voronka_onbordinga'}), []);
 });
 
+test('DSZh product churn links are limited to the churn block', () => {
+  const cases = [
+    ['ДСЖ КК', 'https://navigator.sigma.sbrf.ru/gdash/1000000766/1000008585'],
+    ['ДСЖ ПК', 'https://navigator.sigma.sbrf.ru/gdash/1000000726/1000006981'],
+  ];
+  cases.forEach(([name, url]) => {
+    assert.deepEqual(
+      contextualBlockLinksForTeam({name}, {code: 'churn'}),
+      [{label: 'Воронка оттока', url}],
+    );
+    assert.deepEqual(contextualBlockLinksForTeam({name}, {code: 'attract'}), []);
+  });
+  assert.deepEqual(contextualBlockLinksForTeam({name: 'ОСАГО'}, {code: 'churn'}), []);
+});
+
 test('legacy product key metric links are recognized for phygital filtering', () => {
   assert.equal(isLegacyProductKeyMetricLink({label: 'Продукты-спутники'}), true);
   assert.equal(isLegacyProductKeyMetricLink({label: 'ЕКМ'}), true);

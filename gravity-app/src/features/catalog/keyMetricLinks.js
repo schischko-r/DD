@@ -36,6 +36,11 @@ export const SBOL_ONBOARDING_LINK = {
   url: 'https://clickstream.sberbank.ru/frontend/sbol/reports/funnels/39101',
 };
 
+const PRODUCT_CHURN_LINKS = new Map([
+  ['дсж кк', {label: 'Воронка оттока', url: 'https://navigator.sigma.sbrf.ru/gdash/1000000766/1000008585'}],
+  ['дсж пк', {label: 'Воронка оттока', url: 'https://navigator.sigma.sbrf.ru/gdash/1000000726/1000006981'}],
+]);
+
 export function keyMetricLinksForTeam(product, audience) {
   const unit = String(product?.unit || '').trim().toLowerCase();
   const name = String(product?.name || '').trim().toLowerCase();
@@ -54,6 +59,10 @@ export function contextualBlockLinksForTeam(product, block) {
   const blockName = String(block?.name || '').trim().toLowerCase();
   if (name === 'чат' && (code === 'voronka_vhoda_v_kanal' || blockName === 'воронка входа в канал')) return [CHAT_ENTRY_FUNNEL_LINK];
   if (name === 'сбол' && (code === 'voronka_onbordinga' || blockName === 'воронка онбординга')) return [SBOL_ONBOARDING_LINK];
+  if (code === 'churn' || blockName === 'воронка оттока') {
+    const churnLink = PRODUCT_CHURN_LINKS.get(name);
+    if (churnLink) return [churnLink];
+  }
   return [];
 }
 
