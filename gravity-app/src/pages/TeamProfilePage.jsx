@@ -14,7 +14,7 @@ import {
   worstDigestLight,
 } from '../features/llm-summary/LlmSummary.jsx';
 
-const CROSS_SELL_ANALYTICS_URL = 'https://losshunter.ru/showcase/crosssell/#screen=pult';
+const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const AB_TEST_INSTRUCTION_LINKS = [
   {label: 'Онлайн курс по A/B', href: 'https://hr.sberbank.ru/platform/catalog/c515dcab-a8b7-4f03-a76a-e1b7349f857d'},
   {label: 'Демо A/B-платформы', href: 'https://sbervideo.sberbank.ru/watch/kpgpJi35gzwMIVu3X51'},
@@ -41,6 +41,7 @@ function metricAiInsight(subject, onClick) {
     'воронке оформления в СБОЛ': 'Оформление в СБОЛ',
     'CSI': 'CSI',
     'жалобам и обращениям': 'Жалобы и обращения',
+    'cross-sell': 'Cross-sell',
   };
   return {
     title: `AI-анализ по ${subject}`,
@@ -497,6 +498,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const campaignFunnelAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'funnel' || item.skill_name === 'Воронка кампейнинга');
   const csiAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'csi' || item.skill_name === 'CSI');
   const complaintsAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'complaints' || item.skill_name === 'Жалобы и обращения');
+  const crossSellAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'cross_sell' || item.skill_name === 'Cross-sell');
   const openMauAiRecommendation = () => {
     setAiFocusBlock(generalRecommendationBlock);
     setAiFocusSkill('Ключевые метрики');
@@ -531,6 +533,12 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
     setAiFocusBlock('cx');
     setAiFocusSkill('Жалобы и обращения');
     setAiReturnMetric('cx.score');
+    setLens('metrics');
+  };
+  const openCrossSellAiRecommendation = () => {
+    setAiFocusBlock('mehaniki');
+    setAiFocusSkill('Cross-sell');
+    setAiReturnMetric('mehaniki.cross_sell');
     setLens('metrics');
   };
   const returnToDataDriven = () => {
@@ -587,7 +595,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
       {!nextLevel && <LeaderConfetti productId={product.id || product.name} />}
       <SemanticButton intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} />Назад к Summary</SemanticButton>
       <header className="detail-header">
-        <div><h1>{product.name}</h1><div className="detail-meta">{product.unit} · {product.period} · <Label size="xs">{product.type}</Label><SemanticButton intent={BUTTON_INTENT.destructive} href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank">Нашли ошибку?</SemanticButton><SemanticButton intent={BUTTON_INTENT.feedback} href="https://public.oprosso.sberbank.ru/p/amsp1k1c" target="_blank" rel="noreferrer">Есть идея?</SemanticButton></div></div>
+        <div><h1>{product.name}</h1><div className="detail-meta">{product.unit} · {product.period} · <Label size="xs">{product.type}</Label><SemanticButton intent={BUTTON_INTENT.destructive} href={REPORT_ERROR_URL} target="_blank">Нашли ошибку?</SemanticButton><SemanticButton intent={BUTTON_INTENT.feedback} href="https://public.oprosso.sberbank.ru/p/amsp1k1c" target="_blank" rel="noreferrer">Есть идея?</SemanticButton></div></div>
         <div className="detail-controls">
           <div className="product-select detail-section-select">
             <span>Раздел</span>
@@ -653,7 +661,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
                 {isOpen && showKeyMetricsDisclaimer && <div className="key-metrics-disclaimer"><Icon data={CircleInfo} size={16} /><span>На базе самооценки в Oprosso. Следующая волна — 3Q26. <strong>Используйте отчёты ниже как ориентир по ключевым метрикам.</strong></span></div>}
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({label: 'Перейти', href: CROSS_SELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} product={product} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code) && crossSellAiRecommendations.length) aiMetricInsights.push(metricAiInsight('cross-sell', openCrossSellAiRecommendation)); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} product={product} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
                 {participantLinks.length > 0 && isOpen && <div className="block-links participant-links"><div className="block-links-title">Ссылки, приложенные при прохождении самооценки в Oprosso</div><div className="block-actions">{participantLinks.map((action) => <Button key={`${action.label}-${action.url || action.link}`} view="outlined-info" size="s" width="auto" href={action.url || action.link} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Где посмотреть</div><div className="block-actions">{blockLinks.map((action) => <div className="block-action-item" key={`${action.label}-${action.url}`}><Button view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>{action.notice && <span className="block-action-notice">{action.notice}</span>}</div>)}</div></div>}
               </Card>
@@ -662,7 +670,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
         </div>
       </section>
       </div>
-      {lens === 'metrics' && <ProductMetricBlocks key={product.id} product={product} onOpenReport={() => setReportAccessOpen(true)} focusBlock={aiFocusBlock} focusSkill={aiFocusSkill} />}
+      {lens === 'metrics' && <ProductMetricBlocks key={product.id} product={product} onOpenReport={() => setReportAccessOpen(true)} focusBlock={aiFocusBlock} focusSkill={aiFocusSkill} feedbackUrl={REPORT_ERROR_URL} />}
       {lens === 'metrics' && aiReturnMetric && <div className="ai-return-action"><SemanticButton intent={BUTTON_INTENT.primary} onClick={returnToDataDriven}><Icon data={ArrowLeft} size={16} />Назад к Data-Driven индексу</SemanticButton></div>}
       <Dialog open={reportAccessOpen} onClose={() => setReportAccessOpen(false)} hasCloseButton maxWidth="m" fullWidth>
         <Dialog.Header caption="Комплексный отчет" />

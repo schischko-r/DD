@@ -16,11 +16,14 @@ import math
 import os
 import re
 import threading
+import unicodedata
+import urllib.error
 import urllib.request
 import llm_summarization as _llm
 from datetime import date
 from pathlib import Path
 from typing import Any, Optional
+from urllib.parse import quote, urljoin, urlsplit
 
 try:
     from tqdm.auto import tqdm
@@ -128,7 +131,9 @@ DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
 DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
 DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
+DEFAULT_CROSSSELL_EXPORT_JSON = Path("crosssell_export.json")
 DEFAULT_UPDATE_AI_DIGEST = True
+DEFAULT_UPDATE_CROSSSELL = True
 DEFAULT_UPDATE_LLM_SUMMARY = False
 DEFAULT_LLM_LOG = True
 DEFAULT_AI_DIGEST_TIMEOUT = int(os.getenv("AI_SKILL_DIGEST_TIMEOUT", "600"))
@@ -145,6 +150,15 @@ AI_SKILL_DIGEST_HEADERS = {
         "Safari/537.36 SberBrowser/37.0.0.0"
     ),
 }
+CROSSSELL_BASE_URL = os.getenv("PL_PARTNER_CROSSSELL_BASE_URL", "https://losshunter.ru").rstrip("/")
+CROSSSELL_MARKERS_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/markers"
+CROSSSELL_PRODUCTS_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/products"
+CROSSSELL_SHOWCASE_URL = f"{CROSSSELL_BASE_URL}/showcase/crosssell/"
+CROSSSELL_TOKEN = os.getenv("PL_PARTNER_CROSSSELL_TOKEN", "")
+DEFAULT_CROSSSELL_TIMEOUT = int(os.getenv("PL_PARTNER_CROSSSELL_TIMEOUT", "60"))
+CROSSSELL_SKILL_KEY = "cross_sell"
+CROSSSELL_SKILL_LABEL = "Cross-sell"
+CROSSSELL_BLOCK_CODE = "mehaniki"
 LLM_ATTRACT_SUMMARY_PROMPT = _llm.DEFAULT_ATTRACT_SUMMARY_PROMPT
 GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
 GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
@@ -637,6 +651,85 @@ def download_ai_skill_digest(
     if not payload:
         raise ValueError("AI skill digest export вернул пустой ответ")
     output_path.write_bytes(payload)
+    return output_path
+
+
+def build_crosssell_headers(token: str = CROSSSELL_TOKEN, etag: str = "") -> dict[str, str]:
+    if not token:
+        raise ValueError("PL_PARTNER_CROSSSELL_TOKEN не настроен")
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/json",
+        "User-Agent": "Data-Driven-Index/1.0",
+    }
+    if etag:
+        headers["If-None-Match"] = etag
+    return headers
+
+
+def request_crosssell_json(
+    url: str,
+    token: str = CROSSSELL_TOKEN,
+    timeout: int = DEFAULT_CROSSSELL_TIMEOUT,
+    etag: str = "",
+) -> tuple[dict[str, Any] | None, str]:
+    request = urllib.request.Request(
+        url,
+        headers=build_crosssell_headers(token, etag),
+        method="GET",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+            if not isinstance(payload, dict):
+                raise ValueError(f"Cross-sell API вернул некорректный JSON для {url}")
+            return payload, clean_text(response.headers.get("ETag"))
+    except urllib.error.HTTPError as error:
+        if error.code == 304:
+            return None, etag
+        raise
+
+
+def read_crosssell_export(path: Path) -> dict[str, Any]:
+    if not path.exists() or path.name.startswith("~$"):
+        return {}
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    return payload if isinstance(payload, dict) else {}
+
+
+def download_crosssell_export(
+    output_path: Path = DEFAULT_CROSSSELL_EXPORT_JSON,
+    markers_url: str = CROSSSELL_MARKERS_URL,
+    products_url: str = CROSSSELL_PRODUCTS_URL,
+    timeout: int = DEFAULT_CROSSSELL_TIMEOUT,
+    token: str = CROSSSELL_TOKEN,
+) -> Path:
+    cached = read_crosssell_export(output_path)
+    cached_etags = cached.get("etags") if isinstance(cached.get("etags"), dict) else {}
+    responses: dict[str, dict[str, Any]] = {}
+    etags: dict[str, str] = {}
+
+    for key, url in (("markers_response", markers_url), ("products_response", products_url)):
+        endpoint = "markers" if key == "markers_response" else "products"
+        payload, etag = request_crosssell_json(
+            url,
+            token=token,
+            timeout=timeout,
+            etag=clean_text(cached_etags.get(endpoint)),
+        )
+        if payload is None:
+            cached_payload = cached.get(key)
+            if not isinstance(cached_payload, dict):
+                raise ValueError(f"Cross-sell API вернул 304, но локальный кэш {endpoint} отсутствует")
+            payload = cached_payload
+        responses[key] = payload
+        etags[endpoint] = etag
+
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps({**responses, "etags": etags}, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
     return output_path
 
 
@@ -1978,6 +2071,261 @@ def apply_ai_skill_digest(
     return data
 
 
+def normalize_crosssell_key(value: Any) -> str:
+    normalized = unicodedata.normalize("NFC", clean_text(value)).casefold()
+    return re.sub(r"\s+", " ", normalized).strip()
+
+
+def crosssell_items_by_name(items: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
+    result: dict[str, list[dict[str, Any]]] = {}
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        name_key = normalize_crosssell_key(item.get("name"))
+        if name_key:
+            result.setdefault(name_key, []).append(item)
+    return result
+
+
+def find_crosssell_item(
+    index: dict[str, list[dict[str, Any]]],
+    name: Any,
+    unit: Any,
+) -> dict[str, Any] | None:
+    candidates = index.get(normalize_crosssell_key(name), [])
+    if len(candidates) == 1:
+        return candidates[0]
+    unit_key = normalize_crosssell_key(unit)
+    unit_matches = [
+        item for item in candidates
+        if unit_key and normalize_crosssell_key(item.get("unit")) == unit_key
+    ]
+    return unit_matches[0] if len(unit_matches) == 1 else None
+
+
+def crosssell_analytics_link(
+    marker: dict[str, Any] | None,
+    catalog_product: dict[str, Any],
+) -> str:
+    marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
+    marker_block = marker_block if isinstance(marker_block, dict) else {}
+    deeplink = clean_text(marker_block.get("deeplink"))
+    if deeplink:
+        parsed_deeplink = urlsplit(deeplink)
+        if parsed_deeplink.scheme in {"http", "https"}:
+            return deeplink
+    product_uid = clean_text(catalog_product.get("uid"))
+    if product_uid:
+        fragment = quote(product_uid, safe="-._~")
+        return f"{CROSSSELL_SHOWCASE_URL}#product={fragment}"
+    if deeplink:
+        parsed_deeplink = urlsplit(deeplink)
+        if parsed_deeplink.fragment:
+            return f"{CROSSSELL_SHOWCASE_URL}#{parsed_deeplink.fragment}"
+        return urljoin(CROSSSELL_SHOWCASE_URL, deeplink)
+    product_key = clean_text(catalog_product.get("key") or catalog_product.get("uid") or catalog_product.get("name"))
+    fragment = quote(product_key.casefold(), safe="-._~")
+    return f"{CROSSSELL_SHOWCASE_URL}#product={fragment}"
+
+
+def crosssell_recommendation_texts(
+    marker: dict[str, Any] | None,
+    catalog_product: dict[str, Any],
+) -> list[str]:
+    marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
+    marker_block = marker_block if isinstance(marker_block, dict) else {}
+    texts: list[str] = []
+
+    etalon_pairs = marker_block.get("etalon_pairs")
+    implemented = marker_block.get("implemented")
+    if isinstance(etalon_pairs, int):
+        implemented_count = implemented if isinstance(implemented, int) else 0
+        texts.append(f"Реализовано cross-sell связок: {implemented_count} из {etalon_pairs}.")
+
+    counters = (
+        ("missing_ab_ready", "Готовы к внедрению и A/B-проверке"),
+        ("unverifiable_without_video", "Нельзя проверить без видео пути"),
+        ("friction_links", "Связки с трением или потерями"),
+        ("optout_unknown", "Связки с неизвестным opt-out"),
+    )
+    for key, label in counters:
+        value = marker_block.get(key)
+        if isinstance(value, int) and value > 0:
+            texts.append(f"{label}: {value}.")
+
+    actions = marker_block.get("top_actions")
+    if isinstance(actions, list):
+        for action in actions:
+            if not isinstance(action, dict):
+                continue
+            action_text = clean_text(action.get("text"))
+            market_example = clean_text(action.get("market_example"))
+            if action_text and market_example:
+                texts.append(f"{action_text}. Рыночный пример: {market_example}.")
+            elif action_text:
+                texts.append(action_text.rstrip(".") + ".")
+
+    if not marker:
+        covered = catalog_product.get("covered") is True
+        if covered:
+            texts.append("Открыть Product Lens и проверить доступные cross-sell связки продукта.")
+        else:
+            texts.append("Дозаписать видео пути продукта, чтобы Product Lens сформировал проверяемые cross-sell рекомендации.")
+
+    return unique_non_empty(texts) or ["Открыть аналитику Product Lens и проверить cross-sell сценарии продукта."]
+
+
+def upsert_crosssell_tool(
+    block: dict[str, Any],
+    light: str,
+    link: str,
+    product_name: str,
+    round_id: str,
+) -> None:
+    payload = {
+        "name": CROSSSELL_SKILL_LABEL,
+        "kind": "ai",
+        "ai_tool_key": CROSSSELL_SKILL_KEY,
+        "ai_tool_product_name": product_name,
+        "traffic_light": light,
+        "active": light,
+        "button": {"type": "general", "label": "Перейти", "link": link},
+        "footer": f"Product Lens · раунд {round_id}" if round_id else "Product Lens",
+        "crosssell_export": True,
+    }
+    tools = block.setdefault("tools", [])
+    for tool in tools:
+        if normalize_ai_skill_key(tool.get("ai_tool_key")) == CROSSSELL_SKILL_KEY:
+            tool.update(payload)
+            return
+    tools.append(payload)
+
+
+def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str, Any]:
+    export = read_crosssell_export(export_path)
+    markers_response = export.get("markers_response")
+    products_response = export.get("products_response")
+    if not isinstance(markers_response, dict) or not isinstance(products_response, dict):
+        data["crosssell"] = {"enabled": False, "source": str(export_path), "reason": "invalid_cache"}
+        return data
+
+    marker_meta = markers_response.get("meta") if isinstance(markers_response.get("meta"), dict) else {}
+    product_meta = products_response.get("meta") if isinstance(products_response.get("meta"), dict) else {}
+    markers = markers_response.get("markers") if isinstance(markers_response.get("markers"), list) else []
+    catalog_products = products_response.get("products") if isinstance(products_response.get("products"), list) else []
+    marker_index = crosssell_items_by_name(markers)
+    product_index = crosssell_items_by_name(catalog_products)
+    round_id = clean_text(marker_meta.get("round_id") or product_meta.get("round_id"))
+    generated_at = clean_text(marker_meta.get("generated_at") or product_meta.get("generated_at"))
+    matched_products = 0
+    matched_markers = 0
+    catalog_fallbacks = 0
+    manual_validation_count = 0
+    unmatched_dd_products: list[str] = []
+
+    for product in data.get("products", []):
+        product_type = normalize_crosssell_key(product.get("type"))
+        if product_type not in {"продукт", "product"}:
+            continue
+        product_name = clean_text(product.get("name"))
+        catalog_product = find_crosssell_item(product_index, product_name, product.get("unit"))
+        if not catalog_product:
+            unmatched_dd_products.append(product_name)
+            continue
+        block = find_block(product, CROSSSELL_BLOCK_CODE)
+        if not block:
+            unmatched_dd_products.append(product_name)
+            continue
+
+        marker = find_crosssell_item(marker_index, product_name, product.get("unit"))
+        marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
+        marker_block = marker_block if isinstance(marker_block, dict) else {}
+        api_light = (
+            parse_ai_light(marker_block.get("traffic_light"))
+            or parse_ai_light(catalog_product.get("light"))
+            or "gray"
+        )
+        light = "yellow" if api_light == "red" else api_light
+        link = crosssell_analytics_link(marker, catalog_product)
+        texts = crosssell_recommendation_texts(marker, catalog_product)
+        dd_crosssell_metric = next(
+            (
+                metric for metric in block.get("metrics", [])
+                if clean_text(metric.get("code")) == "mehaniki.cross_sell"
+            ),
+            None,
+        )
+        dd_crosssell_value = clean_number(dd_crosssell_metric.get("value")) if dd_crosssell_metric else None
+        dd_crosssell_max = clean_number(dd_crosssell_metric.get("max_value")) if dd_crosssell_metric else None
+        api_implemented = clean_number(marker_block.get("implemented"))
+        if api_implemented is None:
+            api_implemented = clean_number(catalog_product.get("implemented"))
+        api_crosssell_count = clean_number(marker_block.get("etalon_pairs"))
+        if api_crosssell_count is None:
+            api_crosssell_count = clean_number(catalog_product.get("etalon_pairs"))
+        requires_manual_validation = bool(
+            dd_crosssell_value == 0
+            and dd_crosssell_max == 1
+            and api_crosssell_count is not None
+            and api_crosssell_count > 1
+        )
+        recommendation = {
+            "id": f"{CROSSSELL_SKILL_KEY}-1",
+            "skill_key": CROSSSELL_SKILL_KEY,
+            "skill_name": CROSSSELL_SKILL_LABEL,
+            "block_code": CROSSSELL_BLOCK_CODE,
+            "row_type": "светофор",
+            "is_traffic_light": True,
+            "indicator": "Cross-sell: покрытие и рекомендованные действия",
+            "traffic_light": light,
+            "recommendations": texts,
+            "rule": "Светофор и действия рассчитаны Product Lens по данным активного раунда.",
+            "month": "",
+            "is_stale": False,
+            "stale_tooltip": "",
+            "ai_products": [clean_text(catalog_product.get("name")) or product_name],
+            "product_group": product_name,
+            "source": "Product Lens",
+            "crosssell_marker": bool(marker),
+            "dd_crosssell_value": dd_crosssell_value,
+            "dd_crosssell_max": dd_crosssell_max,
+            "api_implemented": api_implemented,
+            "api_crosssell_count": api_crosssell_count,
+            "requires_manual_validation": requires_manual_validation,
+        }
+        current_recommendations = [
+            item for item in product.get("metric_recommendations", [])
+            if clean_text(item.get("skill_key")) != CROSSSELL_SKILL_KEY
+        ]
+        product["metric_recommendations"] = [*current_recommendations, recommendation]
+        upsert_crosssell_tool(block, light, link, product_name, round_id)
+        matched_products += 1
+        if marker:
+            matched_markers += 1
+        else:
+            catalog_fallbacks += 1
+        if requires_manual_validation:
+            manual_validation_count += 1
+
+    data["crosssell"] = {
+        "enabled": True,
+        "source": str(export_path),
+        "status": clean_text(marker_meta.get("status") or product_meta.get("status")),
+        "round_id": round_id,
+        "generated_at": generated_at,
+        "schema_version": marker_meta.get("schema_version"),
+        "validation": clean_text(marker_meta.get("validation")),
+        "catalog_products": len(catalog_products),
+        "markers": len(markers),
+        "matched_products": matched_products,
+        "matched_markers": matched_markers,
+        "catalog_fallbacks": catalog_fallbacks,
+        "manual_validation_count": manual_validation_count,
+        "unmatched_dd_products": unmatched_dd_products,
+    }
+    return data
+
+
 def find_upload_header_row(raw: Any) -> int | None:
     for row_index in range(min(30, len(raw))):
         values = {normalize_lookup_key(value) for value in raw.iloc[row_index].tolist()}
@@ -3196,6 +3544,7 @@ def build_combined_data(
     period: str,
     ai_digest_path: Path | None = DEFAULT_AI_DIGEST_XLSX,
     ai_product_map: Path = DEFAULT_AI_PRODUCT_MAP,
+    crosssell_path: Path | None = DEFAULT_CROSSSELL_EXPORT_JSON,
     create_ai_map: bool = True,
     refresh_ai_map: bool = False,
     update_llm_summary: bool = DEFAULT_UPDATE_LLM_SUMMARY,
@@ -3248,6 +3597,14 @@ def build_combined_data(
     llm_summary_recommendations = (
         sync_llm_summary_recommendations(combined) if include_ai_skills else 0
     )
+    if include_ai_skills and crosssell_path:
+        combined = apply_crosssell_export(combined, crosssell_path)
+    else:
+        combined["crosssell"] = {
+            "enabled": False,
+            "source": str(crosssell_path) if crosssell_path else "",
+            "reason": "ai_skills_disabled" if not include_ai_skills else "skipped",
+        }
     combined["ai_skills_enabled"] = include_ai_skills
     summary = {
         **detail_summary,
@@ -3278,6 +3635,12 @@ def build_combined_data(
         "llm_summary_recommendations": llm_summary_recommendations,
         "llm_summaries": combined.get("ai_skill_digest", {}).get("llm_summaries", 0),
         "llm_summary_errors": len(combined.get("ai_skill_digest", {}).get("llm_errors", [])),
+        "crosssell_enabled": combined.get("crosssell", {}).get("enabled", False),
+        "crosssell_matched_products": combined.get("crosssell", {}).get("matched_products", 0),
+        "crosssell_matched_markers": combined.get("crosssell", {}).get("matched_markers", 0),
+        "crosssell_catalog_fallbacks": combined.get("crosssell", {}).get("catalog_fallbacks", 0),
+        "crosssell_manual_validation_count": combined.get("crosssell", {}).get("manual_validation_count", 0),
+        "crosssell_unmatched_dd_products": combined.get("crosssell", {}).get("unmatched_dd_products", []),
     }
     return combined, summary
 
@@ -4992,6 +5355,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ai-digest-token", default=AI_SKILL_DIGEST_TOKEN, help="Bearer token for GET /api/skill-digest/export")
     parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
     parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
+    parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT_JSON, help="Path to cached Product Lens cross-sell export")
+    parser.set_defaults(update_crosssell=DEFAULT_UPDATE_CROSSSELL)
+    parser.add_argument("--update-crosssell", dest="update_crosssell", action="store_true", help="Update Product Lens cross-sell export before building (default)")
+    parser.add_argument("--no-update-crosssell", dest="update_crosssell", action="store_false", help="Use local --crosssell-json without calling Product Lens")
+    parser.add_argument("--skip-crosssell", action="store_true", help="Build without Product Lens cross-sell recommendations")
+    parser.add_argument("--crosssell-markers-url", default=CROSSSELL_MARKERS_URL, help="Product Lens markers endpoint")
+    parser.add_argument("--crosssell-products-url", default=CROSSSELL_PRODUCTS_URL, help="Product Lens products endpoint")
+    parser.add_argument("--crosssell-token", default=CROSSSELL_TOKEN, help="Bearer token with crosssell:read scope")
+    parser.add_argument("--crosssell-timeout", type=int, default=DEFAULT_CROSSSELL_TIMEOUT, help="Product Lens request timeout in seconds")
     parser.add_argument(
         "--no-ai-skills",
         action="store_true",
@@ -5011,6 +5383,7 @@ def main() -> None:
     args = parse_args()
     ai_skills_enabled = not args.no_ai_skills
     skip_ai_digest = args.skip_ai_digest or args.no_ai_skills
+    skip_crosssell = args.skip_crosssell or args.no_ai_skills
     ai_digest_source: dict[str, Any] = {
         "mode": "disabled" if args.no_ai_skills else ("skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file")),
         "request_enabled": bool(args.update_ai_digest and not skip_ai_digest),
@@ -5023,6 +5396,15 @@ def main() -> None:
         "llm_summary_requested": bool(args.update_llm_summary and ai_skills_enabled),
         "llm_summary_configured": bool(ai_skills_enabled and gigachat_is_configured()),
         "llm_log": bool(args.llm_log),
+    }
+    crosssell_source: dict[str, Any] = {
+        "mode": "disabled" if args.no_ai_skills else ("skipped" if args.skip_crosssell else ("api_refresh" if args.update_crosssell else "local_file")),
+        "request_enabled": bool(args.update_crosssell and not skip_crosssell and args.crosssell_token),
+        "request_attempted": False,
+        "downloaded": False,
+        "download_error": "",
+        "cache_path": "" if args.no_ai_skills else str(args.crosssell_json),
+        "local_cache_used": bool(not skip_crosssell and args.crosssell_json.exists()),
     }
     if args.update_ai_digest and not skip_ai_digest:
         download_ai_skill_digest(
@@ -5043,6 +5425,24 @@ def main() -> None:
         raise FileNotFoundError(
             f"AI digest update disabled, but local file was not found: {args.ai_digest_xlsx}"
         )
+    if args.update_crosssell and not skip_crosssell and args.crosssell_token:
+        download_crosssell_export(
+            args.crosssell_json,
+            markers_url=args.crosssell_markers_url,
+            products_url=args.crosssell_products_url,
+            timeout=args.crosssell_timeout,
+            token=args.crosssell_token,
+        )
+        crosssell_source.update(
+            {
+                "request_attempted": True,
+                "downloaded": True,
+                "local_cache_used": True,
+            }
+        )
+    elif args.update_crosssell and not skip_crosssell and not args.crosssell_token:
+        crosssell_source["download_error"] = "PL_PARTNER_CROSSSELL_TOKEN не настроен"
+    crosssell_path = None if skip_crosssell or not args.crosssell_json.exists() else args.crosssell_json
     ai_digest_path = None if skip_ai_digest else args.ai_digest_xlsx
     data, summary = build_combined_data(
         args.input,
@@ -5051,6 +5451,7 @@ def main() -> None:
         args.period,
         ai_digest_path=ai_digest_path,
         ai_product_map=args.ai_product_map,
+        crosssell_path=crosssell_path,
         create_ai_map=ai_skills_enabled,
         refresh_ai_map=args.refresh_ai_product_map,
         update_llm_summary=args.update_llm_summary and ai_skills_enabled,
@@ -5064,7 +5465,7 @@ def main() -> None:
             json.dumps(data, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
-    print(json.dumps({"html": str(args.output), "ai_digest_source": ai_digest_source, **summary}, ensure_ascii=False, indent=2))
+    print(json.dumps({"html": str(args.output), "ai_digest_source": ai_digest_source, "crosssell_source": crosssell_source, **summary}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

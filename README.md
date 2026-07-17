@@ -20,8 +20,9 @@ python build_gravity_report.py
 ```
 
 Команда использует flat-table-пайплайн из `build_calc_report.py`, локальные
-`ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx` и не выполняет сетевые
-запросы к AI-digest API или GigaChat. Результаты записываются в
+`ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx`, не выполняет сетевые
+запросы к AI-digest API или GigaChat и обновляет cross-sell-рекомендации из
+Product Lens, если в `.env` задан `PL_PARTNER_CROSSSELL_TOKEN`. Результаты записываются в
 `gravity-app/public/report-data.json` и `gravity-standalone.html`.
 
 Локальный сервер для разработки:
@@ -157,11 +158,19 @@ python build_calc_report.py --help
 - `--no-ai-skills` - не читать AI Excel и маппинг, не вызывать LLM и не показывать AI-навыки в отчете;
 - `--ai-digest-token` - переопределить токен AI-digest из `.env`;
 - `--ai-digest-timeout` - переопределить таймаут AI-digest в секундах;
+- `--crosssell-json` - путь к локальному кэшу ответов Product Lens;
+- `--no-update-crosssell` - не обращаться к Product Lens, использовать локальный кэш;
+- `--skip-crosssell` - собрать отчет без cross-sell-рекомендаций;
 - `--refresh-ai-product-map` - пересоздать шаблон `ai_product_mapping.xlsx`;
 - `--update-llm-summary` - вызвать GigaChat и сформировать LLM-суммаризацию;
 - `--no-update-llm-summary` - не вызывать GigaChat;
 - `--llm-log` - печатать вход/выход LLM и причины skip;
 - `--no-llm-log` - выключить подробный лог.
+
+Cross-sell интеграция использует `GET /api/v1/crosssell/markers` как основной
+стабильный контракт и `GET /api/v1/crosssell/products` для продуктов каталога,
+у которых marker ещё не сформирован. Сопоставление с DD выполняется по имени
+после NFC/casefold-нормализации; токен должен иметь scope `crosssell:read`.
 
 ## Источники Данных
 
