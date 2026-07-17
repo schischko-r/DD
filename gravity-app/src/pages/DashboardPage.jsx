@@ -2,10 +2,11 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ChevronRight, CircleDollar, CircleInfo, NodesRight, Persons} from '@gravity-ui/icons';
 import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
+import {resolveStaticLink} from '../domain/linkRules.js';
 import {antiTopBlockLabel} from '../domain/report.js';
-import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone} from '../features/catalog/Catalog.jsx';
+import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone} from '../features/catalog/Catalog.jsx';
 
-export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout}) {
+export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout, linkRules = []}) {
   const [catalogType, setCatalogType] = useState('');
   const [catalogMaturity, setCatalogMaturity] = useState(null);
   const [teamContactOpen, setTeamContactOpen] = useState(false);
@@ -31,12 +32,14 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
   }, []);
   const teamMatches = useMemo(() => {
     const normalizedQuery = teamQuery.trim().toLowerCase();
-    return scopedProducts.filter((item) => [item.name, item.type, item.unit]
+    return scopedProducts.filter((item) => [item.name, item.type, item.unit, item.tribe]
       .filter(Boolean)
       .some((value) => !normalizedQuery || value.toLowerCase().includes(normalizedQuery)))
       .sort((a, b) => compareNames(a.name, b.name));
   }, [scopedProducts, teamQuery]);
-  const rowForProduct = (product) => rows.find((row) => row.name === product.name && row.unit === product.unit);
+  const teamContactLink = resolveStaticLink(linkRules, 'dashboard.team-contact');
+  const rowForProduct = (product) => rows.find((row) => row.product_id === product.id)
+    || rows.find((row) => row.name === product.name && row.unit === product.unit);
   const categoryMeta = [
     {key: 'product', label: 'Продукты', typeLabel: 'Продукт', icon: CircleDollar, tone: 'product'},
     {key: 'segment', label: 'Сегменты', typeLabel: 'Сегмент', icon: Persons, tone: 'segment'},
@@ -122,7 +125,7 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
         <Dialog.Header caption="Не нашли свою команду?" />
         <Dialog.Body className="team-contact-dialog-body">
           <Text variant="body-2">Для добавления команды или уточнения статуса напишите</Text>
-          <Button view="action" size="m" href={TEAM_CONTACT_MAILTO}>Напишите нам</Button>
+          {teamContactLink && <Button view="action" size="m" href={teamContactLink.url}>{teamContactLink.label}</Button>}
         </Dialog.Body>
       </Dialog>
 

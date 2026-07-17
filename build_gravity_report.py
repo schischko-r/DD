@@ -15,6 +15,7 @@ DEFAULT_INPUT = ROOT / "flat_table.xlsx"
 DEFAULT_LEGACY_OUTPUT = ROOT / "final_report_from_excel.html"
 DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
+DEFAULT_CONSTRUCTOR_OUTPUT = ROOT / "gravity-constructor.html"
 DEFAULT_AI_DIGEST = ROOT / "ai_skill_digest_export.xlsx"
 DEFAULT_AI_PRODUCT_MAP = ROOT / "ai_product_mapping.xlsx"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
@@ -62,6 +63,20 @@ def build(args: argparse.Namespace) -> None:
             str(args.data_output),
             "--output",
             str(args.standalone_output),
+            "--mode",
+            "viewer",
+        ]
+    )
+    run(
+        [
+            sys.executable,
+            str(ROOT / "build_gravity_standalone.py"),
+            "--data",
+            str(args.data_output),
+            "--output",
+            str(args.constructor_output),
+            "--mode",
+            "constructor",
         ]
     )
 
@@ -78,6 +93,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--legacy-output", type=Path, default=DEFAULT_LEGACY_OUTPUT)
     parser.add_argument("--data-output", type=Path, default=DEFAULT_DATA_OUTPUT)
     parser.add_argument("--standalone-output", type=Path, default=DEFAULT_STANDALONE_OUTPUT)
+    parser.add_argument("--constructor-output", type=Path, default=DEFAULT_CONSTRUCTOR_OUTPUT)
     parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST)
     parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP)
     parser.add_argument(

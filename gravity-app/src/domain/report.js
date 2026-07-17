@@ -1,9 +1,13 @@
 export function scoreFor(product, rows) {
-  return rows.find((row) => row.name === product.name && row.unit === product.unit)?.score ?? 0;
+  const row = rows.find((item) => item.product_id === product.id)
+    || rows.find((item) => item.name === product.name && item.unit === product.unit);
+  return row?.score ?? 0;
 }
 
 export function groupFor(product, rows) {
-  return rows.find((row) => row.name === product.name && row.unit === product.unit)?.group || '\u041d\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0445';
+  const row = rows.find((item) => item.product_id === product.id)
+    || rows.find((item) => item.name === product.name && item.unit === product.unit);
+  return row?.group || '\u041d\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0445';
 }
 
 export function percent(value, max) {

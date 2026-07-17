@@ -2,7 +2,8 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleCheckFill, CircleInfo, CircleInfoFill, NodesRight} from '@gravity-ui/icons';
 import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {ApplicableRadarDot, ApplicableRadarShape, COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, REPORT_ACCESS_REQUEST_URL, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarBlockPercent, radarSeries, scoreFor, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
+import {resolveStaticLink} from '../domain/linkRules.js';
+import {ApplicableRadarDot, ApplicableRadarShape, HELP_POPOVER_PROPS, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarBlockPercent, radarSeries, scoreFor, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {
   ProductMetricBlocks,
@@ -13,12 +14,6 @@ import {
   recommendationBlockCode,
   worstDigestLight,
 } from '../features/llm-summary/LlmSummary.jsx';
-
-const CROSS_SELL_ANALYTICS_URL = 'https://losshunter.ru/showcase/crosssell/#screen=pult';
-const AB_TEST_INSTRUCTION_LINKS = [
-  {label: 'Онлайн курс по A/B', href: 'https://hr.sberbank.ru/platform/catalog/c515dcab-a8b7-4f03-a76a-e1b7349f857d'},
-  {label: 'Демо A/B-платформы', href: 'https://sbervideo.sberbank.ru/watch/kpgpJi35gzwMIVu3X51'},
-];
 
 function MetricInlineAction({title, subtitle, href, onClick, tone = 'info', actionLabel = 'Перейти'}) {
   const className = `metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-${tone}`;
@@ -433,7 +428,7 @@ function LeaderConfetti({productId}) {
   return <canvas ref={canvasRef} className="leader-confetti" aria-hidden="true" key={productId} />;
 }
 
-export function TeamProfilePage({product, products, rows, detailScore, onBack, onProduct}) {
+export function TeamProfilePage({product, products, rows, detailScore, onBack, onProduct, linkRules = []}) {
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
@@ -442,15 +437,29 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const aiRecommendationLight = hasAiRecommendations ? worstDigestLight(aiRecommendations) : 'gray';
   const aiRecommendationTheme = aiRecommendationLight === 'gray' ? 'default' : digestTheme(aiRecommendationLight);
   const profileSeries = radarSeries(product.type);
-  const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter((metric) => metric.is_applicabble_flg !== false);
+  const errorLink = resolveStaticLink(linkRules, 'team.report-error', product);
+  const ideaLink = resolveStaticLink(linkRules, 'team.idea', product);
+  const reportAccessRequestLink = resolveStaticLink(linkRules, 'team.report-access-request', product);
+  const complexReportLink = resolveStaticLink(linkRules, 'team.complex-report', product);
+  const crossSellLink = resolveStaticLink(linkRules, 'team.cross-sell', product);
+  const abInstructionLinks = [
+    resolveStaticLink(linkRules, 'team.ab-course', product),
+    resolveStaticLink(linkRules, 'team.ab-demo', product),
+  ].filter(Boolean).map((item) => ({label: item.label, href: item.url}));
+  const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter((metric) => (
+    metric.is_applicabble_flg !== false
+    && metric.excluded_from_index !== true
+    && Number(metric.dd_calculation_flg ?? 1) !== 0
+    && Number(metric.max_value || 0) > 0
+  ));
   const earnedPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
   const maxPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
   const nextLevel = score < 40
     ? {name: 'Развивающиеся', threshold: 40}
-    : score < 60
-      ? {name: 'Зрелые', threshold: 60}
-      : score < 80
-        ? {name: 'Лидеры Data Driven', threshold: 80}
+    : score < 61
+      ? {name: 'Зрелые', threshold: 61}
+      : score < 81
+        ? {name: 'Лидеры Data Driven', threshold: 81}
         : null;
   const percentToNextLevel = nextLevel ? Math.max(0, nextLevel.threshold - score) : 0;
   const pointsToNextLevel = nextLevel ? Math.max(0.05, maxPoints * nextLevel.threshold / 100 - earnedPoints) : 0;
@@ -569,7 +578,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
       {!nextLevel && <LeaderConfetti productId={product.id || product.name} />}
       <SemanticButton intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} />Назад к Summary</SemanticButton>
       <header className="detail-header">
-        <div><h1>{product.name}</h1><div className="detail-meta">{product.unit} · {product.period} · <Label size="xs">{product.type}</Label><SemanticButton intent={BUTTON_INTENT.destructive} href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank">Нашли ошибку?</SemanticButton><SemanticButton intent={BUTTON_INTENT.feedback} href="https://public.oprosso.sberbank.ru/p/amsp1k1c" target="_blank" rel="noreferrer">Есть идея?</SemanticButton></div></div>
+        <div><h1>{product.name}</h1><div className="detail-meta">{product.unit}{product.tribe ? ` · ${product.tribe}` : ''} · {product.period} · <Label size="xs">{product.type}</Label>{errorLink && <SemanticButton intent={BUTTON_INTENT.destructive} href={errorLink.url} target="_blank">{errorLink.label}</SemanticButton>}{ideaLink && <SemanticButton intent={BUTTON_INTENT.feedback} href={ideaLink.url} target="_blank" rel="noreferrer">{ideaLink.label}</SemanticButton>}</div></div>
         <div className="detail-controls">
           <div className="product-select detail-section-select">
             <span>Раздел</span>
@@ -610,7 +619,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
             const isOpen = open.has(block.code);
             const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
             const max = metrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
-            const blockLinks = linksForBlock(block, product.metrics || [], product);
+            const blockLinks = linksForBlock(block, product.metrics || [], product, linkRules);
             const participantLinks = (block.participant_links || []).filter((item) => item?.label && (item.url || item.link));
             const instructions = (block.tools || []).filter((tool) => tool.kind === 'instruction' && tool.button?.link);
             const blockPilotActions = pilotToolLinks(block);
@@ -629,7 +638,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
                   </div>
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({label: 'Перейти', href: CROSS_SELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} product={product} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? abInstructionLinks : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code) && crossSellLink) aiMetricInsights.push({label: crossSellLink.label, href: crossSellLink.url}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} product={product} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
                 {participantLinks.length > 0 && isOpen && <div className="block-links participant-links"><div className="block-links-title">Ссылки, приложенные при прохождении самооценки в Oprosso</div><div className="block-actions">{participantLinks.map((action) => <Button key={`${action.label}-${action.url || action.link}`} view="outlined-info" size="s" width="auto" href={action.url || action.link} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Где посмотреть</div><div className="block-actions">{blockLinks.map((action) => <div className="block-action-item" key={`${action.label}-${action.url}`}><Button view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>{action.notice && <span className="block-action-notice">{action.notice}</span>}</div>)}</div></div>}
               </Card>
@@ -650,7 +659,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
               <li><Text variant="body-1">В поле стенд указать «ТС AI Навыки Штаба B2C (CI09261834) (DEV) (CI09933741)»</Text></li>
               <li><Text variant="body-1">В обосновании — «Для разработки и тестирования инструмента AI суммаризации»</Text></li>
             </ul>
-            <div className="report-access-actions"><SemanticButton intent={BUTTON_INTENT.secondary} href={REPORT_ACCESS_REQUEST_URL} target="_blank">Завести заявку на доступ</SemanticButton><SemanticButton intent={BUTTON_INTENT.primary} href={COMPLEX_REPORT_URL} target="_blank">Перейти</SemanticButton></div>
+            <div className="report-access-actions">{reportAccessRequestLink && <SemanticButton intent={BUTTON_INTENT.secondary} href={reportAccessRequestLink.url} target="_blank">{reportAccessRequestLink.label}</SemanticButton>}{complexReportLink && <SemanticButton intent={BUTTON_INTENT.primary} href={complexReportLink.url} target="_blank">{complexReportLink.label}</SemanticButton>}</div>
           </div>
         </Dialog.Body>
       </Dialog>

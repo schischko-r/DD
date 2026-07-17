@@ -2382,6 +2382,36 @@ def upload_title_from_products(products: list[dict[str, Any]]) -> dict[str, Any]
     return {"rows": rows, "units": units, "types": types, "avgScore": avg_score}
 
 
+def attach_product_ids_to_title(
+    title_payload: dict[str, Any],
+    products: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Attach stable product ids while retaining legacy title row fields."""
+    exact: dict[tuple[str, str, str], list[dict[str, Any]]] = {}
+    legacy: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for product in products:
+        type_key = normalize_lookup_key(canonical_entity_type(product.get("type")))
+        name_key = normalize_lookup_key(product.get("name"))
+        unit_key = normalize_lookup_key(product.get("unit"))
+        exact.setdefault((type_key, name_key, unit_key), []).append(product)
+        legacy.setdefault((name_key, unit_key), []).append(product)
+
+    rows = []
+    for row in title_payload.get("rows", []):
+        copied = dict(row)
+        if not clean_text(copied.get("product_id")):
+            type_key = normalize_lookup_key(canonical_entity_type(copied.get("type")))
+            name_key = normalize_lookup_key(copied.get("name"))
+            unit_key = normalize_lookup_key(copied.get("unit"))
+            candidates = exact.get((type_key, name_key, unit_key), [])
+            if len(candidates) != 1:
+                candidates = legacy.get((name_key, unit_key), [])
+            if len(candidates) == 1 and clean_text(candidates[0].get("id")):
+                copied["product_id"] = candidates[0]["id"]
+        rows.append(copied)
+    return {**title_payload, "rows": rows}
+
+
 def disambiguate_flat_metric_names(product_rows: Any) -> int:
     """Aggregate calculation rows by name while keeping display-only rows separate."""
     product_rows["metric_display_name_clean"] = product_rows["metric_name_clean"]
@@ -3221,6 +3251,11 @@ def build_combined_data(
         detail_data, detail_summary = build_report_data(input_path, detail_sheet, period)
         detail_data = enrich_metric_layout(detail_data, input_path, detail_sheet)
         combined = {**detail_data, "title": title_payload}
+
+    title_payload = attach_product_ids_to_title(
+        title_payload,
+        detail_data.get("products", []),
+    )
 
     if include_ai_skills:
         detail_data = move_drafts_skill_to_attract(detail_data)

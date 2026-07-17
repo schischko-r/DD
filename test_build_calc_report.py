@@ -35,6 +35,29 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(report.normalize_upload_unit("CX"), "CX")
         self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
 
+    def test_title_rows_receive_stable_product_ids_with_legacy_fallback(self) -> None:
+        title = {
+            "rows": [
+                {"name": "Команда", "unit": "U", "type": "Продукт", "custom": 1},
+                {"name": "Уникальная", "unit": "U2", "type": "", "custom": 2},
+            ],
+            "units": ["U", "U2"],
+            "types": ["Продукт"],
+            "avgScore": 0,
+        }
+        products = [
+            {"id": "product-id", "name": "Команда", "unit": "U", "type": "Продукт"},
+            {"id": "segment-id", "name": "Команда", "unit": "U", "type": "Сегмент"},
+            {"id": "legacy-id", "name": "Уникальная", "unit": "U2", "type": "Канал"},
+        ]
+
+        result = report.attach_product_ids_to_title(title, products)
+
+        self.assertEqual(result["rows"][0]["product_id"], "product-id")
+        self.assertEqual(result["rows"][1]["product_id"], "legacy-id")
+        self.assertEqual(result["rows"][0]["custom"], 1)
+        self.assertNotIn("product_id", title["rows"][0])
+
     def test_complex_funnel_analysis_names_keep_stable_metric_codes(self) -> None:
         metric_code = report._DD_FROM_EXCEL["metric_code"]
         expected = {

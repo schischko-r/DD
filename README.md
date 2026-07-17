@@ -6,14 +6,16 @@
 Основные артефакты:
 
 - `gravity-app/public/report-data.json` — данные для Gravity UI;
-- `gravity-standalone.html` — переносимая версия Gravity UI без сервера;
+- `gravity-standalone.html` — переносимая viewer-версия Gravity UI без сервера;
+- `gravity-constructor.html` — переносимый offline-конструктор отчета;
 - `final_report_from_excel.html` — совместимый standalone-отчет.
 
 Отчет открывается как обычный HTML-файл. Данные встраиваются внутрь страницы в JSON-блок, отдельный backend для просмотра не нужен.
 
 ## Быстрый Запуск
 
-Полная локальная сборка Gravity UI из единого `flat_table.xlsx`, включая JSON, Vite bundle и standalone HTML:
+Полная локальная сборка Gravity UI из единого `flat_table.xlsx`, включая JSON,
+один Vite bundle и оба standalone-режима:
 
 ```bash
 python build_gravity_report.py
@@ -22,7 +24,8 @@ python build_gravity_report.py
 Команда использует flat-table-пайплайн из `build_calc_report.py`, локальные
 `ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx` и не выполняет сетевые
 запросы к AI-digest API или GigaChat. Результаты записываются в
-`gravity-app/public/report-data.json` и `gravity-standalone.html`.
+`gravity-app/public/report-data.json`, `gravity-standalone.html` и
+`gravity-constructor.html`.
 
 Локальный сервер для разработки:
 
@@ -33,6 +36,57 @@ npm run dev
 ```
 
 После запуска интерфейс доступен на `http://127.0.0.1:5173`.
+
+### Standalone-режимы
+
+`build_gravity_report.py` после одной Vite-сборки создает два автономных HTML:
+
+- `gravity-standalone.html` с mode marker `viewer` — обычный отчет без
+  административных контролов;
+- `gravity-constructor.html` с mode marker `constructor` — offline-конструктор.
+
+Пути обоих файлов можно переопределить:
+
+```bash
+python build_gravity_report.py \
+  --standalone-output "gravity-standalone.html" \
+  --constructor-output "gravity-constructor.html"
+```
+
+Если JSON и Vite bundle уже собраны, отдельный standalone создается напрямую.
+Режим `viewer` используется по умолчанию:
+
+```bash
+python build_gravity_standalone.py \
+  --data "gravity-app/public/report-data.json" \
+  --output "gravity-standalone.html"
+
+python build_gravity_standalone.py \
+  --mode constructor \
+  --data "gravity-app/public/report-data.json" \
+  --output "gravity-constructor.html"
+```
+
+Оба файла содержат встроенный JSON и открываются через `file://` без backend и
+без runtime-загрузки `report-data.json`.
+
+### Работа с конструктором
+
+Откройте `gravity-constructor.html`, выберите команду и внесите изменения через
+панель справа. Черновик автоматически сохраняется в IndexedDB браузера; при
+ошибке локального хранилища экспорт и отправка остаются доступны.
+
+Перед передачей результата устраните ошибки валидации и установите checkbox
+`Готово`. Кнопка `Отправить` скачает Outlook draft
+`data-driven-report-update-YYYY-MM-DD_HH-mm.eml` для
+`rgshishko@sberbank.ru` с готовым `report-data.json` во вложении. Откройте draft
+в Outlook, проверьте письмо и нажмите отправку вручную. Если Outlook не открыл
+вложение, используйте fallback-кнопки: отдельно скачайте JSON и откройте
+заполненное письмо без вложения.
+
+Полученный `report-data.json` напрямую заменяет файл
+`gravity-app/public/report-data.json`. После замены пересоберите standalone-
+артефакты и запустите тесты.
 
 ## Разработка в Herdr
 
@@ -128,6 +182,7 @@ flowchart TD
     X --> Z["final_report_from_excel.html"]
     Y --> AA["Vite build"]
     AA --> AB["gravity-standalone.html"]
+    AA --> AC["gravity-constructor.html"]
 ```
 
 ## Основной Сборщик

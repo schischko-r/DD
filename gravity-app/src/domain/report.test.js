@@ -9,6 +9,14 @@ test('report selectors preserve score and group fallbacks', () => {
   assert.equal(groupFor(product, rows), 'Mature');
   assert.equal(scoreFor(product, []), 0);
   assert.equal(groupFor(product, []), 'Нет данных');
+
+  const stableProduct = {id: 'stable-id', name: 'Team', unit: 'Unit'};
+  const ambiguousRows = [
+    {name: 'Team', unit: 'Unit', score: 1, group: 'Legacy'},
+    {product_id: 'stable-id', name: 'Old name', unit: 'Old unit', score: 81, group: 'Leader'},
+  ];
+  assert.equal(scoreFor(stableProduct, ambiguousRows), 81);
+  assert.equal(groupFor(stableProduct, ambiguousRows), 'Leader');
 });
 
 test('report percentage helpers clamp and aggregate values', () => {

@@ -3,7 +3,7 @@ import {ArrowDown, ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Button, Dialog, Icon, Label, Progress, SegmentedRadioGroup, Text, TextInput} from '@gravity-ui/uikit';
 import {Dot, Polygon} from 'recharts';
 import {blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, teamHelpAudience} from '../../domain/report.js';
-import {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS, contextualBlockLinksForTeam, isLegacyProductKeyMetricLink, isProductSatelliteLink, keyMetricLinksForTeam} from './keyMetricLinks.js';
+import {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS, contextualBlockLinksForTeam, isKeyMetricStaticLink, keyMetricLinksForTeam} from './keyMetricLinks.js';
 
 export {blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, teamHelpAudience};
 
@@ -104,18 +104,15 @@ export function collectBlockLinks(block) {
   return links.filter((item, index) => links.findIndex((candidate) => candidate.label === item.label && candidate.url === item.url) === index);
 }
 
-export function linksForBlock(block, allBlocks = [], product = {type: 'Продукт'}) {
+export function linksForBlock(block, allBlocks = [], product = {type: 'Продукт'}, linkRules = []) {
   const draftLinks = allBlocks.flatMap(collectBlockLinks).filter((item) => /черновик/i.test(item.label));
   const isKeyMetricsBlock = block.code === 'general' || /знание ключевых метрик/i.test(String(block.name || ''));
   const productDescriptor = typeof product === 'string' ? {type: product} : product;
   const audience = teamHelpAudience(productDescriptor);
-  const isPhygitalChannel = audience === 'service-channel' || audience === 'telemarketing';
-  const isDpDigitalChannel = audience === 'digital-channel' && String(productDescriptor?.unit || '').trim().toLowerCase() === 'dp';
-  const keyMetricLinks = isKeyMetricsBlock ? keyMetricLinksForTeam(productDescriptor, audience) : [];
-  const contextualLinks = contextualBlockLinksForTeam(productDescriptor, block);
+  const keyMetricLinks = isKeyMetricsBlock ? keyMetricLinksForTeam(productDescriptor, audience, linkRules) : [];
+  const contextualLinks = contextualBlockLinksForTeam(productDescriptor, block, linkRules);
   const collectedLinks = collectBlockLinks(block)
-    .filter((item) => !(isKeyMetricsBlock && isPhygitalChannel && isLegacyProductKeyMetricLink(item)))
-    .filter((item) => !(isKeyMetricsBlock && isDpDigitalChannel && isProductSatelliteLink(item)));
+    .filter((item) => !(isKeyMetricsBlock && isKeyMetricStaticLink(item)));
   const ownLinks = [...collectedLinks, ...keyMetricLinks, ...contextualLinks].filter((item) => block.code === 'attract' || !/черновик/i.test(item.label));
   const relocatedLinks = block.code === 'attract' ? [...ownLinks, ...draftLinks] : ownLinks;
   const uniqueLinks = filterDraftLinks(block, filterCampaigningLinks(block, relocatedLinks))
@@ -163,7 +160,8 @@ export function CatalogDialog({openType, products, rows, onOpen, onClose}) {
   const units = useMemo(() => {
     const map = new Map();
     products.forEach((product) => {
-      const row = rows.find((item) => item.name === product.name && item.unit === product.unit);
+      const row = rows.find((item) => item.product_id === product.id)
+        || rows.find((item) => item.name === product.name && item.unit === product.unit);
       const unitName = product.unit || 'Без юнита';
       if (!map.has(unitName)) map.set(unitName, {name: unitName, items: []});
       map.get(unitName).items.push({
@@ -274,7 +272,8 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
   const units = useMemo(() => {
     const map = new Map();
     products.forEach((product) => {
-      const row = rows.find((item) => item.name === product.name && item.unit === product.unit);
+      const row = rows.find((item) => item.product_id === product.id)
+        || rows.find((item) => item.name === product.name && item.unit === product.unit);
       const type = product.type || row?.type || catalogGroups[0].type;
       if (!selectedType || type !== selectedType.type) return;
       if (openMaturity && maturityTheme(row?.group) !== openMaturity.theme) return;
