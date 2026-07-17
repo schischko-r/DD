@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, scoreFor, teamHelpAudience} from './report.js';
+import {antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -16,6 +16,12 @@ test('report percentage helpers clamp and aggregate values', () => {
   assert.equal(percent(5, 4), 100);
   assert.equal(percent(1, 0), 0);
   assert.equal(blockPercent({metrics: [{value: 1, max_value: 2}, {value: 2, max_value: 2}]}), 75);
+});
+
+test('radar percentage omits inapplicable blocks without hiding real zero scores', () => {
+  assert.equal(radarBlockPercent({metrics: [{value: 0, max_value: 1, is_applicabble_flg: true}]}), 0);
+  assert.equal(radarBlockPercent({metrics: [{value: 0, max_value: 0, is_applicabble_flg: false}]}), null);
+  assert.equal(radarBlockPercent({metrics: []}), null);
 });
 
 test('report presentation helpers preserve stable output', () => {

@@ -18,6 +18,12 @@ export function blockPercent(block) {
   return percent(value, max);
 }
 
+export function radarBlockPercent(block) {
+  const metrics = block?.metrics || [];
+  if (!metrics.some((metric) => metric.is_applicabble_flg !== false)) return null;
+  return blockPercent(block);
+}
+
 export function antiTopBlockLabel(blockName) {
   return String(blockName || '').trim() === 'Цели'
     ? 'Мониторинг: Цели/Факторный анализ/Прогнозы'
