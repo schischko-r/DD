@@ -17,6 +17,7 @@ DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
 DEFAULT_AI_DIGEST = ROOT / "ai_skill_digest_export.xlsx"
 DEFAULT_AI_PRODUCT_MAP = ROOT / "ai_product_mapping.xlsx"
+DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
 
 
@@ -40,6 +41,8 @@ def build(args: argparse.Namespace) -> None:
         str(args.ai_digest_xlsx),
         "--ai-product-map",
         str(args.ai_product_map),
+        "--crosssell-json",
+        str(args.crosssell_json),
         "--no-update-ai-digest",
         "--no-update-llm-summary",
         "--no-llm-log",
@@ -48,6 +51,10 @@ def build(args: argparse.Namespace) -> None:
         report_command.append("--no-ai-skills")
     elif args.skip_ai_digest:
         report_command.append("--skip-ai-digest")
+    if args.skip_crosssell:
+        report_command.append("--skip-crosssell")
+    elif args.no_update_crosssell:
+        report_command.append("--no-update-crosssell")
 
     run(report_command)
     if args.data_only:
@@ -80,6 +87,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--standalone-output", type=Path, default=DEFAULT_STANDALONE_OUTPUT)
     parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST)
     parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP)
+    parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT)
     parser.add_argument(
         "--skip-ai-digest",
         action="store_true",
@@ -89,6 +97,16 @@ def parse_args() -> argparse.Namespace:
         "--no-ai-skills",
         action="store_true",
         help="Exclude AI skills and do not read AI digest or product mapping files",
+    )
+    parser.add_argument(
+        "--skip-crosssell",
+        action="store_true",
+        help="Exclude Product Lens cross-sell recommendations",
+    )
+    parser.add_argument(
+        "--no-update-crosssell",
+        action="store_true",
+        help="Use the local Product Lens cache without a network request",
     )
     parser.add_argument(
         "--data-only",

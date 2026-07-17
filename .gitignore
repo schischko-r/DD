@@ -5,6 +5,7 @@
 __pycache__/
 *.pyc
 ai_skill_digest_export.xlsx
+crosssell_export.json
 Agent.html
 build_dd_from_excel.py
 build_dd_json2.py

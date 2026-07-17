@@ -47,3 +47,18 @@ test('recommendation skill link uses the matching AI tool from the metric block'
   );
   assert.equal(recommendationSkillLink(block, [{skill_key: 'llm_summary'}]), '');
 });
+
+test('recommendation skill link supports a direct cross-sell tool', () => {
+  const block = {
+    tools: [{
+      name: 'Cross-sell',
+      ai_tool_key: 'cross_sell',
+      button: {link: 'https://example.test/cross-sell'},
+    }],
+  };
+
+  assert.equal(
+    recommendationSkillLink(block, [{skill_key: 'cross_sell'}]),
+    'https://example.test/cross-sell',
+  );
+});
