@@ -1,6 +1,12 @@
 import {createReportEml} from './emailDraft.js';
 import {validateReport} from './reportEditor.js';
 
+export const READY_CONTROL_SELECTOR = '[data-constructor-ready-control]';
+
+export function shouldInvalidateReadyForInput(target) {
+  return !target?.closest?.(READY_CONTROL_SELECTOR);
+}
+
 export function workflowState(report, {dirty = false, ready = false} = {}) {
   return {report, dirty: Boolean(dirty), ready: Boolean(ready)};
 }

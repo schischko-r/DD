@@ -1,4 +1,5 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
+import {shouldInvalidateReadyForInput} from '../../domain/constructorWorkflow.js';
 import './constructor.css';
 
 const TABS = [
@@ -790,7 +791,9 @@ export function ConstructorPanel({
   }
 
   return (
-    <aside className="dd-constructor" aria-label="HTML-конструктор" onInputCapture={() => { if (ready) call(onReadyChange, false); }}>
+    <aside className="dd-constructor" aria-label="HTML-конструктор" onInputCapture={(event) => {
+      if (ready && shouldInvalidateReadyForInput(event.target)) call(onReadyChange, false);
+    }}>
       <header className="dd-constructor-header">
         <div>
           <span className="dd-constructor-kicker">Standalone</span>
@@ -864,7 +867,7 @@ export function ConstructorPanel({
           <span>{dirty ? 'Есть изменения' : 'Изменений нет'}</span>
           {changedTeams > 0 && <span>Команд: {changedTeams}</span>}
         </div>
-        <label className="dd-constructor-ready">
+        <label className="dd-constructor-ready" data-constructor-ready-control>
           <input type="checkbox" checked={Boolean(ready)} disabled={!dirty || !valid} onChange={(event) => call(onReadyChange, event.target.checked)} />
           <span><b>Готово</b><small>Данные проверены и готовы к отправке</small></span>
         </label>

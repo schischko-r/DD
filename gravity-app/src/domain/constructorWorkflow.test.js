@@ -4,6 +4,7 @@ import {
   applyWorkflowChange,
   createWorkflowEml,
   setWorkflowReady,
+  shouldInvalidateReadyForInput,
   workflowState,
 } from './constructorWorkflow.js';
 import {ensureConstructorDocument, updateMetricValues, updateTeam} from './reportEditor.js';
@@ -56,4 +57,15 @@ test('change → ready → change → ready → send invalidates each prior conf
   });
   assert.match(draft.content, /^To: rgshishko@sberbank\.ru\r$/m);
   assert.match(draft.body, /Изменено команд: 1$/);
+});
+
+test('ready checkbox input does not immediately invalidate its own confirmation', () => {
+  const readyCheckbox = {
+    closest: (selector) => selector === '[data-constructor-ready-control]' ? {} : null,
+  };
+  const regularInput = {closest: () => null};
+
+  assert.equal(shouldInvalidateReadyForInput(readyCheckbox), false);
+  assert.equal(shouldInvalidateReadyForInput(regularInput), true);
+  assert.equal(shouldInvalidateReadyForInput(null), true);
 });
