@@ -27,3 +27,13 @@ test('about mascots stack below section copy on narrow screens', () => {
   assert.match(stylesSource, /\.about-editorial-row,\s*\.about-editorial-row--reverse\s*\{[^}]*grid-template-columns:\s*1fr/s);
   assert.match(stylesSource, /\.about-mascot\s*\{[^}]*order:\s*2/s);
 });
+
+test('about page uses one white document canvas with aligned responsive gutters', () => {
+  assert.match(aboutPageSource, /<main className="content about-page">\s*<div className="about-document">/s);
+  assert.match(stylesSource, /\.content\.about-page\s*\{[^}]*padding:\s*0 24px[^}]*background:\s*var\(--g-color-base-generic\)/s);
+  assert.match(stylesSource, /\.about-document\s*\{[^}]*padding:\s*42px 24px 84px[^}]*background:\s*var\(--g-color-base-background\)/s);
+  assert.match(stylesSource, /\.about-hero\s*\{[^}]*padding:\s*52px 0/s);
+  assert.match(stylesSource, /\.about-nav\s*\{[^}]*background:\s*var\(--g-color-base-background\)/s);
+  assert.match(stylesSource, /@media \(max-width:\s*1000px\)[^\n]*\.content\.about-page\s*\{[^}]*padding:\s*0 12px[^\n]*\.about-document\s*\{[^}]*padding:\s*32px 12px 60px/s);
+  assert.match(stylesSource, /@media \(max-width:\s*760px\)[^\n]*\.content\.about-page\s*\{[^}]*padding:\s*0[^\n]*\.about-document\s*\{[^}]*padding:\s*24px 14px 48px/s);
+});
