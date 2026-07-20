@@ -16,8 +16,8 @@ const METHODOLOGY_ENTITY_TYPES = [
 
 function MethodologyContent({body}) {
   return <div className="about-methodology-content">{methodologyCriteria(body).map((criterion, index) => <section className="about-methodology-criterion" key={`${criterion.title}-${index}`}>
-    <header className="about-methodology-criterion-head"><span>{String(index + 1).padStart(2, '0')}</span><div><h4>{criterion.title}</h4>{criterion.description.map((text) => <Text color="secondary" key={text}>{text}</Text>)}</div></header>
-    {criterion.scores.length > 0 && <div className="about-methodology-score-table"><div className="about-methodology-score-head"><span>Баллы</span><span>Условие</span></div>{criterion.scores.map((score, scoreIndex) => <div className="about-methodology-score" key={`${score.label}-${scoreIndex}`}><Label theme={methodologyScoreTheme(score.label)} size="xs">{score.label}</Label><span>{score.text}</span></div>)}</div>}
+    <header className="about-methodology-criterion-head"><span className="about-methodology-criterion-number">{String(index + 1).padStart(2, '0')}.</span><div><h4>{criterion.title}</h4>{criterion.description.map((text) => <Text className="about-methodology-criterion-description" color="secondary" key={text}>{text}</Text>)}</div></header>
+    {criterion.scores.length > 0 && <div className="about-methodology-score-table"><div className="about-methodology-score-head"><span>Баллы</span><span>Условие</span></div>{criterion.scores.map((score, scoreIndex) => <div className="about-methodology-score" key={`${score.label}-${scoreIndex}`}><Label theme={methodologyScoreTheme(score.label)} size="s"><span className="about-methodology-score-label-text">{score.label}</span></Label><span className="about-methodology-score-condition">{score.text}</span></div>)}</div>}
   </section>)}</div>;
 }
 
@@ -181,15 +181,28 @@ export function AboutPage({onBack}) {
           <div className="about-methodology-controls-copy"><Text variant="subheader-1">Критерии для команды</Text><Text color="secondary">Сначала выберите объект оценки, затем нужное направление.</Text></div>
           <div className="about-methodology-switches">
             <div className="about-methodology-switch"><span>Объект оценки</span><SegmentedRadioGroup aria-label="Объект оценки" value={methodologyEntityType} onUpdate={selectMethodologyEntityType} size="l">{METHODOLOGY_ENTITY_TYPES.map((type) => <SegmentedRadioGroup.Option value={type.key} key={type.key}>{type.label}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>
-            {availableProfiles.length > 1 && <div className="about-methodology-switch"><span>Направление</span><SegmentedRadioGroup className="about-methodology-profile-switch" aria-label="Направление методики" value={activeProfile?.key || ''} onUpdate={selectMethodologyProfile} size="m">{availableProfiles.map((profile) => <SegmentedRadioGroup.Option value={profile.key} key={profile.key}>{profile.shortLabel}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>}
+            {availableProfiles.length > 1 && <div className="about-methodology-switch"><span>Направление</span><SegmentedRadioGroup className="about-methodology-profile-switch" aria-label="Направление методики" value={activeProfile?.key || ''} onUpdate={selectMethodologyProfile} size="l">{availableProfiles.map((profile) => <SegmentedRadioGroup.Option value={profile.key} key={profile.key}>{profile.shortLabel}</SegmentedRadioGroup.Option>)}</SegmentedRadioGroup></div>}
           </div>
         </Card>
 
         {activeMethodologyGroup && <div className="about-methodology-browser">
           <nav className="about-methodology-blocks" aria-label="Ключевые блоки Data Driven"><div className="about-methodology-blocks-head">Ключевые блоки Data Driven</div>{methodologyGroups.map((group, index) => <Button className="about-methodology-block-button" view="flat" pin="clear-clear" width="max" selected={group.title === activeMethodologyGroup.title} onClick={() => setMethodologyGroupTitle(group.title)} key={group.title}><span><small>{String(index + 1).padStart(2, '0')}</small><span className="about-methodology-block-title">{group.title}</span></span></Button>)}</nav>
-          <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary">{activeProfile.shortLabel}</Text><h3>{activeMethodologyGroup.title}</h3></div></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => {
+          <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary"><span className="about-methodology-profile">{activeProfile.shortLabel}</span></Text><h3>{activeMethodologyGroup.title}</h3></div></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => {
             const verificationComment = methodologyVerificationComment(activeProfile.key, activeMethodologyGroup.title, section.subgroup);
-            return <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}><div className="about-methodology-subsection-head"><Label theme={section.subgroup ? 'info' : 'utility'} size="s">{section.subgroup || 'Критерии'}</Label></div>{verificationComment && <div className="about-methodology-verification"><Icon data={CircleInfo} size={16} /><div><b>Источник оценки</b><span>{verificationComment}</span></div></div>}<MethodologyContent body={section.body} /></section>;
+            return (
+              <section className="about-methodology-subsection" key={`${section.sourceRow}-${section.subgroup}`}>
+                <div className={`about-methodology-subsection-meta${verificationComment ? ' about-methodology-subsection-meta--with-source' : ''}`}>
+                  <Label className="about-methodology-subsection-label" theme={section.subgroup ? 'info' : 'utility'} size="s">
+                    <span className="about-methodology-subsection-label-text">{section.subgroup || 'Критерии'}</span>
+                  </Label>
+                  {verificationComment && <div className="about-methodology-verification">
+                    <b className="about-methodology-verification-title">Источник оценки</b>
+                    <span>{verificationComment}</span>
+                  </div>}
+                </div>
+                <MethodologyContent body={section.body} />
+              </section>
+            );
           })}</div></section>
         </div>}
       </section>
