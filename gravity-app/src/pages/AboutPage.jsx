@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import {ArrowLeft, BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Persons} from '@gravity-ui/icons';
 import {Button, Card, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
+import questionMascot from '../assets/mascot/question.png';
+import thinkingMascot from '../assets/mascot/thinking.png';
 import methodologyProfiles from '../data/methodologyCriteria.json';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {groupMethodologySections, methodologyCriteria, methodologyScoreTheme} from './methodologyPresentation.js';
@@ -94,25 +96,27 @@ export function AboutPage({onBack}) {
     <main className="content about-page">
       <SemanticButton className="about-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton>
       <section className="about-hero">
-        <div className="about-hero-main">
-          <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Data Driven B2C</span></div>
-          <h1>Что такое Data Driven</h1>
-          <div className="about-hero-definition">
-            <Text variant="body-2" color="secondary">Data Driven — это метод принятия решений, основанный на анализе данных, а не только на интуиции или личном опыте.</Text>
-            <Text variant="body-2" color="secondary">Главный принцип — решения основываются на фактических данных и их анализе. При этом сами данные должны быть качественными и актуальными.</Text>
+        <div className="about-hero-copy about-editorial-copy">
+          <div className="about-hero-main">
+            <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Data Driven B2C</span></div>
+            <h1>Что такое Data Driven</h1>
+            <div className="about-hero-definition">
+              <Text variant="body-2" color="secondary">Data Driven — это метод принятия решений, основанный на анализе данных, а не только на интуиции или личном опыте.</Text>
+              <Text variant="body-2" color="secondary">Главный принцип — решения основываются на фактических данных и их анализе. При этом сами данные должны быть качественными и актуальными.</Text>
+            </div>
+            <div className="about-hero-actions">
+              <Button view="outlined-info" size="l" href="#assessment">Формула и шкала</Button>
+              <Button view="flat" size="l" href="#practices">Критерии оценки</Button>
+            </div>
           </div>
-          <div className="about-hero-actions">
-            <Button view="outlined-info" size="l" href="#assessment">Формула и шкала</Button>
-            <Button view="flat" size="l" href="#practices">Критерии оценки</Button>
-          </div>
-        </div>
-        <div className="about-index-overview">
-          <Text variant="caption-2" color="secondary">МЕТОДИКА ОЦЕНКИ</Text>
-          <h2>Что такое Data-Driven Index</h2>
-          <Text color="secondary">Data-Driven Index — это нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text>
-          <div className="about-index-equation" aria-label="Data-Driven Index равен сумме фактических баллов, делённой на сумму максимальных применимых баллов, умноженной на сто процентов">
-            <span>Data-Driven Index</span>
-            <strong>Σ фактических баллов / Σ максимальных применимых баллов × 100%</strong>
+          <div className="about-index-overview">
+            <Text variant="caption-2" color="secondary">МЕТОДИКА ОЦЕНКИ</Text>
+            <h2>Что такое Data-Driven Index</h2>
+            <Text color="secondary">Data-Driven Index — это нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text>
+            <div className="about-index-equation" aria-label="Data-Driven Index равен сумме фактических баллов, делённой на сумму максимальных применимых баллов, умноженной на сто процентов">
+              <span>Data-Driven Index</span>
+              <strong>Σ фактических баллов / Σ максимальных применимых баллов × 100%</strong>
+            </div>
           </div>
         </div>
       </section>
@@ -124,7 +128,12 @@ export function AboutPage({onBack}) {
       </nav>
 
       <section className="about-section" id="system">
-        <div className="about-section-heading"><Text variant="caption-2" color="secondary">ПРИНЦИПЫ ОЦЕНКИ</Text><h2>Как формируется индекс</h2><Text color="secondary">Расчёт строится на подтверждённых фактах и единой балльной модели. Итоговый процент сопоставим между командами только при одинаковой версии методики и расчётном периоде.</Text></div>
+        <div className="about-editorial-row about-editorial-row--reverse">
+          <div className="about-mascot about-mascot--left">
+            <img className="about-mascot-image" src={thinkingMascot} alt="" aria-hidden="true" />
+          </div>
+          <div className="about-section-heading about-editorial-copy"><Text variant="caption-2" color="secondary">ПРИНЦИПЫ ОЦЕНКИ</Text><h2>Как формируется индекс</h2><Text color="secondary">Расчёт строится на подтверждённых фактах и единой балльной модели. Итоговый процент сопоставим между командами только при одинаковой версии методики и расчётном периоде.</Text></div>
+        </div>
         <div className="about-elements">{principles.map((item) => <Card view="outlined" type="container" size="l" key={item.title}><div className="about-element-icon"><Icon data={item.icon} size={20} /></div><h3>{item.title}</h3><Text color="secondary">{item.text}</Text></Card>)}</div>
       </section>
 
@@ -157,9 +166,14 @@ export function AboutPage({onBack}) {
       </section>
 
       <section className="about-section" id="practices">
-        <div className="about-practices-heading">
-          <div><h2>Критерии и баллы</h2><Text color="secondary">Выберите тип команды: список покажет только релевантные блоки, условия оценки и баллы из соответствующего столбца методики.</Text></div>
-          <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
+        <div className="about-editorial-row">
+          <div className="about-practices-heading about-editorial-copy">
+            <div><h2>Критерии и баллы</h2><Text color="secondary">Выберите тип команды: список покажет только релевантные блоки, условия оценки и баллы из соответствующего столбца методики.</Text></div>
+            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
+          </div>
+          <div className="about-mascot about-mascot--right">
+            <img className="about-mascot-image" src={questionMascot} alt="" aria-hidden="true" />
+          </div>
         </div>
 
         <Card className="about-methodology-controls" view="outlined" type="container" size="l">
