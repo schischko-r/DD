@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo} from '@gravity-ui/icons';
-import {Icon, Spin} from '@gravity-ui/uikit';
+import {Spin} from '@gravity-ui/uikit';
 import {AsideHeader} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
 import {DashboardPage} from '../pages/DashboardPage.jsx';
@@ -8,11 +8,20 @@ import {SummaryPage} from '../pages/SummaryPage.jsx';
 import {TeamProfilePage} from '../pages/TeamProfilePage.jsx';
 import ocb2cLogo from '../assets/ocb2c.png';
 
+const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
+
+const getInitialNavigationCompact = () => (
+  typeof window !== 'undefined'
+  && typeof window.matchMedia === 'function'
+  && window.matchMedia(MOBILE_NAVIGATION_QUERY).matches
+);
+
 export function App() {
   const [data, setData] = useState(null);
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
   const [detailScore, setDetailScore] = useState(false);
+  const [compact, setCompact] = useState(getInitialNavigationCompact);
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
   const updateSummaryFilters = useCallback((patch) => {
     setSummaryFilters((current) => ({...current, ...patch}));
@@ -21,6 +30,25 @@ export function App() {
     fetch('./report-data.json', {cache: 'no-store'})
       .then((response) => response.json())
       .then(setData);
+  }, []);
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return undefined;
+
+    const mediaQuery = window.matchMedia(MOBILE_NAVIGATION_QUERY);
+    const collapseOnMobile = ({matches}) => {
+      if (matches) setCompact(true);
+    };
+
+    collapseOnMobile(mediaQuery);
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', collapseOnMobile);
+      return () => mediaQuery.removeEventListener('change', collapseOnMobile);
+    }
+    if (typeof mediaQuery.addListener === 'function') {
+      mediaQuery.addListener(collapseOnMobile);
+      return () => mediaQuery.removeListener(collapseOnMobile);
+    }
+    return undefined;
   }, []);
   if (!data) return <div className="loading"><Spin size="xl" /></div>;
   const rows = data.title?.rows || [];
@@ -77,12 +105,13 @@ export function App() {
         : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} />;
   return (
     <AsideHeader
-      compact
+      compact={compact}
+      onChangeCompact={setCompact}
+      collapseTitle="Свернуть меню"
+      expandTitle="Развернуть меню"
       className="dd-navigation"
       logo={{text: 'Data-Driven Index', iconSrc: ocb2cLogo, iconSize: 30, iconClassName: 'dd-navigation-logo', href: '#', onClick: (event) => { event.preventDefault(); setView('dashboard'); window.scrollTo(0, 0); }, 'aria-label': 'Открыть Summary'}}
       menuItems={menuItems}
-      hideCollapseButton
-      renderFooter={() => <button type="button" className="navigation-period" aria-pressed={detailScore} title={detailScore ? 'Скрыть служебный режим' : 'Показать служебный режим'} onClick={toggleDetailScore}><Icon data={CircleInfo} size={16} /></button>}
       renderContent={() => content}
     />
   );
