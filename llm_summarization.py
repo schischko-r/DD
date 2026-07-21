@@ -10,6 +10,7 @@ from __future__ import annotations
 import asyncio
 import json
 import re
+from concurrent.futures import ThreadPoolExecutor
 from typing import Any, Callable, Mapping, Optional
 
 
@@ -105,6 +106,21 @@ def run_gigachat(func: Callable[[], Any], semaphore: Any) -> Any:
         asyncio.set_event_loop(asyncio.new_event_loop())
     with semaphore:
         return func()
+
+
+def run_parallel_llm_tasks(
+    tasks: list[Callable[[], Any]],
+) -> list[tuple[Any, Exception | None]]:
+    """Run LLM tasks in submission order with at most four active workers."""
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        futures = [executor.submit(task) for task in tasks]
+        results = []
+        for future in futures:
+            try:
+                results.append((future.result(), None))
+            except Exception as error:
+                results.append((None, error))
+    return results
 
 
 def llm_log_write(message: str, tqdm_module: Any = None) -> None:

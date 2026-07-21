@@ -167,7 +167,7 @@ GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
 GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
 GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
 GIGACHAT_SCOPE = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_CORP")
-GIGACHAT_WORKERS = int(os.getenv("GIGACHAT_WORKERS", "5"))
+GIGACHAT_WORKERS = 4
 GIGACHAT_TIMEOUT = int(os.getenv("GIGACHAT_TIMEOUT", "120"))
 
 # Семафор: не более GIGACHAT_WORKERS одновременных запросов к GigaChat
@@ -1796,6 +1796,7 @@ def apply_ai_skill_digest(
     llm_unmatched_no_digest = 0
     llm_unmatched_samples: list[str] = []
     llm_errors: list[str] = []
+    llm_jobs: list[tuple[str, str, list[dict[str, Any]], dict[str, Any]]] = []
     llm_progress = tqdm(desc="LLM-суммаризация", unit="сводка") if llm_enabled and llm_log and tqdm is not None else None
     if llm_log:
         llm_log_event(
@@ -1986,46 +1987,53 @@ def apply_ai_skill_digest(
                                 },
                             )
                         continue
-                    try:
-                        summary = build_llm_summary(product_name, block_code, digests, log=llm_log)
-                        if not summary:
-                            llm_skipped_empty_summary += 1
-                            if llm_log:
-                                llm_log_event(
-                                    "skip",
-                                    {
-                                        "reason": "empty_llm_summary",
-                                        "product": product_name,
-                                        "block_code": block_code,
-                                    },
-                                )
-                        elif append_llm_summary_to_group(block, block_code, summary, digests):
-                            llm_summaries += 1
-                        else:
-                            llm_skipped_append_failed += 1
-                            if llm_log:
-                                llm_log_event(
-                                    "skip",
-                                    {
-                                        "reason": "append_llm_summary_failed",
-                                        "product": product_name,
-                                        "block_code": block_code,
-                                    },
-                                )
-                    except Exception as error:
-                        llm_errors.append(f"{product_name} / {block_code}: {error}")
-                        if llm_log:
-                            llm_log_event(
-                                "error",
-                                {
-                                    "product": product_name,
-                                    "block_code": block_code,
-                                    "error": str(error),
-                                },
-                            )
-                    finally:
-                        if llm_progress is not None:
-                            llm_progress.update(1)
+                    llm_jobs.append((product_name, block_code, digests, block))
+
+        llm_tasks = [
+            lambda product_name=product_name, block_code=block_code, digests=digests: build_llm_summary(
+                product_name, block_code, digests, log=llm_log
+            )
+            for product_name, block_code, digests, _ in llm_jobs
+        ]
+        for job, (summary, error) in zip(llm_jobs, _llm.run_parallel_llm_tasks(llm_tasks)):
+            product_name, block_code, digests, block = job
+            if error is not None:
+                llm_errors.append(f"{product_name} / {block_code}: {error}")
+                if llm_log:
+                    llm_log_event(
+                        "error",
+                        {
+                            "product": product_name,
+                            "block_code": block_code,
+                            "error": str(error),
+                        },
+                    )
+            elif not summary:
+                llm_skipped_empty_summary += 1
+                if llm_log:
+                    llm_log_event(
+                        "skip",
+                        {
+                            "reason": "empty_llm_summary",
+                            "product": product_name,
+                            "block_code": block_code,
+                        },
+                    )
+            elif append_llm_summary_to_group(block, block_code, summary, digests):
+                llm_summaries += 1
+            else:
+                llm_skipped_append_failed += 1
+                if llm_log:
+                    llm_log_event(
+                        "skip",
+                        {
+                            "reason": "append_llm_summary_failed",
+                            "product": product_name,
+                            "block_code": block_code,
+                        },
+                    )
+            if llm_progress is not None:
+                llm_progress.update(1)
     finally:
         if llm_progress is not None:
             llm_progress.close()

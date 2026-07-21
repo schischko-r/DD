@@ -1,10 +1,99 @@
+import threading
+import time
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
 import build_calc_report as report
 import llm_summarization
 
 
 class LlmSummarizationTest(unittest.TestCase):
+    def test_parallel_llm_tasks_use_four_slots_and_isolate_errors(self) -> None:
+        lock = threading.Lock()
+        first_wave = threading.Barrier(4)
+        active = 0
+        max_active = 0
+
+        def task(index):
+            def run():
+                nonlocal active, max_active
+                with lock:
+                    active += 1
+                    max_active = max(max_active, active)
+                if index < 4:
+                    first_wave.wait(timeout=1)
+                with lock:
+                    active -= 1
+                if index == 2:
+                    raise RuntimeError("failed task")
+                return index
+
+            return run
+
+        results = llm_summarization.run_parallel_llm_tasks(
+            [task(index) for index in range(8)]
+        )
+
+        self.assertEqual(max_active, 4)
+        self.assertEqual([value for value, _ in results], [0, 1, None, 3, 4, 5, 6, 7])
+        self.assertIsInstance(results[2][1], RuntimeError)
+
+    def test_digest_candidates_are_sent_to_llm_in_parallel(self) -> None:
+        products = [
+            {"name": f"Product {index}", "metrics": [{"code": "attract"}]}
+            for index in range(8)
+        ]
+        mapping = {
+            (report.normalize_mapping_key(product["name"]), "drafts"): ["Mapped"]
+            for product in products
+        }
+        lock = threading.Lock()
+        active = 0
+        max_active = 0
+
+        def build_summary(*args, **kwargs):
+            nonlocal active, max_active
+            with lock:
+                active += 1
+                max_active = max(max_active, active)
+            time.sleep(0.03)
+            with lock:
+                active -= 1
+            return {"summary": "Done", "traffic_light": "green"}
+
+        with (
+            patch.object(report, "AI_SKILL_ORDER", ("drafts",)),
+            patch.object(report, "read_ai_digest_rows", return_value=[{}]),
+            patch.object(report, "read_ai_product_mapping", return_value=mapping),
+            patch.object(
+                report,
+                "build_ai_digest_index",
+                return_value={
+                    ("drafts", report.normalize_ai_product_key("Mapped")): {
+                        "traffic_light": "green"
+                    }
+                },
+            ),
+            patch.object(report, "build_metric_recommendations", return_value=[]),
+            patch.object(report, "aggregate_ai_digests", return_value={"traffic_light": "green"}),
+            patch.object(report, "digest_display_payload", return_value={}),
+            patch.object(report, "update_ai_tool", return_value=True),
+            patch.object(report, "append_llm_summary_to_group", return_value=True),
+            patch.object(report, "gigachat_is_configured", return_value=True),
+            patch.object(report, "build_llm_summary", side_effect=build_summary),
+        ):
+            result = report.apply_ai_skill_digest(
+                {"products": products},
+                Path("digest.xlsx"),
+                Path("mapping.xlsx"),
+                update_llm_summary=True,
+                llm_log=False,
+            )
+
+        self.assertEqual(max_active, 4)
+        self.assertEqual(result["ai_skill_digest"]["llm_summaries"], 8)
+
     def test_builder_keeps_public_compatibility_names(self) -> None:
         for name in (
             "gigachat_is_configured",

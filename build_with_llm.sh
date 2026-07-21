@@ -14,6 +14,15 @@ AI_PRODUCT_MAP_FILE="${AI_PRODUCT_MAP_FILE:-ai_product_mapping.xlsx}"
 LEGACY_HTML="${LEGACY_HTML:-final_report_from_excel.html}"
 REPORT_JSON="${REPORT_JSON:-gravity-app/public/report-data.json}"
 STANDALONE_HTML="${STANDALONE_HTML:-gravity-standalone.html}"
+CROSSSELL_ENABLED="${CROSSSELL_ENABLED:-0}"
+
+case "$CROSSSELL_ENABLED" in
+  0|1) ;;
+  *)
+    printf 'CROSSSELL_ENABLED must be 0 or 1, got: %s\n' "$CROSSSELL_ENABLED" >&2
+    exit 1
+    ;;
+esac
 
 for required_file in "$INPUT_FILE" "$AI_DIGEST_FILE" "$AI_PRODUCT_MAP_FILE"; do
   if [[ ! -f "$required_file" ]]; then
@@ -44,6 +53,11 @@ if not report.gigachat_is_configured():
     )
 PY
 
+crosssell_args=(--no-update-crosssell)
+if [[ "$CROSSSELL_ENABLED" == "1" ]]; then
+  crosssell_args=(--update-crosssell)
+fi
+
 "$PYTHON_BIN" build_calc_report.py \
   --input "$INPUT_FILE" \
   --period "$PERIOD" \
@@ -52,6 +66,7 @@ PY
   --ai-digest-xlsx "$AI_DIGEST_FILE" \
   --ai-product-map "$AI_PRODUCT_MAP_FILE" \
   --no-update-ai-digest \
+  "${crosssell_args[@]}" \
   --update-llm-summary \
   --llm-log
 
