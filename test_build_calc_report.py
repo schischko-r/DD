@@ -48,6 +48,24 @@ class SyntheticReportTest(unittest.TestCase):
         for (group, name), code in expected.items():
             self.assertEqual(metric_code(group, name), code)
 
+    def test_recommendation_without_difficulty_keeps_its_index_gap(self) -> None:
+        rows = report._PD.DataFrame(
+            [
+                {
+                    "recommendation_clean": "Провести анализ, выявить точки роста",
+                    "recommendation_group_clean": None,
+                    "value_num": 0.5,
+                    "max_value_num": 1,
+                }
+            ]
+        )
+
+        items = report._DD_FROM_EXCEL["recommendation_items"](rows)
+
+        self.assertEqual(len(items), 1)
+        self.assertEqual(items[0]["recommendation_difficulty"], 1)
+        self.assertEqual(items[0]["gap"], 0.5)
+
     def test_pilot_campaign_links_use_the_ai_skill_dashboard(self) -> None:
         expected = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
         self.assertEqual(report.PILOT_CAMPAIGNS_URL, expected)

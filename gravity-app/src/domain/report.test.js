@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -16,6 +16,39 @@ test('report percentage helpers clamp and aggregate values', () => {
   assert.equal(percent(5, 4), 100);
   assert.equal(percent(1, 0), 0);
   assert.equal(blockPercent({metrics: [{value: 1, max_value: 2}, {value: 2, max_value: 2}]}), 75);
+});
+
+test('recommendation uplifts add up to the remaining displayed index', () => {
+  const recommendations = allocateIndexUplifts(
+    [{gap: 1}, {gap: 1}, {gap: 1}],
+    68,
+  );
+
+  assert.deepEqual(recommendations.map((item) => item.indexUplift), [10.7, 10.7, 10.6]);
+  assert.equal(recommendations.reduce((sum, item) => sum + item.indexUplift, 68), 100);
+});
+
+test('recommendation card aggregates hidden uplift into the displayed total', () => {
+  const summary = summarizeRecommendationUplifts(
+    [5.1, 4.9, 8.3, 2.2, 11.5].map((indexUplift) => ({indexUplift})),
+    4,
+  );
+
+  assert.equal(summary.visible.length, 4);
+  assert.equal(summary.hiddenCount, 1);
+  assert.equal(summary.hiddenUplift, 11.5);
+  assert.equal(
+    summary.visible.reduce((sum, item) => sum + item.indexUplift, 68) + summary.hiddenUplift,
+    100,
+  );
+});
+
+test('DD index metrics exclude display-only and inapplicable rows', () => {
+  assert.equal(isDdIndexMetric({max_value: 1}), true);
+  assert.equal(isDdIndexMetric({max_value: 1, excluded_from_index: true}), false);
+  assert.equal(isDdIndexMetric({max_value: 1, dd_calculation_flg: 0}), false);
+  assert.equal(isDdIndexMetric({max_value: 1, is_applicabble_flg: false}), false);
+  assert.equal(isDdIndexMetric({max_value: 0}), false);
 });
 
 test('radar percentage omits inapplicable blocks without hiding real zero scores', () => {

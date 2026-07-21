@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleCheckFill, CircleInfo, CircleInfoFill, NodesRight} from '@gravity-ui/icons';
 import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {ApplicableRadarDot, ApplicableRadarShape, COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, REPORT_ACCESS_REQUEST_URL, ProductRadarTick, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarBlockPercent, radarSeries, scoreFor, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
+import {ApplicableRadarDot, ApplicableRadarShape, COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, REPORT_ACCESS_REQUEST_URL, ProductRadarTick, allocateIndexUplifts, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isDdIndexMetric, isInformationalMetric, isTbdMetric, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricWord, percent, pilotToolLinks, progressTheme, radarBlockPercent, radarSeries, scoreFor, summarizeRecommendationUplifts, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {
   ProductMetricBlocks,
@@ -442,7 +442,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const aiRecommendationLight = hasAiRecommendations ? worstDigestLight(aiRecommendations) : 'gray';
   const aiRecommendationTheme = aiRecommendationLight === 'gray' ? 'default' : digestTheme(aiRecommendationLight);
   const profileSeries = radarSeries(product.type);
-  const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter((metric) => metric.is_applicabble_flg !== false);
+  const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter(isDdIndexMetric);
   const earnedPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
   const maxPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
   const nextLevel = score < 40
@@ -537,7 +537,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   });
   const recommendations = useMemo(() => {
     const groups = new Map();
-    (product.metrics || []).forEach((block) => (block.metrics || []).forEach((metric) => (metric.recommendation_items || []).forEach((item) => {
+    (product.metrics || []).forEach((block) => (block.metrics || []).filter(isDdIndexMetric).forEach((metric) => (metric.recommendation_items || []).forEach((item) => {
       const gap = Number(item.gap || 0);
       if (!item.recommendation || gap <= 0) return;
       const key = `${block.name}|${item.recommendation}`;
@@ -546,8 +546,13 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
       current.gap += gap;
       groups.set(key, current);
     })));
-    return [...groups.values()].map((item) => ({...item, indexUplift: maxPoints ? item.gap / maxPoints * 100 : 0})).sort((a, b) => a.difficulty - b.difficulty || b.gap - a.gap);
-  }, [product, maxPoints]);
+    const sorted = [...groups.values()].sort((a, b) => a.difficulty - b.difficulty || b.gap - a.gap);
+    return allocateIndexUplifts(sorted, score);
+  }, [product, score]);
+  const recommendationCard = useMemo(
+    () => summarizeRecommendationUplifts(recommendations, 4),
+    [recommendations],
+  );
   const radarData = useMemo(() => {
     const benchmarkProducts = products.filter((item) => /продукт|сегмент|product|segment/i.test(String(item.type || '')));
     return visibleMetricBlocks.map((block) => {
@@ -588,7 +593,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b></div></div>
       <section className="detail-overview">
         <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={profileSeries.fill} dotRadius={2} />} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
-        <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendations.slice(0, 4).map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
+        <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendationCard.visible.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}{recommendationCard.hiddenCount > 0 && <div className="top-recommendation top-recommendation-summary"><div className="recommendation-marker"><span>+</span></div><div><b>Остальные рекомендации</b><small>{recommendationCard.hiddenCount} в полном списке</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{recommendationCard.hiddenUplift.toFixed(1)} п.п. индекса</b></div></div></div>}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
       </section>
       <Dialog open={recommendationsOpen} onClose={() => setRecommendationsOpen(false)} hasCloseButton maxWidth="m" fullWidth contentOverflow="auto">
         <Dialog.Header caption={`Все рекомендации · ${recommendations.length}`} />

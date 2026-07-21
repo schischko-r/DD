@@ -11,6 +11,46 @@ export function percent(value, max) {
   return Math.max(0, Math.min(100, Math.round((Number(value) / Number(max)) * 100)));
 }
 
+export function allocateIndexUplifts(recommendations, currentScore) {
+  const score = Math.max(0, Math.min(100, Number(currentScore) || 0));
+  const targetTenths = Math.round((100 - score) * 10);
+  const gaps = recommendations.map((item) => Math.max(0, Number(item.gap) || 0));
+  const totalGap = gaps.reduce((sum, gap) => sum + gap, 0);
+  if (!recommendations.length || totalGap <= 0 || targetTenths <= 0) {
+    return recommendations.map((item) => ({...item, indexUplift: 0}));
+  }
+
+  const allocations = gaps.map((gap, index) => {
+    const exactTenths = gap / totalGap * targetTenths;
+    const tenths = Math.floor(exactTenths);
+    return {index, tenths, remainder: exactTenths - tenths};
+  });
+  let remainingTenths = targetTenths - allocations.reduce((sum, item) => sum + item.tenths, 0);
+  [...allocations]
+    .sort((left, right) => right.remainder - left.remainder || left.index - right.index)
+    .forEach((item) => {
+      if (remainingTenths <= 0) return;
+      allocations[item.index].tenths += 1;
+      remainingTenths -= 1;
+    });
+
+  return recommendations.map((item, index) => ({
+    ...item,
+    indexUplift: allocations[index].tenths / 10,
+  }));
+}
+
+export function summarizeRecommendationUplifts(recommendations, visibleLimit = 4) {
+  const limit = Math.max(0, Math.floor(Number(visibleLimit) || 0));
+  const visible = recommendations.slice(0, limit);
+  const hidden = recommendations.slice(limit);
+  return {
+    visible,
+    hiddenCount: hidden.length,
+    hiddenUplift: Math.round(hidden.reduce((sum, item) => sum + Number(item.indexUplift || 0), 0) * 10) / 10,
+  };
+}
+
 export function blockPercent(block) {
   const metrics = block.metrics || [];
   const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
@@ -36,6 +76,13 @@ export function isTbdMetric(metric) {
 
 export function isInformationalMetric(metric) {
   return Number(metric?.dd_calculation_flg) === 0;
+}
+
+export function isDdIndexMetric(metric) {
+  return metric?.is_applicabble_flg !== false
+    && !metric?.excluded_from_index
+    && !isInformationalMetric(metric)
+    && Number(metric?.max_value || 0) > 0;
 }
 
 export function inapplicableMetricLabel(metric) {
