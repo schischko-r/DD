@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {CHAT_ENTRY_FUNNEL_LINK, PHYGITAL_CHANNEL_KEY_METRIC_LINKS, SBOL_ONBOARDING_LINK, contextualBlockLinksForTeam, isLegacyProductKeyMetricLink, isProductSatelliteLink, keyMetricLinksForTeam} from './keyMetricLinks.js';
+import {CHAT_ENTRY_FUNNEL_LINK, PHYGITAL_CHANNEL_KEY_METRIC_LINKS, SBOL_ONBOARDING_LINK, SEGMENT_KEY_METRIC_LINKS, contextualBlockLinksForTeam, isKeyMetricLinkVisibleForTeam, isLegacyProductKeyMetricLink, isProductSatelliteLink, keyMetricLinksForTeam} from './keyMetricLinks.js';
 
 test('phygital channels receive their dedicated Navigator links', () => {
   assert.deepEqual(keyMetricLinksForTeam({name: 'Чат'}, 'service-channel'), PHYGITAL_CHANNEL_KEY_METRIC_LINKS);
@@ -65,4 +65,14 @@ test('legacy product key metric links are recognized for phygital filtering', ()
   assert.equal(isLegacyProductKeyMetricLink({label: 'Статистика обращений'}), false);
   assert.equal(isProductSatelliteLink({label: 'Продукты-спутники'}), true);
   assert.equal(isProductSatelliteLink({label: 'Воронки активности продуктов'}), false);
+});
+
+test('Children segment hides only the 1+2+ report link', () => {
+  const children = {type: 'Сегмент', name: 'Дети'};
+  const onePlusTwo = SEGMENT_KEY_METRIC_LINKS.find((item) => item.label.includes('1+2+'));
+  const major = SEGMENT_KEY_METRIC_LINKS.find((item) => item.label.includes('Major'));
+
+  assert.equal(isKeyMetricLinkVisibleForTeam(children, onePlusTwo), false);
+  assert.equal(isKeyMetricLinkVisibleForTeam(children, major), true);
+  assert.equal(isKeyMetricLinkVisibleForTeam({type: 'Сегмент', name: 'Молодежь'}, onePlusTwo), true);
 });

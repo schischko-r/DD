@@ -3,7 +3,7 @@ import {ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
 import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
-import {digestStatus, digestTheme, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 export {digestStatus, digestTheme, hasAvailableRecommendations, worstDigestLight} from './digestPresentation.js';
 
@@ -100,7 +100,7 @@ export function ProductMetricRecommendations({product, onOpenReport}) {
                           <div className="metric-recommendation-row-title"><h4>{item.indicator}</h4><Label theme={digestTheme(item.traffic_light)} size="xs">{digestStatus(item.traffic_light)}</Label></div>
                           {(item.recommendations || []).map((text, index) => <Text variant="body-1" key={`${item.id}-${index}`}>{text}</Text>)}
                           <div className="metric-recommendation-meta"><Label theme="utility" size="xs">{displaySkillName(item.skill_name)}</Label>{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}{item.ai_products?.length > 0 && <Text variant="caption-1" color="secondary">Источник: {item.ai_products.join(', ')}</Text>}</div>
-                          {item.rule && <Text className="metric-recommendation-rule" variant="caption-1" color="secondary">Правило светофора: {item.rule}</Text>}
+                          {item.rule && <Text className="metric-recommendation-rule" variant="caption-1" color="secondary">Как читать сигнал: {readableDigestRule(item.rule)}</Text>}
                         </div>
                       </div>
                     ))}
@@ -117,7 +117,7 @@ export function ProductMetricRecommendations({product, onOpenReport}) {
 
 function ProductMetricRows({items}) {
   return items.map((item) => <div className="metric-row product-metric-row" key={item.id}>
-    <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><b>{item.indicator}</b>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Правило светофора: {item.rule}</small>}</div></div>
+    <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><b>{item.indicator}</b>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Как читать сигнал: {readableDigestRule(item.rule)}</small>}</div></div>
     <div className="product-metric-row-side">{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}</div>
   </div>);
 }

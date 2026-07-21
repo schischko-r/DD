@@ -12,6 +12,17 @@ export function digestStatus(light) {
   return 'Нет оценки';
 }
 
+export function readableDigestRule(value) {
+  const rule = String(value || '').trim();
+  if (!rule) return '';
+  return rule
+    .replace(/Зел\.?:/gi, 'Зелёный сигнал —')
+    .replace(/Красн\.?:/gi, 'Красный сигнал —')
+    .replace(/Жёлт\.?:/gi, 'Жёлтый сигнал —')
+    .replace(/\s*\|\s*/g, '. ')
+    .replace(/\.$/, '') + '.';
+}
+
 export function worstDigestLight(items) {
   const order = ['red', 'yellow', 'green', 'gray'];
   return order.find((light) => items.some((item) => (item.traffic_light || 'gray') === light)) || 'gray';

@@ -85,6 +85,12 @@ export function isDdIndexMetric(metric) {
     && Number(metric?.max_value || 0) > 0;
 }
 
+export function hasMetricDeviations(metrics) {
+  return (metrics || []).some((metric) =>
+    isDdIndexMetric(metric) && Number(metric?.value || 0) < Number(metric?.max_value || 0),
+  );
+}
+
 export function inapplicableMetricLabel(metric) {
   const code = String(metric?.code || '').trim();
   const name = String(metric?.name || '').trim();

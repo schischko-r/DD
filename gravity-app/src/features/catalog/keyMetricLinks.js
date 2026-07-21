@@ -3,10 +3,12 @@ export const PRODUCT_KEY_METRIC_LINKS = [
   {label: 'Продукты-спутники', url: 'https://navigator.sigma.sbrf.ru/gdash/12215/1000030917'},
 ];
 
+const SEGMENT_ONE_PLUS_TWO_LINK = {label: 'Отчет "Клиенты с 1+2+"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000001389'};
+
 export const SEGMENT_KEY_METRIC_LINKS = [
   {label: 'Отчет "Активная клиентская база"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000000301'},
   {label: 'Отчет "Major"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1'},
-  {label: 'Отчет "Клиенты с 1+2+"', url: 'https://navigator.sigma.sbrf.ru/gdash/1000001389'},
+  SEGMENT_ONE_PLUS_TWO_LINK,
 ];
 
 export const PHYGITAL_CHANNEL_KEY_METRIC_LINKS = [
@@ -51,6 +53,13 @@ export function keyMetricLinksForTeam(product, audience) {
   if (audience === 'service-channel' || audience === 'telemarketing') return PHYGITAL_CHANNEL_KEY_METRIC_LINKS;
   if (audience === 'age' || audience === 'income' || audience === 'segment') return SEGMENT_KEY_METRIC_LINKS;
   return PRODUCT_KEY_METRIC_LINKS;
+}
+
+export function isKeyMetricLinkVisibleForTeam(product, item) {
+  const isChildrenSegment = String(product?.type || '').trim().toLowerCase() === 'сегмент'
+    && String(product?.name || '').trim().toLowerCase() === 'дети';
+  if (!isChildrenSegment) return true;
+  return !(/1\+2\+/.test(String(item?.label || '')) || item?.url === SEGMENT_ONE_PLUS_TWO_LINK.url);
 }
 
 export function contextualBlockLinksForTeam(product, block) {

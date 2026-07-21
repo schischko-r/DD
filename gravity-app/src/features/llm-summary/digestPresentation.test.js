@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {digestStatus, digestTheme, hasAvailableRecommendations, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {digestStatus, digestTheme, hasAvailableRecommendations, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestTheme('red'), 'danger');
@@ -11,6 +11,13 @@ test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestStatus('yellow'), 'Наблюдать');
   assert.equal(digestStatus('green'), 'Стабильно');
   assert.equal(digestStatus('gray'), 'Нет оценки');
+});
+
+test('digest traffic-light rule is readable for users', () => {
+  assert.equal(
+    readableDigestRule('Зел.: рост продаж 3 мес. подряд | Красн.: падение продаж 3 мес. подряд | Жёлт.: иначе'),
+    'Зелёный сигнал — рост продаж 3 мес. подряд. Красный сигнал — падение продаж 3 мес. подряд. Жёлтый сигнал — иначе.',
+  );
 });
 
 test('worst digest light keeps existing priority order', () => {

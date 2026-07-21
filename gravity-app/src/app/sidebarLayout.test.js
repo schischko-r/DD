@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const appSource = readFileSync(new URL('./App.jsx', import.meta.url), 'utf8');
+const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 const navigationConstants = readFileSync(
   new URL('../../node_modules/@gravity-ui/navigation/build/esm/components/constants.js', import.meta.url),
   'utf8',
@@ -25,6 +26,12 @@ test('sidebar starts compact on mobile and keeps localized collapse controls', (
   assert.match(appSource, /removeEventListener\('change', collapseOnMobile\)/);
   assert.match(appSource, /collapseTitle="Свернуть меню"/);
   assert.match(appSource, /expandTitle="Развернуть меню"/);
+});
+
+test('sidebar brand icon and title share the same vertical center', () => {
+  assert.match(stylesSource, /\.dd-navigation-logo\s*\{[^}]*display:\s*flex;/);
+  assert.match(stylesSource, /\.dd-navigation-logo\s*\{[^}]*align-items:\s*center;/);
+  assert.match(stylesSource, /\.dd-navigation-logo img\s*\{[^}]*display:\s*block;/);
 });
 
 test('sidebar preserves navigation items without the service-mode footer button', () => {

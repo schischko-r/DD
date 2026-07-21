@@ -4039,12 +4039,23 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       }));
     }
 
+    function readableDigestRule(value) {
+      const rule = String(value || '').trim();
+      if (!rule) return '';
+      return rule
+        .replace(/Зел\.?:/gi, 'Зелёный сигнал —')
+        .replace(/Красн\.?:/gi, 'Красный сигнал —')
+        .replace(/Жёлт\.?:/gi, 'Жёлтый сигнал —')
+        .replace(/\s*\|\s*/g, '. ')
+        .replace(/\.$/, '') + '.';
+    }
+
     function digestItemHTML(entry) {
       const title = String(entry.indicator || entry.digest_indicator || 'Показатель').trim();
       const texts = Array.isArray(entry.digest_texts)
         ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
         : [];
-      const rule = String(entry.digest_rule || '').trim();
+      const rule = readableDigestRule(entry.digest_rule);
       const hasTrafficLight = String(entry.traffic_light || '').trim().length > 0;
       return `
         <div class="ai-digest-item${hasTrafficLight ? '' : ' no-light'}">
@@ -4052,7 +4063,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
           <div>
             <div class="ai-digest-item-title">${esc(title)}</div>
             ${texts.map((text) => `<div class="ai-digest-item-text">${esc(text)}</div>`).join('')}
-            ${rule ? `<div class="ai-digest-item-rule">Правило: ${esc(rule)}</div>` : ''}
+            ${rule ? `<div class="ai-digest-item-rule">Как читать сигнал: ${esc(rule)}</div>` : ''}
           </div>
         </div>
       `;
@@ -4076,7 +4087,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
     function digestPanelHTML(item) {
       const items = digestItems(item);
       const texts = digestTexts(item);
-      const rule = String(item.digest_rule || '').trim();
+      const rule = readableDigestRule(item.digest_rule);
       if (!items.length && !texts.length && !rule) return '';
       const fallbackItems = !items.length && (texts.length || rule) ? [{
         indicator: String(item.digest_indicator || item.name || 'Показатель').trim(),
@@ -4090,7 +4101,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       return `
         <div class="ai-digest-panel">
           ${groups.map(digestCloudHTML).join('')}
-          ${!groups.length && rule ? `<div class="ai-digest-rule">Правило светофора: ${esc(rule)}</div>` : ''}
+          ${!groups.length && rule ? `<div class="ai-digest-rule">Как читать сигнал: ${esc(rule)}</div>` : ''}
         </div>
       `;
     }

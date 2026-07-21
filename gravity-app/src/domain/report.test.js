@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, hasMetricDeviations, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -49,6 +49,13 @@ test('DD index metrics exclude display-only and inapplicable rows', () => {
   assert.equal(isDdIndexMetric({max_value: 1, dd_calculation_flg: 0}), false);
   assert.equal(isDdIndexMetric({max_value: 1, is_applicabble_flg: false}), false);
   assert.equal(isDdIndexMetric({max_value: 0}), false);
+});
+
+test('metric deviations include only applicable DD index gaps', () => {
+  assert.equal(hasMetricDeviations([{value: 0.5, max_value: 1}]), true);
+  assert.equal(hasMetricDeviations([{value: 1, max_value: 1}]), false);
+  assert.equal(hasMetricDeviations([{value: 0, max_value: 1, is_applicabble_flg: false}]), false);
+  assert.equal(hasMetricDeviations([{value: 0, max_value: 1, dd_calculation_flg: 0}]), false);
 });
 
 test('radar percentage omits inapplicable blocks without hiding real zero scores', () => {
