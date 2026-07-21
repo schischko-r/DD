@@ -1,5 +1,7 @@
 import unittest
 import tempfile
+import json
+import unicodedata
 from pathlib import Path
 from unittest.mock import patch
 
@@ -671,6 +673,146 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(
             {tuple(item["ai_products"]) for item in result},
             {("Вклад",), ("Накопительные счета",)},
+        )
+
+    def test_crosssell_export_enriches_all_common_dd_products(self) -> None:
+        data = {
+            "products": [
+                {
+                    "name": "ОСАГО",
+                    "unit": "УБ",
+                    "type": "Продукт",
+                    "metrics": [{"code": "mehaniki", "tools": [], "metrics": [
+                        {"code": "mehaniki.cross_sell", "value": 0, "max_value": 1},
+                    ]}],
+                    "metric_recommendations": [],
+                },
+                {
+                    "name": "Сделка ИЖС",
+                    "unit": "ДомКлик",
+                    "type": "Продукт",
+                    "metrics": [{"code": "mehaniki", "tools": [], "metrics": []}],
+                    "metric_recommendations": [],
+                },
+                {
+                    "name": "СБОЛ",
+                    "unit": "DP",
+                    "type": "Канал",
+                    "metrics": [{"code": "mehaniki", "tools": [], "metrics": []}],
+                    "metric_recommendations": [],
+                },
+            ]
+        }
+        export = {
+            "markers_response": {
+                "meta": {
+                    "status": "ok",
+                    "round_id": "round-1",
+                    "generated_at": "2026-07-16T22:01:25+00:00",
+                    "schema_version": 1,
+                    "validation": "ok",
+                },
+                "markers": [
+                    {
+                        "id": "ОСАГО",
+                        "name": "ОСАГО",
+                        "unit": "УБ",
+                        "cross_sell": {
+                            "traffic_light": "red",
+                            "etalon_pairs": 3,
+                            "implemented": 1,
+                            "missing_ab_ready": 2,
+                            "top_actions": [
+                                {
+                                    "text": "Добавить в путь: → КАСКО",
+                                    "market_example": "Т-Банк",
+                                }
+                            ],
+                            "deeplink": "cross-sell-analytics.html#product=осаго",
+                        },
+                    }
+                ],
+            },
+            "products_response": {
+                "meta": {"status": "ok", "round_id": "round-1"},
+                "products": [
+                    {"uid": "осаго", "key": "осаго", "name": "ОСАГО", "unit": "УБ", "light": "yellow", "covered": True},
+                    {"uid": "сделка ижс", "key": "сделка ижс", "name": "Сделка ИЖС", "unit": "ДомКлик", "light": "green", "covered": False},
+                    {"uid": "сбол", "key": "сбол", "name": "СБОЛ", "unit": "DP", "light": "green", "covered": True},
+                ],
+            },
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            export_path = Path(temp_dir) / "crosssell.json"
+            export_path.write_text(json.dumps(export, ensure_ascii=False), encoding="utf-8")
+            result = report.apply_crosssell_export(data, export_path)
+
+        self.assertEqual(result["crosssell"]["matched_products"], 2)
+        self.assertEqual(result["crosssell"]["matched_markers"], 1)
+        self.assertEqual(result["crosssell"]["catalog_fallbacks"], 1)
+        self.assertEqual(result["crosssell"]["manual_validation_count"], 1)
+        osago = result["products"][0]
+        osago_recommendation = osago["metric_recommendations"][0]
+        self.assertEqual(osago_recommendation["skill_key"], "cross_sell")
+        self.assertEqual(osago_recommendation["traffic_light"], "yellow")
+        self.assertIn("Реализовано cross-sell связок: 1 из 3.", osago_recommendation["recommendations"])
+        self.assertIn("Рыночный пример: Т-Банк.", osago_recommendation["recommendations"][-1])
+        self.assertTrue(osago_recommendation["requires_manual_validation"])
+        self.assertEqual(osago_recommendation["dd_crosssell_value"], 0)
+        self.assertEqual(osago_recommendation["dd_crosssell_max"], 1)
+        self.assertEqual(osago_recommendation["api_implemented"], 1)
+        self.assertEqual(osago_recommendation["api_crosssell_count"], 3)
+        osago_tool = osago["metrics"][0]["tools"][0]
+        self.assertEqual(osago_tool["ai_tool_key"], "cross_sell")
+        self.assertEqual(
+            osago_tool["button"]["link"],
+            "https://losshunter.ru/showcase/crosssell/#product=%D0%BE%D1%81%D0%B0%D0%B3%D0%BE",
+        )
+        fallback = result["products"][1]["metric_recommendations"][0]
+        self.assertFalse(fallback["crosssell_marker"])
+        self.assertEqual(fallback["traffic_light"], "green")
+        self.assertFalse(fallback["requires_manual_validation"])
+        self.assertIn("Дозаписать видео пути продукта", fallback["recommendations"][0])
+        fallback_tool = result["products"][1]["metrics"][0]["tools"][0]
+        self.assertEqual(fallback_tool["traffic_light"], "green")
+        self.assertEqual(
+            fallback_tool["button"]["link"],
+            "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%20%D0%B8%D0%B6%D1%81",
+        )
+        self.assertEqual(result["products"][2]["metric_recommendations"], [])
+
+    def test_crosssell_matching_uses_nfc_casefold(self) -> None:
+        composed = "СберПрайм"
+        decomposed = unicodedata.normalize("NFD", composed.upper())
+        index = report.crosssell_items_by_name([{"name": composed, "unit": "УБ"}])
+
+        self.assertEqual(report.find_crosssell_item(index, decomposed, "уб")["name"], composed)
+
+    def test_crosssell_absolute_deeplink_is_preserved(self) -> None:
+        absolute = "https://product-lens.example/cross-sell#product=осаго"
+        marker = {"cross_sell": {"deeplink": absolute}}
+
+        self.assertEqual(
+            report.crosssell_analytics_link(marker, {"name": "ОСАГО"}),
+            absolute,
+        )
+
+    def test_crosssell_catalog_uid_wins_over_ambiguous_marker_key(self) -> None:
+        marker = {
+            "cross_sell": {
+                "deeplink": "cross-sell-analytics.html#product=сберпэй",
+            }
+        }
+        catalog_product = {
+            "uid": "сберпэй-49",
+            "key": "сберпэй",
+            "name": "SberPay NFC",
+        }
+
+        self.assertEqual(
+            report.crosssell_analytics_link(marker, catalog_product),
+            "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%8D%D0%B9-49",
         )
 
     def test_deposit_metric_product_aliases_use_two_user_facing_groups(self) -> None:

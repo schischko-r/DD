@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {ChevronDown, ChevronRight} from '@gravity-ui/icons';
-import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
+import {ChevronDown, ChevronRight, TriangleExclamationFill} from '@gravity-ui/icons';
+import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text, Tooltip} from '@gravity-ui/uikit';
 import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
 import {digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 export {digestStatus, digestTheme, hasAvailableRecommendations, worstDigestLight} from './digestPresentation.js';
+
+const MANUAL_VALIDATION_MESSAGE = 'Требует ручной валидации.';
 
 function displaySkillName(name) {
   return String(name || '').replace(/^Навык\s+[«"]Ключевые метрики[»"]$/i, 'Ключевые метрики');
@@ -115,9 +117,9 @@ export function ProductMetricRecommendations({product, onOpenReport}) {
   );
 }
 
-function ProductMetricRows({items}) {
+function ProductMetricRows({items, feedbackUrl}) {
   return items.map((item) => <div className="metric-row product-metric-row" key={item.id}>
-    <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><b>{item.indicator}</b>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Как читать сигнал: {readableDigestRule(item.rule)}</small>}</div></div>
+    <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><div className="product-metric-indicator"><b>{item.indicator}</b>{item.skill_key === 'cross_sell' && item.requires_manual_validation && <Tooltip content={MANUAL_VALIDATION_MESSAGE} openDelay={200}><span className="ai-manual-validation-warning" tabIndex={0} aria-label={MANUAL_VALIDATION_MESSAGE}><Icon className="ai-manual-validation-icon" data={TriangleExclamationFill} size={18} /></span></Tooltip>}</div>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Как читать сигнал: {readableDigestRule(item.rule)}</small>}{item.skill_key === 'cross_sell' && feedbackUrl && <div className="crosssell-feedback-action"><Text variant="body-1" color="secondary"><strong className="crosssell-feedback-emphasis">Оцените предложенные решения.</strong> В случае ошибки, пожалуйста, сообщите нам</Text><SemanticButton intent={BUTTON_INTENT.destructive} href={feedbackUrl} target="_blank" rel="noreferrer">Нашли ошибку?</SemanticButton></div>}</div></div>
     <div className="product-metric-row-side">{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}</div>
   </div>);
 }
@@ -134,7 +136,7 @@ export function recommendationBlockCode(product, requestedCode) {
   return requestedCode;
 }
 
-export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill}) {
+export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill, feedbackUrl}) {
   const recommendations = product.metric_recommendations || [];
   const [detailMode, setDetailMode] = useState('compact');
   const [open, setOpen] = useState(() => new Set(
@@ -216,9 +218,9 @@ export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSki
                       </div>
                       <div className={`product-metric-tool-content${productGroups.size === 1 ? ' product-metric-tool-content-single' : ''}`}>
                         {productGroups.size === 1
-                          ? <ProductMetricRows items={toolItems} />
+                          ? <ProductMetricRows items={toolItems} feedbackUrl={feedbackUrl} />
                           : [...productGroups.entries()].map(([productName, productItems], productIndex) => <Disclosure className="product-metric-product-disclosure" size="m" defaultExpanded={productIndex === 0} summary={<span className="product-metric-product-title">{productName}</span>} key={`${toolName}-${productName}`}>
-                            <ProductMetricRows items={productItems} />
+                            <ProductMetricRows items={productItems} feedbackUrl={feedbackUrl} />
                           </Disclosure>)}
                       </div>
                     </section>;
