@@ -15,6 +15,7 @@ import json
 import math
 import os
 import re
+import ssl
 import threading
 import unicodedata
 import urllib.error
@@ -156,6 +157,8 @@ CROSSSELL_PRODUCTS_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/products"
 CROSSSELL_SHOWCASE_URL = f"{CROSSSELL_BASE_URL}/showcase/crosssell/"
 CROSSSELL_TOKEN = os.getenv("PL_PARTNER_CROSSSELL_TOKEN", "")
 DEFAULT_CROSSSELL_TIMEOUT = int(os.getenv("PL_PARTNER_CROSSSELL_TIMEOUT", "60"))
+CROSSSELL_CA_BUNDLE = os.getenv("PL_PARTNER_CROSSSELL_CA_BUNDLE", "").strip()
+CROSSSELL_INSECURE_TLS = os.getenv("PL_PARTNER_CROSSSELL_INSECURE_TLS", "").strip().lower() in {"1", "true", "yes"}
 CROSSSELL_SKILL_KEY = "cross_sell"
 CROSSSELL_SKILL_LABEL = "Cross-sell"
 CROSSSELL_BLOCK_CODE = "mehaniki"
@@ -667,6 +670,15 @@ def build_crosssell_headers(token: str = CROSSSELL_TOKEN, etag: str = "") -> dic
     return headers
 
 
+def crosssell_ssl_context(
+    ca_bundle: str = CROSSSELL_CA_BUNDLE,
+    insecure_tls: bool = CROSSSELL_INSECURE_TLS,
+) -> ssl.SSLContext:
+    if insecure_tls:
+        return ssl._create_unverified_context()
+    return ssl.create_default_context(cafile=ca_bundle or None)
+
+
 def request_crosssell_json(
     url: str,
     token: str = CROSSSELL_TOKEN,
@@ -679,7 +691,11 @@ def request_crosssell_json(
         method="GET",
     )
     try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
+        with urllib.request.urlopen(
+            request,
+            timeout=timeout,
+            context=crosssell_ssl_context(),
+        ) as response:
             payload = json.loads(response.read().decode("utf-8"))
             if not isinstance(payload, dict):
                 raise ValueError(f"Cross-sell API вернул некорректный JSON для {url}")
