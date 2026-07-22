@@ -235,6 +235,8 @@ PILOTS_METRIC_KEYS = {
     "запущено": "launched",
     "значимых": "significant",
     "значимыезапуски": "successful",
+    "успешных": "successful",
+    "успешныезапуски": "successful",
 }
 AI_DRAFTS_PRODUCT_MARKER_RE = re.compile(r"\s*\(\s*черновики\s*\)\s*", re.IGNORECASE)
 AI_MONTH_NAMES = {
@@ -1135,14 +1137,19 @@ def pilot_metric_value_for_month(
     metric_key: str,
     month: tuple[int, int],
 ) -> float:
-    total = 0.0
-    for row in rows:
+    rows_by_product: dict[str, tuple[int, int, dict[str, Any]]] = {}
+    for position, row in enumerate(rows):
         if pilot_metric_key(row) != metric_key:
             continue
         month_sort = row.get("month_sort", (0, 0, ""))
-        if month_sort[0] == month[0] and month_sort[1] == month[1]:
-            total += parse_pilot_count(row.get("text"))
-    return total
+        if month_sort[0] != month[0] or month_sort[1] != month[1]:
+            continue
+        product_key = clean_text(row.get("product_key"))
+        source_order = int(row.get("source_order", position))
+        previous = rows_by_product.get(product_key)
+        if previous is None or (source_order, position) >= previous[:2]:
+            rows_by_product[product_key] = (source_order, position, row)
+    return sum(parse_pilot_count(item[2].get("text")) for item in rows_by_product.values())
 
 
 def build_pilots_digest(

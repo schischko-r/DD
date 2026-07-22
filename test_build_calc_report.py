@@ -926,6 +926,74 @@ class SyntheticReportTest(unittest.TestCase):
             ],
         )
 
+    def test_pilots_digest_sums_counts_across_mapped_ai_products(self) -> None:
+        mapped_products = ["Вклад", "Накопительный счет"]
+        values_by_product = {
+            "Вклад": (12, 3, 2, 1, 4),
+            "Накопительный счет": (9, 7, 4, 3, 2),
+            "Несметченный продукт": (100, 100, 100, 100, 100),
+        }
+        indicators = (
+            "Всего пилотов",
+            "Запущено",
+            "Значимых",
+            "Успешных",
+            "Self-service",
+        )
+        rows = [
+            {
+                "skill_key": "pilots",
+                "product_key": report.normalize_ai_product_key(product),
+                "indicator": indicator,
+                "month_sort": (2026, 3, ""),
+                "text": str(value),
+            }
+            for product, values in values_by_product.items()
+            for indicator, value in zip(indicators, values)
+        ]
+
+        digest = report.build_pilots_digest(rows, mapped_products)
+
+        self.assertIsNotNone(digest)
+        self.assertEqual(
+            digest["digest_texts"],
+            [
+                "В рамках первого квартала (январь-март 2026) было запущено 21 пилотов.",
+                "Из них:",
+                "- 10 запущено",
+                "- 6 значимых",
+                "- 4 успешных",
+                "Из 21 пилотов, было 6 Self-Service запусков.",
+            ],
+        )
+        self.assertEqual(digest["ai_tool_product_names"], mapped_products)
+
+    def test_pilot_counts_use_one_snapshot_per_normalized_product(self) -> None:
+        rows = [
+            {
+                "product_key": "кредитныйпотенциал",
+                "indicator": "Запущено",
+                "month_sort": (2026, 3, ""),
+                "text": value,
+                "source_order": source_order,
+            }
+            for value, source_order in (("8", 10), ("11", 20))
+        ]
+
+        self.assertEqual(
+            report.pilot_metric_value_for_month(rows, "launched", (2026, 3)),
+            11,
+        )
+
+    def test_pilot_successful_metric_aliases(self) -> None:
+        for indicator in (
+            "Значимые запуски",
+            "Успешных",
+            "Успешные запуски",
+        ):
+            with self.subTest(indicator=indicator):
+                self.assertEqual(report.pilot_metric_key({"indicator": indicator}), "successful")
+
     def test_remove_ai_skills_keeps_regular_tools(self) -> None:
         data = {
             "ai_skill_digest": {"rows": 2},
