@@ -10,18 +10,12 @@ import ocb2cLogo from '../assets/ocb2c.png';
 
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
 
-const getInitialNavigationCompact = () => (
-  typeof window !== 'undefined'
-  && typeof window.matchMedia === 'function'
-  && window.matchMedia(MOBILE_NAVIGATION_QUERY).matches
-);
-
 export function App() {
   const [data, setData] = useState(null);
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
   const [detailScore, setDetailScore] = useState(false);
-  const [compact, setCompact] = useState(getInitialNavigationCompact);
+  const [compact, setCompact] = useState(true);
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
   const updateSummaryFilters = useCallback((patch) => {
     setSummaryFilters((current) => ({...current, ...patch}));
@@ -102,7 +96,7 @@ export function App() {
       ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
       : view === 'about'
         ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
-        : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} />;
+        : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />;
   return (
     <AsideHeader
       compact={compact}

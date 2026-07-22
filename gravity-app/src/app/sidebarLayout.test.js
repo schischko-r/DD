@@ -12,15 +12,15 @@ const navigationConstants = readFileSync(
 test('sidebar uses the standard expanded and compact Gravity UI widths', () => {
   assert.match(navigationConstants, /ASIDE_HEADER_COMPACT_WIDTH\s*=\s*56/);
   assert.match(navigationConstants, /ASIDE_HEADER_EXPANDED_WIDTH\s*=\s*236/);
-  assert.match(appSource, /const \[compact, setCompact\] = useState\(getInitialNavigationCompact\)/);
+  assert.match(appSource, /const \[compact, setCompact\] = useState\(true\)/);
   assert.match(appSource, /compact=\{compact\}/);
   assert.match(appSource, /onChangeCompact=\{setCompact\}/);
   assert.doesNotMatch(appSource, /hideCollapseButton/);
 });
 
-test('sidebar starts compact on mobile and keeps localized collapse controls', () => {
+test('sidebar starts compact on every viewport and keeps mobile collapse behavior', () => {
+  assert.match(appSource, /const \[compact, setCompact\] = useState\(true\)/);
   assert.match(appSource, /MOBILE_NAVIGATION_QUERY = '\(max-width: 760px\)'/);
-  assert.match(appSource, /window\.matchMedia\(MOBILE_NAVIGATION_QUERY\)\.matches/);
   assert.match(appSource, /if \(matches\) setCompact\(true\)/);
   assert.match(appSource, /addEventListener\('change', collapseOnMobile\)/);
   assert.match(appSource, /removeEventListener\('change', collapseOnMobile\)/);
