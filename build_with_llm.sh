@@ -53,7 +53,7 @@ if not report.gigachat_is_configured():
     )
 PY
 
-crosssell_args=()
+crosssell_args=(--skip-crosssell)
 if [[ "$CROSSSELL_ENABLED" == "1" ]]; then
   crosssell_args=(--crosssell --update-crosssell)
 fi
