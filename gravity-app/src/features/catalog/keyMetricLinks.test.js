@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {CHAT_ENTRY_FUNNEL_LINK, PHYGITAL_CHANNEL_KEY_METRIC_LINKS, SBOL_ONBOARDING_LINK, SEGMENT_KEY_METRIC_LINKS, contextualBlockLinksForTeam, isKeyMetricLinkVisibleForTeam, isLegacyProductKeyMetricLink, isProductSatelliteLink, keyMetricLinksForTeam} from './keyMetricLinks.js';
+import {CHAT_ENTRY_FUNNEL_LINK, PHYGITAL_CHANNEL_KEY_METRIC_LINKS, SBOL_ONBOARDING_LINK, SEGMENT_KEY_METRIC_LINKS, contextualBlockLinksForTeam, isKeyMetricLinkVisibleForTeam, isLegacyProductKeyMetricLink, isProductSatelliteLink, keyMetricLinksForTeam, reportMetricBindingForLink} from './keyMetricLinks.js';
 
 test('phygital channels receive their dedicated Navigator links', () => {
   assert.deepEqual(keyMetricLinksForTeam({name: 'Чат'}, 'service-channel'), PHYGITAL_CHANNEL_KEY_METRIC_LINKS);
@@ -75,4 +75,27 @@ test('Children segment hides only the 1+2+ report link', () => {
   assert.equal(isKeyMetricLinkVisibleForTeam(children, onePlusTwo), false);
   assert.equal(isKeyMetricLinkVisibleForTeam(children, major), true);
   assert.equal(isKeyMetricLinkVisibleForTeam({type: 'Сегмент', name: 'Молодежь'}, onePlusTwo), true);
+});
+
+test('system reports have explicit metric relevance bindings', () => {
+  assert.deepEqual(
+    reportMetricBindingForLink({code: 'general'}, {label: 'Воронки активности продуктов'}),
+    {metricCodes: ['general.mau_produkta', 'general.mau_u_vashego_kanala']},
+  );
+  assert.deepEqual(
+    reportMetricBindingForLink({code: 'attract'}, {label: 'Отчет "Воронки из коммуникации в продажу"'}),
+    {metricCodes: ['attract.campaign_launches']},
+  );
+  assert.deepEqual(
+    reportMetricBindingForLink({code: 'voronka_onbordinga'}, SBOL_ONBOARDING_LINK),
+    {metricNames: ['Настроена отчетность']},
+  );
+  assert.deepEqual(
+    reportMetricBindingForLink({code: 'general'}, {label: 'Phygital Channels - ключевые метрики'}),
+    {requiresAnyMetric: true},
+  );
+  assert.deepEqual(
+    reportMetricBindingForLink({code: 'cx'}, {label: 'LossHunter'}),
+    {requiresAnyMetric: true},
+  );
 });

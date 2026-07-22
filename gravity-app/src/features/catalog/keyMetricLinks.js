@@ -43,6 +43,46 @@ const PRODUCT_CHURN_LINKS = new Map([
   ['дсж пк', {label: 'Воронка оттока', url: 'https://navigator.sigma.sbrf.ru/gdash/1000000726/1000006981'}],
 ]);
 
+const normalizeBindingPart = (value) => String(value || '').trim().toLowerCase();
+const reportBindingKey = (blockCode, label) => `${normalizeBindingPart(blockCode)}|${normalizeBindingPart(label)}`;
+const anyMetric = Object.freeze({requiresAnyMetric: true});
+const reportingMetric = Object.freeze({metricNames: ['Настроена отчетность']});
+
+const REPORT_METRIC_BINDINGS = new Map([
+  [reportBindingKey('general', 'Воронки активности продуктов'), {metricCodes: ['general.mau_produkta', 'general.mau_u_vashego_kanala']}],
+  [reportBindingKey('general', 'Продукты-спутники'), {metricCodes: ['general.znanie_produktov_sputnikov']}],
+  [reportBindingKey('general', 'Отчет "Активная клиентская база"'), {metricCodes: ['general.aktivnaya_klientskaya_baza']}],
+  [reportBindingKey('general', 'Отчет "Major"'), {metricCodes: ['general.kol_vo_major_klientov']}],
+  [reportBindingKey('general', 'Отчет "Клиенты с 1+2+"'), {metricCodes: ['general.kol_vo_klientov_s_2_nefin_servisov']}],
+  [reportBindingKey('general', 'Статистика обращений'), {metricCodes: ['general.kolichestvo_obrascheniy']}],
+  [reportBindingKey('general', 'FCR'), {metricCodes: ['general.fcr']}],
+  [reportBindingKey('general', 'КПЭ по Обращениям'), anyMetric],
+  [reportBindingKey('general', 'КЦ ЧАТ'), anyMetric],
+  [reportBindingKey('general', 'Phygital Channels - ключевые метрики'), anyMetric],
+  ...['Уведомления', 'СберИнвестиции', 'СБОЛ', 'SberKids'].map((label) => [reportBindingKey('general', label), anyMetric]),
+  [reportBindingKey('goals', 'Отчет "Цели в мастер-деше"'), {metricCodes: ['goals.monitored']}],
+  [reportBindingKey('attract', 'Отчет "Пилотные кампании"'), {metricCodes: ['attract.campaign_launches']}],
+  [reportBindingKey('attract', 'Отчет "Воронки из коммуникации в продажу"'), {metricCodes: ['attract.campaign_launches']}],
+  [reportBindingKey('attract', 'Отчет "Черновики"'), {metricCodes: ['attract.chernoviki_v_sbol_70']}],
+  [reportBindingKey('cx', 'CJXplorer'), anyMetric],
+  [reportBindingKey('cx', 'LossHunter'), anyMetric],
+  [reportBindingKey('cx', 'Аналитика клиентского пути в LossHunter'), anyMetric],
+  [reportBindingKey('voronka_vhoda_v_kanal', 'Вход в канал и автоматизация'), reportingMetric],
+  [reportBindingKey('voronka_onbordinga', 'Воронка онбординга в СБОЛ'), reportingMetric],
+  [reportBindingKey('churn', 'Воронка оттока'), reportingMetric],
+]);
+
+export function reportMetricBindingForLink(block, item) {
+  if (item?.requiresAnyMetric || item?.metricCodes?.length || item?.metricNames?.length) {
+    return {
+      ...(item.requiresAnyMetric ? {requiresAnyMetric: true} : {}),
+      ...(item.metricCodes?.length ? {metricCodes: item.metricCodes} : {}),
+      ...(item.metricNames?.length ? {metricNames: item.metricNames} : {}),
+    };
+  }
+  return REPORT_METRIC_BINDINGS.get(reportBindingKey(block?.code, item?.label)) || {};
+}
+
 export function keyMetricLinksForTeam(product, audience) {
   const unit = String(product?.unit || '').trim().toLowerCase();
   const name = String(product?.name || '').trim().toLowerCase();

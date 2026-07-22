@@ -213,6 +213,25 @@ export function filterDraftLinks(block, links) {
   return links.filter((item) => !/черновик/i.test(String(item?.label || '')));
 }
 
+export function isReportMetricRelevant(block, report) {
+  const metricCodes = new Set((report?.metricCodes || []).map((code) => String(code).trim().toLowerCase()));
+  const metricNames = new Set((report?.metricNames || []).map((name) => String(name).trim().toLowerCase()));
+  const requiresAnyMetric = report?.requiresAnyMetric === true;
+  if (!requiresAnyMetric && !metricCodes.size && !metricNames.size) return true;
+
+  return (block?.metrics || []).some((metric) => {
+    if (metric?.is_applicabble_flg === false) return false;
+    if (requiresAnyMetric) return true;
+    const code = String(metric?.code || '').trim().toLowerCase();
+    const name = String(metric?.name || '').trim().toLowerCase();
+    return metricCodes.has(code) || metricNames.has(name);
+  });
+}
+
+export function filterMetricRelevantLinks(block, links) {
+  return (links || []).filter((report) => isReportMetricRelevant(block, report));
+}
+
 export function metricDomId(code) {
   return `dd-metric-${encodeURIComponent(String(code || ''))}`;
 }

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, hasMetricDeviations, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -180,6 +180,35 @@ test('draft link requires an applicable drafts metric', () => {
   assert.deepEqual(filterDraftLinks({code: 'attract', metrics: []}, links), [{label: 'Отчет "Пилотные кампании"'}]);
   assert.deepEqual(filterDraftLinks(relevant, links), links);
   assert.deepEqual(filterDraftLinks({code: 'general', metrics: []}, links), links);
+});
+
+test('reports require an applicable linked metric', () => {
+  const block = {
+    metrics: [
+      {code: 'metric.relevant', name: 'Relevant', is_applicabble_flg: true},
+      {code: 'metric.irrelevant', name: 'Irrelevant', is_applicabble_flg: false},
+    ],
+  };
+  const links = [
+    {label: 'Relevant report', metricCodes: ['metric.relevant']},
+    {label: 'Irrelevant report', metricCodes: ['metric.irrelevant']},
+    {label: 'Missing report', metricCodes: ['metric.missing']},
+    {label: 'Unbound report'},
+  ];
+
+  assert.equal(isReportMetricRelevant(block, {metricNames: ['Relevant']}), true);
+  assert.equal(isReportMetricRelevant(block, {metricNames: ['Irrelevant']}), false);
+  assert.deepEqual(
+    filterMetricRelevantLinks(block, links).map((item) => item.label),
+    ['Relevant report', 'Unbound report'],
+  );
+});
+
+test('overview reports require at least one applicable metric in their block', () => {
+  const overview = {requiresAnyMetric: true};
+  assert.equal(isReportMetricRelevant({metrics: []}, overview), false);
+  assert.equal(isReportMetricRelevant({metrics: [{is_applicabble_flg: false}]}, overview), false);
+  assert.equal(isReportMetricRelevant({metrics: [{is_applicabble_flg: true}]}, overview), true);
 });
 
 test('digital trace confirmation is limited to listed product cross-sell metrics', () => {
