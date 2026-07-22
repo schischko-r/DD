@@ -134,6 +134,7 @@ DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
 DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
 DEFAULT_CROSSSELL_EXPORT_JSON = Path("crosssell_export.json")
 DEFAULT_UPDATE_AI_DIGEST = True
+DEFAULT_CROSSSELL_ENABLED = False
 DEFAULT_UPDATE_CROSSSELL = True
 DEFAULT_UPDATE_LLM_SUMMARY = False
 DEFAULT_LLM_LOG = True
@@ -3568,7 +3569,7 @@ def build_combined_data(
     period: str,
     ai_digest_path: Path | None = DEFAULT_AI_DIGEST_XLSX,
     ai_product_map: Path = DEFAULT_AI_PRODUCT_MAP,
-    crosssell_path: Path | None = DEFAULT_CROSSSELL_EXPORT_JSON,
+    crosssell_path: Path | None = None,
     create_ai_map: bool = True,
     refresh_ai_map: bool = False,
     update_llm_summary: bool = DEFAULT_UPDATE_LLM_SUMMARY,
@@ -5358,7 +5359,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
     output_path.write_text(html, encoding="utf-8")
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate one standalone Data-Driven title+detail HTML from Расчет_список(1).xlsx"
     )
@@ -5380,10 +5381,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
     parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
     parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT_JSON, help="Path to cached Product Lens cross-sell export")
+    parser.set_defaults(crosssell=DEFAULT_CROSSSELL_ENABLED)
+    parser.add_argument("--crosssell", dest="crosssell", action="store_true", help="Enable Product Lens cross-sell recommendations")
     parser.set_defaults(update_crosssell=DEFAULT_UPDATE_CROSSSELL)
-    parser.add_argument("--update-crosssell", dest="update_crosssell", action="store_true", help="Update Product Lens cross-sell export before building (default)")
-    parser.add_argument("--no-update-crosssell", dest="update_crosssell", action="store_false", help="Use local --crosssell-json without calling Product Lens")
-    parser.add_argument("--skip-crosssell", action="store_true", help="Build without Product Lens cross-sell recommendations")
+    parser.add_argument("--update-crosssell", dest="update_crosssell", action="store_true", help="Update Product Lens cross-sell export when --crosssell is enabled (default)")
+    parser.add_argument("--no-update-crosssell", dest="update_crosssell", action="store_false", help="Use local --crosssell-json when --crosssell is enabled")
+    parser.add_argument("--skip-crosssell", dest="crosssell", action="store_false", help=argparse.SUPPRESS)
     parser.add_argument("--crosssell-markers-url", default=CROSSSELL_MARKERS_URL, help="Product Lens markers endpoint")
     parser.add_argument("--crosssell-products-url", default=CROSSSELL_PRODUCTS_URL, help="Product Lens products endpoint")
     parser.add_argument("--crosssell-token", default=CROSSSELL_TOKEN, help="Bearer token with crosssell:read scope")
@@ -5400,14 +5403,14 @@ def parse_args() -> argparse.Namespace:
     parser.set_defaults(llm_log=DEFAULT_LLM_LOG)
     parser.add_argument("--llm-log", dest="llm_log", action="store_true", help="Print LLM input/output with tqdm while building summaries")
     parser.add_argument("--no-llm-log", dest="llm_log", action="store_false", help="Disable verbose LLM input/output logging")
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 def main() -> None:
     args = parse_args()
     ai_skills_enabled = not args.no_ai_skills
     skip_ai_digest = args.skip_ai_digest or args.no_ai_skills
-    skip_crosssell = args.skip_crosssell or args.no_ai_skills
+    skip_crosssell = not args.crosssell or args.no_ai_skills
     ai_digest_source: dict[str, Any] = {
         "mode": "disabled" if args.no_ai_skills else ("skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file")),
         "request_enabled": bool(args.update_ai_digest and not skip_ai_digest),
@@ -5422,12 +5425,12 @@ def main() -> None:
         "llm_log": bool(args.llm_log),
     }
     crosssell_source: dict[str, Any] = {
-        "mode": "disabled" if args.no_ai_skills else ("skipped" if args.skip_crosssell else ("api_refresh" if args.update_crosssell else "local_file")),
+        "mode": "disabled" if skip_crosssell else ("api_refresh" if args.update_crosssell else "local_file"),
         "request_enabled": bool(args.update_crosssell and not skip_crosssell and args.crosssell_token),
         "request_attempted": False,
         "downloaded": False,
         "download_error": "",
-        "cache_path": "" if args.no_ai_skills else str(args.crosssell_json),
+        "cache_path": "" if skip_crosssell else str(args.crosssell_json),
         "local_cache_used": bool(not skip_crosssell and args.crosssell_json.exists()),
     }
     if args.update_ai_digest and not skip_ai_digest:

@@ -53,9 +53,9 @@ if not report.gigachat_is_configured():
     )
 PY
 
-crosssell_args=(--no-update-crosssell)
+crosssell_args=()
 if [[ "$CROSSSELL_ENABLED" == "1" ]]; then
-  crosssell_args=(--update-crosssell)
+  crosssell_args=(--crosssell --update-crosssell)
 fi
 
 "$PYTHON_BIN" build_calc_report.py \

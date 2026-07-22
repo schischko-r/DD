@@ -21,8 +21,8 @@ python build_gravity_report.py
 
 Команда использует flat-table-пайплайн из `build_calc_report.py`, локальные
 `ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx`, не выполняет сетевые
-запросы к AI-digest API или GigaChat и обновляет cross-sell-рекомендации из
-Product Lens, если в `.env` задан `PL_PARTNER_CROSSSELL_TOKEN`. Результаты записываются в
+запросы к AI-digest API или GigaChat. Интеграция cross-sell с Product Lens по
+умолчанию выключена и включается явным флагом `--crosssell`. Результаты записываются в
 `gravity-app/public/report-data.json` и `gravity-standalone.html`.
 
 Локальный сервер для разработки:
@@ -159,8 +159,8 @@ python build_calc_report.py --help
 - `--ai-digest-token` - переопределить токен AI-digest из `.env`;
 - `--ai-digest-timeout` - переопределить таймаут AI-digest в секундах;
 - `--crosssell-json` - путь к локальному кэшу ответов Product Lens;
-- `--no-update-crosssell` - не обращаться к Product Lens, использовать локальный кэш;
-- `--skip-crosssell` - собрать отчет без cross-sell-рекомендаций;
+- `--crosssell` - включить cross-sell-рекомендации Product Lens (по умолчанию выключены);
+- `--no-update-crosssell` - при включённом `--crosssell` не обращаться к Product Lens, использовать локальный кэш;
 - `--refresh-ai-product-map` - пересоздать шаблон `ai_product_mapping.xlsx`;
 - `--update-llm-summary` - вызвать GigaChat и сформировать LLM-суммаризацию;
 - `--no-update-llm-summary` - не вызывать GigaChat;
@@ -171,6 +171,12 @@ Cross-sell интеграция использует `GET /api/v1/crosssell/mark
 стабильный контракт и `GET /api/v1/crosssell/products` для продуктов каталога,
 у которых marker ещё не сформирован. Сопоставление с DD выполняется по имени
 после NFC/casefold-нормализации; токен должен иметь scope `crosssell:read`.
+Для включения интеграции передайте `--crosssell`; без этого флага API и локальный
+кэш `crosssell_export.json` не используются.
+
+```bash
+python build_gravity_report.py --crosssell
+```
 
 ## Источники Данных
 
@@ -409,6 +415,12 @@ python build_calc_report.py \
 
 ```bash
 ./build_with_llm.sh
+```
+
+Cross-sell обогащение в LLM-сборке также выключено по умолчанию. Явное включение:
+
+```bash
+CROSSSELL_ENABLED=1 ./build_with_llm.sh
 ```
 
 Если LLM не запрошена или не настроена, в группе навыков показывается placeholder `LLM-cуммаризация`.

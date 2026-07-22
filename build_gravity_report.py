@@ -51,10 +51,10 @@ def build(args: argparse.Namespace) -> None:
         report_command.append("--no-ai-skills")
     elif args.skip_ai_digest:
         report_command.append("--skip-ai-digest")
-    if args.skip_crosssell:
-        report_command.append("--skip-crosssell")
-    elif args.no_update_crosssell:
-        report_command.append("--no-update-crosssell")
+    if args.crosssell:
+        report_command.append("--crosssell")
+        if args.no_update_crosssell:
+            report_command.append("--no-update-crosssell")
 
     run(report_command)
     if args.data_only:
@@ -73,7 +73,7 @@ def build(args: argparse.Namespace) -> None:
     )
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
             "Build report-data.json and the Gravity UI standalone report from "
@@ -99,10 +99,11 @@ def parse_args() -> argparse.Namespace:
         help="Exclude AI skills and do not read AI digest or product mapping files",
     )
     parser.add_argument(
-        "--skip-crosssell",
+        "--crosssell",
         action="store_true",
-        help="Exclude Product Lens cross-sell recommendations",
+        help="Enable Product Lens cross-sell recommendations",
     )
+    parser.add_argument("--skip-crosssell", dest="crosssell", action="store_false", help=argparse.SUPPRESS)
     parser.add_argument(
         "--no-update-crosssell",
         action="store_true",
@@ -113,7 +114,7 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Generate report HTML and JSON without rebuilding the Gravity UI bundle",
     )
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
 def main() -> None:
