@@ -9,6 +9,7 @@ const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'ut
 test('team profile index footer opens the Data Driven methodology page', () => {
   assert.match(appSource, /<TeamProfilePage .*onAbout=\{\(\) => \{ setView\('about'\); window\.scrollTo\(0, 0\); \}\} \/>/);
   assert.match(profileSource, /Подробнее о подходе и критериях оценки, тут:/);
+  assert.match(profileSource, /index-methodology-footer"><Text variant="body-1" color="secondary">/);
   assert.match(profileSource, /<Button view="flat-info" size="s" onClick=\{onAbout\}>Перейти/);
   assert.match(stylesSource, /\.index-methodology-footer\s*\{[^}]*display:\s*flex;[^}]*justify-content:\s*space-between;/s);
 });
