@@ -30,7 +30,10 @@ test('channel verification comments follow the matching workbook sheet', () => {
 });
 
 test('segment profiles receive relevant verification comments from the second sheet', () => {
-  assert.match(methodologyVerificationComment('segment_age', 'Мониторинг: цели, драйверы и прогнозы'), /цифровым следам/);
+  assert.equal(
+    methodologyVerificationComment('segment_age', 'Мониторинг: цели, драйверы и прогнозы'),
+    'Расчет на основании самооценки PO+ верификация по цифровым следам',
+  );
   assert.equal(
     methodologyVerificationComment('segment_income', 'Механики'),
     'Расчет на основании самооценке PO',
