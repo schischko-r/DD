@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build",
+    "build:clickstream": "vite build --config vite.clickstream.config.js && node scripts/publish-clickstream.mjs",
     "build:moved": "vite build --config vite.moved.config.js && node scripts/publish-moved.mjs",
     "test": "node --test"
   },

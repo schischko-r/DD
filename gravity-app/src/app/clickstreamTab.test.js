@@ -1,0 +1,420 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {
+  applyHtmlPageBridge,
+  latestPeriodValue,
+} from '../features/html-pages/htmlPageBridge.js';
+
+const legacyReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed.html';
+const gravityReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed_gravity.html';
+const appSource = readFileSync(new URL('./App.jsx', import.meta.url), 'utf8');
+const teamProfileSource = readFileSync(
+  new URL('../pages/TeamProfilePage.jsx', import.meta.url),
+  'utf8',
+);
+const toolCatalogSource = readFileSync(
+  new URL('../features/html-pages/htmlPageTools.js', import.meta.url),
+  'utf8',
+);
+const reportPageSource = readFileSync(
+  new URL('../pages/HtmlReportPage.jsx', import.meta.url),
+  'utf8',
+);
+const bridgeSource = readFileSync(
+  new URL('../features/html-pages/htmlPageBridge.js', import.meta.url),
+  'utf8',
+);
+const viteConfigSource = readFileSync(
+  new URL('../../vite.config.js', import.meta.url),
+  'utf8',
+);
+const envExampleSource = readFileSync(
+  new URL('../../../.env.example', import.meta.url),
+  'utf8',
+);
+const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
+const reportData = JSON.parse(readFileSync(
+  new URL('../../public/report-data.json', import.meta.url),
+  'utf8',
+));
+const reportHtml = readFileSync(
+  new URL(`../../../${legacyReportFileName}`, import.meta.url),
+  'utf8',
+);
+
+test('tool catalog declares Clickstream as a universal html_page integration', () => {
+  assert.match(toolCatalogSource, /export const TOOL_CATALOG\s*=/);
+  assert.match(
+    toolCatalogSource,
+    /export const HTML_PAGE_TOOLS\s*=\s*Object\.freeze\(\s*TOOL_CATALOG\.filter\(\((?:item|entry)\)\s*=>\s*(?:item|entry)\.tool\s*===\s*['"]html_page['"]\)/,
+  );
+  assert.match(toolCatalogSource, /tool:\s*['"]html_page['"]/);
+  assert.match(toolCatalogSource, /skillKeys:\s*(?:Object\.freeze\()?\[[^\]]*['"]clickstream_funnel['"]/);
+  assert.match(toolCatalogSource, /skillNames:\s*(?:Object\.freeze\()?\[[^\]]*['"]Воронка оформления в СБОЛ['"]/);
+  assert.match(toolCatalogSource, /metricCode:\s*['"]attract\.funnel_analysis['"]/);
+  assert.match(
+    toolCatalogSource,
+    /valueSources:\s*(?:Object\.freeze\()?\{[\s\S]*?funnel:\s*(?:Object\.freeze\()?\[[^\]]*['"]product_group['"]/,
+  );
+  assert.match(
+    toolCatalogSource,
+    /fields:\s*(?:Object\.freeze\()?\[[\s\S]*?contextKey:\s*['"]funnel['"][\s\S]*?selector:\s*['"]#exp-funnel['"][\s\S]*?required:\s*true/,
+  );
+  assert.match(toolCatalogSource, /latestPeriodSelector:\s*['"]#exp-period['"]/);
+  assert.match(toolCatalogSource, /showSelector:\s*['"]button\[onclick=[""]_doLoad\(\)[""]\]['"]/);
+  assert.match(toolCatalogSource, /mode:\s*['"]query['"]/);
+  assert.match(toolCatalogSource, /contextParams:\s*Object\.freeze\(\{funnel:\s*['"]funnel['"]\}\)/);
+  assert.match(
+    toolCatalogSource,
+    /fixedParams:\s*Object\.freeze\(\{period:\s*['"]latest['"],\s*show:\s*['"]1['"]\}\)/,
+  );
+  assert.match(
+    toolCatalogSource,
+    /export function buildHtmlPageUrl\(tool,\s*context\s*=\s*\{\},\s*baseHref\s*=/,
+  );
+  assert.match(toolCatalogSource, /const url\s*=\s*new URL\(tool\.url,\s*baseHref\)/);
+  assert.match(toolCatalogSource, /url\.searchParams\.set\(parameter,\s*value\)/);
+  assert.match(toolCatalogSource, /return url\.href/);
+});
+
+test('html_page URLs come from the Vite env map and join semantic definitions by id', () => {
+  const envLine = envExampleSource
+    .split(/\r?\n/)
+    .find((line) => line.startsWith('VITE_HTML_PAGE_URLS='));
+  assert.ok(envLine, 'VITE_HTML_PAGE_URLS example is missing');
+  const configuredUrls = JSON.parse(envLine.slice(envLine.indexOf('=') + 1));
+  assert.deepEqual(configuredUrls, {
+    clickstream: `./${gravityReportFileName}`,
+    llm_summary: '',
+    client_metrics: '',
+    complaints: '',
+    csi: '',
+    drafts: '',
+    funnel: '',
+  });
+
+  assert.match(toolCatalogSource, /import\.meta\.env\.VITE_HTML_PAGE_URLS/);
+  assert.match(toolCatalogSource, /JSON\.parse\(rawValue\)/);
+  assert.match(toolCatalogSource, /url:\s*HTML_PAGE_URLS\[entry\.id\]/);
+  assert.match(toolCatalogSource, /\.filter\(\(entry\)\s*=>\s*entry\.url\)/);
+  assert.doesNotMatch(toolCatalogSource, /\?raw/);
+  assert.doesNotMatch(
+    toolCatalogSource,
+    /import\s+\w+\s+from\s+['"][^'"]+\.html(?:\?raw)?['"]/,
+  );
+});
+
+test('html_page catalog resolves recommendations and builds mapped context generically', () => {
+  assert.match(
+    toolCatalogSource,
+    /export function findHtmlPageToolForRecommendation\(recommendation\)/,
+  );
+  assert.match(toolCatalogSource, /HTML_PAGE_TOOLS\.find\(\(tool\)\s*=>/);
+  assert.match(toolCatalogSource, /tool\.skillKeys\.includes\(recommendation\.skill_key\)/);
+  assert.match(toolCatalogSource, /tool\.skillNames\.includes\(recommendation\.skill_name\)/);
+  assert.match(
+    toolCatalogSource,
+    /export function buildHtmlPageContext\(tool,\s*recommendation\)/,
+  );
+  assert.match(toolCatalogSource, /tool\??\.valueSources/);
+  assert.match(toolCatalogSource, /recommendation/);
+});
+
+test('AsideHeader appends generated html_page items after a native divider', () => {
+  assert.match(
+    appSource,
+    /import\s*\{[^}]*HTML_PAGE_TOOLS[^}]*\}\s*from\s*['"][^'"]*htmlPageTools\.js['"]/,
+  );
+  const menuItemsSource = appSource.match(
+    /const menuItems\s*=\s*\[([\s\S]*?)\n\s*\];\s*\n\s*const content/,
+  )?.[1];
+  assert.ok(menuItemsSource, 'AsideHeader menuItems definition is missing');
+
+  const aboutIndex = menuItemsSource.search(/id:\s*['"]about['"]/);
+  const dividerIndex = menuItemsSource.search(
+    /id:\s*['"]html-pages-divider['"][\s\S]*?type:\s*['"]divider['"]/,
+  );
+  const generatedItemsIndex = menuItemsSource.indexOf('HTML_PAGE_TOOLS.map');
+  assert.ok(aboutIndex >= 0, 'About menu item is missing');
+  assert.ok(dividerIndex > aboutIndex, 'HTML page divider must be below regular sidebar items');
+  assert.ok(generatedItemsIndex > dividerIndex, 'Generated HTML pages must be below their divider');
+  assert.match(menuItemsSource, /HTML_PAGE_TOOLS\.map\(\(tool\)\s*=>\s*\(\{/);
+  assert.match(menuItemsSource, /id:\s*`html-page:\$\{tool\.id\}`/);
+  assert.match(menuItemsSource, /title:\s*tool\.title/);
+});
+
+test('Team profile resolves a generic html_page action from recommendation metadata', () => {
+  assert.match(
+    teamProfileSource,
+    /export function TeamProfilePage\(\{[^}]*\bonOpenHtmlPageTool\b[^}]*\}\)/,
+  );
+  assert.match(teamProfileSource, /findHtmlPageToolForRecommendation/);
+  assert.match(teamProfileSource, /onOpenHtmlPageTool/);
+  assert.match(teamProfileSource, /tool\.action\.metricCode/);
+  assert.match(teamProfileSource, /buildHtmlPageContext\(tool,\s*recommendation\)/);
+  assert.match(
+    teamProfileSource,
+    /<MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions=\{insights\}\s*\/>/,
+  );
+});
+
+test('App opens a resolved html_page with mapped context and renders the generic report page', () => {
+  assert.match(appSource, /const openHtmlPageTool\s*=\s*\(toolId,\s*context\s*=\s*\{\}\)\s*=>/);
+  assert.match(appSource, /setView\(`html-page:\$\{toolId\}`\)/);
+  const teamProfile = appSource.match(/<TeamProfilePage\b[\s\S]*?\/>/)?.[0];
+  assert.ok(teamProfile, 'Team profile view is missing');
+  assert.match(teamProfile, /\bonOpenHtmlPageTool=\{openHtmlPageTool\}/);
+  assert.match(
+    appSource,
+    /<HtmlReportPage\b[\s\S]*?\btool=\{[\s\S]*?\bcontext=\{[\s\S]*?\bonBack=\{/,
+  );
+});
+
+test('generic HTML report uses query navigation and keeps DOM bridge as a legacy fallback', () => {
+  assert.match(
+    reportPageSource,
+    /export function HtmlReportPage\(\{tool,\s*context,\s*onBack\}\)/,
+  );
+  assert.match(reportPageSource, /const frameRef\s*=\s*useRef\(null\);/);
+  assert.match(reportPageSource, /buildHtmlPageUrl\(tool,\s*context\)/);
+  assert.match(reportPageSource, /tool\.navigation\?\.mode\s*===\s*['"]query['"]/);
+  assert.match(reportPageSource, /if \(usesQueryNavigation\) return;/);
+  assert.match(reportPageSource, /frameRef\.current\?\.contentDocument/);
+  assert.match(reportPageSource, /applyHtmlPageBridge\(/);
+  assert.match(reportPageSource, /tool\.bridge/);
+
+  const iframe = reportPageSource.match(/<iframe\b[\s\S]*?\/>/)?.[0];
+  assert.ok(iframe, 'HTML report iframe is missing');
+  assert.match(iframe, /\bref=\{frameRef\}/);
+  assert.match(iframe, /\bsrc=\{pageUrl\}/);
+  assert.match(iframe, /\bonLoad=\{/);
+  assert.doesNotMatch(iframe, /\bsrcDoc\s*=/);
+
+  const returnAction = reportPageSource.match(
+    /<div className="ai-return-action">([\s\S]*?)<\/div>/,
+  )?.[1];
+  assert.ok(returnAction, 'HTML report return action is missing');
+  assert.match(returnAction, /<SemanticButton intent=\{BUTTON_INTENT\.primary\} onClick=\{onBack\}>/);
+  assert.equal(
+    returnAction.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+    'Вернуться к DDI команды',
+  );
+});
+
+test('Vite serves the configured Gravity UI sibling report instead of the application fallback', async (t) => {
+  const {createServer} = await import('vite');
+  const server = await createServer({
+    configFile: fileURLToPath(new URL('../../vite.config.js', import.meta.url)),
+    optimizeDeps: {
+      noDiscovery: true,
+    },
+    server: {
+      host: '127.0.0.1',
+      port: 0,
+      strictPort: true,
+    },
+  });
+  t.after(() => server.close());
+  await server.listen();
+
+  const address = server.httpServer?.address();
+  assert.ok(address && typeof address === 'object', 'Vite test server did not expose a port');
+  const reportUrl = new URL(
+    `/${encodeURIComponent(gravityReportFileName)}`,
+    `http://127.0.0.1:${address.port}`,
+  );
+  const response = await fetch(reportUrl);
+  const body = await response.text();
+
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get('content-type') || '', /^text\/html\b/);
+  assert.ok(body.length > 1_000_000, 'Configured request returned the small Vite app fallback');
+  assert.match(body, /Анализ кликстрим воронок/);
+  assert.match(body, /@gravity-ui\/uikit|g-card|clickstream-summary-grid/);
+  assert.doesNotMatch(body, /var _ALL_DATA\s*=/);
+
+  assert.match(viteConfigSource, /const allowedFiles\s*=\s*new Map\(\)/);
+  assert.match(viteConfigSource, /allowedFiles\.get\(requestPath\)/);
+  assert.match(viteConfigSource, /plugins:\s*\[[^\]]*siblingHtmlPages\(htmlPageUrls\)/);
+});
+
+test('generic HTML report selects the chronologically latest enabled period and clicks Show', () => {
+  const shuffledOptions = [
+    {value: '', disabled: true},
+    {value: '2026-06-01|2026-06-30', disabled: false},
+    {value: '2026-03-01|2026-03-31', disabled: false},
+    {value: '2026-05-01|2026-05-31', disabled: false},
+    {value: '2027-01-01|2027-01-31', disabled: true},
+  ];
+  assert.equal(
+    latestPeriodValue(shuffledOptions),
+    '2026-06-01|2026-06-30',
+    'Latest period must be selected chronologically, independently of DOM order',
+  );
+
+  class FakeEvent {
+    constructor(type, options) {
+      this.type = type;
+      this.bubbles = options?.bubbles;
+    }
+  }
+  const funnelControl = {
+    value: '',
+    events: [],
+    dispatchEvent(event) {
+      this.events.push(event);
+    },
+  };
+  const periodControl = {
+    value: '',
+    options: shuffledOptions,
+    events: [],
+    dispatchEvent(event) {
+      this.events.push(event);
+    },
+  };
+  const showControl = {
+    clicks: 0,
+    click() {
+      this.clicks += 1;
+    },
+  };
+  const controls = new Map([
+    ['#exp-funnel', funnelControl],
+    ['#exp-period', periodControl],
+    ['button[onclick="_doLoad()"]', showControl],
+  ]);
+  const fakeDocument = {
+    defaultView: {Event: FakeEvent},
+    querySelector(selector) {
+      return controls.get(selector) || null;
+    },
+  };
+  const bridge = {
+    fields: [{contextKey: 'funnel', selector: '#exp-funnel', required: true}],
+    latestPeriodSelector: '#exp-period',
+    showSelector: 'button[onclick="_doLoad()"]',
+  };
+
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, {funnel: 'Оформление продукта'}),
+    {ready: true, showTriggered: true},
+  );
+  assert.equal(funnelControl.value, 'Оформление продукта');
+  assert.equal(periodControl.value, '2026-06-01|2026-06-30');
+  assert.deepEqual(
+    funnelControl.events.map(({type}) => type),
+    ['input', 'change'],
+    'Mapped funnel must emit value events before Show',
+  );
+  assert.deepEqual(
+    periodControl.events.map(({type}) => type),
+    ['input', 'change'],
+    'Latest period must emit value events before Show',
+  );
+  assert.equal(showControl.clicks, 1, 'Configured Show control must be clicked once');
+
+  showControl.clicks = 0;
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, {funnel: ''}),
+    {ready: false, showTriggered: false},
+  );
+  assert.equal(showControl.clicks, 0, 'Show must not run without a required funnel');
+
+  assert.match(bridgeSource, /latestPeriodValue\(periodSelect\?\.options\)/);
+  assert.match(bridgeSource, /if \(showTriggered\) showControl\.click\(\)/);
+});
+
+test('HTML report fills the available application viewport', () => {
+  assert.match(
+    stylesSource,
+    /\.html-report-page\s*\{[^}]*width:\s*100%;[^}]*height:\s*100vh;[^}]*min-height:\s*100vh;[^}]*overflow:\s*hidden;/s,
+  );
+  assert.match(
+    stylesSource,
+    /\.html-report-frame\s*\{[^}]*display:\s*block;[^}]*width:\s*100%;[^}]*height:\s*100%;[^}]*border:\s*0;/s,
+  );
+});
+
+test('all Clickstream recommendation mappings exist as report funnels', () => {
+  const dataMarker = 'var _ALL_DATA = ';
+  const dataStart = reportHtml.indexOf(dataMarker);
+  assert.notEqual(dataStart, -1, '_ALL_DATA marker is missing from Clickstream HTML');
+
+  const jsonStart = dataStart + dataMarker.length;
+  const jsonEnd = reportHtml.indexOf(';\n', jsonStart);
+  assert.notEqual(jsonEnd, -1, '_ALL_DATA terminator is missing from Clickstream HTML');
+
+  const clickstreamData = JSON.parse(reportHtml.slice(jsonStart, jsonEnd));
+  const funnelNames = new Set(clickstreamData.funnels.map((item) => item.funnel_name));
+  const clickstreamRecommendations = reportData.products.flatMap((product) => (
+    (product.metric_recommendations || [])
+      .filter((item) => (
+        item.skill_key === 'clickstream_funnel'
+        || item.skill_name === 'Воронка оформления в СБОЛ'
+      ))
+      .map((item) => ({
+        product: product.name,
+        funnel: item.product_group,
+      }))
+  ));
+
+  assert.ok(clickstreamRecommendations.length > 0, 'Clickstream recommendation mappings are missing');
+  assert.ok(
+    clickstreamRecommendations.every((item) => item.funnel),
+    'Every Clickstream recommendation must declare product_group',
+  );
+
+  const missingMappings = clickstreamRecommendations.filter(
+    ({funnel}) => !funnelNames.has(funnel),
+  );
+  assert.deepEqual(
+    missingMappings,
+    [],
+    `Recommendation mappings are absent from _ALL_DATA.funnels: ${missingMappings
+      .map(({product, funnel}) => `${product}: ${funnel}`)
+      .join(', ')}`,
+  );
+});
+
+test('Clickstream periods include an unambiguous chronological latest value', () => {
+  const dataMarker = 'var _ALL_DATA = ';
+  const jsonStart = reportHtml.indexOf(dataMarker) + dataMarker.length;
+  const jsonEnd = reportHtml.indexOf(';\n', jsonStart);
+  const clickstreamData = JSON.parse(reportHtml.slice(jsonStart, jsonEnd));
+  const periodValues = clickstreamData.periods.map(
+    ({date_from: dateFrom, date_to: dateTo}) => `${dateFrom}|${dateTo}`,
+  );
+  const chronologicallyLatest = periodValues.toSorted().at(-1);
+
+  assert.equal(chronologicallyLatest, '2026-06-01|2026-06-30');
+  assert.equal(
+    periodValues.filter((value) => value === chronologicallyLatest).length,
+    1,
+    'Latest period must be unique before the report selects it automatically',
+  );
+});
+
+test('source Clickstream HTML is self-contained', () => {
+  const resourceTags = [
+    ...reportHtml.matchAll(/<(?:audio|iframe|img|link|script|source|video)\b[^>]*>/gi),
+  ].map((match) => match[0]);
+  const externalReferences = resourceTags.flatMap((tag) => (
+    [...tag.matchAll(/\b(?:href|src)\s*=\s*(["'])(.*?)\1/gi)]
+      .map((match) => match[2].trim())
+      .filter((reference) => (
+        reference
+        && !reference.startsWith('#')
+        && !reference.startsWith('data:')
+        && !reference.startsWith('javascript:')
+      ))
+  ));
+
+  assert.deepEqual(
+    externalReferences,
+    [],
+    `Clickstream HTML depends on external resources: ${externalReferences.join(', ')}`,
+  );
+});

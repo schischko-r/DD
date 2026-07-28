@@ -13,6 +13,10 @@ import {
   recommendationBlockCode,
   worstDigestLight,
 } from '../features/llm-summary/LlmSummary.jsx';
+import {
+  buildHtmlPageContext,
+  findHtmlPageToolForRecommendation,
+} from '../features/html-pages/htmlPageTools.js';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const CROSSSELL_ANALYTICS_URL = 'https://losshunter.ru/showcase/crosssell/#screen=pult';
@@ -436,7 +440,7 @@ function LeaderConfetti({productId}) {
   return <canvas ref={canvasRef} className="leader-confetti" aria-hidden="true" key={productId} />;
 }
 
-export function TeamProfilePage({product, products, rows, detailScore, onBack, onProduct, onAbout}) {
+export function TeamProfilePage({product, products, rows, detailScore, onBack, onProduct, onAbout, onOpenHtmlPageTool}) {
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
@@ -495,7 +499,11 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const mauAiRecommendation = (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')) && !/\bYAU\b/i.test(String(item.indicator || '')))
     || (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')));
   const hasMauAiRecommendation = Boolean(mauAiRecommendation);
-  const funnelAiRecommendation = (product.metric_recommendations || []).find((item) => item.skill_key === 'clickstream_funnel' || item.skill_name === 'Воронка оформления в СБОЛ');
+  const htmlPageAiRecommendations = (product.metric_recommendations || []).reduce((matches, recommendation) => {
+    const tool = findHtmlPageToolForRecommendation(recommendation);
+    if (!tool || matches.some((match) => match.tool.id === tool.id)) return matches;
+    return [...matches, {tool, context: buildHtmlPageContext(tool, recommendation)}];
+  }, []);
   const draftAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'drafts' || item.skill_name === 'Черновики');
   const campaignFunnelAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'funnel' || item.skill_name === 'Воронка кампейнинга');
   const pilotAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'pilots' || item.skill_name === 'Пилотные кампании');
@@ -505,12 +513,6 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
     setAiFocusBlock(generalRecommendationBlock);
     setAiFocusSkill('Ключевые метрики');
     setAiReturnMetric(mauMetricCode);
-    setLens('metrics');
-  };
-  const openFunnelAiRecommendation = () => {
-    setAiFocusBlock('attract');
-    setAiFocusSkill('Воронка оформления в СБОЛ');
-    setAiReturnMetric('attract.funnel_analysis');
     setLens('metrics');
   };
   const openDraftAiRecommendation = () => {
@@ -663,7 +665,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
                 {isOpen && showKeyMetricsDisclaimer && <div className="key-metrics-disclaimer"><Icon data={CircleInfo} size={16} /><span>На базе самооценки в Oprosso. Следующая волна — 3Q26. <strong>Используйте отчёты ниже как ориентир по ключевым метрикам.</strong></span></div>}
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); if (pilotAiRecommendations.length && /^attract\.campaign_launches$/i.test(metric.code)) aiMetricInsight = metricAiInsight('пилотным кампаниям', openPilotAiRecommendation); const aiMetricInsights = []; if (funnelAiRecommendation && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('воронке оформления в СБОЛ', openFunnelAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({title: 'Cross-sell', label: 'Перейти', tone: 'info', href: CROSSSELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} product={product} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const pilotActions = /^attract\.campaign_launches$/i.test(metric.code) ? blockPilotActions : []; let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); if (pilotAiRecommendations.length && /^attract\.campaign_launches$/i.test(metric.code)) aiMetricInsight = metricAiInsight('пилотным кампаниям', openPilotAiRecommendation); const aiMetricInsights = htmlPageAiRecommendations.filter(({tool}) => tool.action.metricCode === metric.code).map(({tool, context}) => metricAiInsight(tool.action.subject, () => onOpenHtmlPageTool(tool.id, context))); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({title: 'Cross-sell', label: 'Перейти', tone: 'info', href: CROSSSELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} product={product} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} pilotActions={pilotActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
                 {participantLinks.length > 0 && isOpen && <div className="block-links participant-links"><div className="block-links-title">Ссылки, приложенные при прохождении самооценки в Oprosso</div><div className="block-actions">{participantLinks.map((action) => <Button key={`${action.label}-${action.url || action.link}`} view="outlined-info" size="s" width="auto" href={action.url || action.link} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Где посмотреть</div><div className="block-actions">{blockLinks.map((action) => <div className="block-action-item" key={`${action.label}-${action.url}`}><Button view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>{action.notice && <span className="block-action-notice">{action.notice}</span>}</div>)}</div></div>}
               </Card>

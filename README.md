@@ -7,6 +7,7 @@
 
 - `gravity-app/public/report-data.json` — данные для Gravity UI;
 - `gravity-standalone.html` — переносимая версия Gravity UI без сервера;
+- `Кликстрим_Месячный_все_воронки_zeroed_gravity.html` — соседний Gravity UI-отчёт по кликстрим-воронкам;
 - `final_report_from_excel.html` — совместимый standalone-отчет.
 
 Отчет открывается как обычный HTML-файл. Данные встраиваются внутрь страницы в JSON-блок, отдельный backend для просмотра не нужен.
@@ -34,6 +35,28 @@ npm run dev
 ```
 
 После запуска интерфейс доступен на `http://127.0.0.1:5173`.
+
+### Соседние HTML-инструменты
+
+Ссылки на дополнительные HTML-отчёты задаются в корневом env как JSON-объект
+`id -> URL`. Пример находится в `.env.example`:
+
+```dotenv
+VITE_HTML_PAGE_URLS={"clickstream":"./Кликстрим_Месячный_все_воронки_zeroed_gravity.html","llm_summary":"","client_metrics":"","complaints":"","csi":"","drafts":"","funnel":""}
+```
+
+При публикации переносите указанные companion HTML-файлы в одну папку с
+`gravity-standalone.html`. Их содержимое не встраивается в основной standalone.
+Для гарантированной установки фильтров и автоматического запуска расчёта
+основной отчёт и companion HTML должны открываться с одного HTTP-origin.
+
+Gravity UI-версия кликстрим-отчёта пересобирается из исходного `zeroed.html`
+командой:
+
+```bash
+cd gravity-app
+npm run build:clickstream
+```
 
 ## Разработка в Herdr
 
