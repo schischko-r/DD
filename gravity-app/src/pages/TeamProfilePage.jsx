@@ -509,41 +509,61 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const pilotAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'pilots' || item.skill_name === 'Пилотные кампании');
   const csiAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'csi' || item.skill_name === 'CSI');
   const complaintsAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'complaints' || item.skill_name === 'Жалобы и обращения');
+  const openConfiguredSkill = (recommendation, fallback) => {
+    const tool = findHtmlPageToolForRecommendation(recommendation);
+    if (tool) {
+      onOpenHtmlPageTool(tool.id, buildHtmlPageContext(tool, recommendation));
+      return;
+    }
+    fallback();
+  };
   const openMauAiRecommendation = () => {
-    setAiFocusBlock(generalRecommendationBlock);
-    setAiFocusSkill('Ключевые метрики');
-    setAiReturnMetric(mauMetricCode);
-    setLens('metrics');
+    openConfiguredSkill(mauAiRecommendation, () => {
+      setAiFocusBlock(generalRecommendationBlock);
+      setAiFocusSkill('Ключевые метрики');
+      setAiReturnMetric(mauMetricCode);
+      setLens('metrics');
+    });
   };
   const openDraftAiRecommendation = () => {
-    setAiFocusBlock('attract');
-    setAiFocusSkill('Черновики');
-    setAiReturnMetric('attract.chernoviki_v_sbol_70');
-    setLens('metrics');
+    openConfiguredSkill(draftAiRecommendations[0], () => {
+      setAiFocusBlock('attract');
+      setAiFocusSkill('Черновики');
+      setAiReturnMetric('attract.chernoviki_v_sbol_70');
+      setLens('metrics');
+    });
   };
   const openCampaignFunnelAiRecommendation = () => {
-    setAiFocusBlock('attract');
-    setAiFocusSkill('Воронка кампейнинга');
-    setAiReturnMetric('attract.funnel_analysis');
-    setLens('metrics');
+    openConfiguredSkill(campaignFunnelAiRecommendations[0], () => {
+      setAiFocusBlock('attract');
+      setAiFocusSkill('Воронка кампейнинга');
+      setAiReturnMetric('attract.funnel_analysis');
+      setLens('metrics');
+    });
   };
   const openPilotAiRecommendation = () => {
-    setAiFocusBlock('attract');
-    setAiFocusSkill('Пилотные кампании');
-    setAiReturnMetric('attract.campaign_launches');
-    setLens('metrics');
+    openConfiguredSkill(pilotAiRecommendations[0], () => {
+      setAiFocusBlock('attract');
+      setAiFocusSkill('Пилотные кампании');
+      setAiReturnMetric('attract.campaign_launches');
+      setLens('metrics');
+    });
   };
   const openCsiAiRecommendation = () => {
-    setAiFocusBlock('cx');
-    setAiFocusSkill('CSI');
-    setAiReturnMetric('cx.score');
-    setLens('metrics');
+    openConfiguredSkill(csiAiRecommendations[0], () => {
+      setAiFocusBlock('cx');
+      setAiFocusSkill('CSI');
+      setAiReturnMetric('cx.score');
+      setLens('metrics');
+    });
   };
   const openComplaintsAiRecommendation = () => {
-    setAiFocusBlock('cx');
-    setAiFocusSkill('Жалобы и обращения');
-    setAiReturnMetric('cx.score');
-    setLens('metrics');
+    openConfiguredSkill(complaintsAiRecommendations[0], () => {
+      setAiFocusBlock('cx');
+      setAiFocusSkill('Жалобы и обращения');
+      setAiReturnMetric('cx.score');
+      setLens('metrics');
+    });
   };
   const returnToDataDriven = () => {
     const target = aiReturnMetric;

@@ -41,3 +41,16 @@ test('HTML page context resolver takes the funnel directly from ai_product_mappi
     {funnel: 'Воронка. Открытие рублевых вкладов.'},
   );
 });
+
+test('generic HTML page context passes the mapped AI product to a product filter', () => {
+  assert.deepEqual(
+    resolveHtmlPageContext(
+      {valueSources: {product: ['ai_products.0']}},
+      {
+        ai_products: ['Пилоты. Вклады'],
+        product_group: 'Не использовать это производное поле',
+      },
+    ),
+    {product: 'Пилоты. Вклады'},
+  );
+});

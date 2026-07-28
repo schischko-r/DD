@@ -154,6 +154,18 @@ test('html_page catalog resolves recommendations and builds mapped context gener
   assert.doesNotMatch(toolCatalogSource, /product_group/);
   assert.doesNotMatch(toolCatalogSource, /virtual:clickstream-funnel-index/);
   assert.match(htmlPageConfigSource, /recommendation/);
+  assert.match(
+    toolCatalogSource,
+    /valueSources:\s*Object\.freeze\(\{\s*product:\s*\[['"]ai_products\.0['"]\]/,
+  );
+  assert.match(
+    toolCatalogSource,
+    /contextParams:\s*Object\.freeze\(\{product:\s*['"]product['"]\}\)/,
+  );
+  assert.match(
+    toolCatalogSource,
+    /contextKey:\s*['"]product['"],\s*selector:\s*['"]#exp-product['"]/,
+  );
 });
 
 test('AsideHeader appends generated html_page items after a native divider', () => {
@@ -188,6 +200,27 @@ test('Team profile resolves a generic html_page action from recommendation metad
   assert.match(teamProfileSource, /onOpenHtmlPageTool/);
   assert.match(teamProfileSource, /tool\.action\?\.metricCode/);
   assert.match(teamProfileSource, /buildHtmlPageContext\(tool,\s*recommendation\)/);
+  assert.match(
+    teamProfileSource,
+    /const openConfiguredSkill\s*=\s*\(recommendation,\s*fallback\)\s*=>/,
+  );
+  assert.match(
+    teamProfileSource,
+    /onOpenHtmlPageTool\(tool\.id,\s*buildHtmlPageContext\(tool,\s*recommendation\)\)/,
+  );
+  for (const recommendation of [
+    'mauAiRecommendation',
+    'draftAiRecommendations[0]',
+    'campaignFunnelAiRecommendations[0]',
+    'pilotAiRecommendations[0]',
+    'csiAiRecommendations[0]',
+    'complaintsAiRecommendations[0]',
+  ]) {
+    assert.ok(
+      teamProfileSource.includes(`openConfiguredSkill(${recommendation},`),
+      `${recommendation} must route to a configured HTML page`,
+    );
+  }
   assert.match(
     teamProfileSource,
     /<MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions=\{insights\}\s*\/>/,

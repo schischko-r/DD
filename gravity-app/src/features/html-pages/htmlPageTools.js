@@ -52,6 +52,21 @@ export const TOOL_CATALOG = Object.freeze(
         iframeTitle: configured.title || id,
         skillKeys: [id],
         skillNames: configured.title ? [configured.title] : [],
+        valueSources: Object.freeze({
+          product: ['ai_products.0'],
+        }),
+        navigation: Object.freeze({
+          mode: 'query',
+          contextParams: Object.freeze({product: 'product'}),
+          fixedParams: Object.freeze({period: 'latest', show: '1'}),
+        }),
+        bridge: Object.freeze({
+          fields: Object.freeze([
+            Object.freeze({contextKey: 'product', selector: '#exp-product', required: true}),
+          ]),
+          latestPeriodSelector: '#exp-period',
+          showSelector: 'button[onclick="_doLoad()"]',
+        }),
         ...definition,
         url: configured.url || '',
         title: configured.title || definition.title || id,
