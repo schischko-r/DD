@@ -13,6 +13,9 @@ function findShowControl(document, selector) {
   const configuredControl = selector ? document.querySelector(selector) : null;
   if (configuredControl) return configuredControl;
 
+  const dateControl = document.querySelector('button[onclick="_onDate()"]');
+  if (dateControl) return dateControl;
+
   return Array.from(document.querySelectorAll?.(
     'button, input[type="button"], input[type="submit"], [role="button"]',
   ) || []).find((candidate) => (

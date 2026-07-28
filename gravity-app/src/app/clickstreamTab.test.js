@@ -653,7 +653,7 @@ test('generic HTML report waits for an enabled Show button', () => {
   assert.equal(showControl.clicks, 1);
 });
 
-test('generic HTML report finds an unconfigured button by the exact Show label', () => {
+test('generic HTML report finds Show by its exact label or _onDate handler', () => {
   const productControl = {
     tagName: 'INPUT',
     value: 'Вклады',
@@ -686,11 +686,13 @@ test('generic HTML report finds an unconfigured button by the exact Show label',
       this.clicks += 1;
     },
   };
+  let dateHandlerControl = null;
   const fakeDocument = {
     defaultView: {Event},
     querySelector(selector) {
       if (selector === '#exp-product') return productControl;
       if (selector === '#exp-period') return periodControl;
+      if (selector === 'button[onclick="_onDate()"]') return dateHandlerControl;
       return null;
     },
     querySelectorAll() {
@@ -708,6 +710,15 @@ test('generic HTML report finds an unconfigured button by the exact Show label',
     result = applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'});
   }
   assert.deepEqual(result, {ready: true, showTriggered: true});
+  assert.equal(showControl.clicks, 1);
+
+  showControl.textContent = 'Обновить';
+  showControl.clicks = 0;
+  dateHandlerControl = showControl;
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'}),
+    {ready: true, showTriggered: true},
+  );
   assert.equal(showControl.clicks, 1);
 });
 
