@@ -4,21 +4,16 @@ import {defineConfig, loadEnv} from 'vite';
 import react from '@vitejs/plugin-react';
 import {viteSingleFile} from 'vite-plugin-singlefile';
 import {clickstreamDataPlugin} from './clickstreamDataPlugin.js';
-import {parseHtmlPageConfig} from './src/features/html-pages/htmlPageConfig.js';
+import {
+  adjacentHtmlPagePath,
+  parseHtmlPageConfig,
+} from './src/features/html-pages/htmlPageConfig.js';
 
 const REPOSITORY_ROOT = resolve(import.meta.dirname, '..');
 
 function siblingHtmlPageFile(configuredUrl) {
-  if (typeof configuredUrl !== 'string' || !configuredUrl.startsWith('./')) return null;
-  const relativePath = configuredUrl.slice(2);
-  if (
-    !relativePath
-    || relativePath.includes('/')
-    || relativePath.includes('\\')
-    || !relativePath.toLowerCase().endsWith('.html')
-  ) {
-    return null;
-  }
+  const relativePath = adjacentHtmlPagePath(configuredUrl);
+  if (!relativePath) return null;
   const filePath = resolve(REPOSITORY_ROOT, relativePath);
   if (!existsSync(filePath) || !statSync(filePath).isFile()) return null;
   return {filePath, requestPath: `/${relativePath}`};
@@ -72,7 +67,8 @@ function siblingHtmlPages(entries) {
 export default defineConfig(({mode}) => {
   const environment = loadEnv(mode, REPOSITORY_ROOT, 'VITE_');
   const exampleEnvironment = loadEnv('example', REPOSITORY_ROOT, 'VITE_');
-  const htmlPageUrlsRaw = environment.VITE_HTML_PAGE_URLS
+  const htmlPageUrlsRaw = process.env.VITE_HTML_PAGE_URLS
+    || environment.VITE_HTML_PAGE_URLS
     || exampleEnvironment.VITE_HTML_PAGE_URLS
     || '{}';
   const htmlPageConfig = parseHtmlPageConfig(htmlPageUrlsRaw, {strict: true});

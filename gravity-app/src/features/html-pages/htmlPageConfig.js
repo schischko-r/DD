@@ -14,6 +14,23 @@ function normalizeHtmlPageEntry(value) {
   };
 }
 
+export function adjacentHtmlPagePath(value) {
+  const configuredUrl = normalizeText(value);
+  if (!configuredUrl) return '';
+  const relativePath = configuredUrl.startsWith('./')
+    ? configuredUrl.slice(2)
+    : configuredUrl;
+  if (
+    !relativePath
+    || relativePath.includes('/')
+    || relativePath.includes('\\')
+    || !relativePath.toLowerCase().endsWith('.html')
+  ) {
+    return '';
+  }
+  return relativePath;
+}
+
 export function parseHtmlPageConfig(rawValue, {strict = false} = {}) {
   if (!rawValue) return {};
   try {

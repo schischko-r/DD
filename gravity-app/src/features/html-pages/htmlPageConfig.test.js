@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  adjacentHtmlPagePath,
   parseHtmlPageConfig,
   resolveHtmlPageContext,
 } from './htmlPageConfig.js';
@@ -26,6 +27,26 @@ test('HTML page env accepts metadata objects and legacy URL strings', () => {
       empty: {url: '', title: 'Пустой навык', icon: 'Sparkles'},
     },
   );
+});
+
+test('adjacent HTML pages accept both bare filenames and dot-slash paths', () => {
+  assert.equal(
+    adjacentHtmlPagePath('Клиентские_метрики_все_продукты.html'),
+    'Клиентские_метрики_все_продукты.html',
+  );
+  assert.equal(
+    adjacentHtmlPagePath('./Клиентские_метрики_все_продукты.html'),
+    'Клиентские_метрики_все_продукты.html',
+  );
+  for (const unsupported of [
+    '../report.html',
+    'reports/report.html',
+    '/report.html',
+    'https://example.com/report.html',
+    'report.txt',
+  ]) {
+    assert.equal(adjacentHtmlPagePath(unsupported), '');
+  }
 });
 
 test('HTML page context resolver takes the funnel directly from ai_product_mapping output', () => {
