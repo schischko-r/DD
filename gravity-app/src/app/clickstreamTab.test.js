@@ -77,7 +77,10 @@ test('tool catalog declares Clickstream as a universal html_page integration', (
     /fields:\s*(?:Object\.freeze\()?\[[\s\S]*?contextKey:\s*['"]funnel['"][\s\S]*?selector:\s*['"]#exp-funnel['"][\s\S]*?required:\s*true/,
   );
   assert.match(toolCatalogSource, /latestPeriodSelector:\s*['"]#exp-period['"]/);
-  assert.match(toolCatalogSource, /showSelector:\s*['"]button\[onclick=[""]_doLoad\(\)[""]\]['"]/);
+  assert.match(
+    toolCatalogSource,
+    /showSelector:\s*['"]#exp-show,\s*button\[onclick=[""]_doLoad\(\)[""]\]['"]/,
+  );
   assert.match(toolCatalogSource, /mode:\s*['"]query['"]/);
   assert.match(toolCatalogSource, /contextParams:\s*Object\.freeze\(\{funnel:\s*['"]funnel['"]\}\)/);
   assert.match(
@@ -250,6 +253,9 @@ test('generic HTML report sends query context and also applies the legacy DOM br
   assert.match(reportPageSource, /frameRef\.current\?\.contentDocument/);
   assert.match(reportPageSource, /applyHtmlPageBridge\(/);
   assert.match(reportPageSource, /tool\.bridge/);
+  assert.match(reportPageSource, /attempt\s*<\s*60/);
+  assert.match(reportPageSource, /window\.setTimeout\(applyBridge,\s*100\)/);
+  assert.match(reportPageSource, /window\.clearTimeout\(bridgeTimerRef\.current\)/);
 
   const iframe = reportPageSource.match(/<iframe\b[\s\S]*?\/>/)?.[0];
   assert.ok(iframe, 'HTML report iframe is missing');
@@ -308,16 +314,33 @@ test('Vite serves the configured Gravity UI sibling report instead of the applic
 
 test('generic HTML report selects the chronologically latest enabled period and clicks Show', () => {
   const shuffledOptions = [
-    {value: '', disabled: true},
-    {value: '2026-06-01|2026-06-30', disabled: false},
-    {value: '2026-03-01|2026-03-31', disabled: false},
-    {value: '2026-05-01|2026-05-31', disabled: false},
-    {value: '2027-01-01|2027-01-31', disabled: true},
+    {value: '', textContent: 'Выберите период', disabled: true},
+    {value: '2026-06-01|2026-06-30', textContent: 'июнь 2026', disabled: false},
+    {value: '2026-03-01|2026-03-31', textContent: 'март 2026', disabled: false},
+    {value: '2026-05-01|2026-05-31', textContent: 'май 2026', disabled: false},
+    {value: '2027-01-01|2027-01-31', textContent: 'январь 2027', disabled: true},
   ];
   assert.equal(
     latestPeriodValue(shuffledOptions),
     '2026-06-01|2026-06-30',
     'Latest period must be selected chronologically, independently of DOM order',
+  );
+  assert.equal(
+    latestPeriodValue([
+      {value: 'p1', textContent: 'май 2026'},
+      {value: 'p3', textContent: 'июль 2026'},
+      {value: 'p2', textContent: 'июнь 2026'},
+    ]),
+    'p3',
+    'Russian month labels must be ordered chronologically',
+  );
+  assert.equal(
+    latestPeriodValue([
+      {value: 'p1', textContent: 'июн. 2026'},
+      {value: 'p2', textContent: 'июл. 2026'},
+    ]),
+    'p2',
+    'Abbreviated Russian month labels must be ordered chronologically',
   );
 
   class FakeEvent {
@@ -327,6 +350,7 @@ test('generic HTML report selects the chronologically latest enabled period and 
     }
   }
   const funnelControl = {
+    tagName: 'INPUT',
     value: '',
     events: [],
     dispatchEvent(event) {
@@ -334,6 +358,7 @@ test('generic HTML report selects the chronologically latest enabled period and 
     },
   };
   const periodControl = {
+    tagName: 'SELECT',
     value: '',
     options: shuffledOptions,
     events: [],
@@ -350,7 +375,7 @@ test('generic HTML report selects the chronologically latest enabled period and 
   const controls = new Map([
     ['#exp-funnel', funnelControl],
     ['#exp-period', periodControl],
-    ['button[onclick="_doLoad()"]', showControl],
+    ['#exp-show, button[onclick="_doLoad()"]', showControl],
   ]);
   const fakeDocument = {
     defaultView: {Event: FakeEvent},
@@ -361,14 +386,26 @@ test('generic HTML report selects the chronologically latest enabled period and 
   const bridge = {
     fields: [{contextKey: 'funnel', selector: '#exp-funnel', required: true}],
     latestPeriodSelector: '#exp-period',
-    showSelector: 'button[onclick="_doLoad()"]',
+    showSelector: '#exp-show, button[onclick="_doLoad()"]',
   };
 
+  const context = {
+    funnel: 'Воронка. Открытие рублевых вкладов.',
+  };
   assert.deepEqual(
-    applyHtmlPageBridge(fakeDocument, bridge, {
-      funnel: 'Воронка. Открытие рублевых вкладов.',
-    }),
+    applyHtmlPageBridge(fakeDocument, bridge, context),
+    {ready: false, showTriggered: false},
+    'The first pass must only apply the native funnel value',
+  );
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, context),
+    {ready: false, showTriggered: false},
+    'The second pass must confirm funnel and apply the native period value',
+  );
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, context),
     {ready: true, showTriggered: true},
+    'Show must run only after both native values are confirmed',
   );
   assert.equal(funnelControl.value, 'Воронка. Открытие рублевых вкладов.');
   assert.equal(periodControl.value, '2026-06-01|2026-06-30');
@@ -391,8 +428,157 @@ test('generic HTML report selects the chronologically latest enabled period and 
   );
   assert.equal(showControl.clicks, 0, 'Show must not run without a required funnel');
 
-  assert.match(bridgeSource, /latestPeriodValue\(periodSelect\?\.options\)/);
+  assert.match(bridgeSource, /latestPeriodValue\(control\.options\)/);
+  assert.match(bridgeSource, /normalizeText\(control\.value\)\s*===\s*normalizedExpected/);
   assert.match(bridgeSource, /if \(showTriggered\) showControl\.click\(\)/);
+});
+
+test('generic HTML report does not click Show when a native select rejects the mapped product', () => {
+  const allowedValues = new Set(['', 'Вклады']);
+  let selectedValue = '';
+  const productControl = {
+    tagName: 'SELECT',
+    options: [
+      {value: '', textContent: 'Выберите продукт', disabled: true},
+      {value: 'Вклады', textContent: 'Вклады', disabled: false},
+    ],
+    get value() {
+      return selectedValue;
+    },
+    set value(value) {
+      selectedValue = allowedValues.has(value) ? value : '';
+    },
+    dispatchEvent() {},
+  };
+  const periodControl = {
+    tagName: 'SELECT',
+    value: '',
+    options: [{value: '2026-07', textContent: 'июль 2026', disabled: false}],
+    dispatchEvent() {},
+  };
+  const showControl = {
+    clicks: 0,
+    click() {
+      this.clicks += 1;
+    },
+  };
+  const controls = new Map([
+    ['#exp-product', productControl],
+    ['#exp-period', periodControl],
+    ['#exp-show, button[onclick="_doLoad()"]', showControl],
+  ]);
+  const fakeDocument = {
+    defaultView: {Event},
+    querySelector(selector) {
+      return controls.get(selector) || null;
+    },
+  };
+  const bridge = {
+    fields: [{contextKey: 'product', selector: '#exp-product', required: true}],
+    latestPeriodSelector: '#exp-period',
+    showSelector: '#exp-show, button[onclick="_doLoad()"]',
+  };
+
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    assert.deepEqual(
+      applyHtmlPageBridge(fakeDocument, bridge, {product: 'Неизвестный продукт'}),
+      {ready: false, showTriggered: false},
+    );
+  }
+  assert.equal(productControl.value, '');
+  assert.equal(showControl.clicks, 0);
+});
+
+test('generic HTML report configures Gravity UI selects over repeated bridge passes', () => {
+  let openListbox = null;
+  function gravitySelect(id, labels, placeholder) {
+    let selected = placeholder;
+    const control = {
+      get textContent() {
+        return selected;
+      },
+      getAttribute(name) {
+        if (name === 'role') return 'combobox';
+        if (name === 'aria-controls') return openListbox === listbox ? id : null;
+        if (name === 'aria-expanded') return openListbox === listbox ? 'true' : 'false';
+        return null;
+      },
+      click() {
+        openListbox = listbox;
+      },
+    };
+    const options = labels.map((label) => ({
+      textContent: label,
+      disabled: false,
+      getAttribute() {
+        return null;
+      },
+      click() {
+        selected = label;
+        openListbox = null;
+      },
+    }));
+    const listbox = {
+      id,
+      querySelectorAll(selector) {
+        return selector === '[role="option"]' ? options : [];
+      },
+    };
+    return {
+      container: {
+        querySelector(selector) {
+          return selector === '[role="combobox"]' ? control : null;
+        },
+      },
+      control,
+      listbox,
+    };
+  }
+
+  const product = gravitySelect(
+    'product-options',
+    ['Карты', 'Вклады', 'Кредиты'],
+    'Выберите продукт',
+  );
+  const period = gravitySelect(
+    'period-options',
+    ['май 2026', 'июль 2026', 'июнь 2026'],
+    'Выберите период',
+  );
+  const showControl = {
+    clicks: 0,
+    click() {
+      this.clicks += 1;
+    },
+  };
+  const fakeDocument = {
+    defaultView: {Event},
+    getElementById(id) {
+      return openListbox?.id === id ? openListbox : null;
+    },
+    querySelector(selector) {
+      if (selector === '#exp-product') return product.container;
+      if (selector === '#exp-period') return period.container;
+      if (selector === '#exp-show, button[onclick="_doLoad()"]') return showControl;
+      if (selector === '[role="listbox"]') return openListbox;
+      return null;
+    },
+  };
+  const bridge = {
+    fields: [{contextKey: 'product', selector: '#exp-product', required: true}],
+    latestPeriodSelector: '#exp-period',
+    showSelector: '#exp-show, button[onclick="_doLoad()"]',
+  };
+
+  let result = {ready: false, showTriggered: false};
+  for (let attempt = 0; attempt < 6 && !result.showTriggered; attempt += 1) {
+    result = applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'});
+  }
+
+  assert.deepEqual(result, {ready: true, showTriggered: true});
+  assert.equal(product.control.textContent, 'Вклады');
+  assert.equal(period.control.textContent, 'июль 2026');
+  assert.equal(showControl.clicks, 1);
 });
 
 test('HTML report fills the available application viewport', () => {

@@ -7,16 +7,34 @@ import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
 export function HtmlReportPage({tool, context, onBack}) {
   const frameRef = useRef(null);
+  const bridgeTimerRef = useRef(null);
   const pageUrl = useMemo(() => buildHtmlPageUrl(tool, context), [context, tool]);
   const configureReport = useCallback(() => {
-    applyHtmlPageBridge(
-      frameRef.current?.contentDocument,
-      tool.bridge,
-      context,
-    );
+    window.clearTimeout(bridgeTimerRef.current);
+    let attempt = 0;
+    const applyBridge = () => {
+      attempt += 1;
+      let result = {ready: false, showTriggered: false};
+      try {
+        result = applyHtmlPageBridge(
+          frameRef.current?.contentDocument,
+          tool.bridge,
+          context,
+        );
+      } catch {
+        return;
+      }
+      if (!result.showTriggered && attempt < 60) {
+        bridgeTimerRef.current = window.setTimeout(applyBridge, 100);
+      }
+    };
+    applyBridge();
   }, [context, tool]);
 
-  useEffect(configureReport, [configureReport]);
+  useEffect(() => {
+    configureReport();
+    return () => window.clearTimeout(bridgeTimerRef.current);
+  }, [configureReport]);
 
   return (
     <main className="html-report-page">

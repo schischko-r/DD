@@ -32,7 +32,7 @@ const TOOL_DEFINITIONS = [
         Object.freeze({contextKey: 'funnel', selector: '#exp-funnel', required: true}),
       ]),
       latestPeriodSelector: '#exp-period',
-      showSelector: 'button[onclick="_doLoad()"]',
+      showSelector: '#exp-show, button[onclick="_doLoad()"]',
     }),
   }),
 ];
@@ -65,7 +65,7 @@ export const TOOL_CATALOG = Object.freeze(
             Object.freeze({contextKey: 'product', selector: '#exp-product', required: true}),
           ]),
           latestPeriodSelector: '#exp-period',
-          showSelector: 'button[onclick="_doLoad()"]',
+          showSelector: '#exp-show, button[onclick="_doLoad()"]',
         }),
         ...definition,
         url: configured.url || '',
