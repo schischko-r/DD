@@ -128,11 +128,16 @@ test('html_page URL, title and Gravity icon come from the Vite env map', () => {
   assert.match(appSource, /icon:\s*htmlPageIcon\(tool\.icon\)/);
   for (const icon of [
     'ChartAreaStacked',
+    'ChartAreaStackedNormalized',
     'ChartColumn',
     'ChartLine',
     'CircleCheck',
     'Comments',
+    'FaceSad',
     'FileText',
+    'Funnel',
+    'PaperPlane',
+    'Smartphone',
     'Sparkles',
   ]) {
     assert.match(htmlPageIconsSource, new RegExp(`\\b${icon}\\b`));
