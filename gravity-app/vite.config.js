@@ -1,4 +1,4 @@
-import {createReadStream, existsSync, statSync} from 'node:fs';
+import {createReadStream, existsSync, readFileSync, statSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {defineConfig, loadEnv} from 'vite';
 import react from '@vitejs/plugin-react';
@@ -8,24 +8,38 @@ import {parseHtmlPageConfig} from './src/features/html-pages/htmlPageConfig.js';
 
 const REPOSITORY_ROOT = resolve(import.meta.dirname, '..');
 
+function siblingHtmlPageFile(configuredUrl) {
+  if (typeof configuredUrl !== 'string' || !configuredUrl.startsWith('./')) return null;
+  const relativePath = configuredUrl.slice(2);
+  if (
+    !relativePath
+    || relativePath.includes('/')
+    || relativePath.includes('\\')
+    || !relativePath.toLowerCase().endsWith('.html')
+  ) {
+    return null;
+  }
+  const filePath = resolve(REPOSITORY_ROOT, relativePath);
+  if (!existsSync(filePath) || !statSync(filePath).isFile()) return null;
+  return {filePath, requestPath: `/${relativePath}`};
+}
+
+function siblingHtmlPageContents(entries) {
+  return Object.fromEntries(
+    Object.entries(entries).flatMap(([id, {url}]) => {
+      const file = siblingHtmlPageFile(url);
+      return file
+        ? [[id, readFileSync(file.filePath).toString('base64')]]
+        : [];
+    }),
+  );
+}
+
 function siblingHtmlPages(entries) {
   const allowedFiles = new Map();
-  for (const {url: configuredUrl} of Object.values(entries)) {
-    if (typeof configuredUrl !== 'string' || !configuredUrl.startsWith('./')) continue;
-    const relativePath = configuredUrl.slice(2);
-    if (
-      !relativePath
-      || relativePath.includes('/')
-      || relativePath.includes('\\')
-      || !relativePath.toLowerCase().endsWith('.html')
-    ) {
-      continue;
-    }
-    const requestPath = `/${relativePath}`;
-    const filePath = resolve(REPOSITORY_ROOT, relativePath);
-    if (existsSync(filePath) && statSync(filePath).isFile()) {
-      allowedFiles.set(requestPath, filePath);
-    }
+  for (const {url} of Object.values(entries)) {
+    const file = siblingHtmlPageFile(url);
+    if (file) allowedFiles.set(file.requestPath, file.filePath);
   }
 
   return {
@@ -62,11 +76,17 @@ export default defineConfig(({mode}) => {
     || exampleEnvironment.VITE_HTML_PAGE_URLS
     || '{}';
   const htmlPageConfig = parseHtmlPageConfig(htmlPageUrlsRaw, {strict: true});
+  const htmlPageContentsBase64 = JSON.stringify(
+    siblingHtmlPageContents(htmlPageConfig),
+  );
 
   return {
     envDir: REPOSITORY_ROOT,
     define: {
       'import.meta.env.VITE_HTML_PAGE_URLS': JSON.stringify(htmlPageUrlsRaw),
+      'import.meta.env.VITE_HTML_PAGE_CONTENTS_BASE64': JSON.stringify(
+        htmlPageContentsBase64,
+      ),
     },
     plugins: [
       react(),

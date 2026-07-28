@@ -6,6 +6,9 @@ import {
 const HTML_PAGE_CONFIG = parseHtmlPageConfig(
   import.meta.env.VITE_HTML_PAGE_URLS,
 );
+const HTML_PAGE_CONTENTS_BASE64 = JSON.parse(
+  import.meta.env.VITE_HTML_PAGE_CONTENTS_BASE64 || '{}',
+);
 
 const TOOL_DEFINITIONS = [
   Object.freeze({
@@ -69,6 +72,7 @@ export const TOOL_CATALOG = Object.freeze(
         }),
         ...definition,
         url: configured.url || '',
+        contentBase64: HTML_PAGE_CONTENTS_BASE64[id] || '',
         title: configured.title || definition.title || id,
         icon: configured.icon || 'ChartLine',
       });

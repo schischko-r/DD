@@ -6,6 +6,10 @@ import {
   applyHtmlPageBridge,
   latestPeriodValue,
 } from '../features/html-pages/htmlPageBridge.js';
+import {
+  decodeHtmlPageContent,
+  prepareHtmlPageSource,
+} from '../features/html-pages/htmlPageContent.js';
 
 const legacyReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed.html';
 const gravityReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed_gravity.html';
@@ -260,9 +264,9 @@ test('generic HTML report sends query context and also applies the legacy DOM br
   const iframe = reportPageSource.match(/<iframe\b[\s\S]*?\/>/)?.[0];
   assert.ok(iframe, 'HTML report iframe is missing');
   assert.match(iframe, /\bref=\{frameRef\}/);
-  assert.match(iframe, /\bsrc=\{pageUrl\}/);
+  assert.match(iframe, /\bsrc=\{pageSource\s*\?\s*undefined\s*:\s*pageUrl\}/);
+  assert.match(iframe, /\bsrcDoc=\{pageSource\s*\|\|\s*undefined\}/);
   assert.match(iframe, /\bonLoad=\{/);
-  assert.doesNotMatch(iframe, /\bsrcDoc\s*=/);
 
   const returnAction = reportPageSource.match(
     /<div className="ai-return-action">([\s\S]*?)<\/div>/,
@@ -273,6 +277,21 @@ test('generic HTML report sends query context and also applies the legacy DOM br
     returnAction.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
     'Вернуться к DDI команды',
   );
+});
+
+test('configured sibling HTML is embedded for direct file usage with a preserved base URL', () => {
+  const source = '<!doctype html><html><head><title>Отчёт</title></head><body>Данные</body></html>';
+  const encoded = Buffer.from(source).toString('base64');
+  assert.equal(decodeHtmlPageContent(encoded), source);
+  assert.equal(
+    prepareHtmlPageSource(source, 'file:///reports/client-metrics.html?product=Вклады'),
+    '<!doctype html><html><head><base href="file:///reports/client-metrics.html?product=Вклады"><title>Отчёт</title></head><body>Данные</body></html>',
+  );
+
+  assert.match(viteConfigSource, /function siblingHtmlPageContents\(entries\)/);
+  assert.match(viteConfigSource, /readFileSync\(file\.filePath\)\.toString\(['"]base64['"]\)/);
+  assert.match(viteConfigSource, /import\.meta\.env\.VITE_HTML_PAGE_CONTENTS_BASE64/);
+  assert.match(toolCatalogSource, /contentBase64:\s*HTML_PAGE_CONTENTS_BASE64\[id\]\s*\|\|\s*['"]/);
 });
 
 test('Vite serves the configured Gravity UI sibling report instead of the application fallback', async (t) => {
