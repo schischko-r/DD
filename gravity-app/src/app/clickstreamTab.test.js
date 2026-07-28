@@ -600,6 +600,117 @@ test('generic HTML report configures Gravity UI selects over repeated bridge pas
   assert.equal(showControl.clicks, 1);
 });
 
+test('generic HTML report waits for an enabled Show button', () => {
+  const productControl = {
+    tagName: 'INPUT',
+    value: 'Вклады',
+    dispatchEvent() {},
+  };
+  const periodControl = {
+    tagName: 'SELECT',
+    value: '2026-07',
+    options: [{value: '2026-07', textContent: 'июль 2026', disabled: false}],
+    dispatchEvent() {},
+  };
+  const showControl = {
+    disabled: true,
+    clicks: 0,
+    getAttribute(name) {
+      if (name === 'disabled') return this.disabled ? '' : null;
+      return null;
+    },
+    click() {
+      this.clicks += 1;
+    },
+  };
+  const controls = new Map([
+    ['#exp-product', productControl],
+    ['#exp-period', periodControl],
+    ['#exp-show, button[onclick="_doLoad()"]', showControl],
+  ]);
+  const fakeDocument = {
+    defaultView: {Event},
+    querySelector(selector) {
+      return controls.get(selector) || null;
+    },
+  };
+  const bridge = {
+    fields: [{contextKey: 'product', selector: '#exp-product', required: true}],
+    latestPeriodSelector: '#exp-period',
+    showSelector: '#exp-show, button[onclick="_doLoad()"]',
+  };
+
+  let result = {ready: false, showTriggered: false};
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    result = applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'});
+  }
+  assert.deepEqual(result, {ready: false, showTriggered: false});
+  assert.equal(showControl.clicks, 0);
+
+  showControl.disabled = false;
+  result = applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'});
+  assert.deepEqual(result, {ready: true, showTriggered: true});
+  assert.equal(showControl.clicks, 1);
+});
+
+test('generic HTML report finds an unconfigured button by the exact Show label', () => {
+  const productControl = {
+    tagName: 'INPUT',
+    value: 'Вклады',
+    dispatchEvent() {},
+  };
+  const periodControl = {
+    tagName: 'SELECT',
+    value: '2026-07',
+    options: [{value: '2026-07', textContent: 'июль 2026', disabled: false}],
+    dispatchEvent() {},
+  };
+  const otherButton = {
+    textContent: 'Скачать',
+    disabled: false,
+    getAttribute() {
+      return null;
+    },
+    click() {
+      throw new Error('The unrelated button must not be clicked');
+    },
+  };
+  const showControl = {
+    textContent: 'Показать',
+    disabled: false,
+    clicks: 0,
+    getAttribute() {
+      return null;
+    },
+    click() {
+      this.clicks += 1;
+    },
+  };
+  const fakeDocument = {
+    defaultView: {Event},
+    querySelector(selector) {
+      if (selector === '#exp-product') return productControl;
+      if (selector === '#exp-period') return periodControl;
+      return null;
+    },
+    querySelectorAll() {
+      return [otherButton, showControl];
+    },
+  };
+  const bridge = {
+    fields: [{contextKey: 'product', selector: '#exp-product', required: true}],
+    latestPeriodSelector: '#exp-period',
+    showSelector: '#missing-show',
+  };
+
+  let result = {ready: false, showTriggered: false};
+  for (let attempt = 0; attempt < 4 && !result.showTriggered; attempt += 1) {
+    result = applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'});
+  }
+  assert.deepEqual(result, {ready: true, showTriggered: true});
+  assert.equal(showControl.clicks, 1);
+});
+
 test('HTML report fills the available application viewport', () => {
   assert.match(
     stylesSource,

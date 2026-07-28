@@ -9,6 +9,30 @@ function normalizeText(value) {
   return String(value ?? '').replace(/\s+/g, ' ').trim().toLocaleLowerCase('ru-RU');
 }
 
+function findShowControl(document, selector) {
+  const configuredControl = selector ? document.querySelector(selector) : null;
+  if (configuredControl) return configuredControl;
+
+  return Array.from(document.querySelectorAll?.(
+    'button, input[type="button"], input[type="submit"], [role="button"]',
+  ) || []).find((candidate) => (
+    normalizeText(
+      candidate.textContent
+      || candidate.value
+      || candidate.getAttribute?.('aria-label'),
+    ) === 'показать'
+  )) || null;
+}
+
+function showControlIsActionable(control) {
+  return Boolean(
+    control
+    && !control.disabled
+    && control.hasAttribute?.('disabled') !== true
+    && control.getAttribute?.('aria-disabled') !== 'true',
+  );
+}
+
 function setNativeValue(element, value, document) {
   const valueDescriptor = Object.getOwnPropertyDescriptor(
     Object.getPrototypeOf(element) || {},
@@ -236,10 +260,8 @@ export function applyHtmlPageBridge(document, bridge = {}, context = {}) {
     }
   }
 
-  const showControl = bridge.showSelector
-    ? document.querySelector(bridge.showSelector)
-    : null;
-  const ready = Boolean(showControl);
+  const showControl = findShowControl(document, bridge.showSelector);
+  const ready = showControlIsActionable(showControl);
   const showTriggered = ready;
   if (showTriggered) showControl.click();
 
