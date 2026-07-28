@@ -138,13 +138,17 @@ test('query navigation accepts the parent funnel mapping and latest-period reque
     .find((line) => line.startsWith('VITE_HTML_PAGE_URLS='));
   assert.ok(envLine, 'VITE_HTML_PAGE_URLS is missing');
   assert.deepEqual(JSON.parse(envLine.slice(envLine.indexOf('=') + 1)), {
-    clickstream: `./${gravityReportFileName}`,
-    llm_summary: '',
-    client_metrics: '',
-    complaints: '',
-    csi: '',
-    drafts: '',
-    funnel: '',
+    clickstream: {
+      url: `./${gravityReportFileName}`,
+      title: 'Анализ кликстрим воронок',
+      icon: 'ChartLine',
+    },
+    llm_summary: {url: '', title: 'AI-суммаризация', icon: 'Sparkles'},
+    client_metrics: {url: '', title: 'Клиентские метрики', icon: 'ChartColumn'},
+    complaints: {url: '', title: 'Жалобы и обращения', icon: 'Comments'},
+    csi: {url: '', title: 'CSI', icon: 'CircleCheck'},
+    drafts: {url: '', title: 'Черновики', icon: 'FileText'},
+    funnel: {url: '', title: 'Воронка кампейнинга', icon: 'ChartAreaStacked'},
   });
 });
 

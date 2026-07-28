@@ -4,24 +4,13 @@ import {defineConfig, loadEnv} from 'vite';
 import react from '@vitejs/plugin-react';
 import {viteSingleFile} from 'vite-plugin-singlefile';
 import {clickstreamDataPlugin} from './clickstreamDataPlugin.js';
+import {parseHtmlPageConfig} from './src/features/html-pages/htmlPageConfig.js';
 
 const REPOSITORY_ROOT = resolve(import.meta.dirname, '..');
 
-function parseHtmlPageUrls(rawValue) {
-  try {
-    const parsed = JSON.parse(rawValue || '{}');
-    if (!parsed || Array.isArray(parsed) || typeof parsed !== 'object') {
-      throw new TypeError('expected a JSON object');
-    }
-    return parsed;
-  } catch (error) {
-    throw new Error(`VITE_HTML_PAGE_URLS must be a JSON object: ${error.message}`);
-  }
-}
-
-function siblingHtmlPages(urls) {
+function siblingHtmlPages(entries) {
   const allowedFiles = new Map();
-  for (const configuredUrl of Object.values(urls)) {
+  for (const {url: configuredUrl} of Object.values(entries)) {
     if (typeof configuredUrl !== 'string' || !configuredUrl.startsWith('./')) continue;
     const relativePath = configuredUrl.slice(2);
     if (
@@ -72,7 +61,7 @@ export default defineConfig(({mode}) => {
   const htmlPageUrlsRaw = environment.VITE_HTML_PAGE_URLS
     || exampleEnvironment.VITE_HTML_PAGE_URLS
     || '{}';
-  const htmlPageUrls = parseHtmlPageUrls(htmlPageUrlsRaw);
+  const htmlPageConfig = parseHtmlPageConfig(htmlPageUrlsRaw, {strict: true});
 
   return {
     envDir: REPOSITORY_ROOT,
@@ -82,7 +71,7 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(),
       clickstreamDataPlugin(),
-      siblingHtmlPages(htmlPageUrls),
+      siblingHtmlPages(htmlPageConfig),
       viteSingleFile(),
     ],
     build: {target: 'es2020'},

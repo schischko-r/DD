@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BarsAscendingAlignLeft, ChartColumn, ChartLine, ChartMixed, CircleInfo} from '@gravity-ui/icons';
+import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo} from '@gravity-ui/icons';
 import {Spin} from '@gravity-ui/uikit';
 import {AsideHeader} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
@@ -8,6 +8,7 @@ import {HtmlReportPage} from '../pages/HtmlReportPage.jsx';
 import {SummaryPage} from '../pages/SummaryPage.jsx';
 import {TeamProfilePage} from '../pages/TeamProfilePage.jsx';
 import {HTML_PAGE_TOOLS} from '../features/html-pages/htmlPageTools.js';
+import {htmlPageIcon} from '../features/html-pages/htmlPageIcons.js';
 import ocb2cLogo from '../assets/ocb2c.png';
 
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
@@ -110,7 +111,7 @@ export function App() {
         id: `html-page:${tool.id}`,
         title: tool.title,
         tooltipText: tool.title,
-        icon: ChartLine,
+        icon: htmlPageIcon(tool.icon),
         current: view === `html-page:${tool.id}`,
         onItemClick: () => openHtmlPageTool(tool.id),
       })),

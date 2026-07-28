@@ -38,12 +38,19 @@ npm run dev
 
 ### Соседние HTML-инструменты
 
-Ссылки на дополнительные HTML-отчёты задаются в корневом env как JSON-объект
-`id -> URL`. Пример находится в `.env.example`:
+Дополнительные HTML-отчёты задаются в корневом env как JSON-объект
+`id -> {url, title, icon}`. `title` определяет подпись в сайдбаре, а `icon` —
+имя иконки Gravity UI из поддерживаемого списка. Пример находится в
+`.env.example`:
 
 ```dotenv
-VITE_HTML_PAGE_URLS={"clickstream":"./Кликстрим_Месячный_все_воронки_zeroed_gravity.html","llm_summary":"","client_metrics":"","complaints":"","csi":"","drafts":"","funnel":""}
+VITE_HTML_PAGE_URLS={"clickstream":{"url":"./Кликстрим_Месячный_все_воронки_zeroed_gravity.html","title":"Анализ кликстрим воронок","icon":"ChartLine"},"llm_summary":{"url":"","title":"AI-суммаризация","icon":"Sparkles"},"client_metrics":{"url":"","title":"Клиентские метрики","icon":"ChartColumn"},"complaints":{"url":"","title":"Жалобы и обращения","icon":"Comments"},"csi":{"url":"","title":"CSI","icon":"CircleCheck"},"drafts":{"url":"","title":"Черновики","icon":"FileText"},"funnel":{"url":"","title":"Воронка кампейнинга","icon":"ChartAreaStacked"}}
 ```
+
+Поддерживаемые значения `icon`: `ChartLine`, `ChartColumn`,
+`ChartAreaStacked`, `Sparkles`, `Comments`, `CircleCheck`, `FileText`.
+Неизвестное значение безопасно заменяется на `ChartLine`. Старый формат
+`"id":"./report.html"` тоже поддерживается.
 
 При публикации переносите указанные companion HTML-файлы в одну папку с
 `gravity-standalone.html`. Их содержимое не встраивается в основной standalone.

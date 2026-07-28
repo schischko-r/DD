@@ -18,6 +18,14 @@ const toolCatalogSource = readFileSync(
   new URL('../features/html-pages/htmlPageTools.js', import.meta.url),
   'utf8',
 );
+const htmlPageConfigSource = readFileSync(
+  new URL('../features/html-pages/htmlPageConfig.js', import.meta.url),
+  'utf8',
+);
+const htmlPageIconsSource = readFileSync(
+  new URL('../features/html-pages/htmlPageIcons.js', import.meta.url),
+  'utf8',
+);
 const reportPageSource = readFileSync(
   new URL('../pages/HtmlReportPage.jsx', import.meta.url),
   'utf8',
@@ -33,6 +41,12 @@ const viteConfigSource = readFileSync(
 const envExampleSource = readFileSync(
   new URL('../../../.env.example', import.meta.url),
   'utf8',
+);
+const htmlPageEnvConfig = JSON.parse(
+  envExampleSource
+    .split(/\r?\n/)
+    .find((line) => line.startsWith('VITE_HTML_PAGE_URLS='))
+    .slice('VITE_HTML_PAGE_URLS='.length),
 );
 const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 const reportData = JSON.parse(readFileSync(
@@ -56,7 +70,7 @@ test('tool catalog declares Clickstream as a universal html_page integration', (
   assert.match(toolCatalogSource, /metricCode:\s*['"]attract\.funnel_analysis['"]/);
   assert.match(
     toolCatalogSource,
-    /valueSources:\s*(?:Object\.freeze\()?\{[\s\S]*?funnel:\s*(?:Object\.freeze\()?\[[^\]]*['"]product_group['"]/,
+    /valueSources:\s*(?:Object\.freeze\()?\{[\s\S]*?funnel:\s*(?:Object\.freeze\()?\[['"]ai_products\.0['"]\]/,
   );
   assert.match(
     toolCatalogSource,
@@ -79,26 +93,44 @@ test('tool catalog declares Clickstream as a universal html_page integration', (
   assert.match(toolCatalogSource, /return url\.href/);
 });
 
-test('html_page URLs come from the Vite env map and join semantic definitions by id', () => {
-  const envLine = envExampleSource
-    .split(/\r?\n/)
-    .find((line) => line.startsWith('VITE_HTML_PAGE_URLS='));
-  assert.ok(envLine, 'VITE_HTML_PAGE_URLS example is missing');
-  const configuredUrls = JSON.parse(envLine.slice(envLine.indexOf('=') + 1));
-  assert.deepEqual(configuredUrls, {
-    clickstream: `./${gravityReportFileName}`,
-    llm_summary: '',
-    client_metrics: '',
-    complaints: '',
-    csi: '',
-    drafts: '',
-    funnel: '',
+test('html_page URL, title and Gravity icon come from the Vite env map', () => {
+  assert.deepEqual(htmlPageEnvConfig, {
+    clickstream: {
+      url: `./${gravityReportFileName}`,
+      title: 'Анализ кликстрим воронок',
+      icon: 'ChartLine',
+    },
+    llm_summary: {url: '', title: 'AI-суммаризация', icon: 'Sparkles'},
+    client_metrics: {url: '', title: 'Клиентские метрики', icon: 'ChartColumn'},
+    complaints: {url: '', title: 'Жалобы и обращения', icon: 'Comments'},
+    csi: {url: '', title: 'CSI', icon: 'CircleCheck'},
+    drafts: {url: '', title: 'Черновики', icon: 'FileText'},
+    funnel: {url: '', title: 'Воронка кампейнинга', icon: 'ChartAreaStacked'},
   });
 
   assert.match(toolCatalogSource, /import\.meta\.env\.VITE_HTML_PAGE_URLS/);
-  assert.match(toolCatalogSource, /JSON\.parse\(rawValue\)/);
-  assert.match(toolCatalogSource, /url:\s*HTML_PAGE_URLS\[entry\.id\]/);
+  assert.match(toolCatalogSource, /parseHtmlPageConfig\(/);
+  assert.match(toolCatalogSource, /Object\.entries\(HTML_PAGE_CONFIG\)/);
+  assert.match(toolCatalogSource, /url:\s*configured\.url\s*\|\|\s*['"]/);
+  assert.match(
+    toolCatalogSource,
+    /title:\s*configured\.title\s*\|\|\s*definition\.title\s*\|\|\s*id/,
+  );
+  assert.match(toolCatalogSource, /icon:\s*configured\.icon\s*\|\|\s*['"]ChartLine['"]/);
   assert.match(toolCatalogSource, /\.filter\(\(entry\)\s*=>\s*entry\.url\)/);
+  assert.match(appSource, /icon:\s*htmlPageIcon\(tool\.icon\)/);
+  for (const icon of [
+    'ChartAreaStacked',
+    'ChartColumn',
+    'ChartLine',
+    'CircleCheck',
+    'Comments',
+    'FileText',
+    'Sparkles',
+  ]) {
+    assert.match(htmlPageIconsSource, new RegExp(`\\b${icon}\\b`));
+  }
+  assert.match(htmlPageIconsSource, /HTML_PAGE_ICONS\[iconName\]\s*\|\|\s*ChartLine/);
   assert.doesNotMatch(toolCatalogSource, /\?raw/);
   assert.doesNotMatch(
     toolCatalogSource,
@@ -112,14 +144,16 @@ test('html_page catalog resolves recommendations and builds mapped context gener
     /export function findHtmlPageToolForRecommendation\(recommendation\)/,
   );
   assert.match(toolCatalogSource, /HTML_PAGE_TOOLS\.find\(\(tool\)\s*=>/);
-  assert.match(toolCatalogSource, /tool\.skillKeys\.includes\(recommendation\.skill_key\)/);
-  assert.match(toolCatalogSource, /tool\.skillNames\.includes\(recommendation\.skill_name\)/);
+  assert.match(toolCatalogSource, /tool\.skillKeys\?\.includes\(recommendation\.skill_key\)/);
+  assert.match(toolCatalogSource, /tool\.skillNames\?\.includes\(recommendation\.skill_name\)/);
   assert.match(
     toolCatalogSource,
     /export function buildHtmlPageContext\(tool,\s*recommendation\)/,
   );
-  assert.match(toolCatalogSource, /tool\??\.valueSources/);
-  assert.match(toolCatalogSource, /recommendation/);
+  assert.match(htmlPageConfigSource, /tool\.valueSources/);
+  assert.doesNotMatch(toolCatalogSource, /product_group/);
+  assert.doesNotMatch(toolCatalogSource, /virtual:clickstream-funnel-index/);
+  assert.match(htmlPageConfigSource, /recommendation/);
 });
 
 test('AsideHeader appends generated html_page items after a native divider', () => {
@@ -152,7 +186,7 @@ test('Team profile resolves a generic html_page action from recommendation metad
   );
   assert.match(teamProfileSource, /findHtmlPageToolForRecommendation/);
   assert.match(teamProfileSource, /onOpenHtmlPageTool/);
-  assert.match(teamProfileSource, /tool\.action\.metricCode/);
+  assert.match(teamProfileSource, /tool\.action\?\.metricCode/);
   assert.match(teamProfileSource, /buildHtmlPageContext\(tool,\s*recommendation\)/);
   assert.match(
     teamProfileSource,
@@ -172,15 +206,14 @@ test('App opens a resolved html_page with mapped context and renders the generic
   );
 });
 
-test('generic HTML report uses query navigation and keeps DOM bridge as a legacy fallback', () => {
+test('generic HTML report sends query context and also applies the legacy DOM bridge', () => {
   assert.match(
     reportPageSource,
     /export function HtmlReportPage\(\{tool,\s*context,\s*onBack\}\)/,
   );
   assert.match(reportPageSource, /const frameRef\s*=\s*useRef\(null\);/);
   assert.match(reportPageSource, /buildHtmlPageUrl\(tool,\s*context\)/);
-  assert.match(reportPageSource, /tool\.navigation\?\.mode\s*===\s*['"]query['"]/);
-  assert.match(reportPageSource, /if \(usesQueryNavigation\) return;/);
+  assert.doesNotMatch(reportPageSource, /if \(usesQueryNavigation\) return;/);
   assert.match(reportPageSource, /frameRef\.current\?\.contentDocument/);
   assert.match(reportPageSource, /applyHtmlPageBridge\(/);
   assert.match(reportPageSource, /tool\.bridge/);
@@ -237,7 +270,7 @@ test('Vite serves the configured Gravity UI sibling report instead of the applic
 
   assert.match(viteConfigSource, /const allowedFiles\s*=\s*new Map\(\)/);
   assert.match(viteConfigSource, /allowedFiles\.get\(requestPath\)/);
-  assert.match(viteConfigSource, /plugins:\s*\[[^\]]*siblingHtmlPages\(htmlPageUrls\)/);
+  assert.match(viteConfigSource, /plugins:\s*\[[^\]]*siblingHtmlPages\(htmlPageConfig\)/);
 });
 
 test('generic HTML report selects the chronologically latest enabled period and clicks Show', () => {
@@ -299,10 +332,12 @@ test('generic HTML report selects the chronologically latest enabled period and 
   };
 
   assert.deepEqual(
-    applyHtmlPageBridge(fakeDocument, bridge, {funnel: 'Оформление продукта'}),
+    applyHtmlPageBridge(fakeDocument, bridge, {
+      funnel: 'Воронка. Открытие рублевых вкладов.',
+    }),
     {ready: true, showTriggered: true},
   );
-  assert.equal(funnelControl.value, 'Оформление продукта');
+  assert.equal(funnelControl.value, 'Воронка. Открытие рублевых вкладов.');
   assert.equal(periodControl.value, '2026-06-01|2026-06-30');
   assert.deepEqual(
     funnelControl.events.map(({type}) => type),
@@ -349,6 +384,9 @@ test('all Clickstream recommendation mappings exist as report funnels', () => {
 
   const clickstreamData = JSON.parse(reportHtml.slice(jsonStart, jsonEnd));
   const funnelNames = new Set(clickstreamData.funnels.map((item) => item.funnel_name));
+  const funnelIdsByName = new Map(
+    clickstreamData.funnels.map((item) => [item.funnel_name, String(item.funnel_id)]),
+  );
   const clickstreamRecommendations = reportData.products.flatMap((product) => (
     (product.metric_recommendations || [])
       .filter((item) => (
@@ -376,6 +414,11 @@ test('all Clickstream recommendation mappings exist as report funnels', () => {
     `Recommendation mappings are absent from _ALL_DATA.funnels: ${missingMappings
       .map(({product, funnel}) => `${product}: ${funnel}`)
       .join(', ')}`,
+  );
+  assert.equal(
+    funnelIdsByName.get('Воронка. Открытие рублевых вкладов.'),
+    '34601',
+    'The deposits recommendation must resolve to a stable Clickstream funnel id',
   );
 });
 

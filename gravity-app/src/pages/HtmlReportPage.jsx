@@ -8,15 +8,13 @@ import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 export function HtmlReportPage({tool, context, onBack}) {
   const frameRef = useRef(null);
   const pageUrl = useMemo(() => buildHtmlPageUrl(tool, context), [context, tool]);
-  const usesQueryNavigation = tool.navigation?.mode === 'query';
   const configureReport = useCallback(() => {
-    if (usesQueryNavigation) return;
     applyHtmlPageBridge(
       frameRef.current?.contentDocument,
       tool.bridge,
       context,
     );
-  }, [context, tool, usesQueryNavigation]);
+  }, [context, tool]);
 
   useEffect(configureReport, [configureReport]);
 
