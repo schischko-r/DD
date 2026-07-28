@@ -60,6 +60,7 @@ def build(args: argparse.Namespace) -> None:
     if args.data_only:
         return
 
+    run([NPM_COMMAND, "run", "build:clickstream"], cwd=ROOT / "gravity-app")
     run([NPM_COMMAND, "run", "build"], cwd=ROOT / "gravity-app")
     run(
         [

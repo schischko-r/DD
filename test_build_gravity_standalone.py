@@ -32,6 +32,35 @@ class BuildGravityStandaloneTest(unittest.TestCase):
             )
             self.assertNotIn('"name":"Тест\n', result)
 
+    def test_preserves_external_sibling_report_url_without_embedding_report(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            output = root / "gravity-standalone.html"
+            template.write_text(
+                (
+                    '<iframe src="./neighbor-report.html"></iframe>'
+                    '<script>fetch("./report-data.json",{cache:"no-store"}).then(load)</script>'
+                ),
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            (root / "neighbor-report.html").write_text(
+                '<script>var _ALL_DATA = {"large":"external-only"};</script>',
+                encoding="utf-8",
+            )
+
+            build(template, data, output)
+
+            result = output.read_text(encoding="utf-8")
+            self.assertIn('src="./neighbor-report.html"', result)
+            self.assertNotIn('external-only', result)
+            self.assertEqual(
+                (output.parent / "neighbor-report.html").resolve(),
+                (root / "neighbor-report.html").resolve(),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()

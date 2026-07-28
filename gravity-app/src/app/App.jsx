@@ -1,11 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo} from '@gravity-ui/icons';
+import {BarsAscendingAlignLeft, ChartColumn, ChartLine, ChartMixed, CircleInfo} from '@gravity-ui/icons';
 import {Spin} from '@gravity-ui/uikit';
 import {AsideHeader} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
 import {DashboardPage} from '../pages/DashboardPage.jsx';
+import {HtmlReportPage} from '../pages/HtmlReportPage.jsx';
 import {SummaryPage} from '../pages/SummaryPage.jsx';
 import {TeamProfilePage} from '../pages/TeamProfilePage.jsx';
+import {HTML_PAGE_TOOLS} from '../features/html-pages/htmlPageTools.js';
 import ocb2cLogo from '../assets/ocb2c.png';
 
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
@@ -14,6 +16,7 @@ export function App() {
   const [data, setData] = useState(null);
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
+  const [htmlPageContext, setHtmlPageContext] = useState({});
   const [detailScore, setDetailScore] = useState(false);
   const [compact, setCompact] = useState(true);
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
@@ -51,6 +54,14 @@ export function App() {
     || data.products[0];
   const product = selected || defaultProduct;
   const openProduct = (item) => { setSelected(item); setView('detail'); window.scrollTo(0, 0); };
+  const openHtmlPageTool = (toolId, context = {}) => {
+    setHtmlPageContext(context);
+    setView(`html-page:${toolId}`);
+    window.scrollTo(0, 0);
+  };
+  const activeHtmlPageTool = HTML_PAGE_TOOLS.find(
+    (tool) => view === `html-page:${tool.id}`,
+  );
   const toggleDetailScore = () => setDetailScore((value) => {
     const nextValue = !value;
     if (!nextValue && view === 'summary') setView('dashboard');
@@ -89,14 +100,31 @@ export function App() {
       current: view === 'about',
       onItemClick: () => setView('about'),
     },
+    ...(HTML_PAGE_TOOLS.length ? [
+      {
+        id: 'html-pages-divider',
+        title: '',
+        type: 'divider',
+      },
+      ...HTML_PAGE_TOOLS.map((tool) => ({
+        id: `html-page:${tool.id}`,
+        title: tool.title,
+        tooltipText: tool.title,
+        icon: ChartLine,
+        current: view === `html-page:${tool.id}`,
+        onItemClick: () => openHtmlPageTool(tool.id),
+      })),
+    ] : []),
   ];
   const content = view === 'summary'
     ? <SummaryPage products={data.products} rows={rows} />
-    : view === 'dashboard'
-      ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
-      : view === 'about'
-        ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
-        : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />;
+    : activeHtmlPageTool
+      ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
+      : view === 'dashboard'
+        ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
+        : view === 'about'
+          ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
+          : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />;
   return (
     <AsideHeader
       compact={compact}

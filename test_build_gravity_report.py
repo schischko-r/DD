@@ -25,6 +25,22 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertIn("--crosssell", report_command)
         self.assertIn("--no-update-crosssell", report_command)
 
+    def test_full_build_rebuilds_clickstream_companion_before_main_standalone(self) -> None:
+        args = report.parse_args([])
+
+        with patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertIn(
+            [report.NPM_COMMAND, "run", "build:clickstream"],
+            commands,
+        )
+        self.assertLess(
+            commands.index([report.NPM_COMMAND, "run", "build:clickstream"]),
+            commands.index([report.NPM_COMMAND, "run", "build"]),
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
