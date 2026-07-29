@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -157,6 +157,25 @@ test('campaigning links require an applicable campaign metric', () => {
   assert.equal(isCampaigningRelevant(relevant), true);
   assert.deepEqual(filterCampaigningLinks(irrelevant, links), [{label: 'Отчет "Черновики"'}]);
   assert.deepEqual(filterCampaigningLinks(relevant, links), links);
+});
+
+test('campaign skills are routed to their exact metrics', () => {
+  const block = {
+    tools: [{buttons: [
+      {name: 'Пилотные кампании', button: {link: 'https://example.test/ai-pilots'}},
+      {name: 'Поиск по пилотам', button: {link: 'https://example.test/pilot-search'}},
+      {name: 'Черновики', button: {link: 'https://example.test/drafts'}},
+    ]}],
+  };
+
+  assert.deepEqual(metricSkillLinks(block, {code: 'attract.campaign_launches'}), [
+    {label: 'Поиск по пилотам', href: 'https://example.test/pilot-search'},
+  ]);
+  assert.deepEqual(metricSkillLinks(block, {code: 'attract.chernoviki_v_sbol_70'}), [
+    {label: 'Черновики', href: 'https://example.test/drafts'},
+  ]);
+  assert.deepEqual(metricSkillLinks(block, {code: 'attract.nalichie_self_service'}), []);
+  assert.equal(hasPilotCampaignSkill(block), true);
 });
 
 test('draft link requires an applicable drafts metric', () => {

@@ -768,13 +768,21 @@ class SyntheticReportTest(unittest.TestCase):
                 "markers": [
                     {
                         "id": "ОСАГО",
+                        "uid": "осаго",
                         "name": "ОСАГО",
                         "unit": "УБ",
                         "cross_sell": {
                             "traffic_light": "red",
+                            "seen_out_n": 5,
+                            "seen_in_n": 3,
+                            "seen_around_n": 8,
+                            "friction_seen_n": 1,
+                            "potential_n": 2,
                             "etalon_pairs": 3,
-                            "implemented": 1,
-                            "missing_ab_ready": 2,
+                            "implemented": 0,
+                            "missing_ab_ready": None,
+                            "unverifiable_without_video": None,
+                            "optout_unknown": None,
                             "top_actions": [
                                 {
                                     "text": "Добавить в путь: → КАСКО",
@@ -809,13 +817,39 @@ class SyntheticReportTest(unittest.TestCase):
         osago_recommendation = osago["metric_recommendations"][0]
         self.assertEqual(osago_recommendation["skill_key"], "cross_sell")
         self.assertEqual(osago_recommendation["traffic_light"], "yellow")
-        self.assertIn("Реализовано cross-sell связок: 1 из 3.", osago_recommendation["recommendations"])
-        self.assertIn("Рыночный пример: Т-Банк.", osago_recommendation["recommendations"][-1])
+        self.assertIn("Всего в клиентских путях найдено 8 сценариев кросс-продаж.", osago_recommendation["recommendations"])
+        self.assertIn("- 5 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.", osago_recommendation["recommendations"])
+        self.assertIn("- 3 связки — кросс-селл в сценариях других продуктов с вашим продуктом.", osago_recommendation["recommendations"])
+        self.assertIn("Потенциальных cross-sell связок: 2.", osago_recommendation["recommendations"])
+        self.assertIn("Дальнейшие шаги:", osago_recommendation["recommendations"])
+        self.assertIn(
+            '1) Ознакомьтесь с рекомендациями на платформе (по кнопке "Перейти" выше).',
+            osago_recommendation["recommendations"],
+        )
+        self.assertIn(
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. "
+            "Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            osago_recommendation["recommendations"],
+        )
+        self.assertIn(
+            "3) Если вы согласны, возьмите в бэклог для проработки.",
+            osago_recommendation["recommendations"],
+        )
+        self.assertFalse(any(text.startswith("Реализовано cross-sell") for text in osago_recommendation["recommendations"]))
         self.assertTrue(osago_recommendation["requires_manual_validation"])
         self.assertEqual(osago_recommendation["dd_crosssell_value"], 0)
         self.assertEqual(osago_recommendation["dd_crosssell_max"], 1)
-        self.assertEqual(osago_recommendation["api_implemented"], 1)
-        self.assertEqual(osago_recommendation["api_crosssell_count"], 3)
+        self.assertEqual(osago_recommendation["api_implemented"], 0)
+        self.assertEqual(osago_recommendation["api_crosssell_count"], 5)
+        self.assertEqual(osago_recommendation["api_seen_out_n"], 5)
+        self.assertEqual(osago_recommendation["api_seen_in_n"], 3)
+        self.assertEqual(osago_recommendation["api_seen_around_n"], 8)
+        self.assertEqual(osago_recommendation["api_potential_n"], 2)
+        self.assertEqual(
+            osago_recommendation["crosssell_top_actions"],
+            ["Добавить в путь: → КАСКО Рыночный пример: Т-Банк."],
+        )
+        self.assertNotIn("rule", osago_recommendation)
         osago_tool = osago["metrics"][0]["tools"][0]
         self.assertEqual(osago_tool["ai_tool_key"], "cross_sell")
         self.assertEqual(
@@ -834,6 +868,48 @@ class SyntheticReportTest(unittest.TestCase):
             "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%20%D0%B8%D0%B6%D1%81",
         )
         self.assertEqual(result["products"][2]["metric_recommendations"], [])
+
+    def test_crosssell_recommendations_hide_zero_seen_rows(self) -> None:
+        texts = report.crosssell_recommendation_texts(
+            {
+                "cross_sell": {
+                    "seen_out_n": 0,
+                    "seen_in_n": 1,
+                    "seen_around_n": 1,
+                    "potential_n": 2,
+                }
+            },
+            {},
+        )
+        self.assertIn("Из них:", texts)
+        self.assertFalse(any(text.startswith("- 0 связок") for text in texts))
+        self.assertIn(
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            texts,
+        )
+
+        zero_texts = report.crosssell_recommendation_texts(
+            {
+                "cross_sell": {
+                    "seen_out_n": 0,
+                    "seen_in_n": 0,
+                    "seen_around_n": 0,
+                    "potential_n": 3,
+                }
+            },
+            {},
+        )
+        self.assertEqual(
+            zero_texts,
+            [
+                "Потенциальных cross-sell связок: 3.",
+                "Дальнейшие шаги:",
+                '1) Ознакомьтесь с рекомендациями на платформе (по кнопке "Перейти" выше).',
+                "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. "
+                "Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+                "3) Если вы согласны, возьмите в бэклог для проработки.",
+            ],
+        )
 
     def test_crosssell_matching_uses_nfc_casefold(self) -> None:
         composed = "СберПрайм"
