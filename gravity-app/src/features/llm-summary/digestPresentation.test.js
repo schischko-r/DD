@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {digestStatus, digestTheme, hasAvailableRecommendations, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestTheme('red'), 'danger');
@@ -35,6 +35,12 @@ test('recommendations are unavailable when only an empty LLM summary exists', ()
     {skill_key: 'csi'},
   ]), true);
   assert.equal(hasAvailableRecommendations([{llm_summary: true}]), true);
+});
+
+test('manual validation warning is driven by the recommendation flag', () => {
+  assert.equal(hasManualValidationWarning([]), false);
+  assert.equal(hasManualValidationWarning([{requires_manual_validation: false}]), false);
+  assert.equal(hasManualValidationWarning([{requires_manual_validation: true}]), true);
 });
 
 test('recommendation skill link uses the matching AI tool from the metric block', () => {

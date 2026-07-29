@@ -32,6 +32,10 @@ export function hasAvailableRecommendations(items) {
   return (items || []).some((item) => !item.llm_placeholder);
 }
 
+export function hasManualValidationWarning(items) {
+  return (items || []).some((item) => item.requires_manual_validation === true);
+}
+
 export function recommendationSkillLink(block, items) {
   const skillKeys = new Set(
     (items || []).map((item) => String(item.skill_key || '').trim()).filter(Boolean),

@@ -236,7 +236,7 @@ test('Team profile resolves a generic html_page action from recommendation metad
   }
   assert.match(
     teamProfileSource,
-    /<MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions=\{insights\}\s*\/>/,
+    /<MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions=\{\[\.\.\.insights,\s*\.\.\.skillActions\]\}\s*\/>/,
   );
 });
 

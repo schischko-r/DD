@@ -5,7 +5,7 @@ import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
 import {digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
-export {digestStatus, digestTheme, hasAvailableRecommendations, worstDigestLight} from './digestPresentation.js';
+export {digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, worstDigestLight} from './digestPresentation.js';
 
 const MANUAL_VALIDATION_MESSAGE = 'Требует ручной валидации.';
 
@@ -30,6 +30,63 @@ function linkifyRecommendation(text) {
   }
   if (cursor < value.length) parts.push(value.slice(cursor));
   return parts.length ? parts : value;
+}
+
+function crossSellCount(value) {
+  const count = Number(value);
+  return Number.isFinite(count) ? count.toLocaleString('ru-RU') : '0';
+}
+
+function crossSellCountPhrase(value, forms) {
+  const count = Number(value);
+  const absolute = Math.abs(Math.trunc(Number.isFinite(count) ? count : 0));
+  const word = absolute % 100 >= 11 && absolute % 100 <= 14
+    ? forms[2]
+    : absolute % 10 === 1
+      ? forms[0]
+      : absolute % 10 >= 2 && absolute % 10 <= 4
+        ? forms[1]
+        : forms[2];
+  return `${crossSellCount(value)} ${word}`;
+}
+
+function CrossSellNextSteps() {
+  return <>
+    <p><strong>Дальнейшие шаги:</strong></p>
+    <ol className="crosssell-summary-steps">
+      <li>Ознакомьтесь с рекомендациями на платформе (по кнопке &quot;Перейти&quot; выше).</li>
+      <li>Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.</li>
+      <li>Если вы согласны, возьмите в бэклог для проработки.</li>
+    </ol>
+  </>;
+}
+
+function RecommendationBody({item, useText = false}) {
+  const hasCrossSellSummary = item.skill_key === 'cross_sell' && item.api_seen_around_n != null;
+  if (!hasCrossSellSummary) {
+    return (item.recommendations || []).map((text, index) => useText
+      ? <Text variant="body-1" key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</Text>
+      : <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>);
+  }
+  const hasSeenOutValue = item.api_seen_out_n != null && Number.isFinite(Number(item.api_seen_out_n));
+  const hasSeenInValue = item.api_seen_in_n != null && Number.isFinite(Number(item.api_seen_in_n));
+  if (hasSeenOutValue && hasSeenInValue && Number(item.api_seen_out_n) === 0 && Number(item.api_seen_in_n) === 0) {
+    return <div className="crosssell-summary">
+      <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+      <CrossSellNextSteps />
+    </div>;
+  }
+  const hasSeenOut = Number(item.api_seen_out_n) > 0;
+  const hasSeenIn = Number(item.api_seen_in_n) > 0;
+  return <div className="crosssell-summary">
+    <p>Всего в клиентских путях найдено <em>{crossSellCountPhrase(item.api_seen_around_n, ['сценарий', 'сценария', 'сценариев'])} кросс-продаж</em>.</p>
+    {(hasSeenOut || hasSeenIn) && <><p>Из них:</p><ul>
+      {hasSeenOut && <li>{crossSellCountPhrase(item.api_seen_out_n, ['связка', 'связки', 'связок'])} — кросс-селл с другими продуктами в рамках сценариев вашего продукта.</li>}
+      {hasSeenIn && <li>{crossSellCountPhrase(item.api_seen_in_n, ['связка', 'связки', 'связок'])} — кросс-селл в сценариях других продуктов с вашим продуктом.</li>}
+    </ul></>}
+    <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+    <CrossSellNextSteps />
+  </div>;
 }
 
 export function ProductMetricRecommendations({product, onOpenReport}) {
@@ -100,9 +157,9 @@ export function ProductMetricRecommendations({product, onOpenReport}) {
                         <i className={`digest-light digest-light-${item.traffic_light || 'gray'}`} aria-hidden="true" />
                         <div className="metric-recommendation-copy">
                           <div className="metric-recommendation-row-title"><h4>{item.indicator}</h4><Label theme={digestTheme(item.traffic_light)} size="xs">{digestStatus(item.traffic_light)}</Label></div>
-                          {(item.recommendations || []).map((text, index) => <Text variant="body-1" key={`${item.id}-${index}`}>{text}</Text>)}
+                          <RecommendationBody item={item} useText />
                           <div className="metric-recommendation-meta"><Label theme="utility" size="xs">{displaySkillName(item.skill_name)}</Label>{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}{item.ai_products?.length > 0 && <Text variant="caption-1" color="secondary">Источник: {item.ai_products.join(', ')}</Text>}</div>
-                          {item.rule && <Text className="metric-recommendation-rule" variant="caption-1" color="secondary">Как читать сигнал: {readableDigestRule(item.rule)}</Text>}
+                          {item.skill_key !== 'cross_sell' && item.rule && <Text className="metric-recommendation-rule" variant="caption-1" color="secondary">Как читать сигнал: {readableDigestRule(item.rule)}</Text>}
                         </div>
                       </div>
                     ))}
@@ -117,9 +174,9 @@ export function ProductMetricRecommendations({product, onOpenReport}) {
   );
 }
 
-function ProductMetricRows({items, feedbackUrl}) {
+function ProductMetricRows({items}) {
   return items.map((item) => <div className="metric-row product-metric-row" key={item.id}>
-    <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><div className="product-metric-indicator"><b>{item.indicator}</b>{item.skill_key === 'cross_sell' && item.requires_manual_validation && <Tooltip content={MANUAL_VALIDATION_MESSAGE} openDelay={200}><span className="ai-manual-validation-warning" tabIndex={0} aria-label={MANUAL_VALIDATION_MESSAGE}><Icon className="ai-manual-validation-icon" data={TriangleExclamationFill} size={18} /></span></Tooltip>}</div>{(item.recommendations || []).map((text, index) => <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>)}{item.is_traffic_light && item.rule && <small>Как читать сигнал: {readableDigestRule(item.rule)}</small>}{item.skill_key === 'cross_sell' && feedbackUrl && <div className="crosssell-feedback-action"><Text variant="body-1" color="secondary"><strong className="crosssell-feedback-emphasis">Оцените предложенные решения.</strong> В случае ошибки, пожалуйста, сообщите нам</Text><SemanticButton intent={BUTTON_INTENT.destructive} href={feedbackUrl} target="_blank" rel="noreferrer">Нашли ошибку?</SemanticButton><SemanticButton intent={BUTTON_INTENT.feedback} href="https://losshunter.ru/new/studio" target="_blank" rel="noreferrer">Добавить прогон</SemanticButton></div>}</div></div>
+    <div className="metric-copy">{item.is_traffic_light && item.skill_key !== 'llm_summary' ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><div className="product-metric-indicator"><b>{item.indicator}</b>{item.skill_key === 'cross_sell' && item.requires_manual_validation && <Tooltip content={MANUAL_VALIDATION_MESSAGE} openDelay={200}><span className="ai-manual-validation-warning" tabIndex={0} aria-label={MANUAL_VALIDATION_MESSAGE}><Icon className="ai-manual-validation-icon" data={TriangleExclamationFill} size={18} /></span></Tooltip>}</div><RecommendationBody item={item} />{item.is_traffic_light && item.skill_key !== 'llm_summary' && item.skill_key !== 'cross_sell' && item.rule && <small>Как читать сигнал: {readableDigestRule(item.rule)}</small>}{item.skill_key === 'cross_sell' && <div className="crosssell-feedback-action"><SemanticButton intent={BUTTON_INTENT.feedback} href="https://losshunter.ru/new/studio" target="_blank" rel="noreferrer">Добавить прогон</SemanticButton></div>}</div></div>
     <div className="product-metric-row-side">{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}</div>
   </div>);
 }
@@ -136,7 +193,7 @@ export function recommendationBlockCode(product, requestedCode) {
   return requestedCode;
 }
 
-export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill, feedbackUrl}) {
+export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill}) {
   const recommendations = product.metric_recommendations || [];
   const [detailMode, setDetailMode] = useState('compact');
   const [open, setOpen] = useState(() => new Set(
@@ -218,9 +275,9 @@ export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSki
                       </div>
                       <div className={`product-metric-tool-content${productGroups.size === 1 ? ' product-metric-tool-content-single' : ''}`}>
                         {productGroups.size === 1
-                          ? <ProductMetricRows items={toolItems} feedbackUrl={feedbackUrl} />
+                          ? <ProductMetricRows items={toolItems} />
                           : [...productGroups.entries()].map(([productName, productItems], productIndex) => <Disclosure className="product-metric-product-disclosure" size="m" defaultExpanded={productIndex === 0} summary={<span className="product-metric-product-title">{productName}</span>} key={`${toolName}-${productName}`}>
-                            <ProductMetricRows items={productItems} feedbackUrl={feedbackUrl} />
+                            <ProductMetricRows items={productItems} />
                           </Disclosure>)}
                       </div>
                     </section>;

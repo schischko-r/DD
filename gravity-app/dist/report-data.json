@@ -1366,7 +1366,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "БПИФ",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B1%D0%BF%D0%B8%D1%84"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -2148,6 +2164,49 @@
             "ПИФ (пополнение)"
           ],
           "product_group": "ПИФ (пополнение)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 1 сценарий кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "БПИФ"
+          ],
+          "product_group": "БПИФ",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 1.0,
+          "api_seen_around_n": 1.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Встроить на экран выбора фонда короткое объяснение типов (ОПИФ/БПИФ/ЗПИФ) и их назначения — снять трение, которое блокирует решение о покупке",
+            "Усилить обратную связку из ИнвестКопилки: из FAQ «деньги идут в БПИФ» дать явный переход «выбрать фонд самому» — апгрейд от автоматики к самостоятельной покупке",
+            "Достроить лид-магнит в брокерский счёт: у клиента без счёта покупка пая должна вести к открытию базового брокерского"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -3498,7 +3557,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Брокерский счет",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B1%D1%80%D0%BE%D0%BA%D0%B5%D1%80%D1%81%D0%BA%D0%B8%D0%B9%20%D1%81%D1%87%D0%B5%D1%82"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -4473,6 +4548,50 @@
             "Брокеридж УК"
           ],
           "product_group": "Брокеридж УК"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 4 сценария кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 3 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Брокерский счет"
+          ],
+          "product_group": "Брокерский счет",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 1.0,
+          "api_seen_out_n": 1.0,
+          "api_seen_in_n": 3.0,
+          "api_seen_around_n": 4.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Встроить в путь открытия счёта следующий шаг «оформить ИИС» (тот же счёт + вычет) и «купить первый БПИФ» — превратить открытие в первую сделку.",
+            "Собрать единую пошаговую воронку на лендинге клуба акционеров (открыть счёт → перевести акции → кешбэк), убрав обрыв после лендинга.",
+            "Закрепить дебетовую карту банка как источник фондирования счёта — якорь удержания остатков в экосистеме."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -6050,7 +6169,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Вклады+НС",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B2%D0%BA%D0%BB%D0%B0%D0%B4"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -7425,6 +7560,50 @@
             "Накопительный счет (пополнение)"
           ],
           "product_group": "Накопительные счета (пополнение)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 8 сценариев кросс-продаж.",
+            "Из них:",
+            "- 7 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Вклады+НС"
+          ],
+          "product_group": "Вклады+НС",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 7.0,
+          "api_seen_out_n": 7.0,
+          "api_seen_in_n": 1.0,
+          "api_seen_around_n": 8.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Достроить лестницу доходности: с вклада и накопительного счёта вести в ИнвестКопилку и ПДС (бандл «вклад по сверхставке + ПДС») — оба на том же намерении копить.",
+            "Явно развести вклад и страховые «псевдо-вклады»: маркировать НСЖ/ИСЖ на витрине как страхование, а не гарантированную доходность, чтобы надбавочный магнит не превращался в мисселинг.",
+            "Усилить связку с дебетовой картой как расчётным шлюзом: предлагать её при открытии НС для пополнения и снятия без потери процентов."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -8516,7 +8695,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Военная пенсия",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B2%D0%BE%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F%20%D0%BF%D0%B5%D0%BD%D1%81%D0%B8%D1%8F"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -9039,6 +9234,45 @@
             "Военные пенсионеры"
           ],
           "product_group": "Военные пенсионеры"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Военная пенсия"
+          ],
+          "product_group": "Военная пенсия",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Выстроить единый онбординг-оффер «перевод военной пенсии → спец-карта Мир → накопительный счёт на остаток»",
+            "Добавить приветственный стимул за перевод пенсии (разовый бонус/кэшбэк) по образцу рынка"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -10365,7 +10599,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ДСЖ КК",
+              "traffic_light": "green",
+              "active": "green",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B4%D1%81%D0%B6%20%D0%BA%D0%BA"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -11109,6 +11359,47 @@
             "ДСЖ КК"
           ],
           "product_group": "ДСЖ КК"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "green",
+          "recommendations": [
+            "Всего в клиентских путях найдено 1 сценарий кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 1.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ДСЖ КК"
+          ],
+          "product_group": "ДСЖ КК",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 0.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 1.0,
+          "api_seen_around_n": 1.0,
+          "api_potential_n": 1.0,
+          "crosssell_top_actions": [
+            "Показывать оффер ДСЖ КК в момент активации и первого использования кредитного лимита — там пик страха «не смогу погасить», а сейчас подключение спрятано в настройки карты."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -12258,7 +12549,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ДУ",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B4%D1%83"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -13166,6 +13473,44 @@
             "Инвестиционные рекомендации"
           ],
           "product_group": "Инвестиционные рекомендации"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ДУ"
+          ],
+          "product_group": "ДУ",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Оформить позиционирование «ДУ vs Автоследование» как осознанную развилку по чеку и вовлечённости — единственная высокоуверенная связка карты"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -14508,7 +14853,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Дебетовая карта",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B4%D0%B5%D0%B1%D0%B5%D1%82%D0%BE%D0%B2%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -15429,6 +15790,50 @@
             "Дебетовая карта (ТА)"
           ],
           "product_group": "Дебетовая карта (ТА)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 6 сценариев кросс-продаж.",
+            "Из них:",
+            "- 2 связки — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 4 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Дебетовая карта"
+          ],
+          "product_group": "Дебетовая карта",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 2.0,
+          "api_seen_out_n": 2.0,
+          "api_seen_in_n": 4.0,
+          "api_seen_around_n": 6.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Вычистить связку карта→СберПрайм от манипулятивных приёмов: явно показывать, что выгодные условия обусловлены платной подпиской (сейчас поданы как «результат обновления») — иначе доверие к флагманской допродаже проседает.",
+            "Достроить исходящий магнит остатка: при активном использовании карты предлагать перевести остаток на накопительный счёт (→ Накопительный, high).",
+            "Усилить семейный вход: детская карта выпускается только к карте родителя — вести из карты в СберKids (→ Детская карта, замечено на видео через GigaChat)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -16902,7 +17307,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Детская карта",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B4%D0%B5%D1%82%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -18064,6 +18485,50 @@
             "Детская карта"
           ],
           "product_group": "Детская карта"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 5 сценариев кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 4 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Детская карта"
+          ],
+          "product_group": "Детская карта",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 1.0,
+          "api_seen_out_n": 1.0,
+          "api_seen_in_n": 4.0,
+          "api_seen_around_n": 5.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Раскрутить обязательную связку «детская карта → дебетовая карта родителя»: для семьи без карты банка это точка входа взрослого продукта.",
+            "Допродавать детский счёт-копилку на цель ребёнка с процентом на остаток прямо в контуре детской карты.",
+            "Втягивать семью в единую программу Спасибо через детские траты — кэшбэк в супермаркетах и у партнёров."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -19431,7 +19896,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ЗПИФ",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BF%D0%B8%D1%84"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -20303,6 +20784,44 @@
             "ПИФ (пополнение)"
           ],
           "product_group": "ПИФ (пополнение)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ЗПИФ"
+          ],
+          "product_group": "ЗПИФ",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Оформить связку ДУ→ЗПИФ как явную воронку: на этапе подбора объекта недвижимости парковать средства в доверительном управлении с переводом в закрытый фонд"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -21548,7 +22067,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Зарплатный продукт",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%B0%D1%80%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -22320,6 +22855,49 @@
             "Перевод ЗП"
           ],
           "product_group": "Перевод ЗП"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 2 сценария кросс-продаж.",
+            "Из них:",
+            "- 2 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Зарплатный продукт"
+          ],
+          "product_group": "Зарплатный продукт",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 2.0,
+          "api_seen_around_n": 2.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Усилить связку «зарплата → предодобренный кредит наличными и кредитка»: для зарплатного клиента это самый быстрый и льготный путь.",
+            "Использовать скидку к ипотечной ставке для зарплатных как крючок перевода зарплаты в банк на этапе заявки на жильё.",
+            "Убрать трение раскрытия: показывать ставку, полную стоимость кредита и лимиты акции явно, а не мелким серым текстом."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -23878,7 +24456,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ИСЖ",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B8%D1%81%D0%B6"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -25085,6 +25679,46 @@
             "ИСЖ"
           ],
           "product_group": "ИСЖ"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ИСЖ"
+          ],
+          "product_group": "ИСЖ",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Убрать позиционирование «замена вкладу», встроить связку «ИСЖ как доля портфеля рядом с вкладом-подушкой» (анти-мисселинг).",
+            "Выстроить мост ИСЖ → ПДС как регулируемого преемника той же потребности (господдержка, налоговый вычет).",
+            "Вести продажу через премиальный канал, где есть время объяснить структуру продукта."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -26206,7 +26840,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ИнвестКопилка",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B8%D0%BD%D0%B2%D0%B5%D1%81%D1%82%D0%BA%D0%BE%D0%BF%D0%B8%D0%BB%D0%BA%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -26698,6 +27348,50 @@
             "ИнвестКопилка"
           ],
           "product_group": "ИнвестКопилка"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 3 сценария кросс-продаж.",
+            "Из них:",
+            "- 2 связки — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 1.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ИнвестКопилка"
+          ],
+          "product_group": "ИнвестКопилка",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 0.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 2.0,
+          "api_seen_out_n": 2.0,
+          "api_seen_in_n": 1.0,
+          "api_seen_around_n": 3.0,
+          "api_potential_n": 1.0,
+          "crosssell_top_actions": [
+            "Достроить видимый апгрейд-путь прямо в карточке: «копилка → выбрать фонд самому (БПИФ) → брокерский счёт» — сейчас переход к брокеру только как рекомендация.",
+            "Приоритизировать платёжный счёт в списке «Откуда» при настройке автопополнения (по сигналу очереди).",
+            "Предлагать копилку клиентам вкладов как следующую ступень лестницы доходности (сильная входящая связка)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -27789,7 +28483,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Интернет-Эквайринг",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%8D%D0%BA%D0%B2%D0%B0%D0%B9%D1%80%D0%B8%D0%BD%D0%B3-52"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -28260,6 +28970,45 @@
           "product_group": "Интернет-Эквайринг",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 9.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Интернет-Эквайринг"
+          ],
+          "product_group": "Интернет-Эквайринг",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 9.0,
+          "crosssell_top_actions": [
+            "Продавать интернет-эквайринг в связке с открытием РКО (счёт для онлайн-выручки) — прямая воронка на бизнес-счёт.",
+            "Доукомплектовывать чекаут кнопкой SberPay Ecom как апселл конверсии без смены провайдера (→ SberPay Ecom, high)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -29396,7 +30145,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Конверсия",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BA%D0%BE%D0%BD%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%8F"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -30450,6 +31215,45 @@
             "Конверсия валюты"
           ],
           "product_group": "Конверсия валюты"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Конверсия"
+          ],
+          "product_group": "Конверсия",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Встроить предложение мультивалютной или дебетовой карты в финал обмена — момент, когда валюту надо где-то держать (потенциал высокий).",
+            "Ставить обмен валюты встык к трансграничному переводу на том же экране — сильная входящая связка, пока не подтверждённая."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -31540,7 +32344,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Много денег (НКПЗН)",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BD%D0%BA%D0%BF%D0%B7%D0%BD"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -32011,6 +32831,45 @@
           "product_group": "Много денег (НКПЗН)",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Много денег (НКПЗН)"
+          ],
+          "product_group": "Много денег (НКПЗН)",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Встроить обязательное страхование залога в путь выдачи как понятный шаг — без него кредит не оформить, значит вести его надо прозрачно.",
+            "На заявке на «много денег» предлагать консолидацию: подтянуть дорогие потребкредиты и карты клиента в один платёж под залог."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -33147,7 +34006,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Монеты",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BC%D0%BE%D0%BD%D0%B5%D1%82%D1%8B"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -33712,6 +34587,47 @@
             "Монеты"
           ],
           "product_group": "Монеты"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 1 сценарий кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Монеты"
+          ],
+          "product_group": "Монеты",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 1.0,
+          "api_seen_around_n": 1.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Достроить исходящий кросс от покупки монет: предлагать хранение (сейф) и ОМС для докупки долями прямо в карточке монеты — сейчас монеты только принимают кросс от вклада, но сами никуда не ведут."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -34979,7 +35895,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "НСЖ",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BD%D1%81%D0%B6"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -35766,6 +36698,46 @@
             "НСЖ"
           ],
           "product_group": "НСЖ"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "НСЖ"
+          ],
+          "product_group": "НСЖ",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Собрать связку НСЖ → ПДС: предлагать ПДС как госнадстройку (софинансирование, вычет) к страховому накоплению для той же цели.",
+            "Достроить апселл в доверительное управление клиенту, уже принявшему горизонт 5+ лет.",
+            "Продавать НСЖ через премиальное обслуживание (СберПремьер), где есть время менеджера на объяснение и «якорение»."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -37116,7 +38088,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ОПИФ",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BE%D0%BF%D0%B8%D1%84"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -38004,6 +38992,46 @@
             "ПИФ (пополнение)"
           ],
           "product_group": "ПИФ (пополнение)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ОПИФ"
+          ],
+          "product_group": "ОПИФ",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Оформить миграцию ОПИФ→БПИФ как осознанную связку (перевод в более ликвидный и дешёвый биржевой фонд) — сейчас это только гипотеза карты",
+            "Снять общий барьер линейки: на экране выбора фонда объяснить типы фондов и их назначение",
+            "Проверить связку «ОПИФ на закрытии вклада» — момент, когда у клиента свободные деньги и он ищет ставку выше депозита"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -39095,7 +40123,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Объект Авто",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BE%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%20%D0%B0%D0%B2%D1%82%D0%BE"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -39566,6 +40610,45 @@
           "product_group": "Объект Авто",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Объект Авто"
+          ],
+          "product_group": "Объект Авто",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Встроить подбор КАСКО прямо в финал сделки на маркетплейсе — машина уже выбрана, это момент максимальной готовности закрыть покупку «под ключ».",
+            "Добавить ОСАГО обязательным шагом оформления купленного авто."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -40904,7 +41987,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ПДС",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BF%D0%B4%D1%81"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -41856,6 +42955,49 @@
             "ПДС"
           ],
           "product_group": "ПДС"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 2 сценария кросс-продаж.",
+            "Из них:",
+            "- 2 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ПДС"
+          ],
+          "product_group": "ПДС",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 2.0,
+          "api_seen_around_n": 2.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Поймать и усилить флагманский бандл «ПДС + вклад по повышенной ставке» — сейчас это сильнейшая связка, но она не оформлена в собственном сценарии",
+            "Достроить связку «перевод замороженных пенсионных накоплений в ПДС» как первый взнос без денег из кармана — крупный низкобарьерный вход",
+            "Убрать трение на шаге ознакомления (множество юр-галочек) — упростить до одного осознанного согласия"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -47738,7 +48880,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Пенсионный продукт",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BF%D0%B5%D0%BD%D1%81%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -48579,6 +49737,48 @@
             "Пенсионные выплаты"
           ],
           "product_group": "Пенсионные выплаты"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 1 сценарий кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Пенсионный продукт"
+          ],
+          "product_group": "Пенсионный продукт",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 1.0,
+          "api_seen_around_n": 1.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Достроить в путь перевода пенсии допредложение накопительного счёта с надбавкой за зачисление — чтобы пенсионер держал остаток в банке.",
+            "Связать пенсию с ПДС: перевод замороженных накоплений даёт первый взнос без денег из кармана."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -49767,7 +50967,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Переводы по РФ",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%D1%8B-44"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -50516,6 +51732,45 @@
             "Перевод ЗП"
           ],
           "product_group": "Перевод ЗП"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Переводы по РФ"
+          ],
+          "product_group": "Переводы по РФ",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Проверить и, если пусто, встроить кросс-слой в экран перевода — частотнейший сценарий недоиспользован; минимум обмен валюты при валютном переводе",
+            "Добавить мягкий оффер накопительного продукта/кэшбэка на остаток при исходящем переводе"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -51568,7 +52823,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Переводы подарков",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%D1%8B-45"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -52039,6 +53310,45 @@
           "product_group": "Переводы подарков",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 5.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Переводы подарков"
+          ],
+          "product_group": "Переводы подарков",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 5.0,
+          "crosssell_top_actions": [
+            "Встроить в экран получения подарка для получателя без карты банка явный шаг «открыть карту, чтобы забрать деньги» — единственная сильная связка (→ Дебетовая карта).",
+            "Достроить эмоциональный мост в обычные переводы: после подарочного P2P предлагать повторить/сохранить получателя (→ Переводы по РФ)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -53514,7 +54824,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Платежи",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BF%D0%BB%D0%B0%D1%82%D0%B5%D0%B6%D0%B8-43"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -54590,6 +55916,50 @@
             "Платежи в Сбол"
           ],
           "product_group": "Платежи в Сбол"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 3 сценария кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 2 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Платежи"
+          ],
+          "product_group": "Платежи",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 1.0,
+          "api_seen_out_n": 1.0,
+          "api_seen_in_n": 2.0,
+          "api_seen_around_n": 3.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Тиражировать пойманный автоплатёж-триггер (комиссия против автоплатежа) на все категории платежей, не только связь и ЖКХ",
+            "Привязать кэшбэк СберСпасибо к платежам как к самому частотному сценарию — сделать банк способом оплаты по умолчанию",
+            "Встроить оффер СберПэй в экран оплаты счёта — платить смартфоном без карты"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -55681,7 +57051,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "СберЧаевые",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D1%87%D0%B0%D0%B5%D0%B2%D1%8B%D0%B5"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -56152,6 +57538,45 @@
           "product_group": "СберЧаевые",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "СберЧаевые"
+          ],
+          "product_group": "СберЧаевые",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Превратить приём чаевых в мост к сервису для самозанятых — аудитория (официанты, курьеры, мастера) та же, и приём вознаграждений расширяется до приёма оплаты за услуги.",
+            "Предлагать копить поток чаевых на накопительном счёте прямо из личного кабинета сервиса."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -57242,7 +58667,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Сделка ИЖС",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%20%D0%B8%D0%B6%D1%81"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -57713,6 +59154,45 @@
           "product_group": "Сделка ИЖС",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 0.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Сделка ИЖС"
+          ],
+          "product_group": "Сделка ИЖС",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 0.0,
+          "crosssell_top_actions": [
+            "Собрать сделку ИЖС как единый узел: на шагах кредита и эскроу встроить страховку залога и жизни, а на финале — карту обслуживания и сервисы для нового дома (умные устройства, оплата ЖКХ).",
+            "Найти и убрать трения длинного маршрута строительства — там, где клиент, скорее всего, обрывается между одобрением и эскроу."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -58803,7 +60283,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Сделка вторичка",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%20%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D1%87%D0%BA%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -59274,6 +60770,46 @@
           "product_group": "Сделка вторичка",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Сделка вторичка"
+          ],
+          "product_group": "Сделка вторичка",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Продавать юридическую проверку на ДомКлик как встроенный шаг сделки (боль чистоты истории объекта) с явной скидкой -0,3% к ставке за неё.",
+            "Достроить титульное страхование как обязательный к показу элемент именно вторички — то, чего нет на первичке.",
+            "Предлагать сейфовую ячейку внутри пути расчёта по сделке — это сильная входящая связка от Сейфов."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -60364,7 +61900,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Сделка с Первичным жильём",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B8%D0%BF%D0%BE%D1%82%D0%B5%D0%BA%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -60835,6 +62387,49 @@
           "product_group": "Сделка с Первичным жильём",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 4 сценария кросс-продаж.",
+            "Из них:",
+            "- 4 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Сделка с Первичным жильём"
+          ],
+          "product_group": "Сделка с Первичным жильём",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 4.0,
+          "api_seen_around_n": 4.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Вести эскроу-счёт и ипотечное страхование как прозрачные обязательные шаги внутри сделки, а не как «допродажу» — они и так неизбежны, важно не потерять на них доверие.",
+            "Использовать момент ипотечной заявки как точку перевода зарплаты: подсветить -1% за зарплатный проект прямо в расчёте платежа.",
+            "До сделки предлагать накопительный счёт под первоначальный взнос — «парковка» будущего взноса в том же банке, где потом берётся ипотека."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -62116,7 +63711,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Сейфы",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B5%D0%B9%D1%84%D1%8B"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -62961,6 +64572,44 @@
             "Сейфы"
           ],
           "product_group": "Сейфы"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Сейфы"
+          ],
+          "product_group": "Сейфы",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Встроить предложение ячейки или ответственного хранения в финал покупки слитка и монеты — самая уверенная связка карты (Слитки → Сейфы), сначала её надо увидеть на кадре."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -64052,7 +65701,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Страхование залога",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B8%D0%BF%D0%BE%D1%82%D0%B5%D1%87%D0%BD%D0%BE%D0%B5%20%D1%81%D1%82%D1%80%D0%B0%D1%85%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -64523,6 +66188,50 @@
           "product_group": "Страхование залога",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 16 сценариев кросс-продаж.",
+            "Из них:",
+            "- 9 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 7 связок — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Страхование залога"
+          ],
+          "product_group": "Страхование залога",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 9.0,
+          "api_seen_out_n": 9.0,
+          "api_seen_in_n": 7.0,
+          "api_seen_around_n": 16.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Вынести связку залог→страхование жизни явно в момент оформления: −1% к ставке — сильнейший аргумент допродажи",
+            "Догрузить полис доп-продуктами по примеру конкурентов (карта/рассрочка на полис) — у Альфы «Подели» и лояльность, у Инго ИнгоКарта, у Сбера этой навески нет",
+            "Разобрать 5 трений в точках допродажи (больше всего в группе) — они режут апселл дорогих опций"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -65614,7 +67323,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Сценарии оплаты",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8%20%D0%BE%D0%BF%D0%BB%D0%B0%D1%82%D1%8B"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -66085,6 +67810,42 @@
           "product_group": "Сценарии оплаты",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 0.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Сценарии оплаты"
+          ],
+          "product_group": "Сценарии оплаты",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 0.0,
+          "crosssell_top_actions": [],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -67176,7 +68937,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Торговый Эквайринг",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%8D%D0%BA%D0%B2%D0%B0%D0%B9%D1%80%D0%B8%D0%BD%D0%B3-47"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -67647,6 +69424,45 @@
           "product_group": "Торговый Эквайринг",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 9.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Торговый Эквайринг"
+          ],
+          "product_group": "Торговый Эквайринг",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 9.0,
+          "crosssell_top_actions": [
+            "Связать продажу эквайринга с открытием РКО в одном сценарии (тариф эквайринга завязан на наличие счёта) — самая сильная исходящая воронка.",
+            "Использовать обороты по эквайрингу как триггер предодобренного кредита под обороты без залога (→ Кредит для бизнеса)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -68900,7 +70716,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Трансграничные переводы",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BF%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%D1%8B-42"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -69556,6 +71388,45 @@
             "Международ ден перевод"
           ],
           "product_group": "Международ ден перевод"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 5.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Трансграничные переводы"
+          ],
+          "product_group": "Трансграничные переводы",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 5.0,
+          "crosssell_top_actions": [
+            "Встроить обмен валюты (Конверсия) прямо в экран трансграничного перевода — продавать конвертацию встык",
+            "Предложить валютный/накопительный продукт на остаток после перевода частому отправителю"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -72209,7 +74080,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Транспортный эквайринг",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%8D%D0%BA%D0%B2%D0%B0%D0%B9%D1%80%D0%B8%D0%BD%D0%B3-39"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -72802,6 +74689,45 @@
             "Транспортный эквайринг"
           ],
           "product_group": "Транспортный эквайринг"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 9.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Транспортный эквайринг"
+          ],
+          "product_group": "Транспортный эквайринг",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 9.0,
+          "crosssell_top_actions": [
+            "Развести кросс-сейл на две ветки: B2B (эквайринг → расчётный счёт / кредит / зарплатный проект оператора) и B2C (оплата проезда → активация дебетовой карты и кэшбэка)",
+            "Использовать высокочастотный сценарий оплаты проезда для вовлечения в СберСпасибо и в детскую карту льготника"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -73854,7 +75780,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ЦФА",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%86%D1%84%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.nalichie_sobstvennyh_mehanik",
@@ -74356,6 +76298,44 @@
           "product_group": "ЦФА",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ЦФА"
+          ],
+          "product_group": "ЦФА",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 0.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Разместить вход в покупку ЦФА в инвест-разделе встык к брокерскому счёту — единственная связка с высокой уверенностью в карте; сперва её надо увидеть на кадре."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -75447,7 +77427,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Школьные сервисы",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%88%D0%BA%D0%BE%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D1%8B"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -75887,6 +77883,46 @@
           "product_group": "Школьные сервисы",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Школьные сервисы"
+          ],
+          "product_group": "Школьные сервисы",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Оформить связку «школьный сервис → детская карта» одним общим онбордингом — она неразделима по природе, стоит усилить как флагманскую",
+            "Замкнуть семейный контур: пополнение детской карты с дебетовой банка плюс кэшбэк на школьные категории",
+            "Проверить (не форсируя) гипотезу таргета семейной ипотеки по признаку семьи с детьми"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -77053,7 +79089,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "SberPay Ecom",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%8D%D0%B9-53"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -77709,6 +79761,45 @@
             "SberPAY"
           ],
           "product_group": "SberPAY"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "SberPay Ecom"
+          ],
+          "product_group": "SberPay Ecom",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Продвигать «кэшбэк сохраняется» как явное отличие SberPay от СБП-QR на чекауте (→ СберСпасибо) — главный аргумент выбора.",
+            "Встраивать кнопку Ecom стандартным доукомплектом к любому эквайрингу (транспортный/торговый/интернет) — рост через связку с приёмом платежей."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -78889,7 +80980,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "SberPay Вжух",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%8D%D0%B9-54"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -79674,6 +81781,45 @@
             "SberPAY"
           ],
           "product_group": "SberPAY"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "SberPay Вжух"
+          ],
+          "product_group": "SberPay Вжух",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Встроить в подключение Вжух явный шаг привязки или выпуска дебетовой карты банка — это его сильнейшая связка для iPhone-аудитории.",
+            "Показывать на экране оплаты, что Вжух сохраняет кэшбэк Спасибо, — это аргумент выбрать его вместо стороннего способа."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -80957,7 +83103,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Автокредит",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B0%D0%B2%D1%82%D0%BE%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -81916,6 +84078,49 @@
             "Автокредитование"
           ],
           "product_group": "Автокредитование"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 2 сценария кросс-продаж.",
+            "Из них:",
+            "- 2 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Автокредит"
+          ],
+          "product_group": "Автокредит",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 2.0,
+          "api_seen_around_n": 2.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Раскрыть состав «страхования, услуг и оборудования» в сумме кредита: вывести КАСКО и ОСАГО отдельными строками с ценой и возможностью выбора — связка есть, но спрятана.",
+            "Явно показать ПСК и итоговую ставку с учётом страховки и зарплатного проекта на экране решения, убрав необъяснённые «две ставки / два платежа».",
+            "Достроить ОСАГО как обязательный следующий шаг после выдачи — без него авто не поставить на учёт."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -83155,7 +85360,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ВЗР",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B2%D0%B7%D1%80"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -83825,6 +86046,50 @@
             "Страхование ВЗР"
           ],
           "product_group": "Страхование ВЗР"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 11 сценариев кросс-продаж.",
+            "Из них:",
+            "- 7 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 4 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 1.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ВЗР"
+          ],
+          "product_group": "ВЗР",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 7.0,
+          "api_seen_out_n": 7.0,
+          "api_seen_in_n": 4.0,
+          "api_seen_around_n": 11.0,
+          "api_potential_n": 1.0,
+          "crosssell_top_actions": [
+            "Достроить связку ВЗР→тревел-карта: покупатель разовой поездочной страховки — очевидная цель дебетовой карты с милями/кешбэком на билеты, куда медстраховка уже включена",
+            "Усилить подписочную упаковку: ВЗР сезонна и разова — выгоднее отдавать бонусом в СберПрайм; баннер −25% уже есть, довести до явного оффера «подписка выгоднее разовой покупки»",
+            "Разобрать 3 замеченных трения в точках допродажи опций — они снижают апселл на экране «Можно добавить»"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -84854,7 +87119,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Выписки, справки",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B2%D1%8B%D0%BF%D0%B8%D1%81%D0%BA%D0%B8%20%D1%81%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -85325,6 +87606,45 @@
           "product_group": "Выписки, справки",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Выписки, справки"
+          ],
+          "product_group": "Выписки, справки",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Показывать предодобренное предложение кредита или ипотеки прямо на экране заказа справки о доходах — это момент максимального намерения, когда клиент собирает документы под заявку (возможно, в другой банк).",
+            "Тем, кто регулярно заказывает справки для подтверждения дохода без работодателя, предлагать сервис для самозанятых."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -86519,7 +88839,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ДСЖ ПК",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B4%D1%81%D0%B6%20%D0%BF%D0%BA"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -87095,6 +89431,49 @@
             "ДСЖ ПК"
           ],
           "product_group": "ДСЖ ПК"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 8 сценариев кросс-продаж.",
+            "Из них:",
+            "- 6 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 2 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ДСЖ ПК"
+          ],
+          "product_group": "ДСЖ ПК",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 0.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 6.0,
+          "api_seen_out_n": 6.0,
+          "api_seen_in_n": 2.0,
+          "api_seen_around_n": 8.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Довести attach до рефинансирования кредитов: при перевыдаче долга оформлять свою программу страхования жизни ради скидки к ставке — полис переезжает вместе с кредитом (потенциал есть, записи нет).",
+            "В отличие от эталона ВТБ, где отказ спрятан, держать выбор «с защитой / без» явным на экране кредита — это снижает риск претензий и мисселинга."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -88956,7 +91335,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ЗЛС",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BB%D1%81"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -90725,6 +93120,44 @@
             "Спортивное страхование"
           ],
           "product_group": "Спортивное страхование"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 0.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ЗЛС"
+          ],
+          "product_group": "ЗЛС",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 0.0,
+          "crosssell_top_actions": [
+            "Встроить предложение ЗЛС в момент оформления и активации карт и в платёжные сценарии, где риск мошенничества для клиента ощутимее всего."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -91816,7 +94249,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Залоговое страхование (корпоративное страхование)",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%B0%D0%BB%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D0%B5%20%D1%81%D1%82%D1%80%D0%B0%D1%85%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BE%D1%80%D0%BF"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -92287,6 +94736,44 @@
           "product_group": "Залоговое страхование (корпоративное страхование)",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Залоговое страхование (корпоративное страхование)"
+          ],
+          "product_group": "Залоговое страхование (корпоративное страхование)",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Гипотеза для проверки: залоговое страхование логично допродаётся в момент выдачи кредита бизнесу и тянет за собой расчётный счёт — собрать этот B2B-бандл в одном сценарии сделки."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -93481,7 +95968,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Как зарплатный",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BA%D0%B0%D0%BA%20%D0%B7%D0%B0%D1%80%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -94057,6 +96560,45 @@
             "Как зарплатный"
           ],
           "product_group": "Как зарплатный"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Как зарплатный"
+          ],
+          "product_group": "Как зарплатный",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Сделать «переведи зарплату сам и получи условия» явным онбординг-сценарием на карте: перевод из другого банка → повышенный кэшбэк сразу как награда (→ СберСпасибо).",
+            "Ловить регулярное поступление под накопительный счёт с автоотчислением (→ Накопительный, medium) — удержание остатка и LTV."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -95444,7 +97986,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Кредитные карты",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -96550,6 +99108,49 @@
             "Кредитные карты (ТА)"
           ],
           "product_group": "Кредитные карты (ТА)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 5 сценариев кросс-продаж.",
+            "Из них:",
+            "- 5 связок — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Кредитные карты"
+          ],
+          "product_group": "Кредитные карты",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 5.0,
+          "api_seen_around_n": 5.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Замкнуть погашение долга внутри приложения — убрать увод в 2ГИС на пути закрытия счёта",
+            "Не показывать оффер новой кредитки клиенту с активными просрочками — заменить его на сценарий урегулирования/рефинансирования",
+            "Встроить ДСЖ КК (страхование задолженности) в момент активации лимита — усилить проверенную рынком связку"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -97892,7 +100493,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ОМС",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BE%D0%BC%D1%81%20%D0%BC%D0%B5%D1%82%D0%B0%D0%BB%D0%BB"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -98758,6 +101375,44 @@
             "ОМС (пополнение)"
           ],
           "product_group": "ОМС (пополнение)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ОМС"
+          ],
+          "product_group": "ОМС",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Предлагать ОМС на закрытии и пролонгации вклада как валютно-независимую диверсификацию — момент, когда клиент решает, куда переложить деньги (потенциал средний)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -99885,7 +102540,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "СберСова",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D1%81%D0%BE%D0%B2%D0%B0"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -100390,6 +103061,48 @@
             "СберСова"
           ],
           "product_group": "СберСова"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 6 сценариев кросс-продаж.",
+            "Из них:",
+            "- 6 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "СберСова"
+          ],
+          "product_group": "СберСова",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 6.0,
+          "api_seen_out_n": 6.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 6.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Замкнуть каждый обучающий сюжет на кнопку продукта в конце курса (курс ОСАГО → оформить ОСАГО, гид по инвестициям → открыть брокерский счёт) — превратить просмотр в оформление.",
+            "Достроить мост в детские продукты: курсы финграмотности для школьников → Детская карта под родительским контролем (связка из карты потенциала)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -101481,7 +104194,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Слитки",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%BB%D0%B8%D1%82%D0%BA%D0%B8"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -101952,6 +104681,48 @@
           "product_group": "Слитки",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 1 сценарий кросс-продаж.",
+            "Из них:",
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Слитки"
+          ],
+          "product_group": "Слитки",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 1.0,
+          "api_seen_around_n": 1.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Достроить на финале покупки слитка предложение ответственного хранения или сейфовой ячейки — это самая логичная пара: риск повреждения слитка означает потерю пробы и цены.",
+            "Рядом со слитком предлагать ОМС как лёгкую докупку и продажу металла долями онлайн — мост между физическим и безналичным золотом."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -103266,7 +106037,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Страхование жизни",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D1%82%D1%80%D0%B0%D1%85%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%B6%D0%B8%D0%B7%D0%BD%D0%B8"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -103968,6 +106755,50 @@
             "Защищенный заемщик+Страхование залогов"
           ],
           "product_group": "Защищенный заемщик+Страхование залогов"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 8 сценариев кросс-продаж.",
+            "Из них:",
+            "- 3 связки — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 5 связок — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Страхование жизни"
+          ],
+          "product_group": "Страхование жизни",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 3.0,
+          "api_seen_out_n": 3.0,
+          "api_seen_in_n": 5.0,
+          "api_seen_around_n": 8.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Усилить связку с кредитными сделками (потреб/ипотека/автокредит) по принципу «страховка = скидка к ставке» в одном экране оформления заявки.",
+            "Снять формулировку «гарантированная доходность» со страхового продукта — это риск мисселинга и репутационный удар.",
+            "Достроить переход из витрины страхования к брокерскому счёту — сейчас лишь подсказка ассистента."
+          ],
+          "requires_manual_validation": true
         }
       ]
     },
@@ -105059,7 +107890,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Кредитный потенциал",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BA%D0%BF%20%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%BE%D1%82%D0%B5%D0%BD%D1%86%D0%B8%D0%B0%D0%BB"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -105530,6 +108377,45 @@
           "product_group": "Кредитный потенциал",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Кредитный потенциал"
+          ],
+          "product_group": "Кредитный потенциал",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Починить сравнение офферов: раз витрина обещает 4 предложения, показывать их рядом на экране одобрения, а не единственный вариант — это прямое трение конверсии в кредит.",
+            "Ввести гейт ответственного кредитования: не подсвечивать новое оформление клиенту с активными просрочками."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -106621,7 +109507,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Образовательный кредит",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BE%D0%B1%D1%80%D0%B0%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -107092,6 +109994,45 @@
           "product_group": "Образовательный кредит",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 0.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Образовательный кредит"
+          ],
+          "product_group": "Образовательный кредит",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 0.0,
+          "crosssell_top_actions": [
+            "Связать образовательный кредит со школьными сервисами и курсами экосистемы — оформил кредит на обучение, получил вход в образовательную платформу.",
+            "На экране одобрения предлагать страховку заёмщика и карту для зачисления средств, а семейному клиенту — детскую карту."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -108403,7 +111344,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "КАСКО",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BA%D0%B0%D1%81%D0%BA%D0%BE"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -109105,6 +112062,50 @@
             "КАСКО"
           ],
           "product_group": "КАСКО"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 7 сценариев кросс-продаж.",
+            "Из них:",
+            "- 4 связки — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 3 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "КАСКО"
+          ],
+          "product_group": "КАСКО",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 4.0,
+          "api_seen_out_n": 4.0,
+          "api_seen_in_n": 3.0,
+          "api_seen_around_n": 7.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Вынести оформление КАСКО из глубины СБОЛ на видное место (из авто-раздела или из ОСАГО) — по сигналу продукт сейчас недоступен без знания точного пути.",
+            "Раскрыть «выгоду» из промо-баннера прямо в сценарии (расчёт, условия), а не только на заставке.",
+            "Связать КАСКО ↔ ОСАГО в единый авто-кабинет и допродавать при автокредите и покупке авто (сильные входящие по карте связок)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -110402,7 +113403,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "ОСАГО",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BE%D1%81%D0%B0%D0%B3%D0%BE"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -111205,6 +114222,50 @@
             "ОСАГО"
           ],
           "product_group": "ОСАГО"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 15 сценариев кросс-продаж.",
+            "Из них:",
+            "- 4 связки — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 11 связок — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "ОСАГО"
+          ],
+          "product_group": "ОСАГО",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.5,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 4.0,
+          "api_seen_out_n": 4.0,
+          "api_seen_in_n": 11.0,
+          "api_seen_around_n": 15.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Встроить допродажу КАСКО в момент оформления/оплаты ОСАГО — свести оба полиса в один авто-кабинет (одна дата, одно окно продлений), как это делают конкуренты.",
+            "Привязать оплату полиса к дебетовой карте с авто-кэшбэком (АЗС/страховка) — превратить разовую премию в транзакционный продукт.",
+            "Добавить защиту водителя (Личная защита Плюс) как смежную боль «а что со мной при аварии»."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -112505,7 +115566,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "СберПрайм",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%80%D0%B0%D0%B9%D0%BC"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -113485,6 +116562,50 @@
             "СберПрайм"
           ],
           "product_group": "СберПрайм"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 25 сценариев кросс-продаж.",
+            "Из них:",
+            "- 13 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 12 связок — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 1.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "СберПрайм"
+          ],
+          "product_group": "СберПрайм",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 0.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 13.0,
+          "api_seen_out_n": 13.0,
+          "api_seen_in_n": 12.0,
+          "api_seen_around_n": 25.0,
+          "api_potential_n": 1.0,
+          "crosssell_top_actions": [
+            "Сделать платное продление честным: показывать цену и дату списания на экране подтверждения так же явно, как «30 дней 0 ₽» — для подписки прозрачность напрямую влияет на отписки и жалобы.",
+            "Убрать лишний вход по Сбер ID ради скидки, когда телефон клиента уже известен — это трение конверсии прямо на входе в подписку.",
+            "Усилить самый доходный вход-магнит — связку с вкладами (+1% за СберПрайм+): подписка окупается разом, а держит клиента годами."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -114544,7 +117665,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "POS-кредиты",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=pos-%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82%D1%8B"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -115015,6 +118152,45 @@
           "product_group": "POS-кредиты",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 0.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "POS-кредиты"
+          ],
+          "product_group": "POS-кредиты",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 0.0,
+          "crosssell_top_actions": [
+            "Достроить довесок на кассе: к одобренному POS-кредиту сразу предлагать защиту купленного товара и переход на кредитную карту с бóльшим лимитом.",
+            "Связать витрины оплаты (SberPay в интернете, Мегамаркет, Самокат) с POS-кредитом как способом оплаты — чтобы покупка втягивала клиента в кредит внутри экосистемы, а не уводила в сторонний банк."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -116106,7 +119282,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Личная защита Плюс",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BB%D0%B8%D1%87%D0%BD%D0%B0%D1%8F%20%D0%B7%D0%B0%D1%89%D0%B8%D1%82%D0%B0%20%D0%BF%D0%BB%D1%8E%D1%81"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -116577,6 +119769,44 @@
           "product_group": "Личная защита Плюс",
           "llm_summary": true,
           "llm_placeholder": true
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Личная защита Плюс"
+          ],
+          "product_group": "Личная защита Плюс",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Оформить заход ОСАГО→личная защита как смежную боль водителя («а что со мной при аварии») — самая логичная точка входа"
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -117749,7 +120979,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "SberPay NFC",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%8D%D0%B9-49"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -118426,6 +121672,45 @@
             "SberPAY"
           ],
           "product_group": "SberPAY"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "SberPay NFC"
+          ],
+          "product_group": "SberPay NFC",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Встроить предложение SberPay NFC в момент оплаты счёта и ЖКХ («платите смартфоном без карты, кэшбэк сохраняется») — входящие связки из платежей пока только на карте.",
+            "Играть на СБП-плече: продвигать «плати картой Сбера даже со счёта другого банка» как захват платёжного трафика (→ Платежи/СБП, high)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -119561,7 +122846,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Оплата улыбкой",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%8D%D0%B9-46"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -120074,6 +123375,45 @@
             "Sberpay Био"
           ],
           "product_group": "Sberpay Био"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Потенциальных cross-sell связок: 4.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Оплата улыбкой"
+          ],
+          "product_group": "Оплата улыбкой",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 0.0,
+          "dd_crosssell_max": 0.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 0.0,
+          "api_seen_out_n": 0.0,
+          "api_seen_in_n": 0.0,
+          "api_seen_around_n": 0.0,
+          "api_potential_n": 4.0,
+          "crosssell_top_actions": [
+            "Убрать трение доверия: встроить явный экран согласия на биометрию до сканирования лица — без него подключение метода и завязанная на нём привязка карты проседают.",
+            "Достроить магнит лояльности: отдельная категория кэшбэка «за оплату улыбкой» как стимул выбирать биометрию на кассе (→ СберСпасибо)."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -121430,7 +124770,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "Потребительский кредит",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%BF%D0%BE%D1%82%D1%80%D0%B5%D0%B1%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D0%B9%20%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -122494,6 +125850,50 @@
             "Потребительское кредитование"
           ],
           "product_group": "Потребительское кредитование"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 8 сценариев кросс-продаж.",
+            "Из них:",
+            "- 5 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 3 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 2.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "Потребительский кредит"
+          ],
+          "product_group": "Потребительский кредит",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 5.0,
+          "api_seen_out_n": 5.0,
+          "api_seen_in_n": 3.0,
+          "api_seen_around_n": 8.0,
+          "api_potential_n": 2.0,
+          "crosssell_top_actions": [
+            "Убрать трение прозрачности в attach страховки: показывать полную стоимость полиса и его влияние на ПСК так же крупно, как обещание «выплатим 100%» — честная допродажа снижает отписки.",
+            "Достроить связку с рефинансированием на пути обслуживания кредита для заёмщиков с несколькими кредитами и картами — пока это лишь рыночная гипотеза, кадром не замечена.",
+            "Сделать привязку дебетовой карты к зачислению суммы кредита явным шагом — так разовый кредит превращается в активного клиента с ежедневными операциями."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -123630,7 +127030,23 @@
           "type": "block",
           "code": "mehaniki",
           "name": "Механики",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Cross-sell",
+              "kind": "ai",
+              "ai_tool_key": "cross_sell",
+              "ai_tool_product_name": "СберСпасибо",
+              "traffic_light": "yellow",
+              "active": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D1%81%D0%BF%D0%B0%D1%81%D0%B8%D0%B1%D0%BE"
+              },
+              "footer": "Product Lens · раунд r12-20260729T105611Z",
+              "crosssell_export": true
+            }
+          ],
           "metrics": [
             {
               "code": "mehaniki.vozvrat_klientov",
@@ -124442,6 +127858,50 @@
             "Спасибо (ТА)"
           ],
           "product_group": "Спасибо (ТА)"
+        },
+        {
+          "id": "cross_sell-1",
+          "skill_key": "cross_sell",
+          "skill_name": "Cross-sell",
+          "block_code": "mehaniki",
+          "row_type": "светофор",
+          "is_traffic_light": true,
+          "indicator": "Cross-sell: покрытие и рекомендованные действия",
+          "traffic_light": "yellow",
+          "recommendations": [
+            "Всего в клиентских путях найдено 14 сценариев кросс-продаж.",
+            "Из них:",
+            "- 6 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            "- 8 связок — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            "Потенциальных cross-sell связок: 3.",
+            "Дальнейшие шаги:",
+            "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+            "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+            "3) Если вы согласны, возьмите в бэклог для проработки."
+          ],
+          "month": "",
+          "is_stale": false,
+          "stale_tooltip": "",
+          "ai_products": [
+            "СберСпасибо"
+          ],
+          "product_group": "СберСпасибо",
+          "source": "Product Lens",
+          "crosssell_marker": true,
+          "dd_crosssell_value": 1.0,
+          "dd_crosssell_max": 1.0,
+          "api_implemented": 0.0,
+          "api_crosssell_count": 6.0,
+          "api_seen_out_n": 6.0,
+          "api_seen_in_n": 8.0,
+          "api_seen_around_n": 14.0,
+          "api_potential_n": 3.0,
+          "crosssell_top_actions": [
+            "Замкнуть цикл «бонусами оплачивается сама подписка СберПрайм» — это удерживает клиента и в лояльности, и в платной подписке.",
+            "Убрать трение оплаты: на чекауте по умолчанию предвыбран менее выгодный способ вместо SberPay с бонусами до 99% — так теряется и лояльность, и пэй.",
+            "Усиливать связку «Спасибо сохраняется в SberPay и Вжух» как ключевой довод выбрать способ оплаты банка на кассе."
+          ],
+          "requires_manual_validation": false
         }
       ]
     },
@@ -142890,8 +146350,8 @@
     "llm_unmatched_no_digest": 0,
     "llm_summaries": 0,
     "llm_errors": [],
-    "source": "/Users/roman/conductor/workspaces/DD-dev/karachi/ai_skill_digest_export.xlsx",
-    "mapping": "/Users/roman/conductor/workspaces/DD-dev/karachi/ai_product_mapping.xlsx",
+    "source": "/Users/roman/Documents/Codex/DD-dev/ai_skill_digest_export.xlsx",
+    "mapping": "/Users/roman/Documents/Codex/DD-dev/ai_product_mapping.xlsx",
     "mapping_keys": 158,
     "mapping_rows": 233,
     "mapping_total_keys": 528,
@@ -142902,9 +146362,24 @@
     "recommendation_items": 727
   },
   "crosssell": {
-    "enabled": false,
-    "source": "",
-    "reason": "skipped"
+    "enabled": true,
+    "source": "crosssell_export.json",
+    "status": "ok",
+    "round_id": "r12-20260729T105611Z",
+    "generated_at": "2026-07-29T10:56:12+00:00",
+    "schema_version": 1,
+    "validation": "ok",
+    "catalog_products": 108,
+    "markers": 85,
+    "matched_products": 61,
+    "matched_markers": 61,
+    "catalog_fallbacks": 0,
+    "manual_validation_count": 1,
+    "unmatched_dd_products": [
+      "Пакет услуг СберПервый",
+      "Пакет услуг СберПремьер",
+      "Трансграничный эквайринг"
+    ]
   },
   "ai_skills_enabled": true
 }

@@ -175,6 +175,36 @@ export function filterInapplicableMetricGroups(blocks, aiRecommendationBlockCode
   });
 }
 
+function nestedTools(block) {
+  const tools = [];
+  const collect = (tool) => {
+    tools.push(tool);
+    (tool?.buttons || []).forEach(collect);
+    (tool?.tools || []).forEach(collect);
+  };
+  (block?.tools || []).forEach(collect);
+  return tools;
+}
+
+export function metricSkillLinks(block, metric) {
+  const metricCode = String(metric?.code || '').trim();
+  const metricName = String(metric?.name || '').trim();
+  const skillPattern = /^attract\.campaign_launches$/i.test(metricCode) || /^запуски кампаний за квартал$/i.test(metricName)
+    ? /^поиск по пилотам$/i
+    : /^attract\.chernoviki_v_sbol_70$/i.test(metricCode) || /^черновики в сбол/i.test(metricName)
+      ? /^черновики$/i
+      : null;
+  if (!skillPattern) return [];
+  const links = nestedTools(block)
+    .filter((tool) => skillPattern.test(String(tool?.name || '').trim()) && tool.button?.link)
+    .map((tool) => ({label: tool.name, href: tool.button.link}));
+  return links.filter((item, index) => links.findIndex((candidate) => candidate.label === item.label && candidate.href === item.href) === index);
+}
+
+export function hasPilotCampaignSkill(block) {
+  return nestedTools(block).some((tool) => /^пилотные кампании$/i.test(String(tool?.name || '').trim()));
+}
+
 export function filterMetricsForBlock(block, metrics) {
   const blockCode = String(block?.code || '').trim().toLowerCase();
   const blockName = String(block?.name || '').trim().toLowerCase();

@@ -203,6 +203,9 @@ Cross-sell интеграция использует `GET /api/v1/crosssell/mark
 после NFC/casefold-нормализации; токен должен иметь scope `crosssell:read`.
 Для включения интеграции передайте `--crosssell`; без этого флага API и локальный
 кэш `crosssell_export.json` не используются.
+Количество замеченных связок берётся из `seen_out_n`, `seen_in_n` и
+`seen_around_n`, потенциальных — из `potential_n`; legacy-поле `implemented`
+сохраняется только для диагностики.
 
 ```bash
 python build_gravity_report.py --crosssell

@@ -2146,7 +2146,9 @@ def crosssell_analytics_link(
         parsed_deeplink = urlsplit(deeplink)
         if parsed_deeplink.scheme in {"http", "https"}:
             return deeplink
-    product_uid = clean_text(catalog_product.get("uid"))
+    product_uid = clean_text(
+        marker.get("uid") if isinstance(marker, dict) else ""
+    ) or clean_text(catalog_product.get("uid"))
     if product_uid:
         fragment = quote(product_uid, safe="-._~")
         return f"{CROSSSELL_SHOWCASE_URL}#product={fragment}"
@@ -2160,6 +2162,39 @@ def crosssell_analytics_link(
     return f"{CROSSSELL_SHOWCASE_URL}#product={fragment}"
 
 
+def crosssell_top_action_texts(marker: dict[str, Any] | None) -> list[str]:
+    marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
+    marker_block = marker_block if isinstance(marker_block, dict) else {}
+    actions = marker_block.get("top_actions")
+    texts: list[str] = []
+    if not isinstance(actions, list):
+        return texts
+    for action in actions:
+        if not isinstance(action, dict):
+            continue
+        action_text = clean_text(action.get("text"))
+        market_example = clean_text(action.get("market_example"))
+        if action_text and market_example:
+            texts.append(f"{action_text} Рыночный пример: {market_example}.")
+        elif action_text:
+            texts.append(action_text)
+    return unique_non_empty(texts)
+
+
+def crosssell_count_phrase(value: float, forms: tuple[str, str, str]) -> str:
+    integer = int(value)
+    absolute = abs(integer)
+    if absolute % 100 in range(11, 15):
+        word = forms[2]
+    elif absolute % 10 == 1:
+        word = forms[0]
+    elif absolute % 10 in range(2, 5):
+        word = forms[1]
+    else:
+        word = forms[2]
+    return f"{value:g} {word}"
+
+
 def crosssell_recommendation_texts(
     marker: dict[str, Any] | None,
     catalog_product: dict[str, Any],
@@ -2168,34 +2203,66 @@ def crosssell_recommendation_texts(
     marker_block = marker_block if isinstance(marker_block, dict) else {}
     texts: list[str] = []
 
-    etalon_pairs = marker_block.get("etalon_pairs")
-    implemented = marker_block.get("implemented")
-    if isinstance(etalon_pairs, int):
-        implemented_count = implemented if isinstance(implemented, int) else 0
-        texts.append(f"Реализовано cross-sell связок: {implemented_count} из {etalon_pairs}.")
-
-    counters = (
-        ("missing_ab_ready", "Готовы к внедрению и A/B-проверке"),
-        ("unverifiable_without_video", "Нельзя проверить без видео пути"),
-        ("friction_links", "Связки с трением или потерями"),
-        ("optout_unknown", "Связки с неизвестным opt-out"),
+    seen_out_n = clean_number(marker_block.get("seen_out_n"))
+    seen_in_n = clean_number(marker_block.get("seen_in_n"))
+    seen_around_n = clean_number(marker_block.get("seen_around_n"))
+    potential_n = clean_number(marker_block.get("potential_n"))
+    next_steps = [
+        "Дальнейшие шаги:",
+        '1) Ознакомьтесь с рекомендациями на платформе (по кнопке "Перейти" выше).',
+        "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. "
+        "Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+        "3) Если вы согласны, возьмите в бэклог для проработки.",
+    ]
+    if seen_out_n == 0 and seen_in_n == 0:
+        return [
+            f"Потенциальных cross-sell связок: {(potential_n or 0):g}.",
+            *next_steps,
+        ]
+    has_seen_breakdown = any(
+        value is not None and value > 0
+        for value in (seen_out_n, seen_in_n)
     )
-    for key, label in counters:
-        value = marker_block.get(key)
-        if isinstance(value, int) and value > 0:
-            texts.append(f"{label}: {value}.")
+    if seen_around_n is not None:
+        texts.append(
+            "Всего в клиентских путях найдено "
+            f"{crosssell_count_phrase(seen_around_n, ('сценарий', 'сценария', 'сценариев'))} "
+            "кросс-продаж."
+        )
+    if has_seen_breakdown:
+        texts.append("Из них:")
+        if seen_out_n is not None and seen_out_n > 0:
+            texts.append(
+                f"- {crosssell_count_phrase(seen_out_n, ('связка', 'связки', 'связок'))} "
+                "— кросс-селл с другими продуктами в рамках сценариев вашего продукта."
+            )
+        if seen_in_n is not None and seen_in_n > 0:
+            texts.append(
+                f"- {crosssell_count_phrase(seen_in_n, ('связка', 'связки', 'связок'))} "
+                "— кросс-селл в сценариях других продуктов с вашим продуктом."
+            )
+    if potential_n is not None:
+        texts.append(f"Потенциальных cross-sell связок: {potential_n:g}.")
 
-    actions = marker_block.get("top_actions")
-    if isinstance(actions, list):
-        for action in actions:
-            if not isinstance(action, dict):
-                continue
-            action_text = clean_text(action.get("text"))
-            market_example = clean_text(action.get("market_example"))
-            if action_text and market_example:
-                texts.append(f"{action_text}. Рыночный пример: {market_example}.")
-            elif action_text:
-                texts.append(action_text.rstrip(".") + ".")
+    # Backward compatibility for cached markers from the legacy contract.
+    if seen_out_n is None and seen_in_n is None and seen_around_n is None:
+        etalon_pairs = marker_block.get("etalon_pairs")
+        implemented = marker_block.get("implemented")
+        if isinstance(etalon_pairs, int):
+            implemented_count = implemented if isinstance(implemented, int) else 0
+            texts.append(f"Реализовано cross-sell связок: {implemented_count} из {etalon_pairs}.")
+        for key, label in (
+            ("missing_ab_ready", "Готовы к внедрению и A/B-проверке"),
+            ("unverifiable_without_video", "Нельзя проверить без видео пути"),
+            ("friction_links", "Связки с трением или потерями"),
+            ("optout_unknown", "Связки с неизвестным opt-out"),
+        ):
+            value = marker_block.get(key)
+            if isinstance(value, int) and value > 0:
+                texts.append(f"{label}: {value}.")
+
+    if marker:
+        texts.extend(next_steps)
 
     if not marker:
         covered = catalog_product.get("covered") is True
@@ -2260,16 +2327,17 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
         if product_type not in {"продукт", "product"}:
             continue
         product_name = clean_text(product.get("name"))
+        marker = find_crosssell_item(marker_index, product_name, product.get("unit"))
         catalog_product = find_crosssell_item(product_index, product_name, product.get("unit"))
-        if not catalog_product:
+        if not marker and not catalog_product:
             unmatched_dd_products.append(product_name)
             continue
+        catalog_product = catalog_product or marker or {}
         block = find_block(product, CROSSSELL_BLOCK_CODE)
         if not block:
             unmatched_dd_products.append(product_name)
             continue
 
-        marker = find_crosssell_item(marker_index, product_name, product.get("unit"))
         marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
         marker_block = marker_block if isinstance(marker_block, dict) else {}
         api_light = (
@@ -2292,9 +2360,21 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
         api_implemented = clean_number(marker_block.get("implemented"))
         if api_implemented is None:
             api_implemented = clean_number(catalog_product.get("implemented"))
-        api_crosssell_count = clean_number(marker_block.get("etalon_pairs"))
+        api_seen_out_n = clean_number(marker_block.get("seen_out_n"))
+        if api_seen_out_n is None:
+            api_seen_out_n = clean_number(catalog_product.get("seen_out_n"))
+        api_seen_in_n = clean_number(marker_block.get("seen_in_n"))
+        if api_seen_in_n is None:
+            api_seen_in_n = clean_number(catalog_product.get("seen_in_n"))
+        api_seen_around_n = clean_number(marker_block.get("seen_around_n"))
+        if api_seen_around_n is None:
+            api_seen_around_n = clean_number(catalog_product.get("seen_around_n"))
+        api_potential_n = clean_number(marker_block.get("potential_n"))
+        if api_potential_n is None:
+            api_potential_n = clean_number(catalog_product.get("potential_n"))
+        api_crosssell_count = api_seen_out_n
         if api_crosssell_count is None:
-            api_crosssell_count = clean_number(catalog_product.get("etalon_pairs"))
+            api_crosssell_count = clean_number(marker_block.get("etalon_pairs"))
         requires_manual_validation = bool(
             dd_crosssell_value == 0
             and dd_crosssell_max == 1
@@ -2311,7 +2391,6 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
             "indicator": "Cross-sell: покрытие и рекомендованные действия",
             "traffic_light": light,
             "recommendations": texts,
-            "rule": "анализ основан на пройденных аналитиках на платформе LossHunter",
             "month": "",
             "is_stale": False,
             "stale_tooltip": "",
@@ -2323,6 +2402,11 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
             "dd_crosssell_max": dd_crosssell_max,
             "api_implemented": api_implemented,
             "api_crosssell_count": api_crosssell_count,
+            "api_seen_out_n": api_seen_out_n,
+            "api_seen_in_n": api_seen_in_n,
+            "api_seen_around_n": api_seen_around_n,
+            "api_potential_n": api_potential_n,
+            "crosssell_top_actions": crosssell_top_action_texts(marker),
             "requires_manual_validation": requires_manual_validation,
         }
         current_recommendations = [
