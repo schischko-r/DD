@@ -136,6 +136,7 @@ test('html_page URL, title and Gravity icon come from the Vite env map', () => {
     'FaceSad',
     'FileText',
     'Funnel',
+    'Heart',
     'PaperPlane',
     'Smartphone',
     'Sparkles',
