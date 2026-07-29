@@ -12,11 +12,12 @@ import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 export function HtmlReportPage({tool, context, onBack}) {
   const frameRef = useRef(null);
   const bridgeTimerRef = useRef(null);
+  const contentBase64 = tool.contentBase64;
   const pageUrl = useMemo(() => buildHtmlPageUrl(tool, context), [context, tool]);
   const pageSource = useMemo(() => prepareHtmlPageSource(
-    decodeHtmlPageContent(tool.contentBase64),
+    decodeHtmlPageContent(contentBase64),
     pageUrl,
-  ), [pageUrl, tool.contentBase64]);
+  ), [contentBase64, pageUrl]);
   const configureReport = useCallback(() => {
     window.clearTimeout(bridgeTimerRef.current);
     let attempt = 0;

@@ -285,7 +285,7 @@ test('generic HTML report sends query context and also applies the legacy DOM br
   );
 });
 
-test('configured sibling HTML is embedded for direct file usage with a preserved base URL', () => {
+test('configured sibling HTML uses incremental standalone embedding with a preserved base URL', () => {
   const source = '<!doctype html><html><head><title>Отчёт</title></head><body>Данные</body></html>';
   const encoded = Buffer.from(source).toString('base64');
   assert.equal(decodeHtmlPageContent(encoded), source);
@@ -294,10 +294,18 @@ test('configured sibling HTML is embedded for direct file usage with a preserved
     '<!doctype html><html><head><base href="file:///reports/client-metrics.html?product=Вклады"><title>Отчёт</title></head><body>Данные</body></html>',
   );
 
-  assert.match(viteConfigSource, /function siblingHtmlPageContents\(entries\)/);
-  assert.match(viteConfigSource, /readFileSync\(file\.filePath\)\.toString\(['"]base64['"]\)/);
-  assert.match(viteConfigSource, /import\.meta\.env\.VITE_HTML_PAGE_CONTENTS_BASE64/);
-  assert.match(toolCatalogSource, /contentBase64:\s*HTML_PAGE_CONTENTS_BASE64\[id\]\s*\|\|\s*['"]/);
+  assert.match(viteConfigSource, /function siblingHtmlPageManifest\(entries\)/);
+  assert.match(viteConfigSource, /id:\s*['"]ddi-html-page-manifest['"]/);
+  assert.match(viteConfigSource, /type:\s*['"]application\/json['"]/);
+  assert.doesNotMatch(viteConfigSource, /readFileSync/);
+  assert.doesNotMatch(viteConfigSource, /VITE_HTML_PAGE_CONTENTS_BASE64/);
+  assert.match(
+    toolCatalogSource,
+    /script\[type=["']application\/octet-stream["']\]\[data-ddi-html-page-id\]/,
+  );
+  assert.match(toolCatalogSource, /get contentBase64\(\)/);
+  assert.match(toolCatalogSource, /embeddedHtmlPageContent\(id\)/);
+  assert.match(reportPageSource, /const contentBase64\s*=\s*tool\.contentBase64/);
 });
 
 test('Vite serves the configured Gravity UI sibling report instead of the application fallback', async (t) => {

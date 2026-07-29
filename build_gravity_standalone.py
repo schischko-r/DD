@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import html
 import json
 import re
 from pathlib import Path
@@ -13,9 +15,74 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_TEMPLATE = ROOT / "gravity-app" / "dist" / "index.html"
 DEFAULT_DATA = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_OUTPUT = ROOT / "gravity-standalone.html"
+HTML_PAGE_MANIFEST_PATTERN = re.compile(
+    r'<script\b'
+    r'(?=[^>]*\bid=["\']ddi-html-page-manifest["\'])'
+    r'(?=[^>]*\btype=["\']application/json["\'])'
+    r'[^>]*>(?P<manifest>.*?)</script>',
+    re.DOTALL,
+)
+BASE64_CHUNK_SIZE = 3 * 1024 * 1024
 
 
-def build(template_path: Path, data_path: Path, output_path: Path) -> None:
+def _adjacent_html_page_path(value: object) -> Path | None:
+    if not isinstance(value, str) or not value:
+        return None
+    if "/" in value or "\\" in value or not value.lower().endswith(".html"):
+        return None
+    path = Path(value)
+    if path.is_absolute() or path.name != value:
+        return None
+    return path
+
+
+def _write_base64(source_path: Path, output) -> None:
+    with source_path.open("rb") as source:
+        while chunk := source.read(BASE64_CHUNK_SIZE):
+            output.write(base64.b64encode(chunk))
+
+
+def _embed_html_pages_incrementally(
+    template: str,
+    output_path: Path,
+    html_page_root: Path,
+) -> None:
+    manifest_match = HTML_PAGE_MANIFEST_PATTERN.search(template)
+    if not manifest_match:
+        output_path.write_text(template, encoding="utf-8")
+        return
+
+    manifest = json.loads(manifest_match.group("manifest"))
+    if not isinstance(manifest, dict):
+        raise ValueError("The HTML page manifest must be a JSON object")
+
+    with output_path.open("wb") as output:
+        output.write(template[: manifest_match.start()].encode("utf-8"))
+        for page_id, configured_path in manifest.items():
+            relative_path = _adjacent_html_page_path(configured_path)
+            if not isinstance(page_id, str) or relative_path is None:
+                raise ValueError("The HTML page manifest contains an invalid entry")
+            source_path = html_page_root / relative_path
+            if not source_path.is_file():
+                continue
+            escaped_id = html.escape(page_id, quote=True)
+            output.write(
+                (
+                    '<script type="application/octet-stream" '
+                    f'data-ddi-html-page-id="{escaped_id}">'
+                ).encode("utf-8")
+            )
+            _write_base64(source_path, output)
+            output.write(b"</script>")
+        output.write(template[manifest_match.end() :].encode("utf-8"))
+
+
+def build(
+    template_path: Path,
+    data_path: Path,
+    output_path: Path,
+    html_page_root: Path = ROOT,
+) -> None:
     template = template_path.read_text(encoding="utf-8")
     data = json.dumps(
         json.loads(data_path.read_text(encoding="utf-8")),
@@ -40,7 +107,7 @@ def build(template_path: Path, data_path: Path, output_path: Path) -> None:
         raise ValueError("The bundle does not contain the report-data fetch marker")
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(template, encoding="utf-8")
+    _embed_html_pages_incrementally(template, output_path, html_page_root)
 
 
 def parse_args() -> argparse.Namespace:
@@ -48,12 +115,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE)
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--html-page-root", type=Path, default=ROOT)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
-    build(args.template, args.data, args.output)
+    build(args.template, args.data, args.output, args.html_page_root)
     print(args.output)
 
 

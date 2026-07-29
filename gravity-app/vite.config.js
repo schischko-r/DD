@@ -1,4 +1,4 @@
-import {createReadStream, existsSync, readFileSync, statSync} from 'node:fs';
+import {createReadStream, existsSync, statSync} from 'node:fs';
 import {resolve} from 'node:path';
 import {defineConfig, loadEnv} from 'vite';
 import react from '@vitejs/plugin-react';
@@ -17,17 +17,6 @@ function siblingHtmlPageFile(configuredUrl) {
   const filePath = resolve(REPOSITORY_ROOT, relativePath);
   if (!existsSync(filePath) || !statSync(filePath).isFile()) return null;
   return {filePath, requestPath: `/${relativePath}`};
-}
-
-function siblingHtmlPageContents(entries) {
-  return Object.fromEntries(
-    Object.entries(entries).flatMap(([id, {url}]) => {
-      const file = siblingHtmlPageFile(url);
-      return file
-        ? [[id, readFileSync(file.filePath).toString('base64')]]
-        : [];
-    }),
-  );
 }
 
 function siblingHtmlPages(entries) {
@@ -64,6 +53,37 @@ function siblingHtmlPages(entries) {
   };
 }
 
+function siblingHtmlPageManifest(entries) {
+  const manifest = Object.fromEntries(
+    Object.entries(entries).flatMap(([id, {url}]) => {
+      const file = siblingHtmlPageFile(url);
+      return file ? [[id, file.requestPath.slice(1)]] : [];
+    }),
+  );
+  const serializedManifest = JSON.stringify(manifest)
+    .replaceAll('<', '\\u003c')
+    .replaceAll('>', '\\u003e')
+    .replaceAll('&', '\\u0026');
+
+  return {
+    name: 'mark-configured-sibling-html-pages',
+    transformIndexHtml: {
+      order: 'pre',
+      handler() {
+        return [{
+          tag: 'script',
+          attrs: {
+            id: 'ddi-html-page-manifest',
+            type: 'application/json',
+          },
+          children: serializedManifest,
+          injectTo: 'head-prepend',
+        }];
+      },
+    },
+  };
+}
+
 export default defineConfig(({mode}) => {
   const environment = loadEnv(mode, REPOSITORY_ROOT, 'VITE_');
   const exampleEnvironment = loadEnv('example', REPOSITORY_ROOT, 'VITE_');
@@ -72,22 +92,17 @@ export default defineConfig(({mode}) => {
     || exampleEnvironment.VITE_HTML_PAGE_URLS
     || '{}';
   const htmlPageConfig = parseHtmlPageConfig(htmlPageUrlsRaw, {strict: true});
-  const htmlPageContentsBase64 = JSON.stringify(
-    siblingHtmlPageContents(htmlPageConfig),
-  );
 
   return {
     envDir: REPOSITORY_ROOT,
     define: {
       'import.meta.env.VITE_HTML_PAGE_URLS': JSON.stringify(htmlPageUrlsRaw),
-      'import.meta.env.VITE_HTML_PAGE_CONTENTS_BASE64': JSON.stringify(
-        htmlPageContentsBase64,
-      ),
     },
     plugins: [
       react(),
       clickstreamDataPlugin(),
       siblingHtmlPages(htmlPageConfig),
+      siblingHtmlPageManifest(htmlPageConfig),
       viteSingleFile(),
     ],
     build: {target: 'es2020'},

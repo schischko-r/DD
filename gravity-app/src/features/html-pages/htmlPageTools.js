@@ -6,9 +6,14 @@ import {
 const HTML_PAGE_CONFIG = parseHtmlPageConfig(
   import.meta.env.VITE_HTML_PAGE_URLS,
 );
-const HTML_PAGE_CONTENTS_BASE64 = JSON.parse(
-  import.meta.env.VITE_HTML_PAGE_CONTENTS_BASE64 || '{}',
-);
+
+function embeddedHtmlPageContent(id) {
+  if (typeof document === 'undefined') return '';
+  const content = Array.from(document.querySelectorAll(
+    'script[type="application/octet-stream"][data-ddi-html-page-id]',
+  )).find((candidate) => candidate.dataset.ddiHtmlPageId === id);
+  return content?.textContent?.trim() || '';
+}
 
 const TOOL_DEFINITIONS = [
   Object.freeze({
@@ -72,7 +77,9 @@ export const TOOL_CATALOG = Object.freeze(
         }),
         ...definition,
         url: configured.url || '',
-        contentBase64: HTML_PAGE_CONTENTS_BASE64[id] || '',
+        get contentBase64() {
+          return embeddedHtmlPageContent(id);
+        },
         title: configured.title || definition.title || id,
         icon: configured.icon || 'ChartLine',
       });

@@ -1,9 +1,10 @@
+import base64
 import json
 import tempfile
 import unittest
 from pathlib import Path
 
-from build_gravity_standalone import build
+from build_gravity_standalone import BASE64_CHUNK_SIZE, build
 
 
 class BuildGravityStandaloneTest(unittest.TestCase):
@@ -59,6 +60,92 @@ class BuildGravityStandaloneTest(unittest.TestCase):
             self.assertEqual(
                 (output.parent / "neighbor-report.html").resolve(),
                 (root / "neighbor-report.html").resolve(),
+            )
+
+    def test_embeds_sibling_html_pages_incrementally_from_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            output = root / "gravity-standalone.html"
+            report = root / "neighbor-report.html"
+            report_bytes = b"<html><body>" + b"x" * (BASE64_CHUNK_SIZE + 2) + b"</body></html>"
+            template.write_text(
+                (
+                    '<script id="ddi-html-page-manifest" type="application/json">'
+                    '{"neighbor":"neighbor-report.html","missing":"missing-report.html"}'
+                    "</script>"
+                    '<iframe src="./missing-report.html"></iframe>'
+                    '<script>fetch("./report-data.json").then(load)</script>'
+                ),
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            report.write_bytes(report_bytes)
+
+            build(template, data, output, root)
+
+            result = output.read_text(encoding="utf-8")
+            encoded_report = base64.b64encode(report_bytes).decode("ascii")
+            self.assertNotIn("ddi-html-page-manifest", result)
+            self.assertIn(
+                (
+                    '<script type="application/octet-stream" '
+                    'data-ddi-html-page-id="neighbor">'
+                    f"{encoded_report}</script>"
+                ),
+                result,
+            )
+            self.assertNotIn('data-ddi-html-page-id="missing"', result)
+            self.assertIn('src="./missing-report.html"', result)
+
+    def test_rejects_nested_paths_in_html_page_manifest(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            output = root / "gravity-standalone.html"
+            template.write_text(
+                (
+                    '<script id="ddi-html-page-manifest" type="application/json">'
+                    '{"unsafe":"../report.html"}'
+                    "</script>"
+                    '<script>fetch("./report-data.json").then(load)</script>'
+                ),
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "invalid entry"):
+                build(template, data, output, root)
+
+    def test_preserves_literal_html_entities_in_manifest_values(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            output = root / "gravity-standalone.html"
+            report = root / "a&amp;.html"
+            report_bytes = b"<html>literal entity filename</html>"
+            template.write_text(
+                (
+                    '<script id="ddi-html-page-manifest" type="application/json">'
+                    '{"skill&amp;":"a&amp;.html"}'
+                    "</script>"
+                    '<script>fetch("./report-data.json").then(load)</script>'
+                ),
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            report.write_bytes(report_bytes)
+
+            build(template, data, output, root)
+
+            result = output.read_text(encoding="utf-8")
+            self.assertIn('data-ddi-html-page-id="skill&amp;amp;"', result)
+            self.assertIn(
+                base64.b64encode(report_bytes).decode("ascii"),
+                result,
             )
 
 
