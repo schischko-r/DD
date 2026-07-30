@@ -99,7 +99,7 @@ PY
 fi
 
 : "${HTML_UPLOAD_CERT_PASSWORD:?Set HTML_UPLOAD_CERT_PASSWORD for upload_html.py}"
-"$PYTHON_BIN" upload_html.py \
+"$PYTHON_BIN" "$ROOT_DIR/upload_html.py" \
   "$ROOT_DIR/$STANDALONE_HTML" \
   "https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=NcxqOXsi37K3IXAO" \
   --cert-password "$HTML_UPLOAD_CERT_PASSWORD"
