@@ -81,3 +81,25 @@ fi
   --output "$STANDALONE_HTML"
 
 printf 'LLM report built: %s\n' "$ROOT_DIR/$STANDALONE_HTML"
+
+if [[ -z "${HTML_UPLOAD_CERT_PASSWORD:-}" ]]; then
+  HTML_UPLOAD_CERT_PASSWORD="$("$PYTHON_BIN" - <<'PY'
+from pathlib import Path
+
+for line in Path(".env").read_text(encoding="utf-8").splitlines():
+    stripped = line.strip()
+    if not stripped or stripped.startswith("#") or "=" not in stripped:
+        continue
+    key, value = stripped.split("=", 1)
+    if key.strip() == "HTML_UPLOAD_CERT_PASSWORD":
+        print(value.strip().strip("\"'"), end="")
+        break
+PY
+)"
+fi
+
+: "${HTML_UPLOAD_CERT_PASSWORD:?Set HTML_UPLOAD_CERT_PASSWORD for upload_html.py}"
+"$PYTHON_BIN" upload_html.py \
+  "$ROOT_DIR/$STANDALONE_HTML" \
+  "https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=NcxqOXsi37K3IXAO" \
+  --cert-password "$HTML_UPLOAD_CERT_PASSWORD"

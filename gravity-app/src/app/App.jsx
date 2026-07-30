@@ -7,6 +7,7 @@ import {DashboardPage} from '../pages/DashboardPage.jsx';
 import {HtmlReportPage} from '../pages/HtmlReportPage.jsx';
 import {SummaryPage} from '../pages/SummaryPage.jsx';
 import {TeamProfilePage} from '../pages/TeamProfilePage.jsx';
+import {isUnitFilterOption} from '../features/catalog/Catalog.jsx';
 import {HTML_PAGE_TOOLS} from '../features/html-pages/htmlPageTools.js';
 import {htmlPageIcon} from '../features/html-pages/htmlPageIcons.js';
 import ocb2cLogo from '../assets/ocb2c.png';
@@ -21,6 +22,7 @@ export function App() {
   const [detailScore, setDetailScore] = useState(false);
   const [compact, setCompact] = useState(true);
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
+  const [teamProfileUnit, setTeamProfileUnit] = useState('');
   const updateSummaryFilters = useCallback((patch) => {
     setSummaryFilters((current) => ({...current, ...patch}));
   }, []);
@@ -54,7 +56,12 @@ export function App() {
     || data.products.find((item) => /^вклады\s*\+\s*нс$/i.test(String(item.name || '').trim()))
     || data.products[0];
   const product = selected || defaultProduct;
-  const openProduct = (item) => { setSelected(item); setView('detail'); window.scrollTo(0, 0); };
+  const openProduct = (item) => {
+    setTeamProfileUnit(item.unit && isUnitFilterOption(item.unit) ? item.unit : '');
+    setSelected(item);
+    setView('detail');
+    window.scrollTo(0, 0);
+  };
   const openHtmlPageTool = (toolId, context = {}) => {
     setHtmlPageContext(context);
     setView(`html-page:${toolId}`);
@@ -125,7 +132,7 @@ export function App() {
         ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
         : view === 'about'
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
-          : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />;
+          : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={teamProfileUnit} onTeamUnitChange={setTeamProfileUnit} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />;
   return (
     <AsideHeader
       compact={compact}

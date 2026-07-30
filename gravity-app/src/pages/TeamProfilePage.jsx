@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleCheckFill, CircleInfo, CircleInfoFill, NodesRight} from '@gravity-ui/icons';
-import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
+import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Popup, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {ApplicableRadarDot, ApplicableRadarShape, COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, REPORT_ACCESS_REQUEST_URL, ProductRadarTick, allocateIndexUplifts, blockPercent, collectBlockLinks, compareNames, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isDdIndexMetric, isInformationalMetric, isTbdMetric, isUnitFilterOption, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricSkillLinks, metricWord, percent, progressTheme, radarBlockPercent, radarSeries, scoreFor, summarizeRecommendationUplifts, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
@@ -24,6 +24,246 @@ const AB_TEST_INSTRUCTION_LINKS = [
   {label: 'Онлайн курс по A/B', href: 'https://hr.sberbank.ru/platform/catalog/c515dcab-a8b7-4f03-a76a-e1b7349f857d'},
   {label: 'Демо A/B-платформы', href: 'https://sbervideo.sberbank.ru/watch/kpgpJi35gzwMIVu3X51'},
 ];
+
+const GENERAL_UPLIFT_RECOMMENDATION = {
+  text: 'Значение можно улучшить перепройдя самооценку команды в Oprosso в следующем квартале',
+};
+
+const ATTRACT_UPLIFT_RECOMMENDATIONS = {
+  'attract.nastroena_otchetnostь': {
+    metricName: 'Настроена отчетность',
+    text: 'Выстройте отчетность в Навигаторе по продуктовой воронке привлечения',
+  },
+  'attract.report_completeness': {
+    metricName: 'Полнота отчета',
+    text: 'Донасытьте отчетность в Навигаторе метриками и разрезами по продуктовой воронке привлечения',
+  },
+  'attract.regulyarnostь': {
+    metricName: 'Регулярность',
+    text: 'Автоматизируйте процесс отчетности в Навигаторе к следующей самооценке',
+  },
+  'attract.initiatives_list': {
+    metricName: 'Составлен перечень инициатив по привлечению',
+    text: 'Составьте перечень инициатив по привлечению',
+  },
+  'attract.benchmarks': {
+    metricName: 'Наличие бенчмарков',
+    text: 'Сформируйте бенчмарки по рынку по воронке привлечения',
+  },
+  'attract.campaign_launches': {
+    metricName: 'Запуски кампаний за квартал',
+    text: 'Запустите первую кампанию',
+    note: 'Проверено на цифровых следах за 1Q',
+  },
+  'attract.chernoviki_v_sbol_70': {
+    metricName: 'Черновики в СБОЛ >=70%',
+    text: 'Настройте триггеры по событиям в воронке оформления и повысьте покрытие черновиков коммуникациями',
+    note: 'Проверено на цифровых следах',
+  },
+  'attract.nalichie_self_service': {
+    metricName: 'Наличие Self-service',
+    text: 'Запустите свой первый Self-service пилот',
+    note: 'Проверено на цифровых следах за 1Q',
+  },
+  'attract.nalichie_uspeshnyh_biznes_zapuskov': {
+    metricName: 'Наличие успешных бизнес-запусков',
+    text: 'Проведите ретроспективный анализ прошедших бизнес-запусков.',
+    note: 'Проверено на цифровых следах за 1Q',
+  },
+};
+
+const CHURN_UPLIFT_RECOMMENDATIONS = {
+  'churn.nastroena_otchetnostь': {
+    metricName: 'Настроена отчетность',
+    text: 'Выстройте отчетность в Навигаторе по продуктовой воронке оттока',
+  },
+  'churn.report_completeness': {
+    metricName: 'Полнота отчета',
+    text: 'Донасытьте отчетность в Навигаторе метриками и разрезами по продуктовой воронке оттока',
+  },
+  'churn.regulyarnostь': {
+    metricName: 'Регулярность',
+    text: 'Автоматизируйте процесс отчетности в Навигаторе к следующей самооценке',
+  },
+  'churn.benchmarks': {
+    metricName: 'Наличие бенчмарков',
+    text: 'Сформируйте бенчмарки по рынку по воронке оттока',
+  },
+  'churn.deviation_actions': {
+    metricName: 'Мероприятия по работе с отклонениями',
+    text: 'Сформируйте перечень мероприятий по работе с отклонениями',
+  },
+};
+
+const HYP_UPLIFT_RECOMMENDATIONS = {
+  'hyp.discovery_40_backlog': {
+    metricName: 'Discovery >=40% бэклога',
+    text: 'Декомпозируйте бэклог аналитиков при наличии выделенных в команде',
+  },
+  'hyp.datadriven_rating_7_5': {
+    metricName: 'Оценка исследований >=7,5',
+    text: 'Повысьте DD-уровень проведенных исследований',
+  },
+};
+
+const CX_UPLIFT_RECOMMENDATIONS = {
+  'cx.score': {
+    metricName: 'CX Score',
+    text: 'Повысьте CX Score',
+  },
+};
+
+const GOALS_UPLIFT_RECOMMENDATIONS = {
+  'goals.monitored': {
+    metricName: 'Цели выведены на мониторинг',
+    text: 'Донасытьте мастер-деши в Навигаторе своими продуктовыми целями (покрытие целей от 90%)',
+    note: 'Проверено на цифровых следах в мастер-дешах',
+  },
+  'goals.factor_analysis_l1_l2': {
+    metricName: 'Факторный анализ - драйверы 1-2 ур.',
+    text: 'Декомпозируйте цели в Навигаторе ключевыми драйверами, влияющими на цели (покрытие целей от 90%)',
+    note: 'Проверено на цифровых следах в мастер-дешах',
+  },
+  'goals.forecast': {
+    metricName: 'Прогноз по целям',
+    text: 'Выведите прогнозные значения в Навигатор',
+    note: 'Проверено на цифровых следах в мастер-дешах',
+  },
+};
+
+const ALERTS_UPLIFT_RECOMMENDATIONS = {
+  'alerts.business_metrics': {
+    metricName: 'Оповещения по бизнес-метрикам',
+    text: 'Воспользуйтесь инструментом Модуль Отклонений в Навигаторе',
+  },
+};
+
+function normalizeUpliftBinding(value) {
+  return String(value || '').trim().toLocaleLowerCase('ru-RU');
+}
+
+function metricUpliftRecommendation(block, metric, metricPercent) {
+  const blockCode = normalizeUpliftBinding(block?.code);
+  const blockName = normalizeUpliftBinding(block?.name);
+  const metricCode = normalizeUpliftBinding(metric?.code);
+  const metricName = normalizeUpliftBinding(metric?.name);
+
+  if (blockCode === 'general') {
+    return GENERAL_UPLIFT_RECOMMENDATION;
+  }
+
+  if (blockCode === 'attract' && blockName === normalizeUpliftBinding('Воронка привлечения')) {
+    if (
+      metricCode === 'attract.funnel_analysis'
+      && metricName === normalizeUpliftBinding('Проведение комплексного анализа воронки привлечения')
+    ) {
+      if (metricPercent === 0) return {text: 'Проведите комплексный анализ воронки привлечения'};
+      if (metricPercent === 50) return {text: 'Повысьте полноту анализа воронки привлечения'};
+      return null;
+    }
+    const recommendation = ATTRACT_UPLIFT_RECOMMENDATIONS[metricCode];
+    return recommendation && metricName === normalizeUpliftBinding(recommendation.metricName)
+      ? recommendation
+      : null;
+  }
+
+  if (blockCode === 'churn' && blockName === normalizeUpliftBinding('Воронка оттока')) {
+    if (
+      metricCode === 'churn.funnel_analysis'
+      && metricName === normalizeUpliftBinding('Проведение комплексного анализа воронки оттока')
+    ) {
+      if (metricPercent === 0) return {text: 'Проведите комплексный анализ воронки оттока'};
+      if ([25, 50, 75].includes(metricPercent)) return {text: 'Повысьте полноту анализа воронки оттока'};
+      return null;
+    }
+    const recommendation = CHURN_UPLIFT_RECOMMENDATIONS[metricCode];
+    return recommendation && metricName === normalizeUpliftBinding(recommendation.metricName)
+      ? recommendation
+      : null;
+  }
+
+  if (blockCode === 'hyp' && blockName === normalizeUpliftBinding('Гипотезы и инициативы')) {
+    const recommendation = HYP_UPLIFT_RECOMMENDATIONS[metricCode];
+    return recommendation && metricName === normalizeUpliftBinding(recommendation.metricName)
+      ? recommendation
+      : null;
+  }
+
+  if (blockCode === 'cx' && blockName === normalizeUpliftBinding('Клиентский опыт')) {
+    const recommendation = CX_UPLIFT_RECOMMENDATIONS[metricCode];
+    return recommendation && metricName === normalizeUpliftBinding(recommendation.metricName)
+      ? recommendation
+      : null;
+  }
+
+  if (blockCode === 'goals' && blockName === normalizeUpliftBinding('Цели')) {
+    const recommendation = GOALS_UPLIFT_RECOMMENDATIONS[metricCode];
+    return recommendation && metricName === normalizeUpliftBinding(recommendation.metricName)
+      ? recommendation
+      : null;
+  }
+
+  if (blockCode === 'alerts' && blockName === normalizeUpliftBinding('Алерты')) {
+    const recommendation = ALERTS_UPLIFT_RECOMMENDATIONS[metricCode];
+    return recommendation && metricName === normalizeUpliftBinding(recommendation.metricName)
+      ? recommendation
+      : null;
+  }
+
+  return null;
+}
+
+function MetricRecommendationTrigger({children, recommendation, className, title, triggerLabel, popupLabel}) {
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
+  const popupId = React.useId();
+  return (
+    <>
+      <button
+        ref={anchorRef}
+        className={className}
+        type="button"
+        title={title}
+        aria-label={triggerLabel}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={popupId}
+        onClick={() => setOpen((visible) => !visible)}
+      >
+        {children}
+      </button>
+      <Popup
+        anchorRef={anchorRef}
+        className="metric-index-uplift-popup"
+        open={open}
+        placement="bottom-end"
+        offset={6}
+        hasArrow
+        onOpenChange={setOpen}
+      >
+        <div className="metric-index-uplift-popup-content" id={popupId} role="dialog" aria-label={popupLabel}>
+          <p>{recommendation.text}</p>
+        </div>
+      </Popup>
+    </>
+  );
+}
+
+function MetricUpliftBadge({label, title, recommendation}) {
+  const upliftLabel = <Label className="metric-index-uplift" theme="success" title={title} aria-label={title}>{label}</Label>;
+  if (!recommendation) return upliftLabel;
+  return (
+    <MetricRecommendationTrigger
+      recommendation={recommendation}
+      className="metric-index-uplift-trigger"
+      title={title}
+      triggerLabel={`${title}. Открыть рекомендацию`}
+      popupLabel={`Как получить прирост ${label}`}
+    >
+      {upliftLabel}
+    </MetricRecommendationTrigger>
+  );
+}
 
 function MetricInlineAction({title, subtitle, href, onClick, tone = 'info', actionLabel = 'Перейти'}) {
   const className = `metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-${tone}`;
@@ -295,12 +535,11 @@ function IndexFormulaHelp() {
   return <div className="index-formula-help"><div>Data-Driven Index = Σ баллов по блокам / Σ максимальных применимых баллов × 100%</div><p>Не применимые критерии исключаются и из набранных баллов, и из максимального балла продукта.</p></div>;
 }
 
-function DigitalTraceConfirmation() {
-  const message = 'Подтверждено на Цифровых следах';
+function DigitalTraceConfirmation({message = 'Подтверждено на Цифровых следах'}) {
   return <GravityTooltip content={message} openDelay={200}><span className="metric-digital-trace-confirmation" tabIndex={0} aria-label={message}><Icon data={CircleCheckFill} size={16} /></span></GravityTooltip>;
 }
 
-function MetricRow({metric, product, detailScore, instruction, instructionLinks = [], library, zeroAction, aiMetricInsight, aiMetricInsights = [], skillActions = [], grouped, digitallyConfirmed}) {
+function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruction, instructionLinks = [], library, zeroAction, aiMetricInsight, aiMetricInsights = [], skillActions = [], grouped, digitallyConfirmed, highlighted}) {
   const value = percent(metric.value, metric.max_value);
   const theme = metric.max_value ? progressTheme(value) : 'default';
   const isTbd = isTbdMetric(metric);
@@ -330,10 +569,37 @@ function MetricRow({metric, product, detailScore, instruction, instructionLinks 
   const lightTheme = detailScore ? (isTbd ? 'default' : theme) : (status.theme === 'normal' ? 'default' : status.theme);
   const insights = [...(aiMetricInsight ? [aiMetricInsight] : []), ...aiMetricInsights];
   const mechanicsHelp = <MechanicsMetricHelp metric={metric} product={product} />;
+  const metricValue = Number(metric.value || 0);
+  const metricMax = Number(metric.max_value || 0);
+  const indexUplift = isDdIndexMetric(metric) && !isTbd && metricValue < metricMax && maxIndexPoints > 0
+    ? (metricMax - metricValue) / maxIndexPoints * 100
+    : 0;
+  const indexUpliftLabel = indexUplift >= 0.05 ? `+${indexUplift.toFixed(1)} п.п.` : '+<0.1 п.п.';
+  const indexUpliftTitle = `Потенциальный прирост DD-индекса: ${indexUpliftLabel}`;
+  const metricRecommendation = !isNotApplicable && !isTbd
+    ? metricUpliftRecommendation(block, metric, value)
+    : null;
+  const upliftDigitalTrace = metricRecommendation?.note
+    ? <DigitalTraceConfirmation message={metricRecommendation.note} />
+    : null;
+  const indexUpliftBadge = indexUplift > 0 && <MetricUpliftBadge label={indexUpliftLabel} title={indexUpliftTitle} recommendation={metricRecommendation} />;
+  const metricName = metricRecommendation && indexUplift === 0 && value < 100
+    ? (
+      <MetricRecommendationTrigger
+        recommendation={metricRecommendation}
+        className="metric-name-recommendation-trigger"
+        title={`Рекомендация для метрики «${metric.name}»`}
+        triggerLabel={`Открыть рекомендацию для метрики «${metric.name}»`}
+        popupLabel={`Рекомендация для метрики «${metric.name}»`}
+      >
+        <b>{metric.name}</b>
+      </MetricRecommendationTrigger>
+    )
+    : <b>{metric.name}</b>;
   return (
-    <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}`}>
-      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line"><b>{metric.name}</b>{showInformationalBadge && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{metric.footer}</span>}</div></div>
-      <div className="metric-value">{detailScore ? <><div className="metric-value-caption">{digitallyConfirmed && <DigitalTraceConfirmation />}{mechanicsHelp}<span className="metric-value-label">{valueLabel}</span></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{digitallyConfirmed && <DigitalTraceConfirmation />}{mechanicsHelp}<Label className="metric-status-label" theme={status.theme}>{status.label}</Label></div>}</div>
+    <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}${highlighted ? ' metric-row-highlighted' : ''}`}>
+      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line">{metricName}{showInformationalBadge && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{metric.footer}</span>}</div></div>
+      <div className="metric-value">{detailScore ? <><div className="metric-value-caption">{digitallyConfirmed && <DigitalTraceConfirmation />}{mechanicsHelp}<div className="metric-value-group">{upliftDigitalTrace}{indexUpliftBadge}<span className="metric-value-label">{valueLabel}</span></div></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{digitallyConfirmed && <DigitalTraceConfirmation />}{mechanicsHelp}<div className="metric-value-group">{upliftDigitalTrace}{indexUpliftBadge}<Label className="metric-status-label" theme={status.theme}>{status.label}</Label></div></div>}</div>
       {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
       <MetricInlineResources title="Инструкция к А/В тестам" actions={instructionLinks} />
       {library && <MetricInlineAction title="Библиотека решений" subtitle="Практики для повышения оценки исследований" href={library.link} actionLabel="Открыть" />}
@@ -439,7 +705,7 @@ function LeaderConfetti({productId}) {
   return <canvas ref={canvasRef} className="leader-confetti" aria-hidden="true" key={productId} />;
 }
 
-export function TeamProfilePage({product, products, rows, detailScore, onBack, onProduct, onAbout, onOpenHtmlPageTool}) {
+export function TeamProfilePage({product, products, rows, detailScore, teamUnit, onTeamUnitChange, onBack, onProduct, onAbout, onOpenHtmlPageTool}) {
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
@@ -466,16 +732,17 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   const [aiFocusSkill, setAiFocusSkill] = useState(null);
   const [aiReturnMetric, setAiReturnMetric] = useState(null);
   const [recommendationsOpen, setRecommendationsOpen] = useState(false);
+  const [highlightedMetrics, setHighlightedMetrics] = useState(() => new Set());
   const [reportAccessOpen, setReportAccessOpen] = useState(false);
   const [open, setOpen] = useState(() => new Set());
-  const [teamUnit, setTeamUnit] = useState('');
+  const recommendationHighlightTimer = useRef(null);
   const teamUnits = useMemo(() => [...new Set(products.map((item) => item.unit).filter((item) => item && isUnitFilterOption(item)))].sort(compareNames), [products]);
   const filteredTeamProducts = useMemo(() => [...products]
     .filter((item) => !teamUnit || item.unit === teamUnit)
     .sort((a, b) => compareNames(a.name, b.name)), [products, teamUnit]);
   const updateTeamUnit = (value) => {
     const nextUnit = value[0] || '';
-    setTeamUnit(nextUnit);
+    onTeamUnitChange(nextUnit);
     if (nextUnit && product.unit !== nextUnit) {
       const nextProduct = products.filter((item) => item.unit === nextUnit).sort((a, b) => compareNames(a.name, b.name))[0];
       if (nextProduct) onProduct(nextProduct);
@@ -494,7 +761,14 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
   useEffect(() => {
     if (!hasAiRecommendations && lens === 'metrics') setLens('dd');
   }, [hasAiRecommendations, lens, product.id]);
-  useEffect(() => setAiReturnMetric(null), [product.id]);
+  useEffect(() => {
+    setAiReturnMetric(null);
+    setHighlightedMetrics(new Set());
+    if (recommendationHighlightTimer.current) window.clearTimeout(recommendationHighlightTimer.current);
+  }, [product.id]);
+  useEffect(() => () => {
+    if (recommendationHighlightTimer.current) window.clearTimeout(recommendationHighlightTimer.current);
+  }, []);
   const mauAiRecommendation = (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')) && !/\bYAU\b/i.test(String(item.indicator || '')))
     || (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')));
   const hasMauAiRecommendation = Boolean(mauAiRecommendation);
@@ -585,9 +859,10 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
       const gap = Number(item.gap || 0);
       if (!item.recommendation || gap <= 0) return;
       const key = `${block.name}|${item.recommendation}`;
-      const current = groups.get(key) || {recommendation: item.recommendation, block: block.name, count: 0, gap: 0, difficulty: item.recommendation_difficulty || item.group || 1};
+      const current = groups.get(key) || {recommendation: item.recommendation, block: block.name, blockCode: block.code, metricCodes: [], count: 0, gap: 0, difficulty: item.recommendation_difficulty || item.group || 1};
       current.count += 1;
       current.gap += gap;
+      if (!current.metricCodes.includes(metric.code)) current.metricCodes.push(metric.code);
       groups.set(key, current);
     })));
     const sorted = [...groups.values()].sort((a, b) => a.difficulty - b.difficulty || b.gap - a.gap);
@@ -597,6 +872,28 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
     () => summarizeRecommendationUplifts(recommendations, 4),
     [recommendations],
   );
+  const openRecommendationDetails = (recommendation, closeDialog = false) => {
+    const metricCodes = recommendation.metricCodes || [];
+    if (!metricCodes.length) return;
+    if (closeDialog) setRecommendationsOpen(false);
+    setOpen((current) => new Set(current).add(recommendation.blockCode));
+    setHighlightedMetrics(new Set(metricCodes));
+    if (recommendationHighlightTimer.current) window.clearTimeout(recommendationHighlightTimer.current);
+    recommendationHighlightTimer.current = window.setTimeout(() => {
+      setHighlightedMetrics(new Set());
+      recommendationHighlightTimer.current = null;
+    }, 1000);
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      const firstMetric = metricCodes
+        .map((metricCode) => document.getElementById(metricDomId(metricCode)))
+        .find(Boolean);
+      firstMetric?.scrollIntoView({
+        behavior: reducedMotion ? 'auto' : 'smooth',
+        block: 'center',
+      });
+    }));
+  };
   const radarData = useMemo(() => {
     const benchmarkProducts = products.filter((item) => /продукт|сегмент|product|segment/i.test(String(item.type || '')));
     return visibleMetricBlocks.map((block) => {
@@ -641,13 +938,13 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b></div></div>
       <section className="detail-overview">
         <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div><div className="index-methodology-footer"><Text variant="body-1" color="secondary">Подробнее о подходе и критериях оценки, тут:</Text><Button view="flat-info" size="s" onClick={onAbout}>Перейти <Icon data={ChevronRight} size={13} /></Button></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={profileSeries.fill} dotRadius={2} />} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
-        <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendationCard.visible.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="top-recommendation" key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}{recommendationCard.hiddenCount > 0 && <div className="top-recommendation top-recommendation-summary"><div className="recommendation-marker"><span>+</span></div><div><b>Остальные рекомендации</b><small>{recommendationCard.hiddenCount} в полном списке</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{recommendationCard.hiddenUplift.toFixed(1)} п.п. индекса</b></div></div></div>}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
+        <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendationCard.visible.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <button type="button" className="top-recommendation recommendation-action" onClick={() => openRecommendationDetails(item)} key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></button>; })}{recommendationCard.hiddenCount > 0 && <button type="button" className="top-recommendation top-recommendation-summary recommendation-action" onClick={() => setRecommendationsOpen(true)}><div className="recommendation-marker"><span>+</span></div><div><b>Остальные рекомендации</b><small>{recommendationCard.hiddenCount} в полном списке</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{recommendationCard.hiddenUplift.toFixed(1)} п.п. индекса</b></div></div></button>}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
       </section>
       <Dialog open={recommendationsOpen} onClose={() => setRecommendationsOpen(false)} hasCloseButton maxWidth="m" fullWidth contentOverflow="auto">
         <Dialog.Header caption={`Все рекомендации · ${recommendations.length}`} />
         <Dialog.Body>
           <div className="recommendations-dialog-list">
-            {recommendations.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <div className="dialog-recommendation" key={`${item.block}-${item.recommendation}-${index}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.count} {metricWord(item.count)} · {item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></div>; })}
+            {recommendations.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <button type="button" className="dialog-recommendation recommendation-action" onClick={() => openRecommendationDetails(item, true)} key={`${item.block}-${item.recommendation}-${index}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.count} {metricWord(item.count)} · {item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></button>; })}
           </div>
         </Dialog.Body>
       </Dialog>
@@ -684,7 +981,7 @@ export function TeamProfilePage({product, products, rows, detailScore, onBack, o
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
                 {isOpen && showKeyMetricsDisclaimer && <div className="key-metrics-disclaimer"><Icon data={CircleInfo} size={16} /><span>На базе самооценки в Oprosso. Следующая волна — 3Q26. <strong>Используйте отчёты ниже как ориентир по ключевым метрикам.</strong></span></div>}
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const skillActions = metricSkillLinks(block, metric); let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = htmlPageAiRecommendations.filter(({tool}) => tool.action?.metricCode === metric.code).map(({tool, context}) => metricAiInsight(tool.action.subject, () => onOpenHtmlPageTool(tool.id, context))); if (hasPilotCampaigns && /^attract\.nalichie_self_service$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('пилотным кампаниям', openPilotAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({title: 'Cross-sell', label: 'Перейти', tone: 'info', href: CROSSSELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow metric={metric} product={product} detailScore={detailScore} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} skillActions={skillActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} /></React.Fragment>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : ''; const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) && metric.button?.link ? metric.button : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const skillActions = metricSkillLinks(block, metric); let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (draftAiRecommendations.length && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code)) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = htmlPageAiRecommendations.filter(({tool}) => tool.action?.metricCode === metric.code).map(({tool, context}) => metricAiInsight(tool.action.subject, () => onOpenHtmlPageTool(tool.id, context))); if (hasPilotCampaigns && /^attract\.nalichie_self_service$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('пилотным кампаниям', openPilotAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); if (/^mehaniki\.cross_sell$/i.test(metric.code)) aiMetricInsights.push({title: 'Cross-sell', label: 'Перейти', tone: 'info', href: CROSSSELL_ANALYTICS_URL}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); return <React.Fragment key={metric.code}>{group && group !== previousGroup && <div className="metric-group-title"><span>{group}</span><ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}<MetricRow block={block} metric={metric} product={product} detailScore={detailScore} maxIndexPoints={maxPoints} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} skillActions={skillActions} grouped={Boolean(group)} digitallyConfirmed={digitallyConfirmed} highlighted={highlightedMetrics.has(metric.code)} /></React.Fragment>; })}</div>}
                 {participantLinks.length > 0 && isOpen && <div className="block-links participant-links"><div className="block-links-title">Ссылки, приложенные при прохождении самооценки в Oprosso</div><div className="block-actions">{participantLinks.map((action) => <Button key={`${action.label}-${action.url || action.link}`} view="outlined-info" size="s" width="auto" href={action.url || action.link} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>)}</div></div>}
                 {blockLinks.length > 0 && isOpen && <div className="block-links"><div className="block-links-title">Где посмотреть</div><div className="block-actions">{blockLinks.map((action) => <div className="block-action-item" key={`${action.label}-${action.url}`}><Button view="outlined-info" size="s" width="auto" href={action.url} target="_blank">{action.label}<Icon data={ArrowUpRightFromSquare} size={13} /></Button>{action.notice && <span className="block-action-notice">{action.notice}</span>}</div>)}</div></div>}
               </Card>
