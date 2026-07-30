@@ -3,14 +3,46 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
 const profileSource = readFileSync(new URL('./TeamProfilePage.jsx', import.meta.url), 'utf8');
+const appSource = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
+const summarySource = readFileSync(new URL('./SummaryPage.jsx', import.meta.url), 'utf8');
 
-test('team profile unit filter limits the team selector like Summary', () => {
-  assert.match(profileSource, /const \[teamUnit, setTeamUnit\] = useState\(''\)/);
+test('App owns and passes the persistent team profile unit filter', () => {
+  assert.match(appSource, /const \[teamProfileUnit, setTeamProfileUnit\] = useState\(''\)/);
+  assert.match(
+    appSource,
+    /<TeamProfilePage [^>]*teamUnit=\{teamProfileUnit\} onTeamUnitChange=\{setTeamProfileUnit\}/,
+  );
+  assert.match(
+    profileSource,
+    /export function TeamProfilePage\(\{[^}]*teamUnit, onTeamUnitChange[^}]*\}\)/,
+  );
+  assert.doesNotMatch(profileSource, /const \[teamUnit, setTeamUnit\] = useState\(/);
+  assert.match(profileSource, /const updateTeamUnit = \(value\) => \{[\s\S]*onTeamUnitChange\(nextUnit\);/);
+});
+
+test('team profile unit filter limits the team selector with its controlled value', () => {
   assert.match(profileSource, /const teamUnits = useMemo\(/);
   assert.match(profileSource, /const filteredTeamProducts = useMemo\(/);
   assert.match(profileSource, /<span>Юнит<\/span><Select value=\{teamUnit \? \[teamUnit\] : \[\]\}/);
   assert.match(profileSource, /<Select\.Option value="">Все юниты<\/Select\.Option>/);
   assert.match(profileSource, /filteredTeamProducts\.map\(\(item\) => <Select\.Option/);
+});
+
+test('opening a Dashboard product synchronizes the lifted unit before showing its profile', () => {
+  assert.match(
+    appSource,
+    /const openProduct = \(item\) => \{[^}]*setTeamProfileUnit\(item\.unit && isUnitFilterOption\(item\.unit\) \? item\.unit : ''\);[^}]*setSelected\(item\);[^}]*setView\('detail'\);/,
+  );
+});
+
+test('Summary filters remain independent from the team profile unit', () => {
+  assert.match(appSource, /const \[summaryFilters, setSummaryFilters\] = useState\(\{period: '', unit: ''\}\)/);
+  assert.match(
+    appSource,
+    /<DashboardPage [^>]*summaryFilters=\{summaryFilters\} onSummaryFiltersChange=\{updateSummaryFilters\}/,
+  );
+  assert.match(summarySource, /const \[unit, setUnit\] = useState\(\[\]\)/);
+  assert.match(summarySource, /<Select value=\{unit\} onUpdate=\{setUnit\}/);
 });
 
 test('team profile controls stay beside the heading without overlapping', () => {
