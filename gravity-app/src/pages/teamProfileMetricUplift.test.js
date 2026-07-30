@@ -503,14 +503,14 @@ test('uplift and incomplete no-uplift metric name share one keyboard-accessible 
   assert.doesNotMatch(metricRecommendationTriggerSource, /recommendation\.note|CircleCheckFill|<small>/);
 });
 
-test('digital-trace check and uplift precede the value in one row in both detail modes', () => {
+test('uplift precedes every digital-trace check and the value in both detail modes', () => {
   assert.match(
     metricRowSource,
-    /<div className="metric-value-group">\{upliftDigitalTrace\}\{indexUpliftBadge\}<span className="metric-value-label">\{valueLabel\}<\/span><\/div>/,
+    /<div className="metric-value-group">\{indexUpliftBadge\}\{upliftDigitalTrace\}\{digitallyConfirmed && <DigitalTraceConfirmation \/>\}<span className="metric-value-label">\{valueLabel\}<\/span><\/div>/,
   );
   assert.match(
     metricRowSource,
-    /<div className="metric-value-group">\{upliftDigitalTrace\}\{indexUpliftBadge\}<Label className="metric-status-label" theme=\{status\.theme\}>\{status\.label\}<\/Label><\/div>/,
+    /<div className="metric-value-group">\{indexUpliftBadge\}\{upliftDigitalTrace\}\{digitallyConfirmed && <DigitalTraceConfirmation \/>\}<Label className="metric-status-label" theme=\{status\.theme\}>\{status\.label\}<\/Label><\/div>/,
   );
 
   const valueGroupStyles = stylesSource.match(
