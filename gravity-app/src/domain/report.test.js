@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -240,6 +240,114 @@ test('digital trace confirmation is limited to listed product cross-sell metrics
   assert.equal(isCrossSellDigitallyConfirmed({...product, type: 'Сегмент'}, block, metric), false);
   assert.equal(isCrossSellDigitallyConfirmed(product, {code: 'general'}, metric), false);
   assert.equal(isCrossSellDigitallyConfirmed(product, block, {code: 'mehaniki.upsell'}), false);
+});
+
+test('cross-sell analytics uses the product deeplink already resolved by the export', () => {
+  const productDeeplink = 'https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BB%D1%81';
+  const block = {
+    tools: [{
+      name: 'Cross-sell',
+      ai_tool_key: 'cross_sell',
+      button: {link: productDeeplink},
+    }],
+  };
+
+  assert.equal(crossSellAnalyticsLink(block), productDeeplink);
+  assert.doesNotMatch(crossSellAnalyticsLink(block), /#screen=pult/);
+});
+
+test('cross-sell analytics finds a nested tool and has no title-page fallback', () => {
+  const productDeeplink = 'https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%8D%D0%B9-49';
+  const block = {
+    tools: [{
+      name: 'AI-инструменты',
+      buttons: [{
+        ai_tool_key: 'cross_sell',
+        button: {link: productDeeplink},
+      }],
+    }],
+  };
+
+  assert.equal(crossSellAnalyticsLink(block), productDeeplink);
+  assert.equal(crossSellAnalyticsLink({tools: []}), '');
+  assert.equal(crossSellAnalyticsLink({tools: [{ai_tool_key: 'cross_sell'}]}), '');
+});
+
+test('cross-sell analytics preserves the product deeplink resolved by the export', () => {
+  assert.equal(
+    normalizeCrossSellAnalyticsLink('https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BB%D1%81'),
+    'https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BB%D1%81',
+  );
+  assert.equal(
+    normalizeCrossSellAnalyticsLink('https://losshunter.ru/showcase/crosssell/cross-sell-analytics.html#product=%D0%B7%D0%BB%D1%81'),
+    'https://losshunter.ru/showcase/crosssell/cross-sell-analytics.html#product=%D0%B7%D0%BB%D1%81',
+  );
+  assert.equal(normalizeCrossSellAnalyticsLink(''), '');
+});
+
+test('cross-sell preview uses the current product recommendation and LossHunter product deeplink', () => {
+  const crossSellRecommendation = {
+    id: 'cross_sell-1',
+    skill_key: 'cross_sell',
+    indicator: 'Cross-sell: покрытие и рекомендованные действия',
+    api_seen_around_n: 8,
+    api_seen_out_n: 7,
+    api_seen_in_n: 1,
+    api_potential_n: 3,
+  };
+  const product = {
+    name: 'ЗЛС',
+    metric_recommendations: [
+      {id: 'mau-1', skill_key: 'mau', indicator: 'Динамика MAU'},
+      crossSellRecommendation,
+    ],
+  };
+  const block = {
+    tools: [{
+      ai_tool_key: 'cross_sell',
+      ai_tool_product_name: 'ЗЛС',
+      button: {
+        link: 'https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BB%D1%81',
+      },
+    }],
+  };
+
+  assert.deepEqual(
+    crossSellPreview(product, block),
+    {
+      recommendation: crossSellRecommendation,
+      href: 'https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BB%D1%81',
+    },
+  );
+});
+
+test('cross-sell preview is unavailable without either recommendation or product deeplink', () => {
+  const recommendation = {
+    skill_key: 'cross_sell',
+    indicator: 'Cross-sell: покрытие и рекомендованные действия',
+  };
+  const tool = {
+    ai_tool_key: 'cross_sell',
+    button: {
+      link: 'https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%BB%D1%81',
+    },
+  };
+
+  assert.equal(crossSellPreview({metric_recommendations: []}, {tools: [tool]}), null);
+  assert.equal(crossSellPreview({metric_recommendations: [recommendation]}, {tools: []}), null);
+  assert.equal(crossSellPreview({metric_recommendations: [recommendation]}, {
+    tools: [{
+      ai_tool_key: 'cross_sell',
+      button: {link: 'https://losshunter.ru/showcase/crosssell/#screen=pult'},
+    }],
+  }), null);
+  assert.equal(crossSellPreview({metric_recommendations: [recommendation]}, {
+    tools: [{
+      ai_tool_key: 'cross_sell',
+      button: {link: 'https://losshunter.ru/showcase/crosssell/cross-sell-analytics.html#product=%D0%B7%D0%BB%D1%81'},
+    }],
+  }), null);
+  assert.equal(crossSellPreview(null, null), null);
 });
 
 test('team help audience distinguishes products, segments, and channel types', () => {

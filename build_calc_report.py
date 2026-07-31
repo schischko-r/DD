@@ -24,7 +24,7 @@ import llm_summarization as _llm
 from datetime import date
 from pathlib import Path
 from typing import Any, Optional
-from urllib.parse import quote, urljoin, urlsplit
+from urllib.parse import quote, urlsplit
 
 try:
     from tqdm.auto import tqdm
@@ -155,6 +155,7 @@ AI_SKILL_DIGEST_HEADERS = {
 CROSSSELL_BASE_URL = os.getenv("PL_PARTNER_CROSSSELL_BASE_URL", "https://losshunter.ru").rstrip("/")
 CROSSSELL_MARKERS_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/markers"
 CROSSSELL_PRODUCTS_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/products"
+CROSSSELL_MARKET_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/market"
 CROSSSELL_SHOWCASE_URL = f"{CROSSSELL_BASE_URL}/showcase/crosssell/"
 CROSSSELL_TOKEN = os.getenv("PL_PARTNER_CROSSSELL_TOKEN", "")
 DEFAULT_CROSSSELL_TIMEOUT = int(os.getenv("PL_PARTNER_CROSSSELL_TIMEOUT", "60"))
@@ -722,14 +723,23 @@ def download_crosssell_export(
     products_url: str = CROSSSELL_PRODUCTS_URL,
     timeout: int = DEFAULT_CROSSSELL_TIMEOUT,
     token: str = CROSSSELL_TOKEN,
+    market_url: str = CROSSSELL_MARKET_URL,
 ) -> Path:
     cached = read_crosssell_export(output_path)
     cached_etags = cached.get("etags") if isinstance(cached.get("etags"), dict) else {}
+    cached_market_etags = (
+        cached_etags.get("market_items")
+        if isinstance(cached_etags.get("market_items"), dict)
+        else {}
+    )
     responses: dict[str, dict[str, Any]] = {}
     etags: dict[str, str] = {}
 
-    for key, url in (("markers_response", markers_url), ("products_response", products_url)):
-        endpoint = "markers" if key == "markers_response" else "products"
+    for key, endpoint, url in (
+        ("markers_response", "markers", markers_url),
+        ("products_response", "products", products_url),
+        ("market_response", "market", market_url),
+    ):
         payload, etag = request_crosssell_json(
             url,
             token=token,
@@ -744,9 +754,59 @@ def download_crosssell_export(
         responses[key] = payload
         etags[endpoint] = etag
 
+    market_index = responses["market_response"].get("market")
+    if not isinstance(market_index, dict):
+        market_index = responses["products_response"].get("market")
+    market_index = market_index if isinstance(market_index, dict) else {}
+    cached_market_items = (
+        cached.get("market_items_response")
+        if isinstance(cached.get("market_items_response"), dict)
+        else {}
+    )
+    market_items: dict[str, dict[str, Any]] = {}
+    market_etags: dict[str, str] = {}
+    for raw_uid, snapshot in market_index.items():
+        if not isinstance(snapshot, dict):
+            continue
+        uid = clean_text(raw_uid)
+        if not uid:
+            continue
+        item_url = f"{market_url.rstrip('/')}/{quote(uid, safe='-._~')}"
+        try:
+            payload, etag = request_crosssell_json(
+                item_url,
+                token=token,
+                timeout=timeout,
+                etag=clean_text(cached_market_etags.get(uid)),
+            )
+        except urllib.error.HTTPError as error:
+            error_payload: dict[str, Any] = {}
+            try:
+                parsed_error = json.loads(error.read().decode("utf-8"))
+                if isinstance(parsed_error, dict):
+                    error_payload = parsed_error
+            except (UnicodeDecodeError, json.JSONDecodeError):
+                pass
+            error_body = error_payload.get("error")
+            error_code = clean_text(error_body.get("code")) if isinstance(error_body, dict) else ""
+            if error.code == 404 and error_code == "market_not_researched":
+                continue
+            raise
+        if payload is None:
+            cached_payload = cached_market_items.get(uid)
+            if not isinstance(cached_payload, dict):
+                raise ValueError(
+                    f"Cross-sell API вернул 304, но локальный кэш market/{uid} отсутствует"
+                )
+            payload = cached_payload
+        market_items[uid] = payload
+        market_etags[uid] = etag
+
+    responses["market_items_response"] = market_items
+    etag_payload: dict[str, Any] = {**etags, "market_items": market_etags}
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(
-        json.dumps({**responses, "etags": etags}, ensure_ascii=False, indent=2) + "\n",
+        json.dumps({**responses, "etags": etag_payload}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
     return output_path
@@ -2141,22 +2201,17 @@ def crosssell_analytics_link(
 ) -> str:
     marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
     marker_block = marker_block if isinstance(marker_block, dict) else {}
+    product_uid = clean_text(catalog_product.get("uid")) or clean_text(
+        marker.get("uid") if isinstance(marker, dict) else ""
+    )
     deeplink = clean_text(marker_block.get("deeplink"))
     if deeplink:
         parsed_deeplink = urlsplit(deeplink)
         if parsed_deeplink.scheme in {"http", "https"}:
             return deeplink
-    product_uid = clean_text(
-        marker.get("uid") if isinstance(marker, dict) else ""
-    ) or clean_text(catalog_product.get("uid"))
     if product_uid:
         fragment = quote(product_uid, safe="-._~")
         return f"{CROSSSELL_SHOWCASE_URL}#product={fragment}"
-    if deeplink:
-        parsed_deeplink = urlsplit(deeplink)
-        if parsed_deeplink.fragment:
-            return f"{CROSSSELL_SHOWCASE_URL}#{parsed_deeplink.fragment}"
-        return urljoin(CROSSSELL_SHOWCASE_URL, deeplink)
     product_key = clean_text(catalog_product.get("key") or catalog_product.get("uid") or catalog_product.get("name"))
     fragment = quote(product_key.casefold(), safe="-._~")
     return f"{CROSSSELL_SHOWCASE_URL}#product={fragment}"
@@ -2312,6 +2367,14 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
     product_meta = products_response.get("meta") if isinstance(products_response.get("meta"), dict) else {}
     markers = markers_response.get("markers") if isinstance(markers_response.get("markers"), list) else []
     catalog_products = products_response.get("products") if isinstance(products_response.get("products"), list) else []
+    market_response = export.get("market_response")
+    market_response = market_response if isinstance(market_response, dict) else {}
+    market_index = products_response.get("market")
+    if not isinstance(market_index, dict):
+        market_index = market_response.get("market")
+    market_index = market_index if isinstance(market_index, dict) else {}
+    market_item_responses = export.get("market_items_response")
+    market_item_responses = market_item_responses if isinstance(market_item_responses, dict) else {}
     marker_index = crosssell_items_by_name(markers)
     product_index = crosssell_items_by_name(catalog_products)
     round_id = clean_text(marker_meta.get("round_id") or product_meta.get("round_id"))
@@ -2337,6 +2400,24 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
         if not block:
             unmatched_dd_products.append(product_name)
             continue
+
+        product_uid = clean_text(catalog_product.get("uid")) or clean_text(
+            marker.get("uid") if isinstance(marker, dict) else ""
+        )
+        market_detail = market_item_responses.get(product_uid)
+        market_detail = market_detail if isinstance(market_detail, dict) else {}
+        market = market_detail.get("market")
+        if not isinstance(market, dict):
+            market = market_index.get(product_uid)
+        market = market if isinstance(market, dict) else None
+        candidates = market_detail.get("candidates")
+        candidates = candidates if isinstance(candidates, list) else []
+        sources = market_detail.get("sources")
+        sources = sources if isinstance(sources, list) else []
+        product["crosssell_uid"] = product_uid
+        product["crosssell_market"] = market
+        product["crosssell_candidates"] = candidates
+        product["crosssell_sources"] = sources
 
         marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
         marker_block = marker_block if isinstance(marker_block, dict) else {}
@@ -2407,6 +2488,10 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
             "api_seen_around_n": api_seen_around_n,
             "api_potential_n": api_potential_n,
             "crosssell_top_actions": crosssell_top_action_texts(marker),
+            "crosssell_uid": product_uid,
+            "crosssell_market": market,
+            "crosssell_candidates": candidates,
+            "crosssell_sources": sources,
             "requires_manual_validation": requires_manual_validation,
         }
         current_recommendations = [
@@ -2433,6 +2518,8 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
         "validation": clean_text(marker_meta.get("validation")),
         "catalog_products": len(catalog_products),
         "markers": len(markers),
+        "market_products": len(market_index),
+        "market_details": len(market_item_responses),
         "matched_products": matched_products,
         "matched_markers": matched_markers,
         "catalog_fallbacks": catalog_fallbacks,
@@ -5480,6 +5567,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--skip-crosssell", dest="crosssell", action="store_false", help=argparse.SUPPRESS)
     parser.add_argument("--crosssell-markers-url", default=CROSSSELL_MARKERS_URL, help="Product Lens markers endpoint")
     parser.add_argument("--crosssell-products-url", default=CROSSSELL_PRODUCTS_URL, help="Product Lens products endpoint")
+    parser.add_argument("--crosssell-market-url", default=CROSSSELL_MARKET_URL, help="Product Lens market endpoint")
     parser.add_argument("--crosssell-token", default=CROSSSELL_TOKEN, help="Bearer token with crosssell:read scope")
     parser.add_argument("--crosssell-timeout", type=int, default=DEFAULT_CROSSSELL_TIMEOUT, help="Product Lens request timeout in seconds")
     parser.add_argument(
@@ -5548,6 +5636,7 @@ def main() -> None:
             args.crosssell_json,
             markers_url=args.crosssell_markers_url,
             products_url=args.crosssell_products_url,
+            market_url=args.crosssell_market_url,
             timeout=args.crosssell_timeout,
             token=args.crosssell_token,
         )

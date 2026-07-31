@@ -186,6 +186,36 @@ function nestedTools(block) {
   return tools;
 }
 
+export function crossSellAnalyticsLink(block) {
+  const tool = nestedTools(block).find((item) =>
+    String(item?.ai_tool_key || '').trim().toLowerCase() === 'cross_sell'
+    && item?.button?.link,
+  );
+  return String(tool?.button?.link || '').trim();
+}
+
+export function normalizeCrossSellAnalyticsLink(link) {
+  return String(link || '').trim();
+}
+
+export function crossSellPreview(product, block) {
+  const recommendation = (product?.metric_recommendations || []).find((item) =>
+    String(item?.skill_key || '').trim().toLowerCase() === 'cross_sell',
+  );
+  const href = normalizeCrossSellAnalyticsLink(crossSellAnalyticsLink(block));
+  if (!recommendation || !href) return null;
+  try {
+    const url = new URL(href);
+    const productUid = new URLSearchParams(url.hash.slice(1)).get('product');
+    const isProductDeeplink = url.hostname === 'losshunter.ru'
+      && url.pathname === '/showcase/crosssell/'
+      && Boolean(String(productUid || '').trim());
+    return isProductDeeplink ? {recommendation, href} : null;
+  } catch {
+    return null;
+  }
+}
+
 export function metricSkillLinks(block, metric) {
   const metricCode = String(metric?.code || '').trim();
   const metricName = String(metric?.name || '').trim();

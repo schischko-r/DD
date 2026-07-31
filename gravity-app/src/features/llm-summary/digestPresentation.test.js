@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {crossSellMarketPresentation, digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestTheme('red'), 'danger');
@@ -74,4 +74,81 @@ test('recommendation skill link supports a direct cross-sell tool', () => {
     recommendationSkillLink(block, [{skill_key: 'cross_sell'}]),
     'https://example.test/cross-sell',
   );
+});
+
+test('cross-sell market presentation keeps the snapshot and whole decision history', () => {
+  const presentation = crossSellMarketPresentation({
+    crosssell_market: {
+      candidates_new: 1,
+      candidates_in_catalog: 2,
+      findings: 8,
+      market_side_findings: 6,
+      runs: 2,
+      snapshot_date: '31.07.2026',
+    },
+    crosssell_candidates: [
+      {key: 'wait', from: 'ЗЛС', to: 'Прайм', why: 'Дополняет путь', status: 'wait', status_label: 'ждёт решения'},
+      {key: 'accepted', from: 'ЗЛС', to: 'Страхование', why: 'Защита', status: 'accepted', status_label: 'принято'},
+      {key: 'rejected', from: 'ЗЛС', to: 'Кредит', why: 'Не подходит', status: 'rejected', status_label: 'отклонено'},
+      {key: 'canon', from: 'ЗЛС', to: 'Каталог', why: 'Уже есть', status: 'canon', status_label: 'в каталоге'},
+      {key: 'mirror', from: 'ЗЛС', to: 'Зеркало', why: 'Обратная пара', status: 'mirror', status_label: 'зеркало'},
+      {
+        key: 'audrej',
+        from: 'ЗЛС',
+        to: 'Шум',
+        why: 'Дубль',
+        status: 'audrej',
+        status_label: 'снято разбором',
+        audit: {group: 'duplicate', reason: 'Повтор', match: 'wait'},
+      },
+    ],
+    crosssell_sources: [
+      {publisher: 'Исследование рынка', url: 'https://example.test/research'},
+    ],
+  });
+
+  assert.ok(presentation);
+  assert.equal(presentation.candidatesNew, 1);
+  assert.equal(presentation.waitCount, 1);
+  assert.deepEqual(
+    presentation.candidates.map(({status}) => status),
+    ['wait', 'accepted', 'rejected', 'canon', 'mirror', 'audrej'],
+  );
+  assert.deepEqual(
+    presentation.candidates[0],
+    {
+      key: 'wait',
+      from: 'ЗЛС',
+      to: 'Прайм',
+      why: 'Дополняет путь',
+      status: 'wait',
+      statusLabel: 'ждёт решения',
+    },
+  );
+  assert.deepEqual(
+    presentation.sources,
+    [{publisher: 'Исследование рынка', url: 'https://example.test/research'}],
+  );
+});
+
+test('cross-sell market presentation distinguishes missing research from a researched zero', () => {
+  assert.equal(crossSellMarketPresentation({}), null);
+  assert.equal(crossSellMarketPresentation({
+    crosssell_market: null,
+    crosssell_candidates: null,
+    crosssell_sources: null,
+  }), null);
+
+  const researchedZero = crossSellMarketPresentation({
+    crosssell_market: {
+      candidates_new: 0,
+      findings: 3,
+    },
+    crosssell_candidates: [],
+    crosssell_sources: [],
+  });
+
+  assert.ok(researchedZero);
+  assert.equal(researchedZero.candidatesNew, 0);
+  assert.equal(researchedZero.waitCount, 0);
 });

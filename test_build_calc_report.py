@@ -3,6 +3,8 @@ import tempfile
 import json
 import inspect
 import unicodedata
+import urllib.error
+from io import BytesIO
 from pathlib import Path
 from unittest.mock import patch
 
@@ -89,6 +91,147 @@ class SyntheticReportTest(unittest.TestCase):
                 report.main()
 
         self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path)
+
+    def test_crosssell_download_reuses_market_etags_and_cached_item_body(self) -> None:
+        cached = {
+            "markers_response": {"meta": {"status": "ok"}, "markers": []},
+            "products_response": {
+                "meta": {"status": "ok"},
+                "products": [],
+                "market": {
+                    "злс": {"candidates_new": 1},
+                    "без-исследования": None,
+                },
+            },
+            "market_response": {
+                "meta": {"status": "ok"},
+                "market": {
+                    "злс": {"candidates_new": 1},
+                    "без-исследования": None,
+                },
+            },
+            "market_items_response": {
+                "злс": {
+                    "market": {"candidates_new": 1},
+                    "candidates": [{"status": "wait"}],
+                    "sources": [],
+                },
+            },
+            "etags": {
+                "markers": 'W/"markers"',
+                "products": 'W/"products"',
+                "market": 'W/"market"',
+                "market_items": {"злс": 'W/"market-item"'},
+            },
+        }
+
+        def not_modified(url, **kwargs):
+            return None, kwargs["etag"]
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "crosssell.json"
+            cache_path.write_text(
+                json.dumps(cached, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            with patch.object(
+                report,
+                "request_crosssell_json",
+                side_effect=not_modified,
+            ) as request:
+                report.download_crosssell_export(
+                    cache_path,
+                    markers_url="https://example.test/markers",
+                    products_url="https://example.test/products",
+                    market_url="https://example.test/market",
+                    token="token",
+                )
+            refreshed = json.loads(cache_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(refreshed, cached)
+        self.assertEqual(request.call_count, 4)
+        self.assertEqual(
+            [call.kwargs["etag"] for call in request.call_args_list],
+            ['W/"markers"', 'W/"products"', 'W/"market"', 'W/"market-item"'],
+        )
+        self.assertEqual(
+            request.call_args_list[-1].args[0],
+            "https://example.test/market/%D0%B7%D0%BB%D1%81",
+        )
+        self.assertFalse(
+            any("без-исследования" in call.args[0] for call in request.call_args_list)
+        )
+
+    def test_crosssell_download_only_ignores_market_not_researched_item_404(self) -> None:
+        list_responses = [
+            ({"meta": {"status": "ok"}, "markers": []}, 'W/"markers"'),
+            (
+                {
+                    "meta": {"status": "ok", "round_id": "round-1"},
+                    "products": [{"uid": "злс", "name": "ЗЛС"}],
+                    "market": {"злс": {"candidates_new": 1}},
+                },
+                'W/"products"',
+            ),
+            (
+                {
+                    "meta": {"status": "ok", "round_id": "round-1"},
+                    "market": {"злс": {"candidates_new": 1}},
+                },
+                'W/"market"',
+            ),
+        ]
+
+        def item_error(error_code):
+            return urllib.error.HTTPError(
+                "https://example.test/market/%D0%B7%D0%BB%D1%81",
+                404,
+                "Not Found",
+                {},
+                BytesIO(
+                    json.dumps({"error": {"code": error_code}}).encode("utf-8")
+                ),
+            )
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "crosssell.json"
+            with patch.object(
+                report,
+                "request_crosssell_json",
+                side_effect=[
+                    *list_responses,
+                    item_error("market_not_researched"),
+                ],
+            ):
+                report.download_crosssell_export(
+                    cache_path,
+                    markers_url="https://example.test/markers",
+                    products_url="https://example.test/products",
+                    market_url="https://example.test/market",
+                    token="token",
+                )
+            refreshed = json.loads(cache_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(refreshed.get("market_items_response", {}), {})
+        self.assertEqual(refreshed["etags"].get("market_items", {}), {})
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "crosssell.json"
+            with (
+                patch.object(
+                    report,
+                    "request_crosssell_json",
+                    side_effect=[*list_responses, item_error("not_found")],
+                ),
+                self.assertRaises(urllib.error.HTTPError),
+            ):
+                report.download_crosssell_export(
+                    cache_path,
+                    markers_url="https://example.test/markers",
+                    products_url="https://example.test/products",
+                    market_url="https://example.test/market",
+                    token="token",
+                )
 
     def test_complex_funnel_analysis_names_keep_stable_metric_codes(self) -> None:
         metric_code = report._DD_FROM_EXCEL["metric_code"]
@@ -868,6 +1011,198 @@ class SyntheticReportTest(unittest.TestCase):
             "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B4%D0%B5%D0%BB%D0%BA%D0%B0%20%D0%B8%D0%B6%D1%81",
         )
         self.assertEqual(result["products"][2]["metric_recommendations"], [])
+
+    def test_crosssell_export_preserves_market_snapshot_candidates_and_sources(self) -> None:
+        data = {
+            "products": [
+                {
+                    "name": "ЗЛС",
+                    "unit": "УБ",
+                    "type": "Продукт",
+                    "metrics": [
+                        {
+                            "code": "mehaniki",
+                            "tools": [],
+                            "metrics": [
+                                {
+                                    "code": "mehaniki.cross_sell",
+                                    "value": 0,
+                                    "max_value": 1,
+                                },
+                            ],
+                        },
+                    ],
+                    "metric_recommendations": [],
+                },
+            ],
+        }
+        market_snapshot = {
+            "candidates_new": 2,
+            "candidates_in_catalog": 1,
+            "findings": 8,
+            "market_side_findings": 6,
+            "runs": 2,
+            "snapshot_date": "30.07.2026",
+        }
+        candidates = [
+            {
+                "key": "злс|ЗЛС|КАСКО|market",
+                "from": "ЗЛС",
+                "to": "КАСКО",
+                "why": "Дополнительная защита",
+                "status": "wait",
+                "status_label": "кандидат рынка · ждёт решения",
+                "decided_at": None,
+                "audit": None,
+            },
+            {
+                "key": "злс|ЗЛС|ДМС|market",
+                "from": "ЗЛС",
+                "to": "ДМС",
+                "why": "Комплексная защита",
+                "status": "wait",
+                "status_label": "кандидат рынка · ждёт решения",
+                "decided_at": None,
+                "audit": None,
+            },
+            {
+                "key": "злс|ЗЛС|Подписка|market",
+                "from": "ЗЛС",
+                "to": "Подписка",
+                "why": "Повторное использование",
+                "status": "accepted",
+                "status_label": "принято",
+                "decided_at": "2026-07-30T12:00:00+00:00",
+                "audit": None,
+            },
+            {
+                "key": "злс|ЗЛС|Шум|market",
+                "from": "ЗЛС",
+                "to": "Шум",
+                "why": "Дубль",
+                "status": "audrej",
+                "status_label": "снято разбором",
+                "decided_at": None,
+                "audit": {
+                    "group": "duplicate",
+                    "reason": "Дубль предложения",
+                    "match": "злс|ЗЛС|КАСКО|market",
+                },
+            },
+            {
+                "key": "злс|ЗЛС|Кредит|market",
+                "from": "ЗЛС",
+                "to": "Кредит",
+                "why": "Не подходит",
+                "status": "rejected",
+                "status_label": "отклонено",
+                "decided_at": "2026-07-30T13:00:00+00:00",
+                "audit": None,
+            },
+            {
+                "key": "злс|ЗЛС|Каталог|market",
+                "from": "ЗЛС",
+                "to": "Каталог",
+                "why": "Уже есть",
+                "status": "canon",
+                "status_label": "в каталоге",
+                "decided_at": None,
+                "audit": None,
+            },
+            {
+                "key": "злс|ЗЛС|Зеркало|market",
+                "from": "ЗЛС",
+                "to": "Зеркало",
+                "why": "Обратная связка",
+                "status": "mirror",
+                "status_label": "зеркало",
+                "decided_at": None,
+                "audit": None,
+            },
+        ]
+        sources = [
+            {
+                "publisher": "Конкурент",
+                "url": "https://example.test/source",
+            },
+        ]
+        export = {
+            "markers_response": {
+                "meta": {"status": "ok", "round_id": "round-1"},
+                "markers": [
+                    {
+                        "id": "ЗЛС",
+                        "uid": "злс",
+                        "name": "ЗЛС",
+                        "unit": "УБ",
+                        "cross_sell": {
+                            "traffic_light": "yellow",
+                            "seen_out_n": 0,
+                            "seen_in_n": 0,
+                            "seen_around_n": 0,
+                            "potential_n": 2,
+                            "deeplink": "cross-sell-analytics.html#product=злс",
+                        },
+                    },
+                ],
+            },
+            "products_response": {
+                "meta": {"status": "ok", "round_id": "round-1"},
+                "products": [
+                    {
+                        "uid": "злс",
+                        "key": "злс",
+                        "name": "ЗЛС",
+                        "unit": "УБ",
+                        "light": "yellow",
+                    },
+                ],
+                "market": {"злс": market_snapshot},
+            },
+            "market_response": {
+                "meta": {"status": "ok", "round_id": "round-1"},
+                "market": {"злс": market_snapshot},
+            },
+            "market_items_response": {
+                "злс": {
+                    "meta": {"status": "ok", "round_id": "round-1"},
+                    "product": {"uid": "злс", "name": "ЗЛС"},
+                    "market": market_snapshot,
+                    "candidates": candidates,
+                    "sources": sources,
+                },
+            },
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            export_path = Path(temp_dir) / "crosssell.json"
+            export_path.write_text(
+                json.dumps(export, ensure_ascii=False),
+                encoding="utf-8",
+            )
+            result = report.apply_crosssell_export(data, export_path)
+
+        product = result["products"][0]
+        recommendation = product["metric_recommendations"][0]
+        self.assertEqual(product["crosssell_uid"], "злс")
+        self.assertEqual(product["crosssell_market"], market_snapshot)
+        self.assertEqual(product["crosssell_candidates"], candidates)
+        self.assertEqual(product["crosssell_sources"], sources)
+        self.assertEqual(recommendation["crosssell_uid"], "злс")
+        self.assertEqual(recommendation["crosssell_market"], market_snapshot)
+        self.assertEqual(recommendation["crosssell_candidates"], candidates)
+        self.assertEqual(recommendation["crosssell_sources"], sources)
+        self.assertEqual(
+            sum(item["status"] == "wait" for item in product["crosssell_candidates"]),
+            product["crosssell_market"]["candidates_new"],
+        )
+        self.assertEqual(
+            {item["status"] for item in product["crosssell_candidates"]},
+            {"wait", "accepted", "rejected", "canon", "mirror", "audrej"},
+        )
+        tool_link = product["metrics"][0]["tools"][0]["button"]["link"]
+        self.assertIn("#product=%D0%B7%D0%BB%D1%81", tool_link)
+        self.assertNotIn("#screen=pult", tool_link)
 
     def test_crosssell_recommendations_hide_zero_seen_rows(self) -> None:
         texts = report.crosssell_recommendation_texts(
