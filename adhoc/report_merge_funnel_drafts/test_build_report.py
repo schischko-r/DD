@@ -249,6 +249,66 @@ class ReportBuildTest(unittest.TestCase):
             "not_applicable",
         )
 
+    def test_coverage_falls_back_to_flat_production_event_tokens(self):
+        row = {
+            "event_match_tokens": [
+                "android",
+                "Checkout Application Start Show",
+                "productCode",
+                "consumer_loan",
+                "ios",
+            ]
+        }
+        result = build_report.coverage_for_step(
+            row,
+            [
+                {
+                    "product": "NRT",
+                    "events": [
+                        {"original": "ios / Checkout Application Start Show"}
+                    ],
+                }
+            ],
+        )
+
+        self.assertEqual(result["status"], "partial")
+        self.assertEqual(result["covered"], 1)
+        self.assertEqual(result["total"], 3)
+        self.assertEqual(
+            [group["tokens"] for group in result["event_coverage"]],
+            [
+                ["Checkout Application Start Show"],
+                ["productCode"],
+                ["consumer_loan"],
+            ],
+        )
+        self.assertEqual(
+            result["event_coverage"][0]["matched_tokens"],
+            ["Checkout Application Start Show"],
+        )
+
+    def test_flat_production_event_tokens_can_be_fully_covered(self):
+        row = {"event_match_tokens": ["ios", "Event A", "android"]}
+        result = build_report.coverage_for_step(
+            row,
+            [{"product": "NRT", "events": [{"original": "ios / Event A"}]}],
+        )
+
+        self.assertEqual(result["status"], "full")
+        self.assertEqual(result["covered"], 1)
+        self.assertEqual(result["total"], 1)
+
+    def test_coverage_accepts_nested_production_event_tokens(self):
+        row = {"event_match_tokens": [["ios", "Event A"], ["android", "Event B"]]}
+        result = build_report.coverage_for_step(
+            row,
+            [{"product": "NRT", "events": [{"original": "ios / Event A"}]}],
+        )
+
+        self.assertEqual(result["status"], "partial")
+        self.assertEqual(result["covered"], 1)
+        self.assertEqual(result["total"], 2)
+
     def test_build_steps_excludes_steps_without_events_from_summary(self):
         steps, summary = build_report.build_steps(
             {
