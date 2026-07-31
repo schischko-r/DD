@@ -111,7 +111,16 @@ test('html_page URL, title and Gravity icon come from the Vite env map', () => {
     client_metrics: {url: '', title: 'Клиентские метрики', icon: 'ChartColumn'},
     complaints: {url: '', title: 'Жалобы и обращения', icon: 'Comments'},
     csi: {url: '', title: 'CSI', icon: 'CircleCheck'},
-    drafts: {url: '', title: 'Черновики', icon: 'FileText'},
+    drafts: {
+      url: './report_merge_funnel_drafts.html',
+      title: 'Черновики и оформление в СБОЛ',
+      icon: 'FileText',
+    },
+    outreach_copy: {
+      url: './report_merge_funnel_drafts_copy_paste.html',
+      title: 'Коммуникации · copy-paste',
+      icon: 'PaperPlane',
+    },
     funnel: {url: '', title: 'Воронка кампейнинга', icon: 'ChartAreaStacked'},
   });
 
