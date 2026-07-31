@@ -3,7 +3,7 @@ import {ChevronDown, ChevronRight, TriangleExclamationFill} from '@gravity-ui/ic
 import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text, Tooltip} from '@gravity-ui/uikit';
 import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
-import {digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {crossSellMarketPresentation, digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 export {digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, worstDigestLight} from './digestPresentation.js';
 
@@ -61,18 +61,49 @@ function CrossSellNextSteps() {
   </>;
 }
 
-function RecommendationBody({item, useText = false}) {
+function CrossSellMarket({item}) {
+  const presentation = crossSellMarketPresentation(item);
+  if (!presentation) return null;
+  const {candidatesNew, candidates, sources} = presentation;
+  return <section className="crosssell-market">
+    <div className="crosssell-market-head">
+      <strong>Рынок продукта</strong>
+      {candidatesNew != null && <Label theme="success" size="xs">{crossSellCount(candidatesNew)} ждут решения</Label>}
+    </div>
+    {candidates.length > 0 && <ul className="crosssell-market-candidates">
+      {candidates.map((candidate, index) => <li key={candidate.key || `${candidate.from}-${candidate.to}-${index}`}>
+        <div className="crosssell-market-candidate-head">
+          <strong>{candidate.from || '—'} → {candidate.to || '—'}</strong>
+          <Label theme={candidate.status === 'wait' ? 'success' : 'utility'} size="xs">{candidate.statusLabel || 'статус не указан'}</Label>
+        </div>
+        {candidate.why && <p>{candidate.why}</p>}
+      </li>)}
+    </ul>}
+    {sources.length > 0 && <div className="crosssell-market-sources">
+      <span>Источники снимка:</span>
+      {sources.map((source, index) => source.url
+        ? <Link href={source.url} target="_blank" rel="noreferrer" key={`${source.publisher || 'source'}-${source.url}`}>{source.publisher || source.url}</Link>
+        : <span key={`${source.publisher || 'source'}-${index}`}>{source.publisher || 'Источник не указан'}</span>)}
+    </div>}
+  </section>;
+}
+
+export function RecommendationBody({item, useText = false}) {
   const hasCrossSellSummary = item.skill_key === 'cross_sell' && item.api_seen_around_n != null;
   if (!hasCrossSellSummary) {
-    return (item.recommendations || []).map((text, index) => useText
+    const recommendations = (item.recommendations || []).map((text, index) => useText
       ? <Text variant="body-1" key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</Text>
       : <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>);
+    return item.skill_key === 'cross_sell'
+      ? <>{recommendations}<CrossSellMarket item={item} /></>
+      : recommendations;
   }
   const hasSeenOutValue = item.api_seen_out_n != null && Number.isFinite(Number(item.api_seen_out_n));
   const hasSeenInValue = item.api_seen_in_n != null && Number.isFinite(Number(item.api_seen_in_n));
   if (hasSeenOutValue && hasSeenInValue && Number(item.api_seen_out_n) === 0 && Number(item.api_seen_in_n) === 0) {
     return <div className="crosssell-summary">
       <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+      <CrossSellMarket item={item} />
       <CrossSellNextSteps />
     </div>;
   }
@@ -85,6 +116,7 @@ function RecommendationBody({item, useText = false}) {
       {hasSeenIn && <li>{crossSellCountPhrase(item.api_seen_in_n, ['связка', 'связки', 'связок'])} — кросс-селл в сценариях других продуктов с вашим продуктом.</li>}
     </ul></>}
     <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+    <CrossSellMarket item={item} />
     <CrossSellNextSteps />
   </div>;
 }
