@@ -37,6 +37,7 @@ ASSIGNMENTS = {
 }
 
 PLATFORM_PREFIX_RE = re.compile(r"^[a-zA-Z][\w\s]* / ")
+PLATFORM_EVENT_TOKENS = {"android", "ios"}
 CELL_COLUMN_RE = re.compile(r"^([A-Z]+)")
 SPREADSHEET_NS = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
@@ -547,6 +548,20 @@ def coverage_for_step(
     """Match NRT originals to clickstream event groups by exact normalized event text."""
 
     token_groups = row.get("event_token_groups") or []
+    if not token_groups:
+        fallback_tokens = row.get("event_match_tokens") or []
+        if isinstance(fallback_tokens, list) and fallback_tokens:
+            if all(isinstance(item, list) for item in fallback_tokens):
+                token_groups = fallback_tokens
+            else:
+                # Some production exports expose only the flattened token set.
+                # Bound every non-platform token separately. This is conservative:
+                # one matching event cannot mark an ungrouped multi-event step full.
+                token_groups = [
+                    [token]
+                    for token in fallback_tokens
+                    if str(token).strip().casefold() not in PLATFORM_EVENT_TOKENS
+                ]
     nrt_events: set[str] = set()
     nrt_products: list[str] = []
     for group in nrt_groups:
