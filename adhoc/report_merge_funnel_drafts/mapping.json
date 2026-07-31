@@ -1,0 +1,125 @@
+{
+  "default_product": "ПДС",
+  "products": [
+    {
+      "label": "Автокредит",
+      "dd_product": "Автокредит",
+      "draft_product": "Автокредит",
+      "clickstream_funnel_id": "27681"
+    },
+    {
+      "label": "БПИФ",
+      "dd_product": "БПИФ",
+      "draft_product": "БПИФ",
+      "clickstream_funnel_id": "33400"
+    },
+    {
+      "label": "Брокерский счёт",
+      "dd_product": "Брокерский счет",
+      "draft_product": "Брокерский счет",
+      "clickstream_funnel_id": "30351"
+    },
+    {
+      "label": "ВЗР",
+      "dd_product": "ВЗР",
+      "draft_product": "ВЗР",
+      "clickstream_funnel_id": "29292"
+    },
+    {
+      "label": "Вклады, руб.",
+      "dd_product": "Вклады+НС",
+      "draft_product": "Вклады, руб.",
+      "clickstream_funnel_id": "34601"
+    },
+    {
+      "label": "Накопительные счета",
+      "dd_product": "Вклады+НС",
+      "draft_product": "Накопительные счета",
+      "clickstream_funnel_id": "34631"
+    },
+    {
+      "label": "Защита на любой случай",
+      "dd_product": "ЗЛС",
+      "draft_product": "ЗЛС",
+      "clickstream_funnel_id": "30502"
+    },
+    {
+      "label": "ЗПИФ",
+      "dd_product": "ЗПИФ",
+      "draft_product": "ОПИФ, ЗПИФ, БПИФ",
+      "clickstream_funnel_id": "34947"
+    },
+    {
+      "label": "КАСКО",
+      "dd_product": "КАСКО",
+      "draft_product": "КАСКО",
+      "clickstream_funnel_id": "31138"
+    },
+    {
+      "label": "Кредитные карты",
+      "dd_product": "Кредитные карты",
+      "draft_product": "Кредитные карты",
+      "clickstream_funnel_id": "29142"
+    },
+    {
+      "label": "ОМС",
+      "dd_product": "ОМС",
+      "draft_product": "ОМС",
+      "clickstream_funnel_id": "31209"
+    },
+    {
+      "label": "ОПИФ",
+      "dd_product": "ОПИФ",
+      "draft_product": "ОПИФ, ЗПИФ, БПИФ",
+      "clickstream_funnel_id": "33375"
+    },
+    {
+      "label": "ОСАГО",
+      "dd_product": "ОСАГО",
+      "draft_product": "ОСАГО",
+      "clickstream_funnel_id": "26837"
+    },
+    {
+      "label": "ПДС",
+      "dd_product": "ПДС",
+      "draft_product": "ПДС",
+      "clickstream_funnel_id": "39504"
+    },
+    {
+      "label": "Потребительский кредит",
+      "dd_product": "Потребительский кредит",
+      "draft_product": "Потребительское кредитование",
+      "clickstream_funnel_id": "35968"
+    },
+    {
+      "label": "СберПрайм",
+      "dd_product": "СберПрайм",
+      "draft_product": "Прайм",
+      "clickstream_funnel_id": "30454"
+    },
+    {
+      "label": "Страхование жизни",
+      "dd_product": "Страхование жизни",
+      "draft_product": "Страхование жизни при ИК",
+      "clickstream_funnel_id": "30481"
+    },
+    {
+      "label": "Страхование залога",
+      "dd_product": "Страхование залога (к ипотеке)",
+      "draft_product": "Страхование залога при ИК",
+      "clickstream_funnel_id": "30475"
+    },
+    {
+      "label": "Трансграничные переводы",
+      "dd_product": "Трансграничные переводы",
+      "draft_product": "Трансграничные переводы",
+      "clickstream_funnel_id": "29256"
+    }
+  ],
+  "excluded_products": [
+    {
+      "dd_product": "ДСЖ КК",
+      "reason": "Нет общего месяца: черновики доступны только за 2025-09, а кликстрим начинается с 2026-02."
+    }
+  ]
+}
