@@ -549,14 +549,22 @@ def coverage_for_step(
 
     token_groups = row.get("event_token_groups") or []
     if not token_groups:
+        fallback_actions = row.get("event_actions") or []
+        if isinstance(fallback_actions, list):
+            token_groups = [
+                [action]
+                for action in fallback_actions
+                if str(action).strip()
+                and str(action).strip().casefold() != "x"
+            ]
+    if not token_groups:
         fallback_tokens = row.get("event_match_tokens") or []
         if isinstance(fallback_tokens, list) and fallback_tokens:
             if all(isinstance(item, list) for item in fallback_tokens):
                 token_groups = fallback_tokens
             else:
-                # Some production exports expose only the flattened token set.
-                # Bound every non-platform token separately. This is conservative:
-                # one matching event cannot mark an ungrouped multi-event step full.
+                # Some exports expose only the flattened token set. Bound every
+                # non-platform token separately so one match cannot mark all full.
                 token_groups = [
                     [token]
                     for token in fallback_tokens

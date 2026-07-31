@@ -287,6 +287,46 @@ class ReportBuildTest(unittest.TestCase):
             ["Checkout Application Start Show"],
         )
 
+    def test_coverage_prefers_production_event_actions(self):
+        row = {
+            "event_actions": ["Event A", "Event B"],
+            "event_match_tokens": ["ios", "Wrong fallback event"],
+        }
+        result = build_report.coverage_for_step(
+            row,
+            [{"product": "NRT", "events": [{"original": "ios / Event A"}]}],
+        )
+
+        self.assertEqual(result["status"], "partial")
+        self.assertEqual(result["covered"], 1)
+        self.assertEqual(result["total"], 2)
+        self.assertEqual(
+            [group["tokens"] for group in result["event_coverage"]],
+            [["Event A"], ["Event B"]],
+        )
+        self.assertEqual(
+            [
+                token
+                for group in result["event_coverage"]
+                for token in group["matched_tokens"]
+            ],
+            ["Event A"],
+        )
+
+    def test_zeroed_event_action_placeholder_does_not_mask_token_fallback(self):
+        row = {
+            "event_actions": ["x"],
+            "event_match_tokens": ["ios", "Event A"],
+        }
+        result = build_report.coverage_for_step(
+            row,
+            [{"product": "NRT", "events": [{"original": "ios / Event A"}]}],
+        )
+
+        self.assertEqual(result["status"], "full")
+        self.assertEqual(result["covered"], 1)
+        self.assertEqual(result["total"], 1)
+
     def test_flat_production_event_tokens_can_be_fully_covered(self):
         row = {"event_match_tokens": ["ios", "Event A", "android"]}
         result = build_report.coverage_for_step(
