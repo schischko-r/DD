@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo} from '@gravity-ui/icons';
+import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Ticket} from '@gravity-ui/icons';
 import {Divider, Flex, Spin} from '@gravity-ui/uikit';
 import {AsideHeader, FooterItem} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
@@ -184,7 +184,7 @@ export function App() {
             id="backlog"
             title="Декомпозиция бэклога"
             tooltipText="Декомпозиция бэклога"
-            icon={ChartColumn}
+            icon={Ticket}
             compact={footerCompact}
             current={view === 'backlog'}
             onItemClick={() => openBacklog()}
