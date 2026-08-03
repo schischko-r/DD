@@ -80,7 +80,7 @@ SCENARIO_ALIASES = {
     "metric_calculation": "metrics_calculation",
     "social_communication": "social_communications",
 }
-SCENARIO_CONTINUOUS_25TH_DAYS = {
+SCENARIO_CONTINUOUS_25TH_HOURS = {
     "AI": 2.11,
     "BI_bugfix": 0.82,
     "business_planning": 4.40,
@@ -611,7 +611,7 @@ def _next_quarter(value: date) -> date:
     return date(value.year + (value.month == 10), 1 if value.month == 10 else value.month + 3, 1)
 
 
-def _percentage(numerator: int, denominator: int) -> float:
+def _percentage(numerator: float, denominator: float) -> float:
     return round(numerator / denominator * 100, 2) if denominator else 0.0
 
 
@@ -735,6 +735,10 @@ def _build_team_aggregates(
         automation_count = sum(
             ticket.scenario_key == AUTOMATION_SCENARIO for ticket in created_tickets
         )
+        story_points_filled_count = sum(
+            bool(ticket.story_points) for ticket in created_tickets
+        )
+        cycle_times = _cycle_times_days(resolved_tickets)
         months.append(
             {
                 "key": key,
@@ -756,6 +760,13 @@ def _build_team_aggregates(
                 "automationShare": _percentage(
                     automation_count, len(created_tickets)
                 ),
+                "storyPointsFilledCount": story_points_filled_count,
+                "storyPointsBaseCount": len(created_tickets),
+                "storyPointsFilledShare": _percentage(
+                    story_points_filled_count, len(created_tickets)
+                ),
+                "medianCycleTimeDays": _median_days(cycle_times),
+                "cycleTimeSampleCount": len(cycle_times),
                 "directions": monthly_categories(
                     values["directions"], direction_totals, direction_order  # type: ignore[arg-type]
                 ),
@@ -815,6 +826,7 @@ def _build_team_aggregates(
             quarter_directions[ticket.direction_key]["count"] += 1
             quarter_scenarios[ticket.scenario_key]["count"] += 1
             quarter_scenario_tickets[ticket.scenario_key].append(ticket)
+        quarter_cycle_time_total = sum(_cycle_times_days(created_tickets))
 
         def quarterly_categories(
             values: defaultdict[str, dict[str, int]],
@@ -843,9 +855,12 @@ def _build_team_aggregates(
                         "share": _percentage(
                             quarter_scenarios[key]["count"], len(created_tickets)
                         ),
-                        "continuous25thDays": SCENARIO_CONTINUOUS_25TH_DAYS[key],
+                        "continuous25thHours": SCENARIO_CONTINUOUS_25TH_HOURS[key],
                         "medianCycleTimeHours": _median_hours(cycle_times),
                         "cycleTimeSampleCount": len(cycle_times),
+                        "cycleTimeShare": _percentage(
+                            sum(cycle_times), quarter_cycle_time_total
+                        ),
                     }
                 )
             return result

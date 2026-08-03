@@ -26,7 +26,6 @@ export function App() {
   const [detailScore, setDetailScore] = useState(false);
   const [compact, setCompact] = useState(true);
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
-  const [teamProfileUnit, setTeamProfileUnit] = useState('');
   const updateSummaryFilters = useCallback((patch) => {
     setSummaryFilters((current) => ({...current, ...patch}));
   }, []);
@@ -70,7 +69,7 @@ export function App() {
     || data.products[0];
   const product = selected || defaultProduct;
   const openProduct = (item) => {
-    setTeamProfileUnit(item.unit && isUnitFilterOption(item.unit) ? item.unit : '');
+    updateSummaryFilters({unit: item.unit && isUnitFilterOption(item.unit) ? item.unit : ''});
     setSelected(item);
     setView('detail');
     window.scrollTo(0, 0);
@@ -159,7 +158,7 @@ export function App() {
     ] : []),
   ];
   const content = view === 'summary'
-    ? <SummaryPage products={data.products} rows={rows} />
+    ? <SummaryPage products={data.products} rows={rows} unitFilter={summaryFilters.unit} onUnitFilterChange={(unit) => updateSummaryFilters({unit})} />
     : activeHtmlPageTool
       ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
       : view === 'dashboard'
@@ -168,7 +167,7 @@ export function App() {
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'backlog'
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
-            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={teamProfileUnit} onTeamUnitChange={setTeamProfileUnit} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
+            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
   return (
     <AsideHeader
       compact={compact}

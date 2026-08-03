@@ -698,6 +698,7 @@ class BuildBacklogDataTest(unittest.TestCase):
 
         payload = backlog.build_payload(path)
         quarter = _quarter(payload, "2026-Q1")
+        february = _month(payload, "2026-02")
 
         self.assertEqual(payload["meta"]["includedTickets"], 4)
         self.assertEqual(payload["meta"]["storyPointsFilledCount"], 3)
@@ -710,6 +711,9 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertEqual(quarter["storyPointsFilledShare"], 75)
         self.assertEqual(quarter["medianCycleTimeDays"], 4)
         self.assertEqual(quarter["cycleTimeSampleCount"], 2)
+        self.assertEqual(february["storyPointsFilledShare"], 75)
+        self.assertEqual(february["medianCycleTimeDays"], 4)
+        self.assertEqual(february["cycleTimeSampleCount"], 2)
 
         serialized = json.dumps(payload, ensure_ascii=False)
         for private_value in (
@@ -751,9 +755,9 @@ class BuildBacklogDataTest(unittest.TestCase):
             "social_communications": 0.29,
             "unknown": 0.03,
         }
-        self.assertEqual(backlog.SCENARIO_CONTINUOUS_25TH_DAYS, expected_benchmarks)
+        self.assertEqual(backlog.SCENARIO_CONTINUOUS_25TH_HOURS, expected_benchmarks)
         self.assertEqual(
-            set(backlog.SCENARIO_CONTINUOUS_25TH_DAYS), set(backlog.SCENARIO_LABELS)
+            set(backlog.SCENARIO_CONTINUOUS_25TH_HOURS), set(backlog.SCENARIO_LABELS)
         )
 
         path = Path(self.temporary_directory.name) / "scenario_efficiency.xlsx"
@@ -815,16 +819,72 @@ class BuildBacklogDataTest(unittest.TestCase):
             first_quarter["scenarios"], "dashboard_improvements"
         )
 
-        self.assertEqual(ai["continuous25thDays"], 2.11)
+        self.assertEqual(ai["continuous25thHours"], 2.11)
         self.assertEqual(ai["medianCycleTimeHours"], 24.5)
         self.assertEqual(ai["cycleTimeSampleCount"], 2)
-        self.assertEqual(dashboard["continuous25thDays"], 1.86)
+        self.assertEqual(dashboard["continuous25thHours"], 1.86)
         self.assertEqual(dashboard["medianCycleTimeHours"], 48)
         self.assertEqual(dashboard["cycleTimeSampleCount"], 1)
         for scenario in first_quarter["scenarios"]:
-            self.assertIn("continuous25thDays", scenario)
+            self.assertIn("continuous25thHours", scenario)
             self.assertIn("medianCycleTimeHours", scenario)
             self.assertIn("cycleTimeSampleCount", scenario)
+
+    def test_quarter_scenario_cycle_time_share_uses_valid_ttm_denominator(self) -> None:
+        path = Path(self.temporary_directory.name) / "scenario_cycle_time_share.xlsx"
+        common = {
+            "team": "СберЧаевые",
+            "direction": "Аналитика",
+            "Status": "Done",
+        }
+        _write_minimal_xlsx(
+            path,
+            [
+                {
+                    **common,
+                    "Created": "2024-01-01 09:00:00",
+                    "Resolved": "2024-01-02 12:00:00",
+                    "Дата перехода в in_progress": "2024-01-01 12:00:00",
+                    "Issue key": "AI-24-HOURS",
+                    "scenario": "AI",
+                },
+                {
+                    **common,
+                    "Created": "2024-01-02 09:00:00",
+                    "Resolved": "2024-01-20 09:00:00",
+                    "Дата перехода в in_progress": "",
+                    "Issue key": "AI-MISSING-TTM",
+                    "scenario": "AI",
+                },
+                {
+                    **common,
+                    "Created": "2024-03-31 09:00:00",
+                    "Resolved": "2024-04-03 12:00:00",
+                    "Дата перехода в in_progress": "2024-03-31 12:00:00",
+                    "Issue key": "DASHBOARD-72-HOURS",
+                    "scenario": "dashboard_improvements",
+                },
+            ],
+        )
+
+        first_quarter = _quarter(_build_payload(path), "2024-Q1")
+        ai = _category(first_quarter["scenarios"], "AI")
+        dashboard = _category(
+            first_quarter["scenarios"], "dashboard_improvements"
+        )
+
+        self.assertEqual(ai["cycleTimeSampleCount"], 1)
+        self.assertEqual(ai["medianCycleTimeHours"], 24)
+        self.assertEqual(ai["cycleTimeShare"], 25)
+        self.assertEqual(dashboard["cycleTimeSampleCount"], 1)
+        self.assertEqual(dashboard["medianCycleTimeHours"], 72)
+        self.assertEqual(dashboard["cycleTimeShare"], 75)
+        self.assertEqual(
+            sum(scenario["cycleTimeShare"] for scenario in first_quarter["scenarios"]),
+            100,
+        )
+        for scenario in first_quarter["scenarios"]:
+            self.assertIn("cycleTimeShare", scenario)
 
     def test_missing_issue_key_is_excluded_before_dates_are_parsed(self) -> None:
         path = Path(self.temporary_directory.name) / "missing_key_invalid_dates.xlsx"

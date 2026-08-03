@@ -68,31 +68,35 @@ test('scenario recommendation source preserves the approved rows and exact copy'
 
 test('recommendation table uses Gravity UI and is the final backlog analytics section', () => {
   assert.match(pageSource, /import \{[^}]*Table[^}]*\} from '@gravity-ui\/uikit'/);
-  assert.match(pageSource, /<Table[\s\S]*?columns=\{DD_SCENARIO_RECOMMENDATION_COLUMNS\}[\s\S]*?data=\{DD_SCENARIO_RECOMMENDATIONS\}[\s\S]*?wordWrap/);
-  assert.match(pageSource, /name: 'Направление'[\s\S]*?name: 'Сценарий'[\s\S]*?name: 'Описание'[\s\S]*?name: 'Рекомендация тимлиду'/);
+  assert.match(pageSource, /<Table[\s\S]*?columns=\{DD_SCENARIO_RECOMMENDATION_COLUMNS\}[\s\S]*?data=\{rows\}[\s\S]*?wordWrap/);
+  assert.match(pageSource, /name: 'Направление'[\s\S]*?name: 'Сценарий'[\s\S]*?name: '% времени в сценарии'[\s\S]*?name: 'TTM · топ-25%'[\s\S]*?name: 'TTM команды'[\s\S]*?name: 'Описание'[\s\S]*?name: 'Рекомендация тимлиду'/);
+  assert.match(pageSource, /formatOptionalMetric\(item\.continuous25thHours, 'ч', 2\)/);
+  assert.match(pageSource, /formatOptionalMetric\(item\.medianCycleTimeHours, 'ч', 1\)/);
   assert.match(pageSource, /<Link href=\{resources\[0\]\.href\} target="_blank" rel="noreferrer">\{resources\[0\]\.label\}<\/Link>/);
   assert.match(pageSource, /function RecommendationCopy\(\{item\}\)[\s\S]*?resource\.placement === 'inline'[\s\S]*?text\.indexOf\(resource\.label, cursor\)[\s\S]*?<Link key=\{`\$\{resource\.href\}-\$\{start\}`\}/);
   assert.match(pageSource, /<button[^>]*className="backlog-inline-action"[^>]*aria-haspopup="dialog"/);
   assert.match(pageSource, /<Modal[\s\S]*?AI Toolkit «Продуктовый аналитик»[\s\S]*?AI HUB B2C \(CI06049712\)[\s\S]*?Хазипова Мария Юрьевна/);
+  assert.match(pageSource, /<Label theme="danger" size="m">Справочная информация, визуализация разовая, для инфо<\/Label>/);
   assert.ok(
-    pageSource.indexOf('<DdScenarioRecommendationTable />') > pageSource.indexOf('<Card className="backlog-method-note"'),
+    pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} />') > pageSource.indexOf('<Card className="backlog-method-note"'),
   );
   assert.doesNotMatch(summarySource, /DdScenarioRecommendationTable|DD_SCENARIO_RECOMMENDATIONS/);
   assert.match(stylesSource, /\.dd-scenario-recommendations-scroll\s*\{[^}]*overflow-x:\s*auto;/s);
-  assert.match(stylesSource, /\.dd-scenario-recommendations-table\s*\{\s*min-width:\s*1120px;/);
+  assert.match(stylesSource, /\.dd-scenario-recommendations-table\s*\{\s*min-width:\s*1480px;/);
 });
 
-test('high-share benchmark breaches are rendered above the full recommendation table', () => {
+test('high-share scenario recommendations are rendered above the full recommendation table', () => {
   const recommendationCard = pageSource.slice(
     pageSource.indexOf('<section className="backlog-actions-grid">'),
     pageSource.indexOf('<Card className="backlog-method-note"'),
   );
-  assert.match(recommendationCard, /Сценарии с долей более 10% и превышением бенчмарка/);
+  assert.match(recommendationCard, /Сценарии с долей более 10%/);
+  assert.doesNotMatch(recommendationCard, /Сценарии с долей более 10% и превышением бенчмарка/);
   assert.match(recommendationCard, /<Card className="backlog-list-card"[^>]*style=\{\{'\-\-g-card-background-color': 'var\(--g-color-base-background\)'\}\}/);
   assert.match(recommendationCard, /Последний полный квартал · \{scenarioFocus\.periodLabel \|\| 'нет данных'\}/);
   assert.match(recommendationCard, /<Table className="backlog-focus-recommendations-table" columns=\{scenarioFocusColumns\} data=\{scenarioFocus\.items\}/);
-  assert.match(recommendationCard, /нет сценариев с долей более 10% и медианным временем команды выше бенчмарка лучших аналитиков/);
+  assert.match(recommendationCard, /нет сценариев с долей более 10% и доступными рекомендациями/);
   assert.match(pageSource, /name: `Доля · \$\{periodLabel\}`/);
-  assert.ok(pageSource.indexOf('className="backlog-focus-recommendations-table"') < pageSource.indexOf('<DdScenarioRecommendationTable />'));
+  assert.ok(pageSource.indexOf('className="backlog-focus-recommendations-table"') < pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} />'));
   assert.match(stylesSource, /\.backlog-focus-recommendations-scroll\s*\{[^}]*overflow-x:\s*auto;/s);
 });

@@ -18,6 +18,11 @@ const helpersSource = pageSource.slice(helpersStart, helpersEnd).replaceAll('exp
 const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate} = Function(
   `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate};`,
 )();
+const recommendationRowsStart = pageSource.indexOf('export function buildScenarioRecommendationRows');
+const recommendationRowsEnd = pageSource.indexOf('const DD_SCENARIO_RECOMMENDATION_COLUMNS', recommendationRowsStart);
+const buildScenarioRecommendationRows = Function(
+  `${pageSource.slice(recommendationRowsStart, recommendationRowsEnd).replace('export function', 'function')}; return buildScenarioRecommendationRows;`,
+)();
 
 test('backlog decomposition is a dedicated sidebar view with its own data source', () => {
   assert.match(appSource, /import \{BacklogDecompositionPage\} from '\.\.\/pages\/BacklogDecompositionPage\.jsx'/);
@@ -200,38 +205,56 @@ test('insights use Created as the shared denominator', () => {
   assert.doesNotMatch(visibleCopy, /усили[йя]|трудо(?:затрат|ёмк|емк)|причин|потому|из-за|вызван/i);
 });
 
-test('scenario focus recommendations use the latest complete quarter and strict share and benchmark thresholds', () => {
+test('scenario focus recommendations use the latest complete quarter and strict share threshold', () => {
   const result = buildScenarioFocusRecommendations([
     {key: '2026-Q1', isComplete: true, createdCount: 10, scenarios: [
-      {key: 'alpha', label: 'Alpha', count: 5, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 1},
+      {key: 'alpha', label: 'Alpha', count: 5, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 1},
     ]},
     {key: '2026-Q2', isComplete: true, createdCount: 20, scenarios: [
-      {key: 'alpha', label: 'Alpha', count: 3, continuous25thDays: 2.11, medianCycleTimeHours: 51.5, cycleTimeSampleCount: 4},
-      {key: 'ten-percent', label: 'Ten percent', count: 2, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
-      {key: 'equal-benchmark', label: 'Equal benchmark', count: 3, continuous25thDays: 2, medianCycleTimeHours: 48, cycleTimeSampleCount: 2},
-      {key: 'small', label: 'Small', count: 1, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+      {key: 'alpha', label: 'Alpha', count: 3, continuous25thHours: 2.11, medianCycleTimeHours: 51.5, cycleTimeSampleCount: 4},
+      {key: 'ten-percent', label: 'Ten percent', count: 2, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+      {key: 'below-benchmark', label: 'Below benchmark', count: 3, continuous25thHours: 48, medianCycleTimeHours: 47, cycleTimeSampleCount: 2},
+      {key: 'small', label: 'Small', count: 1, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
     ]},
     {key: '2026-Q3', isComplete: false, createdCount: 1, scenarios: [
-      {key: 'alpha', label: 'Alpha', count: 1, continuous25thDays: 1, medianCycleTimeHours: 100, cycleTimeSampleCount: 1},
+      {key: 'alpha', label: 'Alpha', count: 1, continuous25thHours: 1, medianCycleTimeHours: 100, cycleTimeSampleCount: 1},
     ]},
   ], [
     {key: 'alpha', recommendation: 'Рекомендуем первое.', resources: [{label: 'ссылке', href: 'https://example.test/a'}]},
     {key: 'alpha', recommendation: 'Рекомендуем второе.', resources: [{label: 'ссылке', href: 'https://example.test/a'}]},
     {key: 'ten-percent', recommendation: 'Рекомендуем порог доли.'},
-    {key: 'equal-benchmark', recommendation: 'Рекомендуем порог времени.'},
+    {key: 'below-benchmark', recommendation: 'Рекомендуем порог времени.'},
     {key: 'small', recommendation: 'Рекомендуем малую долю.'},
   ]);
 
   assert.equal(result.quarter.key, '2026-Q2');
   assert.equal(result.periodLabel, '2Q26');
-  assert.equal(result.items.length, 1);
+  assert.equal(result.items.length, 2);
   assert.equal(result.items[0].scenario, 'Alpha');
   assert.equal(result.items[0].share, 15);
   assert.equal(result.items.some((item) => item.key === 'ten-percent'), false, 'exactly 10% is excluded');
-  assert.equal(result.items.some((item) => item.key === 'equal-benchmark'), false, 'equality to the benchmark is excluded');
-  assert.equal(result.items[0].recommendation, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 дня. Значение по вашей команде: 51,5 часов. Предлагаемый инструментарий для снижения трудозатрат: Рекомендуем первое. Рекомендуем второе.');
+  assert.equal(result.items.some((item) => item.key === 'below-benchmark'), true, 'a high-share scenario remains visible below the benchmark');
+  assert.equal(result.items[0].recommendation, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 часа. Значение по вашей команде: 51,5 часов. Предлагаемый инструментарий для снижения трудозатрат: Рекомендуем первое. Рекомендуем второе.');
   assert.deepEqual(result.items[0].resources, [{label: 'ссылке', href: 'https://example.test/a'}]);
   assert.deepEqual(buildScenarioFocusRecommendations([{key: '2026-Q3', isComplete: false}], []).items, []);
+});
+
+test('scenario recommendation rows preserve the catalog and add selected-quarter TTM metrics', () => {
+  const recommendations = [
+    {key: 'AI', scenario: 'AI'},
+    {key: 'missing', scenario: 'Missing'},
+  ];
+  const rows = buildScenarioRecommendationRows({scenarios: [{
+    key: 'AI',
+    cycleTimeShare: 37.5,
+    continuous25thHours: 2.11,
+    medianCycleTimeHours: 51.5,
+  }]}, recommendations);
+
+  assert.deepEqual(rows, [
+    {...recommendations[0], cycleTimeShare: 37.5, continuous25thHours: 2.11, medianCycleTimeHours: 51.5},
+    {...recommendations[1], cycleTimeShare: null, continuous25thHours: null, medianCycleTimeHours: null},
+  ]);
 });
 
 test('scenario focus recommendations require valid samples and benchmarks', () => {
@@ -246,10 +269,10 @@ test('scenario focus recommendations require valid samples and benchmarks', () =
     isComplete: true,
     createdCount: 20,
     scenarios: [
-      {key: 'missing-sample', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25},
-      {key: 'zero-sample', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 0},
+      {key: 'missing-sample', count: 3, continuous25thHours: 1, medianCycleTimeHours: 25},
+      {key: 'zero-sample', count: 3, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 0},
       {key: 'missing-benchmark', count: 3, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
-      {key: 'missing-median', count: 3, continuous25thDays: 1, medianCycleTimeHours: null, cycleTimeSampleCount: 2},
+      {key: 'missing-median', count: 3, continuous25thHours: 1, medianCycleTimeHours: null, cycleTimeSampleCount: 2},
     ],
   }], recommendationRows);
 
@@ -266,8 +289,8 @@ test('scenario focus recommendations preserve approved resources and exclude una
     isComplete: true,
     createdCount: 20,
     scenarios: [
-      {key: 'customer_experience_analytics', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
-      {key: 'exports_to_excel_regulator', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+      {key: 'customer_experience_analytics', count: 3, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+      {key: 'exports_to_excel_regulator', count: 3, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
     ],
   }], [{
     key: 'customer_experience_analytics',
@@ -378,9 +401,9 @@ test('KPI and recommendations are composed from neutral Gravity UI primitives', 
 });
 
 test('KPI mini charts show history only through the selected quarter with a quarter reference line', () => {
-  assert.equal((pageSource.match(/buildKpiMiniChartData\(visibleMonths,/g) || []).length, 3);
+  assert.equal((pageSource.match(/buildKpiMiniChartData\(visibleMonths,/g) || []).length, 5);
   assert.equal((pageSource.match(/buildKpiMiniChartData\(months,/g) || []).length, 0);
-  assert.equal((pageSource.match(/scaleMonths: selectedMonths/g) || []).length, 3);
+  assert.equal((pageSource.match(/scaleMonths: selectedMonths/g) || []).length, 5);
 
   const history = [
     {key: '2024-01', label: 'Январь', createdCount: 17, createdResolvedCount: 12},
@@ -611,9 +634,11 @@ test('Created semantics remain explicit alongside selected-quarter delivery qual
   assert.match(pageSource, /value=\{Number\.isFinite\(medianCycleTimeDays\) \? `\$\{formatNumber\(medianCycleTimeDays, 1\)\} дн\.` : '—'\}/);
   assert.match(pageSource, /value=\{Number\.isFinite\(storyPointsFilledShare\) \? formatPercentValue\(storyPointsFilledShare\) : '—'\}/);
   assert.match(pageSource, /label="Медианный TTM"/);
+  assert.match(pageSource, /label="Медианный TTM"[\s\S]*?chartData=\{kpiMiniCharts\.medianTtm\}/);
+  assert.match(pageSource, /label="Заполнение Story Points"[\s\S]*?chartData=\{kpiMiniCharts\.storyPoints\}/);
 });
 
-test('every rendered chart is keyed to the Created cohort', () => {
+test('KPI charts use their declared Created or completed-task cohorts', () => {
   const kpiStart = pageSource.indexOf('const kpiMiniCharts = {');
   const kpiEnd = pageSource.indexOf('\n  };', kpiStart);
   const kpiSource = pageSource.slice(kpiStart, kpiEnd);
@@ -622,6 +647,8 @@ test('every rendered chart is keyed to the Created cohort', () => {
   assert.deepEqual(chartKeys, [
     'createdCount',
     'createdResolvedCount',
+    'medianCycleTimeDays',
+    'storyPointsFilledShare',
     'exportRoutineShare',
     'automationShare',
   ]);

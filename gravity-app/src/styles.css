@@ -378,10 +378,12 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .product-metric-row small { font-style: italic; }
 .metric-recommendations-empty { min-height: 180px; padding: 28px; display: grid; place-content: center start; gap: 8px; border-radius: 8px; background: var(--g-color-base-background); }
 .dd-scenario-recommendations { margin-top: 24px; background: var(--g-color-base-background); }
-.dd-scenario-recommendations-head { display: grid; gap: 5px; margin-bottom: 18px; }
+.dd-scenario-recommendations-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+.dd-scenario-recommendations-head > div { display: grid; min-width: 0; gap: 5px; }
+.dd-scenario-recommendations-head .g-label { flex: none; max-width: min(420px, 100%); white-space: normal; }
 .dd-scenario-recommendations-head h2 { margin: 0; }
 .dd-scenario-recommendations-scroll { max-width: 100%; overflow-x: auto; }
-.dd-scenario-recommendations-table { min-width: 1120px; }
+.dd-scenario-recommendations-table { min-width: 1480px; }
 .dd-scenario-recommendations-table .g-table__cell { line-height: 1.45; }
 .dd-scenario-recommendations-table .g-table__head .g-table__cell { color: var(--g-color-text-secondary); font-size: 12px; font-weight: 600; }
 .dd-scenario-recommendations-table .g-table__body .g-table__cell { padding-top: 14px; padding-bottom: 14px; }

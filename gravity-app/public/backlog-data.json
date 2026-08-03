@@ -46,6 +46,11 @@
       "automationCount": 4,
       "automationBaseCount": 128,
       "automationShare": 3.12,
+      "storyPointsFilledCount": 0,
+      "storyPointsBaseCount": 128,
+      "storyPointsFilledShare": 0.0,
+      "medianCycleTimeDays": 0.1,
+      "cycleTimeSampleCount": 17,
       "directions": [
         {
           "key": "Разработка и поддержка BI",
@@ -252,6 +257,11 @@
       "automationCount": 2,
       "automationBaseCount": 198,
       "automationShare": 1.01,
+      "storyPointsFilledCount": 0,
+      "storyPointsBaseCount": 198,
+      "storyPointsFilledShare": 0.0,
+      "medianCycleTimeDays": 0.2,
+      "cycleTimeSampleCount": 129,
       "directions": [
         {
           "key": "Разработка и поддержка BI",
@@ -458,6 +468,11 @@
       "automationCount": 1,
       "automationBaseCount": 234,
       "automationShare": 0.43,
+      "storyPointsFilledCount": 12,
+      "storyPointsBaseCount": 234,
+      "storyPointsFilledShare": 5.13,
+      "medianCycleTimeDays": 2.9,
+      "cycleTimeSampleCount": 112,
       "directions": [
         {
           "key": "Разработка и поддержка BI",
@@ -664,6 +679,11 @@
       "automationCount": 1,
       "automationBaseCount": 136,
       "automationShare": 0.74,
+      "storyPointsFilledCount": 26,
+      "storyPointsBaseCount": 136,
+      "storyPointsFilledShare": 19.12,
+      "medianCycleTimeDays": 2.2,
+      "cycleTimeSampleCount": 83,
       "directions": [
         {
           "key": "Разработка и поддержка BI",
@@ -870,6 +890,11 @@
       "automationCount": 1,
       "automationBaseCount": 128,
       "automationShare": 0.78,
+      "storyPointsFilledCount": 17,
+      "storyPointsBaseCount": 128,
+      "storyPointsFilledShare": 13.28,
+      "medianCycleTimeDays": 4.2,
+      "cycleTimeSampleCount": 105,
       "directions": [
         {
           "key": "Разработка и поддержка BI",
@@ -1167,225 +1192,250 @@
           "label": "Доработки дешбордов",
           "count": 51,
           "share": 15.64,
-          "continuous25thDays": 1.86,
+          "continuous25thHours": 1.86,
           "medianCycleTimeHours": 2.5,
-          "cycleTimeSampleCount": 32
+          "cycleTimeSampleCount": 32,
+          "cycleTimeShare": 14.92
         },
         {
           "key": "metrics_calculation",
           "label": "Расчет метрик",
           "count": 48,
           "share": 14.72,
-          "continuous25thDays": 1.25,
+          "continuous25thHours": 1.25,
           "medianCycleTimeHours": 3.2,
-          "cycleTimeSampleCount": 23
+          "cycleTimeSampleCount": 23,
+          "cycleTimeShare": 3.13
         },
         {
           "key": "exports_to_excel",
           "label": "Выгрузки в Excel",
           "count": 39,
           "share": 11.96,
-          "continuous25thDays": 1.68,
+          "continuous25thHours": 1.68,
           "medianCycleTimeHours": 62.6,
-          "cycleTimeSampleCount": 30
+          "cycleTimeSampleCount": 30,
+          "cycleTimeShare": 16.07
         },
         {
           "key": "customer_experience_analytics",
           "label": "Аналитика клиентского опыта",
           "count": 19,
           "share": 5.83,
-          "continuous25thDays": 4.28,
+          "continuous25thHours": 4.28,
           "medianCycleTimeHours": 15.9,
-          "cycleTimeSampleCount": 10
+          "cycleTimeSampleCount": 10,
+          "cycleTimeShare": 2.45
         },
         {
           "key": "dashboard_manual_data_update",
           "label": "Ручное обновление данных",
           "count": 35,
           "share": 10.74,
-          "continuous25thDays": 1.9,
+          "continuous25thHours": 1.9,
           "medianCycleTimeHours": 44.9,
-          "cycleTimeSampleCount": 20
+          "cycleTimeSampleCount": 20,
+          "cycleTimeShare": 9.71
         },
         {
           "key": "data_marts",
           "label": "Данные и автоматизация",
           "count": 17,
           "share": 5.21,
-          "continuous25thDays": 0.62,
+          "continuous25thHours": 0.62,
           "medianCycleTimeHours": 20.5,
-          "cycleTimeSampleCount": 6
+          "cycleTimeSampleCount": 6,
+          "cycleTimeShare": 10.13
         },
         {
           "key": "unknown",
           "label": "Невозможно разметить",
           "count": 14,
           "share": 4.29,
-          "continuous25thDays": 0.03,
+          "continuous25thHours": 0.03,
           "medianCycleTimeHours": 4.9,
-          "cycleTimeSampleCount": 10
+          "cycleTimeSampleCount": 10,
+          "cycleTimeShare": 6.45
         },
         {
           "key": "business_planning",
           "label": "Бизнес-планирование",
           "count": 16,
           "share": 4.91,
-          "continuous25thDays": 4.4,
+          "continuous25thHours": 4.4,
           "medianCycleTimeHours": 73.9,
-          "cycleTimeSampleCount": 9
+          "cycleTimeSampleCount": 9,
+          "cycleTimeShare": 2.77
         },
         {
           "key": "excel_reports",
           "label": "Отчеты в Excel",
           "count": 13,
           "share": 3.99,
-          "continuous25thDays": 1.49,
+          "continuous25thHours": 1.49,
           "medianCycleTimeHours": 3.6,
-          "cycleTimeSampleCount": 5
+          "cycleTimeSampleCount": 5,
+          "cycleTimeShare": 0.15
         },
         {
           "key": "presentations",
           "label": "Презентации",
           "count": 12,
           "share": 3.68,
-          "continuous25thDays": 3.88,
+          "continuous25thHours": 3.88,
           "medianCycleTimeHours": 52.1,
-          "cycleTimeSampleCount": 6
+          "cycleTimeSampleCount": 6,
+          "cycleTimeShare": 1.83
         },
         {
           "key": "BI_bugfix",
           "label": "Фикс багов в BI",
           "count": 7,
           "share": 2.15,
-          "continuous25thDays": 0.82,
+          "continuous25thHours": 0.82,
           "medianCycleTimeHours": 37.2,
-          "cycleTimeSampleCount": 4
+          "cycleTimeSampleCount": 4,
+          "cycleTimeShare": 0.81
         },
         {
           "key": "manual_data_quality_control",
           "label": "Ручной ККД",
           "count": 12,
           "share": 3.68,
-          "continuous25thDays": 0.2,
+          "continuous25thHours": 0.2,
           "medianCycleTimeHours": 306.5,
-          "cycleTimeSampleCount": 4
+          "cycleTimeSampleCount": 4,
+          "cycleTimeShare": 11.44
         },
         {
           "key": "dashboard_migration",
           "label": "Миграция дешбордов",
           "count": 1,
           "share": 0.31,
-          "continuous25thDays": 5.36,
+          "continuous25thHours": 5.36,
           "medianCycleTimeHours": 1175.5,
-          "cycleTimeSampleCount": 1
+          "cycleTimeSampleCount": 1,
+          "cycleTimeShare": 5.52
         },
         {
           "key": "project_management",
           "label": "Project Management",
           "count": 8,
           "share": 2.45,
-          "continuous25thDays": 4.54,
+          "continuous25thHours": 4.54,
           "medianCycleTimeHours": 69.9,
-          "cycleTimeSampleCount": 4
+          "cycleTimeSampleCount": 4,
+          "cycleTimeShare": 4.16
         },
         {
           "key": "AI",
           "label": "AI",
           "count": 3,
           "share": 0.92,
-          "continuous25thDays": 2.11,
+          "continuous25thHours": 2.11,
           "medianCycleTimeHours": null,
-          "cycleTimeSampleCount": 0
+          "cycleTimeSampleCount": 0,
+          "cycleTimeShare": 0.0
         },
         {
           "key": "excel_automatic_reports",
           "label": "Автоматизированные отчеты",
           "count": 6,
           "share": 1.84,
-          "continuous25thDays": 0.45,
+          "continuous25thHours": 0.45,
           "medianCycleTimeHours": 1.4,
-          "cycleTimeSampleCount": 1
+          "cycleTimeSampleCount": 1,
+          "cycleTimeShare": 0.01
         },
         {
           "key": "root_cause_analysis",
           "label": "Анализ корневых причин",
           "count": 2,
           "share": 0.61,
-          "continuous25thDays": 3.01,
+          "continuous25thHours": 3.01,
           "medianCycleTimeHours": null,
-          "cycleTimeSampleCount": 0
+          "cycleTimeSampleCount": 0,
+          "cycleTimeShare": 0.0
         },
         {
           "key": "employee_trainings",
           "label": "Обучение сотрудников",
           "count": 0,
           "share": 0.0,
-          "continuous25thDays": 0.02,
+          "continuous25thHours": 0.02,
           "medianCycleTimeHours": null,
-          "cycleTimeSampleCount": 0
+          "cycleTimeSampleCount": 0,
+          "cycleTimeShare": 0.0
         },
         {
           "key": "knowledge_base_maintenance",
           "label": "Формирование базы знаний",
           "count": 3,
           "share": 0.92,
-          "continuous25thDays": 2.11,
+          "continuous25thHours": 2.11,
           "medianCycleTimeHours": 361.8,
-          "cycleTimeSampleCount": 1
+          "cycleTimeSampleCount": 1,
+          "cycleTimeShare": 1.7
         },
         {
           "key": "financial_impact_estimation",
           "label": "Оценка финансового эффекта",
           "count": 3,
           "share": 0.92,
-          "continuous25thDays": 0.79,
+          "continuous25thHours": 0.79,
           "medianCycleTimeHours": 169.7,
-          "cycleTimeSampleCount": 2
+          "cycleTimeSampleCount": 2,
+          "cycleTimeShare": 1.59
         },
         {
           "key": "methodology_dev",
           "label": "Разработка методологии",
           "count": 6,
           "share": 1.84,
-          "continuous25thDays": 0.0,
+          "continuous25thHours": 0.0,
           "medianCycleTimeHours": 73.9,
-          "cycleTimeSampleCount": 3
+          "cycleTimeSampleCount": 3,
+          "cycleTimeShare": 6.89
         },
         {
           "key": "business_requirements_composing",
           "label": "Формирование БТ/ТЗ",
           "count": 3,
           "share": 0.92,
-          "continuous25thDays": 2.1,
+          "continuous25thHours": 2.1,
           "medianCycleTimeHours": 13.3,
-          "cycleTimeSampleCount": 2
+          "cycleTimeSampleCount": 2,
+          "cycleTimeShare": 0.12
         },
         {
           "key": "social_communications",
           "label": "Встречи, коммуникации",
           "count": 3,
           "share": 0.92,
-          "continuous25thDays": 0.29,
+          "continuous25thHours": 0.29,
           "medianCycleTimeHours": 2.1,
-          "cycleTimeSampleCount": 2
+          "cycleTimeSampleCount": 2,
+          "cycleTimeShare": 0.02
         },
         {
           "key": "exports_to_excel_regulator",
           "label": "Выгрузки для регулятора",
           "count": 2,
           "share": 0.61,
-          "continuous25thDays": 0.0,
+          "continuous25thHours": 0.0,
           "medianCycleTimeHours": 3.5,
-          "cycleTimeSampleCount": 1
+          "cycleTimeSampleCount": 1,
+          "cycleTimeShare": 0.02
         },
         {
           "key": "growth_factors_research",
           "label": "Поиск точек роста",
           "count": 3,
           "share": 0.92,
-          "continuous25thDays": 5.9,
+          "continuous25thHours": 5.9,
           "medianCycleTimeHours": 26.7,
-          "cycleTimeSampleCount": 1
+          "cycleTimeSampleCount": 1,
+          "cycleTimeShare": 0.13
         }
       ],
       "automationCount": 6,
@@ -1504,225 +1554,250 @@
           "label": "Доработки дешбордов",
           "count": 81,
           "share": 16.27,
-          "continuous25thDays": 1.86,
+          "continuous25thHours": 1.86,
           "medianCycleTimeHours": 24.2,
-          "cycleTimeSampleCount": 44
+          "cycleTimeSampleCount": 44,
+          "cycleTimeShare": 11.28
         },
         {
           "key": "metrics_calculation",
           "label": "Расчет метрик",
           "count": 43,
           "share": 8.63,
-          "continuous25thDays": 1.25,
+          "continuous25thHours": 1.25,
           "medianCycleTimeHours": 61.7,
-          "cycleTimeSampleCount": 20
+          "cycleTimeSampleCount": 20,
+          "cycleTimeShare": 5.31
         },
         {
           "key": "exports_to_excel",
           "label": "Выгрузки в Excel",
           "count": 49,
           "share": 9.84,
-          "continuous25thDays": 1.68,
+          "continuous25thHours": 1.68,
           "medianCycleTimeHours": 108.4,
-          "cycleTimeSampleCount": 18
+          "cycleTimeSampleCount": 18,
+          "cycleTimeShare": 7.46
         },
         {
           "key": "customer_experience_analytics",
           "label": "Аналитика клиентского опыта",
           "count": 49,
           "share": 9.84,
-          "continuous25thDays": 4.28,
+          "continuous25thHours": 4.28,
           "medianCycleTimeHours": 111.6,
-          "cycleTimeSampleCount": 29
+          "cycleTimeSampleCount": 29,
+          "cycleTimeShare": 14.66
         },
         {
           "key": "dashboard_manual_data_update",
           "label": "Ручное обновление данных",
           "count": 30,
           "share": 6.02,
-          "continuous25thDays": 1.9,
+          "continuous25thHours": 1.9,
           "medianCycleTimeHours": 80.1,
-          "cycleTimeSampleCount": 17
+          "cycleTimeSampleCount": 17,
+          "cycleTimeShare": 9.39
         },
         {
           "key": "data_marts",
           "label": "Данные и автоматизация",
           "count": 45,
           "share": 9.04,
-          "continuous25thDays": 0.62,
+          "continuous25thHours": 0.62,
           "medianCycleTimeHours": 75.6,
-          "cycleTimeSampleCount": 30
+          "cycleTimeSampleCount": 30,
+          "cycleTimeShare": 9.55
         },
         {
           "key": "unknown",
           "label": "Невозможно разметить",
           "count": 41,
           "share": 8.23,
-          "continuous25thDays": 0.03,
+          "continuous25thHours": 0.03,
           "medianCycleTimeHours": 58.0,
-          "cycleTimeSampleCount": 20
+          "cycleTimeSampleCount": 20,
+          "cycleTimeShare": 8.87
         },
         {
           "key": "business_planning",
           "label": "Бизнес-планирование",
           "count": 32,
           "share": 6.43,
-          "continuous25thDays": 4.4,
+          "continuous25thHours": 4.4,
           "medianCycleTimeHours": 41.0,
-          "cycleTimeSampleCount": 18
+          "cycleTimeSampleCount": 18,
+          "cycleTimeShare": 6.87
         },
         {
           "key": "excel_reports",
           "label": "Отчеты в Excel",
           "count": 14,
           "share": 2.81,
-          "continuous25thDays": 1.49,
+          "continuous25thHours": 1.49,
           "medianCycleTimeHours": 27.6,
-          "cycleTimeSampleCount": 8
+          "cycleTimeSampleCount": 8,
+          "cycleTimeShare": 2.14
         },
         {
           "key": "presentations",
           "label": "Презентации",
           "count": 12,
           "share": 2.41,
-          "continuous25thDays": 3.88,
+          "continuous25thHours": 3.88,
           "medianCycleTimeHours": 134.9,
-          "cycleTimeSampleCount": 4
+          "cycleTimeSampleCount": 4,
+          "cycleTimeShare": 3.47
         },
         {
           "key": "BI_bugfix",
           "label": "Фикс багов в BI",
           "count": 17,
           "share": 3.41,
-          "continuous25thDays": 0.82,
+          "continuous25thHours": 0.82,
           "medianCycleTimeHours": 12.6,
-          "cycleTimeSampleCount": 10
+          "cycleTimeSampleCount": 10,
+          "cycleTimeShare": 3.19
         },
         {
           "key": "manual_data_quality_control",
           "label": "Ручной ККД",
           "count": 11,
           "share": 2.21,
-          "continuous25thDays": 0.2,
+          "continuous25thHours": 0.2,
           "medianCycleTimeHours": 121.8,
-          "cycleTimeSampleCount": 8
+          "cycleTimeSampleCount": 8,
+          "cycleTimeShare": 3.58
         },
         {
           "key": "dashboard_migration",
           "label": "Миграция дешбордов",
           "count": 14,
           "share": 2.81,
-          "continuous25thDays": 5.36,
+          "continuous25thHours": 5.36,
           "medianCycleTimeHours": 48.5,
-          "cycleTimeSampleCount": 12
+          "cycleTimeSampleCount": 12,
+          "cycleTimeShare": 4.22
         },
         {
           "key": "project_management",
           "label": "Project Management",
           "count": 6,
           "share": 1.2,
-          "continuous25thDays": 4.54,
+          "continuous25thHours": 4.54,
           "medianCycleTimeHours": 239.0,
-          "cycleTimeSampleCount": 3
+          "cycleTimeSampleCount": 3,
+          "cycleTimeShare": 3.04
         },
         {
           "key": "AI",
           "label": "AI",
           "count": 10,
           "share": 2.01,
-          "continuous25thDays": 2.11,
+          "continuous25thHours": 2.11,
           "medianCycleTimeHours": 0.0,
-          "cycleTimeSampleCount": 6
+          "cycleTimeSampleCount": 6,
+          "cycleTimeShare": 0.47
         },
         {
           "key": "excel_automatic_reports",
           "label": "Автоматизированные отчеты",
           "count": 3,
           "share": 0.6,
-          "continuous25thDays": 0.45,
+          "continuous25thHours": 0.45,
           "medianCycleTimeHours": 169.7,
-          "cycleTimeSampleCount": 1
+          "cycleTimeSampleCount": 1,
+          "cycleTimeShare": 0.49
         },
         {
           "key": "root_cause_analysis",
           "label": "Анализ корневых причин",
           "count": 7,
           "share": 1.41,
-          "continuous25thDays": 3.01,
+          "continuous25thHours": 3.01,
           "medianCycleTimeHours": 71.4,
-          "cycleTimeSampleCount": 3
+          "cycleTimeSampleCount": 3,
+          "cycleTimeShare": 0.81
         },
         {
           "key": "employee_trainings",
           "label": "Обучение сотрудников",
           "count": 9,
           "share": 1.81,
-          "continuous25thDays": 0.02,
+          "continuous25thHours": 0.02,
           "medianCycleTimeHours": 70.8,
-          "cycleTimeSampleCount": 6
+          "cycleTimeSampleCount": 6,
+          "cycleTimeShare": 4.17
         },
         {
           "key": "knowledge_base_maintenance",
           "label": "Формирование базы знаний",
           "count": 6,
           "share": 1.2,
-          "continuous25thDays": 2.11,
+          "continuous25thHours": 2.11,
           "medianCycleTimeHours": 0.0,
-          "cycleTimeSampleCount": 3
+          "cycleTimeSampleCount": 3,
+          "cycleTimeShare": 0.06
         },
         {
           "key": "financial_impact_estimation",
           "label": "Оценка финансового эффекта",
           "count": 5,
           "share": 1.0,
-          "continuous25thDays": 0.79,
+          "continuous25thHours": 0.79,
           "medianCycleTimeHours": 24.1,
-          "cycleTimeSampleCount": 2
+          "cycleTimeSampleCount": 2,
+          "cycleTimeShare": 0.14
         },
         {
           "key": "methodology_dev",
           "label": "Разработка методологии",
           "count": 2,
           "share": 0.4,
-          "continuous25thDays": 0.0,
+          "continuous25thHours": 0.0,
           "medianCycleTimeHours": 47.0,
-          "cycleTimeSampleCount": 2
+          "cycleTimeSampleCount": 2,
+          "cycleTimeShare": 0.27
         },
         {
           "key": "business_requirements_composing",
           "label": "Формирование БТ/ТЗ",
           "count": 5,
           "share": 1.0,
-          "continuous25thDays": 2.1,
+          "continuous25thHours": 2.1,
           "medianCycleTimeHours": 9.0,
-          "cycleTimeSampleCount": 2
+          "cycleTimeSampleCount": 2,
+          "cycleTimeShare": 0.05
         },
         {
           "key": "social_communications",
           "label": "Встречи, коммуникации",
           "count": 4,
           "share": 0.8,
-          "continuous25thDays": 0.29,
+          "continuous25thHours": 0.29,
           "medianCycleTimeHours": 83.7,
-          "cycleTimeSampleCount": 2
+          "cycleTimeSampleCount": 2,
+          "cycleTimeShare": 0.48
         },
         {
           "key": "exports_to_excel_regulator",
           "label": "Выгрузки для регулятора",
           "count": 3,
           "share": 0.6,
-          "continuous25thDays": 0.0,
+          "continuous25thHours": 0.0,
           "medianCycleTimeHours": 0.0,
-          "cycleTimeSampleCount": 1
+          "cycleTimeSampleCount": 1,
+          "cycleTimeShare": 0.0
         },
         {
           "key": "growth_factors_research",
           "label": "Поиск точек роста",
           "count": 0,
           "share": 0.0,
-          "continuous25thDays": 5.9,
+          "continuous25thHours": 5.9,
           "medianCycleTimeHours": null,
-          "cycleTimeSampleCount": 0
+          "cycleTimeSampleCount": 0,
+          "cycleTimeShare": 0.0
         }
       ],
       "automationCount": 3,
@@ -1976,6 +2051,11 @@
           "automationCount": 4,
           "automationBaseCount": 128,
           "automationShare": 3.12,
+          "storyPointsFilledCount": 0,
+          "storyPointsBaseCount": 128,
+          "storyPointsFilledShare": 0.0,
+          "medianCycleTimeDays": 0.1,
+          "cycleTimeSampleCount": 17,
           "directions": [
             {
               "key": "Разработка и поддержка BI",
@@ -2182,6 +2262,11 @@
           "automationCount": 2,
           "automationBaseCount": 198,
           "automationShare": 1.01,
+          "storyPointsFilledCount": 0,
+          "storyPointsBaseCount": 198,
+          "storyPointsFilledShare": 0.0,
+          "medianCycleTimeDays": 0.2,
+          "cycleTimeSampleCount": 129,
           "directions": [
             {
               "key": "Разработка и поддержка BI",
@@ -2388,6 +2473,11 @@
           "automationCount": 1,
           "automationBaseCount": 234,
           "automationShare": 0.43,
+          "storyPointsFilledCount": 12,
+          "storyPointsBaseCount": 234,
+          "storyPointsFilledShare": 5.13,
+          "medianCycleTimeDays": 2.9,
+          "cycleTimeSampleCount": 112,
           "directions": [
             {
               "key": "Разработка и поддержка BI",
@@ -2594,6 +2684,11 @@
           "automationCount": 1,
           "automationBaseCount": 136,
           "automationShare": 0.74,
+          "storyPointsFilledCount": 26,
+          "storyPointsBaseCount": 136,
+          "storyPointsFilledShare": 19.12,
+          "medianCycleTimeDays": 2.2,
+          "cycleTimeSampleCount": 83,
           "directions": [
             {
               "key": "Разработка и поддержка BI",
@@ -2800,6 +2895,11 @@
           "automationCount": 1,
           "automationBaseCount": 128,
           "automationShare": 0.78,
+          "storyPointsFilledCount": 17,
+          "storyPointsBaseCount": 128,
+          "storyPointsFilledShare": 13.28,
+          "medianCycleTimeDays": 4.2,
+          "cycleTimeSampleCount": 105,
           "directions": [
             {
               "key": "Разработка и поддержка BI",
@@ -3097,225 +3197,250 @@
               "label": "Доработки дешбордов",
               "count": 51,
               "share": 15.64,
-              "continuous25thDays": 1.86,
+              "continuous25thHours": 1.86,
               "medianCycleTimeHours": 2.5,
-              "cycleTimeSampleCount": 32
+              "cycleTimeSampleCount": 32,
+              "cycleTimeShare": 14.92
             },
             {
               "key": "metrics_calculation",
               "label": "Расчет метрик",
               "count": 48,
               "share": 14.72,
-              "continuous25thDays": 1.25,
+              "continuous25thHours": 1.25,
               "medianCycleTimeHours": 3.2,
-              "cycleTimeSampleCount": 23
+              "cycleTimeSampleCount": 23,
+              "cycleTimeShare": 3.13
             },
             {
               "key": "exports_to_excel",
               "label": "Выгрузки в Excel",
               "count": 39,
               "share": 11.96,
-              "continuous25thDays": 1.68,
+              "continuous25thHours": 1.68,
               "medianCycleTimeHours": 62.6,
-              "cycleTimeSampleCount": 30
+              "cycleTimeSampleCount": 30,
+              "cycleTimeShare": 16.07
             },
             {
               "key": "customer_experience_analytics",
               "label": "Аналитика клиентского опыта",
               "count": 19,
               "share": 5.83,
-              "continuous25thDays": 4.28,
+              "continuous25thHours": 4.28,
               "medianCycleTimeHours": 15.9,
-              "cycleTimeSampleCount": 10
+              "cycleTimeSampleCount": 10,
+              "cycleTimeShare": 2.45
             },
             {
               "key": "dashboard_manual_data_update",
               "label": "Ручное обновление данных",
               "count": 35,
               "share": 10.74,
-              "continuous25thDays": 1.9,
+              "continuous25thHours": 1.9,
               "medianCycleTimeHours": 44.9,
-              "cycleTimeSampleCount": 20
+              "cycleTimeSampleCount": 20,
+              "cycleTimeShare": 9.71
             },
             {
               "key": "data_marts",
               "label": "Данные и автоматизация",
               "count": 17,
               "share": 5.21,
-              "continuous25thDays": 0.62,
+              "continuous25thHours": 0.62,
               "medianCycleTimeHours": 20.5,
-              "cycleTimeSampleCount": 6
+              "cycleTimeSampleCount": 6,
+              "cycleTimeShare": 10.13
             },
             {
               "key": "unknown",
               "label": "Невозможно разметить",
               "count": 14,
               "share": 4.29,
-              "continuous25thDays": 0.03,
+              "continuous25thHours": 0.03,
               "medianCycleTimeHours": 4.9,
-              "cycleTimeSampleCount": 10
+              "cycleTimeSampleCount": 10,
+              "cycleTimeShare": 6.45
             },
             {
               "key": "business_planning",
               "label": "Бизнес-планирование",
               "count": 16,
               "share": 4.91,
-              "continuous25thDays": 4.4,
+              "continuous25thHours": 4.4,
               "medianCycleTimeHours": 73.9,
-              "cycleTimeSampleCount": 9
+              "cycleTimeSampleCount": 9,
+              "cycleTimeShare": 2.77
             },
             {
               "key": "excel_reports",
               "label": "Отчеты в Excel",
               "count": 13,
               "share": 3.99,
-              "continuous25thDays": 1.49,
+              "continuous25thHours": 1.49,
               "medianCycleTimeHours": 3.6,
-              "cycleTimeSampleCount": 5
+              "cycleTimeSampleCount": 5,
+              "cycleTimeShare": 0.15
             },
             {
               "key": "presentations",
               "label": "Презентации",
               "count": 12,
               "share": 3.68,
-              "continuous25thDays": 3.88,
+              "continuous25thHours": 3.88,
               "medianCycleTimeHours": 52.1,
-              "cycleTimeSampleCount": 6
+              "cycleTimeSampleCount": 6,
+              "cycleTimeShare": 1.83
             },
             {
               "key": "BI_bugfix",
               "label": "Фикс багов в BI",
               "count": 7,
               "share": 2.15,
-              "continuous25thDays": 0.82,
+              "continuous25thHours": 0.82,
               "medianCycleTimeHours": 37.2,
-              "cycleTimeSampleCount": 4
+              "cycleTimeSampleCount": 4,
+              "cycleTimeShare": 0.81
             },
             {
               "key": "manual_data_quality_control",
               "label": "Ручной ККД",
               "count": 12,
               "share": 3.68,
-              "continuous25thDays": 0.2,
+              "continuous25thHours": 0.2,
               "medianCycleTimeHours": 306.5,
-              "cycleTimeSampleCount": 4
+              "cycleTimeSampleCount": 4,
+              "cycleTimeShare": 11.44
             },
             {
               "key": "dashboard_migration",
               "label": "Миграция дешбордов",
               "count": 1,
               "share": 0.31,
-              "continuous25thDays": 5.36,
+              "continuous25thHours": 5.36,
               "medianCycleTimeHours": 1175.5,
-              "cycleTimeSampleCount": 1
+              "cycleTimeSampleCount": 1,
+              "cycleTimeShare": 5.52
             },
             {
               "key": "project_management",
               "label": "Project Management",
               "count": 8,
               "share": 2.45,
-              "continuous25thDays": 4.54,
+              "continuous25thHours": 4.54,
               "medianCycleTimeHours": 69.9,
-              "cycleTimeSampleCount": 4
+              "cycleTimeSampleCount": 4,
+              "cycleTimeShare": 4.16
             },
             {
               "key": "AI",
               "label": "AI",
               "count": 3,
               "share": 0.92,
-              "continuous25thDays": 2.11,
+              "continuous25thHours": 2.11,
               "medianCycleTimeHours": null,
-              "cycleTimeSampleCount": 0
+              "cycleTimeSampleCount": 0,
+              "cycleTimeShare": 0.0
             },
             {
               "key": "excel_automatic_reports",
               "label": "Автоматизированные отчеты",
               "count": 6,
               "share": 1.84,
-              "continuous25thDays": 0.45,
+              "continuous25thHours": 0.45,
               "medianCycleTimeHours": 1.4,
-              "cycleTimeSampleCount": 1
+              "cycleTimeSampleCount": 1,
+              "cycleTimeShare": 0.01
             },
             {
               "key": "root_cause_analysis",
               "label": "Анализ корневых причин",
               "count": 2,
               "share": 0.61,
-              "continuous25thDays": 3.01,
+              "continuous25thHours": 3.01,
               "medianCycleTimeHours": null,
-              "cycleTimeSampleCount": 0
+              "cycleTimeSampleCount": 0,
+              "cycleTimeShare": 0.0
             },
             {
               "key": "employee_trainings",
               "label": "Обучение сотрудников",
               "count": 0,
               "share": 0.0,
-              "continuous25thDays": 0.02,
+              "continuous25thHours": 0.02,
               "medianCycleTimeHours": null,
-              "cycleTimeSampleCount": 0
+              "cycleTimeSampleCount": 0,
+              "cycleTimeShare": 0.0
             },
             {
               "key": "knowledge_base_maintenance",
               "label": "Формирование базы знаний",
               "count": 3,
               "share": 0.92,
-              "continuous25thDays": 2.11,
+              "continuous25thHours": 2.11,
               "medianCycleTimeHours": 361.8,
-              "cycleTimeSampleCount": 1
+              "cycleTimeSampleCount": 1,
+              "cycleTimeShare": 1.7
             },
             {
               "key": "financial_impact_estimation",
               "label": "Оценка финансового эффекта",
               "count": 3,
               "share": 0.92,
-              "continuous25thDays": 0.79,
+              "continuous25thHours": 0.79,
               "medianCycleTimeHours": 169.7,
-              "cycleTimeSampleCount": 2
+              "cycleTimeSampleCount": 2,
+              "cycleTimeShare": 1.59
             },
             {
               "key": "methodology_dev",
               "label": "Разработка методологии",
               "count": 6,
               "share": 1.84,
-              "continuous25thDays": 0.0,
+              "continuous25thHours": 0.0,
               "medianCycleTimeHours": 73.9,
-              "cycleTimeSampleCount": 3
+              "cycleTimeSampleCount": 3,
+              "cycleTimeShare": 6.89
             },
             {
               "key": "business_requirements_composing",
               "label": "Формирование БТ/ТЗ",
               "count": 3,
               "share": 0.92,
-              "continuous25thDays": 2.1,
+              "continuous25thHours": 2.1,
               "medianCycleTimeHours": 13.3,
-              "cycleTimeSampleCount": 2
+              "cycleTimeSampleCount": 2,
+              "cycleTimeShare": 0.12
             },
             {
               "key": "social_communications",
               "label": "Встречи, коммуникации",
               "count": 3,
               "share": 0.92,
-              "continuous25thDays": 0.29,
+              "continuous25thHours": 0.29,
               "medianCycleTimeHours": 2.1,
-              "cycleTimeSampleCount": 2
+              "cycleTimeSampleCount": 2,
+              "cycleTimeShare": 0.02
             },
             {
               "key": "exports_to_excel_regulator",
               "label": "Выгрузки для регулятора",
               "count": 2,
               "share": 0.61,
-              "continuous25thDays": 0.0,
+              "continuous25thHours": 0.0,
               "medianCycleTimeHours": 3.5,
-              "cycleTimeSampleCount": 1
+              "cycleTimeSampleCount": 1,
+              "cycleTimeShare": 0.02
             },
             {
               "key": "growth_factors_research",
               "label": "Поиск точек роста",
               "count": 3,
               "share": 0.92,
-              "continuous25thDays": 5.9,
+              "continuous25thHours": 5.9,
               "medianCycleTimeHours": 26.7,
-              "cycleTimeSampleCount": 1
+              "cycleTimeSampleCount": 1,
+              "cycleTimeShare": 0.13
             }
           ],
           "automationCount": 6,
@@ -3434,225 +3559,250 @@
               "label": "Доработки дешбордов",
               "count": 81,
               "share": 16.27,
-              "continuous25thDays": 1.86,
+              "continuous25thHours": 1.86,
               "medianCycleTimeHours": 24.2,
-              "cycleTimeSampleCount": 44
+              "cycleTimeSampleCount": 44,
+              "cycleTimeShare": 11.28
             },
             {
               "key": "metrics_calculation",
               "label": "Расчет метрик",
               "count": 43,
               "share": 8.63,
-              "continuous25thDays": 1.25,
+              "continuous25thHours": 1.25,
               "medianCycleTimeHours": 61.7,
-              "cycleTimeSampleCount": 20
+              "cycleTimeSampleCount": 20,
+              "cycleTimeShare": 5.31
             },
             {
               "key": "exports_to_excel",
               "label": "Выгрузки в Excel",
               "count": 49,
               "share": 9.84,
-              "continuous25thDays": 1.68,
+              "continuous25thHours": 1.68,
               "medianCycleTimeHours": 108.4,
-              "cycleTimeSampleCount": 18
+              "cycleTimeSampleCount": 18,
+              "cycleTimeShare": 7.46
             },
             {
               "key": "customer_experience_analytics",
               "label": "Аналитика клиентского опыта",
               "count": 49,
               "share": 9.84,
-              "continuous25thDays": 4.28,
+              "continuous25thHours": 4.28,
               "medianCycleTimeHours": 111.6,
-              "cycleTimeSampleCount": 29
+              "cycleTimeSampleCount": 29,
+              "cycleTimeShare": 14.66
             },
             {
               "key": "dashboard_manual_data_update",
               "label": "Ручное обновление данных",
               "count": 30,
               "share": 6.02,
-              "continuous25thDays": 1.9,
+              "continuous25thHours": 1.9,
               "medianCycleTimeHours": 80.1,
-              "cycleTimeSampleCount": 17
+              "cycleTimeSampleCount": 17,
+              "cycleTimeShare": 9.39
             },
             {
               "key": "data_marts",
               "label": "Данные и автоматизация",
               "count": 45,
               "share": 9.04,
-              "continuous25thDays": 0.62,
+              "continuous25thHours": 0.62,
               "medianCycleTimeHours": 75.6,
-              "cycleTimeSampleCount": 30
+              "cycleTimeSampleCount": 30,
+              "cycleTimeShare": 9.55
             },
             {
               "key": "unknown",
               "label": "Невозможно разметить",
               "count": 41,
               "share": 8.23,
-              "continuous25thDays": 0.03,
+              "continuous25thHours": 0.03,
               "medianCycleTimeHours": 58.0,
-              "cycleTimeSampleCount": 20
+              "cycleTimeSampleCount": 20,
+              "cycleTimeShare": 8.87
             },
             {
               "key": "business_planning",
               "label": "Бизнес-планирование",
               "count": 32,
               "share": 6.43,
-              "continuous25thDays": 4.4,
+              "continuous25thHours": 4.4,
               "medianCycleTimeHours": 41.0,
-              "cycleTimeSampleCount": 18
+              "cycleTimeSampleCount": 18,
+              "cycleTimeShare": 6.87
             },
             {
               "key": "excel_reports",
               "label": "Отчеты в Excel",
               "count": 14,
               "share": 2.81,
-              "continuous25thDays": 1.49,
+              "continuous25thHours": 1.49,
               "medianCycleTimeHours": 27.6,
-              "cycleTimeSampleCount": 8
+              "cycleTimeSampleCount": 8,
+              "cycleTimeShare": 2.14
             },
             {
               "key": "presentations",
               "label": "Презентации",
               "count": 12,
               "share": 2.41,
-              "continuous25thDays": 3.88,
+              "continuous25thHours": 3.88,
               "medianCycleTimeHours": 134.9,
-              "cycleTimeSampleCount": 4
+              "cycleTimeSampleCount": 4,
+              "cycleTimeShare": 3.47
             },
             {
               "key": "BI_bugfix",
               "label": "Фикс багов в BI",
               "count": 17,
               "share": 3.41,
-              "continuous25thDays": 0.82,
+              "continuous25thHours": 0.82,
               "medianCycleTimeHours": 12.6,
-              "cycleTimeSampleCount": 10
+              "cycleTimeSampleCount": 10,
+              "cycleTimeShare": 3.19
             },
             {
               "key": "manual_data_quality_control",
               "label": "Ручной ККД",
               "count": 11,
               "share": 2.21,
-              "continuous25thDays": 0.2,
+              "continuous25thHours": 0.2,
               "medianCycleTimeHours": 121.8,
-              "cycleTimeSampleCount": 8
+              "cycleTimeSampleCount": 8,
+              "cycleTimeShare": 3.58
             },
             {
               "key": "dashboard_migration",
               "label": "Миграция дешбордов",
               "count": 14,
               "share": 2.81,
-              "continuous25thDays": 5.36,
+              "continuous25thHours": 5.36,
               "medianCycleTimeHours": 48.5,
-              "cycleTimeSampleCount": 12
+              "cycleTimeSampleCount": 12,
+              "cycleTimeShare": 4.22
             },
             {
               "key": "project_management",
               "label": "Project Management",
               "count": 6,
               "share": 1.2,
-              "continuous25thDays": 4.54,
+              "continuous25thHours": 4.54,
               "medianCycleTimeHours": 239.0,
-              "cycleTimeSampleCount": 3
+              "cycleTimeSampleCount": 3,
+              "cycleTimeShare": 3.04
             },
             {
               "key": "AI",
               "label": "AI",
               "count": 10,
               "share": 2.01,
-              "continuous25thDays": 2.11,
+              "continuous25thHours": 2.11,
               "medianCycleTimeHours": 0.0,
-              "cycleTimeSampleCount": 6
+              "cycleTimeSampleCount": 6,
+              "cycleTimeShare": 0.47
             },
             {
               "key": "excel_automatic_reports",
               "label": "Автоматизированные отчеты",
               "count": 3,
               "share": 0.6,
-              "continuous25thDays": 0.45,
+              "continuous25thHours": 0.45,
               "medianCycleTimeHours": 169.7,
-              "cycleTimeSampleCount": 1
+              "cycleTimeSampleCount": 1,
+              "cycleTimeShare": 0.49
             },
             {
               "key": "root_cause_analysis",
               "label": "Анализ корневых причин",
               "count": 7,
               "share": 1.41,
-              "continuous25thDays": 3.01,
+              "continuous25thHours": 3.01,
               "medianCycleTimeHours": 71.4,
-              "cycleTimeSampleCount": 3
+              "cycleTimeSampleCount": 3,
+              "cycleTimeShare": 0.81
             },
             {
               "key": "employee_trainings",
               "label": "Обучение сотрудников",
               "count": 9,
               "share": 1.81,
-              "continuous25thDays": 0.02,
+              "continuous25thHours": 0.02,
               "medianCycleTimeHours": 70.8,
-              "cycleTimeSampleCount": 6
+              "cycleTimeSampleCount": 6,
+              "cycleTimeShare": 4.17
             },
             {
               "key": "knowledge_base_maintenance",
               "label": "Формирование базы знаний",
               "count": 6,
               "share": 1.2,
-              "continuous25thDays": 2.11,
+              "continuous25thHours": 2.11,
               "medianCycleTimeHours": 0.0,
-              "cycleTimeSampleCount": 3
+              "cycleTimeSampleCount": 3,
+              "cycleTimeShare": 0.06
             },
             {
               "key": "financial_impact_estimation",
               "label": "Оценка финансового эффекта",
               "count": 5,
               "share": 1.0,
-              "continuous25thDays": 0.79,
+              "continuous25thHours": 0.79,
               "medianCycleTimeHours": 24.1,
-              "cycleTimeSampleCount": 2
+              "cycleTimeSampleCount": 2,
+              "cycleTimeShare": 0.14
             },
             {
               "key": "methodology_dev",
               "label": "Разработка методологии",
               "count": 2,
               "share": 0.4,
-              "continuous25thDays": 0.0,
+              "continuous25thHours": 0.0,
               "medianCycleTimeHours": 47.0,
-              "cycleTimeSampleCount": 2
+              "cycleTimeSampleCount": 2,
+              "cycleTimeShare": 0.27
             },
             {
               "key": "business_requirements_composing",
               "label": "Формирование БТ/ТЗ",
               "count": 5,
               "share": 1.0,
-              "continuous25thDays": 2.1,
+              "continuous25thHours": 2.1,
               "medianCycleTimeHours": 9.0,
-              "cycleTimeSampleCount": 2
+              "cycleTimeSampleCount": 2,
+              "cycleTimeShare": 0.05
             },
             {
               "key": "social_communications",
               "label": "Встречи, коммуникации",
               "count": 4,
               "share": 0.8,
-              "continuous25thDays": 0.29,
+              "continuous25thHours": 0.29,
               "medianCycleTimeHours": 83.7,
-              "cycleTimeSampleCount": 2
+              "cycleTimeSampleCount": 2,
+              "cycleTimeShare": 0.48
             },
             {
               "key": "exports_to_excel_regulator",
               "label": "Выгрузки для регулятора",
               "count": 3,
               "share": 0.6,
-              "continuous25thDays": 0.0,
+              "continuous25thHours": 0.0,
               "medianCycleTimeHours": 0.0,
-              "cycleTimeSampleCount": 1
+              "cycleTimeSampleCount": 1,
+              "cycleTimeShare": 0.0
             },
             {
               "key": "growth_factors_research",
               "label": "Поиск точек роста",
               "count": 0,
               "share": 0.0,
-              "continuous25thDays": 5.9,
+              "continuous25thHours": 5.9,
               "medianCycleTimeHours": null,
-              "cycleTimeSampleCount": 0
+              "cycleTimeSampleCount": 0,
+              "cycleTimeShare": 0.0
             }
           ],
           "automationCount": 3,
