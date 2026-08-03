@@ -321,6 +321,18 @@ function GoalsHelpContent() {
   return <div className="goals-help-content"><p>Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.</p><strong>Оценка:</strong><ul><li><b>1 балл (100%)</b> — мониторинг в Навигаторе (учитывается, если выведено более 90% целей и лидер продукта знает про BI-дашборд).</li><li><b>0,5 балла (50%)</b> — мониторинг в локальной отчётности (не в Навигаторе).</li><li><b>0 баллов (0%)</b> — мониторинг отсутствует.</li></ul></div>;
 }
 
+export function teamProfileBlockTitle(block) {
+  if (block?.code === 'goals') return 'Цели уровня ЛЮ/ЛТ';
+  if (block?.code !== 'cx') return block?.name;
+  const hasUxScore = (block.metrics || []).some((metric) => [
+    metric?.name,
+    metric?.label,
+    metric?.button?.label,
+    ...(metric?.buttons || []).map((button) => button?.label),
+  ].some((label) => /u[xх]\s*-?\s*score/i.test(String(label || ''))));
+  return hasUxScore ? 'CX/UX Score' : 'CX Score';
+}
+
 function AlertsHelpContent({audience}) {
   const isSegment = ['age', 'income'].includes(audience);
   const isDigitalChannel = audience === 'digital-channel';
@@ -920,7 +932,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
         return benchmarkValue === null ? [] : [benchmarkValue];
       });
       return {
-        name: block.name,
+        name: teamProfileBlockTitle(block),
         product: radarBlockPercent(block),
         benchmark: benchmarkValues.length ? Math.round(benchmarkValues.reduce((sum, value) => sum + value, 0) / benchmarkValues.length) : null,
       };
@@ -990,7 +1002,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
                 <div className="dd-metric-block-head">
                   <button className="dd-metric-block-main" onClick={() => toggle(block.code)} aria-expanded={isOpen}>
                     <Icon data={isOpen ? ChevronDown : ChevronRight} size={14} />
-                    <div><h3>{block.name}</h3>{detailScore && <span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span>}</div>
+                    <div><h3>{teamProfileBlockTitle(block)}</h3>{detailScore && <span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span>}</div>
                   </button>
                   <div className="dd-metric-block-help">
                     <ProductBlockHelp blockCode={block.code} product={product} />

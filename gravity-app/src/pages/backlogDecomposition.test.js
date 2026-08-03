@@ -216,6 +216,7 @@ test('scenario focus recommendations use the latest complete quarter and strict 
       {key: 'alpha', label: 'Alpha', count: 3, continuous25thHours: 2.11, medianCycleTimeHours: 51.5, cycleTimeSampleCount: 4},
       {key: 'ten-percent', label: 'Ten percent', count: 2, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
       {key: 'below-benchmark', label: 'Below benchmark', count: 3, continuous25thHours: 48, medianCycleTimeHours: 47, cycleTimeSampleCount: 2},
+      {key: 'at-benchmark', label: 'At benchmark', count: 3, continuous25thHours: 48, medianCycleTimeHours: 48, cycleTimeSampleCount: 2},
       {key: 'small', label: 'Small', count: 1, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
     ]},
     {key: '2026-Q3', isComplete: false, createdCount: 1, scenarios: [
@@ -226,16 +227,18 @@ test('scenario focus recommendations use the latest complete quarter and strict 
     {key: 'alpha', recommendation: 'Рекомендуем второе.', resources: [{label: 'ссылке', href: 'https://example.test/a'}]},
     {key: 'ten-percent', recommendation: 'Рекомендуем порог доли.'},
     {key: 'below-benchmark', recommendation: 'Рекомендуем порог времени.'},
+    {key: 'at-benchmark', recommendation: 'Рекомендуем равный порог.'},
     {key: 'small', recommendation: 'Рекомендуем малую долю.'},
   ]);
 
   assert.equal(result.quarter.key, '2026-Q2');
   assert.equal(result.periodLabel, '2Q26');
-  assert.equal(result.items.length, 2);
+  assert.equal(result.items.length, 1);
   assert.equal(result.items[0].scenario, 'Alpha');
   assert.equal(result.items[0].share, 15);
   assert.equal(result.items.some((item) => item.key === 'ten-percent'), false, 'exactly 10% is excluded');
-  assert.equal(result.items.some((item) => item.key === 'below-benchmark'), true, 'a high-share scenario remains visible below the benchmark');
+  assert.equal(result.items.some((item) => item.key === 'below-benchmark'), false, 'a scenario below the benchmark is excluded');
+  assert.equal(result.items.some((item) => item.key === 'at-benchmark'), false, 'a scenario at the benchmark is excluded');
   assert.equal(result.items[0].recommendation, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 часа. Значение по вашей команде: 51,5 часов. Предлагаемый инструментарий для снижения трудозатрат: Рекомендуем первое. Рекомендуем второе.');
   assert.deepEqual(result.items[0].resources, [{label: 'ссылке', href: 'https://example.test/a'}]);
   assert.deepEqual(buildScenarioFocusRecommendations([{key: '2026-Q3', isComplete: false}], []).items, []);
