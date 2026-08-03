@@ -28,10 +28,70 @@ class BuildGravityStandaloneTest(unittest.TestCase):
             result = output.read_text(encoding="utf-8")
             self.assertNotIn("fetch(\"./report-data.json\"", result)
             self.assertIn(
-                'Promise.resolve({json: () => Promise.resolve({"products":[{"name":"Тест\\n\\u003c/script\\u003e"}]})})',
+                'Promise.resolve({ok: true, json: () => Promise.resolve({"products":[{"name":"Тест\\n\\u003c/script\\u003e"}]})})',
                 result,
             )
             self.assertNotIn('"name":"Тест\n', result)
+
+    def test_embeds_and_escapes_backlog_data_when_the_bundle_fetches_both_files(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            backlog_data = root / "backlog-data.json"
+            output = root / "standalone.html"
+            template.write_text(
+                '<script>fetch("./report-data.json", {cache: "no-store"}).then(load);'
+                "fetch('./backlog-data.json', {cache: 'no-store'}).then(loadBacklog)</script>",
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            backlog_data.write_text(
+                json.dumps(
+                    {
+                        "months": [{"label": "Опасно </script>&> "}],
+                        "teams": [
+                            {
+                                "key": "sberchai",
+                                "label": "СберЧаевые",
+                                "months": [],
+                                "quarters": [{"key": "2026-Q2", "totalActive": 12}],
+                            }
+                        ],
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            build(template, data, output, backlog_data_path=backlog_data)
+
+            result = output.read_text(encoding="utf-8")
+            self.assertNotIn('fetch("./report-data.json"', result)
+            self.assertNotIn("fetch('./backlog-data.json'", result)
+            self.assertIn('Promise.resolve({ok: true, json: () => Promise.resolve({"products":[]})})', result)
+            self.assertIn('"label":"Опасно \\u003c/script\\u003e\\u0026\\u003e\\u2028"', result)
+            self.assertIn(
+                '"teams":[{"key":"sberchai","label":"СберЧаевые","months":[],"quarters":[{"key":"2026-Q2","totalActive":12}]}]',
+                result,
+            )
+            self.assertNotIn("</script>&>", result)
+
+    def test_requires_backlog_fetch_marker_only_when_backlog_data_is_requested(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            backlog_data = root / "backlog-data.json"
+            output = root / "standalone.html"
+            template.write_text(
+                '<script>fetch("./report-data.json").then(load)</script>',
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            backlog_data.write_text(json.dumps({"months": []}), encoding="utf-8")
+
+            with self.assertRaisesRegex(ValueError, "backlog-data fetch marker"):
+                build(template, data, output, backlog_data_path=backlog_data)
 
     def test_preserves_external_sibling_report_url_without_embedding_report(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -56,7 +116,7 @@ class BuildGravityStandaloneTest(unittest.TestCase):
 
             result = output.read_text(encoding="utf-8")
             self.assertIn('src="./neighbor-report.html"', result)
-            self.assertNotIn('external-only', result)
+            self.assertNotIn("external-only", result)
             self.assertEqual(
                 (output.parent / "neighbor-report.html").resolve(),
                 (root / "neighbor-report.html").resolve(),

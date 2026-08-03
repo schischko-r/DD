@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_INPUT = ROOT / "flat_table.xlsx"
 DEFAULT_LEGACY_OUTPUT = ROOT / "final_report_from_excel.html"
 DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
+DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
 DEFAULT_AI_DIGEST = ROOT / "ai_skill_digest_export.xlsx"
 DEFAULT_AI_PRODUCT_MAP = ROOT / "ai_product_mapping.xlsx"
@@ -69,6 +70,8 @@ def build(args: argparse.Namespace) -> None:
             str(args.data_output),
             "--output",
             str(args.standalone_output),
+            "--backlog-data",
+            str(args.backlog_data),
         ]
     )
 
@@ -84,6 +87,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--period", default="II кв. 2026")
     parser.add_argument("--legacy-output", type=Path, default=DEFAULT_LEGACY_OUTPUT)
     parser.add_argument("--data-output", type=Path, default=DEFAULT_DATA_OUTPUT)
+    parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
     parser.add_argument("--standalone-output", type=Path, default=DEFAULT_STANDALONE_OUTPUT)
     parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST)
     parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP)
