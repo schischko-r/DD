@@ -34,10 +34,13 @@ test('sidebar brand icon and title share the same vertical center', () => {
   assert.match(stylesSource, /\.dd-navigation-logo img\s*\{[^}]*display:\s*block;/);
 });
 
-test('sidebar preserves navigation items without the service-mode footer button', () => {
+test('sidebar preserves navigation items and reserves the separated footer for backlog', () => {
   for (const id of ['dashboard', 'detail', 'about']) {
     assert.match(appSource, new RegExp(`id: '${id}'`));
   }
-  assert.doesNotMatch(appSource, /renderFooter=/);
+  assert.match(appSource, /renderFooter=/);
+  assert.match(appSource, /import \{Divider, Flex, Spin\} from '@gravity-ui\/uikit'/);
+  assert.match(appSource, /renderFooter=[\s\S]*?<Flex[^>]*direction="column"[\s\S]*?<Divider \/>[\s\S]*?<FooterItem[\s\S]*?id="backlog"/);
+  assert.doesNotMatch(stylesSource, /dd-navigation-backlog-footer|\.gn-footer-item/);
   assert.doesNotMatch(appSource, /className="navigation-period"/);
 });
