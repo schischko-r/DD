@@ -21,6 +21,9 @@ const digitalTraceConfirmationSource = profileSource.match(
 const upliftRecommendationSource = profileSource.match(
   /const GENERAL_UPLIFT_RECOMMENDATION[\s\S]*?(?=\nfunction MetricRecommendationTrigger)/,
 )?.[0] || '';
+const blockTitleSource = profileSource.match(
+  /export function teamProfileBlockTitle[\s\S]*?(?=\nfunction AlertsHelpContent)/,
+)?.[0]?.replace('export ', '') || '';
 
 const upliftRecommendationContext = Object.create(null);
 runInNewContext(
@@ -29,6 +32,11 @@ globalThis.upliftRecommendationApi = {metricUpliftRecommendation};`,
   upliftRecommendationContext,
 );
 const {upliftRecommendationApi} = upliftRecommendationContext;
+const blockTitleContext = Object.create(null);
+runInNewContext(
+  `${blockTitleSource}\nglobalThis.blockTitleApi = {teamProfileBlockTitle};`,
+  blockTitleContext,
+);
 
 function recommendation(blockCode, blockName, metricCode, metricName, metricPercent = 0) {
   return upliftRecommendationApi.metricUpliftRecommendation(
@@ -37,6 +45,17 @@ function recommendation(blockCode, blockName, metricCode, metricName, metricPerc
     metricPercent,
   );
 }
+
+test('team profile labels goals and CX blocks for their audience', () => {
+  const {teamProfileBlockTitle} = blockTitleContext.blockTitleApi;
+  assert.equal(teamProfileBlockTitle({code: 'goals', name: 'Цели'}), 'Цели уровня ЛЮ/ЛТ');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score'}]}), 'CX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX Score'}]}), 'CX/UX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UХ Score'}]}), 'CX/UX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score', buttons: [{label: 'UX Score'}]}]}), 'CX/UX Score');
+  assert.match(profileSource, /<h3>\{teamProfileBlockTitle\(block\)\}<\/h3>/);
+  assert.match(profileSource, /name: teamProfileBlockTitle\(block\)/);
+});
 
 test('metric uplift uses the total maximum of applicable DD-index metrics', () => {
   assert.match(

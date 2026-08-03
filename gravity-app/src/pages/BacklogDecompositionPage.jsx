@@ -187,7 +187,8 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
         && scenario.cycleTimeSampleCount > 0
         && Number.isFinite(continuous25thHours)
         && Number.isFinite(medianCycleTimeHours);
-      if (!approvedRows.length || !hasValidBenchmark) return null;
+      const exceedsBenchmark = hasValidBenchmark && medianCycleTimeHours > continuous25thHours;
+      if (!approvedRows.length || !exceedsBenchmark) return null;
 
       const resources = approvedRows
         .flatMap((item) => item.resources || [])
