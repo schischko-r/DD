@@ -4,10 +4,24 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from build_gravity_standalone import BASE64_CHUNK_SIZE, build
+from build_gravity_standalone import (
+    BASE64_CHUNK_SIZE,
+    DEFAULT_BACKLOG_DATA,
+    DEFAULT_OUTPUT,
+    build,
+)
 
 
 class BuildGravityStandaloneTest(unittest.TestCase):
+    def test_repository_standalone_embeds_backlog_data_for_file_opening(self) -> None:
+        result = DEFAULT_OUTPUT.read_text(encoding="utf-8")
+        backlog_data = json.loads(DEFAULT_BACKLOG_DATA.read_text(encoding="utf-8"))
+        meta = backlog_data["meta"]
+
+        self.assertNotIn("./backlog-data.json", result)
+        self.assertIn(f'"historyEnd":"{meta["historyEnd"]}"', result)
+        self.assertIn(f'"includedTickets":{meta["includedTickets"]}', result)
+
     def test_embeds_data_for_no_store_fetch(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
