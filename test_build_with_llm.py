@@ -14,7 +14,6 @@ ROOT = Path(__file__).resolve().parent
 class BuildWithLlmShellTest(unittest.TestCase):
     def run_script(
         self,
-        crosssell_enabled: str | None = None,
         *,
         run_outside_root: bool = False,
     ) -> tuple[str, Path]:
@@ -46,9 +45,6 @@ class BuildWithLlmShellTest(unittest.TestCase):
                 "COMMAND_LOG": str(log_path),
                 "HTML_UPLOAD_CERT_PASSWORD": "test-password",
             }
-            if crosssell_enabled is not None:
-                env["CROSSSELL_ENABLED"] = crosssell_enabled
-
             working_directory = root
             if run_outside_root:
                 working_directory = root / "external-caller" / "nested"
@@ -64,20 +60,12 @@ class BuildWithLlmShellTest(unittest.TestCase):
             )
             return log_path.read_text(encoding="utf-8"), root
 
-    def test_default_build_explicitly_skips_crosssell(self) -> None:
+    def test_default_build_enables_crosssell(self) -> None:
         log, _ = self.run_script()
-        build_command = next(line for line in log.splitlines() if "build_calc_report.py" in line)
-
-        self.assertIn("--skip-crosssell", build_command)
-        self.assertNotIn("--crosssell", build_command)
-
-    def test_crosssell_can_be_explicitly_enabled(self) -> None:
-        log, _ = self.run_script("1")
         build_command = next(line for line in log.splitlines() if "build_calc_report.py" in line)
 
         self.assertIn("--crosssell", build_command)
         self.assertIn("--update-crosssell", build_command)
-        self.assertNotIn("--skip-crosssell", build_command)
 
     def test_upload_uses_absolute_paths_from_the_script_root(self) -> None:
         log, root = self.run_script()

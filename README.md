@@ -23,7 +23,7 @@ python build_gravity_report.py
 Команда использует flat-table-пайплайн из `build_calc_report.py`, локальные
 `ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx`, не выполняет сетевые
 запросы к AI-digest API или GigaChat. Интеграция cross-sell с Product Lens по
-умолчанию выключена и включается явным флагом `--crosssell`. Результаты записываются в
+умолчанию включена. Результаты записываются в
 `gravity-app/public/report-data.json` и `gravity-standalone.html`. Если рядом
 лежит `sbertrack_all_full_history_to_export.xlsx`, перед сборкой UI также
 обновляется `gravity-app/public/backlog-data.json`.
@@ -240,8 +240,7 @@ python build_calc_report.py --help
 - `--ai-digest-token` - переопределить токен AI-digest из `.env`;
 - `--ai-digest-timeout` - переопределить таймаут AI-digest в секундах;
 - `--crosssell-json` - путь к локальному кэшу ответов Product Lens;
-- `--crosssell` - включить cross-sell-рекомендации Product Lens (по умолчанию выключены);
-- `--no-update-crosssell` - при включённом `--crosssell` не обращаться к Product Lens, использовать локальный кэш;
+- `--no-update-crosssell` - не обращаться к Product Lens, использовать локальный кэш;
 - `--refresh-ai-product-map` - пересоздать шаблон `ai_product_mapping.xlsx`;
 - `--update-llm-summary` - вызвать GigaChat и сформировать LLM-суммаризацию;
 - `--no-update-llm-summary` - не вызывать GigaChat;
@@ -258,14 +257,16 @@ Cross-sell интеграция использует `GET /api/v1/crosssell/mark
 отдельно, поэтому повторная сборка переиспользует локальный кэш при ответе `304`.
 Ссылка «Перейти» открывает витрину `/showcase/crosssell/` сразу на каноническом
 `uid` продукта в hash-параметре `product`.
-Для включения интеграции передайте `--crosssell`; без этого флага API и локальный
-кэш `crosssell_export.json` не используются.
+Интеграция включена во всех обычных сборках. Для offline-сборки без обращения к
+API передайте `--no-update-crosssell`: отчёт использует локальный кэш
+`crosssell_export.json`. Общий флаг `--no-ai-skills` отключает все AI-навыки,
+включая cross-sell.
 Количество замеченных связок берётся из `seen_out_n`, `seen_in_n` и
 `seen_around_n`, потенциальных — из `potential_n`; legacy-поле `implemented`
 сохраняется только для диагностики.
 
 ```bash
-python build_gravity_report.py --crosssell
+python build_gravity_report.py
 ```
 
 ## Источники Данных
@@ -507,11 +508,7 @@ python build_calc_report.py \
 ./build_with_llm.sh
 ```
 
-Cross-sell обогащение в LLM-сборке также выключено по умолчанию. Явное включение:
-
-```bash
-CROSSSELL_ENABLED=1 ./build_with_llm.sh
-```
+Cross-sell обогащение всегда включено в LLM-сборке.
 
 Если LLM не запрошена или не настроена, в группе навыков показывается placeholder `LLM-cуммаризация`.
 

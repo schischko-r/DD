@@ -134,7 +134,6 @@ DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
 DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
 DEFAULT_CROSSSELL_EXPORT_JSON = Path("crosssell_export.json")
 DEFAULT_UPDATE_AI_DIGEST = True
-DEFAULT_CROSSSELL_ENABLED = False
 DEFAULT_UPDATE_CROSSSELL = True
 DEFAULT_UPDATE_LLM_SUMMARY = False
 DEFAULT_LLM_LOG = True
@@ -2253,6 +2252,7 @@ def crosssell_count_phrase(value: float, forms: tuple[str, str, str]) -> str:
 def crosssell_recommendation_texts(
     marker: dict[str, Any] | None,
     catalog_product: dict[str, Any],
+    candidates_waiting_decision: float | None = None,
 ) -> list[str]:
     marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
     marker_block = marker_block if isinstance(marker_block, dict) else {}
@@ -2262,6 +2262,9 @@ def crosssell_recommendation_texts(
     seen_in_n = clean_number(marker_block.get("seen_in_n"))
     seen_around_n = clean_number(marker_block.get("seen_around_n"))
     potential_n = clean_number(marker_block.get("potential_n"))
+    candidates_waiting_decision = clean_number(candidates_waiting_decision)
+    if candidates_waiting_decision is None:
+        candidates_waiting_decision = clean_number(catalog_product.get("ai_wait_n"))
     next_steps = [
         "Дальнейшие шаги:",
         '1) Ознакомьтесь с рекомендациями на платформе (по кнопке "Перейти" выше).',
@@ -2270,10 +2273,14 @@ def crosssell_recommendation_texts(
         "3) Если вы согласны, возьмите в бэклог для проработки.",
     ]
     if seen_out_n == 0 and seen_in_n == 0:
-        return [
-            f"Потенциальных cross-sell связок: {(potential_n or 0):g}.",
-            *next_steps,
+        zero_texts = [
+            f"Подтвержденных потенциальных cross-sell связок: {(potential_n or 0):g}.",
         ]
+        if candidates_waiting_decision is not None:
+            zero_texts.append(
+                f"Связок, ожидающих вашей обратной связи: {candidates_waiting_decision:g}."
+            )
+        return [*zero_texts, *next_steps]
     has_seen_breakdown = any(
         value is not None and value > 0
         for value in (seen_out_n, seen_in_n)
@@ -2297,7 +2304,11 @@ def crosssell_recommendation_texts(
                 "— кросс-селл в сценариях других продуктов с вашим продуктом."
             )
     if potential_n is not None:
-        texts.append(f"Потенциальных cross-sell связок: {potential_n:g}.")
+        texts.append(f"Подтвержденных потенциальных cross-sell связок: {potential_n:g}.")
+    if candidates_waiting_decision is not None:
+        texts.append(
+            f"Связок, ожидающих вашей обратной связи: {candidates_waiting_decision:g}."
+        )
 
     # Backward compatibility for cached markers from the legacy contract.
     if seen_out_n is None and seen_in_n is None and seen_around_n is None:
@@ -2421,6 +2432,13 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
 
         marker_block = marker.get("cross_sell") if isinstance(marker, dict) else {}
         marker_block = marker_block if isinstance(marker_block, dict) else {}
+        candidates_waiting_decision = clean_number(catalog_product.get("ai_wait_n"))
+        if candidates_waiting_decision is None and market is not None:
+            candidates_waiting_decision = float(sum(
+                normalize_crosssell_key(candidate.get("status")) == "wait"
+                for candidate in candidates
+                if isinstance(candidate, dict)
+            ))
         api_light = (
             parse_ai_light(marker_block.get("traffic_light"))
             or parse_ai_light(catalog_product.get("light"))
@@ -2428,7 +2446,11 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
         )
         light = "yellow" if api_light == "red" else api_light
         link = crosssell_analytics_link(marker, catalog_product)
-        texts = crosssell_recommendation_texts(marker, catalog_product)
+        texts = crosssell_recommendation_texts(
+            marker,
+            catalog_product,
+            candidates_waiting_decision,
+        )
         dd_crosssell_metric = next(
             (
                 metric for metric in block.get("metrics", [])
@@ -2487,6 +2509,7 @@ def apply_crosssell_export(data: dict[str, Any], export_path: Path) -> dict[str,
             "api_seen_in_n": api_seen_in_n,
             "api_seen_around_n": api_seen_around_n,
             "api_potential_n": api_potential_n,
+            "candidates_waiting_decision": candidates_waiting_decision,
             "crosssell_top_actions": crosssell_top_action_texts(marker),
             "crosssell_uid": product_uid,
             "crosssell_market": market,
@@ -5559,12 +5582,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
     parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
     parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT_JSON, help="Path to cached Product Lens cross-sell export")
-    parser.set_defaults(crosssell=DEFAULT_CROSSSELL_ENABLED)
-    parser.add_argument("--crosssell", dest="crosssell", action="store_true", help="Enable Product Lens cross-sell recommendations")
+    parser.add_argument("--crosssell", action="store_true", help=argparse.SUPPRESS)
     parser.set_defaults(update_crosssell=DEFAULT_UPDATE_CROSSSELL)
-    parser.add_argument("--update-crosssell", dest="update_crosssell", action="store_true", help="Update Product Lens cross-sell export when --crosssell is enabled (default)")
-    parser.add_argument("--no-update-crosssell", dest="update_crosssell", action="store_false", help="Use local --crosssell-json when --crosssell is enabled")
-    parser.add_argument("--skip-crosssell", dest="crosssell", action="store_false", help=argparse.SUPPRESS)
+    parser.add_argument("--update-crosssell", dest="update_crosssell", action="store_true", help="Update Product Lens cross-sell export (default)")
+    parser.add_argument("--no-update-crosssell", dest="update_crosssell", action="store_false", help="Use local --crosssell-json without a network request")
     parser.add_argument("--crosssell-markers-url", default=CROSSSELL_MARKERS_URL, help="Product Lens markers endpoint")
     parser.add_argument("--crosssell-products-url", default=CROSSSELL_PRODUCTS_URL, help="Product Lens products endpoint")
     parser.add_argument("--crosssell-market-url", default=CROSSSELL_MARKET_URL, help="Product Lens market endpoint")
@@ -5589,7 +5610,7 @@ def main() -> None:
     args = parse_args()
     ai_skills_enabled = not args.no_ai_skills
     skip_ai_digest = args.skip_ai_digest or args.no_ai_skills
-    skip_crosssell = not args.crosssell or args.no_ai_skills
+    skip_crosssell = args.no_ai_skills
     ai_digest_source: dict[str, Any] = {
         "mode": "disabled" if args.no_ai_skills else ("skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file")),
         "request_enabled": bool(args.update_ai_digest and not skip_ai_digest),

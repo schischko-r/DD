@@ -40,25 +40,27 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(report.normalize_upload_unit("CX"), "CX")
         self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
 
-    def test_crosssell_is_opt_in_for_cli_and_programmatic_builds(self) -> None:
+    def test_crosssell_is_enabled_by_default_and_can_use_local_cache(self) -> None:
         default_args = report.parse_args([])
-        enabled_args = report.parse_args(["--crosssell"])
-        cached_args = report.parse_args(["--crosssell", "--no-update-crosssell"])
+        cached_args = report.parse_args(["--no-update-crosssell"])
 
-        self.assertFalse(default_args.crosssell)
-        self.assertTrue(enabled_args.crosssell)
-        self.assertTrue(enabled_args.update_crosssell)
-        self.assertTrue(cached_args.crosssell)
+        self.assertTrue(default_args.update_crosssell)
         self.assertFalse(cached_args.update_crosssell)
         self.assertIsNone(
             inspect.signature(report.build_combined_data).parameters["crosssell_path"].default
         )
 
-    def test_main_ignores_existing_crosssell_cache_by_default(self) -> None:
+    def test_main_uses_existing_crosssell_cache_by_default(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             cache_path = Path(temp_dir) / "crosssell.json"
             cache_path.write_text("{}", encoding="utf-8")
-            args = report.parse_args(["--skip-ai-digest", "--crosssell-json", str(cache_path)])
+            args = report.parse_args([
+                "--skip-ai-digest",
+                "--crosssell-json",
+                str(cache_path),
+                "--crosssell-token",
+                "",
+            ])
 
             with (
                 patch.object(report, "parse_args", return_value=args),
@@ -68,16 +70,15 @@ class SyntheticReportTest(unittest.TestCase):
             ):
                 report.main()
 
-        self.assertIsNone(build.call_args.kwargs["crosssell_path"])
+        self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path)
 
-    def test_main_uses_existing_crosssell_cache_when_explicitly_enabled(self) -> None:
+    def test_no_ai_skills_ignores_existing_crosssell_cache(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             cache_path = Path(temp_dir) / "crosssell.json"
             cache_path.write_text("{}", encoding="utf-8")
             args = report.parse_args([
                 "--skip-ai-digest",
-                "--crosssell",
-                "--no-update-crosssell",
+                "--no-ai-skills",
                 "--crosssell-json",
                 str(cache_path),
             ])
@@ -90,7 +91,7 @@ class SyntheticReportTest(unittest.TestCase):
             ):
                 report.main()
 
-        self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path)
+        self.assertIsNone(build.call_args.kwargs["crosssell_path"])
 
     def test_crosssell_download_reuses_market_etags_and_cached_item_body(self) -> None:
         cached = {
@@ -940,7 +941,7 @@ class SyntheticReportTest(unittest.TestCase):
             "products_response": {
                 "meta": {"status": "ok", "round_id": "round-1"},
                 "products": [
-                    {"uid": "осаго", "key": "осаго", "name": "ОСАГО", "unit": "УБ", "light": "yellow", "covered": True},
+                    {"uid": "осаго", "key": "осаго", "name": "ОСАГО", "unit": "УБ", "light": "yellow", "covered": True, "ai_wait_n": 4},
                     {"uid": "сделка ижс", "key": "сделка ижс", "name": "Сделка ИЖС", "unit": "ДомКлик", "light": "green", "covered": False},
                     {"uid": "сбол", "key": "сбол", "name": "СБОЛ", "unit": "DP", "light": "green", "covered": True},
                 ],
@@ -963,7 +964,8 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertIn("Всего в клиентских путях найдено 8 сценариев кросс-продаж.", osago_recommendation["recommendations"])
         self.assertIn("- 5 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.", osago_recommendation["recommendations"])
         self.assertIn("- 3 связки — кросс-селл в сценариях других продуктов с вашим продуктом.", osago_recommendation["recommendations"])
-        self.assertIn("Потенциальных cross-sell связок: 2.", osago_recommendation["recommendations"])
+        self.assertIn("Подтвержденных потенциальных cross-sell связок: 2.", osago_recommendation["recommendations"])
+        self.assertIn("Связок, ожидающих вашей обратной связи: 4.", osago_recommendation["recommendations"])
         self.assertIn("Дальнейшие шаги:", osago_recommendation["recommendations"])
         self.assertIn(
             '1) Ознакомьтесь с рекомендациями на платформе (по кнопке "Перейти" выше).',
@@ -988,6 +990,7 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(osago_recommendation["api_seen_in_n"], 3)
         self.assertEqual(osago_recommendation["api_seen_around_n"], 8)
         self.assertEqual(osago_recommendation["api_potential_n"], 2)
+        self.assertEqual(osago_recommendation["candidates_waiting_decision"], 4)
         self.assertEqual(
             osago_recommendation["crosssell_top_actions"],
             ["Добавить в путь: → КАСКО Рыночный пример: Т-Банк."],
@@ -1003,7 +1006,10 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertFalse(fallback["crosssell_marker"])
         self.assertEqual(fallback["traffic_light"], "green")
         self.assertFalse(fallback["requires_manual_validation"])
-        self.assertIn("Дозаписать видео пути продукта", fallback["recommendations"][0])
+        self.assertTrue(any(
+            "Дозаписать видео пути продукта" in text
+            for text in fallback["recommendations"]
+        ))
         fallback_tool = result["products"][1]["metrics"][0]["tools"][0]
         self.assertEqual(fallback_tool["traffic_light"], "green")
         self.assertEqual(
@@ -1192,6 +1198,7 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(recommendation["crosssell_market"], market_snapshot)
         self.assertEqual(recommendation["crosssell_candidates"], candidates)
         self.assertEqual(recommendation["crosssell_sources"], sources)
+        self.assertEqual(recommendation["candidates_waiting_decision"], 2)
         self.assertEqual(
             sum(item["status"] == "wait" for item in product["crosssell_candidates"]),
             product["crosssell_market"]["candidates_new"],
@@ -1214,12 +1221,20 @@ class SyntheticReportTest(unittest.TestCase):
                     "potential_n": 2,
                 }
             },
-            {},
+            {"ai_wait_n": 4},
         )
         self.assertIn("Из них:", texts)
         self.assertFalse(any(text.startswith("- 0 связок") for text in texts))
         self.assertIn(
             "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            texts,
+        )
+        self.assertIn(
+            "Подтвержденных потенциальных cross-sell связок: 2.",
+            texts,
+        )
+        self.assertIn(
+            "Связок, ожидающих вашей обратной связи: 4.",
             texts,
         )
 
@@ -1232,12 +1247,13 @@ class SyntheticReportTest(unittest.TestCase):
                     "potential_n": 3,
                 }
             },
-            {},
+            {"ai_wait_n": 5},
         )
         self.assertEqual(
             zero_texts,
             [
-                "Потенциальных cross-sell связок: 3.",
+                "Подтвержденных потенциальных cross-sell связок: 3.",
+                "Связок, ожидающих вашей обратной связи: 5.",
                 "Дальнейшие шаги:",
                 '1) Ознакомьтесь с рекомендациями на платформе (по кнопке "Перейти" выше).',
                 "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. "
@@ -1245,6 +1261,49 @@ class SyntheticReportTest(unittest.TestCase):
                 "3) Если вы согласны, возьмите в бэклог для проработки.",
             ],
         )
+
+    def test_crosssell_recommendations_include_confirmed_and_waiting_counts(self) -> None:
+        texts = report.crosssell_recommendation_texts(
+            {
+                "cross_sell": {
+                    "seen_out_n": 7,
+                    "seen_in_n": 1,
+                    "seen_around_n": 8,
+                    "potential_n": 3,
+                }
+            },
+            {"name": "Вклады+НС", "ai_wait_n": 5},
+        )
+
+        self.assertIn("Всего в клиентских путях найдено 8 сценариев кросс-продаж.", texts)
+        self.assertIn(
+            "- 7 связок — кросс-селл с другими продуктами в рамках сценариев вашего продукта.",
+            texts,
+        )
+        self.assertIn(
+            "- 1 связка — кросс-селл в сценариях других продуктов с вашим продуктом.",
+            texts,
+        )
+        self.assertIn("Подтвержденных потенциальных cross-sell связок: 3.", texts)
+        self.assertIn("Связок, ожидающих вашей обратной связи: 5.", texts)
+
+    def test_crosssell_recommendations_do_not_invent_missing_feedback_count(self) -> None:
+        texts = report.crosssell_recommendation_texts(
+            {
+                "cross_sell": {
+                    "seen_out_n": 1,
+                    "seen_in_n": 0,
+                    "seen_around_n": 1,
+                    "potential_n": 2,
+                }
+            },
+            {},
+        )
+
+        self.assertFalse(any(
+            text.startswith("Связок, ожидающих вашей обратной связи:")
+            for text in texts
+        ))
 
     def test_crosssell_matching_uses_nfc_casefold(self) -> None:
         composed = "СберПрайм"

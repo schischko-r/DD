@@ -5,18 +5,18 @@ import build_gravity_report as report
 
 
 class GravityBuildCrosssellTest(unittest.TestCase):
-    def test_crosssell_is_disabled_by_default(self) -> None:
+    def test_crosssell_is_enabled_by_default(self) -> None:
         args = report.parse_args([])
 
         with patch.object(report, "run") as run:
             report.build(args)
 
         report_command = run.call_args_list[0].args[0]
-        self.assertNotIn("--crosssell", report_command)
+        self.assertIn("--crosssell", report_command)
         self.assertNotIn("--no-update-crosssell", report_command)
 
-    def test_crosssell_can_be_enabled_with_local_cache(self) -> None:
-        args = report.parse_args(["--crosssell", "--no-update-crosssell"])
+    def test_crosssell_can_use_local_cache(self) -> None:
+        args = report.parse_args(["--no-update-crosssell"])
 
         with patch.object(report, "run") as run:
             report.build(args)
@@ -24,6 +24,16 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         report_command = run.call_args_list[0].args[0]
         self.assertIn("--crosssell", report_command)
         self.assertIn("--no-update-crosssell", report_command)
+
+    def test_no_ai_skills_keeps_crosssell_under_the_global_switch(self) -> None:
+        args = report.parse_args(["--no-ai-skills"])
+
+        with patch.object(report, "run") as run:
+            report.build(args)
+
+        report_command = run.call_args_list[0].args[0]
+        self.assertIn("--no-ai-skills", report_command)
+        self.assertIn("--crosssell", report_command)
 
     def test_full_build_rebuilds_clickstream_companion_before_main_standalone(self) -> None:
         args = report.parse_args([])
