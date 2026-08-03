@@ -25,10 +25,14 @@ class BuildGravityStandaloneTest(unittest.TestCase):
         self.assertIn(f'"includedTickets":{meta["includedTickets"]}', result)
 
     def test_vite_config_deduplicates_react_for_standalone_charts(self) -> None:
-        vite_config = DEFAULT_OUTPUT.parent / "gravity-app" / "vite.config.js"
+        app_root = DEFAULT_OUTPUT.parent / "gravity-app"
+        vite_config = app_root / "vite.config.js"
         source = vite_config.read_text(encoding="utf-8")
+        package = json.loads((app_root / "package.json").read_text(encoding="utf-8"))
 
         self.assertIn("dedupe: ['react', 'react-dom']", source)
+        self.assertEqual(package["dependencies"]["react"], "18.3.1")
+        self.assertEqual(package["dependencies"]["react-dom"], "18.3.1")
 
     def test_embeds_data_for_no_store_fetch(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
