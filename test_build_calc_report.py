@@ -40,25 +40,27 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(report.normalize_upload_unit("CX"), "CX")
         self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
 
-    def test_crosssell_is_opt_in_for_cli_and_programmatic_builds(self) -> None:
+    def test_crosssell_is_enabled_by_default_and_can_use_local_cache(self) -> None:
         default_args = report.parse_args([])
-        enabled_args = report.parse_args(["--crosssell"])
-        cached_args = report.parse_args(["--crosssell", "--no-update-crosssell"])
+        cached_args = report.parse_args(["--no-update-crosssell"])
 
-        self.assertFalse(default_args.crosssell)
-        self.assertTrue(enabled_args.crosssell)
-        self.assertTrue(enabled_args.update_crosssell)
-        self.assertTrue(cached_args.crosssell)
+        self.assertTrue(default_args.update_crosssell)
         self.assertFalse(cached_args.update_crosssell)
         self.assertIsNone(
             inspect.signature(report.build_combined_data).parameters["crosssell_path"].default
         )
 
-    def test_main_ignores_existing_crosssell_cache_by_default(self) -> None:
+    def test_main_uses_existing_crosssell_cache_by_default(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             cache_path = Path(temp_dir) / "crosssell.json"
             cache_path.write_text("{}", encoding="utf-8")
-            args = report.parse_args(["--skip-ai-digest", "--crosssell-json", str(cache_path)])
+            args = report.parse_args([
+                "--skip-ai-digest",
+                "--crosssell-json",
+                str(cache_path),
+                "--crosssell-token",
+                "",
+            ])
 
             with (
                 patch.object(report, "parse_args", return_value=args),
@@ -68,16 +70,15 @@ class SyntheticReportTest(unittest.TestCase):
             ):
                 report.main()
 
-        self.assertIsNone(build.call_args.kwargs["crosssell_path"])
+        self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path)
 
-    def test_main_uses_existing_crosssell_cache_when_explicitly_enabled(self) -> None:
+    def test_no_ai_skills_ignores_existing_crosssell_cache(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             cache_path = Path(temp_dir) / "crosssell.json"
             cache_path.write_text("{}", encoding="utf-8")
             args = report.parse_args([
                 "--skip-ai-digest",
-                "--crosssell",
-                "--no-update-crosssell",
+                "--no-ai-skills",
                 "--crosssell-json",
                 str(cache_path),
             ])
@@ -90,7 +91,7 @@ class SyntheticReportTest(unittest.TestCase):
             ):
                 report.main()
 
-        self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path)
+        self.assertIsNone(build.call_args.kwargs["crosssell_path"])
 
     def test_crosssell_download_reuses_market_etags_and_cached_item_body(self) -> None:
         cached = {

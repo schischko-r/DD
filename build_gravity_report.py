@@ -51,10 +51,9 @@ def build(args: argparse.Namespace) -> None:
         report_command.append("--no-ai-skills")
     elif args.skip_ai_digest:
         report_command.append("--skip-ai-digest")
-    if args.crosssell:
-        report_command.append("--crosssell")
-        if args.no_update_crosssell:
-            report_command.append("--no-update-crosssell")
+    report_command.append("--crosssell")
+    if args.no_update_crosssell:
+        report_command.append("--no-update-crosssell")
 
     run(report_command)
     if args.data_only:
@@ -99,12 +98,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="Exclude AI skills and do not read AI digest or product mapping files",
     )
-    parser.add_argument(
-        "--crosssell",
-        action="store_true",
-        help="Enable Product Lens cross-sell recommendations",
-    )
-    parser.add_argument("--skip-crosssell", dest="crosssell", action="store_false", help=argparse.SUPPRESS)
     parser.add_argument(
         "--no-update-crosssell",
         action="store_true",
