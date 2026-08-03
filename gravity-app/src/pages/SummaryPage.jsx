@@ -3,8 +3,8 @@ import {ArrowDown} from '@gravity-ui/icons';
 import {Button, Icon, Label, Progress, SegmentedRadioGroup, Select} from '@gravity-ui/uikit';
 import {CatalogDialog, compareNames, groupFor, isUnitFilterOption, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
 
-export function SummaryPage({products, rows, initialType = ''}) {
-  const [unit, setUnit] = useState([]);
+export function SummaryPage({products, rows, initialType = '', unitFilter = '', onUnitFilterChange}) {
+  const unit = unitFilter ? [unitFilter] : [];
   const [type, setType] = useState(initialType ? [initialType] : []);
   const [sort, setSort] = useState('name');
   const units = useMemo(() => [...new Set(products.map((item) => item.unit).filter((item) => item && isUnitFilterOption(item)))].sort(compareNames), [products]);
@@ -37,7 +37,7 @@ export function SummaryPage({products, rows, initialType = ''}) {
       </header>
 
       <section className="report-controls" aria-label="Фильтры">
-        <label><span>Юнит</span><Select value={unit} onUpdate={setUnit} placeholder="Все юниты" size="m" width={190}>
+        <label><span>Юнит</span><Select value={unit} onUpdate={(value) => onUnitFilterChange?.(value[0] || '')} placeholder="Все юниты" size="m" width={190}>
           {units.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}
         </Select></label>
         <label><span>Тип</span><Select value={type} onUpdate={setType} placeholder="Все типы" size="m" width={160}>

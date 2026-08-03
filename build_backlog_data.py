@@ -80,6 +80,33 @@ SCENARIO_ALIASES = {
     "metric_calculation": "metrics_calculation",
     "social_communication": "social_communications",
 }
+SCENARIO_CONTINUOUS_25TH_HOURS = {
+    "AI": 2.11,
+    "BI_bugfix": 0.82,
+    "business_planning": 4.40,
+    "business_requirements_composing": 2.10,
+    "customer_experience_analytics": 4.28,
+    "dashboard_improvements": 1.86,
+    "dashboard_manual_data_update": 1.90,
+    "dashboard_migration": 5.36,
+    "data_marts": 0.62,
+    "employee_trainings": 0.02,
+    "excel_automatic_reports": 0.45,
+    "excel_reports": 1.49,
+    "exports_to_excel": 1.68,
+    "exports_to_excel_regulator": 0.00,
+    "financial_impact_estimation": 0.79,
+    "growth_factors_research": 5.90,
+    "knowledge_base_maintenance": 2.11,
+    "manual_data_quality_control": 0.20,
+    "methodology_dev": 0.00,
+    "metrics_calculation": 1.25,
+    "presentations": 3.88,
+    "project_management": 4.54,
+    "root_cause_analysis": 3.01,
+    "social_communications": 0.29,
+    "unknown": 0.03,
+}
 RU_MONTHS = (
     "Январь",
     "Февраль",
@@ -584,7 +611,7 @@ def _next_quarter(value: date) -> date:
     return date(value.year + (value.month == 10), 1 if value.month == 10 else value.month + 3, 1)
 
 
-def _percentage(numerator: int, denominator: int) -> float:
+def _percentage(numerator: float, denominator: float) -> float:
     return round(numerator / denominator * 100, 2) if denominator else 0.0
 
 
@@ -600,6 +627,10 @@ def _cycle_times_days(tickets: list[Ticket]) -> list[float]:
 
 def _median_days(values: list[float]) -> float | None:
     return round(float(statistics.median(values)), 1) if values else None
+
+
+def _median_hours(values: list[float]) -> float | None:
+    return round(float(statistics.median(values)) * 24, 1) if values else None
 
 
 def _category_order(totals: dict[str, dict[str, object]]) -> list[str]:
@@ -704,6 +735,10 @@ def _build_team_aggregates(
         automation_count = sum(
             ticket.scenario_key == AUTOMATION_SCENARIO for ticket in created_tickets
         )
+        story_points_filled_count = sum(
+            bool(ticket.story_points) for ticket in created_tickets
+        )
+        cycle_times = _cycle_times_days(resolved_tickets)
         months.append(
             {
                 "key": key,
@@ -725,6 +760,13 @@ def _build_team_aggregates(
                 "automationShare": _percentage(
                     automation_count, len(created_tickets)
                 ),
+                "storyPointsFilledCount": story_points_filled_count,
+                "storyPointsBaseCount": len(created_tickets),
+                "storyPointsFilledShare": _percentage(
+                    story_points_filled_count, len(created_tickets)
+                ),
+                "medianCycleTimeDays": _median_days(cycle_times),
+                "cycleTimeSampleCount": len(cycle_times),
                 "directions": monthly_categories(
                     values["directions"], direction_totals, direction_order  # type: ignore[arg-type]
                 ),
@@ -779,9 +821,12 @@ def _build_team_aggregates(
         quarter_scenarios: defaultdict[str, dict[str, int]] = defaultdict(
             lambda: {"count": 0}
         )
+        quarter_scenario_tickets: defaultdict[str, list[Ticket]] = defaultdict(list)
         for ticket in created_tickets:
             quarter_directions[ticket.direction_key]["count"] += 1
             quarter_scenarios[ticket.scenario_key]["count"] += 1
+            quarter_scenario_tickets[ticket.scenario_key].append(ticket)
+        quarter_cycle_time_total = sum(_cycle_times_days(created_tickets))
 
         def quarterly_categories(
             values: defaultdict[str, dict[str, int]],
@@ -797,6 +842,28 @@ def _build_team_aggregates(
                 }
                 for key in order
             ]
+
+        def quarterly_scenario_categories() -> list[dict[str, object]]:
+            result = []
+            for key in scenario_order:
+                cycle_times = _cycle_times_days(quarter_scenario_tickets[key])
+                result.append(
+                    {
+                        "key": key,
+                        "label": scenario_totals[key]["label"],
+                        "count": quarter_scenarios[key]["count"],
+                        "share": _percentage(
+                            quarter_scenarios[key]["count"], len(created_tickets)
+                        ),
+                        "continuous25thHours": SCENARIO_CONTINUOUS_25TH_HOURS[key],
+                        "medianCycleTimeHours": _median_hours(cycle_times),
+                        "cycleTimeSampleCount": len(cycle_times),
+                        "cycleTimeShare": _percentage(
+                            sum(cycle_times), quarter_cycle_time_total
+                        ),
+                    }
+                )
+            return result
 
         discovery_tickets = [
             ticket
@@ -858,9 +925,7 @@ def _build_team_aggregates(
                 "directions": quarterly_categories(
                     quarter_directions, direction_totals, direction_order
                 ),
-                "scenarios": quarterly_categories(
-                    quarter_scenarios, scenario_totals, scenario_order
-                ),
+                "scenarios": quarterly_scenario_categories(),
                 "automationCount": automation_count,
                 "automationBaseCount": len(created_tickets),
                 "automationShare": _percentage(automation_count, len(created_tickets)),

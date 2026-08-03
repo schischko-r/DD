@@ -42,11 +42,11 @@ export function AboutPage({onBack}) {
     {title: 'Объект оценки', text: 'Команда продукта, сегмента или канала. Индекс отражает состояние практик команды в расчётном периоде.', icon: Persons},
     {title: 'Источники фактов', text: 'Цифровые следы, действующая отчётность и ответы команды. Для каждого критерия фиксируется подтверждённое значение.', icon: ChartColumn},
     {title: 'Балльная модель', text: 'Каждый применимый критерий имеет фактический и максимальный балл. Баллы суммируются внутри блоков и по профилю.', icon: BarsAscendingAlignLeft},
-    {title: 'Применимость', text: 'Не применимые критерии исключаются из числителя и знаменателя, поэтому они не занижают итоговую оценку.', icon: ChartMixed},
+    {title: 'Применимость', text: 'Неприменимые критерии исключаются из числителя и знаменателя, поэтому они не занижают итоговую оценку.', icon: ChartMixed},
   ];
   const zones = [
-    {title: 'Знание ключевых метрик и инструментов', text: 'Самооценка знания продуктовых метрик и доступной отчётности.', criteria: [{name: 'Объём целевого рынка в России', points: '0,2 балла'}, {name: 'Объём целевого рынка в Сбере', points: '0,2 балла'}, {name: 'Клиенты с продуктом', points: '0,2 балла'}, {name: 'MAU продукта', points: '0,2 балла'}, {name: 'Знание продуктов-спутников', points: '0,2 балла'}, {name: 'Знание отчётности в Навигаторе', points: '0,5 балла'}]},
-    {title: 'Цели', text: 'Метрические цели, факторный анализ (драйверы 1–2 уровня), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе: выведено более 90% целей, лидер продукта знает про BI-дашборд.', points: '1 балл (100%)'}, {name: 'Мониторинг ведётся в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}]},
+    {title: 'Знание ключевых метрик и инструментов', text: 'Самооценка знаний продуктовых метрик и доступной отчётности.', criteria: [{name: 'Объём целевого рынка в России', points: '0,2 балла'}, {name: 'Объём целевого рынка в Сбере', points: '0,2 балла'}, {name: 'Клиенты с продуктом', points: '0,2 балла'}, {name: 'MAU продукта', points: '0,2 балла'}, {name: 'Знание продуктов-спутников', points: '0,2 балла'}, {name: 'Знание отчётности в Навигаторе', points: '0,5 балла'}]},
+    {title: 'Цели', text: 'Метрические цели, факторный анализ (драйверы первого и второго уровней), прогноз по целям и драйверам выведены на мониторинг и доступны ЛТ/ЛЮ.', criteria: [{name: 'Мониторинг в Навигаторе: выведено более 90% целей, лидер продукта знает о BI-дашборде.', points: '1 балл (100%)'}, {name: 'Мониторинг ведётся в локальной отчётности, не в Навигаторе.', points: '0,5 балла (50%)'}]},
     {title: 'Воронка привлечения', text: 'Оцениваются отчётность, анализ отклонений, кампейнинг и покрытие черновиков. Для кампаний используются данные предыдущего квартала.', criteria: [
       {section: 'Отчётность', name: 'Регулярная отчётность формируется автоматически.', points: '0,5 балла'},
       {section: 'Отчётность', name: 'Регулярная отчётность формируется по запросу.', points: '0,25 балла'},
@@ -65,7 +65,7 @@ export function AboutPage({onBack}) {
     {title: 'Воронка оттока', text: 'Оцениваются полнота и регулярность отчётности, анализ причин оттока, инициативы по отклонениям и бенчмарки.', criteria: [
       {section: 'Отчётность', name: 'Регулярная отчётность формируется автоматически.', points: '0,5 балла'},
       {section: 'Отчётность', name: 'Регулярная отчётность формируется по запросу.', points: '0,25 балла'},
-      {section: 'Отчётность', name: 'Комплексный отчёт: пошаговая воронка, CR, объёмы, механики, сегментный или когортный разрез, UX/UI.', points: '0,5 балла'},
+      {section: 'Отчётность', name: 'Комплексный отчёт: факторы оттока, пошаговая воронка отключения продукта, CR (% оттока), объёмы, механики, сегментный/когортный разрез, UX/UI.', points: '0,5 балла'},
       {section: 'Отчётность', name: 'Неполный отчёт.', points: '0,25 балла'},
       {section: 'Анализ', name: 'Комплексный анализ: воронка, CTR, объёмы, сегменты или когорты, retention, механики удержания, UX/UI.', points: '1 балл'},
       {section: 'Анализ', name: 'Неполный анализ.', points: '0,5 балла'},
@@ -84,7 +84,7 @@ export function AboutPage({onBack}) {
       {section: 'Мониторинг', name: 'Есть метрики эффективности механик.', points: '0,25 балла'},
     ]},
     {title: 'Гипотезы и инициативы', text: 'Исследовательская загрузка аналитиков, качество исследований и инициативы сверх бизнес-плана.', criteria: [{name: 'Не менее 40% бэклога аналитиков приходится на исследования.', points: '1 балл'}, {name: 'Не менее 20% бэклога приходится на исследования.', points: '0,5 балла'}, {name: 'Средняя оценка исследований с начала года не ниже 7,5.', points: '1 балл'}, {name: 'Есть минимум одна доходная или расходная инициатива сверх БП.', points: '1 балл'}]},
-    {title: 'Клиентский опыт', text: 'CX Score рассчитывается по данным дашборда «Здоровье CX продуктов».', criteria: [{name: 'Зелёная зона CX Score.', points: '1 балл (100%)'}, {name: 'Жёлтая зона CX Score.', points: '0,5 балла (50%)'}]},
+    {title: 'Клиентский опыт', text: 'На основе дешборда "CX Score".', criteria: [{name: 'Зелёная зона CX Score.', points: '1 балл (100%)'}, {name: 'Жёлтая зона CX Score.', points: '0,5 балла (50%)'}]},
   ];
   const levels = [
     {range: '<40%', title: 'Требуют внимания', note: 'Нет устойчивого фундамента', tone: 'attention'},
@@ -95,14 +95,14 @@ export function AboutPage({onBack}) {
   return (
     <main className="content about-page">
       <div className="about-document">
-      <SemanticButton className="about-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton>
+      <SemanticButton className="about-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К сводке</SemanticButton>
       <section className="about-hero">
         <div className="about-hero-copy about-editorial-copy">
           <div className="about-hero-main">
-            <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Data Driven B2C</span></div>
-            <h1>Что такое Data Driven</h1>
+            <div className="about-eyebrow"><Icon data={CircleInfo} size={16} /><span>Data-Driven B2C</span></div>
+            <h1>Что такое Data-Driven</h1>
             <div className="about-hero-definition">
-              <Text variant="body-2" color="secondary">Data Driven — это метод принятия решений, основанный на анализе данных, а не только на интуиции или личном опыте.</Text>
+              <Text variant="body-2" color="secondary">Data-Driven — это метод принятия решений, основанный на анализе данных, а не только на интуиции или личном опыте.</Text>
               <Text variant="body-2" color="secondary">Главный принцип — решения основываются на фактических данных и их анализе. При этом сами данные должны быть качественными и актуальными.</Text>
             </div>
             <div className="about-hero-actions">
@@ -114,7 +114,7 @@ export function AboutPage({onBack}) {
             <Text variant="caption-2" color="secondary">МЕТОДИКА ОЦЕНКИ</Text>
             <h2>Что такое Data-Driven Index</h2>
             <Text color="secondary">Data-Driven Index — это нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text>
-            <div className="about-index-equation" aria-label="Data-Driven Index равен сумме фактических баллов, делённой на сумму максимальных применимых баллов, умноженной на сто процентов">
+            <div className="about-index-equation" aria-label="Data-Driven Index рассчитывается как отношение суммы фактических баллов к сумме максимальных применимых баллов, умноженное на сто процентов">
               <span>Data-Driven Index</span>
               <strong>Σ фактических баллов / Σ максимальных применимых баллов × 100%</strong>
             </div>
@@ -133,7 +133,7 @@ export function AboutPage({onBack}) {
           <div className="about-mascot about-mascot--left">
             <img className="about-mascot-image" src={thinkingMascot} alt="" aria-hidden="true" />
           </div>
-          <div className="about-section-heading about-editorial-copy"><Text variant="caption-2" color="secondary">ПРИНЦИПЫ ОЦЕНКИ</Text><h2>Как формируется индекс</h2><Text color="secondary">Расчёт строится на подтверждённых фактах и единой балльной модели. Итоговый процент сопоставим между командами только при одинаковой версии методики и расчётном периоде.</Text></div>
+          <div className="about-section-heading about-editorial-copy"><Text variant="caption-2" color="secondary">ПРИНЦИПЫ ОЦЕНКИ</Text><h2>Как формируется индекс</h2><Text color="secondary">Расчёт строится на подтверждённых фактах и единой балльной модели. Итоговый процент сопоставим между командами только для одной и той же версии методики и одного и того же расчётного периода.</Text></div>
         </div>
         <div className="about-elements">{principles.map((item) => <Card view="outlined" type="container" size="l" key={item.title}><div className="about-element-icon"><Icon data={item.icon} size={20} /></div><h3>{item.title}</h3><Text color="secondary">{item.text}</Text></Card>)}</div>
       </section>
@@ -142,7 +142,7 @@ export function AboutPage({onBack}) {
         <div className="about-maturity">
           <div className="about-maturity-head"><div><h2>Формула Data-Driven Index</h2><Text color="secondary">Data-Driven Index — это нормированная оценка зрелости практик работы с данными для продуктов, сегментов и каналов.</Text></div></div>
           <Card className="about-formula-card" view="outlined" type="container" size="l">
-            <div className="about-formula" aria-label="Data-Driven Index равен фактически набранные баллы, делённые на максимальный балл, умноженные на сто процентов">
+            <div className="about-formula" aria-label="Data-Driven Index рассчитывается как отношение фактически набранных баллов к максимальному баллу, умноженное на сто процентов">
               <strong>Data-Driven Index</strong>
               <span className="about-formula-sign">=</span>
               <span className="about-formula-fraction">
@@ -170,7 +170,7 @@ export function AboutPage({onBack}) {
         <div className="about-editorial-row">
           <div className="about-practices-heading about-editorial-copy">
             <div><h2>Критерии и баллы</h2><Text color="secondary">Выберите тип команды: список покажет только релевантные блоки, условия оценки и баллы из соответствующего столбца методики.</Text></div>
-            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Не применимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
+            <div className="about-scoring-method"><span>Правило расчёта</span><b>В индекс входят только применимые критерии с заданным максимальным баллом.</b><small>Неприменимые критерии исключаются и из набранных баллов, и из максимального балла команды.</small></div>
           </div>
           <div className="about-mascot about-mascot--right">
             <img className="about-mascot-image" src={questionMascot} alt="" aria-hidden="true" />
@@ -186,7 +186,7 @@ export function AboutPage({onBack}) {
         </Card>
 
         {activeMethodologyGroup && <div className="about-methodology-browser">
-          <nav className="about-methodology-blocks" aria-label="Ключевые блоки Data Driven"><div className="about-methodology-blocks-head">Ключевые блоки Data Driven</div>{methodologyGroups.map((group, index) => <Button className="about-methodology-block-button" view="flat" pin="clear-clear" width="max" selected={group.title === activeMethodologyGroup.title} onClick={() => setMethodologyGroupTitle(group.title)} key={group.title}><span><small>{String(index + 1).padStart(2, '0')}</small><span className="about-methodology-block-title">{group.title}</span></span></Button>)}</nav>
+          <nav className="about-methodology-blocks" aria-label="Ключевые блоки Data-Driven"><div className="about-methodology-blocks-head">Ключевые блоки Data-Driven</div>{methodologyGroups.map((group, index) => <Button className="about-methodology-block-button" view="flat" pin="clear-clear" width="max" selected={group.title === activeMethodologyGroup.title} onClick={() => setMethodologyGroupTitle(group.title)} key={group.title}><span><small>{String(index + 1).padStart(2, '0')}</small><span className="about-methodology-block-title">{group.title}</span></span></Button>)}</nav>
           <section className="about-methodology-panel"><header className="about-methodology-panel-head"><div><Text variant="caption-2" color="secondary"><span className="about-methodology-profile">{activeProfile.shortLabel}</span></Text><h3>{activeMethodologyGroup.title}</h3></div></header><div className="about-methodology-subsections">{activeMethodologyGroup.subsections.map((section) => {
             const verificationComment = methodologyVerificationComment(activeProfile.key, activeMethodologyGroup.title, section.subgroup);
             return (

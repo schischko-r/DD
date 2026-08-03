@@ -95,6 +95,9 @@ export default defineConfig(({mode}) => {
 
   return {
     envDir: REPOSITORY_ROOT,
+    resolve: {
+      dedupe: ['react', 'react-dom'],
+    },
     define: {
       'import.meta.env.VITE_HTML_PAGE_URLS': JSON.stringify(htmlPageUrlsRaw),
     },
