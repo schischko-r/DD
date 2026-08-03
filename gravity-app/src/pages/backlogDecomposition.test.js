@@ -133,6 +133,7 @@ test('dashboard insights consume the backend quarter schema and enforce the 40 p
     exportRoutineShare: 50,
     automationShare: 33.33,
     unknownShare: 16.67,
+    storyPointsFilledShare: 75,
   });
   assert.equal(missed.confirmed, false);
   assert.equal(missed.missingDiscovery, 1);
@@ -142,6 +143,12 @@ test('dashboard insights consume the backend quarter schema and enforce the 40 p
   assert.ok(missed.recommendations.some((item) => item.title.includes('≥40%')));
   assert.ok(missed.recommendations.some((item) => item.title.includes('Автоматизировать')));
   assert.ok(missed.recommendations.some((item) => item.title === 'Улучшить заполнение задач'));
+  assert.equal(missed.recommendations[0].text, 'Используйте Story Points для планирования нагрузки в спринтах и оценки производительности. Подробнее можно почитать здесь');
+  assert.deepEqual(missed.recommendations[0].resources, [{
+    label: 'здесь',
+    href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15525024800',
+    placement: 'inline',
+  }]);
   assert.ok(missed.recommendations.some((item) => item.text.includes('Повысить полноту описаний и заполнение обязательных полей')));
   assert.ok(missed.recommendations.some((item) => item.text.includes('Сейчас направление не определено у 16,7% задач')));
   const recommendationCopy = missed.recommendations.map(({title, text}) => `${title} ${text}`).join(' ');
@@ -149,12 +156,13 @@ test('dashboard insights consume the backend quarter schema and enforce the 40 p
   assert.doesNotMatch(recommendationCopy, /Разметить направление/);
   assert.ok(!missed.recommendations.some((item) => item.title.includes('без сценария')));
 
-  const confirmed = buildDashboardInsights({createdCount: 5, discoveryCount: 2, discoveryShare: 40});
+  const confirmed = buildDashboardInsights({createdCount: 5, discoveryCount: 2, discoveryShare: 40, storyPointsFilledShare: 90});
   assert.equal(confirmed.confirmed, true);
   assert.equal(confirmed.gap, 0);
   assert.equal(confirmed.missingDiscovery, 0);
   assert.ok(confirmed.insights[0].title.includes('Discovery'));
   assert.ok(!confirmed.recommendations.some((item) => item.title.includes('≥40%')));
+  assert.ok(!confirmed.recommendations.some((item) => item.text.includes('Story Points')));
 });
 
 test('insights use Created as the shared denominator', () => {
@@ -210,6 +218,8 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
     'Доля Discovery в созданных задачах квартала',
     'Создано за квартал',
     'Завершено из созданных',
+    'Медианное время цикла',
+    'Заполнение Story Points',
     'Рутина',
     'Автоматизация',
     'Структура созданных задач',
@@ -282,6 +292,8 @@ test('KPI and recommendations are composed from neutral Gravity UI primitives', 
   assert.match(stylesSource, /\.backlog-kpi-chart-legend\s*\{[^}]*min-width:\s*max-content;[^}]*flex:\s*none;/s);
   assert.doesNotMatch(pageSource, /VERTICAL_LEGEND_ITEM_DISTANCE|Number\.MAX_SAFE_INTEGER/);
   assert.match(pageSource, /dashboard\.recommendations\.map[\s\S]*?<Label theme="normal"[\s\S]*?<Divider \/>/);
+  assert.match(pageSource, /<RecommendationCopy item=\{item\} \/>/);
+  assert.match(pageSource, /resource\.placement === 'after'[\s\S]*?<Link href=\{resource\.href\} target="_blank" rel="noreferrer">\{resource\.label\}<\/Link>/);
   assert.match(pageSource, /<Card className="backlog-method-note" view="outlined"/);
   assert.match(pageSource, /Временные графики показывают историю по месяцу создания до выбранного квартала включительно/);
   assert.match(pageSource, /<Label size="m" theme=\{dashboard\.confirmed \? 'normal' : 'danger'\}/);
@@ -518,11 +530,16 @@ test('stacked Created chart shows history only through the selected quarter with
   assert.deepEqual(emptyScale.yAxis[0].plotLines, []);
 });
 
-test('Created semantics are explicit and no duration metric remains in the dashboard', () => {
+test('Created semantics remain explicit alongside selected-quarter delivery quality KPIs', () => {
   assert.match(pageSource, /const created = metric\(quarter, 'createdCount', 'created'\)/);
   assert.match(pageSource, /discoveryShare[\s\S]*created \? discoveryCount \/ created \* 100/);
   assert.match(pageSource, /Задача учитывается один раз — в месяце создания/);
   assert.match(pageSource, /routineShare=\{routineShare\}[\s\S]*total=\{created\}|total=\{created\}[\s\S]*routineShare=\{routineShare\}/);
+  assert.match(pageSource, /const medianCycleTimeDays = metric\(quarter, 'medianCycleTimeDays', 'cycleTimeMedianDays'\)/);
+  assert.match(pageSource, /const cycleTimeSampleCount = metric\(quarter, 'cycleTimeSampleCount'\)/);
+  assert.match(pageSource, /const storyPointsFilledShare = metric\(quarter, 'storyPointsFilledShare', 'storyPointsFillShare'\)/);
+  assert.match(pageSource, /value=\{Number\.isFinite\(medianCycleTimeDays\) \? `\$\{formatNumber\(medianCycleTimeDays, 1\)\} дн\.` : '—'\}/);
+  assert.match(pageSource, /value=\{Number\.isFinite\(storyPointsFilledShare\) \? formatPercentValue\(storyPointsFilledShare\) : '—'\}/);
   assert.doesNotMatch(pageSource, new RegExp(`t${'t'}m`, 'i'));
 });
 

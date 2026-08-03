@@ -19,6 +19,7 @@ from zipfile import BadZipFile, ZipFile
 ROOT = Path(__file__).resolve().parent
 DEFAULT_INPUT = ROOT / "sbertrack_all_full_history_to_export.xlsx"
 DEFAULT_OUTPUT = ROOT / "gravity-app" / "public" / "backlog-data.json"
+DEFAULT_HISTORY_START = date(2026, 2, 1)
 REQUIRED_COLUMNS = (
     "Created",
     "Resolved",
@@ -36,6 +37,12 @@ COLUMN_ALIASES = {
     "direction": ("direction",),
     "scenario": ("scenario",),
     "team": ("team", "product"),
+    "Дата перехода в in_progress": (
+        "Дата перехода в in_progress",
+        "In Progress",
+        "In progress",
+    ),
+    "SP": ("SP", "Story Points", "Story points"),
 }
 REQUIRED_SOURCE_COLUMNS = tuple(
     column for column in REQUIRED_COLUMNS if column != "Status"
@@ -112,6 +119,8 @@ class Ticket:
     issue_key: str
     created: datetime
     resolved: datetime | None
+    in_progress: datetime | None
+    story_points: str
     cancelled: bool
     completed_by_status: bool
     terminal_without_resolved: bool
@@ -130,6 +139,7 @@ class TeamTickets:
     total_tickets: int
     excluded_cancelled: int
     excluded_missing_issue_key: int
+    excluded_before_history_start: int
     terminal_without_resolved: int
 
 
@@ -356,7 +366,9 @@ def _normalize_team(value: str) -> tuple[str, str]:
     return key, label
 
 
-def read_tickets(path: Path) -> list[TeamTickets]:
+def read_tickets(
+    path: Path, history_start: date | None = DEFAULT_HISTORY_START
+) -> list[TeamTickets]:
     rows, date_1904 = read_workbook_rows(path)
     if not rows:
         raise ValueError("В XLSX нет строк с тикетами")
@@ -387,6 +399,11 @@ def read_tickets(path: Path) -> list[TeamTickets]:
         try:
             created = parse_datetime(row["Created"], date_1904)
             resolved = parse_datetime(row["Resolved"], date_1904) if row["Resolved"] else None
+            in_progress = (
+                parse_datetime(row["Дата перехода в in_progress"], date_1904)
+                if row["Дата перехода в in_progress"]
+                else None
+            )
         except ValueError as error:
             reference = issue_key or f"команда {team_label}"
             raise ValueError(f"Строка {row_number}, {reference}: {error}") from error
@@ -406,6 +423,8 @@ def read_tickets(path: Path) -> list[TeamTickets]:
                 issue_key=issue_key,
                 created=created,
                 resolved=resolved,
+                in_progress=in_progress,
+                story_points=row["SP"].strip(),
                 cancelled=normalized_status in CANCELLED_STATUSES,
                 completed_by_status=normalized_status in TERMINAL_STATUSES,
                 terminal_without_resolved=(
@@ -426,6 +445,17 @@ def read_tickets(path: Path) -> list[TeamTickets]:
     for (team_key, issue_key), copies in grouped.items():
         first = copies[0]
         resolved_values = [ticket.resolved for ticket in copies if ticket.resolved is not None]
+        in_progress_values = [
+            ticket.in_progress for ticket in copies if ticket.in_progress is not None
+        ]
+        story_points = next(
+            (
+                ticket.story_points
+                for ticket in reversed(copies)
+                if ticket.story_points
+            ),
+            "",
+        )
         tickets_by_team[team_key].append(
             Ticket(
                 team_key=first.team_key,
@@ -433,6 +463,8 @@ def read_tickets(path: Path) -> list[TeamTickets]:
                 issue_key=issue_key,
                 created=min(ticket.created for ticket in copies),
                 resolved=max(resolved_values, default=None),
+                in_progress=min(in_progress_values, default=None),
+                story_points=story_points,
                 cancelled=all(ticket.cancelled for ticket in copies),
                 completed_by_status=any(
                     ticket.completed_by_status for ticket in copies
@@ -452,12 +484,20 @@ def read_tickets(path: Path) -> list[TeamTickets]:
     for team_key, team_label in team_labels.items():
         tickets = tickets_by_team[team_key]
         excluded_cancelled = sum(ticket.cancelled for ticket in tickets)
-        included = [ticket for ticket in tickets if not ticket.cancelled]
+        excluded_before_history_start = sum(
+            not ticket.cancelled
+            and history_start is not None
+            and ticket.created.date() < history_start
+            for ticket in tickets
+        )
+        included = [
+            ticket
+            for ticket in tickets
+            if not ticket.cancelled
+            and (history_start is None or ticket.created.date() >= history_start)
+        ]
         if not included:
-            raise ValueError(
-                f"После исключения некорректных строк и Status=Cancelled "
-                f"у команды {team_label!r} не осталось тикетов"
-            )
+            continue
         missing_count = excluded_missing_issue_key[team_key]
         result.append(
             TeamTickets(
@@ -468,10 +508,17 @@ def read_tickets(path: Path) -> list[TeamTickets]:
                 total_tickets=len(tickets) + missing_count,
                 excluded_cancelled=excluded_cancelled,
                 excluded_missing_issue_key=missing_count,
+                excluded_before_history_start=excluded_before_history_start,
                 terminal_without_resolved=sum(
                     ticket.terminal_without_resolved for ticket in included
                 ),
             )
+        )
+
+    if not result:
+        raise ValueError(
+            "После исключения некорректных строк, Status=Cancelled и тикетов "
+            "до начала истории не осталось данных"
         )
 
     return sorted(
@@ -502,6 +549,20 @@ def _next_quarter(value: date) -> date:
 
 def _percentage(numerator: int, denominator: int) -> float:
     return round(numerator / denominator * 100, 2) if denominator else 0.0
+
+
+def _cycle_times_days(tickets: list[Ticket]) -> list[float]:
+    return [
+        (ticket.resolved - ticket.in_progress).total_seconds() / 86_400
+        for ticket in tickets
+        if ticket.resolved is not None
+        and ticket.in_progress is not None
+        and ticket.resolved >= ticket.in_progress
+    ]
+
+
+def _median_days(values: list[float]) -> float | None:
+    return round(float(statistics.median(values)), 1) if values else None
 
 
 def _category_order(totals: dict[str, dict[str, object]]) -> list[str]:
@@ -714,6 +775,10 @@ def _build_team_aggregates(
         automation_count = sum(
             ticket.scenario_key == AUTOMATION_SCENARIO for ticket in created_tickets
         )
+        story_points_filled_count = sum(
+            bool(ticket.story_points) for ticket in created_tickets
+        )
+        cycle_times = _cycle_times_days(resolved_tickets)
         end_backlog_ages = [
             (data_through - ticket.created.date()).days + 1 for ticket in end_backlog
         ]
@@ -762,6 +827,13 @@ def _build_team_aggregates(
                 "automationCount": automation_count,
                 "automationBaseCount": len(created_tickets),
                 "automationShare": _percentage(automation_count, len(created_tickets)),
+                "storyPointsFilledCount": story_points_filled_count,
+                "storyPointsBaseCount": len(created_tickets),
+                "storyPointsFilledShare": _percentage(
+                    story_points_filled_count, len(created_tickets)
+                ),
+                "medianCycleTimeDays": _median_days(cycle_times),
+                "cycleTimeSampleCount": len(cycle_times),
                 "exportRoutineCount": export_routine_count,
                 "exportRoutineShare": _percentage(export_routine_count, len(created_tickets)),
             }
@@ -798,19 +870,34 @@ def _discovery_definition() -> dict[str, object]:
     }
 
 
-def build_payload(input_path: Path) -> dict[str, object]:
-    team_sources = read_tickets(input_path)
+def build_payload(
+    input_path: Path, history_start: date | None = DEFAULT_HISTORY_START
+) -> dict[str, object]:
+    team_sources = read_tickets(input_path, history_start=history_start)
     teams: list[dict[str, object]] = []
     for source in team_sources:
         aggregates = _build_team_aggregates(source.tickets, source.as_of)
+        cycle_times = _cycle_times_days(source.tickets)
+        story_points_filled_count = sum(
+            bool(ticket.story_points) for ticket in source.tickets
+        )
         meta = {
             "source": input_path.name,
             "asOf": source.as_of.date().isoformat(),
+            "historyStart": history_start.isoformat() if history_start else None,
             "totalTickets": source.total_tickets,
             "includedTickets": len(source.tickets),
             "excludedCancelled": source.excluded_cancelled,
             "excludedMissingIssueKey": source.excluded_missing_issue_key,
+            "excludedBeforeHistoryStart": source.excluded_before_history_start,
             "terminalWithoutResolved": source.terminal_without_resolved,
+            "storyPointsFilledCount": story_points_filled_count,
+            "storyPointsBaseCount": len(source.tickets),
+            "storyPointsFilledShare": _percentage(
+                story_points_filled_count, len(source.tickets)
+            ),
+            "medianCycleTimeDays": _median_days(cycle_times),
+            "cycleTimeSampleCount": len(cycle_times),
             "monthCount": len(aggregates["months"]),
             "quarterCount": len(aggregates["quarters"]),
             "teamKey": source.key,
@@ -847,8 +934,12 @@ def build_payload(input_path: Path) -> dict[str, object]:
     }
 
 
-def write_payload(input_path: Path, output_path: Path) -> dict[str, object]:
-    payload = build_payload(input_path)
+def write_payload(
+    input_path: Path,
+    output_path: Path,
+    history_start: date | None = DEFAULT_HISTORY_START,
+) -> dict[str, object]:
+    payload = build_payload(input_path, history_start=history_start)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return payload
@@ -858,12 +949,20 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build anonymized monthly backlog aggregates from XLSX")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--history-start",
+        type=date.fromisoformat,
+        default=DEFAULT_HISTORY_START,
+        help="Earliest Created date to include (YYYY-MM-DD)",
+    )
     return parser.parse_args(argv)
 
 
 def main() -> None:
     args = parse_args()
-    payload = write_payload(args.input, args.output)
+    payload = write_payload(
+        args.input, args.output, history_start=args.history_start
+    )
     included_tickets = sum(
         int(team["meta"]["includedTickets"]) for team in payload["teams"]  # type: ignore[index]
     )

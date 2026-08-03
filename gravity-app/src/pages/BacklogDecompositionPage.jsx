@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Chart} from '@gravity-ui/charts';
 import {ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo} from '@gravity-ui/icons';
-import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
+import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Modal, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
 
 const GROUPING_OPTIONS = [
@@ -9,6 +9,8 @@ const GROUPING_OPTIONS = [
   {value: 'scenarios', content: 'Сценарии'},
 ];
 const DISCOVERY_TARGET = 40;
+const STORY_POINTS_TARGET = 90;
+const STORY_POINTS_GUIDE_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15525024800';
 const QUARTER_REFERENCE_COLOR = 'var(--g-color-line-generic)';
 
 const formatNumber = (value, maximumFractionDigits = 0) => Number.isFinite(Number(value))
@@ -171,7 +173,7 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const sourceRows = recommendationsByKey.get(String(scenario?.key || '').toLocaleLowerCase('ru-RU')) || [];
       const resources = sourceRows
         .flatMap((item) => item.resources || [])
-        .filter((resource, index, all) => all.findIndex((item) => item.href === resource.href) === index);
+        .filter((resource, index, all) => all.findIndex((item) => (item.href || item.action) === (resource.href || resource.action)) === index);
       return {
         key: String(scenario?.key || scenario?.label || ''),
         scenario: String(scenario?.label || scenario?.key || 'Без сценария'),
@@ -351,6 +353,7 @@ export function buildDashboardInsights(quarter = {}) {
   const automationCount = metric(quarter, 'automationCount') || 0;
   const routineCount = metric(quarter, 'exportRoutineCount', 'routineCount') || 0;
   const unknownShare = metric(quarter, 'unknownShare') || 0;
+  const storyPointsFilledShare = metric(quarter, 'storyPointsFilledShare', 'storyPointsFillShare');
   const gap = Math.max(0, DISCOVERY_TARGET - discoveryShare);
   const missingDiscovery = Math.max(0, Math.ceil(created * DISCOVERY_TARGET / 100) - discovery);
   const insights = [
@@ -369,6 +372,12 @@ export function buildDashboardInsights(quarter = {}) {
   });
 
   const recommendations = [];
+  if (Number.isFinite(storyPointsFilledShare) && storyPointsFilledShare < STORY_POINTS_TARGET) recommendations.push({
+    title: 'Заполнять Story Points',
+    text: 'Используйте Story Points для планирования нагрузки в спринтах и оценки производительности. Подробнее можно почитать здесь',
+    resources: [{label: 'здесь', href: STORY_POINTS_GUIDE_URL, placement: 'inline'}],
+    theme: 'warning',
+  });
   if (discoveryShare < DISCOVERY_TARGET) recommendations.push({
     title: `Зарезервировать ≥${DISCOVERY_TARGET}% входящего потока под Discovery`,
     text: `При объёме ${formatNumber(created)} созданных задач нужно направить ещё ${formatNumber(missingDiscovery)} задач в направление «Аналитика».`,
@@ -447,12 +456,60 @@ function RoutineAutomationCard({total, routineShare, routineCount, automationSha
 }
 
 function RecommendationResources({item}) {
-  const resources = item.resources || [];
+  const resources = (item.resources || []).filter((resource) => resource.placement !== 'inline');
   if (!resources.length) return null;
+  if (resources.every((resource) => resource.placement === 'after')) {
+    return <> {resources.map((resource, index) => <React.Fragment key={resource.href}>{index > 0 && ', '}<Link href={resource.href} target="_blank" rel="noreferrer">{resource.label}</Link></React.Fragment>)}</>;
+  }
   if (resources.length === 1) {
     return <> Посмотрите рекомендации по <Link href={resources[0].href} target="_blank" rel="noreferrer">{resources[0].label}</Link>.</>;
   }
   return <> Материалы: {resources.map((resource, index) => <React.Fragment key={resource.href}>{index > 0 && (index === resources.length - 1 ? ' и ' : ', ')}<Link href={resource.href} target="_blank" rel="noreferrer">{resource.label}</Link></React.Fragment>)}.</>;
+}
+
+function RecommendationCopy({item}) {
+  const [productAnalystModalOpen, setProductAnalystModalOpen] = useState(false);
+  const text = String(item.recommendation || item.text || '');
+  const inlineResources = (item.resources || []).filter((resource) => resource.placement === 'inline');
+  const productAnalystResource = inlineResources.find((resource) => resource.action === 'product-analyst-access');
+  const parts = [];
+  let cursor = 0;
+  inlineResources.forEach((resource) => {
+    const start = text.indexOf(resource.label, cursor);
+    if (start < 0) return;
+    if (start > cursor) parts.push(text.slice(cursor, start));
+    parts.push(resource.action === 'product-analyst-access'
+      ? <button key={`${resource.action}-${start}`} type="button" className="backlog-inline-action" aria-haspopup="dialog" onClick={() => setProductAnalystModalOpen(true)}>{resource.label}</button>
+      : <Link key={`${resource.href}-${start}`} href={resource.href} target="_blank" rel="noreferrer">{resource.label}</Link>);
+    cursor = start + resource.label.length;
+  });
+  parts.push(text.slice(cursor));
+  return <>
+    {parts}<RecommendationResources item={item} />
+    {productAnalystResource && (
+      <Modal
+        open={productAnalystModalOpen}
+        onOpenChange={setProductAnalystModalOpen}
+        contentClassName="product-analyst-access-modal"
+        contentOverflow="auto"
+        aria-labelledby="product-analyst-access-title"
+      >
+        <Flex className="product-analyst-access-content" direction="column" gap="4">
+          <Flex direction="column" gap="2">
+            <Text id="product-analyst-access-title" as="h2" variant="subheader-3">AI Toolkit «Продуктовый аналитик»</Text>
+            <Text variant="body-1">Для доступа непосредственно к системе необходимо в АС Друг в поисковой строке ввести «Доступ к стендам разработки и тестирования», далее:</Text>
+          </Flex>
+          <ul className="product-analyst-access-steps">
+            <li>Выбрать «Открыть доступ».</li>
+            <li>В поле «Выберите автоматизированную систему или ИТ услугу» указать «AI HUB B2C (CI06049712)».</li>
+            <li>В обосновании указать «Для разработки и тестирования инструмента AI суммаризации».</li>
+          </ul>
+          <Text variant="body-1">Для входа в систему используйте почтовый адрес сигма и первичный пароль. ФИО, кому направить первичный пароль, просьба направить на почту (Хазипова Мария Юрьевна).</Text>
+          <Flex justifyContent="flex-end"><Button view="action" size="l" onClick={() => setProductAnalystModalOpen(false)}>Закрыть</Button></Flex>
+        </Flex>
+      </Modal>
+    )}
+  </>;
 }
 
 function buildScenarioFocusColumns(periodLabel) {
@@ -473,7 +530,7 @@ function buildScenarioFocusColumns(periodLabel) {
       id: 'recommendation',
       name: 'Рекомендация',
       width: '62%',
-      template: (item) => <Text variant="body-1">{item.recommendation}<RecommendationResources item={item} /></Text>,
+      template: (item) => <Text variant="body-1"><RecommendationCopy item={item} /></Text>,
     },
   ];
 }
@@ -500,7 +557,7 @@ const DD_SCENARIO_RECOMMENDATION_COLUMNS = [
     id: 'recommendation',
     name: 'Рекомендация тимлиду',
     width: '35%',
-    template: (item) => <Text variant="body-1">{item.recommendation}<RecommendationResources item={item} /></Text>,
+    template: (item) => <Text variant="body-1"><RecommendationCopy item={item} /></Text>,
   },
 ];
 
@@ -592,6 +649,11 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const routineShare = metric(quarter, 'exportRoutineShare', 'routineShare');
   const automationCount = metric(quarter, 'automationCount');
   const automationShare = metric(quarter, 'automationShare');
+  const medianCycleTimeDays = metric(quarter, 'medianCycleTimeDays', 'cycleTimeMedianDays');
+  const cycleTimeSampleCount = metric(quarter, 'cycleTimeSampleCount');
+  const storyPointsFilledCount = metric(quarter, 'storyPointsFilledCount');
+  const storyPointsBaseCount = metric(quarter, 'storyPointsBaseCount', 'storyPointsTotalCount');
+  const storyPointsFilledShare = metric(quarter, 'storyPointsFilledShare', 'storyPointsFillShare');
   const scenarios = Array.isArray(quarter?.scenarios) ? quarter.scenarios : [];
   const rankedScenarios = [...scenarios]
     .map((item) => ({...item, rankValue: metric(item, 'count') || 0}))
@@ -659,6 +721,8 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       <section className="backlog-kpi-grid" aria-label="Ключевые показатели квартала">
         <KpiCard value={formatNumber(created)} label="Создано за квартал" note="Входящий поток задач" chartData={kpiMiniCharts.created} chartUnit="задач" />
         <KpiCard value={formatNumber(createdResolved)} label="Завершено из созданных" note={`${formatPercentValue(createdResolvedShare)} когорты · Resolved / Done`} chartData={kpiMiniCharts.createdResolved} chartUnit="задач" />
+        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианное время цикла" note={Number.isFinite(cycleTimeSampleCount) ? `По ${formatNumber(cycleTimeSampleCount)} завершённым задачам квартала` : 'От In Progress до Resolved / Done'} />
+        <KpiCard value={Number.isFinite(storyPointsFilledShare) ? formatPercentValue(storyPointsFilledShare) : '—'} label="Заполнение Story Points" note={Number.isFinite(storyPointsFilledCount) && Number.isFinite(storyPointsBaseCount) ? `${formatNumber(storyPointsFilledCount)} из ${formatNumber(storyPointsBaseCount)} созданных задач` : 'Доля созданных задач с оценкой'} />
         <RoutineAutomationCard total={created} routineShare={routineShare} routineCount={routineCount} automationShare={automationShare} automationCount={automationCount} chartData={kpiMiniCharts.routineAutomation} />
       </section>
 
@@ -701,7 +765,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
               </Flex>
               <Divider />
               <Text variant="subheader-1">Другие действия по метрикам</Text>
-              <Flex direction="column" gap="4">{dashboard.recommendations.map((item, index) => <React.Fragment key={item.title}><Flex alignItems="flex-start" gap="3"><Label theme="normal" size="s" icon={<Icon data={Check} size={14} />}>Шаг {index + 1}</Label><Flex direction="column" gap="1" grow><Text variant="subheader-1">{item.title}</Text><Text variant="body-1" color="secondary">{item.text}</Text></Flex></Flex>{index < dashboard.recommendations.length - 1 && <Divider />}</React.Fragment>)}{!dashboard.recommendations.length && <Text color="secondary">Критических отклонений в выбранном квартале нет.</Text>}</Flex>
+              <Flex direction="column" gap="4">{dashboard.recommendations.map((item, index) => <React.Fragment key={item.title}><Flex alignItems="flex-start" gap="3"><Label theme="normal" size="s" icon={<Icon data={Check} size={14} />}>Шаг {index + 1}</Label><Flex direction="column" gap="1" grow><Text variant="subheader-1">{item.title}</Text><Text variant="body-1" color="secondary"><RecommendationCopy item={item} /></Text></Flex></Flex>{index < dashboard.recommendations.length - 1 && <Divider />}</React.Fragment>)}{!dashboard.recommendations.length && <Text color="secondary">Критических отклонений в выбранном квартале нет.</Text>}</Flex>
           </Flex>
         </Card>
       </section>

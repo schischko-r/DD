@@ -7,11 +7,16 @@ from zipfile import ZIP_DEFLATED, ZipFile
 import build_backlog_data as backlog
 
 
+def _build_payload(path: Path) -> dict[str, object]:
+    return backlog.build_payload(path, history_start=None)
+
+
 class BacklogCliDefaultsTest(unittest.TestCase):
     def test_default_input_is_sbertrack_full_history_export(self) -> None:
         args = backlog.parse_args([])
 
         self.assertEqual(args.input.name, "sbertrack_all_full_history_to_export.xlsx")
+        self.assertEqual(args.history_start.isoformat(), "2026-02-01")
 
 
 def _column_name(index: int) -> str:
@@ -315,7 +320,7 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.temporary_directory.cleanup()
 
     def test_counts_each_ticket_only_in_its_created_month(self) -> None:
-        payload = backlog.build_payload(self.ticket_workbook)
+        payload = _build_payload(self.ticket_workbook)
 
         january = _month(payload, "2024-01")
         february = _month(payload, "2024-02")
@@ -405,7 +410,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             ],
         )
 
-        payload = backlog.build_payload(path)
+        payload = _build_payload(path)
         january = _month(payload, "2024-01")
         quarter = _quarter(payload, "2024-Q1")
 
@@ -441,12 +446,142 @@ class BuildBacklogDataTest(unittest.TestCase):
             ],
         )
 
-        payload = backlog.build_payload(path)
+        payload = _build_payload(path)
 
         self.assertEqual(payload["meta"]["includedTickets"], 1)
         self.assertEqual(payload["meta"]["terminalWithoutResolved"], 0)
         self.assertEqual(_month(payload, "2024-01")["createdResolvedCount"], 1)
         self.assertEqual(_month(payload, "2024-02")["resolvedCount"], 1)
+
+    def test_default_history_start_excludes_older_created_tickets(self) -> None:
+        path = Path(self.temporary_directory.name) / "history_cutoff.xlsx"
+        _write_minimal_xlsx(
+            path,
+            [
+                {
+                    "team": "СберЧаевые",
+                    "Created": "2026-01-31",
+                    "Resolved": "2026-02-10",
+                    "Status": "Done",
+                    "Issue key": "BEFORE-CUTOFF",
+                    "direction": "Аналитика",
+                    "scenario": "AI",
+                },
+                {
+                    "team": "СберЧаевые",
+                    "Created": "2026-02-01",
+                    "Resolved": "",
+                    "Status": "In Progress",
+                    "Issue key": "AT-CUTOFF",
+                    "direction": "Поддержка",
+                    "scenario": "project_management",
+                },
+            ],
+        )
+
+        payload = backlog.build_payload(path)
+
+        self.assertEqual(payload["meta"]["historyStart"], "2026-02-01")
+        self.assertEqual(payload["meta"]["includedTickets"], 1)
+        self.assertEqual(payload["meta"]["excludedBeforeHistoryStart"], 1)
+        self.assertEqual(payload["meta"]["totalTickets"], 2)
+        self.assertEqual([month["key"] for month in payload["months"]], ["2026-02"])
+        self.assertEqual(payload["months"][0]["createdCount"], 1)
+        self.assertEqual(payload["months"][0]["resolvedCount"], 0)
+
+    def test_cycle_time_story_points_deduplication_and_privacy(self) -> None:
+        path = Path(self.temporary_directory.name) / "delivery_metrics.xlsx"
+        common = {
+            "team": "СберЧаевые",
+            "direction": "Аналитика",
+            "scenario": "AI",
+        }
+        _write_minimal_xlsx(
+            path,
+            [
+                {
+                    **common,
+                    "Created": "2026-02-01",
+                    "Resolved": "",
+                    "Дата перехода в in_progress": "",
+                    "SP": "",
+                    "Status": "In Progress",
+                    "Issue key": "PRIVATE-LATER-SNAPSHOT",
+                },
+                {
+                    **common,
+                    "Created": "2026-02-01",
+                    "Resolved": "2026-02-06",
+                    "Дата перехода в in_progress": "2026-02-02",
+                    "SP": "5",
+                    "Status": "Done",
+                    "Issue key": "PRIVATE-LATER-SNAPSHOT",
+                },
+                {
+                    **common,
+                    "Created": "2026-02-03",
+                    "Resolved": "2026-02-08",
+                    "Дата перехода в in_progress": "2026-02-04",
+                    "SP": "estimated-text",
+                    "Status": "Resolved",
+                    "Issue key": "PRIVATE-TEXT-SP",
+                },
+                {
+                    **common,
+                    "Created": "2026-02-05",
+                    "Resolved": "2026-02-07",
+                    "Дата перехода в in_progress": "2026-02-09",
+                    "SP": "",
+                    "Status": "Done",
+                    "Issue key": "PRIVATE-NEGATIVE-CYCLE",
+                },
+                {
+                    **common,
+                    "Created": "2026-02-10",
+                    "Resolved": "",
+                    "Дата перехода в in_progress": "2026-02-11",
+                    "SP": "TBD",
+                    "Status": "In Progress",
+                    "Issue key": "PRIVATE-OPEN-SP",
+                },
+            ],
+        )
+
+        team_source = backlog.read_tickets(path)[0]
+        deduplicated = next(
+            ticket
+            for ticket in team_source.tickets
+            if ticket.issue_key == "PRIVATE-LATER-SNAPSHOT"
+        )
+        self.assertEqual(deduplicated.in_progress.isoformat(), "2026-02-02T00:00:00")
+        self.assertEqual(deduplicated.story_points, "5")
+
+        payload = backlog.build_payload(path)
+        quarter = _quarter(payload, "2026-Q1")
+
+        self.assertEqual(payload["meta"]["includedTickets"], 4)
+        self.assertEqual(payload["meta"]["storyPointsFilledCount"], 3)
+        self.assertEqual(payload["meta"]["storyPointsBaseCount"], 4)
+        self.assertEqual(payload["meta"]["storyPointsFilledShare"], 75)
+        self.assertEqual(payload["meta"]["medianCycleTimeDays"], 4)
+        self.assertEqual(payload["meta"]["cycleTimeSampleCount"], 2)
+        self.assertEqual(quarter["storyPointsFilledCount"], 3)
+        self.assertEqual(quarter["storyPointsBaseCount"], 4)
+        self.assertEqual(quarter["storyPointsFilledShare"], 75)
+        self.assertEqual(quarter["medianCycleTimeDays"], 4)
+        self.assertEqual(quarter["cycleTimeSampleCount"], 2)
+
+        serialized = json.dumps(payload, ensure_ascii=False)
+        for private_value in (
+            "PRIVATE-LATER-SNAPSHOT",
+            "PRIVATE-TEXT-SP",
+            "PRIVATE-NEGATIVE-CYCLE",
+            "PRIVATE-OPEN-SP",
+            "estimated-text",
+            "TBD",
+            "2026-02-02T00:00:00",
+        ):
+            self.assertNotIn(private_value, serialized)
 
     def test_missing_issue_key_is_excluded_before_dates_are_parsed(self) -> None:
         path = Path(self.temporary_directory.name) / "missing_key_invalid_dates.xlsx"
@@ -474,7 +609,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             ],
         )
 
-        payload = backlog.build_payload(path)
+        payload = _build_payload(path)
 
         self.assertEqual(payload["meta"]["asOf"], "2024-01-02")
         self.assertEqual(payload["meta"]["totalTickets"], 2)
@@ -507,7 +642,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             ],
         )
 
-        payload = backlog.build_payload(path)
+        payload = _build_payload(path)
 
         self.assertEqual(payload["meta"]["includedTickets"], 2)
         self.assertEqual(payload["meta"]["excludedMissingIssueKey"], 0)
@@ -515,7 +650,7 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertEqual(_month(payload, "2024-01")["createdResolvedCount"], 1)
 
     def test_open_cancelled_aliases_and_public_payload_safety(self) -> None:
-        payload = backlog.build_payload(self.ticket_workbook)
+        payload = _build_payload(self.ticket_workbook)
 
         self.assertEqual(payload["meta"]["asOf"], "2024-03-31")
         self.assertEqual(payload["meta"]["totalTickets"], 3)
@@ -551,7 +686,7 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertNotIn("must_not_appear", serialized)
 
     def test_exposes_extensible_team_contract_with_legacy_fields(self) -> None:
-        payload = backlog.build_payload(self.ticket_workbook)
+        payload = _build_payload(self.ticket_workbook)
 
         self.assertEqual(payload["meta"]["teamCount"], 1)
         self.assertEqual(payload["meta"]["teamKey"], "sberchai")
@@ -577,7 +712,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             self.assertNotIn(private_value, serialized)
 
     def test_multi_team_aggregates_are_isolated_and_keep_primary_compatibility(self) -> None:
-        payload = backlog.build_payload(
+        payload = _build_payload(
             _multi_team_workbook(Path(self.temporary_directory.name))
         )
 
@@ -633,10 +768,10 @@ class BuildBacklogDataTest(unittest.TestCase):
         )
 
         with self.assertRaisesRegex(ValueError, "team"):
-            backlog.build_payload(path)
+            _build_payload(path)
 
     def test_quarter_aggregates_keep_flow_and_use_created_cohort_for_structure(self) -> None:
-        payload = backlog.build_payload(_quarter_workbook(Path(self.temporary_directory.name)))
+        payload = _build_payload(_quarter_workbook(Path(self.temporary_directory.name)))
         first_quarter = _quarter(payload, "2024-Q1")
         second_quarter = _quarter(payload, "2024-Q2")
 
@@ -687,7 +822,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             )
 
     def test_monthly_kpi_aggregates_and_partial_month_cutoff(self) -> None:
-        payload = backlog.build_payload(_quarter_workbook(Path(self.temporary_directory.name)))
+        payload = _build_payload(_quarter_workbook(Path(self.temporary_directory.name)))
 
         january = _month(payload, "2024-01")
         february = _month(payload, "2024-02")
@@ -755,7 +890,7 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertEqual(april["automationShare"], 0)
 
     def test_quarter_discovery_routine_automation_unknown_and_privacy(self) -> None:
-        payload = backlog.build_payload(_quarter_workbook(Path(self.temporary_directory.name)))
+        payload = _build_payload(_quarter_workbook(Path(self.temporary_directory.name)))
         quarter = _quarter(payload, "2024-Q1")
 
         self.assertEqual(quarter["discoveryCount"], 1)
@@ -791,7 +926,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             self.assertNotIn(private_value, serialized)
 
     def test_discovery_goal_is_confirmed_at_exactly_forty_percent(self) -> None:
-        payload = backlog.build_payload(_discovery_goal_workbook(Path(self.temporary_directory.name)))
+        payload = _build_payload(_discovery_goal_workbook(Path(self.temporary_directory.name)))
         quarter = _quarter(payload, "2024-Q1")
 
         self.assertEqual(quarter["discoveryCount"], 2)
