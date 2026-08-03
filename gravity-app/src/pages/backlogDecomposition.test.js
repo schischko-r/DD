@@ -15,8 +15,8 @@ const backlogStyleRules = `${backlogBaseStyles}\n${backlogResponsiveStyles}`;
 const helpersStart = pageSource.indexOf('const GROUPING_OPTIONS');
 const helpersEnd = pageSource.indexOf('function KpiCard');
 const helpersSource = pageSource.slice(helpersStart, helpersEnd).replaceAll('export function', 'function');
-const {selectQuarter, getTeamDatasets, selectTeamDataset, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate} = Function(
-  `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate};`,
+const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate} = Function(
+  `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate};`,
 )();
 
 test('backlog decomposition is a dedicated sidebar view with its own data source', () => {
@@ -81,7 +81,7 @@ test('page uses Gravity UI stacked bars with a Created-only grouping switch', ()
   }
 
   assert.match(pageSource, /<Select\b[^>]*value=\{\[grouping\]\}/);
-  assert.doesNotMatch(pageSource, new RegExp(`SegmentedRadioGroup|measure|t${'t'}m`, 'i'));
+  assert.doesNotMatch(pageSource, /SegmentedRadioGroup|measure/i);
 });
 
 test('dashboard defaults to the latest available quarter and labels partial periods', () => {
@@ -123,6 +123,19 @@ test('quarter filter keeps history through the selected quarter and hides later 
   assert.match(pageSource, /const visibleMonths = useMemo\(\(\) => monthsThroughQuarter\(months, quarter\), \[months, quarter\]\)/);
 });
 
+test('created KPI uses the latest available month inside the selected quarter', () => {
+  const selectedMonths = [
+    {key: '2024-04', label: 'Апрель 2024', createdCount: 8},
+    {key: '2024-05', label: 'Май 2024', createdCount: 13},
+  ];
+
+  assert.deepEqual(selectLatestMonth(selectedMonths), selectedMonths[1]);
+  assert.equal(selectLatestMonth([]), null);
+  assert.match(pageSource, /const latestMonth = selectLatestMonth\(selectedMonths\)/);
+  assert.match(pageSource, /const latestMonthCreated = metric\(latestMonth, 'createdCount', 'created'\)/);
+  assert.match(pageSource, /value=\{formatNumber\(latestMonthCreated\)\} label="Создано за месяц" note=\{latestMonth \? monthLabel\(latestMonth\) : 'Нет данных за выбранный квартал'\}/);
+});
+
 test('dashboard insights consume the backend quarter schema and enforce the 40 percent goal', () => {
   const missed = buildDashboardInsights({
     discoveryCount: 2,
@@ -140,9 +153,10 @@ test('dashboard insights consume the backend quarter schema and enforce the 40 p
   assert.ok(Math.abs(missed.gap - 6.67) < 0.001);
   assert.ok(missed.insights.some((item) => item.title.includes('Discovery')));
   assert.ok(missed.insights.every((item) => item.title && item.text));
-  assert.ok(missed.recommendations.some((item) => item.title.includes('≥40%')));
+  assert.ok(missed.recommendations.some((item) => item.title === 'Зарезервировать ≥40% задач под аналитику и исследования'));
   assert.ok(missed.recommendations.some((item) => item.title.includes('Автоматизировать')));
   assert.ok(missed.recommendations.some((item) => item.title === 'Улучшить заполнение задач'));
+  assert.ok(!missed.recommendations.some((item) => item.title === 'Ограничить WIP и закрыть разрыв потока'));
   assert.equal(missed.recommendations[0].text, 'Используйте Story Points для планирования нагрузки в спринтах и оценки производительности. Подробнее можно почитать здесь');
   assert.deepEqual(missed.recommendations[0].resources, [{
     label: 'здесь',
@@ -216,9 +230,9 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
     'Цель подтверждена',
     'Цель не подтверждена',
     'Доля Discovery в созданных задачах квартала',
-    'Создано за квартал',
+    'Создано за месяц',
     'Завершено из созданных',
-    'Медианное время цикла',
+    'Медианный TTM',
     'Заполнение Story Points',
     'Рутина',
     'Автоматизация',
@@ -229,6 +243,8 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
     assert.match(pageSource, new RegExp(label));
   }
   assert.match(pageSource, /const DISCOVERY_TARGET = 40/);
+  assert.match(stylesSource, /\.backlog-kpi-grid\s*\{[^}]*grid-template-columns:\s*repeat\(6, minmax\(0, 1fr\)\)/s);
+  assert.match(stylesSource, /\.backlog-kpi-card--combined\s*\{[^}]*grid-column:\s*span 2/s);
   assert.match(pageSource, /import \{Box, Button, Card, Divider, Flex, Icon, Label,[^}]*Progress/);
   const goalCardSource = pageSource.slice(pageSource.indexOf('<Card className="backlog-goal-card"'), pageSource.indexOf('<section className="backlog-kpi-grid"'));
   for (const gravityComponent of ['Card', 'Flex', 'Text', 'Progress', 'Label']) {
@@ -302,7 +318,6 @@ test('KPI and recommendations are composed from neutral Gravity UI primitives', 
   assert.doesNotMatch(stylesSource, /\.backlog-insights-section|\.backlog-insight-grid|\.backlog-insight-card/);
   assert.doesNotMatch(pageSource, /className=\{`[^`]*is-\$\{/);
   assert.doesNotMatch(pageSource, /backlog-(?:ranking-track|recommendation-row|row-index)/);
-  assert.doesNotMatch(pageSource, new RegExp(`t${'t'}m`, 'i'));
   assert.match(pageSource, />Нет помесячных данных</);
   assert.doesNotMatch(pageSource, /Нет помесячных данных за квартал/);
 });
@@ -540,7 +555,7 @@ test('Created semantics remain explicit alongside selected-quarter delivery qual
   assert.match(pageSource, /const storyPointsFilledShare = metric\(quarter, 'storyPointsFilledShare', 'storyPointsFillShare'\)/);
   assert.match(pageSource, /value=\{Number\.isFinite\(medianCycleTimeDays\) \? `\$\{formatNumber\(medianCycleTimeDays, 1\)\} дн\.` : '—'\}/);
   assert.match(pageSource, /value=\{Number\.isFinite\(storyPointsFilledShare\) \? formatPercentValue\(storyPointsFilledShare\) : '—'\}/);
-  assert.doesNotMatch(pageSource, new RegExp(`t${'t'}m`, 'i'));
+  assert.match(pageSource, /label="Медианный TTM"/);
 });
 
 test('every rendered chart is keyed to the Created cohort', () => {
@@ -557,7 +572,7 @@ test('every rendered chart is keyed to the Created cohort', () => {
   ]);
   assert.doesNotMatch(kpiSource, /(?:^|[^A-Za-z])resolvedCount|endBacklogCount/);
   assert.match(pageSource, /const createdResolved = metric\(quarter, 'createdResolvedCount'\)/);
-  assert.match(pageSource, /label="Завершено из созданных" note=\{`\$\{formatPercentValue\(createdResolvedShare\)\} когорты · Resolved \/ Done`\}/);
+  assert.match(pageSource, /label="Завершено из созданных" note=\{`\$\{formatPercentValue\(createdResolvedShare\)\} от задач · Resolved \/ Done`\}/);
   assert.doesNotMatch(pageSource, /createdOpen|Открыто из созданных/);
 
   const structureBuilder = pageSource.slice(pageSource.indexOf('export function buildBacklogChartData'), pageSource.indexOf('export function buildScenarioRankingChartData'));

@@ -102,6 +102,10 @@ function monthsForQuarter(months, quarter) {
   });
 }
 
+export function selectLatestMonth(months = []) {
+  return months.length ? months[months.length - 1] : null;
+}
+
 function monthOrdinal(value) {
   const match = String(value || '').match(/^(\d{4})-(\d{2})$/);
   if (!match) return null;
@@ -346,8 +350,6 @@ export function buildDashboardInsights(quarter = {}) {
   const created = metric(quarter, 'createdCount', 'created') || 0;
   const discovery = metric(quarter, 'discoveryCount') || 0;
   const discoveryShare = metric(quarter, 'discoveryShare') ?? (created ? discovery / created * 100 : 0);
-  const resolved = metric(quarter, 'resolvedCount', 'resolved') || 0;
-  const netFlow = metric(quarter, 'netFlow') ?? created - resolved;
   const routineShare = metric(quarter, 'exportRoutineShare', 'routineShare') || 0;
   const automationShare = metric(quarter, 'automationShare') || 0;
   const automationCount = metric(quarter, 'automationCount') || 0;
@@ -379,18 +381,13 @@ export function buildDashboardInsights(quarter = {}) {
     theme: 'warning',
   });
   if (discoveryShare < DISCOVERY_TARGET) recommendations.push({
-    title: `Зарезервировать ≥${DISCOVERY_TARGET}% входящего потока под Discovery`,
+    title: 'Зарезервировать ≥40% задач под аналитику и исследования',
     text: `При объёме ${formatNumber(created)} созданных задач нужно направить ещё ${formatNumber(missingDiscovery)} задач в направление «Аналитика».`,
     theme: 'danger',
   });
   if (routineShare >= 20 && automationShare < routineShare) recommendations.push({
     title: 'Автоматизировать повторяющиеся выгрузки и Excel-отчёты',
     text: `Рутина занимает ${formatPercentValue(routineShare)} созданных задач, а задачи про автоматизацию — ${formatPercentValue(automationShare)}. Начать с самых частых сценариев.`,
-    theme: 'warning',
-  });
-  if (netFlow > 0) recommendations.push({
-    title: 'Ограничить WIP и закрыть разрыв потока',
-    text: `За квартал входящий поток превысил завершение на ${formatNumber(netFlow)} задачи. Сверять лимит WIP и причины переноса ежемесячно.`,
     theme: 'warning',
   });
   if (unknownShare > 0) recommendations.push({
@@ -621,6 +618,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   }, [quarters, selectedQuarterKey]);
   const quarter = quarters.find((item) => quarterKey(item) === selectedQuarterKey) || defaultQuarter;
   const selectedMonths = useMemo(() => monthsForQuarter(months, quarter), [months, quarter]);
+  const latestMonth = selectLatestMonth(selectedMonths);
   const visibleMonths = useMemo(() => monthsThroughQuarter(months, quarter), [months, quarter]);
   const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths), [grouping, selectedMonths, visibleMonths]);
   const dashboard = useMemo(() => buildDashboardInsights(quarter), [quarter]);
@@ -642,6 +640,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
 
   const discoveryCount = metric(quarter, 'discoveryCount');
   const created = metric(quarter, 'createdCount', 'created');
+  const latestMonthCreated = metric(latestMonth, 'createdCount', 'created');
   const discoveryShare = metric(quarter, 'discoveryShare') ?? (created ? discoveryCount / created * 100 : 0);
   const createdResolved = metric(quarter, 'createdResolvedCount');
   const createdResolvedShare = created ? (createdResolved ?? 0) / created * 100 : 0;
@@ -719,9 +718,9 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       </Card>
 
       <section className="backlog-kpi-grid" aria-label="Ключевые показатели квартала">
-        <KpiCard value={formatNumber(created)} label="Создано за квартал" note="Входящий поток задач" chartData={kpiMiniCharts.created} chartUnit="задач" />
-        <KpiCard value={formatNumber(createdResolved)} label="Завершено из созданных" note={`${formatPercentValue(createdResolvedShare)} когорты · Resolved / Done`} chartData={kpiMiniCharts.createdResolved} chartUnit="задач" />
-        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианное время цикла" note={Number.isFinite(cycleTimeSampleCount) ? `По ${formatNumber(cycleTimeSampleCount)} завершённым задачам квартала` : 'От In Progress до Resolved / Done'} />
+        <KpiCard value={formatNumber(latestMonthCreated)} label="Создано за месяц" note={latestMonth ? monthLabel(latestMonth) : 'Нет данных за выбранный квартал'} chartData={kpiMiniCharts.created} chartUnit="задач" />
+        <KpiCard value={formatNumber(createdResolved)} label="Завершено из созданных" note={`${formatPercentValue(createdResolvedShare)} от задач · Resolved / Done`} chartData={kpiMiniCharts.createdResolved} chartUnit="задач" />
+        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианный TTM" note={Number.isFinite(cycleTimeSampleCount) ? `По ${formatNumber(cycleTimeSampleCount)} завершённым задачам квартала` : 'От In Progress до Resolved / Done'} />
         <KpiCard value={Number.isFinite(storyPointsFilledShare) ? formatPercentValue(storyPointsFilledShare) : '—'} label="Заполнение Story Points" note={Number.isFinite(storyPointsFilledCount) && Number.isFinite(storyPointsBaseCount) ? `${formatNumber(storyPointsFilledCount)} из ${formatNumber(storyPointsBaseCount)} созданных задач` : 'Доля созданных задач с оценкой'} />
         <RoutineAutomationCard total={created} routineShare={routineShare} routineCount={routineCount} automationShare={automationShare} automationCount={automationCount} chartData={kpiMiniCharts.routineAutomation} />
       </section>

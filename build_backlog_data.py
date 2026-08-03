@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_INPUT = ROOT / "sbertrack_all_full_history_to_export.xlsx"
 DEFAULT_OUTPUT = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_HISTORY_START = date(2026, 2, 1)
+DEFAULT_HISTORY_END = date(2026, 6, 30)
 REQUIRED_COLUMNS = (
     "Created",
     "Resolved",
@@ -140,6 +141,7 @@ class TeamTickets:
     excluded_cancelled: int
     excluded_missing_issue_key: int
     excluded_before_history_start: int
+    excluded_after_history_end: int
     terminal_without_resolved: int
 
 
@@ -367,8 +369,17 @@ def _normalize_team(value: str) -> tuple[str, str]:
 
 
 def read_tickets(
-    path: Path, history_start: date | None = DEFAULT_HISTORY_START
+    path: Path,
+    history_start: date | None = DEFAULT_HISTORY_START,
+    history_end: date | None = DEFAULT_HISTORY_END,
 ) -> list[TeamTickets]:
+    if (
+        history_start is not None
+        and history_end is not None
+        and history_end < history_start
+    ):
+        raise ValueError("Конец истории не может быть раньше начала истории")
+
     rows, date_1904 = read_workbook_rows(path)
     if not rows:
         raise ValueError("В XLSX нет строк с тикетами")
@@ -448,6 +459,18 @@ def read_tickets(
         in_progress_values = [
             ticket.in_progress for ticket in copies if ticket.in_progress is not None
         ]
+        resolved_values_through_end = [
+            value
+            for value in resolved_values
+            if history_end is None or value.date() <= history_end
+        ]
+        in_progress_values_through_end = [
+            value
+            for value in in_progress_values
+            if history_end is None or value.date() <= history_end
+        ]
+        resolved = max(resolved_values_through_end, default=None)
+        in_progress = min(in_progress_values_through_end, default=None)
         story_points = next(
             (
                 ticket.story_points
@@ -462,12 +485,13 @@ def read_tickets(
                 team_label=first.team_label,
                 issue_key=issue_key,
                 created=min(ticket.created for ticket in copies),
-                resolved=max(resolved_values, default=None),
-                in_progress=min(in_progress_values, default=None),
+                resolved=resolved,
+                in_progress=in_progress,
                 story_points=story_points,
                 cancelled=all(ticket.cancelled for ticket in copies),
-                completed_by_status=any(
-                    ticket.completed_by_status for ticket in copies
+                completed_by_status=(
+                    resolved is not None
+                    and any(ticket.completed_by_status for ticket in copies)
                 ),
                 terminal_without_resolved=(
                     not resolved_values
@@ -490,11 +514,18 @@ def read_tickets(
             and ticket.created.date() < history_start
             for ticket in tickets
         )
+        excluded_after_history_end = sum(
+            not ticket.cancelled
+            and history_end is not None
+            and ticket.created.date() > history_end
+            for ticket in tickets
+        )
         included = [
             ticket
             for ticket in tickets
             if not ticket.cancelled
             and (history_start is None or ticket.created.date() >= history_start)
+            and (history_end is None or ticket.created.date() <= history_end)
         ]
         if not included:
             continue
@@ -504,11 +535,17 @@ def read_tickets(
                 key=team_key,
                 label=team_label,
                 tickets=included,
-                as_of=max(observed_dates[team_key]),
+                as_of=min(
+                    max(observed_dates[team_key]),
+                    datetime.combine(history_end, datetime.max.time()),
+                )
+                if history_end is not None
+                else max(observed_dates[team_key]),
                 total_tickets=len(tickets) + missing_count,
                 excluded_cancelled=excluded_cancelled,
                 excluded_missing_issue_key=missing_count,
                 excluded_before_history_start=excluded_before_history_start,
+                excluded_after_history_end=excluded_after_history_end,
                 terminal_without_resolved=sum(
                     ticket.terminal_without_resolved for ticket in included
                 ),
@@ -518,7 +555,7 @@ def read_tickets(
     if not result:
         raise ValueError(
             "После исключения некорректных строк, Status=Cancelled и тикетов "
-            "до начала истории не осталось данных"
+            "вне границ истории не осталось данных"
         )
 
     return sorted(
@@ -871,9 +908,15 @@ def _discovery_definition() -> dict[str, object]:
 
 
 def build_payload(
-    input_path: Path, history_start: date | None = DEFAULT_HISTORY_START
+    input_path: Path,
+    history_start: date | None = DEFAULT_HISTORY_START,
+    history_end: date | None = DEFAULT_HISTORY_END,
 ) -> dict[str, object]:
-    team_sources = read_tickets(input_path, history_start=history_start)
+    team_sources = read_tickets(
+        input_path,
+        history_start=history_start,
+        history_end=history_end,
+    )
     teams: list[dict[str, object]] = []
     for source in team_sources:
         aggregates = _build_team_aggregates(source.tickets, source.as_of)
@@ -885,11 +928,13 @@ def build_payload(
             "source": input_path.name,
             "asOf": source.as_of.date().isoformat(),
             "historyStart": history_start.isoformat() if history_start else None,
+            "historyEnd": history_end.isoformat() if history_end else None,
             "totalTickets": source.total_tickets,
             "includedTickets": len(source.tickets),
             "excludedCancelled": source.excluded_cancelled,
             "excludedMissingIssueKey": source.excluded_missing_issue_key,
             "excludedBeforeHistoryStart": source.excluded_before_history_start,
+            "excludedAfterHistoryEnd": source.excluded_after_history_end,
             "terminalWithoutResolved": source.terminal_without_resolved,
             "storyPointsFilledCount": story_points_filled_count,
             "storyPointsBaseCount": len(source.tickets),
@@ -938,8 +983,13 @@ def write_payload(
     input_path: Path,
     output_path: Path,
     history_start: date | None = DEFAULT_HISTORY_START,
+    history_end: date | None = DEFAULT_HISTORY_END,
 ) -> dict[str, object]:
-    payload = build_payload(input_path, history_start=history_start)
+    payload = build_payload(
+        input_path,
+        history_start=history_start,
+        history_end=history_end,
+    )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return payload
@@ -955,13 +1005,22 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=DEFAULT_HISTORY_START,
         help="Earliest Created date to include (YYYY-MM-DD)",
     )
+    parser.add_argument(
+        "--history-end",
+        type=date.fromisoformat,
+        default=DEFAULT_HISTORY_END,
+        help="Latest Created and report date to include (YYYY-MM-DD)",
+    )
     return parser.parse_args(argv)
 
 
 def main() -> None:
     args = parse_args()
     payload = write_payload(
-        args.input, args.output, history_start=args.history_start
+        args.input,
+        args.output,
+        history_start=args.history_start,
+        history_end=args.history_end,
     )
     included_tickets = sum(
         int(team["meta"]["includedTickets"]) for team in payload["teams"]  # type: ignore[index]

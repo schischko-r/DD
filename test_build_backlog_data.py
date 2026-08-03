@@ -8,7 +8,7 @@ import build_backlog_data as backlog
 
 
 def _build_payload(path: Path) -> dict[str, object]:
-    return backlog.build_payload(path, history_start=None)
+    return backlog.build_payload(path, history_start=None, history_end=None)
 
 
 class BacklogCliDefaultsTest(unittest.TestCase):
@@ -17,6 +17,7 @@ class BacklogCliDefaultsTest(unittest.TestCase):
 
         self.assertEqual(args.input.name, "sbertrack_all_full_history_to_export.xlsx")
         self.assertEqual(args.history_start.isoformat(), "2026-02-01")
+        self.assertEqual(args.history_end.isoformat(), "2026-06-30")
 
 
 def _column_name(index: int) -> str:
@@ -357,7 +358,7 @@ class BuildBacklogDataTest(unittest.TestCase):
                 month["createdCount"],
             )
 
-    def test_completed_created_cohort_uses_only_resolved_and_done_statuses(self) -> None:
+    def test_completed_created_cohort_requires_terminal_status_and_resolved_date(self) -> None:
         path = Path(self.temporary_directory.name) / "completion_statuses.xlsx"
         _write_minimal_xlsx(
             path,
@@ -407,6 +408,15 @@ class BuildBacklogDataTest(unittest.TestCase):
                     "direction": "Аналитика",
                     "scenario": "AI",
                 },
+                {
+                    "team": "СберЧаевые",
+                    "Created": "2024-01-07",
+                    "Resolved": "2024-01-08",
+                    "Status": "Done",
+                    "Issue key": "DONE-WITH-DATE",
+                    "direction": "Аналитика",
+                    "scenario": "AI",
+                },
             ],
         )
 
@@ -414,11 +424,11 @@ class BuildBacklogDataTest(unittest.TestCase):
         january = _month(payload, "2024-01")
         quarter = _quarter(payload, "2024-Q1")
 
-        self.assertEqual(january["createdCount"], 5)
-        self.assertEqual(january["createdResolvedCount"], 4)
-        self.assertEqual(january["createdOpenCount"], 1)
-        self.assertEqual(quarter["createdResolvedCount"], 4)
-        self.assertEqual(quarter["createdOpenCount"], 1)
+        self.assertEqual(january["createdCount"], 6)
+        self.assertEqual(january["createdResolvedCount"], 1)
+        self.assertEqual(january["createdOpenCount"], 5)
+        self.assertEqual(quarter["createdResolvedCount"], 1)
+        self.assertEqual(quarter["createdOpenCount"], 5)
 
     def test_full_history_uses_later_resolved_snapshot_for_duplicate_issue(self) -> None:
         path = Path(self.temporary_directory.name) / "full_history_transition.xlsx"
@@ -488,6 +498,136 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertEqual([month["key"] for month in payload["months"]], ["2026-02"])
         self.assertEqual(payload["months"][0]["createdCount"], 1)
         self.assertEqual(payload["months"][0]["resolvedCount"], 0)
+
+    def test_default_history_end_excludes_and_censors_post_cutoff_data(self) -> None:
+        path = Path(self.temporary_directory.name) / "history_end_cutoff.xlsx"
+        common = {
+            "team": "СберЧаевые",
+            "direction": "Аналитика",
+            "scenario": "AI",
+        }
+        _write_minimal_xlsx(
+            path,
+            [
+                {
+                    **common,
+                    "Created": "2026-06-29",
+                    "Resolved": "2026-06-30",
+                    "Дата перехода в in_progress": "2026-06-20",
+                    "Status": "Done",
+                    "Issue key": "DONE-BY-CUTOFF",
+                },
+                {
+                    **common,
+                    "Created": "2026-06-30",
+                    "Resolved": "2026-07-02",
+                    "Дата перехода в in_progress": "2026-07-01",
+                    "Status": "Done",
+                    "Issue key": "DONE-AFTER-CUTOFF",
+                },
+                {
+                    **common,
+                    "Created": "2026-07-01",
+                    "Resolved": "2026-07-03",
+                    "Дата перехода в in_progress": "2026-07-02",
+                    "Status": "Done",
+                    "Issue key": "CREATED-AFTER-CUTOFF",
+                },
+            ],
+        )
+
+        source = backlog.read_tickets(path)[0]
+        censored = next(
+            ticket
+            for ticket in source.tickets
+            if ticket.issue_key == "DONE-AFTER-CUTOFF"
+        )
+        self.assertIsNone(censored.resolved)
+        self.assertIsNone(censored.in_progress)
+        self.assertFalse(censored.completed_by_status)
+
+        payload = backlog.build_payload(path)
+        quarter = _quarter(payload, "2026-Q2")
+
+        self.assertEqual(payload["meta"]["historyEnd"], "2026-06-30")
+        self.assertEqual(payload["meta"]["asOf"], "2026-06-30")
+        self.assertEqual(payload["meta"]["totalTickets"], 3)
+        self.assertEqual(payload["meta"]["includedTickets"], 2)
+        self.assertEqual(payload["meta"]["excludedAfterHistoryEnd"], 1)
+        self.assertEqual(payload["meta"]["terminalWithoutResolved"], 0)
+        self.assertEqual(payload["meta"]["medianCycleTimeDays"], 10)
+        self.assertEqual(payload["meta"]["cycleTimeSampleCount"], 1)
+        self.assertEqual([month["key"] for month in payload["months"]], ["2026-06"])
+        self.assertEqual([item["key"] for item in payload["quarters"]], ["2026-Q2"])
+        self.assertEqual(quarter["createdCount"], 2)
+        self.assertEqual(quarter["createdResolvedCount"], 1)
+        self.assertEqual(quarter["createdOpenCount"], 1)
+        self.assertEqual(quarter["resolvedCount"], 1)
+        self.assertEqual(quarter["cycleTimeSampleCount"], 1)
+
+    def test_history_end_none_preserves_unbounded_legacy_behavior(self) -> None:
+        path = Path(self.temporary_directory.name) / "unbounded_history_end.xlsx"
+        _write_minimal_xlsx(
+            path,
+            [
+                {
+                    "team": "СберЧаевые",
+                    "Created": "2026-06-30",
+                    "Resolved": "2026-07-02",
+                    "Дата перехода в in_progress": "2026-07-01",
+                    "Status": "Done",
+                    "Issue key": "LEGACY-UNBOUNDED",
+                    "direction": "Аналитика",
+                    "scenario": "AI",
+                }
+            ],
+        )
+
+        payload = backlog.build_payload(
+            path,
+            history_start=None,
+            history_end=None,
+        )
+
+        self.assertIsNone(payload["meta"]["historyEnd"])
+        self.assertEqual(payload["meta"]["excludedAfterHistoryEnd"], 0)
+        self.assertEqual(payload["meta"]["asOf"], "2026-07-02")
+        self.assertEqual(
+            [month["key"] for month in payload["months"]],
+            ["2026-06", "2026-07"],
+        )
+        self.assertEqual(_month(payload, "2026-06")["createdResolvedCount"], 1)
+        self.assertEqual(_month(payload, "2026-07")["resolvedCount"], 1)
+
+    def test_terminal_status_without_resolved_stays_open_at_history_end(self) -> None:
+        path = Path(self.temporary_directory.name) / "missing_resolved_at_cutoff.xlsx"
+        _write_minimal_xlsx(
+            path,
+            [
+                {
+                    "team": "СберЧаевые",
+                    "Created": "2026-06-30",
+                    "Resolved": "",
+                    "Дата перехода в in_progress": "2026-06-29",
+                    "Status": "Done",
+                    "Issue key": "DONE-WITHOUT-RESOLVED",
+                    "direction": "Аналитика",
+                    "scenario": "AI",
+                }
+            ],
+        )
+
+        payload = backlog.build_payload(path)
+        june = _month(payload, "2026-06")
+        quarter = _quarter(payload, "2026-Q2")
+
+        self.assertEqual(payload["meta"]["terminalWithoutResolved"], 1)
+        self.assertEqual(june["createdResolvedCount"], 0)
+        self.assertEqual(june["createdOpenCount"], 1)
+        self.assertEqual(june["endBacklogCount"], 1)
+        self.assertEqual(quarter["createdResolvedCount"], 0)
+        self.assertEqual(quarter["createdOpenCount"], 1)
+        self.assertEqual(quarter["endBacklogCount"], 1)
 
     def test_cycle_time_story_points_deduplication_and_privacy(self) -> None:
         path = Path(self.temporary_directory.name) / "delivery_metrics.xlsx"

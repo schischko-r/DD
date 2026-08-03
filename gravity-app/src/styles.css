@@ -455,7 +455,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .backlog-goal-progress-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px; }
 .backlog-goal-scale { min-width: 0; }
 .backlog-goal-progress { width: 100%; }
-.backlog-kpi-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.backlog-kpi-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
 .backlog-kpi-card { min-height: 184px; min-width: 0; }
 .backlog-kpi-card--combined { grid-column: span 2; }
 .backlog-kpi-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
