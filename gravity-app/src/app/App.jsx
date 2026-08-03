@@ -1,8 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo} from '@gravity-ui/icons';
-import {Spin} from '@gravity-ui/uikit';
-import {AsideHeader} from '@gravity-ui/navigation';
+import {Divider, Flex, Spin} from '@gravity-ui/uikit';
+import {AsideHeader, FooterItem} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
+import {BacklogDecompositionPage} from '../pages/BacklogDecompositionPage.jsx';
 import {DashboardPage} from '../pages/DashboardPage.jsx';
 import {HtmlReportPage} from '../pages/HtmlReportPage.jsx';
 import {SummaryPage} from '../pages/SummaryPage.jsx';
@@ -13,12 +14,15 @@ import {htmlPageIcon} from '../features/html-pages/htmlPageIcons.js';
 import ocb2cLogo from '../assets/ocb2c.png';
 
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
+const normalizeTeamName = (value) => String(value || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('ru-RU');
 
 export function App() {
   const [data, setData] = useState(null);
+  const [backlog, setBacklog] = useState({status: 'loading', data: null});
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
   const [htmlPageContext, setHtmlPageContext] = useState({});
+  const [backlogTeamKey, setBacklogTeamKey] = useState('');
   const [detailScore, setDetailScore] = useState(false);
   const [compact, setCompact] = useState(true);
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
@@ -30,6 +34,15 @@ export function App() {
     fetch('./report-data.json', {cache: 'no-store'})
       .then((response) => response.json())
       .then(setData);
+  }, []);
+  useEffect(() => {
+    fetch('./backlog-data.json', {cache: 'no-store'})
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then((backlogData) => setBacklog({status: 'ready', data: backlogData}))
+      .catch(() => setBacklog({status: 'error', data: null}));
   }, []);
   useEffect(() => {
     if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return undefined;
@@ -75,6 +88,27 @@ export function App() {
     if (!nextValue && view === 'summary') setView('dashboard');
     return nextValue;
   });
+  const backlogTeams = Array.isArray(backlog.data?.teams) ? backlog.data.teams : [];
+  const productBacklogTeam = backlogTeams.find((team) => {
+    const teamNames = [team?.label, team?.meta?.teamLabel].map(normalizeTeamName).filter(Boolean);
+    return teamNames.includes(normalizeTeamName(product?.name));
+  });
+  const openBacklog = (teamKey = '') => {
+    setBacklogTeamKey(String(teamKey || ''));
+    setView('backlog');
+    window.scrollTo(0, 0);
+  };
+  const openBacklogTeam = (teamDataset) => {
+    const requestedNames = [teamDataset?.label, teamDataset?.meta?.teamLabel]
+      .map(normalizeTeamName)
+      .filter(Boolean);
+    const target = data.products.find((item) => requestedNames.includes(normalizeTeamName(item?.name)))
+      || data.products.find((item) => normalizeTeamName(item?.name) === normalizeTeamName('СберЧаевые'));
+    if (!target) return;
+    setSelected(target);
+    setView('detail');
+    window.scrollTo(0, 0);
+  };
   const menuItems = [
     {
       id: 'dashboard',
@@ -132,7 +166,9 @@ export function App() {
         ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
         : view === 'about'
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
-          : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={teamProfileUnit} onTeamUnitChange={setTeamProfileUnit} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />;
+          : view === 'backlog'
+            ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
+            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={teamProfileUnit} onTeamUnitChange={setTeamProfileUnit} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
   return (
     <AsideHeader
       compact={compact}
@@ -142,6 +178,20 @@ export function App() {
       className="dd-navigation"
       logo={{text: 'Data-Driven Index', iconSrc: ocb2cLogo, iconSize: 30, iconClassName: 'dd-navigation-logo', href: '#', onClick: (event) => { event.preventDefault(); setView('dashboard'); window.scrollTo(0, 0); }, 'aria-label': 'Открыть Summary'}}
       menuItems={menuItems}
+      renderFooter={({compact: footerCompact}) => (
+        <Flex direction="column" gap="2">
+          <Divider />
+          <FooterItem
+            id="backlog"
+            title="Декомпозиция бэклога"
+            tooltipText="Декомпозиция бэклога"
+            icon={ChartColumn}
+            compact={footerCompact}
+            current={view === 'backlog'}
+            onItemClick={() => openBacklog()}
+          />
+        </Flex>
+      )}
       renderContent={() => content}
     />
   );

@@ -41,6 +41,25 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             commands.index([report.NPM_COMMAND, "run", "build"]),
         )
 
+    def test_full_build_rebuilds_backlog_data_when_sbertrack_source_exists(self) -> None:
+        args = report.parse_args([])
+
+        with patch.object(report.Path, "is_file", return_value=True), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertIn(
+            [
+                report.sys.executable,
+                str(report.ROOT / "build_backlog_data.py"),
+                "--input",
+                str(report.DEFAULT_BACKLOG_INPUT),
+                "--output",
+                str(report.DEFAULT_BACKLOG_DATA),
+            ],
+            commands,
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

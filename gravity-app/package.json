@@ -11,6 +11,7 @@
     "test": "node --test"
   },
   "dependencies": {
+    "@gravity-ui/charts": "^1.57.0",
     "@gravity-ui/icons": "2.20.0",
     "@gravity-ui/navigation": "^6.1.2",
     "@gravity-ui/uikit": "7.44.2",
