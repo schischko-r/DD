@@ -67,6 +67,16 @@ class BuildWithLlmShellTest(unittest.TestCase):
         self.assertIn("--crosssell", build_command)
         self.assertIn("--update-crosssell", build_command)
 
+    def test_frontend_dependencies_are_clean_installed_before_build(self) -> None:
+        log, _ = self.run_script()
+        commands = log.splitlines()
+
+        self.assertIn("--prefix gravity-app ci", commands)
+        self.assertLess(
+            commands.index("--prefix gravity-app ci"),
+            commands.index("--prefix gravity-app run build"),
+        )
+
     def test_upload_uses_absolute_paths_from_the_script_root(self) -> None:
         log, root = self.run_script()
         upload_command = next(line for line in log.splitlines() if "upload_html.py" in line)

@@ -57,10 +57,7 @@ PY
   --update-llm-summary \
   --llm-log
 
-if [[ ! -d gravity-app/node_modules ]]; then
-  "$NPM_BIN" --prefix gravity-app ci
-fi
-
+"$NPM_BIN" --prefix gravity-app ci
 "$NPM_BIN" --prefix gravity-app run build
 
 "$PYTHON_BIN" build_gravity_standalone.py \

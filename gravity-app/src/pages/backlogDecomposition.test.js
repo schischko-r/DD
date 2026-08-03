@@ -29,6 +29,8 @@ test('backlog decomposition is a dedicated sidebar view with its own data source
   assert.match(appSource, /fetch\('\.\/backlog-data\.json', \{cache: 'no-store'\}\)/);
   assert.match(appSource, /id="backlog"/);
   assert.match(appSource, /title="Декомпозиция бэклога"/);
+  assert.match(appSource, /import \{[^\n]*Ticket[^\n]*\} from '@gravity-ui\/icons'/);
+  assert.match(appSource, /id="backlog"[\s\S]*?icon=\{Ticket\}/);
   assert.match(appSource, /current=\{view === 'backlog'\}/);
   assert.match(appSource, /onItemClick=\{\(\) => openBacklog\(\)\}/);
   assert.match(appSource, /view === 'backlog'[\s\S]*?<BacklogDecompositionPage/);
