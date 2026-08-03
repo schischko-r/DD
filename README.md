@@ -24,7 +24,9 @@ python build_gravity_report.py
 `ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx`, не выполняет сетевые
 запросы к AI-digest API или GigaChat. Интеграция cross-sell с Product Lens по
 умолчанию включена. Результаты записываются в
-`gravity-app/public/report-data.json` и `gravity-standalone.html`.
+`gravity-app/public/report-data.json` и `gravity-standalone.html`. Если рядом
+лежит `sbertrack_all_full_history_to_export.xlsx`, перед сборкой UI также
+обновляется `gravity-app/public/backlog-data.json`.
 
 Локальный сервер для разработки:
 
@@ -123,14 +125,22 @@ python build_calc_report.py \
 
 ```bash
 python build_backlog_data.py \
-  --input "tips_tasks.xlsx" \
+  --input "sbertrack_all_full_history_to_export.xlsx" \
   --output ".context/backlog-data-candidate.json"
 ```
 
-В расчёт не входят отменённые тикеты и строки без `Issue key`. Структура
-бэклога строится по месяцу `Created`: каждая задача учитывается ровно один раз,
-в месяце создания. В публичный JSON не выгружаются ключи тикетов и данные
-сотрудников.
+По умолчанию в расчёт входит история с 1 февраля по 30 июня 2026 года
+включительно; более ранние и более поздние тикеты, отменённые тикеты и строки
+без `Issue key` исключаются. Границы истории можно изменить параметрами
+`--history-start` и `--history-end`. `team.meta.historyEnd` фиксирует правую
+границу, `team.meta.excludedAfterHistoryEnd` — число исключённых более поздних
+тикетов, а `asOf`, месяцы и кварталы не выходят за эту дату. Для задач,
+созданных до правой границы, более поздние `Resolved` и даты переходов
+цензурируются: июльские завершения не меняют показатели завершения, cycle time
+и TTM на 30 июня. Структура бэклога строится по месяцу `Created`: каждая задача
+учитывается ровно один раз, в месяце создания. В публичный JSON не выгружаются
+ключи тикетов, данные сотрудников и исходные даты переходов — только
+обезличенные агрегаты и метаданные границ отчёта.
 
 Завершённые задачи без `Resolved` не получают вымышленную дату и считаются
 открытыми; их количество публикуется в `team.meta.terminalWithoutResolved` как
@@ -139,7 +149,8 @@ python build_backlog_data.py \
 
 Кандидат можно переносить в `gravity-app/public/backlog-data.json` только после
 сверки баланса `totalTickets = includedTickets + excludedCancelled +
-excludedMissingIssueKey` для каждой команды и проверки
+excludedMissingIssueKey + excludedBeforeHistoryStart +
+excludedAfterHistoryEnd` для каждой команды и проверки
 `terminalWithoutResolved`. Ненулевое значение требует исправления дат в
 источнике или явного решения владельца данных; генератор даты не подставляет.
 
@@ -151,6 +162,11 @@ Discovery считается подтверждённой, когда задач
 статусах `Resolved` / `Done` (с учётом локализованных эквивалентов). Квартальный
 фильтр задаёт правую границу временных графиков: история до выбранного квартала
 сохраняется, более поздние месяцы скрываются.
+
+Медианный cycle time считается в днях между переходом задачи в `in_progress`
+и датой перехода в `Done` / `Resolved`. Доля заполнения Story Points считается
+по задачам Created-когорты выбранного квартала; при значении ниже 90% первой
+показывается рекомендация использовать Story Points при планировании.
 
 Только титульная витрина из отдельного плоского списка:
 
