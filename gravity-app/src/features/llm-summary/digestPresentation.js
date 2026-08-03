@@ -56,12 +56,21 @@ export function crossSellMarketPresentation(item) {
       publisher: String(source.publisher || '').trim(),
       url: String(source.url || '').trim(),
     }));
+  const statusCounts = candidates.reduce((counts, candidate) => {
+    if (candidate.status) counts[candidate.status] = (counts[candidate.status] || 0) + 1;
+    return counts;
+  }, {});
   return {
     candidatesNew: candidatesNew != null && Number.isFinite(candidatesNew) ? candidatesNew : null,
-    waitCount: candidates.filter((candidate) => candidate.status === 'wait').length,
+    waitCount: statusCounts.wait || 0,
+    statusCounts,
     candidates,
     sources,
   };
+}
+
+export function crossSellWaitingDecisionCount(item, marketPresentation = crossSellMarketPresentation(item)) {
+  return item?.candidates_waiting_decision ?? marketPresentation?.waitCount ?? null;
 }
 
 export function recommendationSkillLink(block, items) {

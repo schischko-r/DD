@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {crossSellMarketPresentation, digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {crossSellMarketPresentation, crossSellWaitingDecisionCount, digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestTheme('red'), 'danger');
@@ -110,6 +110,14 @@ test('cross-sell market presentation keeps the snapshot and whole decision histo
   assert.ok(presentation);
   assert.equal(presentation.candidatesNew, 1);
   assert.equal(presentation.waitCount, 1);
+  assert.deepEqual(presentation.statusCounts, {
+    wait: 1,
+    accepted: 1,
+    rejected: 1,
+    canon: 1,
+    mirror: 1,
+    audrej: 1,
+  });
   assert.deepEqual(
     presentation.candidates.map(({status}) => status),
     ['wait', 'accepted', 'rejected', 'canon', 'mirror', 'audrej'],
@@ -151,4 +159,25 @@ test('cross-sell market presentation distinguishes missing research from a resea
   assert.ok(researchedZero);
   assert.equal(researchedZero.candidatesNew, 0);
   assert.equal(researchedZero.waitCount, 0);
+  assert.deepEqual(researchedZero.statusCounts, {});
+});
+
+test('cross-sell feedback count prefers the backend contract and keeps the market fallback', () => {
+  const item = {
+    api_seen_around_n: 8,
+    api_seen_out_n: 7,
+    api_seen_in_n: 1,
+    api_potential_n: 3,
+    candidates_waiting_decision: 5,
+    crosssell_market: {candidates_new: 9},
+    crosssell_candidates: [
+      {status: 'wait'},
+      {status: 'wait'},
+      {status: 'rejected'},
+    ],
+  };
+  const presentation = crossSellMarketPresentation(item);
+
+  assert.equal(crossSellWaitingDecisionCount(item, presentation), 5);
+  assert.equal(crossSellWaitingDecisionCount({...item, candidates_waiting_decision: null}, presentation), 2);
 });

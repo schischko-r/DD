@@ -3,7 +3,7 @@ import {ChevronDown, ChevronRight, TriangleExclamationFill} from '@gravity-ui/ic
 import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text, Tooltip} from '@gravity-ui/uikit';
 import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
-import {crossSellMarketPresentation, digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {crossSellMarketPresentation, crossSellWaitingDecisionCount, digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 export {digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, worstDigestLight} from './digestPresentation.js';
 
@@ -61,14 +61,17 @@ function CrossSellNextSteps() {
   </>;
 }
 
-function CrossSellMarket({item}) {
-  const presentation = crossSellMarketPresentation(item);
+function CrossSellFeedbackCount({count}) {
+  if (count == null) return null;
+  return <p>Связок, ожидающих вашей обратной связи: {crossSellCount(count)}.</p>;
+}
+
+function CrossSellMarket({presentation}) {
   if (!presentation) return null;
-  const {candidatesNew, candidates, sources} = presentation;
+  const {candidates, sources} = presentation;
   return <section className="crosssell-market">
     <div className="crosssell-market-head">
       <strong>Рынок продукта</strong>
-      {candidatesNew != null && <Label theme="success" size="xs">{crossSellCount(candidatesNew)} ждут решения</Label>}
     </div>
     {candidates.length > 0 && <ul className="crosssell-market-candidates">
       {candidates.map((candidate, index) => <li key={candidate.key || `${candidate.from}-${candidate.to}-${index}`}>
@@ -90,20 +93,25 @@ function CrossSellMarket({item}) {
 
 export function RecommendationBody({item, useText = false}) {
   const hasCrossSellSummary = item.skill_key === 'cross_sell' && item.api_seen_around_n != null;
+  const marketPresentation = item.skill_key === 'cross_sell' ? crossSellMarketPresentation(item) : null;
+  const waitingDecisionCount = item.skill_key === 'cross_sell'
+    ? crossSellWaitingDecisionCount(item, marketPresentation)
+    : null;
   if (!hasCrossSellSummary) {
     const recommendations = (item.recommendations || []).map((text, index) => useText
       ? <Text variant="body-1" key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</Text>
       : <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>);
     return item.skill_key === 'cross_sell'
-      ? <>{recommendations}<CrossSellMarket item={item} /></>
+      ? <>{recommendations}<CrossSellMarket presentation={marketPresentation} /></>
       : recommendations;
   }
   const hasSeenOutValue = item.api_seen_out_n != null && Number.isFinite(Number(item.api_seen_out_n));
   const hasSeenInValue = item.api_seen_in_n != null && Number.isFinite(Number(item.api_seen_in_n));
   if (hasSeenOutValue && hasSeenInValue && Number(item.api_seen_out_n) === 0 && Number(item.api_seen_in_n) === 0) {
     return <div className="crosssell-summary">
-      <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
-      <CrossSellMarket item={item} />
+      <p>Подтвержденных потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+      <CrossSellFeedbackCount count={waitingDecisionCount} />
+      <CrossSellMarket presentation={marketPresentation} />
       <CrossSellNextSteps />
     </div>;
   }
@@ -115,8 +123,9 @@ export function RecommendationBody({item, useText = false}) {
       {hasSeenOut && <li>{crossSellCountPhrase(item.api_seen_out_n, ['связка', 'связки', 'связок'])} — кросс-селл с другими продуктами в рамках сценариев вашего продукта.</li>}
       {hasSeenIn && <li>{crossSellCountPhrase(item.api_seen_in_n, ['связка', 'связки', 'связок'])} — кросс-селл в сценариях других продуктов с вашим продуктом.</li>}
     </ul></>}
-    <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
-    <CrossSellMarket item={item} />
+    <p>Подтвержденных потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+    <CrossSellFeedbackCount count={waitingDecisionCount} />
+    <CrossSellMarket presentation={marketPresentation} />
     <CrossSellNextSteps />
   </div>;
 }
