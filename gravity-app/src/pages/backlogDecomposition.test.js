@@ -200,19 +200,26 @@ test('insights use Created as the shared denominator', () => {
   assert.doesNotMatch(visibleCopy, /усили[йя]|трудо(?:затрат|ёмк|емк)|причин|потому|из-за|вызван/i);
 });
 
-test('scenario focus recommendations use the latest complete quarter and a strict ten percent threshold', () => {
+test('scenario focus recommendations use the latest complete quarter and strict share and benchmark thresholds', () => {
   const result = buildScenarioFocusRecommendations([
-    {key: '2026-Q1', isComplete: true, createdCount: 10, scenarios: [{key: 'alpha', label: 'Alpha', count: 5}]},
-    {key: '2026-Q2', isComplete: true, createdCount: 20, scenarios: [
-      {key: 'alpha', label: 'Alpha', count: 3},
-      {key: 'threshold', label: 'Threshold', count: 2},
-      {key: 'small', label: 'Small', count: 1},
+    {key: '2026-Q1', isComplete: true, createdCount: 10, scenarios: [
+      {key: 'alpha', label: 'Alpha', count: 5, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 1},
     ]},
-    {key: '2026-Q3', isComplete: false, createdCount: 1, scenarios: [{key: 'alpha', label: 'Alpha', count: 1}]},
+    {key: '2026-Q2', isComplete: true, createdCount: 20, scenarios: [
+      {key: 'alpha', label: 'Alpha', count: 3, continuous25thDays: 2.11, medianCycleTimeHours: 51.5, cycleTimeSampleCount: 4},
+      {key: 'ten-percent', label: 'Ten percent', count: 2, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+      {key: 'equal-benchmark', label: 'Equal benchmark', count: 3, continuous25thDays: 2, medianCycleTimeHours: 48, cycleTimeSampleCount: 2},
+      {key: 'small', label: 'Small', count: 1, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+    ]},
+    {key: '2026-Q3', isComplete: false, createdCount: 1, scenarios: [
+      {key: 'alpha', label: 'Alpha', count: 1, continuous25thDays: 1, medianCycleTimeHours: 100, cycleTimeSampleCount: 1},
+    ]},
   ], [
     {key: 'alpha', recommendation: 'Рекомендуем первое.', resources: [{label: 'ссылке', href: 'https://example.test/a'}]},
     {key: 'alpha', recommendation: 'Рекомендуем второе.', resources: [{label: 'ссылке', href: 'https://example.test/a'}]},
-    {key: 'threshold', recommendation: 'Рекомендуем порог.'},
+    {key: 'ten-percent', recommendation: 'Рекомендуем порог доли.'},
+    {key: 'equal-benchmark', recommendation: 'Рекомендуем порог времени.'},
+    {key: 'small', recommendation: 'Рекомендуем малую долю.'},
   ]);
 
   assert.equal(result.quarter.key, '2026-Q2');
@@ -220,9 +227,57 @@ test('scenario focus recommendations use the latest complete quarter and a stric
   assert.equal(result.items.length, 1);
   assert.equal(result.items[0].scenario, 'Alpha');
   assert.equal(result.items[0].share, 15);
-  assert.equal(result.items[0].recommendation, 'Рекомендуем первое. Рекомендуем второе.');
+  assert.equal(result.items.some((item) => item.key === 'ten-percent'), false, 'exactly 10% is excluded');
+  assert.equal(result.items.some((item) => item.key === 'equal-benchmark'), false, 'equality to the benchmark is excluded');
+  assert.equal(result.items[0].recommendation, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 дня. Значение по вашей команде: 51,5 часов. Предлагаемый инструментарий для снижения трудозатрат: Рекомендуем первое. Рекомендуем второе.');
   assert.deepEqual(result.items[0].resources, [{label: 'ссылке', href: 'https://example.test/a'}]);
   assert.deepEqual(buildScenarioFocusRecommendations([{key: '2026-Q3', isComplete: false}], []).items, []);
+});
+
+test('scenario focus recommendations require valid samples and benchmarks', () => {
+  const recommendationRows = [
+    {key: 'missing-sample', recommendation: 'Рекомендуем выборку.'},
+    {key: 'zero-sample', recommendation: 'Рекомендуем выборку.'},
+    {key: 'missing-benchmark', recommendation: 'Рекомендуем бенчмарк.'},
+    {key: 'missing-median', recommendation: 'Рекомендуем медиану.'},
+  ];
+  const result = buildScenarioFocusRecommendations([{
+    key: '2026-Q2',
+    isComplete: true,
+    createdCount: 20,
+    scenarios: [
+      {key: 'missing-sample', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25},
+      {key: 'zero-sample', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 0},
+      {key: 'missing-benchmark', count: 3, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+      {key: 'missing-median', count: 3, continuous25thDays: 1, medianCycleTimeHours: null, cycleTimeSampleCount: 2},
+    ],
+  }], recommendationRows);
+
+  assert.deepEqual(result.items, []);
+});
+
+test('scenario focus recommendations preserve approved resources and exclude unapproved regulator exports', () => {
+  const resources = [
+    {label: 'ссылке', href: 'https://example.test/guide', placement: 'inline'},
+    {label: 'Продуктовый аналитик', action: 'product-analyst-access', placement: 'inline'},
+  ];
+  const result = buildScenarioFocusRecommendations([{
+    key: '2026-Q2',
+    isComplete: true,
+    createdCount: 20,
+    scenarios: [
+      {key: 'customer_experience_analytics', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+      {key: 'exports_to_excel_regulator', count: 3, continuous25thDays: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
+    ],
+  }], [{
+    key: 'customer_experience_analytics',
+    recommendation: 'Рекомендуем перейти по ссылке и открыть Продуктовый аналитик.',
+    resources,
+  }]);
+
+  assert.deepEqual(result.items.map((item) => item.key), ['customer_experience_analytics']);
+  assert.deepEqual(result.items[0].resources, resources);
+  assert.match(result.items[0].recommendation, /Предлагаемый инструментарий для снижения трудозатрат: Рекомендуем перейти по ссылке и открыть Продуктовый аналитик\.$/);
 });
 
 test('quarter dashboard exposes goal, KPI and evidence panels in a compact layout', () => {

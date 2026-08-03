@@ -82,15 +82,16 @@ test('recommendation table uses Gravity UI and is the final backlog analytics se
   assert.match(stylesSource, /\.dd-scenario-recommendations-table\s*\{\s*min-width:\s*1120px;/);
 });
 
-test('high-share scenario recommendations are rendered above the full table in the backlog recommendation card', () => {
+test('high-share benchmark breaches are rendered above the full recommendation table', () => {
   const recommendationCard = pageSource.slice(
     pageSource.indexOf('<section className="backlog-actions-grid">'),
     pageSource.indexOf('<Card className="backlog-method-note"'),
   );
-  assert.match(recommendationCard, /Сценарии с долей более 10%/);
+  assert.match(recommendationCard, /Сценарии с долей более 10% и превышением бенчмарка/);
   assert.match(recommendationCard, /<Card className="backlog-list-card"[^>]*style=\{\{'\-\-g-card-background-color': 'var\(--g-color-base-background\)'\}\}/);
   assert.match(recommendationCard, /Последний полный квартал · \{scenarioFocus\.periodLabel \|\| 'нет данных'\}/);
   assert.match(recommendationCard, /<Table className="backlog-focus-recommendations-table" columns=\{scenarioFocusColumns\} data=\{scenarioFocus\.items\}/);
+  assert.match(recommendationCard, /нет сценариев с долей более 10% и медианным временем команды выше бенчмарка лучших аналитиков/);
   assert.match(pageSource, /name: `Доля · \$\{periodLabel\}`/);
   assert.ok(pageSource.indexOf('className="backlog-focus-recommendations-table"') < pageSource.indexOf('<DdScenarioRecommendationTable />'));
   assert.match(stylesSource, /\.backlog-focus-recommendations-scroll\s*\{[^}]*overflow-x:\s*auto;/s);

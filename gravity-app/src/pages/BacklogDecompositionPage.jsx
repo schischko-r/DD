@@ -175,19 +175,29 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const count = Number(scenario?.count) || 0;
       const share = total > 0 ? count / total * 100 : Number(scenario?.share) || 0;
       const sourceRows = recommendationsByKey.get(String(scenario?.key || '').toLocaleLowerCase('ru-RU')) || [];
-      const resources = sourceRows
+      const approvedRows = sourceRows.filter((item) => item?.recommendation);
+      const continuous25thDays = scenario?.continuous25thDays;
+      const medianCycleTimeHours = scenario?.medianCycleTimeHours;
+      const hasValidBenchmark = Number.isFinite(scenario?.cycleTimeSampleCount)
+        && scenario.cycleTimeSampleCount > 0
+        && Number.isFinite(continuous25thDays)
+        && Number.isFinite(medianCycleTimeHours);
+      if (!approvedRows.length || !hasValidBenchmark) return null;
+
+      const resources = approvedRows
         .flatMap((item) => item.resources || [])
         .filter((resource, index, all) => all.findIndex((item) => (item.href || item.action) === (resource.href || resource.action)) === index);
       return {
         key: String(scenario?.key || scenario?.label || ''),
         scenario: String(scenario?.label || scenario?.key || 'Без сценария'),
         share,
-        recommendation: sourceRows.map((item) => item.recommendation).filter(Boolean).join(' ')
-          || 'Рекомендуем разобрать причины высокой доли сценария и определить возможности стандартизации или автоматизации.',
+        continuous25thDays,
+        medianCycleTimeHours,
+        recommendation: `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thDays, 2)} дня. Значение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов. Предлагаемый инструментарий для снижения трудозатрат: ${approvedRows.map((item) => item.recommendation).join(' ')}`,
         resources,
       };
     })
-    .filter((item) => item.share > 10)
+    .filter((item) => item && item.share > 10 && item.medianCycleTimeHours > item.continuous25thDays * 24)
     .sort((a, b) => b.share - a.share);
 
   return {quarter, periodLabel: shortQuarterLabel(quarter), items};
@@ -755,12 +765,12 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
               <Divider />
               <Flex direction="column" gap="3">
                 <Flex direction="column" gap="1">
-                  <Text variant="subheader-1">Сценарии с долей более 10%</Text>
+                  <Text variant="subheader-1">Сценарии с долей более 10% и превышением бенчмарка</Text>
                   <Text variant="caption-2" color="secondary">Последний полный квартал · {scenarioFocus.periodLabel || 'нет данных'}</Text>
                 </Flex>
                 {scenarioFocus.items.length
-                  ? <Box className="backlog-focus-recommendations-scroll"><Table className="backlog-focus-recommendations-table" columns={scenarioFocusColumns} data={scenarioFocus.items} getRowId="key" verticalAlign="top" width="max" wordWrap aria-label={`Рекомендации по сценариям с долей более 10% за ${scenarioFocus.periodLabel}`} /></Box>
-                  : <Text color="secondary">В последнем полном квартале нет сценариев с долей более 10%.</Text>}
+                  ? <Box className="backlog-focus-recommendations-scroll"><Table className="backlog-focus-recommendations-table" columns={scenarioFocusColumns} data={scenarioFocus.items} getRowId="key" verticalAlign="top" width="max" wordWrap aria-label={`Рекомендации по сценариям с долей более 10% и превышением бенчмарка за ${scenarioFocus.periodLabel}`} /></Box>
+                  : <Text color="secondary">В последнем полном квартале нет сценариев с долей более 10% и медианным временем команды выше бенчмарка лучших аналитиков.</Text>}
               </Flex>
               <Divider />
               <Text variant="subheader-1">Другие действия по метрикам</Text>

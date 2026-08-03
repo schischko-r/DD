@@ -8,6 +8,7 @@ from build_gravity_standalone import (
     BASE64_CHUNK_SIZE,
     DEFAULT_BACKLOG_DATA,
     DEFAULT_OUTPUT,
+    _load_json,
     build,
 )
 
@@ -19,6 +20,7 @@ class BuildGravityStandaloneTest(unittest.TestCase):
         meta = backlog_data["meta"]
 
         self.assertNotIn("./backlog-data.json", result)
+        self.assertIn(_load_json(DEFAULT_BACKLOG_DATA), result)
         self.assertIn(f'"historyEnd":"{meta["historyEnd"]}"', result)
         self.assertIn(f'"includedTickets":{meta["includedTickets"]}', result)
 

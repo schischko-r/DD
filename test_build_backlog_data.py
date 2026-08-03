@@ -723,6 +723,109 @@ class BuildBacklogDataTest(unittest.TestCase):
         ):
             self.assertNotIn(private_value, serialized)
 
+    def test_quarter_scenario_efficiency_uses_created_cohort(self) -> None:
+        expected_benchmarks = {
+            "AI": 2.11,
+            "BI_bugfix": 0.82,
+            "business_planning": 4.40,
+            "business_requirements_composing": 2.10,
+            "customer_experience_analytics": 4.28,
+            "dashboard_improvements": 1.86,
+            "dashboard_manual_data_update": 1.90,
+            "dashboard_migration": 5.36,
+            "data_marts": 0.62,
+            "employee_trainings": 0.02,
+            "excel_automatic_reports": 0.45,
+            "excel_reports": 1.49,
+            "exports_to_excel": 1.68,
+            "exports_to_excel_regulator": 0.00,
+            "financial_impact_estimation": 0.79,
+            "growth_factors_research": 5.90,
+            "knowledge_base_maintenance": 2.11,
+            "manual_data_quality_control": 0.20,
+            "methodology_dev": 0.00,
+            "metrics_calculation": 1.25,
+            "presentations": 3.88,
+            "project_management": 4.54,
+            "root_cause_analysis": 3.01,
+            "social_communications": 0.29,
+            "unknown": 0.03,
+        }
+        self.assertEqual(backlog.SCENARIO_CONTINUOUS_25TH_DAYS, expected_benchmarks)
+        self.assertEqual(
+            set(backlog.SCENARIO_CONTINUOUS_25TH_DAYS), set(backlog.SCENARIO_LABELS)
+        )
+
+        path = Path(self.temporary_directory.name) / "scenario_efficiency.xlsx"
+        common = {
+            "team": "СберЧаевые",
+            "direction": "Аналитика",
+            "Status": "Done",
+        }
+        _write_minimal_xlsx(
+            path,
+            [
+                {
+                    **common,
+                    "Created": "2024-01-01 09:00:00",
+                    "Resolved": "2024-01-02 00:00:00",
+                    "Дата перехода в in_progress": "2024-01-01 12:00:00",
+                    "Issue key": "AI-12-HOURS",
+                    "scenario": "AI",
+                },
+                {
+                    **common,
+                    "Created": "2024-03-31 09:00:00",
+                    "Resolved": "2024-04-02 00:00:00",
+                    "Дата перехода в in_progress": "2024-03-31 11:00:00",
+                    "Issue key": "AI-37-HOURS",
+                    "scenario": "AI",
+                },
+                {
+                    **common,
+                    "Created": "2024-02-01 09:00:00",
+                    "Resolved": "2024-02-02 00:00:00",
+                    "Дата перехода в in_progress": "2024-02-03 00:00:00",
+                    "Issue key": "AI-INVALID",
+                    "scenario": "AI",
+                },
+                {
+                    **common,
+                    "Created": "2024-02-10 09:00:00",
+                    "Resolved": "2024-02-12 10:00:00",
+                    "Дата перехода в in_progress": "2024-02-10 10:00:00",
+                    "Issue key": "DASHBOARD-48-HOURS",
+                    "scenario": "dashboard_improvements",
+                },
+                {
+                    **common,
+                    "Created": "2024-04-01 09:00:00",
+                    "Resolved": "2024-04-04 09:00:00",
+                    "Дата перехода в in_progress": "2024-04-01 09:00:00",
+                    "Issue key": "AI-NEXT-QUARTER",
+                    "scenario": "AI",
+                },
+            ],
+        )
+
+        payload = _build_payload(path)
+        first_quarter = _quarter(payload, "2024-Q1")
+        ai = _category(first_quarter["scenarios"], "AI")
+        dashboard = _category(
+            first_quarter["scenarios"], "dashboard_improvements"
+        )
+
+        self.assertEqual(ai["continuous25thDays"], 2.11)
+        self.assertEqual(ai["medianCycleTimeHours"], 24.5)
+        self.assertEqual(ai["cycleTimeSampleCount"], 2)
+        self.assertEqual(dashboard["continuous25thDays"], 1.86)
+        self.assertEqual(dashboard["medianCycleTimeHours"], 48)
+        self.assertEqual(dashboard["cycleTimeSampleCount"], 1)
+        for scenario in first_quarter["scenarios"]:
+            self.assertIn("continuous25thDays", scenario)
+            self.assertIn("medianCycleTimeHours", scenario)
+            self.assertIn("cycleTimeSampleCount", scenario)
+
     def test_missing_issue_key_is_excluded_before_dates_are_parsed(self) -> None:
         path = Path(self.temporary_directory.name) / "missing_key_invalid_dates.xlsx"
         _write_minimal_xlsx(
