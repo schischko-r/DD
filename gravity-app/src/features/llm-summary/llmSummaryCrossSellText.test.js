@@ -19,3 +19,8 @@ test('cross-sell summary labels potential and feedback counts from their actual 
 test('cross-sell market no longer labels candidates_new as waiting for feedback', () => {
   assert.doesNotMatch(summarySource, /candidatesNew.*ждут решения/);
 });
+
+test('cross-sell platform recommendation points to the action below', () => {
+  assert.match(summarySource, /по кнопке &quot;Перейти&quot; ниже/);
+  assert.doesNotMatch(summarySource, /по кнопке &quot;Перейти&quot; выше/);
+});

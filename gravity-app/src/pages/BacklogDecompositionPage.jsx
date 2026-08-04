@@ -1,8 +1,9 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Chart} from '@gravity-ui/charts';
-import {ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo} from '@gravity-ui/icons';
+import {ArrowLeft, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo} from '@gravity-ui/icons';
 import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Modal, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
+import {isMetricAbove, RecommendationCell} from './RecommendationCell.js';
 
 const GROUPING_OPTIONS = [
   {value: 'directions', content: 'Направления'},
@@ -201,13 +202,19 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const resources = approvedRows
         .flatMap((item) => item.resources || [])
         .filter((resource, index, all) => all.findIndex((item) => (item.href || item.action) === (resource.href || resource.action)) === index);
+      const recommendationSummary = hasValidBenchmark
+        ? `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.`
+        : '';
+      const toolRecommendation = approvedRows.map((item) => item.recommendation).join(' ');
       return {
         key: String(scenario?.key || scenario?.label || ''),
         scenario: String(scenario?.label || scenario?.key || 'Без сценария'),
         share,
         continuous25thHours,
         medianCycleTimeHours,
-        recommendation: `${hasValidBenchmark ? `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.\n\n` : ''}Предлагаемый инструментарий: ${approvedRows.map((item) => item.recommendation).join(' ')}`,
+        recommendation: `${recommendationSummary ? `${recommendationSummary}\n\n` : ''}Предлагаемый инструментарий: ${toolRecommendation}`,
+        recommendationSummary,
+        toolRecommendation,
         resources,
       };
     })
@@ -513,12 +520,35 @@ const EX_EL_ACCESS_ROWS = [
   },
 ];
 
-function RecommendationCopy({item}) {
+function RecommendationToolBlock({item, onAction}) {
+  const resources = (item.resources || [])
+    .filter((resource) => resource?.href || resource?.action)
+    .filter((resource, index, all) => all.findIndex((candidate) => (candidate.href || candidate.action) === (resource.href || resource.action)) === index);
+  const toolRecommendation = String(item.toolRecommendation || '').trim();
+  if (!resources.length && !toolRecommendation) return null;
+  const resourceLabel = (resource) => String(resource.toolLabel || resource.label || item.sourceTool || 'Открыть');
+  return (
+    <div className="metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-resources backlog-useful-tools">
+      <span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span>
+      <span className="metric-inline-instruction-copy"><strong>Полезные инструменты</strong>{toolRecommendation && <small>{toolRecommendation}</small>}</span>
+      {resources.length > 0 && <span className="metric-inline-instruction-resource-actions">
+        {resources.map((resource) => resource.action
+          ? <button key={resource.action} type="button" className="backlog-useful-tool-action" aria-haspopup="dialog" onClick={() => onAction(resource.action)}>{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></button>
+          : <Link key={resource.href} href={resource.href} target="_blank" rel="noreferrer">{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></Link>)}
+      </span>}
+    </div>
+  );
+}
+
+function RecommendationCopy({item, resourcesBelow = false}) {
   const [accessModal, setAccessModal] = useState(null);
-  const text = String(item.recommendation || item.text || '');
-  const inlineResources = (item.resources || []).filter((resource) => resource.placement === 'inline');
-  const productAnalystResource = inlineResources.find((resource) => resource.action === 'product-analyst-access');
-  const exElResource = inlineResources.find((resource) => resource.action === 'ex-el-access');
+  const text = String(resourcesBelow && typeof item.toolRecommendation === 'string'
+    ? item.recommendationSummary || ''
+    : item.recommendation || item.text || '');
+  const allResources = item.resources || [];
+  const inlineResources = resourcesBelow ? [] : allResources.filter((resource) => resource.placement === 'inline');
+  const productAnalystResource = allResources.find((resource) => resource.action === 'product-analyst-access');
+  const exElResource = allResources.find((resource) => resource.action === 'ex-el-access');
   const parts = [];
   let cursor = 0;
   inlineResources.forEach((resource) => {
@@ -540,7 +570,8 @@ function RecommendationCopy({item}) {
     ));
   });
   return <>
-    <span className="backlog-recommendation-copy">{emphasizedParts}<RecommendationResources item={item} /></span>
+    <span className="backlog-recommendation-copy">{emphasizedParts}{!resourcesBelow && <RecommendationResources item={item} />}</span>
+    {resourcesBelow && <RecommendationToolBlock item={item} onAction={setAccessModal} />}
     {productAnalystResource && (
       <Modal
         open={accessModal === 'product-analyst-access'}
@@ -575,7 +606,7 @@ function RecommendationCopy({item}) {
         <Flex className="ex-el-access-content" direction="column" gap="4">
           <Flex direction="column" gap="2">
             <Text id="ex-el-access-title" as="h2" variant="subheader-3">EX-EL</Text>
-            <Text variant="body-1">Ссылка на сервис: <Link href={EX_EL_SERVICE_URL} target="_blank" rel="noreferrer">открыть EX-EL</Link>.</Text>
+            <Text variant="body-1">Сервис: <Link href={EX_EL_SERVICE_URL} target="_blank" rel="noreferrer">EX-EL</Link>.</Text>
             <Text variant="body-1">Если нет доступа, его можно оформить через АС Друг.</Text>
           </Flex>
           <div className="ex-el-access-table-scroll">
@@ -597,25 +628,26 @@ function RecommendationCopy({item}) {
   </>;
 }
 
-function buildScenarioFocusColumns(periodLabel) {
+function buildScenarioFocusColumns(periodLabel, resourcesBelow = false) {
   return [
     {
       id: 'scenario',
       name: 'Сценарий',
-      width: '24%',
+      width: '22%',
       primary: true,
+      template: (item) => <Text className="backlog-table-scenario" variant="subheader-1">{item.scenario}</Text>,
     },
     {
       id: 'share',
       name: `Доля · ${periodLabel}`,
-      width: '14%',
-      template: (item) => <Text variant="subheader-1">{formatPercentValue(item.share)}</Text>,
+      width: '13%',
+      template: (item) => <Text className="backlog-table-metric" variant="subheader-1">{formatPercentValue(item.share)}</Text>,
     },
     {
       id: 'recommendation',
       name: 'Рекомендация',
-      width: '62%',
-      template: (item) => <Text variant="body-1"><RecommendationCopy item={item} /></Text>,
+      width: '65%',
+      template: (item) => <RecommendationCell><RecommendationCopy item={item} resourcesBelow={resourcesBelow} /></RecommendationCell>,
     },
   ];
 }
@@ -637,55 +669,60 @@ export function buildScenarioRecommendationRows(quarter, recommendationRows = DD
   });
 }
 
-const DD_SCENARIO_RECOMMENDATION_COLUMNS = [
-  {
-    id: 'direction',
-    name: 'Направление',
-    width: '16%',
-    template: (item) => <Label theme="utility" size="s">{item.direction}</Label>,
-  },
-  {
-    id: 'scenario',
-    name: 'Сценарий',
-    width: '14%',
-    primary: true,
-  },
-  {
-    id: 'cycleTimeShare',
-    name: '% времени в сценарии',
-    width: '10%',
-    template: (item) => item.cycleTimeShare === null
-      ? <Text color="secondary">—</Text>
-      : <Text variant="subheader-1">{formatPercentValue(item.cycleTimeShare)}</Text>,
-  },
-  {
-    id: 'continuous25thHours',
-    name: 'TTM · топ-25%',
-    width: '10%',
-    template: (item) => <Text>{formatOptionalMetric(item.continuous25thHours, 'ч', 2)}</Text>,
-  },
-  {
-    id: 'medianCycleTimeHours',
-    name: 'TTM команды',
-    width: '10%',
-    template: (item) => <Text>{formatOptionalMetric(item.medianCycleTimeHours, 'ч', 1)}</Text>,
-  },
-  {
-    id: 'info',
-    name: 'Описание',
-    width: '22%',
-  },
-  {
-    id: 'recommendation',
-    name: 'Рекомендация тимлиду',
-    width: '28%',
-    template: (item) => <Text variant="body-1"><RecommendationCopy item={item} /></Text>,
-  },
-];
+function buildScenarioRecommendationColumns(resourcesBelow = false) {
+  return [
+    {
+      id: 'direction',
+      name: 'Направление',
+      width: '13%',
+      template: (item) => <Label theme="utility" size="s">{item.direction}</Label>,
+    },
+    {
+      id: 'scenario',
+      name: 'Сценарий',
+      width: '14%',
+      primary: true,
+      template: (item) => <Text className="backlog-table-scenario" variant="subheader-1">{item.scenario}</Text>,
+    },
+    {
+      id: 'cycleTimeShare',
+      name: '% времени',
+      width: '8%',
+      template: (item) => item.cycleTimeShare === null
+        ? <Text color="secondary">—</Text>
+        : <Text className="backlog-table-metric" variant="subheader-1">{formatPercentValue(item.cycleTimeShare)}</Text>,
+    },
+    {
+      id: 'continuous25thHours',
+      name: 'TTM · топ-25%',
+      width: '9%',
+      template: (item) => <Text className="backlog-table-metric backlog-table-metric--benchmark">{formatOptionalMetric(item.continuous25thHours, 'ч', 2)}</Text>,
+    },
+    {
+      id: 'medianCycleTimeHours',
+      name: 'TTM команды',
+      width: '9%',
+      template: (item) => <Text className={isMetricAbove(item.medianCycleTimeHours, item.continuous25thHours) ? 'backlog-table-metric backlog-table-metric--attention' : 'backlog-table-metric'}>{formatOptionalMetric(item.medianCycleTimeHours, 'ч', 1)}</Text>,
+    },
+    {
+      id: 'info',
+      name: 'Описание',
+      width: '19%',
+      template: (item) => <Text className="backlog-table-description" color="secondary">{item.info}</Text>,
+    },
+    {
+      id: 'recommendation',
+      name: 'Рекомендация тимлиду',
+      width: '28%',
+      template: (item) => <RecommendationCell><RecommendationCopy item={item} resourcesBelow={resourcesBelow} /></RecommendationCell>,
+    },
+  ];
+}
 
-function DdScenarioRecommendationTable({quarter}) {
+function DdScenarioRecommendationTable({quarter, resourcesBelow = false}) {
   const rows = buildScenarioRecommendationRows(quarter);
   const periodLabel = shortQuarterLabel(quarter);
+  const columns = buildScenarioRecommendationColumns(resourcesBelow);
   return (
     <Card className="dd-scenario-recommendations" view="outlined" size="l" spacing={{p: 5}}>
       <div className="dd-scenario-recommendations-head">
@@ -698,7 +735,7 @@ function DdScenarioRecommendationTable({quarter}) {
       <div className="dd-scenario-recommendations-scroll">
         <Table
           className="dd-scenario-recommendations-table"
-          columns={DD_SCENARIO_RECOMMENDATION_COLUMNS}
+          columns={columns}
           data={rows}
           getRowId={(item, index) => `${item.direction}-${item.scenario}-${index}`}
           verticalAlign="top"
@@ -716,7 +753,7 @@ function PageState({type}) {
   return <main className="content dashboard-page backlog-page"><Flex className="backlog-page-state" alignItems="center" justifyContent="center" gap="3"><Icon data={type === 'error' ? CircleInfo : ChartColumn} size={24} /><Flex direction="column" gap="1"><Text variant="subheader-1">{type === 'error' ? 'Данные бэклога пока недоступны' : 'Нет данных для отображения'}</Text><Text color="secondary">{type === 'error' ? 'Остальные разделы приложения продолжают работать.' : 'Для построения дашборда нужны квартальные данные.'}</Text></Flex></Flex></main>;
 }
 
-export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, initialTeamKey = ''}) {
+export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, initialTeamKey = '', variant = 'default'}) {
   const [grouping, setGrouping] = useState('directions');
   const teams = useMemo(() => getTeamDatasets(data || {}), [data]);
   const [selectedTeamKey, setSelectedTeamKey] = useState(() => String(initialTeamKey || teams[0]?.key || ''));
@@ -791,7 +828,9 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const hasSeries = chartData.series.data.length > 0;
   const freshness = formatFreshnessDate(team?.meta?.asOf || data?.meta?.asOf);
   const discoveryGoalProgress = Math.min(100, Math.max(0, discoveryShare / DISCOVERY_TARGET * 100));
-  const scenarioFocusColumns = buildScenarioFocusColumns(scenarioFocus.periodLabel);
+  const resourcesBelow = variant === 'v2';
+  const pageTitle = resourcesBelow ? 'Декомпозиция v2' : 'Декомпозиция бэклога';
+  const scenarioFocusColumns = buildScenarioFocusColumns(scenarioFocus.periodLabel, resourcesBelow);
   const selectedPeriodLabel = shortQuarterLabel(quarter);
   const kpiMiniCharts = {
     created: buildKpiMiniChartData(visibleMonths, [{name: 'Создано', key: 'createdCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
@@ -809,7 +848,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       {onOpenTeam && <Box spacing={{mb: 2}}><Button view="flat" size="m" onClick={() => onOpenTeam(team)}><Icon data={ArrowLeft} size={16} />Назад к карточке команды</Button></Box>}
       <header className="backlog-header">
         <Flex direction="column" gap="1">
-          <Text as="h1" variant="display-2">Декомпозиция бэклога</Text>
+          <Text as="h1" variant="display-2">{pageTitle}</Text>
           <Text variant="body-1" color="secondary">Структура и статус задач, созданных в выбранном квартале</Text>
           {freshness && <Flex alignItems="center" gap="2"><Icon data={CircleInfo} size={16} /><Text variant="caption-2" color="secondary">Данные на {freshness}</Text></Flex>}
         </Flex>
@@ -903,7 +942,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       <Card className="backlog-method-note" view="outlined" spacing={{p: 4}}>
         <Flex alignItems="flex-start" gap="2" wrap><Icon data={CircleInfo} size={16} /><Text variant="subheader-1">Методика</Text><Text variant="caption-2" color="secondary">Временные графики показывают историю по месяцу создания до выбранного квартала включительно. Discovery, рутина и автоматизация считаются внутри Created-когорты; «Завершено из созданных» — задачи в статусах Resolved / Done.{freshness ? ` Источник актуален на ${freshness}.` : ''}</Text></Flex>
       </Card>
-      <DdScenarioRecommendationTable quarter={quarter} />
+      <DdScenarioRecommendationTable quarter={quarter} resourcesBelow={resourcesBelow} />
     </main>
   );
 }

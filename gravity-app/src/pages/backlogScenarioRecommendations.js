@@ -14,9 +14,9 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     scenario: 'Аналитика клиентского опыта',
     info: 'Анализ поведения пользователей, пути клиента, воронки, когортный анализ.',
     sourceTool: 'OpenCode',
-    recommendation: 'Рекомендуем для оптимизации работы с кодом попробовать OpenCode в Datalab AI — аналог Claude. Посмотрите рекомендации по ссылке. Для оценки клиентских путей рекомендуем использовать LossHunter и CJExplorer. Также предлагаем воспользоваться AI Toolkit «Продуктовый аналитик».',
+    recommendation: 'Рекомендуем для оптимизации работы с кодом попробовать OpenCode в DataLab AI — аналог Claude. Для оценки клиентских путей рекомендуем использовать LossHunter и CJExplorer. Также предлагаем воспользоваться AI Toolkit «Продуктовый аналитик».',
     resources: [
-      {label: 'ссылке', href: 'https://mapp.sberbank.ru/b2cda/page/394333', placement: 'inline'},
+      {label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333', placement: 'inline'},
       {label: 'LossHunter', href: 'https://losshunter.ru', placement: 'inline'},
       {label: 'CJExplorer', href: 'https://cjxplorer.com/', placement: 'inline'},
       {label: 'Продуктовый аналитик', action: 'product-analyst-access', placement: 'inline'},
@@ -38,7 +38,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Разработка скриптов или процедур для расчета ключевых показателей (часто на регулярной основе)',
     sourceTool: 'OpenCode',
     recommendation: 'Рекомендуем использовать OpenCode в Datalab AI для подготовки, рефакторинга и документирования расчётных скриптов.',
-    resources: [{label: 'ссылке', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
+    resources: [{label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
   },
   {
     key: 'exports_to_excel',
@@ -47,7 +47,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Формирование выгрузки по разовому запросу. Данные без глубокой обработки или «как есть» из источника',
     sourceTool: 'OpenCode',
     recommendation: 'Рекомендуем переводить повторяющиеся выгрузки в параметризованные скрипты с помощью OpenCode в Datalab AI.',
-    resources: [{label: 'ссылке', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
+    resources: [{label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
   },
   {
     key: 'excel_automatic_reports',
@@ -56,7 +56,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Отчеты, формируемые автоматически по расписанию или триггеру. Настройка производится однократно через скрипт (SQL, Python, ETL) или прямое подключение к базе данных. После настройки обновление данных происходит без ручного вмешательства',
     sourceTool: 'AirFlow и AI Note в ЛД',
     recommendation: 'Рекомендуем планировать регулярные расчёты в AirFlow, а AI Note в ЛД использовать для ускорения разработки и проверки кода.',
-    resources: [{label: 'ссылке', href: 'https://mapp.sberbank.ru/greenlab/page/994'}],
+    resources: [{label: 'AirFlow и AI Note в ЛД', href: 'https://mapp.sberbank.ru/greenlab/page/994'}],
   },
   {
     key: 'data_marts',
@@ -66,9 +66,9 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     sourceTool: 'Стандарты создания витрин',
     recommendation: 'Рекомендуем начинать новые витрины со стандартного маршрута проектирования, для базовых витрин использовать готовый шаблон и заранее подключать CDO юнита.',
     resources: [
-      {label: 'основной инструкции', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=23607905561'},
-      {label: 'шаблону базовых витрин', href: 'https://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17033528890'},
-      {label: 'контактам CDO', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=12446342550'},
+      {label: 'Стандарт проектирования витрин', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=23607905561'},
+      {label: 'Шаблон базовых витрин', href: 'https://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17033528890'},
+      {label: 'Контакты CDO', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=12446342550'},
     ],
   },
   {
@@ -79,8 +79,8 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     sourceTool: 'Централизованный сервис ККД',
     recommendation: 'Рекомендуем выбрать один повторяющийся контроль и пилотно автоматизировать его через централизованный сервис ККД, отслеживая результат в отчёте B2C.',
     resources: [
-      {label: 'сервису ККД', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403'},
-      {label: 'отчёту B2C', href: 'https://navigator.sigma.sbrf.ru/gdash/1000000237/1000002468'},
+      {label: 'Централизованный сервис ККД', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403'},
+      {label: 'Отчёт ККД B2C', href: 'https://navigator.sigma.sbrf.ru/gdash/1000000237/1000002468'},
     ],
   },
   {
@@ -90,7 +90,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Выявление корневых причин отклонений или проблем в данных/процессах с помощью исследовательских и статистических методов',
     sourceTool: 'DataLab Pro|OpenCode',
     recommendation: 'Рекомендуем проводить анализ корневых причин в DataLab Pro, а OpenCode использовать для ускорения подготовки и проверки исследовательского кода.',
-    resources: [{label: 'ссылке', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
+    resources: [{label: 'DataLab Pro и OpenCode', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
   },
   {
     key: 'growth_factors_research',
@@ -99,7 +99,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Выявление скрытых зависимостей (что влияет на LTV, Retention). Часто требует статистических методов.',
     sourceTool: 'OpenCode',
     recommendation: 'Рекомендуем использовать OpenCode в Datalab AI для ускорения разведочного анализа, проверки гипотез и воспроизводимого расчёта факторов роста.',
-    resources: [{label: 'ссылке', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
+    resources: [{label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
   },
   {
     key: 'business_planning',
@@ -108,7 +108,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Построение прогнозов, план-факт анализ, моделирование сценариев развития.',
     sourceTool: 'OpenCode',
     recommendation: 'Рекомендуем использовать OpenCode в Datalab AI для подготовки сценарных моделей, автоматизации план-факт расчётов и документирования допущений.',
-    resources: [{label: 'ссылке', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
+    resources: [{label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
   },
   {
     key: 'financial_impact_estimation',
@@ -141,7 +141,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Участие во внутренних и внешних встречах, консультирование коллег и заказчиков, согласование требований с подрядчиками, решение операционных и организационных вопросов',
     sourceTool: 'Использование Автопротокола в jass',
     recommendation: 'Рекомендуем использовать Автопротокол для встреч, а решения, владельцев и сроки переносить из саммари в трекер задач.',
-    resources: [{label: 'ссылке', href: 'https://potok.sber.ru/notes/summary?utm_source=mail&utm_campaign=winback'}],
+    resources: [{label: 'Автопротокол JAS', href: 'https://potok.sber.ru/notes/summary?utm_source=mail&utm_campaign=winback'}],
   },
   {
     key: 'employee_trainings',
@@ -166,7 +166,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Формализация задач от бизнеса в техническое задание для разработки.',
     sourceTool: 'Использование Автопротокола в jass',
     recommendation: 'Рекомендуем собирать требования через Автопротокол, а затем фиксировать в БТ/ТЗ решения, ограничения, владельцев и критерии приёмки.',
-    resources: [{label: 'ссылке', href: 'https://potok.sber.ru/notes/summary?utm_source=mail&utm_campaign=winback'}],
+    resources: [{label: 'Автопротокол JAS', href: 'https://potok.sber.ru/notes/summary?utm_source=mail&utm_campaign=winback'}],
   },
   {
     key: 'excel_reports',
@@ -193,7 +193,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Проектирование и создание витрин данных для отчетов или дашбордов (ETL/ELT процессы).',
     sourceTool: 'курс Навигатора/Продуктовая аналитика',
     recommendation: 'Рекомендуем направить владельцев дашбордов на курс Навигатора или продуктовой аналитики и применить обучение на ближайшей доработке.',
-    resources: [{label: 'ссылке', href: 'https://confluence.sberbank.ru/display/NAV'}],
+    resources: [{label: 'Курс Навигатора', href: 'https://confluence.sberbank.ru/display/NAV'}],
   },
   {
     key: 'dashboard_migration',
@@ -202,7 +202,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Перенос существующих дашбордов и отчетов с текущей BI-платформы на целевую BI-систему. Включает: анализ исходных дашбордов, перепроектирование моделей данных под целевую платформу, перенос или пересоздание графиков и фильтров, валидацию совпадения метрик с исходными отчетами, настройку прав доступа и обновления данных. По завершении — тестирование и сдача в эксплуатацию',
     sourceTool: 'курс Навигатора/Продуктовая аналитика',
     recommendation: 'Рекомендуем до миграции пройти курс Навигатора или продуктовой аналитики, затем провести инвентаризацию метрик и зафиксировать критерии сверки со старым дашбордом.',
-    resources: [{label: 'ссылке', href: 'https://confluence.sberbank.ru/display/NAV'}],
+    resources: [{label: 'Курс Навигатора', href: 'https://confluence.sberbank.ru/display/NAV'}],
   },
   {
     key: 'dashboard_manual_data_update',
