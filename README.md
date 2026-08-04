@@ -25,6 +25,14 @@
 `DD_ENV_FILE=/path/to/.env`. Все аргументы передаются в Python-сборщик, например
 для offline-сборки: `./build_gravity_report.sh --no-update-crosssell`.
 
+После полной сборки скрипт загружает `gravity-standalone.html` в Qlik QRS.
+Для загрузки задайте `HTML_UPLOAD_CERT_PASSWORD`; сертификат и CA bundle по
+умолчанию читаются из `$HOME/Sandbox/certs/21090527.p12` и
+`$HOME/Sandbox/certs/sberca-chain.pem`. Их можно переопределить через
+`HTML_UPLOAD_CERT_PATH` и `HTML_UPLOAD_CA_BUNDLE`, endpoint — через
+`HTML_UPLOAD_URL`. Для локальной сборки без загрузки используйте `--no-upload`.
+Режим `--data-only` всегда пропускает загрузку.
+
 Команда использует flat-table-пайплайн из `build_calc_report.py`.
 Сборка не требует внешних digest-файлов и не вызывает генеративные модели. Интеграция
 cross-sell с Product Lens по умолчанию включена. Результаты записываются в
