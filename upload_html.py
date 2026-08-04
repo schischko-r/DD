@@ -4,11 +4,89 @@
 from __future__ import annotations
 
 import argparse
+import getpass
 import os
 import tempfile
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import parse_qs, urlparse
+
+
+LEGACY_CERTIFICATE_NAME = "21090527"
+CA_BUNDLE_NAME = "sberca-chain.pem"
+
+
+def default_credential_directories(
+    *,
+    repository_dir: Path | None = None,
+    home: Path | None = None,
+) -> tuple[Path, Path]:
+    repository_dir = (
+        repository_dir
+        if repository_dir is not None
+        else Path(__file__).resolve().parent
+    )
+    home = home if home is not None else Path.home()
+    return repository_dir.parent / "certs", home / "Sandbox" / "certs"
+
+
+def resolve_certificate_path(
+    explicit_path: Path | None = None,
+    *,
+    environ: Mapping[str, str] = os.environ,
+    username: str | None = None,
+    directories: tuple[Path, ...] | None = None,
+) -> Path:
+    if explicit_path is not None:
+        return explicit_path.expanduser()
+
+    environment_path = environ.get("HTML_UPLOAD_CERT_PATH")
+    if environment_path:
+        return Path(environment_path).expanduser()
+
+    username = username or getpass.getuser()
+    directories = (
+        directories if directories is not None else default_credential_directories()
+    )
+    certificate_names = (
+        f"{username}.p12",
+        f"{username}.pfx",
+        f"{LEGACY_CERTIFICATE_NAME}.p12",
+        f"{LEGACY_CERTIFICATE_NAME}.pfx",
+    )
+    candidates = tuple(
+        directory / name for name in certificate_names for directory in directories
+    )
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+
+    checked = ", ".join(str(path) for path in candidates)
+    raise FileNotFoundError(f"Client certificate not found; checked: {checked}")
+
+
+def resolve_ca_bundle(
+    explicit_path: Path | None = None,
+    *,
+    environ: Mapping[str, str] = os.environ,
+    directories: tuple[Path, ...] | None = None,
+) -> Path | None:
+    if explicit_path is not None:
+        return explicit_path.expanduser()
+
+    environment_path = environ.get("HTML_UPLOAD_CA_BUNDLE")
+    if environment_path:
+        return Path(environment_path).expanduser()
+
+    directories = (
+        directories if directories is not None else default_credential_directories()
+    )
+    for directory in directories:
+        candidate = directory / CA_BUNDLE_NAME
+        if candidate.is_file():
+            return candidate
+    return None
 
 
 def xrf_key_from_url(url: str) -> str:
@@ -116,11 +194,12 @@ def upload_html(
         return int(response.status_code)
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(arguments: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("html", type=Path)
     parser.add_argument("url")
-    parser.add_argument("--cert-path", type=Path, required=True)
+    parser.add_argument("--cert-password")
+    parser.add_argument("--cert-path", type=Path)
     parser.add_argument("--ca-bundle", type=Path)
     parser.add_argument("--timeout", type=int, default=120)
     parser.add_argument("--insecure", action="store_true")
@@ -129,20 +208,22 @@ def parse_args() -> argparse.Namespace:
         default="HTML_UPLOAD_CERT_PASSWORD",
         help="Environment variable containing the PKCS#12 password",
     )
-    return parser.parse_args()
+    return parser.parse_args(arguments)
 
 
 def main() -> None:
     args = parse_args()
-    password = os.getenv(args.cert_password_env, "")
+    password = args.cert_password or os.getenv(args.cert_password_env, "")
     if not password:
-        raise SystemExit(f"Set {args.cert_password_env} before uploading")
+        raise SystemExit(
+            f"Pass --cert-password or set {args.cert_password_env} before uploading"
+        )
     status_code = upload_html(
         args.html,
         args.url,
-        args.cert_path,
+        resolve_certificate_path(args.cert_path),
         password,
-        ca_bundle=args.ca_bundle,
+        ca_bundle=resolve_ca_bundle(args.ca_bundle),
         timeout=args.timeout,
         insecure=args.insecure,
     )

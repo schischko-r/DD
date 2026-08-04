@@ -63,17 +63,7 @@ fi
                 env_file.write_text(dotenv, encoding="utf-8")
                 environment["DD_ENV_FILE"] = str(env_file)
             if upload:
-                certificate = directory / "client.p12"
-                ca_bundle = directory / "ca.pem"
-                certificate.touch()
-                ca_bundle.touch()
-                environment.update(
-                    {
-                        "HTML_UPLOAD_CERT_PASSWORD": "test-password",
-                        "HTML_UPLOAD_CERT_PATH": str(certificate),
-                        "HTML_UPLOAD_CA_BUNDLE": str(ca_bundle),
-                    }
-                )
+                environment["HTML_UPLOAD_CERT_PASSWORD"] = "test-password"
             environment.update(extra_environment or {})
 
             subprocess.run(
@@ -101,6 +91,9 @@ fi
         self.assertIn("upload_html.py", invocations[1])
         self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
+        self.assertNotIn("--cert-password", invocations[1])
+        self.assertNotIn("--cert-path", invocations[1])
+        self.assertNotIn("--ca-bundle", invocations[1])
 
     def test_upload_flag_runs_builder_then_uploader(self) -> None:
         invocations = self.run_wrapper("--upload", upload=True)
@@ -110,6 +103,19 @@ fi
         self.assertIn("upload_html.py", invocations[1])
         self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
+        self.assertNotIn("--cert-password", invocations[1])
+
+    def test_upload_path_overrides_are_forwarded_without_prevalidation(self) -> None:
+        invocations = self.run_wrapper(
+            upload=True,
+            extra_environment={
+                "HTML_UPLOAD_CERT_PATH": "/missing/client.p12",
+                "HTML_UPLOAD_CA_BUNDLE": "/missing/ca.pem",
+            },
+        )
+
+        self.assertIn("--cert-path /missing/client.p12", invocations[1])
+        self.assertIn("--ca-bundle /missing/ca.pem", invocations[1])
 
     def test_data_only_never_uploads(self) -> None:
         invocations = self.run_wrapper("--data-only")

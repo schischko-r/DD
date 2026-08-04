@@ -28,11 +28,14 @@
 Python запускается напрямую через `${PYTHON:-python3}`; `uv` не используется.
 
 После успешной сборки скрипт автоматически загружает `gravity-standalone.html`
-в Qlik QRS. Задайте `HTML_UPLOAD_CERT_PASSWORD`; сертификат и CA bundle по
-умолчанию читаются из `$HOME/Sandbox/certs/21090527.p12` и
-`$HOME/Sandbox/certs/sberca-chain.pem`. Их можно переопределить через
-`HTML_UPLOAD_CERT_PATH` и `HTML_UPLOAD_CA_BUNDLE`, endpoint — через
-`HTML_UPLOAD_URL`. Флаг `--no-upload` отключает автоматическую загрузку,
+в Qlik QRS. Задайте `HTML_UPLOAD_CERT_PASSWORD`; uploader автоматически ищет
+сертификат текущего пользователя (`.p12`/`.pfx`), а затем legacy-сертификат
+`21090527.p12`/`.pfx` в `../certs` и `$HOME/Sandbox/certs`. В тех же каталогах
+ищется `sberca-chain.pem`; при его отсутствии используется системное TLS-хранилище.
+Пути можно переопределить через `HTML_UPLOAD_CERT_PATH` и
+`HTML_UPLOAD_CA_BUNDLE` (или CLI-флаги `--cert-path` и `--ca-bundle`), endpoint —
+через `HTML_UPLOAD_URL`. Прямой legacy-вызов `upload_html.py` поддерживает
+`--cert-password`. Флаг `--no-upload` отключает автоматическую загрузку,
 `--upload` сохранён как явный совместимый режим, а `--data-only` всегда
 пропускает загрузку.
 
