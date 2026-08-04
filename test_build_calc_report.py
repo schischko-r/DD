@@ -81,6 +81,84 @@ class SyntheticReportTest(unittest.TestCase):
 
         self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path)
 
+    def test_main_falls_back_to_existing_crosssell_cache_on_503(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "crosssell.json"
+            cache_path.write_text("{}", encoding="utf-8")
+            args = report.parse_args([
+                "--crosssell-json",
+                str(cache_path),
+                "--crosssell-token",
+                "token",
+            ])
+            service_unavailable = urllib.error.HTTPError(
+                "https://example.test/market/item",
+                503,
+                "Service Unavailable",
+                {},
+                None,
+            )
+
+            with (
+                patch.object(report, "parse_args", return_value=args),
+                patch.object(report, "download_crosssell_export", side_effect=service_unavailable),
+                patch.object(report, "build_combined_data", return_value=({}, {})) as build,
+                patch.object(report, "write_html"),
+                patch("builtins.print") as output,
+            ):
+                report.main()
+
+        self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path)
+        summary = json.loads(output.call_args.args[0])
+        self.assertEqual(summary["crosssell_source"]["mode"], "api_fallback")
+        self.assertTrue(summary["crosssell_source"]["local_cache_used"])
+        self.assertIn("HTTP 503", summary["crosssell_source"]["download_error"])
+
+    def test_main_continues_without_crosssell_cache_on_503(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "crosssell.json"
+            args = report.parse_args([
+                "--crosssell-json",
+                str(cache_path),
+                "--crosssell-token",
+                "token",
+            ])
+            service_unavailable = urllib.error.HTTPError(
+                "https://example.test/market/item",
+                503,
+                "Service Unavailable",
+                {},
+                None,
+            )
+
+            with (
+                patch.object(report, "parse_args", return_value=args),
+                patch.object(report, "download_crosssell_export", side_effect=service_unavailable),
+                patch.object(report, "build_combined_data", return_value=({}, {})) as build,
+                patch.object(report, "write_html"),
+                patch("builtins.print"),
+            ):
+                report.main()
+
+        self.assertIsNone(build.call_args.kwargs["crosssell_path"])
+
+    def test_main_does_not_hide_crosssell_auth_errors(self) -> None:
+        args = report.parse_args(["--crosssell-token", "invalid-token"])
+        unauthorized = urllib.error.HTTPError(
+            "https://example.test/markers",
+            401,
+            "Unauthorized",
+            {},
+            None,
+        )
+
+        with (
+            patch.object(report, "parse_args", return_value=args),
+            patch.object(report, "download_crosssell_export", side_effect=unauthorized),
+            self.assertRaises(urllib.error.HTTPError),
+        ):
+            report.main()
+
     def test_no_ai_skills_ignores_existing_crosssell_cache(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             cache_path = Path(temp_dir) / "crosssell.json"

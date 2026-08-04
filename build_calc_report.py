@@ -2992,11 +2992,11 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       const rule = String(value || '').trim();
       if (!rule) return '';
       return rule
-        .replace(/Зел\.?:/gi, 'Зелёный сигнал —')
-        .replace(/Красн\.?:/gi, 'Красный сигнал —')
-        .replace(/Жёлт\.?:/gi, 'Жёлтый сигнал —')
-        .replace(/\s*\|\s*/g, '. ')
-        .replace(/\.$/, '') + '.';
+        .replace(/Зел\\.?:/gi, 'Зелёный сигнал —')
+        .replace(/Красн\\.?:/gi, 'Красный сигнал —')
+        .replace(/Жёлт\\.?:/gi, 'Жёлтый сигнал —')
+        .replace(/\\s*\\|\\s*/g, '. ')
+        .replace(/\\.$/, '') + '.';
     }
 
     function digestItemHTML(entry) {
@@ -3927,21 +3927,41 @@ def main() -> None:
         "local_cache_used": bool(not skip_crosssell and args.crosssell_json.exists()),
     }
     if args.update_crosssell and not skip_crosssell and args.crosssell_token:
-        download_crosssell_export(
-            args.crosssell_json,
-            markers_url=args.crosssell_markers_url,
-            products_url=args.crosssell_products_url,
-            market_url=args.crosssell_market_url,
-            timeout=args.crosssell_timeout,
-            token=args.crosssell_token,
-        )
-        crosssell_source.update(
-            {
-                "request_attempted": True,
-                "downloaded": True,
-                "local_cache_used": True,
-            }
-        )
+        crosssell_source["request_attempted"] = True
+        try:
+            download_crosssell_export(
+                args.crosssell_json,
+                markers_url=args.crosssell_markers_url,
+                products_url=args.crosssell_products_url,
+                market_url=args.crosssell_market_url,
+                timeout=args.crosssell_timeout,
+                token=args.crosssell_token,
+            )
+        except urllib.error.HTTPError as error:
+            if error.code != 429 and not 500 <= error.code <= 599:
+                raise
+            crosssell_source.update(
+                {
+                    "mode": "api_fallback",
+                    "download_error": f"Product Lens временно недоступен: HTTP {error.code}",
+                    "local_cache_used": args.crosssell_json.exists(),
+                }
+            )
+        except (urllib.error.URLError, TimeoutError) as error:
+            crosssell_source.update(
+                {
+                    "mode": "api_fallback",
+                    "download_error": f"Product Lens временно недоступен: {error.reason if isinstance(error, urllib.error.URLError) else error}",
+                    "local_cache_used": args.crosssell_json.exists(),
+                }
+            )
+        else:
+            crosssell_source.update(
+                {
+                    "downloaded": True,
+                    "local_cache_used": True,
+                }
+            )
     elif args.update_crosssell and not skip_crosssell and not args.crosssell_token:
         crosssell_source["download_error"] = "PL_PARTNER_CROSSSELL_TOKEN не настроен"
     crosssell_path = None if skip_crosssell or not args.crosssell_json.exists() else args.crosssell_json
