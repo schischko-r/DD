@@ -64,6 +64,7 @@ const reportHtml = readFileSync(
 
 test('tool catalog declares Clickstream as a universal html_page integration', () => {
   assert.match(toolCatalogSource, /export const TOOL_CATALOG\s*=/);
+  assert.match(toolCatalogSource, /\.filter\(\(\[id\]\) => id !== ['"]llm_summary['"]\)/);
   assert.match(
     toolCatalogSource,
     /export const HTML_PAGE_TOOLS\s*=\s*Object\.freeze\(\s*TOOL_CATALOG\.filter\(\((?:item|entry)\)\s*=>\s*(?:item|entry)\.tool\s*===\s*['"]html_page['"]\)/,
@@ -107,7 +108,6 @@ test('html_page URL, title and Gravity icon come from the Vite env map', () => {
       title: 'Анализ кликстрим воронок',
       icon: 'ChartLine',
     },
-    llm_summary: {url: '', title: 'AI-суммаризация', icon: 'Sparkles'},
     client_metrics: {url: '', title: 'Клиентские метрики', icon: 'ChartColumn'},
     complaints: {url: '', title: 'Жалобы и обращения', icon: 'Comments'},
     csi: {url: '', title: 'CSI', icon: 'CircleCheck'},
@@ -224,7 +224,7 @@ test('Team profile resolves a generic html_page action from recommendation metad
   assert.match(teamProfileSource, /buildHtmlPageContext\(tool,\s*recommendation\)/);
   assert.match(
     teamProfileSource,
-    /const openConfiguredSkill\s*=\s*\(recommendation,\s*fallback\)\s*=>/,
+    /const openConfiguredSkill\s*=\s*\(recommendation\)\s*=>/,
   );
   assert.match(
     teamProfileSource,
@@ -239,10 +239,11 @@ test('Team profile resolves a generic html_page action from recommendation metad
     'complaintsAiRecommendations[0]',
   ]) {
     assert.ok(
-      teamProfileSource.includes(`openConfiguredSkill(${recommendation},`),
+      teamProfileSource.includes(`openConfiguredSkill(${recommendation})`),
       `${recommendation} must route to a configured HTML page`,
     );
   }
+  assert.match(teamProfileSource, /const openConfiguredSkill = \(recommendation\) => \{[\s\S]*setReportAccessOpen\(true\);/);
   assert.match(
     teamProfileSource,
     /<MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions=\{\[\.\.\.insights,\s*\.\.\.skillActions\]\}\s*\/>/,
@@ -756,7 +757,7 @@ test('HTML report fills the available application viewport', () => {
   );
 });
 
-test('all Clickstream recommendation mappings exist as report funnels', () => {
+test('Clickstream recommendation mappings, when present, exist as report funnels', () => {
   const dataMarker = 'var _ALL_DATA = ';
   const dataStart = reportHtml.indexOf(dataMarker);
   assert.notEqual(dataStart, -1, '_ALL_DATA marker is missing from Clickstream HTML');
@@ -782,7 +783,6 @@ test('all Clickstream recommendation mappings exist as report funnels', () => {
       }))
   ));
 
-  assert.ok(clickstreamRecommendations.length > 0, 'Clickstream recommendation mappings are missing');
   assert.ok(
     clickstreamRecommendations.every((item) => item.funnel),
     'Every Clickstream recommendation must declare product_group',

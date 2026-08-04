@@ -20,10 +20,9 @@
 python build_gravity_report.py
 ```
 
-Команда использует flat-table-пайплайн из `build_calc_report.py`, локальные
-`ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx`, не выполняет сетевые
-запросы к AI-digest API или GigaChat. Интеграция cross-sell с Product Lens по
-умолчанию включена. Результаты записываются в
+Команда использует flat-table-пайплайн из `build_calc_report.py`.
+Сборка не требует внешних digest-файлов и не вызывает генеративные модели. Интеграция
+cross-sell с Product Lens по умолчанию включена. Результаты записываются в
 `gravity-app/public/report-data.json` и `gravity-standalone.html`. Если рядом
 лежит `sbertrack_all_full_history_to_export.xlsx`, перед сборкой UI также
 обновляется `gravity-app/public/backlog-data.json`.
@@ -46,7 +45,7 @@ npm run dev
 `.env.example`:
 
 ```dotenv
-VITE_HTML_PAGE_URLS={"clickstream":{"url":"./Кликстрим_Месячный_все_воронки_zeroed_gravity.html","title":"Анализ кликстрим воронок","icon":"ChartLine"},"llm_summary":{"url":"","title":"AI-суммаризация","icon":"Sparkles"},"client_metrics":{"url":"","title":"Клиентские метрики","icon":"ChartColumn"},"complaints":{"url":"","title":"Жалобы и обращения","icon":"Comments"},"csi":{"url":"","title":"CSI","icon":"CircleCheck"},"drafts":{"url":"","title":"Черновики","icon":"FileText"},"funnel":{"url":"","title":"Воронка кампейнинга","icon":"ChartAreaStacked"}}
+VITE_HTML_PAGE_URLS={"clickstream":{"url":"./Кликстрим_Месячный_все_воронки_zeroed_gravity.html","title":"Анализ кликстрим воронок","icon":"ChartLine"},"client_metrics":{"url":"","title":"Клиентские метрики","icon":"ChartColumn"},"complaints":{"url":"","title":"Жалобы и обращения","icon":"Comments"},"csi":{"url":"","title":"CSI","icon":"CircleCheck"},"drafts":{"url":"","title":"Черновики","icon":"FileText"},"funnel":{"url":"","title":"Воронка кампейнинга","icon":"ChartAreaStacked"}}
 ```
 
 Поддерживаемые значения `icon`: `ChartLine`, `ChartColumn`,
@@ -98,25 +97,13 @@ python build_calc_report.py \
   --output "final_report_from_excel.html"
 ```
 
-Без запроса к AI-digest API, только из локальных файлов:
+Обновление данных Gravity UI из того же DD-источника:
 
 ```bash
 python build_calc_report.py \
   --input "flat_table.xlsx" \
   --output "final_report_from_excel.html" \
-  --no-update-ai-digest \
-  --no-update-llm-summary
-```
-
-Обновление данных Gravity UI из тех же DD, mapping и digest источников:
-
-```bash
-python build_calc_report.py \
-  --input "flat_table.xlsx" \
-  --output "final_report_from_excel.html" \
-  --json-output "gravity-app/public/report-data.json" \
-  --no-update-ai-digest \
-  --no-update-llm-summary
+  --json-output "gravity-app/public/report-data.json"
 ```
 
 Помесячная декомпозиция бэклога строится из отдельной выгрузки тикетов.
@@ -192,19 +179,9 @@ flowchart TD
     K --> L["tag_ai_tool_keys"]
     L --> M["enrich_cx_journey_links"]
 
-    N["ai_skill_digest_export.xlsx"] --> O["read_ai_digest_rows"]
-    P["ai_product_mapping.xlsx"] --> Q["read_ai_product_mapping"]
-    O --> R["build_ai_digest_index"]
-    Q --> R
-    R --> S["apply_ai_skill_digest"]
-    M --> S
-
-    T["GigaChat .env"] --> U{"--update-llm-summary?"}
-    S --> U
-    U -->|да| V["LLM summary for attract group"]
-    U -->|нет| W["LLM placeholder"]
-    V --> X["combined report model"]
-    W --> X
+    N["Product Lens API / crosssell_export.json"] --> O["apply_crosssell_export"]
+    M --> X["combined report model"]
+    O --> X
 
     X --> Y["gravity-app/public/report-data.json"]
     X --> Z["final_report_from_excel.html"]
@@ -223,8 +200,6 @@ flowchart TD
 - старый детальный лист, если используется legacy-режим: `деталка`;
 - период: `II кв. 2026`;
 - выход: `final_report_from_excel.html`;
-- локальный AI-digest: `ai_skill_digest_export.xlsx`;
-- локальный маппинг продуктов: `ai_product_mapping.xlsx`.
 
 CLI-параметры:
 
@@ -234,18 +209,9 @@ python build_calc_report.py --help
 
 Частые флаги:
 
-- `--no-update-ai-digest` - не ходить в API, читать локальный `ai_skill_digest_export.xlsx`;
-- `--skip-ai-digest` - собрать отчет вообще без AI-digest;
-- `--no-ai-skills` - не читать AI Excel и маппинг, не вызывать LLM и не показывать AI-навыки в отчете;
-- `--ai-digest-token` - переопределить токен AI-digest из `.env`;
-- `--ai-digest-timeout` - переопределить таймаут AI-digest в секундах;
+- `--no-ai-skills` - не показывать AI-навыки и Cross-sell;
 - `--crosssell-json` - путь к локальному кэшу ответов Product Lens;
 - `--no-update-crosssell` - не обращаться к Product Lens, использовать локальный кэш;
-- `--refresh-ai-product-map` - пересоздать шаблон `ai_product_mapping.xlsx`;
-- `--update-llm-summary` - вызвать GigaChat и сформировать LLM-суммаризацию;
-- `--no-update-llm-summary` - не вызывать GigaChat;
-- `--llm-log` - печатать вход/выход LLM и причины skip;
-- `--no-llm-log` - выключить подробный лог.
 
 Cross-sell интеграция использует `GET /api/v1/crosssell/markers` как основной
 стабильный контракт и `GET /api/v1/crosssell/products` для продуктов каталога,
@@ -260,7 +226,7 @@ Cross-sell интеграция использует `GET /api/v1/crosssell/mark
 Интеграция включена во всех обычных сборках. Для offline-сборки без обращения к
 API передайте `--no-update-crosssell`: отчёт использует локальный кэш
 `crosssell_export.json`. Общий флаг `--no-ai-skills` отключает все AI-навыки,
-включая cross-sell.
+включая Cross-sell.
 Количество замеченных связок берётся из `seen_out_n`, `seen_in_n` и
 `seen_around_n`, потенциальных — из `potential_n`; legacy-поле `implemented`
 сохраняется только для диагностики.
@@ -345,51 +311,6 @@ python build_gravity_report.py
 
 Это поведение важно: смешивать legacy-листы и upload-листы в одной книге сейчас не нужно.
 
-### AI-digest
-
-AI-digest приходит из `GET /api/skill-digest/export` или читается из локального `ai_skill_digest_export.xlsx`.
-
-Ожидаемые колонки:
-
-- `навык`;
-- `ключ навыка`;
-- `месяц`;
-- `продукт`;
-- `показатель`;
-- `тип`;
-- `цвет`;
-- `текст`;
-- `правило светофора`.
-
-Допустимые значения `тип`:
-
-- `светофор`;
-- `текст`.
-
-Если `тип` пустой, но есть `цвет = green/yellow/red`, строка все равно считается светофорной.
-
-Светофор навыка берется по худшему цвету строк выбранного периода. Все строки выбранного периода попадают в раскрывающийся дайджест навыка.
-
-### Маппинг AI-продуктов
-
-Файл `ai_product_mapping.xlsx` связывает название сущности в DD-отчете с названием продукта в AI-digest.
-
-Колонки:
-
-- `dd_product` - название продукта/сегмента в отчете;
-- `ai_tool_key` - ключ навыка;
-- `ai_tool_product name` - название продукта в AI-digest.
-
-Правила:
-
-- матчинг идет по `dd_product + ai_tool_key + ai_tool_product name`;
-- сравнение идет через trim + lower/casefold;
-- если `ai_tool_product name` пустой, строка маппинга игнорируется;
-- у одного `dd_product + ai_tool_key` может быть несколько строк с разными `ai_tool_product name`;
-- в таком случае в HTML строится несколько продуктовых облаков.
-
-Ключи навыков нормализуются. Например, `draft`, `drafts`, `черновик`, `черновики` приводятся к `drafts`.
-
 ## Логика Расчета
 
 ### Титульник
@@ -445,73 +366,6 @@ round(sum(value) / sum(max_value) * 100)
 - red: `value == 0`;
 - gray: неприменимо или `max_value <= 0`.
 
-Для AI-digest:
-
-- цвет берется из поля `цвет`;
-- если у навыка несколько строк, общий цвет навыка - худший из цветов;
-- строки `тип = светофор` отображаются первыми;
-- строки с `Показатель = Рекомендации` отображаются в конце облака.
-
-## Рендер AI-digest В HTML
-
-Раскрывашка навыка строится только из строк Excel AI-digest. Синтетические строки `Текст` не создаются.
-
-Формат каждого облака:
-
-```text
-[капсула продукта]
-[светофор] [Показатель жирным]
-[Текст обычным шрифтом]
-Правило: [правило светофора]
-```
-
-Если по одному DD-продукту сматчено несколько AI-продуктов, каждый AI-продукт получает отдельное облако.
-
-Для загрузки AI-digest из API можно указать настройки в `.env` рядом со скриптом:
-
-```env
-AI_SKILL_DIGEST_TOKEN=
-AI_SKILL_DIGEST_TIMEOUT=600
-```
-
-`AI_SKILL_DIGEST_TIMEOUT` задается в секундах. Значение по умолчанию - `600`, то есть 10 минут.
-
-## LLM-суммаризация
-
-LLM-суммаризация добавляется в `Группа навыков «Привлечение»`.
-
-В LLM передаются название текущего DD-продукта и только AI-digest строки, которые уже сматчились через `ai_product_mapping.xlsx`. DD-метрики, индекс и несматченные продукты в prompt не отправляются.
-
-Для запуска нужны переменные окружения в `.env` рядом со скриптом:
-
-```env
-GIGACHAT_TOKEN=
-GIGACHAT_AUTH_URL=
-GIGACHAT_SCOPE=GIGACHAT_API_CORP
-GIGACHAT_MODEL=GigaChat-2-Max
-GIGACHAT_WORKERS=5
-GIGACHAT_TIMEOUT=300
-```
-
-Запуск:
-
-```bash
-python build_calc_report.py \
-  --no-update-ai-digest \
-  --update-llm-summary \
-  --llm-log
-```
-
-Полная сборка JSON, Gravity UI и итогового standalone HTML одной командой:
-
-```bash
-./build_with_llm.sh
-```
-
-Cross-sell обогащение всегда включено в LLM-сборке.
-
-Если LLM не запрошена или не настроена, в группе навыков показывается placeholder `LLM-cуммаризация`.
-
 ## Выходная Модель
 
 Итоговый HTML содержит JSON в блоке:
@@ -529,21 +383,13 @@ Cross-sell обогащение всегда включено в LLM-сборк�
 - `products[].metrics[]` - блоки;
 - `block.metrics[]` - метрики блока;
 - `block.tools[]` - AI-навыки, инструкции, группы навыков;
-- `ai_skill_digest` - техническая сводка по AI-digest, matching и LLM.
+- `crosssell` - техническая сводка по обогащению Product Lens.
 
 ## Ограничения
 
 - `build_calc_report.py` самодостаточный, но из-за этого файл большой: часть логики зашита строками.
 - Если в книге есть листы `титул` и `деталка`, upload-пайплайн не включается.
 - Названия колонок Excel должны совпадать с ожидаемыми или нормализуемыми алиасами.
-- `ai_product_mapping.xlsx` должен лежать локально и не хранится в git.
-- При `--no-update-ai-digest` API не вызывается, но локальные `ai_skill_digest_export.xlsx` и `ai_product_mapping.xlsx` все равно перечитываются каждый запуск.
-- AI-digest матчится только через связку `dd_product + ai_tool_key + ai_tool_product name`.
-- Если нет маппинга, навык не обогащается AI-digest.
-- Если последняя дата AI-digest равна текущему месяцу, показывается предыдущий закрытый месяц.
-- Если данные старше 3 месяцев, показывается предупреждение об устаревших данных.
-- Токен AI-digest берется из `AI_SKILL_DIGEST_TOKEN` или из флага `--ai-digest-token`.
-- LLM-суммаризация зависит от доступности GigaChat и корректной `.env`.
 - `final_report_from_excel.html` является generated artifact: ручные правки в HTML будут потеряны при следующей сборке.
 
 ## Отдельный Титульник

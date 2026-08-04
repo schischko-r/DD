@@ -35,6 +35,17 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertIn("--no-ai-skills", report_command)
         self.assertIn("--crosssell", report_command)
 
+    def test_build_command_has_no_digest_or_llm_inputs(self) -> None:
+        args = report.parse_args([])
+
+        with patch.object(report, "run") as run:
+            report.build(args)
+
+        report_command = run.call_args_list[0].args[0]
+        self.assertFalse(
+            any("digest" in argument or "llm" in argument for argument in report_command)
+        )
+
     def test_full_build_rebuilds_clickstream_companion_before_main_standalone(self) -> None:
         args = report.parse_args([])
 

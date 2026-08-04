@@ -5,6 +5,7 @@ import {runInNewContext} from 'node:vm';
 import {isDdIndexMetric, isTbdMetric} from '../domain/report.js';
 
 const profileSource = readFileSync(new URL('./TeamProfilePage.jsx', import.meta.url), 'utf8');
+const llmSummarySource = readFileSync(new URL('../features/llm-summary/LlmSummary.jsx', import.meta.url), 'utf8');
 const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 const metricRowSource = profileSource.match(
   /function MetricRow\([\s\S]*?(?=\nconst LEADER_CONFETTI_COLORS)/,
@@ -64,6 +65,21 @@ test('team profile labels goals and CX blocks for their audience', () => {
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX Score report'}]}), 'CX Score');
   assert.match(profileSource, /<h3>\{teamProfileBlockTitle\(block\)\}<\/h3>/);
   assert.match(profileSource, /name: teamProfileBlockTitle\(block\)/);
+});
+
+test('business metrics analytics action follows the DD metric grid instead of AI recommendations', () => {
+  assert.match(
+    profileSource,
+    /<\/section>\s*<div className="metrics-title team-business-metrics-title">\s*<h2>Аналитические навыки<\/h2>\s*<\/div>\s*<Card className="promo metric-report-promo team-business-metrics-analytics"/,
+  );
+  assert.match(profileSource, /AI-аналитика по бизнес-метрикам/);
+  assert.match(
+    profileSource,
+    /Ключевые изменения и быструю аналитику по своим бизнес-метрикам можно также посмотреть в комплексном отчете\. Этот блок не влияет на Data Driven Index вашей команды, но может содержать полезные инсайты и рекомендации по основным блокам вашего бизнеса\./,
+  );
+  assert.match(profileSource, /onClick=\{\(\) => setReportAccessOpen\(true\)\}/);
+  assert.doesNotMatch(llmSummarySource, /Посмотреть комплексный отчет по продукту/);
+  assert.doesNotMatch(llmSummarySource, /Больше подробностей можно посмотреть в комплексном отчёте/);
 });
 
 test('draft AI action suppresses the duplicate generic Drafts skill link', () => {

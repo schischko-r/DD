@@ -1,18 +1,13 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ArrowLeft, ArrowUpRightFromSquare, ChartLinePoints, ChevronDown, ChevronRight, CircleCheckFill, CircleInfo, CircleInfoFill, NodesRight} from '@gravity-ui/icons';
-import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Popup, Progress, SegmentedRadioGroup, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
+import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Popup, Progress, Select, Text, Tooltip as GravityTooltip} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {ApplicableRadarDot, ApplicableRadarShape, COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, REPORT_ACCESS_REQUEST_URL, ProductRadarTick, allocateIndexUplifts, blockPercent, collectBlockLinks, compareNames, crossSellPreview, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isDdIndexMetric, isInformationalMetric, isTbdMetric, isUnitFilterOption, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricSkillLinks, metricWord, percent, progressTheme, radarBlockPercent, radarSeries, scoreFor, summarizeRecommendationUplifts, teamHelpAudience, typeTone} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {
-  ProductMetricBlocks,
-  ProductMetricRecommendations,
   RecommendationBody,
-  digestStatus,
-  digestTheme,
-  hasAvailableRecommendations,
+  presentableRecommendations,
   recommendationBlockCode,
-  worstDigestLight,
 } from '../features/llm-summary/LlmSummary.jsx';
 import {
   buildHtmlPageContext,
@@ -740,10 +735,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
-  const aiRecommendations = product.metric_recommendations || [];
-  const hasAiRecommendations = hasAvailableRecommendations(aiRecommendations);
-  const aiRecommendationLight = hasAiRecommendations ? worstDigestLight(aiRecommendations) : 'gray';
-  const aiRecommendationTheme = aiRecommendationLight === 'gray' ? 'default' : digestTheme(aiRecommendationLight);
+  const aiRecommendations = presentableRecommendations(product.metric_recommendations);
   const profileSeries = radarSeries(product.type);
   const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter(isDdIndexMetric);
   const earnedPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
@@ -758,10 +750,6 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
   const percentToNextLevel = nextLevel ? Math.max(0, nextLevel.threshold - score) : 0;
   const pointsToNextLevel = nextLevel ? Math.max(0.05, maxPoints * nextLevel.threshold / 100 - earnedPoints) : 0;
   const [detailMode, setDetailMode] = useState('compact');
-  const [lens, setLens] = useState('dd');
-  const [aiFocusBlock, setAiFocusBlock] = useState(null);
-  const [aiFocusSkill, setAiFocusSkill] = useState(null);
-  const [aiReturnMetric, setAiReturnMetric] = useState(null);
   const [recommendationsOpen, setRecommendationsOpen] = useState(false);
   const [crossSellPreviewOpen, setCrossSellPreviewOpen] = useState(null);
   const [highlightedMetrics, setHighlightedMetrics] = useState(() => new Set());
@@ -780,7 +768,6 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
       if (nextProduct) onProduct(nextProduct);
     }
   };
-  const generalRecommendationBlock = recommendationBlockCode(product, 'general');
   const aiRecommendationBlockCodes = useMemo(
     () => new Set(aiRecommendations.map((item) => recommendationBlockCode(product, item.block_code || 'other'))),
     [aiRecommendations, product],
@@ -789,12 +776,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
     () => filterInapplicableMetricGroups(product.metrics || [], aiRecommendationBlockCodes, isVisibleMetric),
     [aiRecommendationBlockCodes, product],
   );
-  const mauMetricCode = (product.metrics || []).flatMap((block) => block.metrics || []).find((metric) => /\.mau_produkta$/i.test(String(metric.code || '')))?.code || 'general.mau_produkta';
   useEffect(() => {
-    if (!hasAiRecommendations && lens === 'metrics') setLens('dd');
-  }, [hasAiRecommendations, lens, product.id]);
-  useEffect(() => {
-    setAiReturnMetric(null);
     setCrossSellPreviewOpen(null);
     setHighlightedMetrics(new Set());
     if (recommendationHighlightTimer.current) window.clearTimeout(recommendationHighlightTimer.current);
@@ -802,85 +784,33 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
   useEffect(() => () => {
     if (recommendationHighlightTimer.current) window.clearTimeout(recommendationHighlightTimer.current);
   }, []);
-  const mauAiRecommendation = (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')) && !/\bYAU\b/i.test(String(item.indicator || '')))
-    || (product.metric_recommendations || []).find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')));
+  const mauAiRecommendation = aiRecommendations.find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')) && !/\bYAU\b/i.test(String(item.indicator || '')))
+    || aiRecommendations.find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')));
   const hasMauAiRecommendation = Boolean(mauAiRecommendation);
-  const htmlPageAiRecommendations = (product.metric_recommendations || []).reduce((matches, recommendation) => {
+  const htmlPageAiRecommendations = aiRecommendations.reduce((matches, recommendation) => {
     const tool = findHtmlPageToolForRecommendation(recommendation);
     if (!tool || matches.some((match) => match.tool.id === tool.id)) return matches;
     return [...matches, {tool, context: buildHtmlPageContext(tool, recommendation)}];
   }, []);
-  const draftAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'drafts' || item.skill_name === 'Черновики');
-  const campaignFunnelAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'funnel' || item.skill_name === 'Воронка кампейнинга');
-  const pilotAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'pilots' || item.skill_name === 'Пилотные кампании');
-  const csiAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'csi' || item.skill_name === 'CSI');
-  const complaintsAiRecommendations = (product.metric_recommendations || []).filter((item) => item.skill_key === 'complaints' || item.skill_name === 'Жалобы и обращения');
-  const openConfiguredSkill = (recommendation, fallback) => {
+  const draftAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'drafts' || item.skill_name === 'Черновики');
+  const campaignFunnelAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'funnel' || item.skill_name === 'Воронка кампейнинга');
+  const pilotAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'pilots' || item.skill_name === 'Пилотные кампании');
+  const csiAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'csi' || item.skill_name === 'CSI');
+  const complaintsAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'complaints' || item.skill_name === 'Жалобы и обращения');
+  const openConfiguredSkill = (recommendation) => {
     const tool = findHtmlPageToolForRecommendation(recommendation);
     if (tool) {
       onOpenHtmlPageTool(tool.id, buildHtmlPageContext(tool, recommendation));
       return;
     }
-    fallback();
+    setReportAccessOpen(true);
   };
-  const openMauAiRecommendation = () => {
-    openConfiguredSkill(mauAiRecommendation, () => {
-      setAiFocusBlock(generalRecommendationBlock);
-      setAiFocusSkill('Ключевые метрики');
-      setAiReturnMetric(mauMetricCode);
-      setLens('metrics');
-    });
-  };
-  const openDraftAiRecommendation = () => {
-    openConfiguredSkill(draftAiRecommendations[0], () => {
-      setAiFocusBlock('attract');
-      setAiFocusSkill('Черновики');
-      setAiReturnMetric('attract.chernoviki_v_sbol_70');
-      setLens('metrics');
-    });
-  };
-  const openCampaignFunnelAiRecommendation = () => {
-    openConfiguredSkill(campaignFunnelAiRecommendations[0], () => {
-      setAiFocusBlock('attract');
-      setAiFocusSkill('Воронка кампейнинга');
-      setAiReturnMetric('attract.funnel_analysis');
-      setLens('metrics');
-    });
-  };
-  const openPilotAiRecommendation = () => {
-    openConfiguredSkill(pilotAiRecommendations[0], () => {
-      setAiFocusBlock('attract');
-      setAiFocusSkill('Пилотные кампании');
-      setAiReturnMetric('attract.nalichie_self_service');
-      setLens('metrics');
-    });
-  };
-  const openCsiAiRecommendation = () => {
-    openConfiguredSkill(csiAiRecommendations[0], () => {
-      setAiFocusBlock('cx');
-      setAiFocusSkill('CSI');
-      setAiReturnMetric('cx.score');
-      setLens('metrics');
-    });
-  };
-  const openComplaintsAiRecommendation = () => {
-    openConfiguredSkill(complaintsAiRecommendations[0], () => {
-      setAiFocusBlock('cx');
-      setAiFocusSkill('Жалобы и обращения');
-      setAiReturnMetric('cx.score');
-      setLens('metrics');
-    });
-  };
-  const returnToDataDriven = () => {
-    const target = aiReturnMetric;
-    setLens('dd');
-    setAiReturnMetric(null);
-    setAiFocusBlock(null);
-    setAiFocusSkill(null);
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      document.getElementById(metricDomId(target))?.scrollIntoView({behavior: 'smooth', block: 'center'});
-    }));
-  };
+  const openMauAiRecommendation = () => openConfiguredSkill(mauAiRecommendation);
+  const openDraftAiRecommendation = () => openConfiguredSkill(draftAiRecommendations[0]);
+  const openCampaignFunnelAiRecommendation = () => openConfiguredSkill(campaignFunnelAiRecommendations[0]);
+  const openPilotAiRecommendation = () => openConfiguredSkill(pilotAiRecommendations[0]);
+  const openCsiAiRecommendation = () => openConfiguredSkill(csiAiRecommendations[0]);
+  const openComplaintsAiRecommendation = () => openConfiguredSkill(complaintsAiRecommendations[0]);
   const toggle = (code) => setOpen((current) => {
     const next = new Set(current);
     next.has(code) ? next.delete(code) : next.add(code);
@@ -950,13 +880,6 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
       <header className="detail-header">
         <div><h1>{product.name}</h1><div className="detail-meta">{product.unit} · {product.period} · <Label size="xs">{product.type}</Label><SemanticButton intent={BUTTON_INTENT.destructive} href={REPORT_ERROR_URL} target="_blank">Нашли ошибку?</SemanticButton><SemanticButton intent={BUTTON_INTENT.feedback} href="https://public.oprosso.sberbank.ru/p/amsp1k1c" target="_blank" rel="noreferrer">Есть идея?</SemanticButton></div></div>
         <div className="detail-controls">
-          <div className="product-select detail-section-select">
-            <span>Раздел</span>
-            <SegmentedRadioGroup value={lens} onUpdate={(value) => { setLens(value); setAiFocusBlock(null); setAiFocusSkill(null); setAiReturnMetric(null); }} size="l" width="max">
-              <SegmentedRadioGroup.Option value="dd">Data-Driven Index</SegmentedRadioGroup.Option>
-              <SegmentedRadioGroup.Option value="metrics" disabled={!hasAiRecommendations}><span className="detail-lens-option" title={hasAiRecommendations ? digestStatus(aiRecommendationLight) : 'Рекомендаций пока нет'}>AI-рекомендации<i className={`metric-light metric-light-${aiRecommendationTheme}${aiRecommendationLight === 'gray' ? ' detail-lens-light-empty' : ''}`} aria-hidden="true" /><span className="visually-hidden">{hasAiRecommendations ? digestStatus(aiRecommendationLight) : 'Рекомендаций пока нет'}</span></span></SegmentedRadioGroup.Option>
-            </SegmentedRadioGroup>
-          </div>
             <label className="product-select detail-team-unit-filter"><span>Юнит</span><Select value={teamUnit ? [teamUnit] : []} onUpdate={updateTeamUnit} placeholder="Все юниты" size="l">
             <Select.Option value="">Все юниты</Select.Option>
             {teamUnits.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}
@@ -967,7 +890,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
         </div>
       </header>
 
-      <div className={lens === 'dd' ? 'detail-lens-content' : 'detail-lens-content detail-lens-hidden'}>
+      <div className="detail-lens-content">
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b></div></div>
       <section className="detail-overview">
         <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div><div className="index-methodology-footer"><Text variant="body-1" color="secondary">Подробнее о подходе и критериях оценки, тут:</Text><Button view="flat-info" size="s" onClick={onAbout}>Перейти <Icon data={ChevronRight} size={13} /></Button></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={profileSeries.fill} dotRadius={2} />} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
@@ -1023,9 +946,14 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
           })}
         </div>
       </section>
+      <div className="metrics-title team-business-metrics-title">
+        <h2>Аналитические навыки</h2>
       </div>
-      {lens === 'metrics' && <ProductMetricBlocks key={product.id} product={product} onOpenReport={() => setReportAccessOpen(true)} focusBlock={aiFocusBlock} focusSkill={aiFocusSkill} />}
-      {lens === 'metrics' && aiReturnMetric && <div className="ai-return-action"><SemanticButton intent={BUTTON_INTENT.primary} onClick={returnToDataDriven}><Icon data={ArrowLeft} size={16} />Назад к Data-Driven индексу</SemanticButton></div>}
+      <Card className="promo metric-report-promo team-business-metrics-analytics" view="outlined">
+        <div><Text variant="subheader-1">AI-аналитика по бизнес-метрикам</Text><Text variant="body-1" color="secondary">Ключевые изменения и быструю аналитику по своим бизнес-метрикам можно также посмотреть в комплексном отчете. Этот блок не влияет на Data Driven Index вашей команды, но может содержать полезные инсайты и рекомендации по основным блокам вашего бизнеса.</Text></div>
+        <SemanticButton intent={BUTTON_INTENT.primary} onClick={() => setReportAccessOpen(true)}>Перейти <Icon data={ChevronRight} size={14} /></SemanticButton>
+      </Card>
+      </div>
       <Dialog open={reportAccessOpen} onClose={() => setReportAccessOpen(false)} hasCloseButton maxWidth="m" fullWidth>
         <Dialog.Header caption="Комплексный отчет" />
         <Dialog.Body>

@@ -50,12 +50,21 @@ class SyntheticReportTest(unittest.TestCase):
             inspect.signature(report.build_combined_data).parameters["crosssell_path"].default
         )
 
+    def test_digest_and_llm_build_options_are_removed(self) -> None:
+        for flag in (
+            "--ai-digest-xlsx",
+            "--update-ai-digest",
+            "--no-update-ai-digest",
+            "--update-llm-summary",
+        ):
+            with self.subTest(flag=flag), self.assertRaises(SystemExit):
+                report.parse_args([flag])
+
     def test_main_uses_existing_crosssell_cache_by_default(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             cache_path = Path(temp_dir) / "crosssell.json"
             cache_path.write_text("{}", encoding="utf-8")
             args = report.parse_args([
-                "--skip-ai-digest",
                 "--crosssell-json",
                 str(cache_path),
                 "--crosssell-token",
@@ -77,7 +86,6 @@ class SyntheticReportTest(unittest.TestCase):
             cache_path = Path(temp_dir) / "crosssell.json"
             cache_path.write_text("{}", encoding="utf-8")
             args = report.parse_args([
-                "--skip-ai-digest",
                 "--no-ai-skills",
                 "--crosssell-json",
                 str(cache_path),
@@ -265,8 +273,8 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(items[0]["recommendation_difficulty"], 1)
         self.assertEqual(items[0]["gap"], 0.5)
 
-    def test_pilot_campaign_links_use_the_ai_skill_dashboard(self) -> None:
-        expected = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
+    def test_pilot_campaign_links_use_the_report_dashboard(self) -> None:
+        expected = "https://navigator.sigma.sbrf.ru/gdash/1000003057"
         self.assertEqual(report.PILOT_CAMPAIGNS_URL, expected)
         self.assertEqual(
             report._DD_FROM_EXCEL["COMMON_BUTTONS"]["attract_pilot_campaigns"]["link"],
@@ -801,76 +809,6 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertTrue(all(metric["excluded_from_index"] for metric in metrics[:-1]))
         self.assertNotIn("excluded_from_index", metrics[-1])
 
-    def test_metric_recommendations_use_mapping_without_dd_block(self) -> None:
-        rows = [
-            {
-                "skill_name": "CSI",
-                "skill_key": "csi",
-                "month": "2026-06",
-                "month_label": "Июнь 2026",
-                "month_sort": (2026, 6, ""),
-                "product": "AI Segment",
-                "product_key": report.normalize_ai_product_key("AI Segment"),
-                "indicator": "CSI",
-                "row_type": "recommendation",
-                "color": "red",
-                "text": "Разобрать причины снижения CSI",
-                "rule": "Красный ниже целевого значения",
-                "source_order": 1,
-            }
-        ]
-        mapping = {
-            (report.normalize_mapping_key("DD Segment"), "csi"): ["AI Segment"]
-        }
-        digest_index = report.build_ai_digest_index(rows)
-
-        result = report.build_metric_recommendations(
-            "DD Segment", rows, mapping, digest_index
-        )
-
-        self.assertEqual(len(result), 1)
-        self.assertEqual(result[0]["skill_key"], "csi")
-        self.assertEqual(result[0]["block_code"], "cx")
-        self.assertFalse(result[0]["is_traffic_light"])
-        self.assertEqual(result[0]["traffic_light"], "red")
-        self.assertEqual(
-            result[0]["recommendations"], ["Разобрать причины снижения CSI"]
-        )
-
-    def test_metric_recommendations_keep_item_product_scope(self) -> None:
-        rows = []
-        for order, product in enumerate(("Вклад", "Накопительные счета"), start=1):
-            rows.append(
-                {
-                    "skill_name": "Ключевые метрики",
-                    "skill_key": "client_metrics",
-                    "month": "2026-06",
-                    "month_label": "Июнь 2026",
-                    "month_sort": (2026, 6, ""),
-                    "product": product,
-                    "product_key": report.normalize_ai_product_key(product),
-                    "indicator": "MAU",
-                    "row_type": "светофор",
-                    "color": "yellow",
-                    "text": f"Проверить MAU: {product}",
-                    "rule": "Жёлтый при отклонении",
-                    "source_order": order,
-                }
-            )
-        mapping = {
-            (report.normalize_mapping_key("Вклады+НС"), "client_metrics"): [
-                "Вклад",
-                "Накопительные счета",
-            ]
-        }
-        result = report.build_metric_recommendations(
-            "Вклады+НС", rows, mapping, report.build_ai_digest_index(rows)
-        )
-
-        self.assertEqual(
-            {tuple(item["ai_products"]) for item in result},
-            {("Вклад",), ("Накопительные счета",)},
-        )
 
     def test_crosssell_export_enriches_all_common_dd_products(self) -> None:
         data = {
@@ -1338,135 +1276,9 @@ class SyntheticReportTest(unittest.TestCase):
             "https://losshunter.ru/showcase/crosssell/#product=%D1%81%D0%B1%D0%B5%D1%80%D0%BF%D1%8D%D0%B9-49",
         )
 
-    def test_deposit_metric_product_aliases_use_two_user_facing_groups(self) -> None:
-        deposit = "\u0412\u043a\u043b\u0430\u0434\u044b+\u041d\u0421"
-
-        self.assertEqual(
-            report.metric_recommendation_product_group(
-                deposit, ["\u0412\u043a\u043b\u0430\u0434", "\u0412\u043a\u043b\u0430\u0434\u044b, \u0440\u0443\u0431."]
-            ),
-            "\u0412\u043a\u043b\u0430\u0434\u044b",
-        )
-        self.assertEqual(
-            report.metric_recommendation_product_group(
-                deposit,
-                ["\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442"],
-            ),
-            "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
-        )
-        self.assertEqual(
-            report.metric_recommendation_product_group(
-                deposit,
-                ["\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)"],
-            ),
-            "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)",
-        )
-
-    def test_pilots_digest_uses_quarter_summary_format(self) -> None:
-        product = "Тестовый продукт"
-        rows = [
-            {
-                "skill_key": "pilots",
-                "product_key": report.normalize_ai_product_key(product),
-                "indicator": indicator,
-                "month_sort": (2026, 3, ""),
-                "text": value,
-            }
-            for indicator, value in (
-                ("Всего пилотов", "12"),
-                ("Запущено", "9"),
-                ("Значимых", "5"),
-                ("Значимые запуски", "3"),
-                ("Self-service", "4"),
-            )
-        ]
-
-        digest = report.build_pilots_digest(rows, [product])
-
-        self.assertIsNotNone(digest)
-        self.assertEqual(
-            digest["digest_texts"],
-            [
-                "В рамках первого квартала (январь-март 2026) было запущено 12 пилотов.",
-                "Из них:",
-                "- 9 запущено",
-                "- 5 значимых",
-                "- 3 успешных",
-                "Из 12 пилотов, было 4 Self-Service запусков.",
-            ],
-        )
-
-    def test_pilots_digest_sums_counts_across_mapped_ai_products(self) -> None:
-        mapped_products = ["Вклад", "Накопительный счет"]
-        values_by_product = {
-            "Вклад": (12, 3, 2, 1, 4),
-            "Накопительный счет": (9, 7, 4, 3, 2),
-            "Несметченный продукт": (100, 100, 100, 100, 100),
-        }
-        indicators = (
-            "Всего пилотов",
-            "Запущено",
-            "Значимых",
-            "Успешных",
-            "Self-service",
-        )
-        rows = [
-            {
-                "skill_key": "pilots",
-                "product_key": report.normalize_ai_product_key(product),
-                "indicator": indicator,
-                "month_sort": (2026, 3, ""),
-                "text": str(value),
-            }
-            for product, values in values_by_product.items()
-            for indicator, value in zip(indicators, values)
-        ]
-
-        digest = report.build_pilots_digest(rows, mapped_products)
-
-        self.assertIsNotNone(digest)
-        self.assertEqual(
-            digest["digest_texts"],
-            [
-                "В рамках первого квартала (январь-март 2026) было запущено 21 пилотов.",
-                "Из них:",
-                "- 10 запущено",
-                "- 6 значимых",
-                "- 4 успешных",
-                "Из 21 пилотов, было 6 Self-Service запусков.",
-            ],
-        )
-        self.assertEqual(digest["ai_tool_product_names"], mapped_products)
-
-    def test_pilot_counts_use_one_snapshot_per_normalized_product(self) -> None:
-        rows = [
-            {
-                "product_key": "кредитныйпотенциал",
-                "indicator": "Запущено",
-                "month_sort": (2026, 3, ""),
-                "text": value,
-                "source_order": source_order,
-            }
-            for value, source_order in (("8", 10), ("11", 20))
-        ]
-
-        self.assertEqual(
-            report.pilot_metric_value_for_month(rows, "launched", (2026, 3)),
-            11,
-        )
-
-    def test_pilot_successful_metric_aliases(self) -> None:
-        for indicator in (
-            "Значимые запуски",
-            "Успешных",
-            "Успешные запуски",
-        ):
-            with self.subTest(indicator=indicator):
-                self.assertEqual(report.pilot_metric_key({"indicator": indicator}), "successful")
 
     def test_remove_ai_skills_keeps_regular_tools(self) -> None:
         data = {
-            "ai_skill_digest": {"rows": 2},
             "products": [{"metrics": [{"tools": [
                 {"name": "Навык «Цели»", "kind": "ai"},
                 {"name": "Группа навыков «Привлечение»", "buttons": [{"ai_tool_key": "pilots"}]},
@@ -1476,7 +1288,6 @@ class SyntheticReportTest(unittest.TestCase):
 
         result = report.remove_ai_skills(data)
 
-        self.assertNotIn("ai_skill_digest", result)
         self.assertEqual(
             [tool["name"] for tool in result["products"][0]["metrics"][0]["tools"]],
             ["Отчетность"],
@@ -1589,7 +1400,7 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertIn("grid-template-columns: 22px 10px minmax(0, 1fr) auto", html)
         self.assertIn(".ai-digest-item.no-light", html)
         self.assertIn("ai-digest-item${hasTrafficLight ? '' : ' no-light'}", html)
-        self.assertIn("AI-рекомендации пока недоступны: для продукта нет данных в AI-digest.", html)
+        self.assertNotIn("llm-summary", html)
         self.assertIn(".block-note.tool-group > .note-copy", html)
         self.assertIn("Синтетическая рекомендация", html)
 

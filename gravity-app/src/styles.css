@@ -71,27 +71,18 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .detail-page > .g-button { margin-bottom: 10px; }
 .detail-header { min-height: 88px; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 24px; }
 .detail-header h1 { margin-bottom: 8px; }
-.detail-lens-bar { margin: 4px 0 18px; display: flex; align-items: center; }
-.detail-lens-option { display: inline-flex; align-items: center; gap: 9px; }
-.detail-lens-option .metric-light { width: 8px; height: 8px; margin-top: 0; }
 .ai-manual-validation-warning { display: inline-flex; align-items: center; justify-content: center; color: var(--g-color-base-warning-heavy); cursor: help; line-height: 1; }
-.detail-lens-light-empty { animation: none; }
-.detail-lens-hidden { display: none; }
 .detail-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; color: var(--g-color-text-secondary); font-size: 13px; }
 .detail-meta > .g-label { background: var(--g-color-base-generic); color: var(--g-color-text-secondary); }
 .detail-page .detail-mode .g-button_selected { border-color: rgba(35, 158, 226, .28); background: rgba(35, 158, 226, .14); color: #147fb9; }
 .detail-page .detail-mode .g-button_selected:hover { background: rgba(35, 158, 226, .21); color: #147fb9; }
 .detail-page .g-button_view_action { --_--text-color: #147fb9; --_--background-color: rgba(35, 158, 226, .14); --_--background-color-hover: rgba(35, 158, 226, .22); border: 1px solid rgba(35, 158, 226, .28); }
 .detail-page .g-button_view_flat-info, .detail-page .g-button_view_outlined-info { --_--text-color: var(--g-color-base-brand); }
-.detail-controls { display: grid; grid-template-columns: 310px 160px 220px; align-items: flex-end; gap: 10px; }
+.detail-controls { display: grid; grid-template-columns: 160px 220px; align-items: flex-end; gap: 10px; }
 .detail-meta > .g-button { margin-left: 6px; }
 .product-select { display: grid; gap: 7px; padding: 10px 12px; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); color: var(--g-color-text-primary); font-size: 11px; font-weight: 600; text-transform: uppercase; box-shadow: none; }
 .detail-controls .product-select { width: 100%; min-width: 0; min-height: 72px; box-sizing: border-box; grid-template-rows: auto 36px; }
 .detail-controls .product-select > *:last-child { width: 100% !important; }
-.detail-section-select { text-transform: none; }
-.detail-section-select > span:first-child { color: var(--g-color-text-secondary); text-transform: uppercase; }
-.detail-section-select .g-segmented-radio-group__option-text { margin: 0 6px; font-size: 12px; }
-.detail-section-select .detail-lens-option { gap: 5px; }
 .notice { min-height: 58px; margin: 12px 0; padding: 12px 14px; display: grid; align-content: center; border: 1px solid var(--g-color-line-info); border-radius: 8px; background: var(--g-color-base-info-light); }
 .notice-copy { display: grid; gap: 3px; }
 .notice b { font-size: 13px; }
@@ -351,6 +342,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .product-metric-row .metric-copy .crosssell-feedback-action .g-button__text { margin-top: 0; font-size: inherit; line-height: inherit; white-space: nowrap; }
 .metric-report-promo { border-color: var(--g-color-line-info); border-left: 4px solid var(--g-color-line-info); background: var(--g-color-base-info-light); box-shadow: 0 8px 24px -20px var(--g-color-text-info-heavy); }
 .metric-report-promo .g-text:first-child { color: var(--g-color-text-info-heavy); }
+.team-business-metrics-title { margin-top: 18px; }
 .metric-recommendations-toolbar { min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--g-color-line-generic); }
 .metric-recommendation-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 12px; padding-top: 22px; }
 .metric-recommendations-filter-empty { min-height: 96px; padding: 22px; display: grid; place-items: center; border-radius: 8px; background: var(--g-color-base-background); }
@@ -731,7 +723,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 @media (max-width: 900px) { .detail-header { grid-template-columns: 1fr; } .detail-controls { grid-template-columns: 1fr; } .about-practices-heading { grid-template-columns: 1fr; gap: 22px; } .about-practices-heading .about-scoring-method { padding-left: 18px; } .about-methodology-controls { grid-template-columns: 1fr; gap: 16px; } .about-methodology-switches, .about-methodology-switch { justify-items: start; } .about-methodology-browser { grid-template-columns: 1fr; } .about-methodology-blocks { position: static; } }
 @media (max-width: 900px) { .backlog-header { grid-template-columns: 1fr; } .backlog-header-controls { width: 100%; align-items: stretch; flex-direction: column; } .backlog-filter-control, .backlog-team-control { width: 100%; } }
 @media (max-width: 1000px) { .content { padding: 32px 24px 60px; } .content.about-page { padding: 0 12px; } .about-document { padding: 32px 12px 60px; } .page-header { align-items: flex-start; } .summary-stats { grid-template-columns: repeat(3, 110px); } .report-controls { flex-wrap: wrap; } .report-table { overflow-x: auto; } .report-table-head, .report-row { min-width: 900px; } .unit-row { min-width: 900px; } }
-@media (max-width: 760px) { .detail-lens-bar { overflow-x: auto; } .metric-recommendations-header, .metric-recommendations-toolbar { align-items: flex-start; display: grid; } .metric-recommendation-groups { grid-template-columns: 1fr; } .metric-recommendation-row-title { display: grid; } }
+@media (max-width: 760px) { .metric-recommendations-header, .metric-recommendations-toolbar { align-items: flex-start; display: grid; } .metric-recommendation-groups { grid-template-columns: 1fr; } .metric-recommendation-row-title { display: grid; } }
 @media (max-width: 760px) { .metric-list .metric-group-title, .metric-list .metric-row { padding-left: 20px; } }
 @media (max-width: 760px) { .metric-inline-instruction-resources { grid-template-columns: 28px minmax(0, 1fr); } .metric-inline-instruction-resource-actions { grid-column: 2; justify-content: flex-start; } }
 @media (max-width: 760px) { .metric-ai-actions { align-items: flex-start; flex-direction: column; } .metric-ai-actions-buttons { justify-content: flex-start; width: 100%; } }

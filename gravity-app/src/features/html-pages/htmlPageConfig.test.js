@@ -49,7 +49,7 @@ test('adjacent HTML pages accept both bare filenames and dot-slash paths', () =>
   }
 });
 
-test('HTML page context resolver takes the funnel directly from ai_product_mapping output', () => {
+test('HTML page context resolver takes the funnel directly from recommendation metadata', () => {
   const tool = {
     valueSources: {funnel: ['ai_products.0']},
   };

@@ -17,8 +17,6 @@ DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_BACKLOG_INPUT = ROOT / "sbertrack_all_full_history_to_export.xlsx"
 DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
-DEFAULT_AI_DIGEST = ROOT / "ai_skill_digest_export.xlsx"
-DEFAULT_AI_PRODUCT_MAP = ROOT / "ai_product_mapping.xlsx"
 DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
 
@@ -39,20 +37,11 @@ def build(args: argparse.Namespace) -> None:
         str(args.legacy_output),
         "--json-output",
         str(args.data_output),
-        "--ai-digest-xlsx",
-        str(args.ai_digest_xlsx),
-        "--ai-product-map",
-        str(args.ai_product_map),
         "--crosssell-json",
         str(args.crosssell_json),
-        "--no-update-ai-digest",
-        "--no-update-llm-summary",
-        "--no-llm-log",
     ]
     if args.no_ai_skills:
         report_command.append("--no-ai-skills")
-    elif args.skip_ai_digest:
-        report_command.append("--skip-ai-digest")
     report_command.append("--crosssell")
     if args.no_update_crosssell:
         report_command.append("--no-update-crosssell")
@@ -102,18 +91,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--backlog-input", type=Path, default=DEFAULT_BACKLOG_INPUT)
     parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
     parser.add_argument("--standalone-output", type=Path, default=DEFAULT_STANDALONE_OUTPUT)
-    parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST)
-    parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP)
     parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT)
-    parser.add_argument(
-        "--skip-ai-digest",
-        action="store_true",
-        help="Build AI skill shells without enriching them from the local digest",
-    )
     parser.add_argument(
         "--no-ai-skills",
         action="store_true",
-        help="Exclude AI skills and do not read AI digest or product mapping files",
+        help="Exclude AI skills and Cross-sell",
     )
     parser.add_argument(
         "--no-update-crosssell",

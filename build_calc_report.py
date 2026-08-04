@@ -10,32 +10,23 @@ Python file.
 from __future__ import annotations
 
 import argparse
-import asyncio
 import json
 import math
 import os
 import re
 import ssl
-import threading
 import unicodedata
 import urllib.error
 import urllib.request
-import llm_summarization as _llm
-from datetime import date
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 from urllib.parse import quote, urlsplit
-
-try:
-    from tqdm.auto import tqdm
-except ModuleNotFoundError:
-    tqdm = None
 
 
 _TITLE_SOURCE = '#!/usr/bin/env python3\n"""Build a standalone Data-Driven Index title page from a simple Excel list."""\n\nfrom __future__ import annotations\n\nimport argparse\nimport json\nfrom pathlib import Path\nfrom typing import Any\n\nimport pandas as pd\n\n\nDEFAULT_INPUT = Path("Расчет_список(1).xlsx")\nDEFAULT_SHEET = "титул"\nDEFAULT_OUTPUT = Path("final_title_from_excel.html")\n\nBASE_REQUIRED_COLUMNS = ("Юнит", "Продукт", "Оценка", "Группа")\nTYPE_COLUMNS = ("type", "тип")\nNAME_FIXES = {\n    "Молодеж": "Молодежь",\n}\n\n\ndef clean_text(value: Any) -> str:\n    if pd.isna(value):\n        return ""\n    return str(value).strip()\n\n\ndef clean_type(value: Any) -> str:\n    entity_type = clean_text(value).lower()\n    if entity_type in {"product", "продукт"}:\n        return "продукт"\n    if entity_type in {"segment", "сегмент"}:\n        return "сегмент"\n    return entity_type or "продукт"\n\n\ndef clean_name(value: Any) -> str:\n    name = clean_text(value)\n    return NAME_FIXES.get(name, name)\n\n\ndef score_to_percent(value: Any) -> int:\n    score = pd.to_numeric(value, errors="coerce")\n    if pd.isna(score):\n        raise ValueError(f"Некорректная оценка: {value!r}")\n    if score <= 1:\n        score *= 100\n    return max(0, min(100, int(round(float(score)))))\n\n\ndef read_rows(path: Path, sheet_name: str) -> list[dict[str, Any]]:\n    if path.name.startswith("~$"):\n        raise ValueError("Временный Excel-файл Office нельзя использовать как источник")\n\n    df = pd.read_excel(path, sheet_name=sheet_name)\n    type_column = next((column for column in TYPE_COLUMNS if column in df.columns), None)\n    missing = [column for column in BASE_REQUIRED_COLUMNS if column not in df.columns]\n    if type_column is None:\n        missing.append("type/тип")\n    if missing:\n        raise ValueError("В Excel нет обязательных колонок: " + ", ".join(missing))\n\n    required_columns = (*BASE_REQUIRED_COLUMNS, type_column)\n    source = df.loc[:, required_columns].copy()\n    nulls = {\n        column: int(source[column].isna().sum())\n        for column in required_columns\n        if int(source[column].isna().sum())\n    }\n    if nulls:\n        raise ValueError("В обязательных колонках есть пропуски: " + json.dumps(nulls, ensure_ascii=False))\n\n    rows: list[dict[str, Any]] = []\n    for order, row in source.iterrows():\n        unit = clean_text(row["Юнит"])\n        name = clean_name(row["Продукт"])\n        group = clean_text(row["Группа"])\n        entity_type = clean_type(row[type_column])\n        if not unit or not name:\n            continue\n        rows.append(\n            {\n                "id": f"row-{len(rows) + 1}",\n                "order": int(order),\n                "unit": unit,\n                "name": name,\n                "score": score_to_percent(row["Оценка"]),\n                "group": group,\n                "type": entity_type,\n            }\n        )\n\n    if not rows:\n        raise ValueError("После очистки в Excel не осталось строк для отчета")\n    return rows\n\n\ndef build_payload(rows: list[dict[str, Any]]) -> dict[str, Any]:\n    units = sorted({row["unit"] for row in rows}, key=str.casefold)\n    types = sorted({row["type"] for row in rows}, key=str.casefold)\n    avg_score = round(sum(row["score"] for row in rows) / len(rows))\n    return {\n        "rows": rows,\n        "units": units,\n        "types": types,\n        "avgScore": avg_score,\n    }\n\n\nHTML_TEMPLATE = """<!doctype html>\n<html lang="ru">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>Data-Driven Index - титульная витрина</title>\n  <style>\n    :root {\n      --bg: #f5f5f7;\n      --surface: #fff;\n      --ink: #1d1d1f;\n      --muted: #86868b;\n      --line: rgba(0,0,0,.08);\n      --line-strong: rgba(0,0,0,.12);\n      --blue: #007aff;\n      --green: #34c759;\n      --yellow: #ffcc00;\n      --orange: #ff9500;\n      --red: #ff3b30;\n      --gray-dot: #c7c7cc;\n    }\n\n    * { box-sizing: border-box; }\n    html { background: var(--bg); }\n    body {\n      margin: 0;\n      background: var(--bg);\n      color: var(--ink);\n      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;\n      -webkit-font-smoothing: antialiased;\n    }\n\n    button, select { font: inherit; }\n    button { border: 0; }\n\n    .app { min-height: 100vh; }\n\n    .topbar {\n      position: sticky;\n      top: 0;\n      z-index: 20;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 24px;\n      padding: 16px 40px;\n      background: rgba(255,255,255,.78);\n      border-bottom: 1px solid var(--line);\n      backdrop-filter: saturate(180%) blur(18px);\n    }\n\n    .brand {\n      display: flex;\n      align-items: center;\n      gap: 12px;\n      min-width: 0;\n    }\n\n    .brand-mark {\n      width: 34px;\n      height: 34px;\n      display: grid;\n      place-items: center;\n      border-radius: 8px;\n      background: linear-gradient(150deg,#2bb84a,#178a2c);\n      color: #fff;\n      font-size: 13px;\n      font-weight: 800;\n      letter-spacing: 0;\n      box-shadow: 0 6px 16px rgba(23,138,44,.22);\n    }\n\n    .brand-title { min-width: 0; }\n\n    .brand-title strong {\n      display: block;\n      overflow: hidden;\n      font-size: 15px;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .brand-title span {\n      display: block;\n      margin-top: 2px;\n      overflow: hidden;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .top-actions {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      gap: 10px;\n      flex-wrap: wrap;\n    }\n\n    .pill {\n      display: inline-flex;\n      align-items: center;\n      min-height: 34px;\n      padding: 7px 13px;\n      border: 1px solid var(--line);\n      border-radius: 999px;\n      background: #fff;\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 600;\n      letter-spacing: 0;\n      white-space: nowrap;\n    }\n\n    .page {\n      width: min(1180px, calc(100vw - 56px));\n      margin: 0 auto;\n      padding: 34px 0 76px;\n    }\n\n    .hero {\n      display: grid;\n      grid-template-columns: 1.3fr .7fr;\n      gap: 24px;\n      align-items: end;\n      margin-bottom: 26px;\n    }\n\n    .hero h1 {\n      margin: 0;\n      max-width: 720px;\n      color: var(--ink);\n      font-size: 42px;\n      line-height: 1.04;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .hero p {\n      margin: 12px 0 0;\n      max-width: 740px;\n      color: #6e6e73;\n      font-size: 16px;\n      line-height: 1.45;\n      letter-spacing: 0;\n    }\n\n    .hero-stat-grid {\n      display: grid;\n      grid-template-columns: repeat(3, minmax(0, 1fr));\n      gap: 8px;\n    }\n\n    .hero-stat {\n      min-width: 0;\n      padding: 14px 14px 13px;\n      border: 1px solid var(--line);\n      border-radius: 8px;\n      background: #fff;\n    }\n\n    .hero-stat b {\n      display: block;\n      font-size: 28px;\n      line-height: 1;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .hero-stat span {\n      display: block;\n      margin-top: 7px;\n      color: var(--muted);\n      font-size: 12px;\n      line-height: 1.2;\n      letter-spacing: 0;\n    }\n\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      margin-bottom: 14px;\n    }\n\n    .toolbar-controls {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      gap: 10px;\n      flex-wrap: wrap;\n    }\n\n    .filter-wrap {\n      display: inline-flex;\n      align-items: center;\n      gap: 7px;\n      min-height: 36px;\n      padding: 3px 5px 3px 11px;\n      border: 1px solid var(--line);\n      border-radius: 10px;\n      background: #fff;\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 700;\n      letter-spacing: 0;\n      text-transform: uppercase;\n    }\n\n    .filter-wrap select {\n      min-width: 132px;\n      min-height: 28px;\n      border: 0;\n      border-radius: 8px;\n      outline: none;\n      background: #f5f5f7;\n      color: var(--ink);\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 650;\n      letter-spacing: 0;\n      text-transform: none;\n    }\n\n    .segmented {\n      display: inline-flex;\n      gap: 3px;\n      padding: 3px;\n      border-radius: 10px;\n      background: #e9e9eb;\n    }\n\n    .segmented button {\n      min-height: 30px;\n      padding: 6px 12px;\n      border-radius: 8px;\n      background: transparent;\n      color: var(--muted);\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 650;\n      letter-spacing: 0;\n    }\n\n    .segmented button.active {\n      background: #fff;\n      color: var(--ink);\n      box-shadow: 0 1px 3px rgba(0,0,0,.12);\n    }\n\n    .caption {\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .message {\n      margin: 18px 0 0;\n      padding: 18px 20px;\n      border: 1px solid var(--line);\n      border-radius: 8px;\n      background: #fff;\n      color: #6e6e73;\n      font-size: 14px;\n      font-weight: 650;\n    }\n\n    .table {\n      overflow: hidden;\n      border: 1px solid var(--line);\n      border-radius: 18px;\n      background: #fff;\n      box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 18px 40px -24px rgba(0,0,0,.16);\n    }\n\n    .table-head,\n    .product-row {\n      display: grid;\n      grid-template-columns: minmax(240px, 1.5fr) minmax(150px, .7fr) minmax(150px, .7fr) minmax(120px, .45fr);\n      align-items: center;\n      column-gap: 18px;\n      padding: 0 28px;\n    }\n\n    .table-head {\n      min-height: 46px;\n      border-bottom: 1px solid var(--line);\n      background: #fcfcfe;\n      color: #86868b;\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .05em;\n      text-transform: uppercase;\n    }\n\n    .table-head > div { text-align: center; }\n    .table-head > div:first-child { text-align: left; }\n\n    .unit-row {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      padding: 13px 28px;\n      border-top: 1px solid var(--line);\n      background: #fbfbfd;\n    }\n\n    .unit-row.first { border-top: 0; }\n\n    .unit-name {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      flex: 1 1 auto;\n      min-width: 0;\n      overflow: hidden;\n    }\n\n    .unit-dot {\n      width: 9px;\n      height: 9px;\n      flex: none;\n      border-radius: 999px;\n    }\n\n    .unit-name b {\n      min-width: 0;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 14px;\n      font-weight: 700;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .unit-name span,\n    .unit-avg {\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: 0;\n      white-space: nowrap;\n    }\n\n    .unit-count {\n      flex: none;\n    }\n\n    .unit-row.hide-unit-count .unit-count {\n      display: none;\n    }\n\n    .unit-row.hide-unit-count .unit-avg-label {\n      display: none;\n    }\n\n    .unit-avg b {\n      color: var(--ink);\n      font-size: 14px;\n      letter-spacing: 0;\n    }\n\n    .product-row {\n      min-height: 88px;\n      border-top: 1px solid var(--line);\n      justify-items: center;\n      transition: background .18s ease;\n    }\n\n    .product-row:hover { background: #f7f8fa; }\n\n    .product-name {\n      justify-self: stretch;\n      min-width: 0;\n    }\n\n    .product-name b {\n      display: block;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 16px;\n      font-weight: 700;\n      line-height: 1.25;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .product-name span {\n      display: block;\n      margin-bottom: 4px;\n      color: #a1a1a6;\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .dd-cell {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr);\n      justify-items: center;\n      align-content: center;\n      row-gap: 6px;\n      width: 176px;\n      min-height: 56px;\n      padding: 6px 12px;\n      border-radius: 14px;\n      background: transparent;\n    }\n\n    .status-label {\n      grid-column: 1;\n      grid-row: 2;\n      justify-self: center;\n      max-width: 100%;\n      overflow: hidden;\n      font-size: 11px;\n      font-weight: 650;\n      line-height: 1.15;\n      letter-spacing: .01em;\n      text-align: center;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .score-label {\n      grid-column: 1;\n      grid-row: 1;\n      justify-self: center;\n      color: currentColor;\n      font-size: 30px;\n      font-weight: 780;\n      line-height: 1;\n      letter-spacing: 0;\n      text-align: center;\n      font-variant-numeric: tabular-nums;\n    }\n\n    .progress {\n      grid-column: 1;\n      grid-row: 3;\n      width: 100%;\n      max-width: 148px;\n      height: 6px;\n      justify-self: center;\n      overflow: hidden;\n      border-radius: 999px;\n      background: rgba(0,0,0,.07);\n    }\n\n    .progress i {\n      display: block;\n      height: 100%;\n      border-radius: inherit;\n      background: currentColor;\n      transition: width .5s cubic-bezier(.2,.8,.2,1);\n    }\n\n    .group-cell {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      max-width: 100%;\n      min-height: 30px;\n      padding: 6px 11px;\n      border: 1px solid var(--line);\n      border-radius: 999px;\n      background: color-mix(in srgb, currentColor 12%, white);\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 700;\n      line-height: 1.15;\n      text-align: center;\n      white-space: normal;\n    }\n\n    .go-cell {\n      display: flex;\n      justify-self: center;\n      justify-content: center;\n    }\n\n    .go-button {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      min-height: 34px;\n      padding: 8px 14px;\n      border-radius: 999px;\n      background: rgba(142,142,147,.14);\n      color: #8e8e93;\n      cursor: not-allowed;\n      font-size: 13px;\n      font-weight: 650;\n      line-height: 1.1;\n      white-space: nowrap;\n    }\n\n    .hidden { display: none !important; }\n\n    @media (max-width: 900px) {\n      .topbar { padding: 14px 20px; }\n      .page {\n        width: min(100% - 28px, 1180px);\n        padding-top: 22px;\n      }\n      .hero {\n        grid-template-columns: 1fr;\n        align-items: start;\n      }\n      .hero h1 { font-size: 34px; }\n      .toolbar {\n        align-items: flex-start;\n        flex-direction: column;\n      }\n      .toolbar-controls {\n        justify-content: flex-start;\n        width: 100%;\n      }\n      .unit-row {\n        gap: 12px;\n        padding: 13px 18px;\n      }\n      .table-head { display: none; }\n      .product-row {\n        grid-template-columns: 1fr;\n        justify-items: stretch;\n        row-gap: 14px;\n        padding: 18px 18px;\n      }\n      .dd-cell {\n        justify-items: start;\n        width: min(100%, 240px);\n        padding-left: 0;\n      }\n      .status-label,\n      .score-label,\n      .progress {\n        justify-self: start;\n        text-align: left;\n      }\n      .group-cell {\n        justify-content: flex-start;\n        width: fit-content;\n      }\n      .go-cell {\n        justify-self: start;\n        justify-content: flex-start;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class="app">\n    <header class="topbar">\n      <div class="brand">\n        <div class="brand-mark">Data</div>\n        <div class="brand-title">\n          <strong>Data-Driven Index</strong>\n          <span>Титульная витрина</span>\n        </div>\n      </div>\n      <div class="top-actions">\n        <span class="pill" id="periodPill">Расчетный список</span>\n      </div>\n    </header>\n\n    <main class="page">\n      <section id="titleView">\n        <div class="hero">\n          <div>\n            <h1>Data-Driven Index</h1>\n          </div>\n          <div class="hero-stat-grid">\n            <div class="hero-stat"><b id="statProducts">0</b><span>команд</span></div>\n            <div class="hero-stat"><b id="statUnits">0</b><span>юнитов</span></div>\n            <div class="hero-stat"><b id="statAvg">0%</b><span>средний Data-Driven Index</span></div>\n          </div>\n        </div>\n\n        <div class="toolbar">\n          <div class="caption">Продукты, сегменты и Data-Driven Index</div>\n          <div class="toolbar-controls">\n            <label class="filter-wrap">Юнит <select id="unitFilter"></select></label>\n            <label class="filter-wrap">Тип <select id="typeFilter"></select></label>\n            <div class="segmented" role="group" aria-label="Сортировка">\n              <button id="sortUnitBtn" type="button" class="active">По юнитам</button>\n              <button id="sortIndexBtn" type="button">По Data-Driven Index</button>\n            </div>\n          </div>\n        </div>\n\n        <div id="titleMessage" class="message hidden"></div>\n        <div id="productTable" class="table hidden"></div>\n      </section>\n    </main>\n  </div>\n\n  <script id="data-driven-title-data" type="application/json">\n__DATA_JSON__\n  </script>\n  <script>\n    const $ = (id) => document.getElementById(id);\n    const MODEL = JSON.parse($(\'data-driven-title-data\').textContent);\n    const UNIT_COLORS = {\n      \'CBP\': \'#007aff\',\n      \'PC\': \'#007aff\',\n      \'ДомКлик\': \'#007aff\',\n      \'УБ\': \'#007aff\',\n      \'СХ\': \'#007aff\',\n      \'DB\': \'#007aff\',\n      \'default\': \'#007aff\',\n    };\n    const state = {\n      sort: \'unit\',\n      unit: \'all\',\n      type: \'all\',\n    };\n\n    function esc(value) {\n      return String(value ?? \'\').replace(/[&<>"\']/g, (ch) => ({\n        \'&\': \'&amp;\',\n        \'<\': \'&lt;\',\n        \'>\': \'&gt;\',\n        \'"\': \'&quot;\',\n        "\'": \'&#39;\',\n      }[ch]));\n    }\n\n    function compareText(a, b) {\n      return String(a || \'\').localeCompare(String(b || \'\'), \'ru\', { sensitivity: \'base\' });\n    }\n\n    function normalizeGroup(group) {\n      return String(group || \'\').trim().replace(/\\\\s+/g, \' \').toLowerCase();\n    }\n\n    function groupTheme(group) {\n      const normalized = normalizeGroup(group);\n      if (normalized === \'требуют внимания\') {\n        return { accent: \'#f3a6a0\', text: \'#9f2a25\', bg: \'#fff1f0\', border: \'#f5c2bd\' };\n      }\n      if (normalized === \'развивающиеся\') {\n        return { accent: \'#f4b183\', text: \'#9a4a16\', bg: \'#fff4e8\', border: \'#f7cfaa\' };\n      }\n      if (normalized === \'зрелые\') {\n        return { accent: \'#e8c46a\', text: \'#7a5a10\', bg: \'#fff8df\', border: \'#efd98d\' };\n      }\n      if (normalized === \'лидеры\') {\n        return { accent: \'#8fd6b0\', text: \'#1f7a4d\', bg: \'#eefaf3\', border: \'#bde8cf\' };\n      }\n      return { accent: \'#c7c7cc\', text: \'#6e6e73\', bg: \'#f5f5f7\', border: \'#d1d1d6\' };\n    }\n\n    function averageGroup(rows) {\n      if (!rows.length) return \'\';\n      const rank = {\n        \'требуют внимания\': 1,\n        \'развивающиеся\': 2,\n        \'зрелые\': 3,\n        \'лидеры\': 4,\n      };\n      const labels = {\n        1: \'Требуют внимания\',\n        2: \'Развивающиеся\',\n        3: \'Зрелые\',\n        4: \'Лидеры\',\n      };\n      const avg = Math.round(rows.reduce((sum, row) => sum + (rank[normalizeGroup(row.group)] || 0), 0) / rows.length);\n      return labels[avg] || \'\';\n    }\n\n    function pluralTeam(n) {\n      const m = n % 10;\n      const h = n % 100;\n      if (m === 1 && h !== 11) return \'команда\';\n      if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return \'команды\';\n      return \'команд\';\n    }\n\n    function filteredRows() {\n      return MODEL.rows.filter((row) => {\n        const unitOk = state.unit === \'all\' || row.unit === state.unit;\n        const typeOk = state.type === \'all\' || row.type === state.type;\n        return unitOk && typeOk;\n      });\n    }\n\n    function sortedRows(rows) {\n      const copy = [...rows];\n      if (state.sort === \'index\') {\n        return copy.sort((a, b) => (b.score - a.score) || compareText(a.name, b.name));\n      }\n      return copy.sort((a, b) => compareText(a.unit, b.unit) || compareText(a.name, b.name));\n    }\n\n    function avgScore(rows) {\n      if (!rows.length) return 0;\n      return Math.round(rows.reduce((sum, row) => sum + row.score, 0) / rows.length);\n    }\n\n    function renderFilters() {\n      $(\'unitFilter\').innerHTML = [\n        \'<option value="all">Все юниты</option>\',\n        ...MODEL.units.map((unit) => `<option value="${esc(unit)}">${esc(unit)}</option>`),\n      ].join(\'\');\n      $(\'typeFilter\').innerHTML = [\n        \'<option value="all">Все типы</option>\',\n        ...MODEL.types.map((type) => `<option value="${esc(type)}">${esc(type)}</option>`),\n      ].join(\'\');\n    }\n\n    function renderStats(rows) {\n      const units = new Set(rows.map((row) => row.unit));\n      $(\'statProducts\').textContent = rows.length;\n      $(\'statUnits\').textContent = units.size;\n      $(\'statAvg\').textContent = avgScore(rows) + \'%\';\n    }\n\n    function tableHeadHTML() {\n      return `\n        <div class="table-head">\n          <div>Продукт / сегмент</div>\n          <div>Data-Driven Index</div>\n          <div>Группа</div>\n          <div>Действие</div>\n        </div>\n      `;\n    }\n\n    function unitRowHTML(unit, rows, isFirst) {\n      const color = UNIT_COLORS[unit] || UNIT_COLORS.default;\n      const avg = avgScore(rows);\n      const avgGroup = averageGroup(rows);\n      return `\n        <div class="unit-row ${isFirst ? \'first\' : \'\'}">\n          <div class="unit-name">\n            <i class="unit-dot" style="background:${color}"></i>\n            <b>${esc(unit)}</b>\n            <span class="unit-count">${rows.length} ${pluralTeam(rows.length)}</span>\n          </div>\n          <div class="unit-avg"><span class="unit-avg-label">средний Data-Driven Index</span> <b style="color:${groupTheme(avgGroup).text}">${avg}%</b></div>\n        </div>\n      `;\n    }\n\n    function fitUnitHeaders() {\n      const narrow = window.matchMedia(\'(max-width: 900px)\').matches;\n      document.querySelectorAll(\'.unit-row\').forEach((row) => {\n        const name = row.querySelector(\'.unit-name b\');\n        row.classList.remove(\'hide-unit-count\');\n        if (!narrow || !name) return;\n        if (name.scrollWidth > name.clientWidth + 1) {\n          row.classList.add(\'hide-unit-count\');\n        }\n      });\n    }\n\n    function productRowHTML(row, showUnit) {\n      const group = row.group || \'Без группы\';\n      const theme = groupTheme(group);\n      const subline = showUnit ? `${row.unit} · ${row.type}` : row.type;\n      return `\n        <div class="product-row">\n          <div class="product-name">\n            <span>${esc(subline)}</span>\n            <b title="${esc(row.name)}">${esc(row.name)}</b>\n          </div>\n          <div class="dd-cell" style="color:${theme.accent}">\n            <span class="status-label" style="color:${theme.text}">${esc(group)}</span>\n            <span class="score-label">${row.score}%</span>\n            <span class="progress"><i style="width:${row.score}%"></i></span>\n          </div>\n          <div class="group-cell" style="color:${theme.text};background:${theme.bg};border-color:${theme.border}">${esc(group)}</div>\n          <div class="go-cell">\n            <button type="button" class="go-button" disabled>Перейти</button>\n          </div>\n        </div>\n      `;\n    }\n\n    function renderTable() {\n      const rows = filteredRows();\n      const sorted = sortedRows(rows);\n      const table = $(\'productTable\');\n      const message = $(\'titleMessage\');\n      renderStats(rows);\n\n      if (!sorted.length) {\n        table.classList.add(\'hidden\');\n        message.classList.remove(\'hidden\');\n        message.textContent = \'Нет данных по выбранным фильтрам\';\n        return;\n      }\n\n      message.classList.add(\'hidden\');\n      table.classList.remove(\'hidden\');\n\n      if (state.sort === \'index\') {\n        table.innerHTML = tableHeadHTML() + sorted.map((row) => productRowHTML(row, true)).join(\'\');\n        fitUnitHeaders();\n        return;\n      }\n\n      const chunks = [];\n      const units = [...new Set(sorted.map((row) => row.unit))];\n      units.forEach((unit, index) => {\n        const unitRows = sorted.filter((row) => row.unit === unit);\n        chunks.push(unitRowHTML(unit, unitRows, index === 0));\n        unitRows.forEach((row) => chunks.push(productRowHTML(row, false)));\n      });\n      table.innerHTML = tableHeadHTML() + chunks.join(\'\');\n      fitUnitHeaders();\n    }\n\n    function setSort(sort) {\n      state.sort = sort;\n      $(\'sortUnitBtn\').classList.toggle(\'active\', sort === \'unit\');\n      $(\'sortIndexBtn\').classList.toggle(\'active\', sort === \'index\');\n      renderTable();\n    }\n\n    function init() {\n      renderFilters();\n      $(\'unitFilter\').addEventListener(\'change\', (event) => {\n        state.unit = event.target.value;\n        renderTable();\n      });\n      $(\'typeFilter\').addEventListener(\'change\', (event) => {\n        state.type = event.target.value;\n        renderTable();\n      });\n      $(\'sortUnitBtn\').addEventListener(\'click\', () => setSort(\'unit\'));\n      $(\'sortIndexBtn\').addEventListener(\'click\', () => setSort(\'index\'));\n      window.addEventListener(\'resize\', fitUnitHeaders);\n      renderTable();\n    }\n\n    init();\n  </script>\n</body>\n</html>\n"""\n\n\ndef build_html(payload: dict[str, Any]) -> str:\n    data_json = json.dumps(payload, ensure_ascii=False, indent=2).replace("</", "<\\\\/")\n    return HTML_TEMPLATE.replace("__DATA_JSON__", data_json)\n\n\ndef parse_args() -> argparse.Namespace:\n    parser = argparse.ArgumentParser(description="Generate standalone Data-Driven Index title page from Расчет_список.xlsx")\n    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT, help="Path to source .xlsx")\n    parser.add_argument("--sheet", default=DEFAULT_SHEET, help="Sheet name")\n    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")\n    return parser.parse_args()\n\n\ndef main() -> None:\n    args = parse_args()\n    rows = read_rows(args.input, args.sheet)\n    payload = build_payload(rows)\n    args.output.write_text(build_html(payload), encoding="utf-8")\n\n    summary = {\n        "html": str(args.output),\n        "rows": len(rows),\n        "units": len(payload["units"]),\n        "types": len(payload["types"]),\n        "missing_required_values": 0,\n    }\n    print(json.dumps(summary, ensure_ascii=False, indent=2))\n\n\nif __name__ == "__main__":\n    main()\n'
 _DD_JSON2_SOURCE = '#!/usr/bin/env python3\n"""Build nested dd-data2.json and the embedded final_report_v2.html."""\n\nfrom __future__ import annotations\n\nimport json\nimport re\nfrom pathlib import Path\nfrom typing import Any\n\n\nROOT = Path(__file__).resolve().parent\nSOURCE_JSON = ROOT / "dd-data.json"\nOUTPUT_JSON = ROOT / "dd-data2.json"\nSOURCE_HTML = ROOT / "final_report.html"\nOUTPUT_HTML = ROOT / "final_report_v2.html"\nOUTPUT_STANDALONE_HTML = ROOT / "final_report_standalone.html"\nDEFAULT_ENTITY_TYPE = "Продукт"\n\n\nBLOCKS: list[dict[str, Any]] = [\n    {\n        "code": "general",\n        "name": "Самооценка знания продуктовых метрик",\n        "tools": [\n            {\n                "name": "Ключевые метрики",\n                "footer": "Общий светофор",\n                "button": "Перейти",\n                "traffic_metric": "general_traffic_light",\n            }\n        ],\n        "metrics": [\n            {\n                "code": "general.market_ru",\n                "name": "Объем целевого рынка в России",\n                "footer": "Оценка потенциала рынка в России",\n                "max_value": 0.2,\n                "group": "Знание собственных метрик",\n            },\n            {\n                "code": "general.market_sber",\n                "name": "Объем целевого рынка в Сбере",\n                "footer": "Оценка потенциала внутри клиентской базы Сбера",\n                "max_value": 0.2,\n                "group": "Знание собственных метрик",\n            },\n            {\n                "code": "general.clients_with_product",\n                "name": "Клиенты с продуктом",\n                "footer": "Фактическая база клиентов продукта",\n                "max_value": 0.2,\n                "group": "Знание собственных метрик",\n            },\n            {\n                "code": "general.product_mau",\n                "name": "MAU продукта",\n                "footer": "Активная месячная аудитория продукта",\n                "max_value": 0.2,\n                "group": "Знание собственных метрик",\n            },\n            {\n                "code": "general.satellite_products_knowledge",\n                "name": "Знание продуктов спутников",\n                "footer": "Понимание связанных продуктов и сценариев",\n                "max_value": 0.2,\n                "group": "Знание собственных метрик",\n            },\n            {\n                "code": "general.navigator_reporting_knowledge",\n                "name": "Знание об отчетности в Навигаторе",\n                "footer": "Понимание доступной отчетности и регулярного мониторинга",\n                "max_value": 0.5,\n                "group": "Инструменты мониторинга",\n            },\n        ],\n    },\n    {\n        "code": "goals",\n        "name": "Цели",\n        "tools": [\n            {\n                "name": "Цели",\n                "footer_dynamic": "green_count",\n                "button": "Перейти",\n                "traffic_metric": "goals_traffic_light",\n            }\n        ],\n        "metrics": [\n            {\n                "code": "goals.monitored",\n                "name": "Цели выведены на мониторинг",\n                "footer": "Регулярное обновление, Навигатор",\n                "max_value": 1,\n                "link_types": ["navigator"],\n            },\n            {\n                "code": "goals.factor_analysis_l1_l2",\n                "name": "Факторный анализ - драйверы 1-2 ур.",\n                "footer": "Согласно модели бизнес-процесса",\n                "max_value": 1,\n            },\n            {\n                "code": "goals.forecast",\n                "name": "Прогноз по целям",\n                "footer": "Прогноз выведен в Навигатор",\n                "max_value": 1,\n            },\n        ],\n    },\n    {\n        "code": "alerts",\n        "name": "Алерты",\n        "tools": [\n            {\n                "name": "Инструкция",\n                "footer": "по настройке алертов по отчету",\n                "button": "Перейти",\n                "traffic_metric": "alerts_traffic_light",\n                "variant": "blue",\n            }\n        ],\n        "metrics": [\n            {\n                "code": "alerts.system_failures",\n                "name": "Оповещения по системным сбоям",\n                "footer": "Авто-алерты по IT-инфраструктуре",\n                "max_value": 1,\n            },\n            {\n                "code": "alerts.business_metrics",\n                "name": "Оповещения по бизнес-метрикам",\n                "footer": "Светофоры целей, драйверов, воронок",\n                "max_value": 1,\n            },\n        ],\n    },\n    {\n        "code": "cx",\n        "name": "Клиентский опыт",\n        "tools": [\n            {\n                "name": "Анализ Score",\n                "footer": "Жалобы, обращения, CSI",\n                "button": "Перейти",\n                "traffic_metric": "cx_traffic_light",\n            }\n        ],\n        "info": {\n            "type": "losshunter",\n            "variant": "cta",\n            "count_metric": "cx_losshunter_analytics_count",\n            "title": "Аналитика клиентского пути в LossHunter",\n            "button": {"type": "metric", "label": "Перейти", "link": "https://losshunter.ru"},\n        },\n        "metrics": [\n            {\n                "code": "cx.product_mechanics",\n                "name": "Наличие продуктовых механик",\n                "footer": "Механики, влияющие на клиентский опыт",\n                "max_value": 1,\n            },\n            {\n                "code": "cx.score",\n                "name": "CX Score",\n                "footer": "Зеленая зона клиентского пути",\n                "max_value": 1,\n            },\n        ],\n    },\n    {\n        "code": "attract",\n        "name": "Воронка привлечения",\n        "tools": [\n            {\n                "name": "Привлечение",\n                "footer": "Общий светофор",\n                "button": "Перейти",\n                "traffic_metric": "attract_traffic_light",\n            }\n        ],\n        "metrics": [\n            {\n                "code": "attract.regular_reporting",\n                "name": "Регулярная отчетность",\n                "footer": "Настроена по воронке",\n                "max_value": 0.5,\n                "group": "Отчетность",\n                "link_types": ["campaigning", "drafts", "pilot_campaigns"],\n            },\n            {\n                "code": "attract.report_completeness",\n                "name": "Полнота отчета",\n                "footer": "Источники, CR, объемы, сегменты",\n                "max_value": 0.5,\n                "group": "Отчетность",\n                "link_types": ["campaigning", "drafts", "pilot_campaigns"],\n            },\n            {\n                "code": "attract.auto_regularity",\n                "name": "Регулярность (авто)",\n                "footer": "Daily / weekly",\n                "max_value": 1,\n                "group": "Отчетность",\n                "excluded_from_index": True,\n                "link_types": ["campaigning", "drafts", "pilot_campaigns"],\n            },\n            {\n                "code": "attract.benchmarks",\n                "name": "Наличие бенчмарков",\n                "footer": "Цели / динамика / рынок",\n                "max_value": 1,\n            },\n            {\n                "code": "attract.cross_sell",\n                "name": "Cross-sell",\n                "footer": "В оформлении и после покупки",\n                "max_value": 1,\n            },\n            {\n                "code": "attract.funnel_analysis",\n                "name": "Проведение анализа воронки привлечения",\n                "footer": "Оценка эффективности",\n                "max_value": 0.25,\n            },\n            {\n                "code": "attract.initiatives_list",\n                "name": "Составлен перечень инициатив по привлечению",\n                "footer": "План действий по росту",\n                "max_value": 0.25,\n            },\n            {\n                "code": "attract.drafts_70",\n                "name": "Черновики в СБОЛ >=70%",\n                "footer": "Покрытие потенциала продукта",\n                "max_value": 1,\n                "link_types": ["drafts"],\n            },\n            {\n                "code": "attract.campaign_launches",\n                "name": "Запуски кампаний за квартал",\n                "footer": "Self-service / централизованный, покрытие",\n                "max_value": 1,\n                "link_types": ["campaigning", "pilot_campaigns"],\n                "zero_button": "Запустить первый пилот Self-Service",\n            },\n        ],\n    },\n    {\n        "code": "churn",\n        "name": "Воронка оттока",\n        "tools": [\n            {\n                "name": "Анализ оттока",\n                "footer": "Общий светофор",\n                "button": "TBD",\n                "traffic_metric": "churn_traffic_light",\n                "variant": "gray",\n            }\n        ],\n        "metrics": [\n            {\n                "code": "churn.regular_reporting",\n                "name": "Регулярная отчетность",\n                "footer": "Настроена по воронке",\n                "max_value": 0.5,\n                "group": "Отчетность",\n                "link_types": ["churn"],\n            },\n            {\n                "code": "churn.report_completeness",\n                "name": "Полнота отчета",\n                "footer": "Retention, CR, удержание",\n                "max_value": 0.5,\n                "group": "Отчетность",\n                "link_types": ["churn"],\n            },\n            {\n                "code": "churn.auto_regularity",\n                "name": "Регулярность (авто)",\n                "footer": "Daily / weekly",\n                "max_value": 1,\n                "group": "Отчетность",\n                "excluded_from_index": True,\n                "link_types": ["churn"],\n            },\n            {\n                "code": "churn.funnel_analysis",\n                "name": "Проведение анализа воронки оттока",\n                "footer": "Оценка причин и узких мест",\n                "max_value": 0.25,\n            },\n            {\n                "code": "churn.deviation_actions",\n                "name": "Мероприятия по работе с отклонениями",\n                "footer": "План действий по отклонениям",\n                "max_value": 0.25,\n            },\n            {\n                "code": "churn.mechanics_metrics_knowledge",\n                "name": "Знание метрик для мониторинга механик",\n                "footer": "Понимание метрик эффективности механик",\n                "max_value": 1,\n            },\n            {\n                "code": "churn.client_retention",\n                "name": "Удержание клиентов",\n                "footer": "Коммуникация + ценность",\n                "max_value": 1,\n            },\n            {\n                "code": "churn.client_return",\n                "name": "Возврат клиентов",\n                "footer": "Активная механика за квартал",\n                "max_value": 1,\n            },\n            {\n                "code": "churn.flexible_terms",\n                "name": "Гибкое изменение условий",\n                "footer": "Персонализация без IT",\n                "max_value": 1,\n            },\n            {\n                "code": "churn.benchmarks",\n                "name": "Наличие бенчмарков",\n                "footer": "Цели / динамика / рынок",\n                "max_value": 1,\n            },\n        ],\n    },\n    {\n        "code": "hyp",\n        "name": "Гипотезы и инициативы",\n        "tools": [],\n        "metrics": [\n            {\n                "code": "hyp.discovery_40_backlog",\n                "name": "Discovery >=40% бэклога",\n                "footer": "Доля исследовательских задач DA",\n                "max_value": 1,\n                "button": "Посмотреть бэклог",\n            },\n            {\n                "code": "hyp.ab_tests",\n                "name": "A/B-тесты",\n                "footer": "Доля от подходящих инициатив",\n                "max_value": 1,\n                "tbd": True,\n            },\n            {\n                "code": "hyp.datadriven_rating_7_5",\n                "name": "Рейтинг DataDriven >=7,5",\n                "footer": "Среднее место за квартал",\n                "max_value": 1,\n                "button": "Открыть библиотеку решений",\n            },\n            {\n                "code": "hyp.extra_initiatives",\n                "name": "Доп. инициативы сверх БП",\n                "footer": "В реестре инициатив",\n                "max_value": 1,\n            },\n        ],\n    },\n]\n\n\nEXTRA_CSS = """\n\n    .table-head,\n    .product-row {\n      grid-template-columns: minmax(240px, 1.5fr) minmax(150px, .7fr) minmax(150px, .7fr) minmax(120px, .45fr);\n    }\n\n    .toolbar-controls {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      gap: 10px;\n      flex-wrap: wrap;\n    }\n\n    .filter-wrap {\n      display: inline-flex;\n      align-items: center;\n      gap: 7px;\n      min-height: 36px;\n      padding: 3px 5px 3px 11px;\n      border: 1px solid var(--line);\n      border-radius: 10px;\n      background: #fff;\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 700;\n      letter-spacing: 0;\n      text-transform: uppercase;\n    }\n\n    .filter-wrap select {\n      min-width: 132px;\n      min-height: 28px;\n      border: 0;\n      border-radius: 8px;\n      outline: none;\n      background: #f5f5f7;\n      color: var(--ink);\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 650;\n      letter-spacing: 0;\n      text-transform: none;\n    }\n\n    .group-cell {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      max-width: 100%;\n      min-height: 30px;\n      padding: 6px 11px;\n      border: 1px solid var(--line);\n      border-radius: 999px;\n      background: color-mix(in srgb, currentColor 12%, white);\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 700;\n      line-height: 1.15;\n      text-align: center;\n      white-space: normal;\n    }\n\n    .unit-name {\n      flex: 1 1 auto;\n      overflow: hidden;\n    }\n\n    .unit-count {\n      flex: none;\n    }\n\n    .unit-row.hide-unit-count .unit-count,\n    .unit-row.hide-unit-count .unit-avg-label {\n      display: none;\n    }\n\n    .go-button:disabled {\n      background: rgba(142,142,147,.14);\n      color: #8e8e93;\n      cursor: not-allowed;\n      transform: none;\n    }\n\n    .go-button:disabled:hover {\n      background: rgba(142,142,147,.14);\n    }\n\n    .block-note {\n      gap: 12px;\n      margin-bottom: 14px;\n      padding: 11px 13px;\n      border-radius: 12px;\n      border-color: rgba(0,122,255,.18);\n      background: #eef5ff;\n    }\n\n    .block-note.tool-group {\n      grid-template-columns: minmax(0, 1fr);\n      align-items: stretch;\n      padding: 10px 12px;\n    }\n\n    .note-copy {\n      display: flex;\n      align-items: center;\n      gap: 11px;\n      min-width: 0;\n    }\n\n    .note-badge {\n      flex: none;\n      min-width: 24px;\n      height: 24px;\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      border-radius: 8px;\n      background: rgba(0,122,255,.12);\n      color: #0066cc;\n      font-size: 11px;\n      font-weight: 800;\n      letter-spacing: 0;\n    }\n\n    .block-note.blue .note-badge {\n      background: rgba(0,122,255,.12);\n      color: #0066cc;\n    }\n\n    .note-badge.instruction {\n      background: rgba(0,122,255,.12);\n      color: #0066cc;\n      font-family: Georgia, serif;\n      font-style: italic;\n      font-size: 14px;\n      font-weight: 700;\n    }\n\n    .block-note.gray .note-badge {\n      background: #fff;\n      color: #8e8e93;\n    }\n\n    .block-note .note-metric {\n      color: #0066cc;\n    }\n\n    .note-action {\n      border-color: rgba(0,122,255,.22);\n      background: #fff;\n      color: var(--blue);\n    }\n\n    .block-note.gray .note-metric {\n      color: #6e6e73;\n    }\n\n    .block-note.gray .note-action {\n      border-color: rgba(0,0,0,.16);\n      background: #fff;\n      color: #8e8e93;\n    }\n\n    body.report-modal-open {\n      overflow: hidden;\n    }\n\n    .report-action-wrap {\n      margin-bottom: 16px;\n    }\n\n    .report-action-panel {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      min-width: 0;\n      padding: 14px 16px;\n      border: 1px solid rgba(0,0,0,.06);\n      border-radius: 18px;\n      background: rgba(255,255,255,.86);\n      box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 14px 30px -24px rgba(0,0,0,.18);\n      backdrop-filter: saturate(180%) blur(18px);\n    }\n\n    .report-action-copy {\n      min-width: 0;\n    }\n\n    .report-action-copy b {\n      display: block;\n      color: var(--ink);\n      font-size: 13.5px;\n      font-weight: 760;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .report-action-copy span {\n      display: block;\n      margin-top: 3px;\n      color: var(--muted);\n      font-size: 12px;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .report-action-buttons,\n    .report-modal-actions {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      flex-wrap: wrap;\n      gap: 8px;\n      flex: none;\n    }\n\n    .report-action-button {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      min-height: 34px;\n      padding: 8px 14px;\n      border: 1px solid transparent;\n      border-radius: 999px;\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 700;\n      line-height: 1.1;\n      letter-spacing: -.01em;\n      text-decoration: none;\n      white-space: nowrap;\n      transition: background .16s ease, transform .12s ease;\n    }\n\n    .report-action-button.primary {\n      border-color: rgba(0,122,255,.18);\n      background: rgba(0,122,255,.12);\n      color: var(--blue);\n    }\n\n    .report-action-button.secondary {\n      border-color: rgba(0,0,0,.08);\n      background: #fff;\n      color: #3a3a3c;\n    }\n\n    .report-action-button.danger {\n      border-color: rgba(255,59,48,.24);\n      background: rgba(255,59,48,.10);\n      color: #d70015;\n    }\n\n    .report-action-button:hover {\n      transform: translateY(-1px);\n    }\n\n    .report-action-button.primary:hover {\n      background: rgba(0,122,255,.18);\n    }\n\n    .report-action-button.secondary:hover {\n      background: #f5f5f7;\n    }\n\n    .report-action-button.danger:hover {\n      background: rgba(255,59,48,.16);\n    }\n\n    .report-modal {\n      position: fixed;\n      inset: 0;\n      z-index: 80;\n      display: grid;\n      place-items: center;\n      padding: 24px;\n    }\n\n    .report-modal-backdrop {\n      position: absolute;\n      inset: 0;\n      background: rgba(29,29,31,.34);\n      backdrop-filter: blur(10px);\n    }\n\n    .report-modal-card {\n      position: relative;\n      z-index: 1;\n      width: min(100%, 560px);\n      padding: 24px;\n      border: 1px solid rgba(0,0,0,.08);\n      border-radius: 22px;\n      background: rgba(255,255,255,.96);\n      box-shadow: 0 24px 70px -32px rgba(0,0,0,.45);\n    }\n\n    .report-modal-close {\n      position: absolute;\n      top: 14px;\n      right: 14px;\n      display: grid;\n      place-items: center;\n      width: 32px;\n      height: 32px;\n      border-radius: 999px;\n      background: #f2f2f7;\n      color: #6e6e73;\n      cursor: pointer;\n      font-size: 20px;\n      line-height: 1;\n    }\n\n    .report-modal-close:hover {\n      background: #e8e8ed;\n    }\n\n    .report-modal-kicker {\n      color: var(--blue);\n      font-size: 11px;\n      font-weight: 800;\n      letter-spacing: .04em;\n      text-transform: uppercase;\n    }\n\n    .report-modal-card h2 {\n      margin: 7px 42px 14px 0;\n      color: var(--ink);\n      font-size: 24px;\n      line-height: 1.1;\n      font-weight: 780;\n      letter-spacing: -.02em;\n    }\n\n    .report-modal-text {\n      color: #3a3a3c;\n      font-size: 14px;\n      line-height: 1.48;\n      letter-spacing: -.01em;\n    }\n\n    .report-modal-text p {\n      margin: 0 0 9px;\n    }\n\n    .report-modal-actions {\n      justify-content: flex-start;\n      margin-top: 18px;\n    }\n\n    .tool-items {\n      display: grid;\n      gap: 6px;\n      padding-top: 6px;\n    }\n\n    .tool-item {\n      display: grid;\n      grid-template-columns: auto minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 9px;\n      min-width: 0;\n      padding-top: 7px;\n      border-top: 1px solid rgba(0,122,255,.14);\n    }\n\n    .tool-light {\n      width: 8px;\n      height: 8px;\n      border-radius: 999px;\n      background: #d1d1d6;\n    }\n\n    .tool-item-copy {\n      min-width: 0;\n    }\n\n    .tool-item-name {\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 13px;\n      font-weight: 760;\n      line-height: 1.2;\n      letter-spacing: -.01em;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .tool-stage {\n      display: block;\n      margin-bottom: 2px;\n      color: #0066cc;\n      font-size: 10.5px;\n      font-weight: 800;\n      line-height: 1;\n      letter-spacing: .03em;\n      text-transform: uppercase;\n    }\n\n    .tool-item-footer {\n      margin-top: 2px;\n      color: #0066cc;\n      font-size: 12px;\n      font-weight: 650;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .block-advisory {\n      display: grid;\n      grid-template-columns: auto minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 12px;\n      margin: 0 0 12px;\n      padding: 13px 14px;\n      border: 1px solid rgba(0,122,255,.14);\n      border-radius: 14px;\n      background: #eef5ff;\n    }\n\n    .block-advisory-badge {\n      width: 24px;\n      height: 24px;\n      display: grid;\n      place-items: center;\n      border-radius: 8px;\n      background: rgba(0,122,255,.12);\n      color: #0066cc;\n      font-family: Georgia, serif;\n      font-style: italic;\n      font-size: 14px;\n      font-weight: 700;\n    }\n\n    .block-advisory-text {\n      color: #335f91;\n      font-size: 13px;\n      font-weight: 650;\n      line-height: 1.35;\n      letter-spacing: -.01em;\n    }\n\n    .block-actions {\n      display: flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 8px;\n      margin-top: 12px;\n      padding-top: 13px;\n      border-top: 1px solid rgba(0,0,0,.07);\n    }\n\n    .block-actions .data-link {\n      min-height: 32px;\n      padding: 8px 14px;\n      border: 1px solid rgba(0,122,255,.18);\n      border-radius: 999px;\n      background: rgba(0,122,255,.10);\n      color: var(--blue);\n      font-size: 12px;\n      font-weight: 760;\n      line-height: 1.2;\n      box-shadow: inset 0 1px 0 rgba(255,255,255,.62);\n    }\n\n    .block-actions .data-link:hover {\n      background: rgba(0,122,255,.16);\n      text-decoration: none;\n    }\n\n    .participant-actions {\n      justify-content: center;\n      gap: 8px;\n      margin-top: 14px;\n    }\n\n    .participant-actions-title {\n      flex: 0 0 100%;\n      color: #86868b;\n      font-size: 11px;\n      font-weight: 760;\n      letter-spacing: .04em;\n      line-height: 1.25;\n      text-align: center;\n      text-transform: uppercase;\n    }\n\n    .participant-actions .data-link {\n      border-color: rgba(142,142,147,.22);\n      background: rgba(142,142,147,.10);\n      color: #6e6e73;\n      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);\n    }\n\n    .participant-actions .data-link:hover {\n      background: rgba(142,142,147,.16);\n      color: #515154;\n      text-decoration: none;\n    }\n\n    a.metric-button,\n    .block-infobox a.metric-button {\n      border-color: rgba(0,122,255,.22);\n      border-radius: 999px;\n      background: rgba(0,122,255,.08);\n      color: var(--blue);\n      box-shadow: inset 0 1px 0 rgba(255,255,255,.72);\n    }\n\n    a.metric-button:hover,\n    .block-infobox a.metric-button:hover {\n      background: rgba(0,122,255,.14);\n    }\n\n    .block-infobox {\n      border-color: rgba(0,122,255,.12);\n      background: #eef5ff;\n    }\n\n    .block-infobox.cta {\n      grid-template-columns: minmax(0, 1fr) auto;\n    }\n\n    .block-infobox .info-count,\n    .block-infobox .info-text b {\n      color: #0066cc;\n    }\n\n    .block-infobox .info-text span {\n      color: #6e8bb3;\n    }\n\n    .tool-footer,\n    .tool-links,\n    .criterion-links {\n      grid-column: 1 / -1;\n      display: flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 8px;\n      min-width: 0;\n    }\n\n    .tool-footer,\n    .tool-links {\n      padding-top: 2px;\n    }\n\n    .criterion-links {\n      grid-column: 2 / -1;\n      margin-top: 2px;\n    }\n\n    .criterion-extra {\n      display: flex;\n      align-items: center;\n      justify-content: flex-start;\n      flex-wrap: wrap;\n      gap: 7px;\n      min-width: 0;\n    }\n\n    .criterion-extra .metric-button {\n      min-height: 28px;\n      padding: 6px 11px;\n    }\n\n    .data-link {\n      display: inline-flex;\n      align-items: center;\n      min-height: 28px;\n      padding: 6px 10px;\n      border-radius: 9px;\n      border: 1px solid rgba(0,122,255,.18);\n      background: rgba(0,122,255,.08);\n      color: var(--blue);\n      font-size: 12px;\n      font-weight: 700;\n      line-height: 1.1;\n      letter-spacing: -.01em;\n      text-decoration: none;\n      white-space: nowrap;\n    }\n\n    a.note-action,\n    a.metric-button {\n      text-decoration: none;\n    }\n\n    .data-link:hover {\n      background: rgba(0,122,255,.14);\n    }\n\n    .criterion-points {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      min-width: 76px;\n      min-height: 28px;\n      padding: 6px 10px;\n      border-radius: 999px;\n      border: 1px solid transparent;\n      font-size: 12px;\n      font-weight: 760;\n      line-height: 1;\n      letter-spacing: -.01em;\n    }\n\n    .criterion-points.green {\n      border-color: rgba(52,199,89,.24);\n      background: rgba(52,199,89,.12);\n      color: #248a3d;\n    }\n\n    .criterion-points.yellow {\n      border-color: rgba(255,204,0,.34);\n      background: rgba(255,204,0,.18);\n      color: #8a6d1f;\n    }\n\n    .criterion-points.red {\n      border-color: rgba(255,59,48,.22);\n      background: rgba(255,59,48,.10);\n      color: #c2252b;\n    }\n\n    .criterion-points.gray {\n      border-color: rgba(0,0,0,.08);\n      background: #f2f2f7;\n      color: #8e8e93;\n    }\n\n    .product-name .entity-meta {\n      display: flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 6px;\n      margin-top: 5px;\n      margin-bottom: 0;\n    }\n\n    .product-name .entity-unit {\n      display: inline-flex;\n      margin: 0;\n      color: #a1a1a6;\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n      line-height: 1.2;\n    }\n\n    .product-name .entity-type {\n      display: inline-flex;\n      align-items: center;\n      min-height: 20px;\n      margin: 0;\n      padding: 3px 9px;\n      border: 1px solid var(--line-strong);\n      border-radius: 999px;\n      background: #f5f5f7;\n      color: #6e6e73;\n      font-size: 10.5px;\n      font-weight: 700;\n      letter-spacing: 0;\n      line-height: 1;\n      text-transform: none;\n    }\n\n    .detail-subline {\n      display: inline-flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 6px;\n    }\n\n    .detail-entity-type {\n      display: inline-flex;\n      align-items: center;\n      min-height: 21px;\n      padding: 4px 9px;\n      border: 1px solid var(--line-strong);\n      border-radius: 999px;\n      background: #f5f5f7;\n      color: #6e6e73;\n      font-size: 11px;\n      font-weight: 700;\n      line-height: 1;\n      letter-spacing: 0;\n    }\n\n    @media (max-width: 980px) {\n      .report-action-panel {\n        align-items: flex-start;\n        flex-direction: column;\n      }\n\n      .report-action-buttons,\n      .report-modal-actions {\n        justify-content: flex-start;\n        width: 100%;\n      }\n    }\n\n    @media (max-width: 560px) {\n      .report-action-button,\n      .report-action-buttons,\n      .report-modal-actions {\n        width: 100%;\n      }\n\n      .report-modal {\n        padding: 14px;\n      }\n\n      .report-modal-card {\n        padding: 20px;\n      }\n\n      .block-advisory {\n        grid-template-columns: auto minmax(0, 1fr);\n      }\n\n      .block-advisory .metric-button {\n        grid-column: 1 / -1;\n        width: 100%;\n      }\n    }\n"""\n\n\nV2_SCRIPT = r"""    const EMBEDDED_DATA_SOURCE = document.getElementById(\'dd-data2\').textContent;\n\n    const COLORS = {\n      green: \'#34c759\',\n      yellow: \'#ffcc00\',\n      orange: \'#ff9500\',\n      red: \'#ff3b30\',\n      gray: \'#c7c7cc\',\n      blue: \'#007aff\',\n    };\n\n    const UNIT_COLORS = {\n      \'CBP\': \'#007aff\',\n      \'УБ\': \'#5e5ce6\',\n      \'ДомКлик\': \'#248a3d\',\n      \'Без юнита\': \'#8e8e93\',\n    };\n\n    const state = {\n      model: null,\n      sort: \'unit\',\n      unit: \'all\',\n      type: \'all\',\n      selectedId: null,\n      compact: false,\n      expandedBlocks: {},\n    };\n\n    const $ = (id) => document.getElementById(id);\n\n    function readEmbeddedData() {\n      try {\n        return JSON.parse(EMBEDDED_DATA_SOURCE);\n      } catch (jsonError) {\n        try {\n          return Function(\'"use strict"; return (\' + EMBEDDED_DATA_SOURCE + \');\')();\n        } catch (literalError) {\n          const message = jsonError && jsonError.message ? jsonError.message : String(jsonError);\n          throw new Error(\'ошибка JSON: \' + message);\n        }\n      }\n    }\n\n    function esc(value) {\n      return String(value ?? \'\').replace(/[&<>"\']/g, (ch) => ({\n        \'&\': \'&amp;\',\n        \'<\': \'&lt;\',\n        \'>\': \'&gt;\',\n        \'"\': \'&quot;\',\n        "\'": \'&#39;\',\n      }[ch]));\n    }\n\n    function parseNumber(value, fallback = 0) {\n      if (value === null || value === undefined || value === \'\') return fallback;\n      const parsed = Number(String(value).replace(\',\', \'.\'));\n      return Number.isFinite(parsed) ? parsed : fallback;\n    }\n\n    function parseApplicable(value) {\n      if (value === undefined || value === null || value === \'\') return true;\n      if (typeof value === \'boolean\') return value;\n      if (typeof value === \'number\') return value !== 0;\n      const s = String(value).trim().toLowerCase();\n      if ([\'false\', \'0\', \'no\', \'n\', \'нет\', \'н\', \'-\'].includes(s)) return false;\n      if ([\'true\', \'1\', \'yes\', \'y\', \'да\', \'д\'].includes(s)) return true;\n      return Boolean(value);\n    }\n\n    function parseLight(value) {\n      const s = String(value ?? \'\').trim().toLowerCase();\n      if (!s) return null;\n      if ([\'green\', \'g\', \'зеленый\', \'зелёный\', \'зеленая\', \'зелёная\'].includes(s)) return \'green\';\n      if ([\'yellow\', \'y\', \'amber\', \'orange\', \'желтый\', \'жёлтый\', \'оранжевый\'].includes(s)) return \'yellow\';\n      if ([\'red\', \'r\', \'красный\', \'красная\'].includes(s)) return \'red\';\n      if ([\'gray\', \'grey\', \'n\', \'none\', \'na\', \'n/a\', \'серый\', \'серая\', \'не применимо\'].includes(s)) return \'gray\';\n      return null;\n    }\n\n    function statusOf(score) {\n      if (score >= 81) return { text: \'Лидеры DD\', color: COLORS.green };\n      if (score >= 61) return { text: \'Зрелые\', color: \'#e0a100\' };\n      if (score >= 40) return { text: \'Развивающиеся\', color: COLORS.orange };\n      return { text: \'Требуют внимания\', color: \'#d70015\' };\n    }\n\n    function dotClass(dot) {\n      return dot === \'g\' ? \'green\' : dot === \'y\' ? \'yellow\' : dot === \'r\' ? \'red\' : \'gray\';\n    }\n\n    function dotColor(dot) {\n      return dot === \'g\' ? COLORS.green : dot === \'y\' ? COLORS.yellow : dot === \'r\' ? COLORS.red : COLORS.gray;\n    }\n\n    function dotFromLight(light) {\n      const normalized = parseLight(light);\n      if (!normalized) return null;\n      if (normalized === \'green\') return \'g\';\n      if (normalized === \'yellow\') return \'y\';\n      if (normalized === \'red\') return \'r\';\n      return \'n\';\n    }\n\n    function metricLight(value, max, applicable) {\n      if (!applicable || max <= 0) return \'n\';\n      if (value === max) return \'g\';\n      return value > 0 ? \'y\' : \'r\';\n    }\n\n    function pointsTone(value, max, applicable, tbd) {\n      if (tbd || !applicable || max <= 0) return \'gray\';\n      if (value === max) return \'green\';\n      return value > 0 ? \'yellow\' : \'red\';\n    }\n\n    function fmt(value) {\n      if (!Number.isFinite(value)) return \'0\';\n      const rounded = Math.round(value * 100) / 100;\n      return String(rounded).replace(\'.\', \',\');\n    }\n\n    function pluralEntity(n) {\n      const m = n % 10;\n      const h = n % 100;\n      if (m === 1 && h !== 11) return \'сущность\';\n      if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return \'сущности\';\n      return \'сущностей\';\n    }\n\n    function pluralTeam(n) {\n      const m = n % 10;\n      const h = n % 100;\n      if (m === 1 && h !== 11) return \'команда\';\n      if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return \'команды\';\n      return \'команд\';\n    }\n\n    function compareText(a, b) {\n      return String(a || \'\').localeCompare(String(b || \'\'), \'ru\', { sensitivity: \'base\' });\n    }\n\n    function normalizeText(value) {\n      return String(value || \'\').trim().replace(/\\s+/g, \' \');\n    }\n\n    function normalizeKey(value) {\n      return normalizeText(value).toLowerCase();\n    }\n\n    function normalizeTitleType(value) {\n      const normalized = normalizeKey(value);\n      if ([\'segment\', \'сегмент\'].includes(normalized)) return \'сегмент\';\n      return \'продукт\';\n    }\n\n    function detailKey(type, name) {\n      return normalizeTitleType(type) + \'|\' + normalizeKey(name);\n    }\n\n    function normalizeGroup(group) {\n      return normalizeKey(group);\n    }\n\n    function groupTheme(group) {\n      const normalized = normalizeGroup(group);\n      if (normalized === \'требуют внимания\') {\n        return { accent: \'#f3a6a0\', text: \'#9f2a25\', bg: \'#fff1f0\', border: \'#f5c2bd\' };\n      }\n      if (normalized === \'развивающиеся\') {\n        return { accent: \'#f4b183\', text: \'#9a4a16\', bg: \'#fff4e8\', border: \'#f7cfaa\' };\n      }\n      if (normalized === \'зрелые\') {\n        return { accent: \'#e8c46a\', text: \'#7a5a10\', bg: \'#fff8df\', border: \'#efd98d\' };\n      }\n      if (normalized === \'лидеры\' || normalized === \'лидеры dd\') {\n        return { accent: \'#8fd6b0\', text: \'#1f7a4d\', bg: \'#eefaf3\', border: \'#bde8cf\' };\n      }\n      return { accent: \'#c7c7cc\', text: \'#6e6e73\', bg: \'#f5f5f7\', border: \'#d1d1d6\' };\n    }\n\n    function averageGroup(rows) {\n      if (!rows.length) return \'\';\n      const rank = {\n        \'требуют внимания\': 1,\n        \'развивающиеся\': 2,\n        \'зрелые\': 3,\n        \'лидеры\': 4,\n        \'лидеры dd\': 4,\n      };\n      const labels = {\n        1: \'Требуют внимания\',\n        2: \'Развивающиеся\',\n        3: \'Зрелые\',\n        4: \'Лидеры\',\n      };\n      const avg = Math.round(rows.reduce((sum, row) => sum + (rank[normalizeGroup(row.group)] || 0), 0) / rows.length);\n      return labels[avg] || \'\';\n    }\n\n    function normalizeLinks(links) {\n      const source = Array.isArray(links) ? links : (links ? [links] : []);\n      return source\n        .map((link) => {\n          if (typeof link === \'string\') return { label: \'Открыть\', url: normalizeUrl(link) };\n          const url = link && (link.url || link.href || link.link);\n          if (!url) return null;\n          return {\n            label: link.label || link.name || link.title || \'Открыть\',\n            url: normalizeUrl(url),\n          };\n        })\n        .filter(Boolean);\n    }\n\n    function normalizeButton(button, fallback = {}) {\n      if (!button && !fallback.label && !fallback.link) return null;\n\n      if (typeof button === \'string\') {\n        return {\n          type: fallback.type || \'general\',\n          label: button || fallback.label || \'\',\n          link: normalizeUrl(fallback.link || \'\'),\n        };\n      }\n\n      const source = button && typeof button === \'object\' ? button : {};\n      const label = source.label || source.name || source.text || fallback.label || \'\';\n      const link = source.link || source.url || source.href || fallback.link || \'\';\n\n      if (!label && !link) return null;\n\n      return {\n        type: source.type || fallback.type || \'general\',\n        label,\n        link: normalizeUrl(link),\n      };\n    }\n\n    function buttonLabel(button) {\n      if (!button) return \'\';\n      if (button.type === \'general\' && button.label !== \'TBD\') return button.label + \' ›\';\n      if (button.link && button.type !== \'general\') return button.label + \' ↗\';\n      return button.label;\n    }\n\n    function actionButtonHTML(button, className) {\n      if (!button || !button.label) return \'\';\n      const label = esc(buttonLabel(button));\n      if (button.link) {\n        return `<a class="${className}" href="${esc(button.link)}" target="_blank" rel="noopener noreferrer">${label}</a>`;\n      }\n      return `<span class="${className} disabled">${label}</span>`;\n    }\n\n    function normalizeUrl(url) {\n      const clean = String(url || \'\').trim();\n      if (!clean) return \'\';\n      if (/^(https?:|mailto:|tel:|#|\\/)/i.test(clean)) return clean;\n      return \'https://\' + clean;\n    }\n\n    function normalizeConstructedData(data) {\n      const productsRaw = Array.isArray(data.products) ? data.products : [];\n      if (!productsRaw.length) throw new Error(\'нет сущностей в dd-data2\');\n\n      const dotOrder = { g: 0, y: 1, r: 2, n: 3 };\n      const products = productsRaw.map((rawProduct, order) => {\n        let earned = 0;\n        let max = 0;\n        let greens = 0;\n        const dots = [];\n        const entityName = rawProduct.name || rawProduct.product || rawProduct.product_name || \'Без названия\';\n        const entityType = rawProduct.type || rawProduct.entity_type || \'Продукт\';\n\n        const blocks = (rawProduct.metrics || []).map((rawBlock) => {\n          let blockEarned = 0;\n          let blockMax = 0;\n          let greenCount = 0;\n\n          const criteria = (rawBlock.metrics || []).map((metric) => {\n            const applicable = parseApplicable(metric.is_applicabble_flg);\n            const metricMax = applicable ? Math.max(0, parseNumber(metric.max_value, 0)) : 0;\n            const value = applicable ? Math.max(0, Math.min(metricMax, parseNumber(metric.value, 0))) : 0;\n            const excluded = metric.excluded_from_index === true || isIndexExcludedMetric(rawBlock, metric);\n            const displayDot = metric.tbd ? \'n\' : (dotFromLight(metric.traffic_light) || metricLight(value, metricMax, applicable));\n            const titleDot = metricLight(value, metricMax, applicable);\n            const gap = (!metric.tbd && !excluded && applicable && metricMax > 0) ? Math.max(0, metricMax - value) : 0;\n\n            dots.push(titleDot);\n            if (titleDot === \'g\') greens += 1;\n\n            if (!excluded) {\n              blockEarned += value;\n              blockMax += metricMax;\n              if (applicable && metricMax > 0 && value === metricMax) greenCount += 1;\n            }\n\n            return {\n              ...metric,\n              applicable,\n              value,\n              max: metricMax,\n              excluded,\n              dot: displayDot,\n              gap,\n              points: metric.tbd ? \'TBD\' : (applicable && metricMax > 0 ? fmt(value) + \' / \' + fmt(metricMax) : \'не применимо\'),\n              pointsTone: pointsTone(value, metricMax, applicable, metric.tbd),\n              buttons: normalizeMetricButtons(metric, value),\n              links: normalizeLinks(metric.links),\n            };\n          });\n\n          earned += blockEarned;\n          max += blockMax;\n\n          const score = blockMax > 0 ? Math.round(blockEarned / blockMax * 100) : 0;\n          const tools = normalizeTools(rawBlock.tools, rawBlock, criteria, greenCount);\n          return {\n            ...rawBlock,\n            criteria,\n            earned: blockEarned,\n            max: blockMax,\n            score,\n            greenCount,\n            status: statusOf(score),\n            tools,\n            actions: normalizeActions(rawBlock.actions),\n            participantLinks: normalizeActions(rawBlock.participant_links),\n            infobox: normalizeInfo(rawBlock.info),\n          };\n        });\n\n        const score = max > 0 ? Math.round(earned / max * 100) : 0;\n        dots.sort((a, b) => (dotOrder[a] ?? 9) - (dotOrder[b] ?? 9));\n        const skillDots = titleSkillDots(blocks);\n        const skillGreens = skillDots.filter((dot) => dot === \'g\').length;\n\n        return {\n          id: rawProduct.id,\n          groupId: rawProduct.product_group_uuid,\n          name: entityName,\n          type: entityType,\n          unit: rawProduct.unit || \'Без юнита\',\n          order,\n          earned,\n          max,\n          greens,\n          dots,\n          dotCount: dots.length,\n          skillGreens,\n          skillDots,\n          skillDotCount: skillDots.length,\n          score,\n          status: statusOf(score),\n          blocks: { blocks, earned, max, score },\n        };\n      });\n\n      const units = Array.from(new Set(products.map((product) => product.unit)));\n      const avgScore = Math.round(products.reduce((sum, product) => sum + product.score, 0) / products.length);\n      const titleRows = normalizeTitleRows(data, products);\n      const titleRowsUnits = titleUnits(titleRows);\n      const titleRowsTypes = titleTypes(titleRows);\n      const titleRowsAvgScore = titleAverageScore(titleRows);\n      const periods = Array.from(new Set(productsRaw.map((product) => product.period).filter(Boolean)));\n      const metricCount = productsRaw.reduce((sum, product) => {\n        return sum + (product.metrics || []).reduce((blockSum, block) => {\n          return blockSum + (block.metrics || []).length;\n        }, 0);\n      }, 0);\n\n      return {\n        products,\n        byId: Object.fromEntries(products.map((product) => [product.id, product])),\n        period: periods.length ? periods[periods.length - 1] : \'период не указан\',\n        units,\n        avgScore,\n        titleRows,\n        titleUnits: titleRowsUnits,\n        titleTypes: titleRowsTypes,\n        titleAvgScore: titleRowsAvgScore,\n        source: {\n          products: products.length,\n          units: units.length,\n          baseMetricRows: metricCount,\n        },\n      };\n    }\n\n    function normalizeToolButton(item, tool, criteria, greenCount) {\n      const links = normalizeLinks(item.links);\n      const normalizedButton = normalizeButton(item.button, {\n        type: \'general\',\n        label: item.button_name || item.label || \'Перейти\',\n        link: item.link || (links[0] && links[0].url) || \'\',\n      });\n      const buttonLink = normalizedButton && normalizedButton.link;\n      const extraLinks = links.filter((link) => link.url !== buttonLink);\n      const missingLink = !normalizedButton || !normalizedButton.link;\n      const footer = item.footer_dynamic === \'green_count\'\n        ? \'Выполняется \' + greenCount + \' из \' + criteria.length + \' целей\'\n        : item.footer;\n      const hidesCommonTrafficLight = isCommonTrafficLightFooter(footer);\n\n      return {\n        ...item,\n        name: item.name || tool.name || \'Инструмент\',\n        active: missingLink ? \'gray\' : (parseLight(item.traffic_light || tool.traffic_light) || \'gray\'),\n        footer: hidesCommonTrafficLight ? \'\' : footer,\n        button: missingLink ? { type: \'general\', label: \'TBD\', link: \'\' } : normalizedButton,\n        links: extraLinks,\n        showDots: item.show_dots !== false && item.no_dots !== true && !hidesCommonTrafficLight,\n      };\n    }\n\n    function isCommonTrafficLightFooter(value) {\n      return String(value || \'\').trim().replace(/\\s+/g, \' \').toLowerCase() === \'общий светофор\';\n    }\n\n    function normalizeTools(tools, block, criteria, greenCount) {\n      return (tools || []).map((tool) => {\n        const hasButtonGroup = Array.isArray(tool.buttons) && tool.buttons.length > 0;\n        const items = hasButtonGroup\n          ? tool.buttons\n          : [{\n              name: tool.name,\n              footer: tool.footer,\n              footer_dynamic: tool.footer_dynamic,\n              traffic_light: tool.traffic_light,\n              button: tool.button,\n              link: tool.link,\n              links: tool.links,\n              show_dots: tool.show_dots,\n              no_dots: tool.no_dots,\n            }];\n        const buttons = items.map((item) => normalizeToolButton(item, tool, criteria, greenCount));\n        const missingLink = buttons.every((item) => !item.button || !item.button.link);\n        const active = missingLink ? \'gray\' : (parseLight(tool.traffic_light) || buttons[0]?.active || \'gray\');\n        const footer = hasButtonGroup ? \'\' : buttons[0]?.footer;\n        const button = hasButtonGroup ? null : buttons[0]?.button;\n\n        return {\n          ...tool,\n          name: tool.name || buttons[0]?.name || \'Инструмент\',\n          active,\n          footer,\n          button,\n          buttons,\n          isGroup: hasButtonGroup,\n          links: hasButtonGroup ? [] : (buttons[0]?.links || []),\n          kind: tool.kind || (tool.variant === \'blue\' ? \'instruction\' : \'ai\'),\n          showDots: tool.show_dots !== false && tool.no_dots !== true,\n          variant: missingLink\n            ? \'gray\'\n            : (tool.variant === \'gray\' ? \'\' : (tool.variant || \'\')),\n        };\n      });\n    }\n\n    function titleSkillDots(blocks) {\n      const order = { g: 0, y: 1, r: 2, n: 3 };\n      const dots = [];\n\n      blocks.forEach((block) => {\n        (block.tools || []).forEach((tool) => {\n          if (tool.kind !== \'ai\') return;\n\n          if (tool.isGroup && Array.isArray(tool.buttons) && tool.buttons.length) {\n            tool.buttons.forEach((item) => {\n              if (item.showDots === false) return;\n              dots.push(dotFromLight(item.active) || \'n\');\n            });\n            return;\n          }\n\n          if (tool.showDots === false) return;\n          dots.push(dotFromLight(tool.active) || \'n\');\n        });\n      });\n\n      return dots.sort((a, b) => (order[a] ?? 9) - (order[b] ?? 9));\n    }\n\n    function isIndexExcludedMetric(block, metric) {\n      const code = String(metric.code || \'\');\n      const name = String(metric.name || \'\').toLowerCase();\n      if (code === \'hyp.ab_tests\') return true;\n      if (code === \'attract.auto_regularity\' || code === \'churn.auto_regularity\') return true;\n      if (code.includes(\'auto_regularity\')) return true;\n      return [\'attract\', \'churn\'].includes(block.code) && name.includes(\'регулярность\');\n    }\n\n    function normalizeActions(actions) {\n      return normalizeLinks(actions);\n    }\n\n    function normalizeMetricButton(metric, value) {\n      const useZeroButton = metric.zero_button && value === 0;\n      if (useZeroButton) {\n        return normalizeButton(metric.zero_button, {\n          type: \'metric\',\n          label: metric.zero_button_name || \'\',\n          link: metric.zero_link || metric.link || \'\',\n        });\n      }\n\n      return normalizeButton(metric.button, {\n        type: \'metric\',\n        label: metric.button_name || \'\',\n        link: metric.link || \'\',\n      });\n    }\n\n    function normalizeMetricButtons(metric, value) {\n      const buttons = [];\n      const primary = normalizeMetricButton(metric, value);\n      if (primary) buttons.push(primary);\n\n      const extraButtons = Array.isArray(metric.buttons) ? metric.buttons : [];\n      extraButtons.forEach((button) => {\n        const normalized = normalizeButton(button, { type: \'metric\' });\n        if (normalized) buttons.push(normalized);\n      });\n\n      const seen = new Set();\n      return buttons.filter((button) => {\n        const key = `${button.label}|${button.link}`;\n        if (seen.has(key)) return false;\n        seen.add(key);\n        return true;\n      });\n    }\n\n    function normalizeInfo(info) {\n      if (!info) return null;\n      const count = Math.max(0, parseNumber(info.count, 0));\n      const fallbackLabel = info.variant === \'cta\' ? \'Перейти\' : (count > 0 ? \'Посмотреть инсайты\' : \'Провести анализ\');\n      return {\n        variant: info.variant || \'\',\n        count: fmt(count),\n        title: info.title || (info.variant === \'cta\' ? \'Аналитика клиентского пути в LossHunter\' : \'аналитики в LossHunter\'),\n        sub: info.footer || info.sub || \'проведено за квартал по продукту\',\n        button: normalizeButton(info.button, {\n          type: \'metric\',\n          label: fallbackLabel,\n          link: info.link || \'\',\n        }) || { type: \'metric\', label: fallbackLabel, link: \'\' },\n      };\n    }\n\n    function normalizeTitleRows(data, products) {\n      const detailByKey = new Map(products.map((product) => [detailKey(product.type, product.name), product]));\n      const detailsByName = new Map();\n      products.forEach((product) => {\n        const nameKey = normalizeKey(product.name);\n        if (!detailsByName.has(nameKey)) detailsByName.set(nameKey, []);\n        detailsByName.get(nameKey).push(product);\n      });\n      const rawRows = data && data.title && Array.isArray(data.title.rows) ? data.title.rows : [];\n\n      if (rawRows.length) {\n        return rawRows.map((row, order) => {\n          const type = normalizeTitleType(row.type || row.entity_type || row["тип"]);\n          const name = normalizeText(row.name || row.product || row.product_name || row["Продукт"]);\n          const namedDetails = detailsByName.get(normalizeKey(name)) || [];\n          const detail = detailByKey.get(detailKey(type, name))\n            || namedDetails.find((product) => normalizeTitleType(product.type) === type)\n            || (namedDetails.length === 1 ? namedDetails[0] : null);\n          const score = Math.max(0, Math.min(100, Math.round(parseNumber(row.score ?? row["Оценка"], 0))));\n          return {\n            id: row.id || \'title-row-\' + (order + 1),\n            order: Number.isFinite(Number(row.order)) ? Number(row.order) : order,\n            unit: normalizeText(row.unit || row["Юнит"]) || \'Без юнита\',\n            name,\n            score,\n            group: normalizeText(row.group || row["Группа"]) || statusOf(score).text.replace(/\\s*DD$/, \'\'),\n            type,\n            detailId: detail ? detail.id : \'\',\n          };\n        }).filter((row) => row.name && row.unit);\n      }\n\n      return products.map((product) => ({\n        id: \'title-\' + product.id,\n        order: product.order,\n        unit: product.unit,\n        name: product.name,\n        score: product.score,\n        group: product.status.text.replace(/\\s*DD$/, \'\'),\n        type: normalizeTitleType(product.type),\n        detailId: product.id,\n      }));\n    }\n\n    function titleUnits(rows) {\n      return Array.from(new Set(rows.map((row) => row.unit)));\n    }\n\n    function titleTypes(rows) {\n      return Array.from(new Set(rows.map((row) => row.type)));\n    }\n\n    function titleAverageScore(rows) {\n      return rows.length ? Math.round(rows.reduce((sum, row) => sum + row.score, 0) / rows.length) : 0;\n    }\n\n    function sortedProducts() {\n      const products = state.model ? [...state.model.products] : [];\n      if (state.sort === \'dd\') {\n        return products.sort((a, b) => (b.score - a.score) || a.name.localeCompare(b.name, \'ru\'));\n      }\n      const unitOrder = new Map();\n      products.forEach((product) => {\n        if (!unitOrder.has(product.unit)) unitOrder.set(product.unit, unitOrder.size);\n      });\n      return products.sort((a, b) => (unitOrder.get(a.unit) - unitOrder.get(b.unit)) || a.order - b.order);\n    }\n\n    function filteredTitleRows() {\n      if (!state.model) return [];\n      return state.model.titleRows.filter((row) => {\n        const unitOk = state.unit === \'all\' || row.unit === state.unit;\n        const typeOk = state.type === \'all\' || row.type === state.type;\n        return unitOk && typeOk;\n      });\n    }\n\n    function sortedTitleRows(rows) {\n      const copy = [...rows];\n      if (state.sort === \'dd\') {\n        return copy.sort((a, b) => (b.score - a.score) || compareText(a.name, b.name));\n      }\n      if (state.unit !== \'all\') {\n        return copy.sort((a, b) => compareText(a.name, b.name));\n      }\n      return copy.sort((a, b) => compareText(a.unit, b.unit) || compareText(a.name, b.name));\n    }\n\n    function renderTitleFilters() {\n      if (!state.model || !$(\'unitFilter\') || !$(\'typeFilter\')) return;\n      $(\'unitFilter\').innerHTML = [\n        \'<option value="all">Все юниты</option>\',\n        ...state.model.titleUnits.map((unit) => `<option value="${esc(unit)}">${esc(unit)}</option>`),\n      ].join(\'\');\n      $(\'typeFilter\').innerHTML = [\n        \'<option value="all">Все типы</option>\',\n        ...state.model.titleTypes.map((type) => `<option value="${esc(type)}">${esc(type)}</option>`),\n      ].join(\'\');\n      $(\'unitFilter\').value = state.unit;\n      $(\'typeFilter\').value = state.type;\n    }\n\n    function fitUnitHeaders() {\n      const narrow = window.matchMedia(\'(max-width: 900px)\').matches;\n      document.querySelectorAll(\'.unit-row\').forEach((row) => {\n        const name = row.querySelector(\'.unit-name b\');\n        row.classList.remove(\'hide-unit-count\');\n        if (!narrow || !name) return;\n        if (name.scrollWidth > name.clientWidth + 1) {\n          row.classList.add(\'hide-unit-count\');\n        }\n      });\n    }\n\n    function titleTableHeadHTML() {\n      return `\n        <div class="table-head">\n          <div>Команда</div>\n          <div>Data-Driven Index</div>\n          <div>Группа</div>\n          <div>Действие</div>\n        </div>\n      `;\n    }\n\n    function titleUnitRowHTML(unit, rows, isFirst) {\n      const color = UNIT_COLORS[unit] || UNIT_COLORS.default || \'#007aff\';\n      const avg = titleAverageScore(rows);\n      const avgGroup = averageGroup(rows);\n      return `\n        <div class="unit-row ${isFirst ? \'first\' : \'\'}">\n          <div class="unit-name">\n            <i class="unit-dot" style="background:${color}"></i>\n            <b>${esc(unit)}</b>\n            <span class="unit-count">${rows.length} ${pluralTeam(rows.length)}</span>\n          </div>\n          <div class="unit-avg"><span class="unit-avg-label">средний Data-Driven Index</span> <b style="color:${groupTheme(avgGroup).text}">${avg}%</b></div>\n        </div>\n      `;\n    }\n\n    function renderTitle() {\n      const model = state.model;\n      const table = $(\'productTable\');\n      const message = $(\'titleMessage\');\n      if (!model) {\n        table.classList.add(\'hidden\');\n        message.classList.remove(\'hidden\');\n        message.textContent = \'Данные пока не загружены.\';\n        return;\n      }\n\n      const filtered = filteredTitleRows();\n      const sorted = sortedTitleRows(filtered);\n      $(\'statProducts\').textContent = filtered.length;\n      $(\'statUnits\').textContent = titleUnits(filtered).length;\n      $(\'statAvg\').textContent = titleAverageScore(filtered) + \'%\';\n\n      if (!sorted.length) {\n        table.classList.add(\'hidden\');\n        message.classList.remove(\'hidden\');\n        message.textContent = \'Нет данных по выбранным фильтрам\';\n        return;\n      }\n\n      message.classList.add(\'hidden\');\n      table.classList.remove(\'hidden\');\n\n      if (state.sort === \'dd\') {\n        table.innerHTML = titleTableHeadHTML() + sorted.map((row) => productRowHTML(row, true)).join(\'\');\n        fitUnitHeaders();\n        return;\n      }\n\n      const chunks = [];\n      const units = Array.from(new Set(sorted.map((row) => row.unit)));\n      units.forEach((unit, index) => {\n        const unitRows = sorted.filter((row) => row.unit === unit);\n        chunks.push(titleUnitRowHTML(unit, unitRows, index === 0));\n        unitRows.forEach((row) => chunks.push(productRowHTML(row, false)));\n      });\n\n      table.innerHTML = titleTableHeadHTML() + chunks.join(\'\');\n      fitUnitHeaders();\n    }\n\n    function productRowHTML(row, showUnit) {\n      const group = row.group || \'Без группы\';\n      const theme = groupTheme(group);\n      const subline = showUnit ? `${row.unit} · ${row.type}` : row.type;\n      const button = row.detailId\n        ? `<button type="button" class="go-button" data-product-id="${esc(row.detailId)}">Перейти</button>`\n        : \'<button type="button" class="go-button" disabled>Перейти</button>\';\n      return `\n        <div class="product-row">\n          <div class="product-name">\n            <span>${esc(subline)}</span>\n            <b title="${esc(row.name)}">${esc(row.name)}</b>\n          </div>\n          <div class="dd-cell" style="color:${theme.accent}">\n            <span class="status-label" style="color:${theme.text}">${esc(group)}</span>\n            <span class="score-label">${row.score}%</span>\n            <span class="progress"><i style="width:${row.score}%"></i></span>\n          </div>\n          <div class="group-cell" style="color:${theme.text};background:${theme.bg};border-color:${theme.border}">${esc(group)}</div>\n          <div class="go-cell">\n            ${button}\n          </div>\n        </div>\n      `;\n    }\n\n    function renderProductSelect() {\n      const select = $(\'productSelect\');\n      const products = sortedProducts();\n      select.innerHTML = products\n        .map((product) => `<option value="${esc(product.id)}">${esc(product.name)}</option>`)\n        .join(\'\');\n      select.value = state.selectedId || (products[0] && products[0].id) || \'\';\n    }\n\n    function detailSubtitleHTML(product, period) {\n      return `\n        <span class="detail-subline">\n          <span>${esc(product.unit || \'Без юнита\')} · ${esc(period || \'период не указан\')} ·</span>\n          <span class="detail-entity-type">${esc(product.type || \'Продукт\')}</span>\n        </span>\n      `;\n    }\n\n    function renderDetail() {\n      const model = state.model;\n      const message = $(\'detailMessage\');\n      const content = $(\'detailContent\');\n      if (!model || !model.products.length) {\n        message.classList.remove(\'hidden\');\n        content.classList.add(\'hidden\');\n        message.textContent = \'Нет данных для детального листа.\';\n        return;\n      }\n\n      const product = model.byId[state.selectedId] || model.products[0];\n      state.selectedId = product.id;\n      renderProductSelect();\n\n      message.classList.add(\'hidden\');\n      content.classList.remove(\'hidden\');\n\n      const st = product.status;\n      $(\'detailName\').textContent = product.name;\n      $(\'detailSub\').innerHTML = detailSubtitleHTML(product, model.period);\n      $(\'scoreKicker\').textContent = product.name;\n      $(\'detailScore\').textContent = product.score;\n      $(\'detailScore\').style.color = st.color;\n      $(\'detailStatus\').textContent = st.text;\n      $(\'detailStatus\').style.color = st.color;\n      $(\'rangePin\').style.left = Math.max(0, Math.min(100, product.score)) + \'%\';\n      $(\'rangePin\').style.color = st.color;\n\n      renderFocuses(product);\n      renderBlocks(product);\n    }\n\n    function renderFocuses(product) {\n      const rows = [];\n      product.blocks.blocks.forEach((block) => {\n        block.criteria.forEach((criterion) => {\n          if (!criterion.excluded && criterion.applicable && criterion.max > 0 && criterion.gap > 0) {\n            rows.push({\n              block,\n              criterion,\n              gain: Math.round(criterion.gap / Math.max(product.blocks.max, 1) * 100),\n            });\n          }\n        });\n      });\n\n      const focuses = aggregateRecommendationFocuses(rows, product.blocks.max).slice(0, 3);\n\n      if (!focuses.length) {\n        $(\'focusList\').innerHTML = `\n          <div class="focus-row">\n            <span class="focus-num">✓</span>\n            <span class="focus-text"><b>Все применимые метрики без просадок</b><span>Сохранить текущий уровень и мониторить обновления JSON</span></span>\n            <span class="gain">0 п.п.</span>\n          </div>\n        `;\n        return;\n      }\n\n      $(\'focusList\').innerHTML = focuses.map((item, index) => `\n        <div class="focus-row">\n          <span class="focus-num">${index + 1}</span>\n          <span class="focus-text">\n            <b>${esc(item.recommendation)}</b>\n            <span>${esc(item.caption)}</span>\n          </span>\n          <span class="gain">+${item.gain} п.п.</span>\n        </div>\n      `).join(\'\');\n    }\n\n    function aggregateRecommendationFocuses(rows, totalMax) {\n      const groups = new Map();\n      rows.forEach((item) => {\n        const detailedRecommendations = recommendationItemsFor(item.criterion);\n        if (detailedRecommendations.length) {\n          detailedRecommendations.forEach((detail) => {\n            const groupPriority = recommendationItemPriority(detail);\n            addRecommendationFocusGroup(groups, item, detail.recommendation, groupPriority, detail.gap, detail.value, detail.max);\n          });\n          return;\n        }\n\n        recommendationTextsFor(item.criterion).forEach((recommendation) => {\n          const groupPriority = recommendationGroupPriority(item.criterion);\n          addRecommendationFocusGroup(groups, item, recommendation, groupPriority, item.criterion.gap, item.criterion.value, item.criterion.max);\n        });\n      });\n\n      return Array.from(groups.values())\n        .map((group) => {\n          const gain = Math.round(group.gap / Math.max(totalMax, 1) * 100);\n          const count = group.metrics.length;\n          const first = group.metrics[0];\n          const firstValue = Number.isFinite(first.value) ? first.value : first.criterion.value;\n          const firstMax = Number.isFinite(first.max) ? first.max : first.criterion.max;\n          const caption = count === 1\n            ? `${first.block.name} · сейчас ${fmt(firstValue)} / ${fmt(firstMax)}`\n            : `${count} метрик · ${Array.from(group.blocks).join(\', \')} · суммарный гэп ${fmt(group.gap)}`;\n          return {\n            recommendation: group.recommendation,\n            caption,\n            gap: group.gap,\n            gain,\n            groupPriority: group.groupPriority,\n          };\n        })\n        .sort((a, b) => (a.groupPriority - b.groupPriority) || (b.gain - a.gain) || (b.gap - a.gap) || a.recommendation.localeCompare(b.recommendation, \'ru\'));\n    }\n\n    function addRecommendationFocusGroup(groups, item, recommendation, groupPriority, gap, value, max) {\n      const cleanRecommendation = String(recommendation || \'\').trim();\n      const itemGap = Math.max(0, parseNumber(gap, 0));\n      if (!cleanRecommendation || itemGap <= 0) return;\n\n      const key = normalizeRecommendationKey(cleanRecommendation) + \'|\' + groupPriority;\n      if (!groups.has(key)) {\n        groups.set(key, {\n          recommendation: cleanRecommendation,\n          groupPriority,\n          gap: 0,\n          metrics: [],\n          blocks: new Set(),\n        });\n      }\n\n      const group = groups.get(key);\n      group.gap += itemGap;\n      group.metrics.push({\n        ...item,\n        value: parseNumber(value, item.criterion.value),\n        max: parseNumber(max, item.criterion.max),\n        gap: itemGap,\n      });\n      group.blocks.add(item.block.name);\n    }\n\n    function recommendationItemPriority(item) {\n      return recommendationDifficultyPriority(item.recommendation_difficulty ?? item.group ?? item.recommendation_group);\n    }\n\n    function recommendationDifficultyPriority(value) {\n      const numeric = Number(String(value ?? \'\').replace(\',\', \'.\').trim());\n      if (Number.isFinite(numeric) && numeric > 0) {\n        return Math.max(1, Math.min(10, Math.round(numeric)));\n      }\n      const key = String(value || \'\').trim().toLowerCase();\n      if (key === \'easy\') return 1;\n      if (key === \'medium\') return 5;\n      if (key === \'hard\') return 10;\n      return 99;\n    }\n\n    function recommendationItemsFor(row) {\n      const source = Array.isArray(row.recommendation_items) ? row.recommendation_items : [];\n      return source\n        .map((item) => {\n          const max = Math.max(0, parseNumber(item.max_value ?? item.max, 0));\n          const value = Math.max(0, Math.min(max, parseNumber(item.value, 0)));\n          const gap = Math.max(0, parseNumber(item.gap, max - value));\n          const difficulty = recommendationDifficultyPriority(item.recommendation_difficulty ?? item.group ?? item.recommendation_group);\n          return {\n            recommendation: String(item.recommendation || \'\').trim(),\n            group: difficulty,\n            recommendation_difficulty: difficulty,\n            value,\n            max,\n            gap,\n          };\n        })\n        .filter((item) => item.recommendation && item.group);\n    }\n\n    function recommendationGroupPriority(row) {\n      const groups = Array.isArray(row.recommendation_groups)\n        ? row.recommendation_groups\n        : (row.recommendation_group ? [row.recommendation_group] : []);\n      let priority = 99;\n      groups.forEach((group) => {\n        priority = Math.min(priority, recommendationDifficultyPriority(group));\n      });\n      return priority;\n    }\n\n    function recommendationTextsFor(row) {\n      const excelRecommendations = uniqueRecommendationTexts(row);\n      if (excelRecommendations.length) return excelRecommendations;\n      return [fallbackRecommendationFor(row)];\n    }\n\n    function uniqueRecommendationTexts(row) {\n      const source = Array.isArray(row.recommendations)\n        ? row.recommendations\n        : (row.recommendation ? [row.recommendation] : []);\n      const seen = new Set();\n      return source\n        .map((item) => String(item || \'\').trim())\n        .filter((item) => {\n          if (!item) return false;\n          const key = normalizeRecommendationKey(item);\n          if (seen.has(key)) return false;\n          seen.add(key);\n          return true;\n        });\n    }\n\n    function normalizeRecommendationKey(value) {\n      return String(value || \'\').trim().replace(/\\s+/g, \' \').toLowerCase();\n    }\n\n    function recommendationFor(row) {\n      return recommendationTextsFor(row).join(\' · \');\n    }\n\n    function fallbackRecommendationFor(row) {\n      const byCode = {\n        \'general.market_ru\': \'Зафиксировать рынок РФ и источник.\',\n        \'general.market_sber\': \'Оценить потенциал базы Сбера.\',\n        \'general.clients_with_product\': \'Обновить базу клиентов с продуктом.\',\n        \'general.product_mau\': \'Вывести MAU в регулярный мониторинг.\',\n        \'general.satellite_products_knowledge\': \'Картировать продукты-спутники.\',\n        \'general.navigator_reporting_knowledge\': \'Выбрать основной отчет в Навигаторе.\',\n        \'goals.monitored\': \'Использовать мониторинг целей в Навигаторе.\',\n        \'goals.factor_analysis_l1_l2\': \'Разложить цели на L1/L2-драйверы.\',\n        \'goals.forecast\': \'Добавить прогноз по целям.\',\n        \'alerts.system_failures\': \'Настроить алерты по сбоям.\',\n        \'alerts.business_metrics\': \'Добавить алерты по бизнес-метрикам.\',\n        \'cx.product_mechanics\': \'Собрать продуктовые механики.\',\n        \'cx.score\': \'Разобрать CX в LossHunter.\',\n        \'attract.regular_reporting\': \'Настроить отчетность по привлечению.\',\n        \'attract.report_completeness\': \'Закрыть пробелы в отчете привлечения.\',\n        \'attract.benchmarks\': \'Добавить бенчмарки привлечения.\',\n        \'attract.cross_sell\': \'Проработать cross-sell-сценарии.\',\n        \'attract.funnel_analysis\': \'Провести анализ воронки привлечения.\',\n        \'attract.initiatives_list\': \'Приоритизировать инициативы привлечения.\',\n        \'attract.drafts_70\': \'Поднять покрытие черновиков.\',\n        \'attract.campaign_launches\': \'Увеличить запуск кампаний.\',\n        \'churn.regular_reporting\': \'Настроить отчетность по оттоку.\',\n        \'churn.report_completeness\': \'Закрыть пробелы в отчете оттока.\',\n        \'churn.benchmarks\': \'Добавить бенчмарки оттока.\',\n        \'churn.funnel_analysis\': \'Провести анализ воронки оттока.\',\n        \'churn.deviation_actions\': \'Назначить реакцию на отклонения.\',\n        \'churn.mechanics_metrics_knowledge\': \'Определить метрики механик оттока.\',\n        \'churn.client_retention\': \'Усилить механики удержания.\',\n        \'churn.client_return\': \'Запустить сценарии возврата.\',\n        \'churn.flexible_terms\': \'Настроить гибкие условия.\',\n        \'hyp.discovery_40_backlog\': \'Поднять долю discovery в бэклоге.\',\n        \'hyp.ab_tests\': \'Подготовить A/B-план после TBD.\',\n        \'hyp.datadriven_rating_7_5\': \'Разобрать просадку DataDriven.\',\n        \'hyp.extra_initiatives\': \'Добавить инициативы сверх БП.\',\n      };\n      return byCode[row.code] || \'Назначить владельца и действие для "\' + row.name + \'".\';\n    }\n\n    function renderBlocks(product) {\n      const grid = $(\'blocksGrid\');\n      grid.innerHTML = product.blocks.blocks.map((block) => {\n        const st = block.status;\n        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, block.code);\n        const expanded = hasOverride ? state.expandedBlocks[block.code] : !state.compact;\n        const criteria = block.criteria;\n\n        return `\n          <article class="block-card">\n            <div class="block-top" data-block-key="${esc(block.code)}">\n              <div>\n                <div class="block-title-line">\n                  <span class="block-chevron">${expanded ? \'▾\' : \'▸\'}</span>\n                  <h2>${esc(block.name)}</h2>\n                </div>\n                <div class="block-meta">${esc(fmt(block.earned))} / ${esc(fmt(block.max))} · ${block.greenCount} выполнено</div>\n                <div class="block-progress" style="color:${st.color}"><i style="width:${block.score}%"></i></div>\n              </div>\n              <div class="block-score" style="color:${st.color}">${block.score}%</div>\n            </div>\n            ${expanded ? `\n              ${block.tools.map(blockToolHTML).join(\'\')}\n              ${block.infobox ? blockInfoHTML(block.infobox) : \'\'}\n              <div class="criteria">\n                ${criteria.map(criterionHTML).join(\'\')}\n              </div>\n              ${blockAdvisoryHTML(block)}\n              ${actionsHTML(block.actions)}\n              ${participantLinksHTML(block.participantLinks)}\n            ` : \'\'}\n          </article>\n        `;\n      }).join(\'\');\n    }\n\n    function noteDotHTML(active) {\n      const light = parseLight(active);\n      if (!light || light === \'gray\') {\n        return [\'#d1d1d6\', \'#d1d1d6\', \'#d1d1d6\']\n          .map((color) => `<i class="note-dot" style="background:${color}"></i>`)\n          .join(\'\');\n      }\n\n      return [\n        [\'red\', COLORS.red],\n        [\'yellow\', COLORS.yellow],\n        [\'green\', COLORS.green],\n      ].map(([key, color]) => {\n        const fill = light === key ? color : \'#e4e4e7\';\n        return `<i class="note-dot" style="background:${fill}"></i>`;\n      }).join(\'\');\n    }\n\n    function toolLightHTML(active) {\n      const light = parseLight(active) || \'gray\';\n      const dot = light === \'green\' ? \'g\' : light === \'yellow\' ? \'y\' : light === \'red\' ? \'r\' : \'n\';\n      return `<i class="tool-light" style="background:${dotColor(dot)}"></i>`;\n    }\n\n    function toolItemHTML(item, neutralLight = false) {\n      return `\n        <div class="tool-item">\n          ${toolLightHTML(neutralLight ? \'gray\' : item.active)}\n          <div class="tool-item-copy">\n            ${item.stage ? `<span class="tool-stage">${esc(item.stage)}</span>` : \'\'}\n            <div class="tool-item-name">${esc(item.name || \'Инструмент\')}</div>\n            ${item.footer ? `<div class="tool-item-footer">${esc(item.footer)}</div>` : \'\'}\n          </div>\n          ${actionButtonHTML(item.button, \'note-action\')}\n        </div>\n      `;\n    }\n\n    function blockToolHTML(tool) {\n      const mode = tool.variant ? \' \' + tool.variant : \'\';\n      const toolItems = Array.isArray(tool.buttons) ? tool.buttons : [];\n      const isGroup = tool.isGroup && toolItems.length > 0;\n      const generalButton = tool.button && tool.button.type !== \'footer\'\n        ? actionButtonHTML(tool.button, \'note-action\')\n        : \'\';\n      const isInstruction = tool.kind === \'instruction\';\n      const badge = isInstruction ? \'i\' : \'AI\';\n      const badgeClass = isInstruction ? \'note-badge instruction\' : \'note-badge\';\n      const dots = tool.kind !== \'ai\' && tool.showDots ? `<span class="note-dots">${noteDotHTML(tool.active)}</span>` : \'\';\n\n      if (isGroup) {\n        return `\n          <div class="block-note tool-group${mode}">\n            <div class="note-copy">\n              <span class="${badgeClass}">${badge}</span>\n              <div class="note-copy-text">\n                <div class="note-skill">${esc(tool.name || \'Навык\')}</div>\n              </div>\n            </div>\n            <div class="tool-items">\n              ${toolItems.map((item) => toolItemHTML(item, true)).join(\'\')}\n            </div>\n          </div>\n        `;\n      }\n\n      return `\n        <div class="block-note${mode}">\n          <div class="note-copy">\n            <span class="${badgeClass}">${badge}</span>\n            <div class="note-copy-text">\n              <div class="note-skill">${esc(tool.name || \'Инструмент\')}</div>\n              ${tool.footer ? `<div class="note-metric">${esc(tool.footer)}</div>` : \'\'}\n            </div>\n          </div>\n          <div class="note-side">\n            ${dots}\n            ${generalButton}\n          </div>\n        </div>\n      `;\n    }\n\n    function actionLinkItemsHTML(actions) {\n      return actions.map((action) => `\n        <a class="data-link" href="${esc(action.url)}" target="_blank" rel="noopener noreferrer">${esc(action.label)} ↗</a>\n      `).join(\'\');\n    }\n\n    function actionsHTML(actions) {\n      const cleanActions = normalizeActions(actions);\n      if (!cleanActions.length) return \'\';\n\n      return `\n        <div class="block-actions">\n          ${actionLinkItemsHTML(cleanActions)}\n        </div>\n      `;\n    }\n\n    function participantLinksHTML(actions) {\n      const cleanActions = normalizeActions(actions);\n      if (!cleanActions.length) return \'\';\n\n      return `\n        <div class="block-actions participant-actions">\n          <div class="participant-actions-title">Ссылки, приложенные участниками опроса</div>\n          ${actionLinkItemsHTML(cleanActions)}\n        </div>\n      `;\n    }\n\n    function blockInfoHTML(info) {\n      if (info.variant === \'cta\') {\n        return `\n          <div class="block-infobox cta">\n            <div class="info-text">\n              <b>${esc(info.title)}</b>\n            </div>\n            ${actionButtonHTML(info.button, \'metric-button\')}\n          </div>\n        `;\n      }\n\n      return `\n        <div class="block-infobox">\n          <div class="info-count">${esc(info.count)}</div>\n          <div class="info-text">\n            <b>${esc(info.title)}</b>\n            <span>${esc(info.sub)}</span>\n          </div>\n          ${actionButtonHTML(info.button, \'metric-button\')}\n        </div>\n      `;\n    }\n\n    function criterionByCode(block, code) {\n      return (block.criteria || []).find((criterion) => criterion.code === code);\n    }\n\n    function criterionValueBelow(block, code, threshold) {\n      const criterion = criterionByCode(block, code);\n      return Boolean(criterion) && parseNumber(criterion.value, 0) < threshold;\n    }\n\n    function jiraDisabledButtonHTML() {\n      return actionButtonHTML({ type: \'metric\', label: \'Завести задачу в Jira\', link: \'\' }, \'metric-button\');\n    }\n\n    function blockAdvisoryHTML(block) {\n      if (block.code !== \'goals\') return \'\';\n      const goalCriteria = (block.criteria || []).filter((criterion) => (\n        [\'goals.monitored\', \'goals.factor_analysis_l1_l2\', \'goals.forecast\'].includes(criterion.code)\n        && criterion.applicable !== false\n        && !criterion.excluded\n        && parseNumber(criterion.max, 0) > 0\n      ));\n      const hasIncompleteGoals = goalCriteria.some((criterion) => (\n        parseNumber(criterion.value, 0) < parseNumber(criterion.max, 0)\n      ));\n      if (!hasIncompleteGoals) return \'\';\n\n      return `\n        <div class="block-advisory">\n          <span class="block-advisory-badge">i</span>\n          <div class="block-advisory-text">В вашем юните имеется мастер-деш. Вы можете использовать его для мониторинга целей. Для обогащения, обратитесь в штаб Юнита</div>\n          ${jiraDisabledButtonHTML()}\n        </div>\n      `;\n    }\n\n    function criterionJiraButtonHTML(criterion) {\n      if (criterion.code !== \'alerts.business_metrics\' || parseNumber(criterion.value, 0) >= 1) return \'\';\n      return jiraDisabledButtonHTML();\n    }\n\n    function criterionHTML(criterion) {\n      const color = dotColor(criterion.dot);\n      const sub = criterion.group ? criterion.group + \' · \' + criterion.footer : criterion.footer;\n      const metricButton = (criterion.buttons || []).map((button) => actionButtonHTML(button, \'metric-button\')).join(\'\') + criterionJiraButtonHTML(criterion);\n      const links = linksHTML(criterion.links, \'criterion-links\');\n      const extra = metricButton ? `<div class="criterion-extra">${metricButton}</div>` : \'\';\n\n      return `\n        <div class="criterion">\n          <i class="dot" style="background:${color}"></i>\n          <span class="criterion-name">\n            <b>${esc(criterion.name)}</b>\n            <span>${esc(sub || \'\')}</span>\n          </span>\n          <span class="criterion-points ${esc(criterion.pointsTone)}">${esc(criterion.points)}</span>\n          ${extra}\n          ${links}\n        </div>\n      `;\n    }\n\n    function linksHTML(links, className) {\n      const cleanLinks = normalizeLinks(links);\n      if (!cleanLinks.length) return \'\';\n\n      return `\n        <div class="${className}">\n          ${cleanLinks.map((link) => `\n            <a class="data-link" href="${esc(link.url)}" target="_blank" rel="noopener noreferrer">${esc(link.label)} ↗</a>\n          `).join(\'\')}\n        </div>\n      `;\n    }\n\n    function showTitle(pushHash = true) {\n      $(\'titleView\').classList.remove(\'hidden\');\n      $(\'detailView\').classList.add(\'hidden\');\n      if (pushHash) history.replaceState(null, \'\', location.pathname);\n      renderTitle();\n    }\n\n    function showDetail(id, pushHash = true) {\n      state.selectedId = id;\n      $(\'titleView\').classList.add(\'hidden\');\n      $(\'detailView\').classList.remove(\'hidden\');\n      if (pushHash) history.replaceState(null, \'\', \'#product=\' + encodeURIComponent(id));\n      renderDetail();\n      window.scrollTo({ top: 0, behavior: \'smooth\' });\n    }\n\n    function applyHashRoute() {\n      const hash = new URLSearchParams(location.hash.replace(/^#/, \'\'));\n      const productId = hash.get(\'product\');\n      if (productId && state.model && state.model.byId[productId]) showDetail(productId, false);\n      else showTitle(false);\n    }\n\n    function updateTop() {\n      const model = state.model;\n      $(\'periodPill\').textContent = model ? model.period : \'Загрузка данных\';\n      $(\'topSubtitle\').textContent = model\n        ? model.titleRows.length + \' команд · \' + model.titleUnits.length + \' юнита\'\n        : \'Титульная витрина\';\n    }\n\n    function loadData() {\n      try {\n        state.model = normalizeConstructedData(readEmbeddedData());\n        updateTop();\n        renderTitleFilters();\n        renderTitle();\n        applyHashRoute();\n      } catch (error) {\n        const message = error && error.message ? error.message : String(error);\n        state.model = null;\n        updateTop();\n        $(\'productTable\').classList.add(\'hidden\');\n        $(\'titleMessage\').classList.remove(\'hidden\');\n        $(\'titleMessage\').textContent = \'Не удалось прочитать встроенный dd-data2: \' + message;\n      }\n    }\n\n    function setReportAccessModal(open) {\n      const modal = $(\'reportAccessModal\');\n      if (!modal) return;\n\n      modal.classList.toggle(\'hidden\', !open);\n      modal.setAttribute(\'aria-hidden\', open ? \'false\' : \'true\');\n      document.body.classList.toggle(\'report-modal-open\', open);\n\n      if (open) {\n        const closeButton = $(\'reportAccessClose\');\n        if (closeButton) closeButton.focus();\n      }\n    }\n\n    function bindEvents() {\n      $(\'sortUnitBtn\').addEventListener(\'click\', () => {\n        state.sort = \'unit\';\n        $(\'sortUnitBtn\').classList.add(\'active\');\n        $(\'sortDDBtn\').classList.remove(\'active\');\n        renderTitle();\n      });\n\n      $(\'sortDDBtn\').addEventListener(\'click\', () => {\n        state.sort = \'dd\';\n        $(\'sortDDBtn\').classList.add(\'active\');\n        $(\'sortUnitBtn\').classList.remove(\'active\');\n        renderTitle();\n      });\n\n      const unitFilter = $(\'unitFilter\');\n      if (unitFilter) {\n        unitFilter.addEventListener(\'change\', (event) => {\n          state.unit = event.target.value;\n          renderTitle();\n        });\n      }\n\n      const typeFilter = $(\'typeFilter\');\n      if (typeFilter) {\n        typeFilter.addEventListener(\'change\', (event) => {\n          state.type = event.target.value;\n          renderTitle();\n        });\n      }\n\n      $(\'productTable\').addEventListener(\'click\', (event) => {\n        const button = event.target.closest(\'[data-product-id]\');\n        if (button) showDetail(button.dataset.productId);\n      });\n\n      $(\'blocksGrid\').addEventListener(\'click\', (event) => {\n        const header = event.target.closest(\'[data-block-key]\');\n        if (!header) return;\n        const key = header.dataset.blockKey;\n        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, key);\n        const current = hasOverride ? state.expandedBlocks[key] : !state.compact;\n        state.expandedBlocks = { ...state.expandedBlocks, [key]: !current };\n        renderDetail();\n      });\n\n      $(\'backBtn\').addEventListener(\'click\', () => showTitle(true));\n      $(\'productSelect\').addEventListener(\'change\', (event) => showDetail(event.target.value));\n\n      const complexReportBtn = $(\'complexReportBtn\');\n      if (complexReportBtn) {\n        complexReportBtn.addEventListener(\'click\', () => setReportAccessModal(true));\n      }\n\n      const reportAccessClose = $(\'reportAccessClose\');\n      if (reportAccessClose) {\n        reportAccessClose.addEventListener(\'click\', () => setReportAccessModal(false));\n      }\n\n      const reportModalBackdrop = document.querySelector(\'[data-report-modal-close]\');\n      if (reportModalBackdrop) {\n        reportModalBackdrop.addEventListener(\'click\', () => setReportAccessModal(false));\n      }\n\n      $(\'detailFullBtn\').addEventListener(\'click\', () => {\n        state.compact = false;\n        state.expandedBlocks = {};\n        $(\'detailFullBtn\').classList.add(\'active\');\n        $(\'detailCompactBtn\').classList.remove(\'active\');\n        renderDetail();\n      });\n\n      $(\'detailCompactBtn\').addEventListener(\'click\', () => {\n        state.compact = true;\n        state.expandedBlocks = {};\n        $(\'detailCompactBtn\').classList.add(\'active\');\n        $(\'detailFullBtn\').classList.remove(\'active\');\n        renderDetail();\n      });\n\n      window.addEventListener(\'hashchange\', applyHashRoute);\n      window.addEventListener(\'resize\', fitUnitHeaders);\n      window.addEventListener(\'keydown\', (event) => {\n        if (event.key === \'Escape\') setReportAccessModal(false);\n      });\n    }\n\n    bindEvents();\n    loadData();\n"""\n\n\ndef parse_number(value: Any, fallback: float = 0.0) -> float:\n    if value is None or value == "":\n        return fallback\n    try:\n        return float(str(value).replace(",", "."))\n    except ValueError:\n        return fallback\n\n\ndef parse_applicable(value: Any) -> bool:\n    if value is None or value == "":\n        return True\n    if isinstance(value, bool):\n        return value\n    if isinstance(value, (int, float)):\n        return value != 0\n    normalized = str(value).strip().lower()\n    if normalized in {"false", "0", "no", "n", "нет", "н", "-"}:\n        return False\n    if normalized in {"true", "1", "yes", "y", "да", "д"}:\n        return True\n    return bool(value)\n\n\ndef period_rank(value: Any) -> float | None:\n    text = str(value or "").strip()\n    roman = {"I": 1, "II": 2, "III": 3, "IV": 4}\n    match = re.search(r"(IV|III|II|I|[1-4])\\s*кв[.]?\\s*([0-9]{4})", text, re.I)\n    if match:\n        quarter_raw = match.group(1).upper()\n        quarter = roman[quarter_raw] if quarter_raw in roman else int(quarter_raw)\n        return int(match.group(2)) * 12 + quarter * 3\n\n    match = re.search(r"([0-9]{4})\\s*(?:г[.]?)?\\s*(IV|III|II|I|[1-4])\\s*кв", text, re.I)\n    if match:\n        quarter_raw = match.group(2).upper()\n        quarter = roman[quarter_raw] if quarter_raw in roman else int(quarter_raw)\n        return int(match.group(1)) * 12 + quarter * 3\n\n    return None\n\n\ndef latest_period(rows: list[dict[str, Any]]) -> str:\n    if not rows:\n        raise ValueError("dd-data.json is empty")\n\n    periods: dict[str, dict[str, Any]] = {}\n    for order, row in enumerate(rows):\n        period = str(row.get("period") or "").strip()\n        periods.setdefault(period, {"period": period, "order": order, "rank": period_rank(period)})\n\n    has_rank = any(item["rank"] is not None for item in periods.values())\n\n    def sort_key(item: dict[str, Any]) -> tuple[float, int]:\n        rank = item["rank"] if item["rank"] is not None else float("-inf")\n        return (rank if has_rank else item["order"], item["order"])\n\n    return sorted(periods.values(), key=sort_key)[-1]["period"]\n\n\ndef unit_name(value: Any) -> str:\n    unit = str(value or "").strip()\n    return unit or "Без юнита"\n\n\ndef parse_light(value: Any) -> str | None:\n    normalized = str(value or "").strip().lower()\n    if not normalized:\n        return None\n    if normalized in {"green", "g", "зеленый", "зелёный", "зеленая", "зелёная"}:\n        return "green"\n    if normalized in {"yellow", "y", "amber", "orange", "желтый", "жёлтый", "оранжевый"}:\n        return "yellow"\n    if normalized in {"red", "r", "красный", "красная"}:\n        return "red"\n    if normalized in {"gray", "grey", "n", "none", "na", "n/a", "серый", "серая", "не применимо"}:\n        return "gray"\n    return None\n\n\ndef metric_light(value: float, max_value: float, applicable: bool) -> str:\n    if not applicable or max_value <= 0:\n        return "gray"\n    if abs(value - max_value) < 1e-9:\n        return "green"\n    if value > 0:\n        return "yellow"\n    return "red"\n\n\ndef normalize_links(value: Any) -> list[dict[str, str]]:\n    raw_links = value if isinstance(value, list) else ([value] if value else [])\n    links: list[dict[str, str]] = []\n\n    for item in raw_links:\n        if isinstance(item, str):\n            links.append({"label": "Открыть", "url": item})\n            continue\n        if not isinstance(item, dict):\n            continue\n\n        url = item.get("url") or item.get("href") or item.get("link")\n        if not url:\n            continue\n\n        links.append(\n            {\n                "label": str(item.get("label") or item.get("name") or item.get("title") or "Открыть"),\n                "url": str(url),\n            }\n        )\n\n    return links\n\n\ndef links_from_row(row: dict[str, Any] | None) -> list[dict[str, str]]:\n    if not row:\n        return []\n    links = normalize_links(row.get("links"))\n    if row.get("link") or row.get("url") or row.get("href"):\n        links.extend(\n            normalize_links(\n                {\n                    "label": row.get("link_label") or row.get("label") or "Открыть",\n                    "url": row.get("link") or row.get("url") or row.get("href"),\n                }\n            )\n        )\n    return links\n\n\ndef make_button(button_type: str, label: Any, link: Any = "") -> dict[str, str] | None:\n    label_text = str(label or "").strip()\n    link_text = str(link or "").strip()\n    if not label_text and not link_text:\n        return None\n    return {\n        "type": str(button_type or "general").strip() or "general",\n        "label": label_text or "Открыть",\n        "link": link_text,\n    }\n\n\ndef service_metric(metric: str) -> tuple[str, str] | None:\n    traffic = re.match(r"^([a-z]+)_traffic_light$", metric or "")\n    if traffic:\n        return ("traffic", traffic.group(1))\n    if metric == "cx_losshunter_analytics_count":\n        return ("losshunter", "cx")\n    return None\n\n\ndef product_id(row: dict[str, Any]) -> str:\n    group_id = str(row.get("product_group_uuid") or "").strip()\n    product = str(row.get("product_name") or group_id).strip() or group_id\n    entity_type = str(row.get("type") or row.get("entity_type") or DEFAULT_ENTITY_TYPE).strip() or DEFAULT_ENTITY_TYPE\n    if entity_type != DEFAULT_ENTITY_TYPE:\n        return f"{group_id}¦{entity_type}¦{product}"\n    return f"{group_id}¦{product}"\n\n\ndef build_product(\n    raw_product: dict[str, Any],\n    records: dict[str, dict[str, Any]],\n    traffic_lights: dict[str, str],\n    losshunter_count: float,\n) -> dict[str, Any]:\n    blocks: list[dict[str, Any]] = []\n\n    for block in BLOCKS:\n        tools = []\n        for tool in block.get("tools", []):\n            traffic_metric = tool.get("traffic_metric")\n            tool_links = normalize_links(tool.get("links"))\n            tool_link = str(tool.get("link") or (tool_links[0]["url"] if tool_links else "")).strip()\n            button = make_button(\n                tool.get("button_type", "general"),\n                tool.get("button", "Перейти"),\n                tool_link,\n            )\n            missing_link = not button or not button.get("link")\n            tool_payload = {\n                "name": tool["name"],\n                "traffic_light": "gray" if missing_link else traffic_lights.get(block["code"], "gray"),\n                "button": button if not missing_link else {"type": "general", "label": "TBD", "link": ""},\n            }\n            if tool.get("footer"):\n                tool_payload["footer"] = tool["footer"]\n            if tool.get("footer_dynamic"):\n                tool_payload["footer_dynamic"] = tool["footer_dynamic"]\n            if tool.get("variant"):\n                tool_payload["variant"] = tool["variant"]\n            if traffic_metric:\n                tool_payload["source_metric"] = traffic_metric\n            tools.append(tool_payload)\n\n        metrics = []\n        for metric in block["metrics"]:\n            row = records.get(metric["code"])\n            applicable = parse_applicable(row.get("is_metric_applicabble_flg")) if row else False\n            default_max = parse_number(metric.get("max_value"), 0)\n            max_value = parse_number(row.get("max_value"), default_max) if row else default_max\n            max_value = max(0.0, max_value if applicable else 0.0)\n            value = parse_number(row.get("value"), 0) if row else 0.0\n            value = max(0.0, min(max_value, value if applicable else 0.0))\n            links = links_from_row(row)\n            link = links[0]["url"] if links else str(metric.get("link") or "")\n            button = make_button(\n                "metric",\n                metric.get("button_name") or metric.get("button") or (links[0]["label"] if links else ""),\n                link,\n            )\n\n            metric_payload: dict[str, Any] = {\n                "code": metric["code"],\n                "name": metric["name"],\n                "footer": metric.get("footer", ""),\n                "value": value if row else None,\n                "max_value": max_value if row else metric.get("max_value"),\n                "is_applicabble_flg": applicable,\n                "traffic_light": metric_light(value, max_value, applicable),\n            }\n\n            if button:\n                metric_payload["button"] = button\n\n            if metric.get("zero_button"):\n                zero_button = make_button("metric", metric["zero_button"], metric.get("zero_link") or "")\n                if zero_button:\n                    metric_payload["zero_button"] = zero_button\n\n            for optional_key in (\n                "group",\n                "excluded_from_index",\n                "tbd",\n                "link_types",\n            ):\n                if optional_key in metric:\n                    metric_payload[optional_key] = metric[optional_key]\n\n            metrics.append(metric_payload)\n\n        block_payload: dict[str, Any] = {\n            "type": "block",\n            "code": block["code"],\n            "name": block["name"],\n            "tools": tools,\n            "metrics": metrics,\n        }\n\n        if block.get("info"):\n            info = dict(block["info"])\n            if info.get("type") == "losshunter":\n                info["count"] = losshunter_count\n            block_payload["info"] = info\n\n        blocks.append(block_payload)\n\n    return {\n        "id": raw_product["id"],\n        "type": raw_product.get("type") or DEFAULT_ENTITY_TYPE,\n        "name": raw_product["name"],\n        "unit": raw_product["unit"],\n        "period": raw_product["period"],\n        "product_group_uuid": raw_product["product_group_uuid"],\n        "metrics": blocks,\n    }\n\n\ndef build_dd_data2(rows: list[dict[str, Any]]) -> dict[str, Any]:\n    period = latest_period(rows)\n    current_rows = [row for row in rows if str(row.get("period") or "").strip() == period]\n\n    products: dict[str, dict[str, Any]] = {}\n    records_by_product: dict[str, dict[str, dict[str, Any]]] = {}\n    traffic_by_product: dict[str, dict[str, str]] = {}\n    losshunter_by_product: dict[str, float] = {}\n    base_row_count = 0\n\n    for order, row in enumerate(current_rows):\n        metric = str(row.get("metric") or "").strip()\n        group_id = str(row.get("product_group_uuid") or "").strip()\n        product_name = str(row.get("product_name") or group_id).strip() or group_id\n        entity_type = str(row.get("type") or row.get("entity_type") or DEFAULT_ENTITY_TYPE).strip() or DEFAULT_ENTITY_TYPE\n        if not group_id or not product_name or not metric:\n            continue\n\n        pid = product_id(row)\n        products.setdefault(\n            pid,\n            {\n                "id": pid,\n                "type": entity_type,\n                "name": product_name,\n                "unit": unit_name(row.get("unit")),\n                "period": period,\n                "product_group_uuid": group_id,\n                "order": order,\n            },\n        )\n        records_by_product.setdefault(pid, {})\n        traffic_by_product.setdefault(pid, {})\n\n        service = service_metric(metric)\n        if service:\n            service_type, key = service\n            if service_type == "traffic":\n                traffic_by_product[pid][key] = parse_light(row.get("value")) or "gray"\n            if service_type == "losshunter":\n                losshunter_by_product[pid] = parse_number(row.get("value"), 0)\n            continue\n\n        records_by_product[pid][metric] = row\n        base_row_count += 1\n\n    constructed_products = [\n        build_product(\n            raw_product,\n            records_by_product.get(pid, {}),\n            traffic_by_product.get(pid, {}),\n            losshunter_by_product.get(pid, 0),\n        )\n        for pid, raw_product in sorted(products.items(), key=lambda item: item[1]["order"])\n    ]\n\n    return {"products": constructed_products}\n\n\ndef build_embedded_html(data: dict[str, Any], title: str) -> str:\n    html = SOURCE_HTML.read_text(encoding="utf-8")\n    before_script, rest = html.split("  <script>\\n", 1)\n    _, after_script = rest.split("  </script>", 1)\n\n    before_script = before_script.replace(\n        "<title>DD-Индекс - итоговый отчет</title>",\n        f"<title>{title}</title>",\n    )\n    before_script = before_script.replace(\n        \'<div class="brand-mark">DD</div>\',\n        \'<div class="brand-mark">Data</div>\',\n    )\n    before_script = before_script.replace(\n        "<strong>DD-Индекс</strong>",\n        "<strong>Data-Driven Index</strong>",\n    )\n    before_script = before_script.replace(\n        \'<span id="topSubtitle">Витрина DD</span>\',\n        \'<span id="topSubtitle">Титульная витрина</span>\',\n    )\n    before_script = before_script.replace(\n        "<h1>DD-Индекс</h1>\\n            <p>Титульная витрина и разбор по ключевым блокам зрелости.</p>",\n        "<h1>Data-Driven Index</h1>",\n    )\n    before_script = before_script.replace(\n        \'<div class="hero-stat"><b id="statProducts">0</b><span>сущностей</span></div>\',\n        \'<div class="hero-stat"><b id="statProducts">0</b><span>команд</span></div>\',\n    )\n    before_script = before_script.replace(\n        \'<div class="hero-stat"><b id="statAvg">0%</b><span>средний DD</span></div>\',\n        \'<div class="hero-stat"><b id="statAvg">0%</b><span>средний Data-Driven Index</span></div>\',\n    )\n    before_script = before_script.replace(\n        \'\'\'        <div class="toolbar">\n          <div class="caption">Продукты и DD-статус</div>\n          <div class="segmented" role="group" aria-label="Сортировка">\n            <button id="sortUnitBtn" type="button" class="active">По юнитам</button>\n            <button id="sortDDBtn" type="button">По DD-индексу</button>\n          </div>\n        </div>\'\'\',\n        \'\'\'        <div class="toolbar">\n          <div class="caption">Продукты, сегменты и Data-Driven Index</div>\n          <div class="toolbar-controls">\n            <label class="filter-wrap">Юнит <select id="unitFilter"></select></label>\n            <label class="filter-wrap">Тип <select id="typeFilter"></select></label>\n            <div class="segmented" role="group" aria-label="Сортировка">\n              <button id="sortUnitBtn" type="button" class="active">По юнитам</button>\n              <button id="sortDDBtn" type="button">По Data-Driven Index</button>\n            </div>\n          </div>\n        </div>\'\'\',\n    )\n    before_script = re.sub(\n        r"\\n\\s*<div class=\\"legend\\">.*?</div>\\s*(?=\\n\\s*</section>)",\n        "",\n        before_script,\n        flags=re.S,\n    )\n    for legend_css_pattern in (\n        r"\\s*\\.legend-item\\s+\\.dot\\s*\\{[^{}]*\\}",\n        r"\\s*\\.legend\\s*\\{[^{}]*\\}",\n        r"\\s*\\.legend-item\\s*\\{[^{}]*\\}",\n    ):\n        before_script = re.sub(legend_css_pattern, "\\n", before_script, flags=re.S)\n    before_script = before_script.replace("</style>", EXTRA_CSS + "\\n  </style>")\n\n    data_json = json.dumps(data, ensure_ascii=False, indent=2).replace("</", "<\\\\/")\n    return (\n        before_script\n        + \'  <script id="dd-data2" type="application/json">\\n\'\n        + data_json\n        + "\\n  </script>\\n\\n"\n        + "  <script>\\n"\n        + V2_SCRIPT\n        + "  </script>"\n        + after_script\n    )\n\n\ndef main() -> None:\n    rows = json.loads(SOURCE_JSON.read_text(encoding="utf-8"))\n    data = build_dd_data2(rows)\n\n    OUTPUT_JSON.write_text(\n        json.dumps(data, ensure_ascii=False, indent=2) + "\\n",\n        encoding="utf-8",\n    )\n    OUTPUT_HTML.write_text(\n        build_embedded_html(data, "DD-Индекс - итоговый отчет v2"),\n        encoding="utf-8",\n    )\n    OUTPUT_STANDALONE_HTML.write_text(\n        build_embedded_html(data, "DD-Индекс - standalone отчет"),\n        encoding="utf-8",\n    )\n\n    print(\n        "built "\n        f"{OUTPUT_JSON.name}, {OUTPUT_HTML.name}, and {OUTPUT_STANDALONE_HTML.name}: "\n        f"{len(data[\'products\'])} products, "\n        f"{sum(len(block[\'metrics\']) for product in data[\'products\'] for block in product[\'metrics\'])} base metric rows"\n    )\n\n\nif __name__ == "__main__":\n    main()\n'
 _DD_FROM_EXCEL_SOURCE = '#!/usr/bin/env python3\n"""Build standalone DD HTML from the source Excel workbook.\n\nPipeline:\n1. Read Office Open XML spreadsheet.xlsx.\n2. Keep only rows with non-empty metric_group.\n3. Drop template rows without product/unit/value data.\n4. Strip "Привлечение." and "Отток." prefixes from metric_name.\n5. Collect product-level link rows from metric_name/max_value.\n6. Aggregate duplicate metric rows per product/block/metric.\n7. Embed the generated data into a standalone HTML report.\n"""\n\nfrom __future__ import annotations\n\nimport argparse\nimport ast\nimport json\nimport re\nimport uuid\nfrom pathlib import Path\nfrom typing import Any\n\nimport pandas as pd\n\n\nDEFAULT_INPUT = Path("Расчет_список(1).xlsx")\nDEFAULT_SHEET = "Лист2"\nDEFAULT_OUTPUT = Path("final_report_from_excel.html")\nDEFAULT_JSON_OUTPUT = Path("dd-data-from-excel.json")\nDEFAULT_PERIOD = "II кв. 2026"\n\nPRODUCT_NAMESPACE = uuid.UUID("4ac579f8-1f47-4f86-ae23-01b8f67ddf60")\nDEFAULT_ENTITY_TYPE = "Продукт"\nENTITY_TYPE_COLUMNS = ("type", "Тип", "entity_type", "Тип сущности")\n\nUNIT_GOALS_DASHBOARD_LINKS: dict[str, str] = {\n    "CBP": "https://navigator.sigma.sbrf.ru/gdash/1000002550",\n    "PC": "https://navigator.sigma.sbrf.ru/gdash/1000003084?period_name=3",\n    "ДомКлик": "https://navigator.sigma.sbrf.ru/gdash/1000002323",\n    "УБ": "https://navigator.sigma.sbrf.ru/gdash/1000003899",\n    "CX": \'https://navigator.sigma.sbrf.ru/gdash/1000003450\',\n    \'DB\': \'https://navigator.sigma.sbrf.ru/gdash/1000003127\',\n    \'DP\': \'https://navigator.sigma.sbrf.ru/gdash/1000003252\',\n    \'Data\': \'https://navigator.sigma.sbrf.ru/gdash/1000003149\',\n    "default": "https://navigator.sigma.sbrf.ru/gdash/1000002723/1000025096",\n}\n\nCOMMON_BUTTONS: dict[str, dict[str, str]] = {\n    "general_mau_report": {\n        "type": "footer",\n        "label": \'Воронки активности продуктов\',\n        "link": \'https://navigator.sigma.sbrf.ru/gdash/12215/1000034254\',\n    },\n    "general_satellite_products": {\n        "type": "footer",\n        "label": "Продукты-спутники",\n        "link": "https://navigator.sigma.sbrf.ru/gdash/12215/1000030917",\n    },\n    "segment_active_client_base": {\n        "type": "footer",\n        "label": \'Отчет "Активная клиентская база"\',\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000000301",\n    },\n    "segment_major": {\n        "type": "footer",\n        "label": \'Отчет "Major"\',\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000002349?type_of_view=1",\n    },\n    "segment_clients_1_2": {\n        "type": "footer",\n        "label": \'Отчет "Клиенты с 1+2+"\',\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000001389",\n    },\n    "attract_pilot_campaigns": {\n        "type": "footer",\n        "label": \'Отчет "Пилотные кампании"\',\n        "link": \'https://navigator.sigma.sbrf.ru/gdash/1000003057\',\n    },\n    "attract_comm_to_sale": {\n        "type": "footer",\n        "label": \'Отчет "Воронки из коммуникации в продажу"\',\n        "link": \'https://navigator.sigma.sbrf.ru/gdash/1000000687\',\n    },\n    "hyp_library": {\n        "type": "metric",\n        "label": "Открыть библиотеку решений",\n        "link": \'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15315863819\',\n    },\n    "hyp_backlog_excel": {\n        "type": "metric",\n        "label": "Посмотреть бэклог",\n        "link": \'https://sbertrack.sberbank.ru\',\n    },\n    "hyp_drafts": {\n        "type": "footer",\n        "label": \'Отчет "Черновики"\',\n        "link": \'https://navigator.sigma.sbrf.ru/gdash/1000003969\',\n    },\n    "cx_score": {\n        "type": "metric",\n        "label": "Открыть CX Score",\n        "link": \'https://navigator.sigma.sbrf.ru/gdash/1000001746\',\n    },\n    "ux_score": {\n        "type": "metric",\n        "label": "UX Score",\n        "link": \'https://uxscore.sigma.sbrf.ru/\',\n    },\n    "loss_hunter_analysis": {\n        "type": "metric",\n        "label": "Провести анализ",\n        "link": \'https://losshunter.ru\',\n    },\n}\n\nAI_SKILL_BUTTONS: dict[str, dict[str, str]] = {\n    "general": {"type": "general", "label": "Перейти", "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052527"},\n    "goals": {"type": "general", "label": "Перейти", "link": ""},\n    "alerts": {"type": "general", "label": "Перейти", "link": "https://sbervideo.sberbank.ru/meetups/pJ8GgU3POkQ4iouPGdY?t=1365"},\n    "cx.complaint": {"type": "general",\n                     "label": "Перейти",\n                     "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050769"\n                     },\n    "cx.csi": {"type": "general",\n               "label": "Перейти",\n               "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050769"\n               },\n    "attract": {"type": "general", "label": "Перейти", "link": "https://google.com/search?q=dd-ai-attraction"},\n    "attract_checkout_funnel": {\n        "type": "general",\n        "label": "Перейти",\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768",\n    },\n    "attract_campaign_funnel": {\n        "type": "general",\n        "label": "Перейти",\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000049944",\n    },\n    "attract_pilots": {\n        "type": "general",\n        "label": "Перейти",\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526",\n    },\n    "attract_di": {\n        "type": "general",\n        "label": "Перейти",\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795",\n    },\n    "drafts": {\n        "type": "general",\n        "label": "Перейти",\n        "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525",\n    },\n    "churn": {"type": "general", "label": "TBD", "link": ""},\n}\n\nATTRACT_SKILL_STAGES: list[dict[str, Any]] = [\n    {\n        "name": "Пилотные кампании",\n        "button": AI_SKILL_BUTTONS["attract_pilots"],\n    },\n    {\n        "name": "Воронка кампейнинга",\n        "button": AI_SKILL_BUTTONS["attract_campaign_funnel"],\n    },\n    {\n        "name": "Воронка оформления в СБОЛ",\n        "button": AI_SKILL_BUTTONS["attract_checkout_funnel"],\n    },\n    {\n        "name": "Поиск по пилотам",\n        "button": AI_SKILL_BUTTONS["attract_di"],\n    },\n]\n\nCX_SKILL_STAGES: list[dict[str, Any]] = [\n    {\n        "name": "Жалобы и обращения",\n        "button": AI_SKILL_BUTTONS["cx.complaint"],\n    },\n    {\n        "name": "CSI",\n        "button": AI_SKILL_BUTTONS["cx.csi"],\n    },\n]\n\nTOOL_BUTTONS: dict[str, dict[str, str]] = {\n    "general": AI_SKILL_BUTTONS["general"],\n    "goals": AI_SKILL_BUTTONS["goals"],\n    "alerts": AI_SKILL_BUTTONS["alerts"],\n    "cx": AI_SKILL_BUTTONS["cx.csi"],\n    "attract": AI_SKILL_BUTTONS["attract"],\n    "churn": AI_SKILL_BUTTONS["churn"],\n    \'drafts\': AI_SKILL_BUTTONS["drafts"]\n}\n\nMETRIC_BUTTONS: dict[str, dict[str, str]] = {\n    "cx.score": COMMON_BUTTONS["cx_score"],\n}\n\nMETRIC_EXTRA_BUTTONS: dict[str, list[dict[str, str]]] = {\n    "cx.score": [COMMON_BUTTONS["ux_score"]],\n}\n\nZERO_METRIC_BUTTONS: dict[str, dict[str, str]] = {\n    "attract.campaign_launches": {\n        "type": "metric",\n        "label": "Запустить первый пилот Self-Service",\n        "link": \'https://mapp.sberbank.ru/raspredelennyicampaigning/page/94034\',\n    },\n}\n\nTBD_METRIC_CODES = {"hyp.ab_tests"}\n\nLOSS_HUNTER_ANALYTICS_BY_PRODUCT: dict[str, int | float] = {}\nLOSS_HUNTER_DEFAULT_COUNT = 0\n\nREQUIRED_COLUMNS = {\n    "Юнит",\n    "Продукт",\n    "metric",\n    "metric_name",\n    "value",\n    "max_value",\n    "metric_group",\n    "metric_footer",\n    "recommendation",\n    "recommendation_group",\n}\n\nBLOCKS = {\n    "Самооценка знания продуктовых метрик": ("general", "Самооценка знания продуктовых метрик"),\n    "Знание ключевых метрик": ("general", "Знание ключевых метрик"),\n    "Цели": ("goals", "Цели"),\n    "Алерты": ("alerts", "Алерты"),\n    "Клиентский опыт": ("cx", "Клиентский опыт"),\n    "Воронка привлечения": ("attract", "Воронка привлечения"),\n    "Воронка оттока": ("churn", "Воронка оттока"),\n    "Гипотезы и инициативы": ("hyp", "Гипотезы и инициативы"),\n}\n\nTOOLS_BY_BLOCK: dict[str, dict[str, Any]] = {\n    "general": {\n        "name": "Навык «Ключевые метрики»",\n        "footer": "Общий светофор",\n        "button": TOOL_BUTTONS["general"],\n    },\n    "goals": {\n        "name": "Навык «Цели»",\n        "footer_dynamic": "green_count",\n        "button": TOOL_BUTTONS["goals"],\n    },\n    "alerts": {\n        "name": "Инструкция",\n        "footer": "по настройке алертов по отчету",\n        "button": TOOL_BUTTONS["alerts"],\n        "variant": "blue",\n        "kind": "instruction",\n        "show_dots": False,\n    },\n    "cx": {\n        "name": "Группа навыков «Анализ Score»",\n        # "footer": "Жалобы, обращения, CSI",\n        "buttons": CX_SKILL_STAGES,\n    },\n    "attract": {\n        "name": "Группа навыков «Привлечение»",\n        "buttons": ATTRACT_SKILL_STAGES,\n    },\n    "churn": {\n        "name": "Навык «Анализ оттока»",\n        "footer": "Общий светофор",\n        "button": TOOL_BUTTONS["churn"],\n        "variant": "gray",\n    },\n    "hyp": {\n        "name": "Навык «Черновики»",\n        "footer": "Общий светофор",\n        "button": TOOL_BUTTONS["drafts"],\n    },\n}\n\nACTIONS_BY_BLOCK: dict[str, list[dict[str, Any]]] = {\n    "general": [\n        {\n            "button": COMMON_BUTTONS["general_mau_report"],\n        },\n        {\n            "button": COMMON_BUTTONS["general_satellite_products"],\n        },\n        {\n            "button": COMMON_BUTTONS["segment_active_client_base"],\n            "segment_only": True,\n        },\n        {\n            "button": COMMON_BUTTONS["segment_major"],\n            "segment_only": True,\n        },\n        {\n            "button": COMMON_BUTTONS["segment_clients_1_2"],\n            "segment_only": True,\n        },\n    ],\n    "goals": [\n        {\n            "unit_goals_dashboard": True,\n            "label": \'Отчет "Цели в мастер-деше"\',\n        },\n    ],\n    "attract": [\n        {\n            "button": COMMON_BUTTONS["attract_pilot_campaigns"],\n        },\n        {\n            "button": COMMON_BUTTONS["attract_comm_to_sale"],\n        },\n        {\n            "links_key": "attract_funnel",\n            "participant_links": True,\n        },\n    ],\n    "churn": [\n        {\n            "links_key": "churn_funnel",\n            "participant_links": True,\n        },\n    ],\n    "hyp": [\n        {\n            "button": COMMON_BUTTONS["hyp_drafts"],\n        },\n    ],\n}\n\nLINK_ROW_TARGETS: dict[str, dict[str, Any]] = {\n    "Ссылка на коронку привлечения": {\n        "key": "attract_funnel",\n        "label": "Отчет",\n        "domain_labels": True,\n    },\n    "Ссылка на воронку привлечения": {\n        "key": "attract_funnel",\n        "label": "Отчет",\n        "domain_labels": True,\n    },\n    "Ссылка на воронку оттока": {\n        "key": "churn_funnel",\n        "label": "Отчет",\n        "domain_labels": True,\n    },\n    "Ссылка на бэклог": {\n        "key": "backlog",\n        "label": "Бэклог",\n    },\n}\nMETRIC_CODES = {\n    ("Самооценка знания продуктовых метрик", "Объем целевого рынка в России"): "general.market_ru",\n    ("Самооценка знания продуктовых метрик", "Объем целевого рынка в Сбере"): "general.market_sber",\n    ("Самооценка знания продуктовых метрик", "Клиенты с продуктом"): "general.clients_with_product",\n    ("Самооценка знания продуктовых метрик", "MAU продукта"): "general.product_mau",\n    ("Самооценка знания продуктовых метрик", "Знание продуктов спутников"): "general.satellite_products_knowledge",\n    ("Самооценка знания продуктовых метрик", "Знание об отчетности в Навигаторе"): "general.navigator_reporting_knowledge",\n    ("Цели", "Цели выведены на мониторинг"): "goals.monitored",\n    ("Цели", "Факторный анализ - драйверы 1-2 ур."): "goals.factor_analysis_l1_l2",\n    ("Цели", "Прогноз по целям"): "goals.forecast",\n    ("Алерты", "Оповещения по системным сбоям"): "alerts.system_failures",\n    ("Алерты", "Оповещения по бизнес-метрикам"): "alerts.business_metrics",\n    ("Клиентский опыт", "Полнота продуктовых механик"): "cx.product_mechanics",\n    ("Клиентский опыт", "CX Score"): "cx.score",\n    ("Воронка привлечения", "Регулярная отчетность"): "attract.regular_reporting",\n    ("Воронка привлечения", "Полнота отчета"): "attract.report_completeness",\n    ("Воронка привлечения", "Регулярность (авто)"): "attract.auto_regularity",\n    ("Воронка привлечения", "Наличие бенчмарков"): "attract.benchmarks",\n    ("Воронка привлечения", "Проведение анализа воронки привлечения"): "attract.funnel_analysis",\n    ("Воронка привлечения", "Составлен перечень инициатив по привлечению"): "attract.initiatives_list",\n    ("Воронка привлечения", "Cross-sell"): "attract.cross_sell",\n    ("Воронка привлечения", "Запуски кампаний за квартал"): "attract.campaign_launches",\n    ("Воронка оттока", "Регулярная отчетность"): "churn.regular_reporting",\n    ("Воронка оттока", "Полнота отчета"): "churn.report_completeness",\n    ("Воронка оттока", "Регулярность (авто)"): "churn.auto_regularity",\n    ("Воронка оттока", "Наличие бенчмарков"): "churn.benchmarks",\n    ("Воронка оттока", "Проведение анализа воронки оттока"): "churn.funnel_analysis",\n    ("Воронка оттока", "Знание метрик для мониторинга механик"): "churn.mechanics_metrics_knowledge",\n    ("Воронка оттока", "Мероприятия по работе с отклонениями"): "churn.deviation_actions",\n    ("Воронка оттока", "Удержание клиентов"): "churn.client_retention",\n    ("Воронка оттока", "Возврат клиентов"): "churn.client_return",\n    ("Воронка оттока", "Гибкое изменение условий продукта"): "churn.flexible_terms",\n    ("Воронка оттока", "Гибкое изменение условий"): "churn.flexible_terms",\n    ("Гипотезы и инициативы", "Discovery >=40% бэклога"): "hyp.discovery_40_backlog",\n    ("Гипотезы и инициативы", "Черновики в СБОЛ >=70%"): "hyp.drafts_70",\n    ("Гипотезы и инициативы", "A/B-тесты"): "hyp.ab_tests",\n    ("Гипотезы и инициативы", "Рейтинг DataDriven >=7,5"): "hyp.datadriven_rating_7_5",\n    ("Гипотезы и инициативы", "Доп. инициативы сверх БП"): "hyp.extra_initiatives",\n}\n\nMETRIC_ORDER_OVERRIDES: dict[str, float] = {\n    "general.navigator_reporting_knowledge": 999,\n}\n\nDIGITAL_GOALS_METRIC_NAME = "Цифр.цели"\n\nSEGMENT_HIDDEN_ACTION_LABELS = {\n    COMMON_BUTTONS["general_mau_report"]["label"],\n    COMMON_BUTTONS["general_satellite_products"]["label"],\n    COMMON_BUTTONS["attract_pilot_campaigns"]["label"],\n    COMMON_BUTTONS["attract_comm_to_sale"]["label"],\n    COMMON_BUTTONS["hyp_drafts"]["label"],\n}\n\nSEGMENT_HIDDEN_TOOL_BLOCKS = {"general", "cx", "attract", "churn", "hyp"}\n\n\ndef text(value: Any) -> str:\n    if value is None or pd.isna(value):\n        return ""\n    return str(value).strip()\n\n\ndef deyo(value: str) -> str:\n    return value.replace("ё", "е").replace("Ё", "Е")\n\n\ndef normalize_text(value: Any) -> str:\n    cleaned = deyo(text(value))\n    cleaned = cleaned.replace("—", "-").replace("–", "-").replace("≥", ">=")\n    cleaned = re.sub(r"\\s+", " ", cleaned)\n    return cleaned.strip()\n\n\ndef clean_metric_name(value: Any) -> str:\n    cleaned = normalize_text(value)\n    cleaned = re.sub(\n        r"^(Привлечение|Отток)\\s*[.]\\s*", "", cleaned, flags=re.IGNORECASE)\n    return cleaned.strip()\n\n\ndef number(value: Any) -> float:\n    if value is None or pd.isna(value) or value == "":\n        return 0.0\n    if isinstance(value, str):\n        value = value.replace(",", ".").strip()\n    try:\n        parsed = float(value)\n    except (TypeError, ValueError):\n        return 0.0\n    return parsed if parsed > 0 else 0.0\n\n\ndef clean_float(value: float) -> int | float:\n    rounded = round(float(value), 10)\n    return int(rounded) if rounded.is_integer() else rounded\n\n\ndef unique_texts(values: Any) -> list[str]:\n    result = []\n    seen = set()\n    for value in values:\n        clean = normalize_text(value)\n        if not clean:\n            continue\n        key = clean.casefold()\n        if key in seen:\n            continue\n        seen.add(key)\n        result.append(clean)\n    return result\n\n\ndef recommendation_difficulty(value: Any) -> int | None:\n    if pd.isna(value):\n        return None\n    if isinstance(value, str):\n        clean = normalize_text(value).lower().replace(",", ".")\n        legacy = {"easy": 1, "medium": 5, "hard": 10}\n        if clean in legacy:\n            return legacy[clean]\n        value = clean\n    try:\n        parsed = int(round(float(value)))\n    except (TypeError, ValueError):\n        return None\n    return max(1, min(10, parsed))\n\n\ndef unique_recommendation_difficulties(values: Any) -> list[int]:\n    result: list[int] = []\n    seen = set()\n    for value in values:\n        difficulty = recommendation_difficulty(value)\n        if difficulty is None or difficulty in seen:\n            continue\n        seen.add(difficulty)\n        result.append(difficulty)\n    return result\n\n\ndef recommendation_items(rows: pd.DataFrame) -> list[dict[str, Any]]:\n    items: list[dict[str, Any]] = []\n    for _, row in rows.iterrows():\n        recommendation = normalize_text(row.get("recommendation_clean") or row.get("recommendation"))\n        difficulty = recommendation_difficulty(\n            row.get("recommendation_group_clean") or row.get("recommendation_group")\n        )\n        if not recommendation:\n            continue\n        if difficulty is None:\n            difficulty = 1\n\n        value = float(row.get("value_num") or 0)\n        max_value = float(row.get("max_value_num") or 0)\n        items.append(\n            {\n                "recommendation": recommendation,\n                "group": difficulty,\n                "recommendation_difficulty": difficulty,\n                "value": clean_float(value),\n                "max_value": clean_float(max_value),\n                "gap": clean_float(max(0, max_value - value)),\n            }\n        )\n    return items\n\n\ndef unique_links(links: list[str]) -> list[str]:\n    seen = set()\n    result = []\n    for link in links:\n        clean = text(link)\n        if not clean or clean in {"0", "0.0"} or clean in seen:\n            continue\n        seen.add(clean)\n        result.append(clean)\n    return result\n\n\ndef clean_parsed_url(url: Any) -> str:\n    return text(url).rstrip(").,;:]}")\n\n\ndef parse_link_values(value: Any) -> list[str]:\n    raw = text(value)\n    if not raw or raw in {"0", "0.0"}:\n        return []\n\n    if raw.startswith("[") and raw.endswith("]"):\n        try:\n            parsed = ast.literal_eval(raw)\n        except (SyntaxError, ValueError):\n            parsed = None\n        if isinstance(parsed, (list, tuple, set)):\n            links: list[str] = []\n            for item in parsed:\n                links.extend(parse_link_values(item))\n            return unique_links(links)\n\n    links = [clean_parsed_url(match) for match in re.findall(r"https?://[^\\s\'\\"\\\\\\],]+", raw)]\n    if not links and raw.lower().startswith(("http://", "https://")):\n        links = [clean_parsed_url(raw)]\n    return unique_links(links)\n\n\ndef link_label_for_url(url: str, fallback: str = "Отчет") -> str:\n    lowered = url.lower()\n    if "confluence.sberbank.ru" in lowered:\n        return "Отчет в Confluence"\n    if "clickstream.sberbank.ru" in lowered:\n        return "Отчет в Clickstream"\n    if "navigator.sigma.sbrf.ru" in lowered:\n        return "Отчет в Navigator"\n    return fallback or "Отчет"\n\n\ndef make_link_records(label: str, urls: list[str], domain_labels: bool = False) -> list[dict[str, str]]:\n    clean_urls = unique_links([clean_parsed_url(url) for url in urls])\n    if not clean_urls:\n        return []\n    if domain_labels:\n        base_labels = [link_label_for_url(url, label) for url in clean_urls]\n        totals = {base_label: base_labels.count(base_label) for base_label in set(base_labels)}\n        seen_counts: dict[str, int] = {}\n        records: list[dict[str, str]] = []\n        for url, base_label in zip(clean_urls, base_labels):\n            seen_counts[base_label] = seen_counts.get(base_label, 0) + 1\n            display_label = (\n                f"{base_label} {seen_counts[base_label]}"\n                if totals.get(base_label, 0) > 1\n                else base_label\n            )\n            records.append({"label": display_label, "url": url})\n        return records\n    if len(clean_urls) == 1:\n        return [{"label": label, "url": clean_urls[0]}]\n    return [{"label": f"{label} {index}", "url": url} for index, url in enumerate(clean_urls, start=1)]\n\ndef entity_type_from_row(row: Any) -> str:\n    for column in ENTITY_TYPE_COLUMNS:\n        value = text(row.get(column))\n        if value:\n            normalized = value.strip().lower()\n            if normalized in {"product", "продукт"}:\n                return DEFAULT_ENTITY_TYPE\n            if normalized in {"segment", "сегмент"}:\n                return "Сегмент"\n            return value\n    return DEFAULT_ENTITY_TYPE\n\n\ndef entity_key(entity_type: str, name: str) -> str:\n    return f"{entity_type}\\0{name}"\n\n\ndef collect_product_links(df: pd.DataFrame) -> dict[str, dict[str, list[dict[str, str]]]]:\n    links_by_product: dict[str, dict[str, list[dict[str, str]]]] = {}\n\n    for _, row in df.iterrows():\n        product_name = text(row.get("Продукт"))\n        if not product_name:\n            continue\n        product_key = entity_key(entity_type_from_row(row), product_name)\n\n        metric_name = normalize_text(row.get("metric_name"))\n        target = LINK_ROW_TARGETS.get(metric_name)\n        if not target:\n            continue\n\n        urls = parse_link_values(row.get("max_value"))\n        if not urls:\n            continue\n\n        product_links = links_by_product.setdefault(product_key, {})\n        bucket = product_links.setdefault(target["key"], [])\n        bucket.extend(make_link_records(target["label"], urls, bool(target.get("domain_labels"))))\n\n    for product_links in links_by_product.values():\n        for key, links in list(product_links.items()):\n            deduped: list[dict[str, str]] = []\n            seen = set()\n            for link in links:\n                url = link["url"]\n                if url in seen:\n                    continue\n                seen.add(url)\n                deduped.append(link)\n            product_links[key] = deduped\n\n    return links_by_product\n\n\ndef traffic_light(value: float, max_value: float, applicable: bool) -> str:\n    if not applicable or max_value <= 0:\n        return "gray"\n    if abs(value - max_value) < 1e-9:\n        return "green"\n    return "yellow" if value > 0 else "red"\n\n\ndef traffic_light_from_score(value: float, max_value: float) -> str:\n    if max_value <= 0:\n        return "gray"\n    ratio = value / max_value\n    if ratio >= 0.66:\n        return "green"\n    if ratio >= 0.33:\n        return "yellow"\n    return "red"\n\n\ndef excluded_from_index(block_code: str, metric_name: str, code: str) -> bool:\n    if code.endswith(".auto_regularity"):\n        return True\n    normalized_name = normalize_text(metric_name).casefold()\n    return block_code in {"attract", "churn"} and "регулярность" in normalized_name\n\n\ndef slugify(value: str) -> str:\n    translit = {\n        "а": "a",\n        "б": "b",\n        "в": "v",\n        "г": "g",\n        "д": "d",\n        "е": "e",\n        "ж": "zh",\n        "з": "z",\n        "и": "i",\n        "й": "y",\n        "к": "k",\n        "л": "l",\n        "м": "m",\n        "н": "n",\n        "о": "o",\n        "п": "p",\n        "р": "r",\n        "с": "s",\n        "т": "t",\n        "у": "u",\n        "ф": "f",\n        "х": "h",\n        "ц": "c",\n        "ч": "ch",\n        "ш": "sh",\n        "щ": "sch",\n        "ы": "y",\n        "э": "e",\n        "ю": "yu",\n        "я": "ya",\n    }\n    result = []\n    for char in normalize_text(value).lower():\n        if char in translit:\n            result.append(translit[char])\n        elif char.isalnum():\n            result.append(char)\n        else:\n            result.append("_")\n    return re.sub(r"_+", "_", "".join(result)).strip("_") or "metric"\n\n\ndef block_info(metric_group: str) -> tuple[str, str]:\n    return BLOCKS.get(metric_group, (slugify(metric_group), metric_group))\n\n\ndef metric_code(metric_group: str, metric_name: str) -> str:\n    block_code, _ = block_info(metric_group)\n    return METRIC_CODES.get((metric_group, metric_name), f"{block_code}.{slugify(metric_name)}")\n\n\ndef copy_button(button: dict[str, str] | None) -> dict[str, str] | None:\n    if not button:\n        return None\n    return {\n        "type": text(button.get("type")) or "general",\n        "label": text(button.get("label")),\n        "link": text(button.get("link")),\n    }\n\n\ndef with_link(button: dict[str, str] | None, links: list[dict[str, str]]) -> dict[str, str] | None:\n    copied = copy_button(button)\n    if not links:\n        return copied\n    if not copied:\n        copied = {"type": "general", "label": links[0]["label"], "link": ""}\n    copied["link"] = text(links[0].get("url"))\n    return copied\n\n\ndef unit_goals_link(unit: str) -> str:\n    return UNIT_GOALS_DASHBOARD_LINKS.get(unit, UNIT_GOALS_DASHBOARD_LINKS["default"])\n\n\ndef make_tool_button(\n    definition: dict[str, Any],\n    product_links: dict[str, list[dict[str, str]]],\n    unit: str,\n    earned: float,\n    max_value: float,\n) -> dict[str, Any]:\n    link_key = text(definition.get("links_key"))\n    links = product_links.get(link_key, []) if link_key else []\n    button = with_link(definition.get("button"), links)\n    if definition.get("unit_link"):\n        button = copy_button(definition.get("button")) or {\n            "type": "general", "label": "Перейти", "link": ""}\n        button["link"] = unit_goals_link(unit)\n\n    has_link = bool(button and button.get("link"))\n    item: dict[str, Any] = {\n        "name": text(definition.get("name")) or "Инструмент",\n        "traffic_light": text(definition.get("traffic_light")) or (\n            traffic_light_from_score(earned, max_value) if has_link else "gray"\n        ),\n        "button": button if has_link else {"type": "general", "label": "TBD", "link": ""},\n    }\n\n    if definition.get("stage"):\n        item["stage"] = definition["stage"]\n    if links:\n        item["links"] = links\n    if definition.get("footer"):\n        item["footer"] = definition["footer"]\n    if definition.get("footer_dynamic"):\n        item["footer_dynamic"] = definition["footer_dynamic"]\n    if definition.get("variant"):\n        item["variant"] = definition["variant"]\n    if "show_dots" in definition:\n        item["show_dots"] = bool(definition["show_dots"])\n\n    return item\n\n\ndef make_tool(\n    definition: dict[str, Any],\n    block: dict[str, Any],\n    product_links: dict[str, list[dict[str, str]]],\n    unit: str,\n    earned: float,\n    max_value: float,\n) -> dict[str, Any]:\n    link_key = text(definition.get("links_key"))\n    links = product_links.get(link_key, []) if link_key else []\n    button = with_link(definition.get("button"), links)\n    if definition.get("unit_link"):\n        button = copy_button(definition.get("button")) or {\n            "type": "general", "label": "Перейти", "link": ""}\n        button["link"] = unit_goals_link(unit)\n\n    has_link = bool(button and button.get("link"))\n    tool_buttons = [\n        make_tool_button(button_definition, product_links,\n                         unit, earned, max_value)\n        for button_definition in definition.get("buttons", [])\n    ]\n    tool: dict[str, Any] = {\n        "name": definition["name"],\n        "traffic_light": traffic_light_from_score(earned, max_value) if has_link or tool_buttons else "gray",\n    }\n\n    if tool_buttons:\n        tool["buttons"] = tool_buttons\n    else:\n        tool["button"] = button if has_link else {\n            "type": "general", "label": "TBD", "link": ""}\n\n    if links:\n        tool["links"] = links\n    if definition.get("footer"):\n        tool["footer"] = definition["footer"]\n    if definition.get("footer_dynamic"):\n        tool["footer_dynamic"] = definition["footer_dynamic"]\n    if definition.get("variant"):\n        tool["variant"] = definition["variant"]\n    if definition.get("kind"):\n        tool["kind"] = definition["kind"]\n    if "show_dots" in definition:\n        tool["show_dots"] = bool(definition["show_dots"])\n\n    return tool\n\n\ndef is_segment_entity(entity_type: str) -> bool:\n    return text(entity_type).casefold() == "сегмент"\n\n\ndef with_tools(block: dict[str, Any], product_links: dict[str, list[dict[str, str]]], unit: str, entity_type: str) -> None:\n    earned = sum(float(metric.get("value") or 0)\n                 for metric in block["metrics"] if not metric.get("excluded_from_index"))\n    max_value = sum(float(metric.get("max_value") or 0)\n                    for metric in block["metrics"] if not metric.get("excluded_from_index"))\n\n    tools = []\n    definition = TOOLS_BY_BLOCK.get(block["code"])\n    if is_segment_entity(entity_type) and block["code"] in SEGMENT_HIDDEN_TOOL_BLOCKS:\n        definition = None\n    if definition:\n        tools.append(make_tool(definition, block,\n                     product_links, unit, earned, max_value))\n\n    if tools:\n        block["tools"] = tools\n\n\ndef action_from_button(button: dict[str, str] | None) -> dict[str, str] | None:\n    copied = copy_button(button)\n    if not copied or not copied.get("link"):\n        return None\n    return {"label": copied["label"], "url": copied["link"]}\n\n\ndef with_actions(block: dict[str, Any], product_links: dict[str, list[dict[str, str]]], unit: str, entity_type: str) -> None:\n    actions: list[dict[str, str]] = []\n    participant_actions: list[dict[str, str]] = []\n    segment = is_segment_entity(entity_type)\n\n    for definition in ACTIONS_BY_BLOCK.get(block["code"], []):\n        if definition.get("segment_only") and not segment:\n            continue\n        if definition.get("unit_goals_dashboard"):\n            url = unit_goals_link(unit)\n            if url:\n                actions.append(\n                    {"label": text(definition.get("label")) or "Открыть", "url": url})\n            continue\n\n        link_key = text(definition.get("links_key"))\n        links = product_links.get(link_key, []) if link_key else []\n        if links:\n            if definition.get("participant_links"):\n                participant_actions.extend(links)\n            else:\n                actions.extend(links)\n            continue\n        if definition.get("requires_link"):\n            continue\n\n        fallback = definition.get("fallback")\n        if fallback and fallback.get("url"):\n            actions.append({"label": text(fallback.get("label"))\n                           or "Открыть", "url": text(fallback.get("url"))})\n            continue\n\n        action = action_from_button(definition.get("button"))\n        if action:\n            actions.append(action)\n\n    def dedupe_actions(source: list[dict[str, str]], filter_segment_labels: bool) -> list[dict[str, str]]:\n        deduped: list[dict[str, str]] = []\n        seen = set()\n        for action in source:\n            url = text(action.get("url"))\n            label = text(action.get("label")) or "Открыть"\n            if filter_segment_labels and segment and label in SEGMENT_HIDDEN_ACTION_LABELS:\n                continue\n            if not url:\n                continue\n            key = (label, url)\n            if key in seen:\n                continue\n            seen.add(key)\n            deduped.append({"label": label, "url": url})\n        return deduped\n\n    deduped = dedupe_actions(actions, True)\n    participant_deduped = dedupe_actions(participant_actions, False)\n\n    if deduped:\n        block["actions"] = deduped\n    if participant_deduped:\n        block["participant_links"] = participant_deduped\n\ndef metric_button_for_code(code: str, product_links: dict[str, list[dict[str, str]]]) -> dict[str, str] | None:\n    if code == "hyp.discovery_40_backlog":\n        backlog_links = product_links.get("backlog", [])\n        if not backlog_links:\n            return None\n        button = copy_button(COMMON_BUTTONS["hyp_backlog_excel"])\n        if button:\n            button["link"] = text(backlog_links[0].get("url"))\n        return button\n\n    if code == "hyp.datadriven_rating_7_5":\n        return copy_button(COMMON_BUTTONS["hyp_library"])\n\n    return copy_button(METRIC_BUTTONS.get(code))\n\n\ndef with_block_info(block: dict[str, Any], product_name: str, entity_type: str) -> None:\n    if block["code"] != "cx":\n        return\n    if is_segment_entity(entity_type):\n        return\n\n    block["info"] = {\n        "type": "losshunter",\n        "variant": "cta",\n        "title": "Аналитика клиентского пути в LossHunter",\n        "button": {\n            **copy_button(COMMON_BUTTONS["loss_hunter_analysis"]),\n            "label": "Перейти",\n        },\n    }\n\n\ndef split_benchmarks(product_rows: pd.DataFrame) -> pd.DataFrame:\n    benchmark_mask = product_rows["metric_group"].eq("BENCHMARKS")\n    benchmark_rows = product_rows[benchmark_mask]\n    if benchmark_rows.empty:\n        product_rows.attrs["benchmark_rows_split"] = 0\n        return product_rows\n\n    regular_rows = product_rows[~benchmark_mask]\n    split_parts = []\n    for target_group in ("Воронка привлечения", "Воронка оттока"):\n        part = benchmark_rows.copy()\n        part["metric_group"] = target_group\n        part["metric_name_clean"] = "Наличие бенчмарков"\n        part["value_num"] = part["value_num"] / 2\n        part["max_value_num"] = part["max_value_num"] / 2\n        part["value"] = part["value_num"]\n        part["max_value"] = part["max_value_num"]\n        split_parts.append(part)\n\n    result = pd.concat([regular_rows, *split_parts], ignore_index=True)\n    result.attrs.update(product_rows.attrs)\n    result.attrs["benchmark_rows_split"] = len(benchmark_rows)\n    return result\n\n\ndef product_uuid(entity_type: str, product_name: str) -> str:\n    if entity_type == DEFAULT_ENTITY_TYPE:\n        return str(uuid.uuid5(PRODUCT_NAMESPACE, product_name))\n    return str(uuid.uuid5(PRODUCT_NAMESPACE, f"{entity_type}:{product_name}"))\n\n\ndef validate_columns(df: pd.DataFrame) -> None:\n    missing = sorted(REQUIRED_COLUMNS - set(df.columns))\n    if missing:\n        raise ValueError("В Excel не хватает колонок: " + ", ".join(missing))\n\n\ndef load_metric_rows(path: Path, sheet_name: str | None) -> pd.DataFrame:\n    df = pd.read_excel(path, sheet_name=sheet_name or 0)\n    validate_columns(df)\n\n    links_by_product = collect_product_links(df)\n    df = df.copy()\n    df["metric_group"] = df["metric_group"].map(normalize_text)\n    df["metric_name_clean"] = df["metric_name"].map(clean_metric_name)\n    df["metric_footer_clean"] = df["metric_footer"].map(normalize_text)\n    df["recommendation_clean"] = df["recommendation"].map(normalize_text)\n    df["recommendation_group_clean"] = df["recommendation_group"].map(\n        normalize_text)\n    df["entity_type"] = df.apply(entity_type_from_row, axis=1)\n    df["_unit_key"] = df["Юнит"].map(text)\n    df["_product_key"] = df["Продукт"].map(text)\n    df["value_num"] = df["value"].map(number)\n    df["max_value_num"] = df["max_value"].map(number)\n\n    digital_goal_rows = df[\n        (df["metric_name_clean"] == DIGITAL_GOALS_METRIC_NAME)\n        & (df["_product_key"] != "")\n        & (df["_unit_key"] != "")\n    ].copy()\n    digital_goals = (\n        digital_goal_rows.groupby(["entity_type", "_unit_key", "_product_key"], sort=False)\n        .agg(\n            digital_goals_value=("value_num", "max"),\n            digital_goals_max=("max_value_num", "max"),\n        )\n        .reset_index()\n    )\n\n    with_group = df[df["metric_group"] != ""].copy()\n    product_rows = with_group[\n        (with_group["_product_key"] != "")\n        & (with_group["_unit_key"] != "")\n        & (with_group["metric_name_clean"] != "")\n    ].copy()\n\n    product_rows["metric_id_num"] = product_rows["metric"].map(number)\n    product_rows = product_rows.merge(\n        digital_goals,\n        on=["entity_type", "_unit_key", "_product_key"],\n        how="left",\n    )\n\n    product_rows.attrs["metric_group_rows"] = len(with_group)\n    product_rows.attrs["template_rows_skipped"] = len(\n        with_group) - len(product_rows)\n    product_rows.attrs["links_by_product"] = links_by_product\n    return split_benchmarks(product_rows)\n\n\ndef aggregate_product(\n    product_rows: pd.DataFrame,\n    period: str,\n    product_links: dict[str, list[dict[str, str]]] | None = None,\n) -> dict[str, Any]:\n    product_name = text(product_rows["Продукт"].iloc[0])\n    entity_type = text(\n        product_rows["entity_type"].iloc[0]) or DEFAULT_ENTITY_TYPE\n    unit = text(product_rows["Юнит"].iloc[0]) or "Без юнита"\n    group_uuid = product_uuid(entity_type, product_name)\n    product_links = product_links or {}\n    digital_goals_value = clean_float(\n        float(product_rows["digital_goals_value"].fillna(0).max())\n        if "digital_goals_value" in product_rows\n        else 0\n    )\n    digital_goals_max = clean_float(\n        float(product_rows["digital_goals_max"].fillna(0).max())\n        if "digital_goals_max" in product_rows\n        else 0\n    )\n\n    block_buckets: dict[str, dict[str, Any]] = {}\n\n    group_cols = ["metric_group", "metric_name_clean"]\n    for (metric_group, metric_name), rows in product_rows.groupby(group_cols, sort=False):\n        block_code, block_name = block_info(metric_group)\n        code = metric_code(metric_group, metric_name)\n        value = float(rows["value_num"].sum())\n        max_value = float(rows["max_value_num"].sum())\n        applicable = max_value > 0\n        recommendations = unique_texts(rows["recommendation_clean"])\n        recommendation_difficulties = unique_recommendation_difficulties(\n            rows["recommendation_group_clean"])\n        footers = unique_texts(rows["metric_footer_clean"])\n\n        block = block_buckets.setdefault(\n            block_code,\n            {\n                "type": "block",\n                "code": block_code,\n                "name": block_name,\n                "tools": [],\n                "metrics": [],\n                "_order": float(rows["metric_id_num"].min()),\n            },\n        )\n        block["_order"] = min(block["_order"], float(\n            rows["metric_id_num"].min()))\n\n        metric_payload: dict[str, Any] = {\n            "code": code,\n            "name": metric_name,\n            "footer": " · ".join(footers),\n            "value": clean_float(value),\n            "max_value": clean_float(max_value),\n            "is_applicabble_flg": applicable,\n            "traffic_light": traffic_light(value, max_value, applicable),\n            "recommendation": " · ".join(recommendations),\n            "recommendations": recommendations,\n            "recommendation_group": min(recommendation_difficulties) if recommendation_difficulties else "",\n            "recommendation_groups": recommendation_difficulties,\n            "recommendation_difficulty": min(recommendation_difficulties) if recommendation_difficulties else None,\n            "recommendation_items": recommendation_items(rows),\n        }\n\n        metric_button = metric_button_for_code(code, product_links)\n        if metric_button:\n            metric_payload["button"] = metric_button\n\n        metric_buttons = [copy_button(button)\n                          for button in METRIC_EXTRA_BUTTONS.get(code, [])]\n        metric_buttons = [button for button in metric_buttons if button]\n        if metric_buttons:\n            metric_payload["buttons"] = metric_buttons\n\n        if code in ZERO_METRIC_BUTTONS:\n            metric_payload["zero_button"] = copy_button(\n                ZERO_METRIC_BUTTONS[code])\n\n        if excluded_from_index(block_code, metric_name, code):\n            metric_payload["excluded_from_index"] = True\n\n        if code in TBD_METRIC_CODES:\n            metric_payload.update(\n                {\n                    "value": 0,\n                    "max_value": 0,\n                    "is_applicabble_flg": False,\n                    "traffic_light": "gray",\n                    "tbd": True,\n                    "excluded_from_index": True,\n                }\n            )\n\n        metric_payload["_order"] = METRIC_ORDER_OVERRIDES.get(\n            code, float(rows["metric_id_num"].min()))\n        block["metrics"].append(metric_payload)\n\n    blocks = sorted(block_buckets.values(), key=lambda item: item["_order"])\n    for block in blocks:\n        block["metrics"].sort(key=lambda item: item["_order"])\n        block.pop("_order", None)\n        for metric in block["metrics"]:\n            metric.pop("_order", None)\n        with_tools(block, product_links, unit, entity_type)\n        with_actions(block, product_links, unit, entity_type)\n        with_block_info(block, product_name, entity_type)\n        if block["code"] == "goals":\n            block["digital_goals_value"] = digital_goals_value\n            block["digital_goals_max"] = digital_goals_max\n\n    return {\n        "id": f"{group_uuid}¦{product_name}",\n        "type": entity_type,\n        "name": product_name,\n        "unit": unit,\n        "period": period,\n        "product_group_uuid": group_uuid,\n        "links": product_links,\n        "metrics": blocks,\n    }\n\n\ndef build_report_data(path: Path, sheet_name: str | None, period: str) -> tuple[dict[str, Any], dict[str, int]]:\n    rows = load_metric_rows(path, sheet_name)\n    links_by_product = rows.attrs.get("links_by_product", {})\n    products = []\n    for _, product_rows in rows.groupby(["entity_type", "Продукт"], sort=False):\n        product_name = text(product_rows["Продукт"].iloc[0])\n        entity_type = text(\n            product_rows["entity_type"].iloc[0]) or DEFAULT_ENTITY_TYPE\n        products.append(\n            aggregate_product(\n                product_rows,\n                period,\n                links_by_product.get(entity_key(\n                    entity_type, product_name), {}),\n            )\n        )\n\n    metric_count = sum(len(block["metrics"])\n                       for product in products for block in product["metrics"])\n    summary = {\n        "excel_rows_with_metric_group": rows.attrs["metric_group_rows"],\n        "template_rows_skipped": rows.attrs["template_rows_skipped"],\n        "benchmark_rows_split": rows.attrs.get("benchmark_rows_split", 0),\n        "product_metric_rows": len(rows),\n        "products": len(products),\n        "units": len({product["unit"] for product in products}),\n        "aggregated_metrics": metric_count,\n        "products_with_links": sum(1 for product_links in links_by_product.values() if product_links),\n    }\n    return {"products": products}, summary\n\n\ndef write_standalone(data: dict[str, Any], output_path: Path) -> None:\n    from build_dd_json2 import build_embedded_html\n\n    output_path.write_text(\n        build_embedded_html(data, "DD-Индекс - отчет из Excel"),\n        encoding="utf-8",\n    )\n\n\ndef write_json(data: dict[str, Any], output_path: Path) -> None:\n    output_path.write_text(\n        json.dumps(data, ensure_ascii=False, indent=2) + "\\n",\n        encoding="utf-8",\n    )\n\n\ndef parse_args() -> argparse.Namespace:\n    parser = argparse.ArgumentParser(\n        description="Generate standalone DD HTML and JSON from Excel")\n    parser.add_argument("--input", type=Path,\n                        default=DEFAULT_INPUT, help="Path to source .xlsx")\n    parser.add_argument("--sheet", default=DEFAULT_SHEET,\n                        help="Sheet name")\n    parser.add_argument("--period", default=DEFAULT_PERIOD,\n                        help="Period label to put into product rows")\n    parser.add_argument(\n        "--output",\n        type=Path,\n        default=DEFAULT_OUTPUT,\n        help="Output standalone HTML path",\n    )\n    parser.add_argument(\n        "--json-output",\n        type=Path,\n        default=DEFAULT_JSON_OUTPUT,\n        help="Output nested JSON path",\n    )\n    return parser.parse_args()\n\n\ndef main() -> None:\n    args = parse_args()\n    data, summary = build_report_data(args.input, args.sheet, args.period)\n\n    write_json(data, args.json_output)\n    write_standalone(data, args.output)\n\n    print(json.dumps({"html": str(args.output), "json": str(args.json_output), **summary},\n          ensure_ascii=False, indent=2))\n\n\nif __name__ == "__main__":\n    main()\n'
-_REPORT_TEMPLATE = '<!doctype html>\n<html lang="ru">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>DD-Индекс - итоговый отчет</title>\n  <style>\n    :root {\n      --bg: #f5f5f7;\n      --surface: #fff;\n      --ink: #1d1d1f;\n      --muted: #86868b;\n      --line: rgba(0,0,0,.08);\n      --line-strong: rgba(0,0,0,.12);\n      --blue: #007aff;\n      --green: #34c759;\n      --yellow: #ffcc00;\n      --orange: #ff9500;\n      --red: #ff3b30;\n      --gray-dot: #c7c7cc;\n    }\n\n    * { box-sizing: border-box; }\n    html { background: var(--bg); }\n    body {\n      margin: 0;\n      background: var(--bg);\n      color: var(--ink);\n      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;\n      -webkit-font-smoothing: antialiased;\n    }\n\n    button, input, select {\n      font: inherit;\n    }\n\n    button {\n      border: 0;\n    }\n\n    .app {\n      min-height: 100vh;\n    }\n\n    .topbar {\n      position: sticky;\n      top: 0;\n      z-index: 20;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 24px;\n      padding: 16px 40px;\n      background: rgba(255,255,255,.78);\n      border-bottom: 1px solid var(--line);\n      backdrop-filter: saturate(180%) blur(18px);\n    }\n\n    .brand {\n      display: flex;\n      align-items: center;\n      gap: 12px;\n      min-width: 0;\n    }\n\n    .brand-mark {\n      width: 34px;\n      height: 34px;\n      display: grid;\n      place-items: center;\n      border-radius: 8px;\n      background: linear-gradient(150deg,#2bb84a,#178a2c);\n      color: #fff;\n      font-size: 13px;\n      font-weight: 800;\n      letter-spacing: -.02em;\n      box-shadow: 0 6px 16px rgba(23,138,44,.22);\n    }\n\n    .brand-title {\n      min-width: 0;\n    }\n\n    .brand-title strong {\n      display: block;\n      font-size: 15px;\n      letter-spacing: -.02em;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n    }\n\n    .brand-title span {\n      display: block;\n      margin-top: 2px;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n    }\n\n    .top-actions {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      gap: 10px;\n      flex-wrap: wrap;\n    }\n\n    .pill {\n      display: inline-flex;\n      align-items: center;\n      gap: 8px;\n      min-height: 34px;\n      padding: 7px 13px;\n      border-radius: 999px;\n      background: #fff;\n      border: 1px solid var(--line);\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 600;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n    }\n\n    .page {\n      width: min(1180px, calc(100vw - 56px));\n      margin: 0 auto;\n      padding: 34px 0 76px;\n    }\n\n    .hero {\n      display: grid;\n      grid-template-columns: 1.3fr .7fr;\n      gap: 24px;\n      align-items: end;\n      margin-bottom: 26px;\n    }\n\n    .hero h1 {\n      margin: 0;\n      max-width: 720px;\n      color: var(--ink);\n      font-size: 42px;\n      line-height: 1.04;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .hero p {\n      margin: 12px 0 0;\n      max-width: 740px;\n      color: #6e6e73;\n      font-size: 16px;\n      line-height: 1.45;\n      letter-spacing: -.01em;\n    }\n\n    .hero-stat-grid {\n      display: grid;\n      grid-template-columns: repeat(3, minmax(0, 1fr));\n      gap: 8px;\n    }\n\n    .hero-stat {\n      min-width: 0;\n      padding: 14px 14px 13px;\n      border-radius: 8px;\n      background: #fff;\n      border: 1px solid var(--line);\n    }\n\n    .hero-stat b {\n      display: block;\n      font-size: 28px;\n      line-height: 1;\n      font-weight: 760;\n      letter-spacing: -.02em;\n    }\n\n    .hero-stat span {\n      display: block;\n      margin-top: 7px;\n      color: var(--muted);\n      font-size: 12px;\n      line-height: 1.2;\n      letter-spacing: -.01em;\n    }\n\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      margin-bottom: 14px;\n    }\n\n    .segmented {\n      display: inline-flex;\n      gap: 3px;\n      padding: 3px;\n      border-radius: 10px;\n      background: #e9e9eb;\n    }\n\n    .segmented button {\n      min-height: 30px;\n      padding: 6px 12px;\n      border-radius: 8px;\n      background: transparent;\n      color: var(--muted);\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 650;\n      letter-spacing: -.01em;\n    }\n\n    .segmented button.active {\n      background: #fff;\n      color: var(--ink);\n      box-shadow: 0 1px 3px rgba(0,0,0,.12);\n    }\n\n    .caption {\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .table {\n      overflow: hidden;\n      border: 1px solid var(--line);\n      border-radius: 18px;\n      background: #fff;\n      box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 18px 40px -24px rgba(0,0,0,.16);\n    }\n\n    .table-head,\n    .product-row {\n      display: grid;\n      grid-template-columns: repeat(4, minmax(0, 1fr));\n      align-items: center;\n      column-gap: 18px;\n      padding: 0 28px;\n    }\n\n    .table-head {\n      min-height: 46px;\n      color: #86868b;\n      background: #fcfcfe;\n      border-bottom: 1px solid var(--line);\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .05em;\n      text-transform: uppercase;\n    }\n\n    .table-head > div {\n      text-align: center;\n    }\n\n    .table-head > div:first-child {\n      text-align: left;\n    }\n\n    .table-head > div:last-child {\n      text-align: center;\n    }\n\n    .unit-row {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      padding: 13px 28px;\n      background: #fbfbfd;\n      border-top: 1px solid var(--line);\n    }\n\n    .unit-row:first-child {\n      border-top: 0;\n    }\n\n    .unit-name {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      min-width: 0;\n    }\n\n    .unit-dot {\n      width: 9px;\n      height: 9px;\n      flex: none;\n      border-radius: 999px;\n    }\n\n    .unit-name b {\n      min-width: 0;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 14px;\n      font-weight: 700;\n      letter-spacing: -.01em;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .unit-name span,\n    .unit-avg {\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n    }\n\n    .unit-avg b {\n      color: var(--ink);\n      font-size: 14px;\n      letter-spacing: -.02em;\n    }\n\n    .product-row {\n      min-height: 88px;\n      border-top: 1px solid var(--line);\n      justify-items: center;\n      transition: background .18s ease;\n    }\n\n    .product-row:hover {\n      background: #f7f8fa;\n    }\n\n    .product-name {\n      justify-self: stretch;\n      min-width: 0;\n    }\n\n    .product-name b {\n      display: block;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 16px;\n      font-weight: 700;\n      line-height: 1.25;\n      letter-spacing: -.015em;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .product-name span {\n      display: block;\n      margin-bottom: 4px;\n      color: #a1a1a6;\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .dd-cell {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr);\n      justify-items: center;\n      align-content: center;\n      row-gap: 6px;\n      width: 176px;\n      min-height: 56px;\n      padding: 6px 12px;\n      border: 0;\n      border-radius: 14px;\n      background: transparent;\n    }\n\n    .status-label {\n      grid-column: 1;\n      grid-row: 2;\n      justify-self: center;\n      max-width: 100%;\n      overflow: hidden;\n      font-size: 11px;\n      font-weight: 650;\n      line-height: 1.15;\n      letter-spacing: .01em;\n      text-align: center;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .score-label {\n      grid-column: 1;\n      grid-row: 1;\n      justify-self: center;\n      text-align: center;\n      font-size: 30px;\n      font-weight: 780;\n      line-height: 1;\n      letter-spacing: -.03em;\n      font-variant-numeric: tabular-nums;\n    }\n\n    .progress {\n      grid-column: 1;\n      grid-row: 3;\n      width: 100%;\n      max-width: 148px;\n      height: 6px;\n      justify-self: center;\n      overflow: hidden;\n      border-radius: 999px;\n      background: rgba(0,0,0,.07);\n    }\n\n    .progress i {\n      display: block;\n      height: 100%;\n      border-radius: inherit;\n      background: currentColor;\n      transition: width .5s cubic-bezier(.2,.8,.2,1);\n    }\n\n    .lights {\n      width: 100%;\n      min-width: 0;\n      text-align: center;\n    }\n\n    .dotline {\n      display: flex;\n      align-items: stretch;\n      width: 100%;\n      max-width: 176px;\n      height: 12px;\n      margin: 0 auto;\n      border-radius: 999px;\n      overflow: hidden;\n      background: rgba(0,0,0,.06);\n      box-shadow: inset 0 0 0 1px rgba(0,0,0,.05);\n    }\n\n    .dot {\n      flex: none;\n      width: 10px;\n      height: 10px;\n      border-radius: 999px;\n      background: var(--gray-dot);\n    }\n\n    .dotline .dot {\n      flex: 1 1 0;\n      width: auto;\n      min-width: 0;\n      height: 100%;\n      border-radius: 0;\n    }\n\n    .legend-item .dot {\n      flex: none;\n      width: 14px;\n      height: 14px;\n      border-radius: 5px;\n    }\n\n    .green { background: var(--green); }\n    .yellow { background: var(--yellow); }\n    .red { background: var(--red); }\n    .gray { background: var(--gray-dot); }\n\n    .light-caption {\n      margin-top: 11px;\n      color: #86868b;\n      font-size: 11.5px;\n      letter-spacing: -.005em;\n    }\n\n    .light-caption b {\n      color: var(--ink);\n    }\n\n    .go-cell {\n      display: flex;\n      justify-self: center;\n      justify-content: center;\n    }\n\n    .go-button,\n    .back-button,\n    .soft-button {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      gap: 7px;\n      min-height: 34px;\n      padding: 8px 14px;\n      border-radius: 999px;\n      cursor: pointer;\n      color: var(--blue);\n      background: rgba(0,122,255,.1);\n      font-size: 13px;\n      font-weight: 650;\n      line-height: 1.1;\n      white-space: nowrap;\n      transition: background .16s ease, transform .12s ease;\n    }\n\n    .go-button:hover,\n    .back-button:hover,\n    .soft-button:hover {\n      background: rgba(0,122,255,.16);\n    }\n\n    .go-button:active,\n    .back-button:active,\n    .soft-button:active {\n      transform: scale(.96);\n    }\n\n    .legend {\n      display: flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 14px 32px;\n      margin-top: 22px;\n      padding: 0 6px;\n    }\n\n    .legend-item {\n      display: inline-flex;\n      align-items: center;\n      gap: 10px;\n      color: #6e6e73;\n      font-size: 13px;\n      letter-spacing: -.01em;\n    }\n\n    .detail-head {\n      display: flex;\n      align-items: flex-start;\n      justify-content: space-between;\n      gap: 24px;\n      margin-bottom: 30px;\n    }\n\n    .detail-title {\n      min-width: 0;\n    }\n\n    .detail-title h1 {\n      margin: 14px 0 0;\n      color: var(--ink);\n      font-size: 34px;\n      line-height: 1.05;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .detail-title p {\n      margin: 9px 0 0;\n      color: #6e6e73;\n      font-size: 15px;\n      line-height: 1.4;\n      letter-spacing: -.01em;\n    }\n\n    .detail-subline {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      flex-wrap: wrap;\n    }\n\n    .detail-entity-type {\n      display: inline-flex;\n      align-items: center;\n      min-height: 22px;\n      padding: 0 9px;\n      border: 1px solid rgba(0,122,255,.18);\n      border-radius: 999px;\n      background: rgba(0,122,255,.08);\n      color: var(--blue);\n      font-size: 11px;\n      font-weight: 750;\n      letter-spacing: .01em;\n      text-transform: uppercase;\n    }\n\n    .detail-actions {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      flex-wrap: wrap;\n      justify-content: flex-end;\n    }\n\n    .select-wrap {\n      display: inline-flex;\n      align-items: center;\n      gap: 8px;\n      min-height: 36px;\n      padding: 0 11px;\n      border: 1px solid var(--line);\n      border-radius: 999px;\n      background: #fff;\n    }\n\n    .select-wrap select {\n      max-width: 290px;\n      border: 0;\n      outline: 0;\n      background: transparent;\n      color: var(--ink);\n      font-size: 13px;\n      font-weight: 650;\n    }\n\n    .summary-grid {\n      display: grid;\n      grid-template-columns: 360px 1fr;\n      gap: 16px;\n      align-items: stretch;\n      margin-bottom: 30px;\n    }\n\n    .score-panel,\n    .focus-panel,\n    .block-card,\n    .message {\n      border: 1px solid rgba(0,0,0,.06);\n      border-radius: 18px;\n      background: #fff;\n      box-shadow: 0 1px 3px rgba(0,0,0,.04);\n    }\n\n    .score-panel {\n      display: flex;\n      flex-direction: column;\n      justify-content: center;\n      gap: 18px;\n      padding: 26px;\n      border-radius: 22px;\n      box-shadow: 0 2px 12px rgba(0,0,0,.05);\n    }\n\n    .score-kicker {\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 500;\n      letter-spacing: -.01em;\n    }\n\n    .score-big {\n      display: flex;\n      align-items: baseline;\n      gap: 7px;\n    }\n\n    .score-big b {\n      font-size: 54px;\n      font-weight: 740;\n      line-height: 1;\n      letter-spacing: -.04em;\n    }\n\n    .score-big span {\n      color: #c7c7cc;\n      font-size: 15px;\n      font-weight: 700;\n    }\n\n    .score-level {\n      font-size: 18px;\n      font-weight: 760;\n      letter-spacing: -.02em;\n    }\n\n    .range-track {\n      position: relative;\n      height: 12px;\n      border-radius: 999px;\n      overflow: hidden;\n      background:\n        linear-gradient(90deg,\n          rgba(255,59,48,.18) 0 40%,\n          rgba(255,149,0,.18) 40% 61%,\n          rgba(255,204,0,.2) 61% 81%,\n          rgba(52,199,89,.2) 81% 100%);\n    }\n\n    .range-pin {\n      position: absolute;\n      top: 50%;\n      width: 7px;\n      height: 22px;\n      border: 2px solid #fff;\n      border-radius: 999px;\n      box-shadow: 0 1px 6px rgba(0,0,0,.3);\n      transform: translate(-50%, -50%);\n      background: currentColor;\n    }\n\n    .focus-panel {\n      padding: 21px 24px;\n      border-radius: 22px;\n      box-shadow: 0 2px 12px rgba(0,0,0,.05);\n    }\n\n    .focus-title {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      margin-bottom: 15px;\n      font-size: 13px;\n      font-weight: 760;\n      letter-spacing: -.01em;\n    }\n\n    .focus-list {\n      display: flex;\n      flex-direction: column;\n      gap: 12px;\n    }\n\n    .focus-row {\n      display: grid;\n      grid-template-columns: 24px minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 13px;\n    }\n\n    .focus-num {\n      width: 24px;\n      height: 24px;\n      display: grid;\n      place-items: center;\n      border-radius: 8px;\n      color: #fff;\n      background: #178a2c;\n      font-size: 12px;\n      font-weight: 760;\n    }\n\n    .focus-text b {\n      display: block;\n      color: var(--ink);\n      font-size: 13.5px;\n      line-height: 1.3;\n      font-weight: 650;\n      letter-spacing: -.01em;\n    }\n\n    .focus-text span {\n      display: block;\n      margin-top: 2px;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n    }\n\n    .gain {\n      padding: 5px 10px;\n      border-radius: 8px;\n      color: #178a2c;\n      background: rgba(52,199,89,.12);\n      font-size: 12px;\n      font-weight: 760;\n      white-space: nowrap;\n    }\n\n    .blocks-toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      margin: 26px 0 14px;\n    }\n\n    .blocks-grid {\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 16px;\n      align-items: start;\n    }\n\n    .block-card {\n      overflow: hidden;\n      padding: 20px;\n      border-radius: 18px;\n    }\n\n    .block-top {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr) auto;\n      gap: 16px;\n      align-items: start;\n      padding: 0 0 16px;\n      background: #fff;\n      cursor: pointer;\n    }\n\n    .block-top h2 {\n      margin: 0;\n      color: var(--ink);\n      font-size: 16px;\n      line-height: 1.25;\n      font-weight: 760;\n      letter-spacing: -.015em;\n    }\n\n    .block-title-line {\n      display: flex;\n      align-items: center;\n      gap: 9px;\n      min-width: 0;\n    }\n\n    .block-chevron {\n      flex: none;\n      width: 11px;\n      color: #a1a1a6;\n      font-size: 11px;\n      line-height: 1;\n    }\n\n    .block-meta {\n      margin-top: 7px;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n    }\n\n    .block-score {\n      text-align: right;\n      font-size: 26px;\n      line-height: 1;\n      font-weight: 780;\n      letter-spacing: -.02em;\n      white-space: nowrap;\n    }\n\n    .block-progress {\n      height: 6px;\n      overflow: hidden;\n      border-radius: 999px;\n      background: #ececef;\n      margin-top: 12px;\n    }\n\n    .block-progress i {\n      display: block;\n      height: 100%;\n      border-radius: inherit;\n      background: currentColor;\n    }\n\n    .block-note {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 14px;\n      margin: 0 0 16px;\n      padding: 14px 16px;\n      border-radius: 14px;\n      border: 1px solid rgba(255,170,0,.28);\n      background: linear-gradient(135deg,#fff8e8,#fff3d6);\n    }\n\n    .block-note.blue {\n      border-color: rgba(10,132,255,.28);\n      background: #eef5ff;\n    }\n\n    .block-note.gray {\n      border-color: rgba(0,0,0,.12);\n      background: #f5f5f7;\n    }\n\n    .note-skill {\n      color: var(--ink);\n      font-size: 13px;\n      font-weight: 760;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .note-metric {\n      margin-top: 4px;\n      color: #8a6d1f;\n      font-size: 12px;\n      font-weight: 650;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .block-note.blue .note-metric {\n      color: #0066cc;\n    }\n\n    .block-note.gray .note-metric {\n      color: #6e6e73;\n    }\n\n    .note-side {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      flex: none;\n    }\n\n    .note-dots,\n    .skill-dots {\n      display: inline-flex;\n      align-items: center;\n      gap: 4px;\n    }\n\n    .note-dot,\n    .skill-dot {\n      width: 8px;\n      height: 8px;\n      border-radius: 999px;\n      background: #e4e4e7;\n    }\n\n    .note-action,\n    .metric-button {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      min-height: 30px;\n      padding: 7px 12px;\n      border-radius: 10px;\n      border: 1px solid rgba(255,170,0,.4);\n      color: #8a6d1f;\n      background: rgba(255,255,255,.62);\n      font-size: 12px;\n      font-weight: 760;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n    }\n\n    .block-note.blue .note-action {\n      border-color: rgba(10,132,255,.4);\n      color: #0066cc;\n    }\n\n    .block-note.gray .note-action,\n    .metric-button.disabled {\n      border-color: rgba(0,0,0,.16);\n      color: #8e8e93;\n      background: #fff;\n    }\n\n    .block-infobox {\n      display: grid;\n      grid-template-columns: auto minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 12px;\n      margin: 0 0 16px;\n      padding: 13px 15px;\n      border-radius: 14px;\n      border: 1px solid rgba(0,0,0,.08);\n      background: #f9f9fb;\n    }\n\n    .info-count {\n      color: var(--green);\n      font-size: 28px;\n      font-weight: 780;\n      line-height: 1;\n      letter-spacing: -.03em;\n    }\n\n    .info-text b {\n      display: block;\n      color: var(--ink);\n      font-size: 12.5px;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .info-text span {\n      display: block;\n      margin-top: 2px;\n      color: var(--muted);\n      font-size: 11.5px;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .criteria {\n      display: flex;\n      flex-direction: column;\n      gap: 0;\n      border-top: 1px solid rgba(0,0,0,.055);\n    }\n\n    .criterion {\n      display: grid;\n      grid-template-columns: 12px minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 11px;\n      padding: 13px 0;\n      border-top: 1px solid rgba(0,0,0,.055);\n    }\n\n    .criterion:first-child {\n      border-top: 0;\n    }\n\n    .criterion-name {\n      min-width: 0;\n    }\n\n    .criterion-name b {\n      display: block;\n      color: var(--ink);\n      font-size: 13px;\n      line-height: 1.25;\n      font-weight: 680;\n      letter-spacing: -.01em;\n    }\n\n    .criterion-name span {\n      display: block;\n      margin-top: 3px;\n      color: var(--muted);\n      font-size: 11.5px;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .criterion-points {\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 700;\n      white-space: nowrap;\n    }\n\n    .criterion-extra {\n      grid-column: 2 / -1;\n      display: flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 8px;\n      margin-top: 2px;\n    }\n\n    .skill-card {\n      display: inline-flex;\n      align-items: center;\n      gap: 8px;\n      min-height: 30px;\n      padding: 7px 10px;\n      border-radius: 10px;\n      background: rgba(0,122,255,.08);\n      color: var(--blue);\n      font-size: 12px;\n      font-weight: 720;\n      letter-spacing: -.01em;\n    }\n\n    .skill-card b {\n      font-weight: 760;\n    }\n\n    .message {\n      padding: 22px;\n      color: #6e6e73;\n      font-size: 14px;\n      line-height: 1.45;\n    }\n\n    .hidden { display: none !important; }\n\n    @media (max-width: 980px) {\n      .topbar {\n        align-items: flex-start;\n        flex-direction: column;\n        padding: 14px 20px;\n      }\n\n      .top-actions {\n        justify-content: flex-start;\n      }\n\n      .page {\n        width: min(100vw - 28px, 760px);\n        padding-top: 24px;\n      }\n\n      .hero,\n      .summary-grid {\n        grid-template-columns: 1fr;\n      }\n\n      .hero h1,\n      .detail-title h1 {\n        font-size: 30px;\n      }\n\n      .table-head {\n        display: none;\n      }\n\n      .product-row {\n        grid-template-columns: 1fr;\n        row-gap: 14px;\n        padding: 18px;\n        align-items: stretch;\n      }\n\n      .dd-cell {\n        width: min(100%, 260px);\n        max-width: none;\n      }\n\n      .go-cell {\n        justify-self: center;\n        justify-content: center;\n      }\n\n      .blocks-grid {\n        grid-template-columns: 1fr;\n      }\n\n      .detail-head {\n        flex-direction: column;\n      }\n\n      .detail-actions {\n        justify-content: flex-start;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class="app">\n    <header class="topbar">\n      <div class="brand">\n        <div class="brand-mark">DD</div>\n        <div class="brand-title">\n          <strong>DD-Индекс</strong>\n          <span id="topSubtitle">Витрина DD</span>\n        </div>\n      </div>\n      <div class="top-actions">\n        <span class="pill" id="periodPill">Загрузка данных</span>\n      </div>\n    </header>\n\n    <main class="page">\n      <section id="titleView">\n        <div class="hero">\n          <div>\n            <h1>DD-Индекс</h1>\n            <p>Титульная витрина и разбор по ключевым блокам зрелости.</p>\n          </div>\n          <div class="hero-stat-grid">\n            <div class="hero-stat"><b id="statProducts">0</b><span>сущностей</span></div>\n            <div class="hero-stat"><b id="statUnits">0</b><span>юнита</span></div>\n            <div class="hero-stat"><b id="statAvg">0%</b><span>средний DD</span></div>\n          </div>\n        </div>\n\n        <div class="toolbar">\n          <div class="caption">Продукты и DD-статус</div>\n          <div class="segmented" role="group" aria-label="Сортировка">\n            <button id="sortUnitBtn" type="button" class="active">По юнитам</button>\n            <button id="sortDDBtn" type="button">По DD-индексу</button>\n          </div>\n        </div>\n\n        <div id="titleMessage" class="message hidden"></div>\n        <div id="productTable" class="table hidden"></div>\n\n        <div class="legend">\n          <span class="legend-item"><i class="dot green"></i><b>Зеленый</b> положительная динамика</span>\n          <span class="legend-item"><i class="dot yellow"></i><b>Желтый</b> разовое снижение</span>\n          <span class="legend-item"><i class="dot red"></i><b>Красный</b> стабильный негативный тренд</span>\n        </div>\n      </section>\n\n      <section id="detailView" class="hidden">\n        <div class="detail-head">\n          <div class="detail-title">\n            <button class="back-button" id="backBtn" type="button">‹ Назад к титульнику</button>\n            <h1 id="detailName">Продукт</h1>\n            <p id="detailSub">Юнит · период · тип сущности</p>\n          </div>\n          <div class="detail-actions">\n            <label class="select-wrap">\n              <span class="caption" style="font-size:11px;">Продукт</span>\n              <select id="productSelect"></select>\n            </label>\n            <a class="report-action-button danger" href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank" rel="noopener noreferrer">Нашли ошибку?</a>\n          </div>\n        </div>\n\n        <div id="detailMessage" class="message hidden"></div>\n\n        <div id="detailContent" class="hidden">\n          <div class="report-action-wrap">\n            <div class="report-action-panel">\n              <div class="report-action-copy">\n                <b>Посмотреть комплексный отчет по продукту</b>\n                <span>Отчет по продукту формируется LLM и доступен по ссылке</span>\n              </div>\n              <div class="report-action-buttons">\n                <button id="complexReportBtn" class="report-action-button primary" type="button">Перейти</button>\n              </div>\n            </div>\n          </div>\n\n          <div class="summary-grid">\n            <div class="score-panel">\n              <div class="score-kicker" id="scoreKicker">DD-рейтинг продукта</div>\n              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;">\n                <div class="score-big"><b id="detailScore">0</b><span>/ 100</span></div>\n                <div class="score-level" id="detailStatus">Статус</div>\n              </div>\n              <div>\n                <div class="range-track"><i class="range-pin" id="rangePin"></i></div>\n                <div style="display:flex;justify-content:space-between;margin-top:8px;color:#a1a1a6;font-size:10.5px;font-weight:700;letter-spacing:-.01em;">\n                  <span>Внимание</span><span>Развитие</span><span>Зрелые</span><span>Лидеры</span>\n                </div>\n              </div>\n            </div>\n\n            <div class="focus-panel">\n              <div class="focus-title">Рекомендации и фокусы для повышения DD-рейтинга</div>\n              <div class="focus-list" id="focusList"></div>\n            </div>\n          </div>\n\n          <div class="blocks-toolbar">\n            <div class="caption">Ключевые блоки DD-рейтинга</div>\n            <div class="segmented" role="group" aria-label="Вид деталей">\n              <button id="detailFullBtn" class="active" type="button">Подробно</button>\n              <button id="detailCompactBtn" type="button">Компактно</button>\n            </div>\n          </div>\n\n          <div class="blocks-grid" id="blocksGrid"></div>\n        </div>\n      </section>\n    </main>\n  </div>\n\n  <div id="reportAccessModal" class="report-modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="reportAccessTitle">\n    <div class="report-modal-backdrop" data-report-modal-close></div>\n    <div class="report-modal-card">\n      <button id="reportAccessClose" class="report-modal-close" type="button" aria-label="Закрыть">×</button>\n      <div class="report-modal-kicker">Комплексный отчет</div>\n      <h2 id="reportAccessTitle">Доступ к системе</h2>\n      <div class="report-modal-text">\n        <p>Для доступа непосредственно к системе необходимо в АС Друг в поисковой строке ввести «Доступ к стендам разработки и тестирования», далее:</p>\n        <p>· В поле стенд указать «ТС AI Навыки Штаба B2C (CI09261834) (DEV) (CI09933741)»</p>\n        <p>· В обосновании - «Для разработки и тестирования инструмента AI суммаризации»</p>\n      </div>\n      <div class="report-modal-actions">\n        <a class="report-action-button secondary" href="https://sberfriend.sberbank.ru/deeplink-hash-catcher/?path=L3NiZXJmcmllbmQv&callback=L2RlZXBsaW5rLWtlZXBlci8=#/application/F3C76EADA61AB8EBE053F7E9740A44EF?sberfriend.searchQuery=%D0%94%D1%80%D1%83%D0%B3%D0%B5%20%D0%BE%D1%84%D0%BE%D1%80%D0%BC%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D1%81%D1%82%D0%B5%D0%BD%D0%B4%D0%B0%D0%BC%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8%20%D0%B8%20%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F" target="_blank" rel="noopener noreferrer">Завести заявку на доступ</a>\n        <a class="report-action-button primary" href="http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/complex-report" target="_blank" rel="noopener noreferrer">Перейти</a>\n      </div>\n    </div>\n  </div>\n\n  <script>\n    const DD_DATA_URL = \'dd-data.json\';\n\n    const BLOCKS = [\n      { key:\'general\', name:\'Самооценка знания продуктовых метрик\',\n        note:{ skill:\'Навык «Ключевые метрики»\', metric:\'Общий светофор\', btn:\'Перейти\' },\n        crit:[\n          { code:\'general.market_ru\', n:\'Объем целевого рынка в России\', h:\'Оценка потенциала рынка в России\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.market_sber\', n:\'Объем целевого рынка в Сбере\', h:\'Оценка потенциала внутри клиентской базы Сбера\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.clients_with_product\', n:\'Клиенты с продуктом\', h:\'Фактическая база клиентов продукта\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.product_mau\', n:\'MAU продукта\', h:\'Активная месячная аудитория продукта\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.satellite_products_knowledge\', n:\'Знание продуктов спутников\', h:\'Понимание связанных продуктов и сценариев\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.navigator_reporting_knowledge\', n:\'Знание об отчетности в Навигаторе\', h:\'Понимание доступной отчетности и регулярного мониторинга\', max:0.5, group:\'Инструменты мониторинга\' },\n        ]},\n      { key:\'goals\', name:\'Цели\',\n        note:{ skill:\'Навык «Цели»\', dynamic:true, btn:\'Перейти\' },\n        crit:[\n          { code:\'goals.monitored\', n:\'Цели выведены на мониторинг\', h:\'Регулярное обновление, Навигатор\', max:1, linkTypes:[\'navigator\'] },\n          { code:\'goals.factor_analysis_l1_l2\', n:\'Факторный анализ - драйверы 1-2 ур.\', h:\'Согласно модели бизнес-процесса\', max:1 },\n          { code:\'goals.forecast\', n:\'Прогноз по целям\', h:\'Прогноз выведен в Навигатор\', max:1 },\n        ]},\n      { key:\'alerts\', name:\'Алерты\',\n        note:{ skill:\'Инструкция\', metric:\'по настройке алертов по отчету\', btn:\'Перейти\', noDots:true, blue:true },\n        crit:[\n          { code:\'alerts.system_failures\', n:\'Оповещения по системным сбоям\', h:\'Авто-алерты по IT-инфраструктуре\', max:1 },\n          { code:\'alerts.business_metrics\', n:\'Оповещения по бизнес-метрикам\', h:\'Светофоры целей, драйверов, воронок\', max:1 },\n        ]},\n      { key:\'cx\', name:\'Клиентский опыт\', cx:true,\n        note:{ skill:\'Навык «Анализ Score»\', metric:\'Жалобы, обращения, CSI\', btn:\'Перейти\' },\n        infobox:{ title:\'аналитики в LossHunter\', sub:\'проведено за квартал по продукту\' },\n        crit:[\n          { code:\'cx.product_mechanics\', n:\'Наличие продуктовых механик\', h:\'Механики, влияющие на клиентский опыт\', max:1 },\n          { code:\'cx.score\', n:\'CX Score\', h:\'Зеленая зона клиентского пути\', max:1 },\n        ]},\n      { key:\'attract\', name:\'Воронка привлечения\',\n        note:{ skill:\'Навык «Привлечение»\', metric:\'Общий светофор\', btn:\'Перейти\' },\n        crit:[\n          { code:\'attract.regular_reporting\', n:\'Регулярная отчетность\', h:\'Настроена по воронке\', max:0.5, group:\'Отчетность\', linkTypes:[\'campaigning\',\'drafts\',\'pilot_campaigns\'] },\n          { code:\'attract.report_completeness\', n:\'Полнота отчета\', h:\'Источники, CR, объемы, сегменты\', max:0.5, group:\'Отчетность\', linkTypes:[\'campaigning\',\'drafts\',\'pilot_campaigns\'] },\n          { code:\'attract.auto_regularity\', n:\'Регулярность (авто)\', h:\'Daily / weekly\', max:1, group:\'Отчетность\', linkTypes:[\'campaigning\',\'drafts\',\'pilot_campaigns\'] },\n          { code:\'attract.benchmarks\', n:\'Наличие бенчмарков\', h:\'Цели / динамика / рынок\', max:1 },\n          { code:\'attract.cross_sell\', n:\'Cross-sell\', h:\'В оформлении и после покупки\', max:1 },\n          { code:\'attract.funnel_analysis\', n:\'Проведение анализа воронки привлечения\', h:\'Оценка эффективности\', max:0.25 },\n          { code:\'attract.initiatives_list\', n:\'Составлен перечень инициатив по привлечению\', h:\'План действий по росту\', max:0.25 },\n          { code:\'attract.drafts_70\', n:\'Черновики в СБОЛ >=70%\', h:\'Покрытие потенциала продукта\', max:1, linkTypes:[\'drafts\'] },\n          { code:\'attract.campaign_launches\', n:\'Запуски кампаний за квартал\', h:\'Self-service / централизованный, покрытие\', max:1, linkTypes:[\'campaigning\',\'pilot_campaigns\'], zeroBtn:\'Запустить первый пилот Self-Service\', zeroButtonType:\'self_service_pilot\', zeroButtonFallbackTypes:[\'pilot_campaigns\',\'campaigning\'] },\n        ]},\n      { key:\'churn\', name:\'Воронка оттока\',\n        note:{ skill:\'Навык «Анализ оттока»\', metric:\'Общий светофор\', btn:\'TBD\', gray:true },\n        crit:[\n          { code:\'churn.regular_reporting\', n:\'Регулярная отчетность\', h:\'Настроена по воронке\', max:0.5, group:\'Отчетность\', linkTypes:[\'churn\'] },\n          { code:\'churn.report_completeness\', n:\'Полнота отчета\', h:\'Retention, CR, удержание\', max:0.5, group:\'Отчетность\', linkTypes:[\'churn\'] },\n          { code:\'churn.auto_regularity\', n:\'Регулярность (авто)\', h:\'Daily / weekly\', max:1, group:\'Отчетность\', linkTypes:[\'churn\'] },\n          { code:\'churn.funnel_analysis\', n:\'Проведение анализа воронки оттока\', h:\'Оценка причин и узких мест\', max:0.25 },\n          { code:\'churn.deviation_actions\', n:\'Мероприятия по работе с отклонениями\', h:\'План действий по отклонениям\', max:0.25 },\n          { code:\'churn.mechanics_metrics_knowledge\', n:\'Знание метрик для мониторинга механик\', h:\'Понимание метрик эффективности механик\', max:1 },\n          { code:\'churn.client_retention\', n:\'Удержание клиентов\', h:\'Коммуникация + ценность\', max:1 },\n          { code:\'churn.client_return\', n:\'Возврат клиентов\', h:\'Активная механика за квартал\', max:1 },\n          { code:\'churn.flexible_terms\', n:\'Гибкое изменение условий\', h:\'Персонализация без IT\', max:1 },\n          { code:\'churn.benchmarks\', n:\'Наличие бенчмарков\', h:\'Цели / динамика / рынок\', max:1 },\n        ]},\n      { key:\'hyp\', name:\'Гипотезы и инициативы\',\n        crit:[\n          { code:\'hyp.discovery_40_backlog\', n:\'Discovery >=40% бэклога\', h:\'Доля исследовательских задач DA\', max:1, btn:\'Посмотреть бэклог\', buttonType:\'backlog\' },\n          { code:\'hyp.ab_tests\', n:\'A/B-тесты\', h:\'Доля от подходящих инициатив\', max:1, tbd:true },\n          { code:\'hyp.datadriven_rating_7_5\', n:\'Рейтинг DataDriven >=7,5\', h:\'Среднее место за квартал\', max:1, btn:\'Открыть библиотеку решений\', buttonType:\'datadriven\' },\n          { code:\'hyp.extra_initiatives\', n:\'Доп. инициативы сверх БП\', h:\'В реестре инициатив\', max:1 },\n        ]},\n    ];\n\n    const COLORS = {\n      green: \'#34c759\',\n      yellow: \'#ffcc00\',\n      orange: \'#ff9500\',\n      red: \'#ff3b30\',\n      gray: \'#c7c7cc\',\n      blue: \'#007aff\',\n    };\n\n    const UNIT_COLORS = {\n      \'CBP\': \'#007aff\',\n      \'УБ\': \'#5e5ce6\',\n      \'ДомКлик\': \'#248a3d\',\n      \'Без юнита\': \'#8e8e93\',\n    };\n\n    const state = {\n      model: null,\n      sort: \'unit\',\n      selectedId: null,\n      compact: false,\n      expandedBlocks: {},\n    };\n\n    const $ = (id) => document.getElementById(id);\n\n    function esc(value) {\n      return String(value ?? \'\').replace(/[&<>"\']/g, (ch) => ({\n        \'&\': \'&amp;\',\n        \'<\': \'&lt;\',\n        \'>\': \'&gt;\',\n        \'"\': \'&quot;\',\n        "\'": \'&#39;\',\n      }[ch]));\n    }\n\n    function parseNumber(value, fallback = 0) {\n      if (value === null || value === undefined || value === \'\') return fallback;\n      const parsed = Number(String(value).replace(\',\', \'.\'));\n      return Number.isFinite(parsed) ? parsed : fallback;\n    }\n\n    function parseLight(value) {\n      const s = String(value ?? \'\').trim().toLowerCase();\n      if (!s) return null;\n      if ([\'green\',\'g\',\'зеленый\',\'зелёный\',\'зеленая\',\'зелёная\'].includes(s)) return \'green\';\n      if ([\'yellow\',\'y\',\'amber\',\'orange\',\'желтый\',\'жёлтый\',\'оранжевый\'].includes(s)) return \'yellow\';\n      if ([\'red\',\'r\',\'красный\',\'красная\'].includes(s)) return \'red\';\n      if ([\'gray\',\'grey\',\'n\',\'none\',\'na\',\'n/a\',\'серый\',\'серая\',\'не применимо\'].includes(s)) return \'gray\';\n      return null;\n    }\n\n    function parseApplicable(row) {\n      const raw = row.is_metric_applicabble_flg !== undefined\n        ? row.is_metric_applicabble_flg\n        : row.is_metric_applicable_flg;\n      if (raw === undefined || raw === null || raw === \'\') return true;\n      if (typeof raw === \'boolean\') return raw;\n      if (typeof raw === \'number\') return raw !== 0;\n      const s = String(raw).trim().toLowerCase();\n      if ([\'false\',\'0\',\'no\',\'n\',\'нет\',\'н\',\'-\'].includes(s)) return false;\n      if ([\'true\',\'1\',\'yes\',\'y\',\'да\',\'д\'].includes(s)) return true;\n      return Boolean(raw);\n    }\n\n    function periodRank(value) {\n      const s = String(value || \'\').trim();\n      const roman = { I:1, II:2, III:3, IV:4 };\n      let m = s.match(/(IV|III|II|I|[1-4])\\s*кв[.]?\\s*([0-9]{4})/i);\n      if (m) return Number(m[2]) * 12 + (roman[m[1].toUpperCase()] || Number(m[1])) * 3;\n      m = s.match(/([0-9]{4})\\s*(?:г[.]?)?\\s*(IV|III|II|I|[1-4])\\s*кв/i);\n      if (m) return Number(m[1]) * 12 + (roman[m[2].toUpperCase()] || Number(m[2])) * 3;\n      const d = new Date(s);\n      return Number.isNaN(d.getTime()) ? null : d.getFullYear() * 12 + d.getMonth() + 1 + d.getDate() / 40;\n    }\n\n    function unitName(value) {\n      const unit = String(value ?? \'\').trim();\n      return unit || \'Без юнита\';\n    }\n\n    function statusOf(score) {\n      if (score >= 81) return { text: \'Лидеры DD\', color: COLORS.green };\n      if (score >= 61) return { text: \'Зрелые\', color: \'#e0a100\' };\n      if (score >= 40) return { text: \'Развивающиеся\', color: COLORS.orange };\n      return { text: \'Требуют внимания\', color: \'#d70015\' };\n    }\n\n    function dotClass(dot) {\n      return dot === \'g\' ? \'green\' : dot === \'y\' ? \'yellow\' : dot === \'r\' ? \'red\' : \'gray\';\n    }\n\n    function dotColor(dot) {\n      return dot === \'g\' ? COLORS.green : dot === \'y\' ? COLORS.yellow : dot === \'r\' ? COLORS.red : COLORS.gray;\n    }\n\n    function metricLight(value, max, applicable, excluded) {\n      if (excluded || !applicable || max <= 0) return \'n\';\n      if (value === max) return \'g\';\n      return value > 0 ? \'y\' : \'r\';\n    }\n\n    function serviceMetric(metric) {\n      const traffic = String(metric || \'\').match(/^([a-z]+)_traffic_light$/);\n      if (traffic) return { type: \'traffic\', block: traffic[1] };\n      if (metric === \'cx_losshunter_analytics_count\') return { type: \'losshunter\' };\n      return null;\n    }\n\n    function normalizeDDData(data) {\n      const rawRows = Array.isArray(data) ? data : (Array.isArray(data && data.rows) ? data.rows : []);\n      if (!rawRows.length) throw new Error(\'нет строк с метриками\');\n\n      const periodsByName = new Map();\n      rawRows.forEach((row, order) => {\n        const period = String(row.period ?? \'\').trim();\n        if (!periodsByName.has(period)) periodsByName.set(period, { period, order, rank: periodRank(period) });\n      });\n      const periods = Array.from(periodsByName.values());\n      const hasRank = periods.some((p) => p.rank !== null);\n      periods.sort((a, b) => {\n        const ar = hasRank ? (a.rank === null ? -Infinity : a.rank) : a.order;\n        const br = hasRank ? (b.rank === null ? -Infinity : b.rank) : b.order;\n        return ar === br ? a.order - b.order : ar - br;\n      });\n\n      const latest = periods[periods.length - 1];\n      const rows = rawRows.filter((row) => String(row.period ?? \'\').trim() === latest.period);\n      const productMap = new Map();\n      const dotOrder = { g:0, y:1, r:2, n:3 };\n\n      rows.forEach((row, order) => {\n        const groupId = String(row.product_group_uuid ?? \'\').trim();\n        const metric = String(row.metric ?? \'\').trim();\n        const name = String(row.product_name ?? groupId).trim() || groupId;\n        if (!groupId || !name || !metric) return;\n\n        const id = groupId + \'¦\' + name;\n        if (!productMap.has(id)) {\n          productMap.set(id, {\n            id,\n            groupId,\n            name,\n            unit: unitName(row.unit),\n            type: String(row.type ?? row.entity_type ?? row.product_type ?? \'\').trim() || \'Продукт\',\n            order,\n            earned: 0,\n            max: 0,\n            greens: 0,\n            dots: [],\n            index: {},\n            trafficLights: {},\n            lossHunterAnalyticsCount: null,\n          });\n        }\n\n        const product = productMap.get(id);\n        const service = serviceMetric(metric);\n        if (service) {\n          if (service.type === \'traffic\') product.trafficLights[service.block] = parseLight(row.value) || \'gray\';\n          if (service.type === \'losshunter\') product.lossHunterAnalyticsCount = parseNumber(row.value, 0);\n          return;\n        }\n\n        const applicable = parseApplicable(row);\n        const max = Math.max(0, parseNumber(row.max_value, 0));\n        const value = Math.max(0, Math.min(max, parseNumber(row.value, 0)));\n        const excluded = metric.includes(\'auto_regularity\');\n\n        product.index[metric] = { applicable, max, value, excluded };\n        const dot = metricLight(value, max, applicable, false);\n        product.dots.push(dot);\n        if (dot === \'g\') product.greens += 1;\n        if (excluded) return;\n        if (applicable && max > 0) {\n          product.earned += value;\n          product.max += max;\n        }\n      });\n\n      const products = Array.from(productMap.values()).map((product) => {\n        product.score = product.max > 0 ? Math.round(product.earned / product.max * 100) : 0;\n        product.dotCount = product.dots.length;\n        product.dots.sort((a, b) => (dotOrder[a] ?? 9) - (dotOrder[b] ?? 9));\n        product.status = statusOf(product.score);\n        product.blocks = computeBlocks(product);\n        return product;\n      });\n\n      if (!products.length) throw new Error(\'в актуальном периоде нет продуктов\');\n\n      const units = Array.from(new Set(products.map((p) => p.unit)));\n      const avgScore = Math.round(products.reduce((sum, p) => sum + p.score, 0) / products.length);\n      return {\n        rawRows,\n        rows,\n        products,\n        byId: Object.fromEntries(products.map((p) => [p.id, p])),\n        period: latest.period,\n        totalRows: rawRows.length,\n        rowCount: rows.length,\n        units,\n        avgScore,\n      };\n    }\n\n    function computeBlocks(product) {\n      let totalEarned = 0;\n      let totalMax = 0;\n\n      const blocks = BLOCKS.map((block) => {\n        let earned = 0;\n        let max = 0;\n        let greenCount = 0;\n        const criteria = block.crit.map((criterion) => {\n          const rec = product.index[criterion.code] || null;\n          const applicable = rec ? rec.applicable !== false : false;\n          const cMax = applicable && rec ? Math.max(0, Number.isFinite(rec.max) ? rec.max : criterion.max) : 0;\n          const value = applicable && rec ? Math.max(0, Math.min(cMax, Number.isFinite(rec.value) ? rec.value : 0)) : 0;\n          const excluded = criterion.code.endsWith(\'.auto_regularity\');\n          const isTbd = criterion.tbd === true;\n          const dot = isTbd ? \'n\' : metricLight(value, cMax, applicable, false);\n          const gap = (!isTbd && !excluded && applicable && cMax > 0) ? Math.max(0, cMax - value) : 0;\n\n          if (!excluded) {\n            earned += value;\n            max += cMax;\n            if (applicable && cMax > 0 && value === cMax) greenCount += 1;\n          }\n\n          return {\n            ...criterion,\n            applicable,\n            hasRecord: !!rec,\n            value,\n            max: cMax,\n            excluded,\n            isTbd,\n            dot,\n            gap,\n            points: isTbd ? \'TBD\' : (applicable && cMax > 0 ? fmt(value) + \' / \' + fmt(cMax) : \'не применимо\'),\n          };\n        });\n\n        totalEarned += earned;\n        totalMax += max;\n        const score = max > 0 ? Math.round(earned / max * 100) : 0;\n        return {\n          ...block,\n          criteria,\n          earned,\n          max,\n          score,\n          greenCount,\n          status: statusOf(score),\n          note: noteForBlock(block, score, greenCount, product),\n          infobox: infoForBlock(block, criteria, product),\n        };\n      });\n\n      const score = totalMax > 0 ? Math.round(totalEarned / totalMax * 100) : 0;\n      return { blocks, earned: totalEarned, max: totalMax, score };\n    }\n\n    function noteForBlock(block, score, greenCount, product) {\n      if (!block.note) return null;\n      const jsonLight = product.trafficLights[block.key];\n      const active = jsonLight || (score >= 66 ? \'green\' : score >= 33 ? \'yellow\' : \'red\');\n      return {\n        ...block.note,\n        metric: block.note.dynamic ? \'Выполняется \' + greenCount + \' из \' + block.crit.length + \' целей\' : block.note.metric,\n        button: block.note.gray ? block.note.btn : block.note.btn + \' →\',\n        active,\n      };\n    }\n\n    function infoForBlock(block, criteria, product) {\n      if (!block.infobox && !block.cx) return null;\n      const count = Number.isFinite(product.lossHunterAnalyticsCount) ? product.lossHunterAnalyticsCount : 0;\n      return {\n        count: fmt(count),\n        title: (block.infobox && block.infobox.title) || \'аналитики в LossHunter\',\n        sub: (block.infobox && block.infobox.sub) || \'проведено за квартал по продукту\',\n        button: count > 0 ? \'Посмотреть инсайты\' : \'Провести анализ\',\n      };\n    }\n\n    function noteDotHTML(active) {\n      return [\'red\',\'yellow\',\'green\']\n        .map((key) => `<i class="note-dot" style="background:${active === key ? dotColor(key[0]) : \'#e4e4e7\'}"></i>`)\n        .join(\'\');\n    }\n\n    function fmt(value) {\n      if (!Number.isFinite(value)) return \'0\';\n      const rounded = Math.round(value * 100) / 100;\n      return String(rounded).replace(\'.\', \',\');\n    }\n\n    function pluralProduct(n) {\n      const m = n % 10;\n      const h = n % 100;\n      if (m === 1 && h !== 11) return \'продукт\';\n      if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return \'продукта\';\n      return \'продуктов\';\n    }\n\n    function sortedProducts() {\n      const products = state.model ? [...state.model.products] : [];\n      if (state.sort === \'dd\') {\n        return products.sort((a, b) => (b.score - a.score) || a.name.localeCompare(b.name, \'ru\'));\n      }\n      const unitOrder = new Map();\n      products.forEach((p) => {\n        if (!unitOrder.has(p.unit)) unitOrder.set(p.unit, unitOrder.size);\n      });\n      return products.sort((a, b) => (unitOrder.get(a.unit) - unitOrder.get(b.unit)) || a.order - b.order);\n    }\n\n    function renderTitle() {\n      const model = state.model;\n      const table = $(\'productTable\');\n      const message = $(\'titleMessage\');\n      if (!model) {\n        table.classList.add(\'hidden\');\n        message.classList.remove(\'hidden\');\n        message.textContent = \'Данные пока не загружены.\';\n        return;\n      }\n\n      $(\'statProducts\').textContent = model.products.length;\n      $(\'statUnits\').textContent = model.units.length;\n      $(\'statAvg\').textContent = model.avgScore + \'%\';\n\n      message.classList.add(\'hidden\');\n      table.classList.remove(\'hidden\');\n      const products = sortedProducts();\n\n      const head = `\n        <div class="table-head">\n          <div>Продукт</div>\n          <div>DD%</div>\n          <div>Светофор метрик</div>\n          <div>Действие</div>\n        </div>\n      `;\n\n      if (state.sort === \'dd\') {\n        table.innerHTML = head + products.map((p) => productRowHTML(p, true)).join(\'\');\n        return;\n      }\n\n      const chunks = [];\n      const units = Array.from(new Set(products.map((p) => p.unit)));\n      units.forEach((unit) => {\n        const unitProducts = products.filter((p) => p.unit === unit);\n        const avg = Math.round(unitProducts.reduce((sum, p) => sum + p.score, 0) / unitProducts.length);\n        const color = UNIT_COLORS[unit] || \'#8e8e93\';\n        chunks.push(`\n          <div class="unit-row">\n            <div class="unit-name">\n              <i class="unit-dot" style="background:${color}"></i>\n              <b>${esc(unit)}</b>\n              <span>${unitProducts.length} ${pluralProduct(unitProducts.length)}</span>\n            </div>\n            <div class="unit-avg">средний DD <b style="color:${statusOf(avg).color}">${avg}%</b></div>\n          </div>\n        `);\n        unitProducts.forEach((p) => chunks.push(productRowHTML(p, false)));\n      });\n\n      table.innerHTML = head + chunks.join(\'\');\n    }\n\n    function productRowHTML(product, showUnit) {\n      const st = product.status;\n      const dots = product.dots.length ? product.dots : [\'n\'];\n      return `\n        <div class="product-row">\n          <div class="product-name">\n            ${showUnit ? `<span>${esc(product.unit)}</span>` : \'\'}\n            <b title="${esc(product.name)}">${esc(product.name)}</b>\n          </div>\n          <div>\n            <div class="dd-cell">\n              <span class="status-label" style="color:${st.color}">${esc(st.text)}</span>\n              <span class="score-label" style="color:${st.color}">${product.score}%</span>\n              <span class="progress" style="color:${st.color}"><i style="width:${product.score}%"></i></span>\n            </div>\n          </div>\n          <div class="lights">\n            <div class="dotline">${dots.map((dot) => `<i class="dot ${dotClass(dot)}"></i>`).join(\'\')}</div>\n            <div class="light-caption">в зеленой зоне <b>${product.greens} / ${product.dotCount}</b></div>\n          </div>\n          <div class="go-cell">\n            <button type="button" class="go-button" data-product-id="${esc(product.id)}">Перейти ›</button>\n          </div>\n        </div>\n      `;\n    }\n\n    function renderProductSelect() {\n      const select = $(\'productSelect\');\n      const products = sortedProducts();\n      select.innerHTML = products\n        .map((p) => `<option value="${esc(p.id)}">${esc(p.name)}</option>`)\n        .join(\'\');\n      select.value = state.selectedId || (products[0] && products[0].id) || \'\';\n    }\n\n    function detailSubtitleHTML(product, period) {\n      return `\n        <span class="detail-subline">\n          <span>${esc(product.unit || \'Без юнита\')} · ${esc(period || \'период не указан\')} ·</span>\n          <span class="detail-entity-type">${esc(product.type || \'Продукт\')}</span>\n        </span>\n      `;\n    }\n\n    function renderDetail() {\n      const model = state.model;\n      const message = $(\'detailMessage\');\n      const content = $(\'detailContent\');\n      if (!model || !model.products.length) {\n        message.classList.remove(\'hidden\');\n        content.classList.add(\'hidden\');\n        message.textContent = \'Нет данных для детального листа.\';\n        return;\n      }\n\n      const product = model.byId[state.selectedId] || model.products[0];\n      state.selectedId = product.id;\n      renderProductSelect();\n\n      message.classList.add(\'hidden\');\n      content.classList.remove(\'hidden\');\n\n      const st = product.status;\n      $(\'detailName\').textContent = product.name;\n      $(\'detailSub\').innerHTML = detailSubtitleHTML(product, model.period);\n      $(\'scoreKicker\').textContent = product.name;\n      $(\'detailScore\').textContent = product.score;\n      $(\'detailScore\').style.color = st.color;\n      $(\'detailStatus\').textContent = st.text;\n      $(\'detailStatus\').style.color = st.color;\n      $(\'rangePin\').style.left = Math.max(0, Math.min(100, product.score)) + \'%\';\n      $(\'rangePin\').style.color = st.color;\n\n      renderFocuses(product);\n      renderBlocks(product);\n    }\n\n    function renderFocuses(product) {\n      const rows = [];\n      product.blocks.blocks.forEach((block) => {\n        block.criteria.forEach((criterion) => {\n          if (!criterion.excluded && criterion.applicable && criterion.max > 0 && criterion.gap > 0) {\n            rows.push({\n              block,\n              criterion,\n              gain: Math.round(criterion.gap / Math.max(product.blocks.max, 1) * 100),\n            });\n          }\n        });\n      });\n\n      const focuses = rows\n        .sort((a, b) => (b.criterion.gap - a.criterion.gap) || (b.gain - a.gain))\n        .slice(0, 3);\n\n      if (!focuses.length) {\n        $(\'focusList\').innerHTML = `\n          <div class="focus-row">\n            <span class="focus-num">✓</span>\n            <span class="focus-text"><b>Все применимые метрики без просадок</b><span>Сохранить текущий уровень и мониторить обновления JSON</span></span>\n            <span class="gain">0 п.п.</span>\n          </div>\n        `;\n        return;\n      }\n\n      $(\'focusList\').innerHTML = focuses.map((item, index) => `\n        <div class="focus-row">\n          <span class="focus-num">${index + 1}</span>\n          <span class="focus-text">\n            <b>${esc(recommendationFor(item.criterion))}</b>\n            <span>${esc(item.block.name)} · сейчас ${esc(fmt(item.criterion.value))} / ${esc(fmt(item.criterion.max))}</span>\n          </span>\n          <span class="gain">+${item.gain} п.п.</span>\n        </div>\n      `).join(\'\');\n    }\n\n    function recommendationFor(row) {\n      const byCode = {\n        \'general.market_ru\': \'Зафиксировать рынок РФ и источник.\',\n        \'general.market_sber\': \'Оценить потенциал базы Сбера.\',\n        \'general.clients_with_product\': \'Обновить базу клиентов с продуктом.\',\n        \'general.product_mau\': \'Вывести MAU в регулярный мониторинг.\',\n        \'general.satellite_products_knowledge\': \'Картировать продукты-спутники.\',\n        \'general.navigator_reporting_knowledge\': \'Выбрать основной отчет в Навигаторе.\',\n        \'goals.monitored\': \'Использовать мониторинг целей в Навигаторе.\',\n        \'goals.factor_analysis_l1_l2\': \'Разложить цели на L1/L2-драйверы.\',\n        \'goals.forecast\': \'Добавить прогноз по целям.\',\n        \'alerts.system_failures\': \'Настроить алерты по сбоям.\',\n        \'alerts.business_metrics\': \'Добавить алерты по бизнес-метрикам.\',\n        \'cx.product_mechanics\': \'Собрать продуктовые механики.\',\n        \'cx.score\': \'Разобрать CX в LossHunter.\',\n        \'attract.regular_reporting\': \'Настроить отчетность по привлечению.\',\n        \'attract.report_completeness\': \'Закрыть пробелы в отчете привлечения.\',\n        \'attract.benchmarks\': \'Добавить бенчмарки привлечения.\',\n        \'attract.cross_sell\': \'Проработать cross-sell-сценарии.\',\n        \'attract.funnel_analysis\': \'Провести анализ воронки привлечения.\',\n        \'attract.initiatives_list\': \'Приоритизировать инициативы привлечения.\',\n        \'attract.drafts_70\': \'Поднять покрытие черновиков.\',\n        \'attract.campaign_launches\': \'Увеличить запуск кампаний.\',\n        \'churn.regular_reporting\': \'Настроить отчетность по оттоку.\',\n        \'churn.report_completeness\': \'Закрыть пробелы в отчете оттока.\',\n        \'churn.benchmarks\': \'Добавить бенчмарки оттока.\',\n        \'churn.funnel_analysis\': \'Провести анализ воронки оттока.\',\n        \'churn.deviation_actions\': \'Назначить реакцию на отклонения.\',\n        \'churn.mechanics_metrics_knowledge\': \'Определить метрики механик оттока.\',\n        \'churn.client_retention\': \'Усилить механики удержания.\',\n        \'churn.client_return\': \'Запустить сценарии возврата.\',\n        \'churn.flexible_terms\': \'Настроить гибкие условия.\',\n        \'hyp.discovery_40_backlog\': \'Поднять долю discovery в бэклоге.\',\n        \'hyp.ab_tests\': \'Подготовить A/B-план после TBD.\',\n        \'hyp.datadriven_rating_7_5\': \'Разобрать просадку DataDriven.\',\n        \'hyp.extra_initiatives\': \'Добавить инициативы сверх БП.\',\n      };\n      return byCode[row.code] || \'Назначить владельца и действие для "\' + row.n + \'".\';\n    }\n\n    function renderBlocks(product) {\n      const grid = $(\'blocksGrid\');\n      grid.innerHTML = product.blocks.blocks.map((block) => {\n        const st = block.status;\n        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, block.key);\n        const expanded = hasOverride ? state.expandedBlocks[block.key] : !state.compact;\n        const criteria = block.criteria;\n        return `\n          <article class="block-card">\n            <div class="block-top" data-block-key="${esc(block.key)}">\n              <div>\n                <div class="block-title-line">\n                  <span class="block-chevron">${expanded ? \'▾\' : \'▸\'}</span>\n                  <h2>${esc(block.name)}</h2>\n                </div>\n                <div class="block-meta">${esc(fmt(block.earned))} / ${esc(fmt(block.max))} · ${block.greenCount} выполнено</div>\n                <div class="block-progress" style="color:${st.color}"><i style="width:${block.score}%"></i></div>\n              </div>\n              <div class="block-score" style="color:${st.color}">${block.score}%</div>\n            </div>\n            ${expanded ? `\n              ${block.note ? blockNoteHTML(block.note) : \'\'}\n              ${block.infobox ? blockInfoHTML(block.infobox) : \'\'}\n              <div class="criteria">\n                ${criteria.map(criterionHTML).join(\'\')}\n              </div>\n            ` : \'\'}\n          </article>\n        `;\n      }).join(\'\');\n    }\n\n    function blockNoteHTML(note) {\n      const mode = note.blue ? \' blue\' : note.gray ? \' gray\' : \'\';\n      return `\n        <div class="block-note${mode}">\n          <div class="note-copy">\n            <div class="note-skill">${esc(note.skill || \'Инструкция\')}</div>\n            ${note.metric ? `<div class="note-metric">${esc(note.metric)}</div>` : \'\'}\n          </div>\n          <div class="note-side">\n            ${note.noDots ? \'\' : `<span class="note-dots">${noteDotHTML(note.active)}</span>`}\n            ${note.button ? `<span class="note-action">${esc(note.button)}</span>` : \'\'}\n          </div>\n        </div>\n      `;\n    }\n\n    function blockInfoHTML(info) {\n      return `\n        <div class="block-infobox">\n          <div class="info-count">${esc(info.count)}</div>\n          <div class="info-text">\n            <b>${esc(info.title)}</b>\n            <span>${esc(info.sub)}</span>\n          </div>\n          <span class="metric-button disabled">${esc(info.button)}</span>\n        </div>\n      `;\n    }\n\n    function criterionHTML(criterion) {\n      const dot = criterion.dot;\n      const color = dotColor(dot);\n      const sub = criterion.group ? criterion.group + \' · \' + criterion.h : criterion.h;\n      const skill = criterion.skill ? `\n        <span class="skill-card">\n          <span class="skill-dots">${noteDotHTML(null)}</span>\n          <b>${esc(criterion.skill)}</b>\n          <span>Подробнее</span>\n        </span>\n      ` : \'\';\n      const metricButton = (criterion.btn || (criterion.zeroBtn && criterion.value === 0)) ? `\n        <span class="metric-button disabled">${esc(criterion.value === 0 && criterion.zeroBtn ? criterion.zeroBtn : criterion.btn)}</span>\n      ` : \'\';\n      const extra = skill || metricButton ? `<div class="criterion-extra">${skill}${metricButton}</div>` : \'\';\n      return `\n        <div class="criterion">\n          <i class="dot" style="background:${color}"></i>\n          <span class="criterion-name">\n            <b>${esc(criterion.n)}</b>\n            <span>${esc(sub || \'\')}</span>\n          </span>\n          <span class="criterion-points">${esc(criterion.points)}</span>\n          ${extra}\n        </div>\n      `;\n    }\n\n    function showTitle(pushHash = true) {\n      $(\'titleView\').classList.remove(\'hidden\');\n      $(\'detailView\').classList.add(\'hidden\');\n      if (pushHash) history.replaceState(null, \'\', location.pathname);\n      renderTitle();\n    }\n\n    function showDetail(id, pushHash = true) {\n      state.selectedId = id;\n      $(\'titleView\').classList.add(\'hidden\');\n      $(\'detailView\').classList.remove(\'hidden\');\n      if (pushHash) history.replaceState(null, \'\', \'#product=\' + encodeURIComponent(id));\n      renderDetail();\n      window.scrollTo({ top: 0, behavior: \'smooth\' });\n    }\n\n    function applyHashRoute() {\n      const hash = new URLSearchParams(location.hash.replace(/^#/, \'\'));\n      const productId = hash.get(\'product\');\n      if (productId && state.model && state.model.byId[productId]) showDetail(productId, false);\n      else showTitle(false);\n    }\n\n    function updateTop() {\n      const model = state.model;\n      $(\'periodPill\').textContent = model ? model.period : \'Загрузка данных\';\n      $(\'topSubtitle\').textContent = model\n        ? model.products.length + \' продуктов · \' + model.units.length + \' юнита\'\n        : \'Продуктовая витрина\';\n    }\n\n    async function loadData() {\n      $(\'periodPill\').textContent = \'Загрузка данных\';\n      try {\n        const response = await fetch(DD_DATA_URL + \'?_=\' + Date.now(), { cache: \'no-store\' });\n        if (!response.ok) throw new Error(\'HTTP \' + response.status);\n        const data = await response.json();\n        state.model = normalizeDDData(data);\n        updateTop();\n        renderTitle();\n        applyHashRoute();\n      } catch (error) {\n        const message = error && error.message ? error.message : String(error);\n        state.model = null;\n        updateTop();\n        $(\'productTable\').classList.add(\'hidden\');\n        $(\'titleMessage\').classList.remove(\'hidden\');\n        $(\'titleMessage\').textContent = \'Не удалось загрузить dd-data.json: \' + message;\n      }\n    }\n\n    function bindEvents() {\n      $(\'sortUnitBtn\').addEventListener(\'click\', () => {\n        state.sort = \'unit\';\n        $(\'sortUnitBtn\').classList.add(\'active\');\n        $(\'sortDDBtn\').classList.remove(\'active\');\n        renderTitle();\n      });\n      $(\'sortDDBtn\').addEventListener(\'click\', () => {\n        state.sort = \'dd\';\n        $(\'sortDDBtn\').classList.add(\'active\');\n        $(\'sortUnitBtn\').classList.remove(\'active\');\n        renderTitle();\n      });\n      $(\'productTable\').addEventListener(\'click\', (event) => {\n        const button = event.target.closest(\'[data-product-id]\');\n        if (button) showDetail(button.dataset.productId);\n      });\n      $(\'blocksGrid\').addEventListener(\'click\', (event) => {\n        const header = event.target.closest(\'[data-block-key]\');\n        if (!header) return;\n        const key = header.dataset.blockKey;\n        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, key);\n        const current = hasOverride ? state.expandedBlocks[key] : !state.compact;\n        state.expandedBlocks = { ...state.expandedBlocks, [key]: !current };\n        renderDetail();\n      });\n      $(\'backBtn\').addEventListener(\'click\', () => showTitle(true));\n      $(\'productSelect\').addEventListener(\'change\', (event) => showDetail(event.target.value));\n      $(\'detailFullBtn\').addEventListener(\'click\', () => {\n        state.compact = false;\n        state.expandedBlocks = {};\n        $(\'detailFullBtn\').classList.add(\'active\');\n        $(\'detailCompactBtn\').classList.remove(\'active\');\n        renderDetail();\n      });\n      $(\'detailCompactBtn\').addEventListener(\'click\', () => {\n        state.compact = true;\n        state.expandedBlocks = {};\n        $(\'detailCompactBtn\').classList.add(\'active\');\n        $(\'detailFullBtn\').classList.remove(\'active\');\n        renderDetail();\n      });\n      window.addEventListener(\'hashchange\', applyHashRoute);\n    }\n\n    bindEvents();\n    loadData();\n  </script>\n</body>\n</html>\n'
+_REPORT_TEMPLATE = '<!doctype html>\n<html lang="ru">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>DD-Индекс - итоговый отчет</title>\n  <style>\n    :root {\n      --bg: #f5f5f7;\n      --surface: #fff;\n      --ink: #1d1d1f;\n      --muted: #86868b;\n      --line: rgba(0,0,0,.08);\n      --line-strong: rgba(0,0,0,.12);\n      --blue: #007aff;\n      --green: #34c759;\n      --yellow: #ffcc00;\n      --orange: #ff9500;\n      --red: #ff3b30;\n      --gray-dot: #c7c7cc;\n    }\n\n    * { box-sizing: border-box; }\n    html { background: var(--bg); }\n    body {\n      margin: 0;\n      background: var(--bg);\n      color: var(--ink);\n      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;\n      -webkit-font-smoothing: antialiased;\n    }\n\n    button, input, select {\n      font: inherit;\n    }\n\n    button {\n      border: 0;\n    }\n\n    .app {\n      min-height: 100vh;\n    }\n\n    .topbar {\n      position: sticky;\n      top: 0;\n      z-index: 20;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 24px;\n      padding: 16px 40px;\n      background: rgba(255,255,255,.78);\n      border-bottom: 1px solid var(--line);\n      backdrop-filter: saturate(180%) blur(18px);\n    }\n\n    .brand {\n      display: flex;\n      align-items: center;\n      gap: 12px;\n      min-width: 0;\n    }\n\n    .brand-mark {\n      width: 34px;\n      height: 34px;\n      display: grid;\n      place-items: center;\n      border-radius: 8px;\n      background: linear-gradient(150deg,#2bb84a,#178a2c);\n      color: #fff;\n      font-size: 13px;\n      font-weight: 800;\n      letter-spacing: -.02em;\n      box-shadow: 0 6px 16px rgba(23,138,44,.22);\n    }\n\n    .brand-title {\n      min-width: 0;\n    }\n\n    .brand-title strong {\n      display: block;\n      font-size: 15px;\n      letter-spacing: -.02em;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n    }\n\n    .brand-title span {\n      display: block;\n      margin-top: 2px;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n    }\n\n    .top-actions {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      gap: 10px;\n      flex-wrap: wrap;\n    }\n\n    .pill {\n      display: inline-flex;\n      align-items: center;\n      gap: 8px;\n      min-height: 34px;\n      padding: 7px 13px;\n      border-radius: 999px;\n      background: #fff;\n      border: 1px solid var(--line);\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 600;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n    }\n\n    .page {\n      width: min(1180px, calc(100vw - 56px));\n      margin: 0 auto;\n      padding: 34px 0 76px;\n    }\n\n    .hero {\n      display: grid;\n      grid-template-columns: 1.3fr .7fr;\n      gap: 24px;\n      align-items: end;\n      margin-bottom: 26px;\n    }\n\n    .hero h1 {\n      margin: 0;\n      max-width: 720px;\n      color: var(--ink);\n      font-size: 42px;\n      line-height: 1.04;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .hero p {\n      margin: 12px 0 0;\n      max-width: 740px;\n      color: #6e6e73;\n      font-size: 16px;\n      line-height: 1.45;\n      letter-spacing: -.01em;\n    }\n\n    .hero-stat-grid {\n      display: grid;\n      grid-template-columns: repeat(3, minmax(0, 1fr));\n      gap: 8px;\n    }\n\n    .hero-stat {\n      min-width: 0;\n      padding: 14px 14px 13px;\n      border-radius: 8px;\n      background: #fff;\n      border: 1px solid var(--line);\n    }\n\n    .hero-stat b {\n      display: block;\n      font-size: 28px;\n      line-height: 1;\n      font-weight: 760;\n      letter-spacing: -.02em;\n    }\n\n    .hero-stat span {\n      display: block;\n      margin-top: 7px;\n      color: var(--muted);\n      font-size: 12px;\n      line-height: 1.2;\n      letter-spacing: -.01em;\n    }\n\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      margin-bottom: 14px;\n    }\n\n    .segmented {\n      display: inline-flex;\n      gap: 3px;\n      padding: 3px;\n      border-radius: 10px;\n      background: #e9e9eb;\n    }\n\n    .segmented button {\n      min-height: 30px;\n      padding: 6px 12px;\n      border-radius: 8px;\n      background: transparent;\n      color: var(--muted);\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 650;\n      letter-spacing: -.01em;\n    }\n\n    .segmented button.active {\n      background: #fff;\n      color: var(--ink);\n      box-shadow: 0 1px 3px rgba(0,0,0,.12);\n    }\n\n    .caption {\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .table {\n      overflow: hidden;\n      border: 1px solid var(--line);\n      border-radius: 18px;\n      background: #fff;\n      box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 18px 40px -24px rgba(0,0,0,.16);\n    }\n\n    .table-head,\n    .product-row {\n      display: grid;\n      grid-template-columns: repeat(4, minmax(0, 1fr));\n      align-items: center;\n      column-gap: 18px;\n      padding: 0 28px;\n    }\n\n    .table-head {\n      min-height: 46px;\n      color: #86868b;\n      background: #fcfcfe;\n      border-bottom: 1px solid var(--line);\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .05em;\n      text-transform: uppercase;\n    }\n\n    .table-head > div {\n      text-align: center;\n    }\n\n    .table-head > div:first-child {\n      text-align: left;\n    }\n\n    .table-head > div:last-child {\n      text-align: center;\n    }\n\n    .unit-row {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      padding: 13px 28px;\n      background: #fbfbfd;\n      border-top: 1px solid var(--line);\n    }\n\n    .unit-row:first-child {\n      border-top: 0;\n    }\n\n    .unit-name {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      min-width: 0;\n    }\n\n    .unit-dot {\n      width: 9px;\n      height: 9px;\n      flex: none;\n      border-radius: 999px;\n    }\n\n    .unit-name b {\n      min-width: 0;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 14px;\n      font-weight: 700;\n      letter-spacing: -.01em;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .unit-name span,\n    .unit-avg {\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n    }\n\n    .unit-avg b {\n      color: var(--ink);\n      font-size: 14px;\n      letter-spacing: -.02em;\n    }\n\n    .product-row {\n      min-height: 88px;\n      border-top: 1px solid var(--line);\n      justify-items: center;\n      transition: background .18s ease;\n    }\n\n    .product-row:hover {\n      background: #f7f8fa;\n    }\n\n    .product-name {\n      justify-self: stretch;\n      min-width: 0;\n    }\n\n    .product-name b {\n      display: block;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 16px;\n      font-weight: 700;\n      line-height: 1.25;\n      letter-spacing: -.015em;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .product-name span {\n      display: block;\n      margin-bottom: 4px;\n      color: #a1a1a6;\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .dd-cell {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr);\n      justify-items: center;\n      align-content: center;\n      row-gap: 6px;\n      width: 176px;\n      min-height: 56px;\n      padding: 6px 12px;\n      border: 0;\n      border-radius: 14px;\n      background: transparent;\n    }\n\n    .status-label {\n      grid-column: 1;\n      grid-row: 2;\n      justify-self: center;\n      max-width: 100%;\n      overflow: hidden;\n      font-size: 11px;\n      font-weight: 650;\n      line-height: 1.15;\n      letter-spacing: .01em;\n      text-align: center;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .score-label {\n      grid-column: 1;\n      grid-row: 1;\n      justify-self: center;\n      text-align: center;\n      font-size: 30px;\n      font-weight: 780;\n      line-height: 1;\n      letter-spacing: -.03em;\n      font-variant-numeric: tabular-nums;\n    }\n\n    .progress {\n      grid-column: 1;\n      grid-row: 3;\n      width: 100%;\n      max-width: 148px;\n      height: 6px;\n      justify-self: center;\n      overflow: hidden;\n      border-radius: 999px;\n      background: rgba(0,0,0,.07);\n    }\n\n    .progress i {\n      display: block;\n      height: 100%;\n      border-radius: inherit;\n      background: currentColor;\n      transition: width .5s cubic-bezier(.2,.8,.2,1);\n    }\n\n    .lights {\n      width: 100%;\n      min-width: 0;\n      text-align: center;\n    }\n\n    .dotline {\n      display: flex;\n      align-items: stretch;\n      width: 100%;\n      max-width: 176px;\n      height: 12px;\n      margin: 0 auto;\n      border-radius: 999px;\n      overflow: hidden;\n      background: rgba(0,0,0,.06);\n      box-shadow: inset 0 0 0 1px rgba(0,0,0,.05);\n    }\n\n    .dot {\n      flex: none;\n      width: 10px;\n      height: 10px;\n      border-radius: 999px;\n      background: var(--gray-dot);\n    }\n\n    .dotline .dot {\n      flex: 1 1 0;\n      width: auto;\n      min-width: 0;\n      height: 100%;\n      border-radius: 0;\n    }\n\n    .legend-item .dot {\n      flex: none;\n      width: 14px;\n      height: 14px;\n      border-radius: 5px;\n    }\n\n    .green { background: var(--green); }\n    .yellow { background: var(--yellow); }\n    .red { background: var(--red); }\n    .gray { background: var(--gray-dot); }\n\n    .light-caption {\n      margin-top: 11px;\n      color: #86868b;\n      font-size: 11.5px;\n      letter-spacing: -.005em;\n    }\n\n    .light-caption b {\n      color: var(--ink);\n    }\n\n    .go-cell {\n      display: flex;\n      justify-self: center;\n      justify-content: center;\n    }\n\n    .go-button,\n    .back-button,\n    .soft-button {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      gap: 7px;\n      min-height: 34px;\n      padding: 8px 14px;\n      border-radius: 999px;\n      cursor: pointer;\n      color: var(--blue);\n      background: rgba(0,122,255,.1);\n      font-size: 13px;\n      font-weight: 650;\n      line-height: 1.1;\n      white-space: nowrap;\n      transition: background .16s ease, transform .12s ease;\n    }\n\n    .go-button:hover,\n    .back-button:hover,\n    .soft-button:hover {\n      background: rgba(0,122,255,.16);\n    }\n\n    .go-button:active,\n    .back-button:active,\n    .soft-button:active {\n      transform: scale(.96);\n    }\n\n    .legend {\n      display: flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 14px 32px;\n      margin-top: 22px;\n      padding: 0 6px;\n    }\n\n    .legend-item {\n      display: inline-flex;\n      align-items: center;\n      gap: 10px;\n      color: #6e6e73;\n      font-size: 13px;\n      letter-spacing: -.01em;\n    }\n\n    .detail-head {\n      display: flex;\n      align-items: flex-start;\n      justify-content: space-between;\n      gap: 24px;\n      margin-bottom: 30px;\n    }\n\n    .detail-title {\n      min-width: 0;\n    }\n\n    .detail-title h1 {\n      margin: 14px 0 0;\n      color: var(--ink);\n      font-size: 34px;\n      line-height: 1.05;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .detail-title p {\n      margin: 9px 0 0;\n      color: #6e6e73;\n      font-size: 15px;\n      line-height: 1.4;\n      letter-spacing: -.01em;\n    }\n\n    .detail-subline {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      flex-wrap: wrap;\n    }\n\n    .detail-entity-type {\n      display: inline-flex;\n      align-items: center;\n      min-height: 22px;\n      padding: 0 9px;\n      border: 1px solid rgba(0,122,255,.18);\n      border-radius: 999px;\n      background: rgba(0,122,255,.08);\n      color: var(--blue);\n      font-size: 11px;\n      font-weight: 750;\n      letter-spacing: .01em;\n      text-transform: uppercase;\n    }\n\n    .detail-actions {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      flex-wrap: wrap;\n      justify-content: flex-end;\n    }\n\n    .select-wrap {\n      display: inline-flex;\n      align-items: center;\n      gap: 8px;\n      min-height: 36px;\n      padding: 0 11px;\n      border: 1px solid var(--line);\n      border-radius: 999px;\n      background: #fff;\n    }\n\n    .select-wrap select {\n      max-width: 290px;\n      border: 0;\n      outline: 0;\n      background: transparent;\n      color: var(--ink);\n      font-size: 13px;\n      font-weight: 650;\n    }\n\n    .summary-grid {\n      display: grid;\n      grid-template-columns: 360px 1fr;\n      gap: 16px;\n      align-items: stretch;\n      margin-bottom: 30px;\n    }\n\n    .score-panel,\n    .focus-panel,\n    .block-card,\n    .message {\n      border: 1px solid rgba(0,0,0,.06);\n      border-radius: 18px;\n      background: #fff;\n      box-shadow: 0 1px 3px rgba(0,0,0,.04);\n    }\n\n    .score-panel {\n      display: flex;\n      flex-direction: column;\n      justify-content: center;\n      gap: 18px;\n      padding: 26px;\n      border-radius: 22px;\n      box-shadow: 0 2px 12px rgba(0,0,0,.05);\n    }\n\n    .score-kicker {\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 500;\n      letter-spacing: -.01em;\n    }\n\n    .score-big {\n      display: flex;\n      align-items: baseline;\n      gap: 7px;\n    }\n\n    .score-big b {\n      font-size: 54px;\n      font-weight: 740;\n      line-height: 1;\n      letter-spacing: -.04em;\n    }\n\n    .score-big span {\n      color: #c7c7cc;\n      font-size: 15px;\n      font-weight: 700;\n    }\n\n    .score-level {\n      font-size: 18px;\n      font-weight: 760;\n      letter-spacing: -.02em;\n    }\n\n    .range-track {\n      position: relative;\n      height: 12px;\n      border-radius: 999px;\n      overflow: hidden;\n      background:\n        linear-gradient(90deg,\n          rgba(255,59,48,.18) 0 40%,\n          rgba(255,149,0,.18) 40% 61%,\n          rgba(255,204,0,.2) 61% 81%,\n          rgba(52,199,89,.2) 81% 100%);\n    }\n\n    .range-pin {\n      position: absolute;\n      top: 50%;\n      width: 7px;\n      height: 22px;\n      border: 2px solid #fff;\n      border-radius: 999px;\n      box-shadow: 0 1px 6px rgba(0,0,0,.3);\n      transform: translate(-50%, -50%);\n      background: currentColor;\n    }\n\n    .focus-panel {\n      padding: 21px 24px;\n      border-radius: 22px;\n      box-shadow: 0 2px 12px rgba(0,0,0,.05);\n    }\n\n    .focus-title {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      margin-bottom: 15px;\n      font-size: 13px;\n      font-weight: 760;\n      letter-spacing: -.01em;\n    }\n\n    .focus-list {\n      display: flex;\n      flex-direction: column;\n      gap: 12px;\n    }\n\n    .focus-row {\n      display: grid;\n      grid-template-columns: 24px minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 13px;\n    }\n\n    .focus-num {\n      width: 24px;\n      height: 24px;\n      display: grid;\n      place-items: center;\n      border-radius: 8px;\n      color: #fff;\n      background: #178a2c;\n      font-size: 12px;\n      font-weight: 760;\n    }\n\n    .focus-text b {\n      display: block;\n      color: var(--ink);\n      font-size: 13.5px;\n      line-height: 1.3;\n      font-weight: 650;\n      letter-spacing: -.01em;\n    }\n\n    .focus-text span {\n      display: block;\n      margin-top: 2px;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n    }\n\n    .gain {\n      padding: 5px 10px;\n      border-radius: 8px;\n      color: #178a2c;\n      background: rgba(52,199,89,.12);\n      font-size: 12px;\n      font-weight: 760;\n      white-space: nowrap;\n    }\n\n    .blocks-toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      margin: 26px 0 14px;\n    }\n\n    .blocks-grid {\n      display: grid;\n      grid-template-columns: repeat(2, minmax(0, 1fr));\n      gap: 16px;\n      align-items: start;\n    }\n\n    .block-card {\n      overflow: hidden;\n      padding: 20px;\n      border-radius: 18px;\n    }\n\n    .block-top {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr) auto;\n      gap: 16px;\n      align-items: start;\n      padding: 0 0 16px;\n      background: #fff;\n      cursor: pointer;\n    }\n\n    .block-top h2 {\n      margin: 0;\n      color: var(--ink);\n      font-size: 16px;\n      line-height: 1.25;\n      font-weight: 760;\n      letter-spacing: -.015em;\n    }\n\n    .block-title-line {\n      display: flex;\n      align-items: center;\n      gap: 9px;\n      min-width: 0;\n    }\n\n    .block-chevron {\n      flex: none;\n      width: 11px;\n      color: #a1a1a6;\n      font-size: 11px;\n      line-height: 1;\n    }\n\n    .block-meta {\n      margin-top: 7px;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: -.01em;\n    }\n\n    .block-score {\n      text-align: right;\n      font-size: 26px;\n      line-height: 1;\n      font-weight: 780;\n      letter-spacing: -.02em;\n      white-space: nowrap;\n    }\n\n    .block-progress {\n      height: 6px;\n      overflow: hidden;\n      border-radius: 999px;\n      background: #ececef;\n      margin-top: 12px;\n    }\n\n    .block-progress i {\n      display: block;\n      height: 100%;\n      border-radius: inherit;\n      background: currentColor;\n    }\n\n    .block-note {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 14px;\n      margin: 0 0 16px;\n      padding: 14px 16px;\n      border-radius: 14px;\n      border: 1px solid rgba(255,170,0,.28);\n      background: linear-gradient(135deg,#fff8e8,#fff3d6);\n    }\n\n    .block-note.blue {\n      border-color: rgba(10,132,255,.28);\n      background: #eef5ff;\n    }\n\n    .block-note.gray {\n      border-color: rgba(0,0,0,.12);\n      background: #f5f5f7;\n    }\n\n    .note-skill {\n      color: var(--ink);\n      font-size: 13px;\n      font-weight: 760;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .note-metric {\n      margin-top: 4px;\n      color: #8a6d1f;\n      font-size: 12px;\n      font-weight: 650;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .block-note.blue .note-metric {\n      color: #0066cc;\n    }\n\n    .block-note.gray .note-metric {\n      color: #6e6e73;\n    }\n\n    .note-side {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      flex: none;\n    }\n\n    .note-dots,\n    .skill-dots {\n      display: inline-flex;\n      align-items: center;\n      gap: 4px;\n    }\n\n    .note-dot,\n    .skill-dot {\n      width: 8px;\n      height: 8px;\n      border-radius: 999px;\n      background: #e4e4e7;\n    }\n\n    .note-action,\n    .metric-button {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      min-height: 30px;\n      padding: 7px 12px;\n      border-radius: 10px;\n      border: 1px solid rgba(255,170,0,.4);\n      color: #8a6d1f;\n      background: rgba(255,255,255,.62);\n      font-size: 12px;\n      font-weight: 760;\n      letter-spacing: -.01em;\n      white-space: nowrap;\n    }\n\n    .block-note.blue .note-action {\n      border-color: rgba(10,132,255,.4);\n      color: #0066cc;\n    }\n\n    .block-note.gray .note-action,\n    .metric-button.disabled {\n      border-color: rgba(0,0,0,.16);\n      color: #8e8e93;\n      background: #fff;\n    }\n\n    .block-infobox {\n      display: grid;\n      grid-template-columns: auto minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 12px;\n      margin: 0 0 16px;\n      padding: 13px 15px;\n      border-radius: 14px;\n      border: 1px solid rgba(0,0,0,.08);\n      background: #f9f9fb;\n    }\n\n    .info-count {\n      color: var(--green);\n      font-size: 28px;\n      font-weight: 780;\n      line-height: 1;\n      letter-spacing: -.03em;\n    }\n\n    .info-text b {\n      display: block;\n      color: var(--ink);\n      font-size: 12.5px;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .info-text span {\n      display: block;\n      margin-top: 2px;\n      color: var(--muted);\n      font-size: 11.5px;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .criteria {\n      display: flex;\n      flex-direction: column;\n      gap: 0;\n      border-top: 1px solid rgba(0,0,0,.055);\n    }\n\n    .criterion {\n      display: grid;\n      grid-template-columns: 12px minmax(0, 1fr) auto;\n      align-items: center;\n      gap: 11px;\n      padding: 13px 0;\n      border-top: 1px solid rgba(0,0,0,.055);\n    }\n\n    .criterion:first-child {\n      border-top: 0;\n    }\n\n    .criterion-name {\n      min-width: 0;\n    }\n\n    .criterion-name b {\n      display: block;\n      color: var(--ink);\n      font-size: 13px;\n      line-height: 1.25;\n      font-weight: 680;\n      letter-spacing: -.01em;\n    }\n\n    .criterion-name span {\n      display: block;\n      margin-top: 3px;\n      color: var(--muted);\n      font-size: 11.5px;\n      line-height: 1.25;\n      letter-spacing: -.01em;\n    }\n\n    .criterion-points {\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 700;\n      white-space: nowrap;\n    }\n\n    .criterion-extra {\n      grid-column: 2 / -1;\n      display: flex;\n      align-items: center;\n      flex-wrap: wrap;\n      gap: 8px;\n      margin-top: 2px;\n    }\n\n    .skill-card {\n      display: inline-flex;\n      align-items: center;\n      gap: 8px;\n      min-height: 30px;\n      padding: 7px 10px;\n      border-radius: 10px;\n      background: rgba(0,122,255,.08);\n      color: var(--blue);\n      font-size: 12px;\n      font-weight: 720;\n      letter-spacing: -.01em;\n    }\n\n    .skill-card b {\n      font-weight: 760;\n    }\n\n    .message {\n      padding: 22px;\n      color: #6e6e73;\n      font-size: 14px;\n      line-height: 1.45;\n    }\n\n    .hidden { display: none !important; }\n\n    @media (max-width: 980px) {\n      .topbar {\n        align-items: flex-start;\n        flex-direction: column;\n        padding: 14px 20px;\n      }\n\n      .top-actions {\n        justify-content: flex-start;\n      }\n\n      .page {\n        width: min(100vw - 28px, 760px);\n        padding-top: 24px;\n      }\n\n      .hero,\n      .summary-grid {\n        grid-template-columns: 1fr;\n      }\n\n      .hero h1,\n      .detail-title h1 {\n        font-size: 30px;\n      }\n\n      .table-head {\n        display: none;\n      }\n\n      .product-row {\n        grid-template-columns: 1fr;\n        row-gap: 14px;\n        padding: 18px;\n        align-items: stretch;\n      }\n\n      .dd-cell {\n        width: min(100%, 260px);\n        max-width: none;\n      }\n\n      .go-cell {\n        justify-self: center;\n        justify-content: center;\n      }\n\n      .blocks-grid {\n        grid-template-columns: 1fr;\n      }\n\n      .detail-head {\n        flex-direction: column;\n      }\n\n      .detail-actions {\n        justify-content: flex-start;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class="app">\n    <header class="topbar">\n      <div class="brand">\n        <div class="brand-mark">DD</div>\n        <div class="brand-title">\n          <strong>DD-Индекс</strong>\n          <span id="topSubtitle">Витрина DD</span>\n        </div>\n      </div>\n      <div class="top-actions">\n        <span class="pill" id="periodPill">Загрузка данных</span>\n      </div>\n    </header>\n\n    <main class="page">\n      <section id="titleView">\n        <div class="hero">\n          <div>\n            <h1>DD-Индекс</h1>\n            <p>Титульная витрина и разбор по ключевым блокам зрелости.</p>\n          </div>\n          <div class="hero-stat-grid">\n            <div class="hero-stat"><b id="statProducts">0</b><span>сущностей</span></div>\n            <div class="hero-stat"><b id="statUnits">0</b><span>юнита</span></div>\n            <div class="hero-stat"><b id="statAvg">0%</b><span>средний DD</span></div>\n          </div>\n        </div>\n\n        <div class="toolbar">\n          <div class="caption">Продукты и DD-статус</div>\n          <div class="segmented" role="group" aria-label="Сортировка">\n            <button id="sortUnitBtn" type="button" class="active">По юнитам</button>\n            <button id="sortDDBtn" type="button">По DD-индексу</button>\n          </div>\n        </div>\n\n        <div id="titleMessage" class="message hidden"></div>\n        <div id="productTable" class="table hidden"></div>\n\n        <div class="legend">\n          <span class="legend-item"><i class="dot green"></i><b>Зеленый</b> положительная динамика</span>\n          <span class="legend-item"><i class="dot yellow"></i><b>Желтый</b> разовое снижение</span>\n          <span class="legend-item"><i class="dot red"></i><b>Красный</b> стабильный негативный тренд</span>\n        </div>\n      </section>\n\n      <section id="detailView" class="hidden">\n        <div class="detail-head">\n          <div class="detail-title">\n            <button class="back-button" id="backBtn" type="button">‹ Назад к титульнику</button>\n            <h1 id="detailName">Продукт</h1>\n            <p id="detailSub">Юнит · период · тип сущности</p>\n          </div>\n          <div class="detail-actions">\n            <label class="select-wrap">\n              <span class="caption" style="font-size:11px;">Продукт</span>\n              <select id="productSelect"></select>\n            </label>\n            <a class="report-action-button danger" href="https://public.oprosso.sberbank.ru/p/6yyb40xa" target="_blank" rel="noopener noreferrer">Нашли ошибку?</a>\n          </div>\n        </div>\n\n        <div id="detailMessage" class="message hidden"></div>\n\n        <div id="detailContent" class="hidden">\n          <div class="report-action-wrap">\n            <div class="report-action-panel">\n              <div class="report-action-copy">\n                <b>Посмотреть комплексный отчет по продукту</b>\n                <span>Дополнительные отчеты доступны по ссылкам</span>\n              </div>\n              <div class="report-action-buttons">\n                <button id="complexReportBtn" class="report-action-button primary" type="button">Перейти</button>\n              </div>\n            </div>\n          </div>\n\n          <div class="summary-grid">\n            <div class="score-panel">\n              <div class="score-kicker" id="scoreKicker">DD-рейтинг продукта</div>\n              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:14px;">\n                <div class="score-big"><b id="detailScore">0</b><span>/ 100</span></div>\n                <div class="score-level" id="detailStatus">Статус</div>\n              </div>\n              <div>\n                <div class="range-track"><i class="range-pin" id="rangePin"></i></div>\n                <div style="display:flex;justify-content:space-between;margin-top:8px;color:#a1a1a6;font-size:10.5px;font-weight:700;letter-spacing:-.01em;">\n                  <span>Внимание</span><span>Развитие</span><span>Зрелые</span><span>Лидеры</span>\n                </div>\n              </div>\n            </div>\n\n            <div class="focus-panel">\n              <div class="focus-title">Рекомендации и фокусы для повышения DD-рейтинга</div>\n              <div class="focus-list" id="focusList"></div>\n            </div>\n          </div>\n\n          <div class="blocks-toolbar">\n            <div class="caption">Ключевые блоки DD-рейтинга</div>\n            <div class="segmented" role="group" aria-label="Вид деталей">\n              <button id="detailFullBtn" class="active" type="button">Подробно</button>\n              <button id="detailCompactBtn" type="button">Компактно</button>\n            </div>\n          </div>\n\n          <div class="blocks-grid" id="blocksGrid"></div>\n        </div>\n      </section>\n    </main>\n  </div>\n\n  <div id="reportAccessModal" class="report-modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="reportAccessTitle">\n    <div class="report-modal-backdrop" data-report-modal-close></div>\n    <div class="report-modal-card">\n      <button id="reportAccessClose" class="report-modal-close" type="button" aria-label="Закрыть">×</button>\n      <div class="report-modal-kicker">Комплексный отчет</div>\n      <h2 id="reportAccessTitle">Доступ к системе</h2>\n      <div class="report-modal-text">\n        <p>Для доступа непосредственно к системе необходимо в АС Друг в поисковой строке ввести «Доступ к стендам разработки и тестирования», далее:</p>\n        <p>· В поле стенд указать «ТС AI Навыки Штаба B2C (CI09261834) (DEV) (CI09933741)»</p>\n        <p>· В обосновании - «Для разработки и тестирования инструмента AI суммаризации»</p>\n      </div>\n      <div class="report-modal-actions">\n        <a class="report-action-button secondary" href="https://sberfriend.sberbank.ru/deeplink-hash-catcher/?path=L3NiZXJmcmllbmQv&callback=L2RlZXBsaW5rLWtlZXBlci8=#/application/F3C76EADA61AB8EBE053F7E9740A44EF?sberfriend.searchQuery=%D0%94%D1%80%D1%83%D0%B3%D0%B5%20%D0%BE%D1%84%D0%BE%D1%80%D0%BC%D0%B8%D1%82%D1%8C%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%20%D0%BA%20%D1%81%D1%82%D0%B5%D0%BD%D0%B4%D0%B0%D0%BC%20%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B8%20%D0%B8%20%D1%82%D0%B5%D1%81%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F" target="_blank" rel="noopener noreferrer">Завести заявку на доступ</a>\n        <a class="report-action-button primary" href="http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/complex-report" target="_blank" rel="noopener noreferrer">Перейти</a>\n      </div>\n    </div>\n  </div>\n\n  <script>\n    const DD_DATA_URL = \'dd-data.json\';\n\n    const BLOCKS = [\n      { key:\'general\', name:\'Самооценка знания продуктовых метрик\',\n        note:{ skill:\'Навык «Ключевые метрики»\', metric:\'Общий светофор\', btn:\'Перейти\' },\n        crit:[\n          { code:\'general.market_ru\', n:\'Объем целевого рынка в России\', h:\'Оценка потенциала рынка в России\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.market_sber\', n:\'Объем целевого рынка в Сбере\', h:\'Оценка потенциала внутри клиентской базы Сбера\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.clients_with_product\', n:\'Клиенты с продуктом\', h:\'Фактическая база клиентов продукта\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.product_mau\', n:\'MAU продукта\', h:\'Активная месячная аудитория продукта\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.satellite_products_knowledge\', n:\'Знание продуктов спутников\', h:\'Понимание связанных продуктов и сценариев\', max:0.2, group:\'Знание собственных метрик\' },\n          { code:\'general.navigator_reporting_knowledge\', n:\'Знание об отчетности в Навигаторе\', h:\'Понимание доступной отчетности и регулярного мониторинга\', max:0.5, group:\'Инструменты мониторинга\' },\n        ]},\n      { key:\'goals\', name:\'Цели\',\n        note:{ skill:\'Навык «Цели»\', dynamic:true, btn:\'Перейти\' },\n        crit:[\n          { code:\'goals.monitored\', n:\'Цели выведены на мониторинг\', h:\'Регулярное обновление, Навигатор\', max:1, linkTypes:[\'navigator\'] },\n          { code:\'goals.factor_analysis_l1_l2\', n:\'Факторный анализ - драйверы 1-2 ур.\', h:\'Согласно модели бизнес-процесса\', max:1 },\n          { code:\'goals.forecast\', n:\'Прогноз по целям\', h:\'Прогноз выведен в Навигатор\', max:1 },\n        ]},\n      { key:\'alerts\', name:\'Алерты\',\n        note:{ skill:\'Инструкция\', metric:\'по настройке алертов по отчету\', btn:\'Перейти\', noDots:true, blue:true },\n        crit:[\n          { code:\'alerts.system_failures\', n:\'Оповещения по системным сбоям\', h:\'Авто-алерты по IT-инфраструктуре\', max:1 },\n          { code:\'alerts.business_metrics\', n:\'Оповещения по бизнес-метрикам\', h:\'Светофоры целей, драйверов, воронок\', max:1 },\n        ]},\n      { key:\'cx\', name:\'Клиентский опыт\', cx:true,\n        note:{ skill:\'Навык «Анализ Score»\', metric:\'Жалобы, обращения, CSI\', btn:\'Перейти\' },\n        infobox:{ title:\'аналитики в LossHunter\', sub:\'проведено за квартал по продукту\' },\n        crit:[\n          { code:\'cx.product_mechanics\', n:\'Наличие продуктовых механик\', h:\'Механики, влияющие на клиентский опыт\', max:1 },\n          { code:\'cx.score\', n:\'CX Score\', h:\'Зеленая зона клиентского пути\', max:1 },\n        ]},\n      { key:\'attract\', name:\'Воронка привлечения\',\n        note:{ skill:\'Навык «Привлечение»\', metric:\'Общий светофор\', btn:\'Перейти\' },\n        crit:[\n          { code:\'attract.regular_reporting\', n:\'Регулярная отчетность\', h:\'Настроена по воронке\', max:0.5, group:\'Отчетность\', linkTypes:[\'campaigning\',\'drafts\',\'pilot_campaigns\'] },\n          { code:\'attract.report_completeness\', n:\'Полнота отчета\', h:\'Источники, CR, объемы, сегменты\', max:0.5, group:\'Отчетность\', linkTypes:[\'campaigning\',\'drafts\',\'pilot_campaigns\'] },\n          { code:\'attract.auto_regularity\', n:\'Регулярность (авто)\', h:\'Daily / weekly\', max:1, group:\'Отчетность\', linkTypes:[\'campaigning\',\'drafts\',\'pilot_campaigns\'] },\n          { code:\'attract.benchmarks\', n:\'Наличие бенчмарков\', h:\'Цели / динамика / рынок\', max:1 },\n          { code:\'attract.cross_sell\', n:\'Cross-sell\', h:\'В оформлении и после покупки\', max:1 },\n          { code:\'attract.funnel_analysis\', n:\'Проведение анализа воронки привлечения\', h:\'Оценка эффективности\', max:0.25 },\n          { code:\'attract.initiatives_list\', n:\'Составлен перечень инициатив по привлечению\', h:\'План действий по росту\', max:0.25 },\n          { code:\'attract.drafts_70\', n:\'Черновики в СБОЛ >=70%\', h:\'Покрытие потенциала продукта\', max:1, linkTypes:[\'drafts\'] },\n          { code:\'attract.campaign_launches\', n:\'Запуски кампаний за квартал\', h:\'Self-service / централизованный, покрытие\', max:1, linkTypes:[\'campaigning\',\'pilot_campaigns\'], zeroBtn:\'Запустить первый пилот Self-Service\', zeroButtonType:\'self_service_pilot\', zeroButtonFallbackTypes:[\'pilot_campaigns\',\'campaigning\'] },\n        ]},\n      { key:\'churn\', name:\'Воронка оттока\',\n        note:{ skill:\'Навык «Анализ оттока»\', metric:\'Общий светофор\', btn:\'TBD\', gray:true },\n        crit:[\n          { code:\'churn.regular_reporting\', n:\'Регулярная отчетность\', h:\'Настроена по воронке\', max:0.5, group:\'Отчетность\', linkTypes:[\'churn\'] },\n          { code:\'churn.report_completeness\', n:\'Полнота отчета\', h:\'Retention, CR, удержание\', max:0.5, group:\'Отчетность\', linkTypes:[\'churn\'] },\n          { code:\'churn.auto_regularity\', n:\'Регулярность (авто)\', h:\'Daily / weekly\', max:1, group:\'Отчетность\', linkTypes:[\'churn\'] },\n          { code:\'churn.funnel_analysis\', n:\'Проведение анализа воронки оттока\', h:\'Оценка причин и узких мест\', max:0.25 },\n          { code:\'churn.deviation_actions\', n:\'Мероприятия по работе с отклонениями\', h:\'План действий по отклонениям\', max:0.25 },\n          { code:\'churn.mechanics_metrics_knowledge\', n:\'Знание метрик для мониторинга механик\', h:\'Понимание метрик эффективности механик\', max:1 },\n          { code:\'churn.client_retention\', n:\'Удержание клиентов\', h:\'Коммуникация + ценность\', max:1 },\n          { code:\'churn.client_return\', n:\'Возврат клиентов\', h:\'Активная механика за квартал\', max:1 },\n          { code:\'churn.flexible_terms\', n:\'Гибкое изменение условий\', h:\'Персонализация без IT\', max:1 },\n          { code:\'churn.benchmarks\', n:\'Наличие бенчмарков\', h:\'Цели / динамика / рынок\', max:1 },\n        ]},\n      { key:\'hyp\', name:\'Гипотезы и инициативы\',\n        crit:[\n          { code:\'hyp.discovery_40_backlog\', n:\'Discovery >=40% бэклога\', h:\'Доля исследовательских задач DA\', max:1, btn:\'Посмотреть бэклог\', buttonType:\'backlog\' },\n          { code:\'hyp.ab_tests\', n:\'A/B-тесты\', h:\'Доля от подходящих инициатив\', max:1, tbd:true },\n          { code:\'hyp.datadriven_rating_7_5\', n:\'Рейтинг DataDriven >=7,5\', h:\'Среднее место за квартал\', max:1, btn:\'Открыть библиотеку решений\', buttonType:\'datadriven\' },\n          { code:\'hyp.extra_initiatives\', n:\'Доп. инициативы сверх БП\', h:\'В реестре инициатив\', max:1 },\n        ]},\n    ];\n\n    const COLORS = {\n      green: \'#34c759\',\n      yellow: \'#ffcc00\',\n      orange: \'#ff9500\',\n      red: \'#ff3b30\',\n      gray: \'#c7c7cc\',\n      blue: \'#007aff\',\n    };\n\n    const UNIT_COLORS = {\n      \'CBP\': \'#007aff\',\n      \'УБ\': \'#5e5ce6\',\n      \'ДомКлик\': \'#248a3d\',\n      \'Без юнита\': \'#8e8e93\',\n    };\n\n    const state = {\n      model: null,\n      sort: \'unit\',\n      selectedId: null,\n      compact: false,\n      expandedBlocks: {},\n    };\n\n    const $ = (id) => document.getElementById(id);\n\n    function esc(value) {\n      return String(value ?? \'\').replace(/[&<>"\']/g, (ch) => ({\n        \'&\': \'&amp;\',\n        \'<\': \'&lt;\',\n        \'>\': \'&gt;\',\n        \'"\': \'&quot;\',\n        "\'": \'&#39;\',\n      }[ch]));\n    }\n\n    function parseNumber(value, fallback = 0) {\n      if (value === null || value === undefined || value === \'\') return fallback;\n      const parsed = Number(String(value).replace(\',\', \'.\'));\n      return Number.isFinite(parsed) ? parsed : fallback;\n    }\n\n    function parseLight(value) {\n      const s = String(value ?? \'\').trim().toLowerCase();\n      if (!s) return null;\n      if ([\'green\',\'g\',\'зеленый\',\'зелёный\',\'зеленая\',\'зелёная\'].includes(s)) return \'green\';\n      if ([\'yellow\',\'y\',\'amber\',\'orange\',\'желтый\',\'жёлтый\',\'оранжевый\'].includes(s)) return \'yellow\';\n      if ([\'red\',\'r\',\'красный\',\'красная\'].includes(s)) return \'red\';\n      if ([\'gray\',\'grey\',\'n\',\'none\',\'na\',\'n/a\',\'серый\',\'серая\',\'не применимо\'].includes(s)) return \'gray\';\n      return null;\n    }\n\n    function parseApplicable(row) {\n      const raw = row.is_metric_applicabble_flg !== undefined\n        ? row.is_metric_applicabble_flg\n        : row.is_metric_applicable_flg;\n      if (raw === undefined || raw === null || raw === \'\') return true;\n      if (typeof raw === \'boolean\') return raw;\n      if (typeof raw === \'number\') return raw !== 0;\n      const s = String(raw).trim().toLowerCase();\n      if ([\'false\',\'0\',\'no\',\'n\',\'нет\',\'н\',\'-\'].includes(s)) return false;\n      if ([\'true\',\'1\',\'yes\',\'y\',\'да\',\'д\'].includes(s)) return true;\n      return Boolean(raw);\n    }\n\n    function periodRank(value) {\n      const s = String(value || \'\').trim();\n      const roman = { I:1, II:2, III:3, IV:4 };\n      let m = s.match(/(IV|III|II|I|[1-4])\\s*кв[.]?\\s*([0-9]{4})/i);\n      if (m) return Number(m[2]) * 12 + (roman[m[1].toUpperCase()] || Number(m[1])) * 3;\n      m = s.match(/([0-9]{4})\\s*(?:г[.]?)?\\s*(IV|III|II|I|[1-4])\\s*кв/i);\n      if (m) return Number(m[1]) * 12 + (roman[m[2].toUpperCase()] || Number(m[2])) * 3;\n      const d = new Date(s);\n      return Number.isNaN(d.getTime()) ? null : d.getFullYear() * 12 + d.getMonth() + 1 + d.getDate() / 40;\n    }\n\n    function unitName(value) {\n      const unit = String(value ?? \'\').trim();\n      return unit || \'Без юнита\';\n    }\n\n    function statusOf(score) {\n      if (score >= 81) return { text: \'Лидеры DD\', color: COLORS.green };\n      if (score >= 61) return { text: \'Зрелые\', color: \'#e0a100\' };\n      if (score >= 40) return { text: \'Развивающиеся\', color: COLORS.orange };\n      return { text: \'Требуют внимания\', color: \'#d70015\' };\n    }\n\n    function dotClass(dot) {\n      return dot === \'g\' ? \'green\' : dot === \'y\' ? \'yellow\' : dot === \'r\' ? \'red\' : \'gray\';\n    }\n\n    function dotColor(dot) {\n      return dot === \'g\' ? COLORS.green : dot === \'y\' ? COLORS.yellow : dot === \'r\' ? COLORS.red : COLORS.gray;\n    }\n\n    function metricLight(value, max, applicable, excluded) {\n      if (excluded || !applicable || max <= 0) return \'n\';\n      if (value === max) return \'g\';\n      return value > 0 ? \'y\' : \'r\';\n    }\n\n    function serviceMetric(metric) {\n      const traffic = String(metric || \'\').match(/^([a-z]+)_traffic_light$/);\n      if (traffic) return { type: \'traffic\', block: traffic[1] };\n      if (metric === \'cx_losshunter_analytics_count\') return { type: \'losshunter\' };\n      return null;\n    }\n\n    function normalizeDDData(data) {\n      const rawRows = Array.isArray(data) ? data : (Array.isArray(data && data.rows) ? data.rows : []);\n      if (!rawRows.length) throw new Error(\'нет строк с метриками\');\n\n      const periodsByName = new Map();\n      rawRows.forEach((row, order) => {\n        const period = String(row.period ?? \'\').trim();\n        if (!periodsByName.has(period)) periodsByName.set(period, { period, order, rank: periodRank(period) });\n      });\n      const periods = Array.from(periodsByName.values());\n      const hasRank = periods.some((p) => p.rank !== null);\n      periods.sort((a, b) => {\n        const ar = hasRank ? (a.rank === null ? -Infinity : a.rank) : a.order;\n        const br = hasRank ? (b.rank === null ? -Infinity : b.rank) : b.order;\n        return ar === br ? a.order - b.order : ar - br;\n      });\n\n      const latest = periods[periods.length - 1];\n      const rows = rawRows.filter((row) => String(row.period ?? \'\').trim() === latest.period);\n      const productMap = new Map();\n      const dotOrder = { g:0, y:1, r:2, n:3 };\n\n      rows.forEach((row, order) => {\n        const groupId = String(row.product_group_uuid ?? \'\').trim();\n        const metric = String(row.metric ?? \'\').trim();\n        const name = String(row.product_name ?? groupId).trim() || groupId;\n        if (!groupId || !name || !metric) return;\n\n        const id = groupId + \'¦\' + name;\n        if (!productMap.has(id)) {\n          productMap.set(id, {\n            id,\n            groupId,\n            name,\n            unit: unitName(row.unit),\n            type: String(row.type ?? row.entity_type ?? row.product_type ?? \'\').trim() || \'Продукт\',\n            order,\n            earned: 0,\n            max: 0,\n            greens: 0,\n            dots: [],\n            index: {},\n            trafficLights: {},\n            lossHunterAnalyticsCount: null,\n          });\n        }\n\n        const product = productMap.get(id);\n        const service = serviceMetric(metric);\n        if (service) {\n          if (service.type === \'traffic\') product.trafficLights[service.block] = parseLight(row.value) || \'gray\';\n          if (service.type === \'losshunter\') product.lossHunterAnalyticsCount = parseNumber(row.value, 0);\n          return;\n        }\n\n        const applicable = parseApplicable(row);\n        const max = Math.max(0, parseNumber(row.max_value, 0));\n        const value = Math.max(0, Math.min(max, parseNumber(row.value, 0)));\n        const excluded = metric.includes(\'auto_regularity\');\n\n        product.index[metric] = { applicable, max, value, excluded };\n        const dot = metricLight(value, max, applicable, false);\n        product.dots.push(dot);\n        if (dot === \'g\') product.greens += 1;\n        if (excluded) return;\n        if (applicable && max > 0) {\n          product.earned += value;\n          product.max += max;\n        }\n      });\n\n      const products = Array.from(productMap.values()).map((product) => {\n        product.score = product.max > 0 ? Math.round(product.earned / product.max * 100) : 0;\n        product.dotCount = product.dots.length;\n        product.dots.sort((a, b) => (dotOrder[a] ?? 9) - (dotOrder[b] ?? 9));\n        product.status = statusOf(product.score);\n        product.blocks = computeBlocks(product);\n        return product;\n      });\n\n      if (!products.length) throw new Error(\'в актуальном периоде нет продуктов\');\n\n      const units = Array.from(new Set(products.map((p) => p.unit)));\n      const avgScore = Math.round(products.reduce((sum, p) => sum + p.score, 0) / products.length);\n      return {\n        rawRows,\n        rows,\n        products,\n        byId: Object.fromEntries(products.map((p) => [p.id, p])),\n        period: latest.period,\n        totalRows: rawRows.length,\n        rowCount: rows.length,\n        units,\n        avgScore,\n      };\n    }\n\n    function computeBlocks(product) {\n      let totalEarned = 0;\n      let totalMax = 0;\n\n      const blocks = BLOCKS.map((block) => {\n        let earned = 0;\n        let max = 0;\n        let greenCount = 0;\n        const criteria = block.crit.map((criterion) => {\n          const rec = product.index[criterion.code] || null;\n          const applicable = rec ? rec.applicable !== false : false;\n          const cMax = applicable && rec ? Math.max(0, Number.isFinite(rec.max) ? rec.max : criterion.max) : 0;\n          const value = applicable && rec ? Math.max(0, Math.min(cMax, Number.isFinite(rec.value) ? rec.value : 0)) : 0;\n          const excluded = criterion.code.endsWith(\'.auto_regularity\');\n          const isTbd = criterion.tbd === true;\n          const dot = isTbd ? \'n\' : metricLight(value, cMax, applicable, false);\n          const gap = (!isTbd && !excluded && applicable && cMax > 0) ? Math.max(0, cMax - value) : 0;\n\n          if (!excluded) {\n            earned += value;\n            max += cMax;\n            if (applicable && cMax > 0 && value === cMax) greenCount += 1;\n          }\n\n          return {\n            ...criterion,\n            applicable,\n            hasRecord: !!rec,\n            value,\n            max: cMax,\n            excluded,\n            isTbd,\n            dot,\n            gap,\n            points: isTbd ? \'TBD\' : (applicable && cMax > 0 ? fmt(value) + \' / \' + fmt(cMax) : \'не применимо\'),\n          };\n        });\n\n        totalEarned += earned;\n        totalMax += max;\n        const score = max > 0 ? Math.round(earned / max * 100) : 0;\n        return {\n          ...block,\n          criteria,\n          earned,\n          max,\n          score,\n          greenCount,\n          status: statusOf(score),\n          note: noteForBlock(block, score, greenCount, product),\n          infobox: infoForBlock(block, criteria, product),\n        };\n      });\n\n      const score = totalMax > 0 ? Math.round(totalEarned / totalMax * 100) : 0;\n      return { blocks, earned: totalEarned, max: totalMax, score };\n    }\n\n    function noteForBlock(block, score, greenCount, product) {\n      if (!block.note) return null;\n      const jsonLight = product.trafficLights[block.key];\n      const active = jsonLight || (score >= 66 ? \'green\' : score >= 33 ? \'yellow\' : \'red\');\n      return {\n        ...block.note,\n        metric: block.note.dynamic ? \'Выполняется \' + greenCount + \' из \' + block.crit.length + \' целей\' : block.note.metric,\n        button: block.note.gray ? block.note.btn : block.note.btn + \' →\',\n        active,\n      };\n    }\n\n    function infoForBlock(block, criteria, product) {\n      if (!block.infobox && !block.cx) return null;\n      const count = Number.isFinite(product.lossHunterAnalyticsCount) ? product.lossHunterAnalyticsCount : 0;\n      return {\n        count: fmt(count),\n        title: (block.infobox && block.infobox.title) || \'аналитики в LossHunter\',\n        sub: (block.infobox && block.infobox.sub) || \'проведено за квартал по продукту\',\n        button: count > 0 ? \'Посмотреть инсайты\' : \'Провести анализ\',\n      };\n    }\n\n    function noteDotHTML(active) {\n      return [\'red\',\'yellow\',\'green\']\n        .map((key) => `<i class="note-dot" style="background:${active === key ? dotColor(key[0]) : \'#e4e4e7\'}"></i>`)\n        .join(\'\');\n    }\n\n    function fmt(value) {\n      if (!Number.isFinite(value)) return \'0\';\n      const rounded = Math.round(value * 100) / 100;\n      return String(rounded).replace(\'.\', \',\');\n    }\n\n    function pluralProduct(n) {\n      const m = n % 10;\n      const h = n % 100;\n      if (m === 1 && h !== 11) return \'продукт\';\n      if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return \'продукта\';\n      return \'продуктов\';\n    }\n\n    function sortedProducts() {\n      const products = state.model ? [...state.model.products] : [];\n      if (state.sort === \'dd\') {\n        return products.sort((a, b) => (b.score - a.score) || a.name.localeCompare(b.name, \'ru\'));\n      }\n      const unitOrder = new Map();\n      products.forEach((p) => {\n        if (!unitOrder.has(p.unit)) unitOrder.set(p.unit, unitOrder.size);\n      });\n      return products.sort((a, b) => (unitOrder.get(a.unit) - unitOrder.get(b.unit)) || a.order - b.order);\n    }\n\n    function renderTitle() {\n      const model = state.model;\n      const table = $(\'productTable\');\n      const message = $(\'titleMessage\');\n      if (!model) {\n        table.classList.add(\'hidden\');\n        message.classList.remove(\'hidden\');\n        message.textContent = \'Данные пока не загружены.\';\n        return;\n      }\n\n      $(\'statProducts\').textContent = model.products.length;\n      $(\'statUnits\').textContent = model.units.length;\n      $(\'statAvg\').textContent = model.avgScore + \'%\';\n\n      message.classList.add(\'hidden\');\n      table.classList.remove(\'hidden\');\n      const products = sortedProducts();\n\n      const head = `\n        <div class="table-head">\n          <div>Продукт</div>\n          <div>DD%</div>\n          <div>Светофор метрик</div>\n          <div>Действие</div>\n        </div>\n      `;\n\n      if (state.sort === \'dd\') {\n        table.innerHTML = head + products.map((p) => productRowHTML(p, true)).join(\'\');\n        return;\n      }\n\n      const chunks = [];\n      const units = Array.from(new Set(products.map((p) => p.unit)));\n      units.forEach((unit) => {\n        const unitProducts = products.filter((p) => p.unit === unit);\n        const avg = Math.round(unitProducts.reduce((sum, p) => sum + p.score, 0) / unitProducts.length);\n        const color = UNIT_COLORS[unit] || \'#8e8e93\';\n        chunks.push(`\n          <div class="unit-row">\n            <div class="unit-name">\n              <i class="unit-dot" style="background:${color}"></i>\n              <b>${esc(unit)}</b>\n              <span>${unitProducts.length} ${pluralProduct(unitProducts.length)}</span>\n            </div>\n            <div class="unit-avg">средний DD <b style="color:${statusOf(avg).color}">${avg}%</b></div>\n          </div>\n        `);\n        unitProducts.forEach((p) => chunks.push(productRowHTML(p, false)));\n      });\n\n      table.innerHTML = head + chunks.join(\'\');\n    }\n\n    function productRowHTML(product, showUnit) {\n      const st = product.status;\n      const dots = product.dots.length ? product.dots : [\'n\'];\n      return `\n        <div class="product-row">\n          <div class="product-name">\n            ${showUnit ? `<span>${esc(product.unit)}</span>` : \'\'}\n            <b title="${esc(product.name)}">${esc(product.name)}</b>\n          </div>\n          <div>\n            <div class="dd-cell">\n              <span class="status-label" style="color:${st.color}">${esc(st.text)}</span>\n              <span class="score-label" style="color:${st.color}">${product.score}%</span>\n              <span class="progress" style="color:${st.color}"><i style="width:${product.score}%"></i></span>\n            </div>\n          </div>\n          <div class="lights">\n            <div class="dotline">${dots.map((dot) => `<i class="dot ${dotClass(dot)}"></i>`).join(\'\')}</div>\n            <div class="light-caption">в зеленой зоне <b>${product.greens} / ${product.dotCount}</b></div>\n          </div>\n          <div class="go-cell">\n            <button type="button" class="go-button" data-product-id="${esc(product.id)}">Перейти ›</button>\n          </div>\n        </div>\n      `;\n    }\n\n    function renderProductSelect() {\n      const select = $(\'productSelect\');\n      const products = sortedProducts();\n      select.innerHTML = products\n        .map((p) => `<option value="${esc(p.id)}">${esc(p.name)}</option>`)\n        .join(\'\');\n      select.value = state.selectedId || (products[0] && products[0].id) || \'\';\n    }\n\n    function detailSubtitleHTML(product, period) {\n      return `\n        <span class="detail-subline">\n          <span>${esc(product.unit || \'Без юнита\')} · ${esc(period || \'период не указан\')} ·</span>\n          <span class="detail-entity-type">${esc(product.type || \'Продукт\')}</span>\n        </span>\n      `;\n    }\n\n    function renderDetail() {\n      const model = state.model;\n      const message = $(\'detailMessage\');\n      const content = $(\'detailContent\');\n      if (!model || !model.products.length) {\n        message.classList.remove(\'hidden\');\n        content.classList.add(\'hidden\');\n        message.textContent = \'Нет данных для детального листа.\';\n        return;\n      }\n\n      const product = model.byId[state.selectedId] || model.products[0];\n      state.selectedId = product.id;\n      renderProductSelect();\n\n      message.classList.add(\'hidden\');\n      content.classList.remove(\'hidden\');\n\n      const st = product.status;\n      $(\'detailName\').textContent = product.name;\n      $(\'detailSub\').innerHTML = detailSubtitleHTML(product, model.period);\n      $(\'scoreKicker\').textContent = product.name;\n      $(\'detailScore\').textContent = product.score;\n      $(\'detailScore\').style.color = st.color;\n      $(\'detailStatus\').textContent = st.text;\n      $(\'detailStatus\').style.color = st.color;\n      $(\'rangePin\').style.left = Math.max(0, Math.min(100, product.score)) + \'%\';\n      $(\'rangePin\').style.color = st.color;\n\n      renderFocuses(product);\n      renderBlocks(product);\n    }\n\n    function renderFocuses(product) {\n      const rows = [];\n      product.blocks.blocks.forEach((block) => {\n        block.criteria.forEach((criterion) => {\n          if (!criterion.excluded && criterion.applicable && criterion.max > 0 && criterion.gap > 0) {\n            rows.push({\n              block,\n              criterion,\n              gain: Math.round(criterion.gap / Math.max(product.blocks.max, 1) * 100),\n            });\n          }\n        });\n      });\n\n      const focuses = rows\n        .sort((a, b) => (b.criterion.gap - a.criterion.gap) || (b.gain - a.gain))\n        .slice(0, 3);\n\n      if (!focuses.length) {\n        $(\'focusList\').innerHTML = `\n          <div class="focus-row">\n            <span class="focus-num">✓</span>\n            <span class="focus-text"><b>Все применимые метрики без просадок</b><span>Сохранить текущий уровень и мониторить обновления JSON</span></span>\n            <span class="gain">0 п.п.</span>\n          </div>\n        `;\n        return;\n      }\n\n      $(\'focusList\').innerHTML = focuses.map((item, index) => `\n        <div class="focus-row">\n          <span class="focus-num">${index + 1}</span>\n          <span class="focus-text">\n            <b>${esc(recommendationFor(item.criterion))}</b>\n            <span>${esc(item.block.name)} · сейчас ${esc(fmt(item.criterion.value))} / ${esc(fmt(item.criterion.max))}</span>\n          </span>\n          <span class="gain">+${item.gain} п.п.</span>\n        </div>\n      `).join(\'\');\n    }\n\n    function recommendationFor(row) {\n      const byCode = {\n        \'general.market_ru\': \'Зафиксировать рынок РФ и источник.\',\n        \'general.market_sber\': \'Оценить потенциал базы Сбера.\',\n        \'general.clients_with_product\': \'Обновить базу клиентов с продуктом.\',\n        \'general.product_mau\': \'Вывести MAU в регулярный мониторинг.\',\n        \'general.satellite_products_knowledge\': \'Картировать продукты-спутники.\',\n        \'general.navigator_reporting_knowledge\': \'Выбрать основной отчет в Навигаторе.\',\n        \'goals.monitored\': \'Использовать мониторинг целей в Навигаторе.\',\n        \'goals.factor_analysis_l1_l2\': \'Разложить цели на L1/L2-драйверы.\',\n        \'goals.forecast\': \'Добавить прогноз по целям.\',\n        \'alerts.system_failures\': \'Настроить алерты по сбоям.\',\n        \'alerts.business_metrics\': \'Добавить алерты по бизнес-метрикам.\',\n        \'cx.product_mechanics\': \'Собрать продуктовые механики.\',\n        \'cx.score\': \'Разобрать CX в LossHunter.\',\n        \'attract.regular_reporting\': \'Настроить отчетность по привлечению.\',\n        \'attract.report_completeness\': \'Закрыть пробелы в отчете привлечения.\',\n        \'attract.benchmarks\': \'Добавить бенчмарки привлечения.\',\n        \'attract.cross_sell\': \'Проработать cross-sell-сценарии.\',\n        \'attract.funnel_analysis\': \'Провести анализ воронки привлечения.\',\n        \'attract.initiatives_list\': \'Приоритизировать инициативы привлечения.\',\n        \'attract.drafts_70\': \'Поднять покрытие черновиков.\',\n        \'attract.campaign_launches\': \'Увеличить запуск кампаний.\',\n        \'churn.regular_reporting\': \'Настроить отчетность по оттоку.\',\n        \'churn.report_completeness\': \'Закрыть пробелы в отчете оттока.\',\n        \'churn.benchmarks\': \'Добавить бенчмарки оттока.\',\n        \'churn.funnel_analysis\': \'Провести анализ воронки оттока.\',\n        \'churn.deviation_actions\': \'Назначить реакцию на отклонения.\',\n        \'churn.mechanics_metrics_knowledge\': \'Определить метрики механик оттока.\',\n        \'churn.client_retention\': \'Усилить механики удержания.\',\n        \'churn.client_return\': \'Запустить сценарии возврата.\',\n        \'churn.flexible_terms\': \'Настроить гибкие условия.\',\n        \'hyp.discovery_40_backlog\': \'Поднять долю discovery в бэклоге.\',\n        \'hyp.ab_tests\': \'Подготовить A/B-план после TBD.\',\n        \'hyp.datadriven_rating_7_5\': \'Разобрать просадку DataDriven.\',\n        \'hyp.extra_initiatives\': \'Добавить инициативы сверх БП.\',\n      };\n      return byCode[row.code] || \'Назначить владельца и действие для "\' + row.n + \'".\';\n    }\n\n    function renderBlocks(product) {\n      const grid = $(\'blocksGrid\');\n      grid.innerHTML = product.blocks.blocks.map((block) => {\n        const st = block.status;\n        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, block.key);\n        const expanded = hasOverride ? state.expandedBlocks[block.key] : !state.compact;\n        const criteria = block.criteria;\n        return `\n          <article class="block-card">\n            <div class="block-top" data-block-key="${esc(block.key)}">\n              <div>\n                <div class="block-title-line">\n                  <span class="block-chevron">${expanded ? \'▾\' : \'▸\'}</span>\n                  <h2>${esc(block.name)}</h2>\n                </div>\n                <div class="block-meta">${esc(fmt(block.earned))} / ${esc(fmt(block.max))} · ${block.greenCount} выполнено</div>\n                <div class="block-progress" style="color:${st.color}"><i style="width:${block.score}%"></i></div>\n              </div>\n              <div class="block-score" style="color:${st.color}">${block.score}%</div>\n            </div>\n            ${expanded ? `\n              ${block.note ? blockNoteHTML(block.note) : \'\'}\n              ${block.infobox ? blockInfoHTML(block.infobox) : \'\'}\n              <div class="criteria">\n                ${criteria.map(criterionHTML).join(\'\')}\n              </div>\n            ` : \'\'}\n          </article>\n        `;\n      }).join(\'\');\n    }\n\n    function blockNoteHTML(note) {\n      const mode = note.blue ? \' blue\' : note.gray ? \' gray\' : \'\';\n      return `\n        <div class="block-note${mode}">\n          <div class="note-copy">\n            <div class="note-skill">${esc(note.skill || \'Инструкция\')}</div>\n            ${note.metric ? `<div class="note-metric">${esc(note.metric)}</div>` : \'\'}\n          </div>\n          <div class="note-side">\n            ${note.noDots ? \'\' : `<span class="note-dots">${noteDotHTML(note.active)}</span>`}\n            ${note.button ? `<span class="note-action">${esc(note.button)}</span>` : \'\'}\n          </div>\n        </div>\n      `;\n    }\n\n    function blockInfoHTML(info) {\n      return `\n        <div class="block-infobox">\n          <div class="info-count">${esc(info.count)}</div>\n          <div class="info-text">\n            <b>${esc(info.title)}</b>\n            <span>${esc(info.sub)}</span>\n          </div>\n          <span class="metric-button disabled">${esc(info.button)}</span>\n        </div>\n      `;\n    }\n\n    function criterionHTML(criterion) {\n      const dot = criterion.dot;\n      const color = dotColor(dot);\n      const sub = criterion.group ? criterion.group + \' · \' + criterion.h : criterion.h;\n      const skill = criterion.skill ? `\n        <span class="skill-card">\n          <span class="skill-dots">${noteDotHTML(null)}</span>\n          <b>${esc(criterion.skill)}</b>\n          <span>Подробнее</span>\n        </span>\n      ` : \'\';\n      const metricButton = (criterion.btn || (criterion.zeroBtn && criterion.value === 0)) ? `\n        <span class="metric-button disabled">${esc(criterion.value === 0 && criterion.zeroBtn ? criterion.zeroBtn : criterion.btn)}</span>\n      ` : \'\';\n      const extra = skill || metricButton ? `<div class="criterion-extra">${skill}${metricButton}</div>` : \'\';\n      return `\n        <div class="criterion">\n          <i class="dot" style="background:${color}"></i>\n          <span class="criterion-name">\n            <b>${esc(criterion.n)}</b>\n            <span>${esc(sub || \'\')}</span>\n          </span>\n          <span class="criterion-points">${esc(criterion.points)}</span>\n          ${extra}\n        </div>\n      `;\n    }\n\n    function showTitle(pushHash = true) {\n      $(\'titleView\').classList.remove(\'hidden\');\n      $(\'detailView\').classList.add(\'hidden\');\n      if (pushHash) history.replaceState(null, \'\', location.pathname);\n      renderTitle();\n    }\n\n    function showDetail(id, pushHash = true) {\n      state.selectedId = id;\n      $(\'titleView\').classList.add(\'hidden\');\n      $(\'detailView\').classList.remove(\'hidden\');\n      if (pushHash) history.replaceState(null, \'\', \'#product=\' + encodeURIComponent(id));\n      renderDetail();\n      window.scrollTo({ top: 0, behavior: \'smooth\' });\n    }\n\n    function applyHashRoute() {\n      const hash = new URLSearchParams(location.hash.replace(/^#/, \'\'));\n      const productId = hash.get(\'product\');\n      if (productId && state.model && state.model.byId[productId]) showDetail(productId, false);\n      else showTitle(false);\n    }\n\n    function updateTop() {\n      const model = state.model;\n      $(\'periodPill\').textContent = model ? model.period : \'Загрузка данных\';\n      $(\'topSubtitle\').textContent = model\n        ? model.products.length + \' продуктов · \' + model.units.length + \' юнита\'\n        : \'Продуктовая витрина\';\n    }\n\n    async function loadData() {\n      $(\'periodPill\').textContent = \'Загрузка данных\';\n      try {\n        const response = await fetch(DD_DATA_URL + \'?_=\' + Date.now(), { cache: \'no-store\' });\n        if (!response.ok) throw new Error(\'HTTP \' + response.status);\n        const data = await response.json();\n        state.model = normalizeDDData(data);\n        updateTop();\n        renderTitle();\n        applyHashRoute();\n      } catch (error) {\n        const message = error && error.message ? error.message : String(error);\n        state.model = null;\n        updateTop();\n        $(\'productTable\').classList.add(\'hidden\');\n        $(\'titleMessage\').classList.remove(\'hidden\');\n        $(\'titleMessage\').textContent = \'Не удалось загрузить dd-data.json: \' + message;\n      }\n    }\n\n    function bindEvents() {\n      $(\'sortUnitBtn\').addEventListener(\'click\', () => {\n        state.sort = \'unit\';\n        $(\'sortUnitBtn\').classList.add(\'active\');\n        $(\'sortDDBtn\').classList.remove(\'active\');\n        renderTitle();\n      });\n      $(\'sortDDBtn\').addEventListener(\'click\', () => {\n        state.sort = \'dd\';\n        $(\'sortDDBtn\').classList.add(\'active\');\n        $(\'sortUnitBtn\').classList.remove(\'active\');\n        renderTitle();\n      });\n      $(\'productTable\').addEventListener(\'click\', (event) => {\n        const button = event.target.closest(\'[data-product-id]\');\n        if (button) showDetail(button.dataset.productId);\n      });\n      $(\'blocksGrid\').addEventListener(\'click\', (event) => {\n        const header = event.target.closest(\'[data-block-key]\');\n        if (!header) return;\n        const key = header.dataset.blockKey;\n        const hasOverride = Object.prototype.hasOwnProperty.call(state.expandedBlocks, key);\n        const current = hasOverride ? state.expandedBlocks[key] : !state.compact;\n        state.expandedBlocks = { ...state.expandedBlocks, [key]: !current };\n        renderDetail();\n      });\n      $(\'backBtn\').addEventListener(\'click\', () => showTitle(true));\n      $(\'productSelect\').addEventListener(\'change\', (event) => showDetail(event.target.value));\n      $(\'detailFullBtn\').addEventListener(\'click\', () => {\n        state.compact = false;\n        state.expandedBlocks = {};\n        $(\'detailFullBtn\').classList.add(\'active\');\n        $(\'detailCompactBtn\').classList.remove(\'active\');\n        renderDetail();\n      });\n      $(\'detailCompactBtn\').addEventListener(\'click\', () => {\n        state.compact = true;\n        state.expandedBlocks = {};\n        $(\'detailCompactBtn\').classList.add(\'active\');\n        $(\'detailFullBtn\').classList.remove(\'active\');\n        renderDetail();\n      });\n      window.addEventListener(\'hashchange\', applyHashRoute);\n    }\n\n    bindEvents();\n    loadData();\n  </script>\n</body>\n</html>\n'
 
 
 class _EmbeddedTextFile:
@@ -70,7 +61,7 @@ _DD_JSON2["V2_SCRIPT"] = _DD_JSON2["V2_SCRIPT"].replace(
 )
 _DD_JSON2["SOURCE_HTML"] = _EmbeddedTextFile(_REPORT_TEMPLATE)
 _DD_FROM_EXCEL = _load_embedded_module(_DD_FROM_EXCEL_SOURCE, "_embedded_dd_from_excel")
-PILOT_CAMPAIGNS_URL = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052526"
+PILOT_CAMPAIGNS_URL = "https://navigator.sigma.sbrf.ru/gdash/1000003057"
 _DD_FROM_EXCEL["COMMON_BUTTONS"]["attract_pilot_campaigns"]["link"] = PILOT_CAMPAIGNS_URL
 _DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["attract_pilots"]["link"] = PILOT_CAMPAIGNS_URL
 CSI_SKILL_URL = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053756"
@@ -130,27 +121,8 @@ DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
-DEFAULT_AI_DIGEST_XLSX = Path("ai_skill_digest_export.xlsx")
-DEFAULT_AI_PRODUCT_MAP = Path("ai_product_mapping.xlsx")
 DEFAULT_CROSSSELL_EXPORT_JSON = Path("crosssell_export.json")
-DEFAULT_UPDATE_AI_DIGEST = True
 DEFAULT_UPDATE_CROSSSELL = True
-DEFAULT_UPDATE_LLM_SUMMARY = False
-DEFAULT_LLM_LOG = True
-DEFAULT_AI_DIGEST_TIMEOUT = int(os.getenv("AI_SKILL_DIGEST_TIMEOUT", "600"))
-AI_SKILL_DIGEST_BASE_URL = "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014"
-AI_SKILL_DIGEST_EXPORT_PATH = "/api/skill-digest/export"
-AI_SKILL_DIGEST_URL = AI_SKILL_DIGEST_BASE_URL + AI_SKILL_DIGEST_EXPORT_PATH
-AI_SKILL_DIGEST_TOKEN = os.getenv("AI_SKILL_DIGEST_TOKEN", "")
-AI_SKILL_DIGEST_HEADERS = {
-    "Referer": "http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/admin?tab=api",
-    "Upgrade-Insecure-Requests": "1",
-    "User-Agent": (
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 "
-        "Safari/537.36 SberBrowser/37.0.0.0"
-    ),
-}
 CROSSSELL_BASE_URL = os.getenv("PL_PARTNER_CROSSSELL_BASE_URL", "https://losshunter.ru").rstrip("/")
 CROSSSELL_MARKERS_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/markers"
 CROSSSELL_PRODUCTS_URL = f"{CROSSSELL_BASE_URL}/api/v1/crosssell/products"
@@ -163,16 +135,6 @@ CROSSSELL_INSECURE_TLS = os.getenv("PL_PARTNER_CROSSSELL_INSECURE_TLS", "").stri
 CROSSSELL_SKILL_KEY = "cross_sell"
 CROSSSELL_SKILL_LABEL = "Cross-sell"
 CROSSSELL_BLOCK_CODE = "mehaniki"
-LLM_ATTRACT_SUMMARY_PROMPT = _llm.DEFAULT_ATTRACT_SUMMARY_PROMPT
-GIGACHAT_TOKEN = os.getenv("GIGACHAT_TOKEN", "")
-GIGACHAT_AUTH_URL = os.getenv("GIGACHAT_AUTH_URL", "")
-GIGACHAT_MODEL = os.getenv("GIGACHAT_MODEL", "GigaChat-2-Max")
-GIGACHAT_SCOPE = os.getenv("GIGACHAT_SCOPE", "GIGACHAT_API_CORP")
-GIGACHAT_WORKERS = 4
-GIGACHAT_TIMEOUT = int(os.getenv("GIGACHAT_TIMEOUT", "120"))
-
-# Семафор: не более GIGACHAT_WORKERS одновременных запросов к GigaChat
-_semaphore = threading.Semaphore(GIGACHAT_WORKERS)
 AI_SKILL_LABELS = {
     "clickstream_funnel": "Воронка оформления в СБОЛ",
     "client_metrics": "Навык «Ключевые метрики»",
@@ -181,9 +143,6 @@ AI_SKILL_LABELS = {
     "drafts": "Черновики",
     "funnel": "Воронка кампейнинга",
     "pilots": "Пилотные кампании",
-}
-LLM_SKILL_LABEL_OVERRIDES = {
-    "clickstream_funnel": "Воронка оформления в МП СБОЛ",
 }
 AI_SKILL_KEY_ALIASES = {
     "анализ_кликстрим_воронок": "clickstream_funnel",
@@ -206,17 +165,6 @@ AI_SKILL_KEY_ALIASES = {
     "campaign_pilots": "pilots",
     "пилотные_кампании": "pilots",
 }
-AI_SKILL_BLOCKS = {
-    "clickstream_funnel": "attract",
-    "client_metrics": "general",
-    "complaints": "cx",
-    "csi": "cx",
-    "drafts": "attract",
-    "funnel": "attract",
-    "pilots": "attract",
-}
-AI_SKILL_ORDER = tuple(AI_SKILL_LABELS)
-CLIENT_METRICS_MIN_MONTH = (2026, 5)
 AI_SKILL_GROUP_TOOLS = {
     "attract": "Группа навыков «Привлечение»",
 }
@@ -228,30 +176,6 @@ AI_TOOL_KEYS_BY_BLOCK_NAME = {
     ("attract", "Воронка кампейнинга"): "funnel",
     ("attract", "Пилотные кампании"): "pilots",
     ("attract", "Черновики"): "drafts",
-}
-PILOTS_METRIC_KEYS = {
-    "всегопилотов": "total",
-    "selfservice": "self_service",
-    "запущено": "launched",
-    "значимых": "significant",
-    "значимыезапуски": "successful",
-    "успешных": "successful",
-    "успешныезапуски": "successful",
-}
-AI_DRAFTS_PRODUCT_MARKER_RE = re.compile(r"\s*\(\s*черновики\s*\)\s*", re.IGNORECASE)
-AI_MONTH_NAMES = {
-    1: "январь",
-    2: "февраль",
-    3: "март",
-    4: "апрель",
-    5: "май",
-    6: "июнь",
-    7: "июль",
-    8: "август",
-    9: "сентябрь",
-    10: "октябрь",
-    11: "ноябрь",
-    12: "декабрь",
 }
 _PD = _DD_FROM_EXCEL["pd"]
 UPLOAD_TITLE_COLUMNS = ("Юнит", "трайб", "Продукт", "Оценка", "Расчет", "delta", "Общий балл", "Группа", "тип")
@@ -451,31 +375,10 @@ def normalize_lookup_key(value: Any) -> str:
     return re.sub(r"\s+", " ", clean_text(value)).casefold()
 
 
-def normalize_mapping_key(value: Any) -> str:
-    return normalize_lookup_key(value)
-
-
-def normalize_column_key(value: Any) -> str:
-    return re.sub(r"[^0-9a-zа-яё]+", "", normalize_lookup_key(value))
-
-
-def normalize_ai_product_key(value: Any) -> str:
-    return normalize_column_key(value)
-
-
 def normalize_ai_skill_key(value: Any) -> str:
-    normalized = re.sub(r"[^0-9a-zа-яё]+", "_", normalize_mapping_key(value))
+    normalized = re.sub(r"[^0-9a-zа-яё]+", "_", normalize_lookup_key(value))
     normalized = normalized.strip("_")
     return AI_SKILL_KEY_ALIASES.get(normalized, normalized)
-
-
-def normalize_ai_digest_skill_product(skill_key: str, product: Any) -> tuple[str, str]:
-    product_name = clean_text(product)
-    if skill_key == "funnel" and "черновик" in normalize_lookup_key(product_name):
-        cleaned_product_name = clean_text(AI_DRAFTS_PRODUCT_MARKER_RE.sub(" ", product_name))
-        product_name = cleaned_product_name or product_name
-        return "drafts", product_name
-    return skill_key, product_name
 
 
 def parse_ai_light(value: Any) -> str:
@@ -499,165 +402,24 @@ def parse_ai_light(value: Any) -> str:
     return ""
 
 
-def is_ai_light_row(row: dict[str, Any]) -> bool:
-    row_type = normalize_lookup_key(row.get("row_type"))
-    return bool(row.get("color")) or "светофор" in row_type or "traffic" in row_type or "light" in row_type
+def unique_non_empty(values: list[Any]) -> list[str]:
+    result: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        text = clean_text(value)
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        result.append(text)
+    return result
 
 
-def ai_month_sort_key(value: Any) -> tuple[int, int, str]:
-    if value is None or (isinstance(value, float) and math.isnan(value)):
-        return (0, 0, "")
+def worst_ai_light(lights: list[Any]) -> str:
+    priority = {"red": 0, "yellow": 1, "green": 2, "gray": 3}
+    normalized = [parse_ai_light(value) for value in lights]
+    normalized = [value for value in normalized if value]
+    return min(normalized, key=lambda value: priority.get(value, 3)) if normalized else "gray"
 
-    raw_text = clean_text(value)
-    month_year_match = re.match(r"^\s*([01]?\d)[./-](20\d{2})\s*$", raw_text)
-    if month_year_match:
-        month = int(month_year_match.group(1))
-        year = int(month_year_match.group(2))
-        if 1 <= month <= 12:
-            return (year, month, raw_text)
-
-    year_month_match = re.match(r"^\s*(20\d{2})[./-]([01]?\d)\s*$", raw_text)
-    if year_month_match:
-        year = int(year_month_match.group(1))
-        month = int(year_month_match.group(2))
-        if 1 <= month <= 12:
-            return (year, month, raw_text)
-
-    parsed = _PD.to_datetime(value, errors="coerce", dayfirst=True)
-    if not _PD.isna(parsed):
-        return (int(parsed.year), int(parsed.month), clean_text(value))
-
-    text = normalize_lookup_key(value)
-    year_match = re.search(r"(20\d{2})", text)
-    months = {
-        "январ": 1,
-        "феврал": 2,
-        "март": 3,
-        "апрел": 4,
-        "май": 5,
-        "мая": 5,
-        "июн": 6,
-        "июл": 7,
-        "август": 8,
-        "сентябр": 9,
-        "октябр": 10,
-        "ноябр": 11,
-        "декабр": 12,
-    }
-    month = next((number for marker, number in months.items() if marker in text), 0)
-    year = int(year_match.group(1)) if year_match else 0
-    numeric_month = re.search(r"(?:^|[^0-9])([01]?\d)(?:[^0-9]|$)", text)
-    if not month and numeric_month:
-        candidate = int(numeric_month.group(1))
-        if 1 <= candidate <= 12:
-            month = candidate
-    return (year, month, clean_text(value))
-
-
-def ai_month_label(value: Any) -> str:
-    return ai_month_label_from_sort(ai_month_sort_key(value))
-
-
-def ai_month_label_from_sort(month_sort: tuple[int, int, str]) -> str:
-    year, month, raw = month_sort
-    if year and month:
-        return f"{AI_MONTH_NAMES.get(month, str(month))} {year}"
-    return clean_text(raw)
-
-
-def shift_ai_month(year: int, month: int, delta: int) -> tuple[int, int]:
-    index = year * 12 + month - 1 + delta
-    return index // 12, index % 12 + 1
-
-
-def previous_ai_month(year: int, month: int) -> tuple[int, int]:
-    if month <= 1:
-        return year - 1, 12
-    return year, month - 1
-
-
-def ai_display_month_sort(
-    month_sort: tuple[int, int, str],
-    today: date | None = None,
-) -> tuple[int, int, str]:
-    year, month, raw = month_sort
-    if not year or not month:
-        return month_sort
-    today = today or date.today()
-    if year == today.year and month == today.month:
-        year, month = previous_ai_month(year, month)
-    return (year, month, raw)
-
-
-def ai_same_month(left: tuple[int, int, str], right: tuple[int, int, str]) -> bool:
-    if left[0] and left[1] and right[0] and right[1]:
-        return left[:2] == right[:2]
-    return left == right
-
-
-def ai_latest_closed_month_sort(
-    rows: list[dict[str, Any]],
-    today: date | None = None,
-) -> tuple[int, int, str]:
-    today = today or date.today()
-    valid_sorts = [
-        row.get("month_sort", (0, 0, ""))
-        for row in rows
-        if row.get("month_sort", (0, 0, ""))[0] and row.get("month_sort", (0, 0, ""))[1]
-    ]
-    if not valid_sorts:
-        return max((row.get("month_sort", (0, 0, "")) for row in rows), default=(0, 0, ""))
-
-    latest_sort = max(valid_sorts, key=lambda item: (item[0], item[1]))
-    if latest_sort[0] == today.year and latest_sort[1] == today.month:
-        closed_sorts = [
-            item
-            for item in valid_sorts
-            if (item[0], item[1]) < (today.year, today.month)
-        ]
-        if closed_sorts:
-            return max(closed_sorts, key=lambda item: (item[0], item[1]))
-    return latest_sort
-
-
-def ai_month_distance(month_sort: tuple[int, int, str], today: date | None = None) -> int:
-    year, month, _ = month_sort
-    if not year or not month:
-        return 0
-    today = today or date.today()
-    return today.year * 12 + today.month - (year * 12 + month)
-
-
-def ai_stale_tooltip(month_sort: tuple[int, int, str], today: date | None = None) -> str:
-    if ai_month_distance(month_sort, today=today) <= 3:
-        return ""
-    month_label = ai_month_label_from_sort(month_sort)
-    return f"Устаревшие данные, {month_label}" if month_label else ""
-
-
-def build_ai_skill_digest_headers(token: str = AI_SKILL_DIGEST_TOKEN) -> dict[str, str]:
-    headers = dict(AI_SKILL_DIGEST_HEADERS)
-    headers["Authorization"] = f"Bearer {token}"
-    return headers
-
-
-def download_ai_skill_digest(
-    output_path: Path = DEFAULT_AI_DIGEST_XLSX,
-    url: str = AI_SKILL_DIGEST_URL,
-    timeout: int = DEFAULT_AI_DIGEST_TIMEOUT,
-    token: str = AI_SKILL_DIGEST_TOKEN,
-) -> Path:
-    request = urllib.request.Request(
-        url,
-        headers=build_ai_skill_digest_headers(token),
-        method="GET",
-    )
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        payload = response.read()
-    if not payload:
-        raise ValueError("AI skill digest export вернул пустой ответ")
-    output_path.write_bytes(payload)
-    return output_path
 
 
 def build_crosssell_headers(token: str = CROSSSELL_TOKEN, etag: str = "") -> dict[str, str]:
@@ -811,609 +573,6 @@ def download_crosssell_export(
     return output_path
 
 
-def gigachat_is_configured() -> bool:
-    return _llm.gigachat_is_configured(GIGACHAT_TOKEN, GIGACHAT_AUTH_URL)
-
-
-def make_gigachat(model: Optional[str] = None):
-    return _llm.make_gigachat(
-        token=GIGACHAT_TOKEN,
-        auth_url=GIGACHAT_AUTH_URL,
-        scope=GIGACHAT_SCOPE,
-        default_model=GIGACHAT_MODEL,
-        timeout=GIGACHAT_TIMEOUT,
-        model=model,
-    )
-
-
-def run_gigachat(func):
-    """Выполнить func в слоте GigaChat-очереди. Блокирует, пока слот не освободится."""
-    return _llm.run_gigachat(func, _semaphore)
-
-
-def llm_log_write(message: str) -> None:
-    _llm.llm_log_write(message, tqdm)
-
-
-def llm_log_event(kind: str, payload: dict[str, Any]) -> None:
-    _llm.llm_log_event(kind, payload, llm_log_write)
-
-
-def extract_json_object(text_value: str) -> dict[str, Any] | None:
-    return _llm.extract_json_object(text_value, clean_text)
-
-
-def llm_summary_input(digests: list[dict[str, Any]]) -> dict[str, Any]:
-    return _llm.llm_summary_input(
-        digests,
-        clean_text=clean_text,
-        skill_label_overrides=LLM_SKILL_LABEL_OVERRIDES,
-        skill_labels=AI_SKILL_LABELS,
-    )
-
-
-def normalize_llm_summary(content: str, fallback_light: str) -> dict[str, str] | None:
-    return _llm.normalize_llm_summary(
-        content,
-        fallback_light,
-        clean_text=clean_text,
-        parse_ai_light=parse_ai_light,
-        extract_object=extract_json_object,
-    )
-
-
-def build_llm_summary(
-    product_name: str,
-    block_code: str,
-    digests: list[dict[str, Any]],
-    log: bool = False,
-) -> dict[str, str] | None:
-    return _llm.build_llm_summary(
-        product_name,
-        block_code,
-        digests,
-        log,
-        is_configured=gigachat_is_configured,
-        clean_text=clean_text,
-        worst_ai_light=worst_ai_light,
-        make_summary_input=llm_summary_input,
-        prompt_template=LLM_ATTRACT_SUMMARY_PROMPT,
-        log_write=llm_log_write,
-        make_client=make_gigachat,
-        run_client=run_gigachat,
-        normalize_summary=normalize_llm_summary,
-    )
-
-
-def find_column(columns: list[str], aliases: set[str]) -> str | None:
-    normalized = {normalize_column_key(column): column for column in columns}
-    for alias in aliases:
-        column = normalized.get(normalize_column_key(alias))
-        if column:
-            return column
-    return None
-
-
-def read_ai_digest_rows(path: Path) -> list[dict[str, Any]]:
-    if not path.exists() or path.name.startswith("~$"):
-        return []
-
-    sheets = _PD.read_excel(path, sheet_name=None)
-    aliases = {
-        "skill_name": {"навык", "skill", "skill_name"},
-        "skill_key": {"ключ навыка", "ключ", "skill_key", "key"},
-        "month": {"месяц", "month", "period", "период"},
-        "product": {"продукт", "product", "product_name"},
-        "indicator": {"показатель", "indicator", "metric"},
-        "row_type": {"тип", "type"},
-        "color": {"цвет", "color", "traffic_light"},
-        "text": {"текст", "text", "recommendation", "рекомендация"},
-        "rule": {"правило светофора", "правила светофора", "правило", "правила", "rule", "traffic_rule"},
-    }
-    rows: list[dict[str, Any]] = []
-    source_order = 0
-
-    for _, frame in sheets.items():
-        if frame.empty:
-            continue
-        frame = frame.dropna(how="all").copy()
-        frame.columns = [clean_text(column) for column in frame.columns]
-        mapping = {key: find_column(list(frame.columns), names) for key, names in aliases.items()}
-        if (not mapping["skill_key"] and not mapping["skill_name"]) or not mapping["product"]:
-            continue
-        if not mapping["row_type"] and not mapping["color"] and not mapping["text"]:
-            continue
-
-        for _, source in frame.iterrows():
-            source_order += 1
-            raw_skill_key = source.get(mapping["skill_key"]) if mapping["skill_key"] else ""
-            skill_key = normalize_ai_skill_key(raw_skill_key)
-            if skill_key not in AI_SKILL_LABELS and mapping["skill_name"]:
-                skill_key = normalize_ai_skill_key(source.get(mapping["skill_name"]))
-            if skill_key not in AI_SKILL_LABELS:
-                continue
-            product = clean_text(source.get(mapping["product"]))
-            if not product:
-                continue
-            skill_key, product = normalize_ai_digest_skill_product(skill_key, product)
-            row_type = normalize_lookup_key(source.get(mapping["row_type"])) if mapping["row_type"] else ""
-            text = clean_text(source.get(mapping["text"])) if mapping["text"] else ""
-            color = parse_ai_light(source.get(mapping["color"])) if mapping["color"] else ""
-            if not row_type and not text and not color:
-                continue
-            rows.append(
-                {
-                    "skill_name": clean_text(source.get(mapping["skill_name"])) if mapping["skill_name"] else "",
-                    "skill_key": skill_key,
-                    "month": source.get(mapping["month"]) if mapping["month"] else "",
-                    "month_label": ai_month_label(source.get(mapping["month"])) if mapping["month"] else "",
-                    "month_sort": ai_month_sort_key(source.get(mapping["month"])) if mapping["month"] else (0, 0, ""),
-                    "product": product,
-                    "product_key": normalize_ai_product_key(product),
-                    "indicator": clean_text(source.get(mapping["indicator"])) if mapping["indicator"] else "",
-                    "row_type": row_type,
-                    "color": color,
-                    "text": text,
-                    "rule": clean_text(source.get(mapping["rule"])) if mapping["rule"] else "",
-                    "source_order": source_order,
-                }
-            )
-
-    return rows
-
-
-def read_ai_product_mapping(path: Path) -> dict[tuple[str, str], list[str]]:
-    if not path.exists() or path.name.startswith("~$"):
-        return {}
-
-    frame = _PD.read_excel(path)
-    frame.columns = [clean_text(column) for column in frame.columns]
-    dd_column = find_column(list(frame.columns), {"dd_product"})
-    key_column = find_column(list(frame.columns), {"ai_tool_key"})
-    product_column = find_column(list(frame.columns), {"ai_tool_product name", "ai_tool_product_name"})
-    if not dd_column or not key_column or not product_column:
-        return {}
-
-    mapping: dict[tuple[str, str], list[str]] = {}
-    seen: dict[tuple[str, str], set[str]] = {}
-    for _, row in frame.dropna(how="all").iterrows():
-        dd_product = clean_text(row.get(dd_column))
-        skill_key = normalize_ai_skill_key(row.get(key_column))
-        ai_product = clean_text(row.get(product_column))
-        if not dd_product or not skill_key:
-            continue
-        key = (normalize_mapping_key(dd_product), skill_key)
-        if not ai_product:
-            mapping.setdefault(key, [])
-            continue
-        ai_product_key = normalize_ai_product_key(ai_product)
-        if ai_product_key in seen.setdefault(key, set()):
-            continue
-        seen[key].add(ai_product_key)
-        mapping.setdefault(key, []).append(ai_product)
-    return mapping
-
-
-def create_ai_product_mapping_template(
-    data: dict[str, Any],
-    output_path: Path = DEFAULT_AI_PRODUCT_MAP,
-    overwrite: bool = False,
-) -> bool:
-    if output_path.exists() and not overwrite:
-        return False
-
-    title_rows = data.get("title", {}).get("rows") or []
-    detail_names = [product.get("name") for product in data.get("products", [])]
-    names = []
-    seen = set()
-    for value in [*(row.get("name") for row in title_rows), *detail_names]:
-        name = clean_text(value)
-        key = normalize_lookup_key(name)
-        if not name or key in seen:
-            continue
-        seen.add(key)
-        names.append(name)
-
-    rows = [
-        {
-            "dd_product": name,
-            "ai_tool_key": skill_key,
-            "ai_tool_product name": name,
-        }
-        for name in names
-        for skill_key in AI_SKILL_ORDER
-    ]
-    _PD.DataFrame(rows, columns=["dd_product", "ai_tool_key", "ai_tool_product name"]).to_excel(
-        output_path,
-        index=False,
-    )
-    return True
-
-
-def unique_non_empty(values: list[str]) -> list[str]:
-    result = []
-    seen = set()
-    for value in values:
-        text = clean_text(value)
-        key = normalize_lookup_key(text)
-        if not text or key in seen:
-            continue
-        seen.add(key)
-        result.append(text)
-    return result
-
-
-def ai_products_count_label(count: int) -> str:
-    ones = count % 10
-    tens = count % 100
-    if ones == 1 and tens != 11:
-        return f"{count} продукт"
-    if 2 <= ones <= 4 and not 12 <= tens <= 14:
-        return f"{count} продукта"
-    return f"{count} продуктов"
-
-
-def worst_ai_light(lights: list[str]) -> str:
-    normalized = [parse_ai_light(value) for value in lights]
-    if "red" in normalized:
-        return "red"
-    if "yellow" in normalized:
-        return "yellow"
-    if "green" in normalized:
-        return "green"
-    return "gray"
-
-
-def ai_summary_footer(month: str, product_names: list[str]) -> str:
-    if len(product_names) == 1:
-        subject = product_names[0]
-    else:
-        subject = ai_products_count_label(len(product_names))
-    return f"AI-сводка ({month}) - {subject}" if month else f"AI-сводка - {subject}"
-
-
-def digest_indicator_name(row: dict[str, Any]) -> str:
-    indicator = clean_text(row.get("indicator"))
-    return indicator or "Показатель"
-
-
-def digest_indicator_key(row: dict[str, Any]) -> str:
-    return normalize_lookup_key(clean_text(row.get("indicator")))
-
-
-def is_generic_digest_text_row(row: dict[str, Any]) -> bool:
-    indicator_key = digest_indicator_key(row)
-    if indicator_key in {"", "recommendation", "recommendations", "текст", "text", "summary"}:
-        return True
-    return any(
-        marker in indicator_key
-        for marker in ("рекомендац", "коммент", "вывод", "итог", "summary")
-    )
-
-
-def build_digest_item(
-    rows: list[dict[str, Any]],
-    indicator: str,
-    month: str,
-    product_name: str,
-    stale_tooltip: str = "",
-) -> dict[str, Any]:
-    light_rows = [row for row in rows if is_ai_light_row(row)]
-    colors = [row.get("color", "") for row in light_rows if row.get("color")]
-    rules = unique_non_empty([row.get("rule", "") for row in rows])
-    texts = unique_non_empty([row.get("text", "") for row in rows])
-    return {
-        "indicator": indicator,
-        "traffic_light": worst_ai_light(colors) if colors else "gray",
-        "digest_texts": texts,
-        "digest_rule": rules[0] if rules else "",
-        "digest_month": month,
-        "digest_is_stale": bool(stale_tooltip),
-        "digest_stale_tooltip": stale_tooltip,
-        "ai_product_name": product_name,
-    }
-
-
-def build_digest_items(latest_rows: list[dict[str, Any]], month: str, stale_tooltip: str = "") -> list[dict[str, Any]]:
-    product_name = latest_rows[0]["product"] if latest_rows else ""
-    items = []
-    for row in latest_rows:
-        indicator = digest_indicator_name(row)
-        text = clean_text(row.get("text"))
-        rule = clean_text(row.get("rule"))
-        color = parse_ai_light(row.get("color")) or ("gray" if is_ai_light_row(row) else "")
-        if not indicator and not text and not rule and not color:
-            continue
-        items.append(
-            {
-                "indicator": indicator,
-                "row_type": clean_text(row.get("row_type")),
-                "traffic_light": color or "gray",
-                "digest_texts": [text] if text else [],
-                "digest_rule": rule,
-                "digest_month": month,
-                "digest_is_stale": bool(stale_tooltip),
-                "digest_stale_tooltip": stale_tooltip,
-                "ai_product_name": product_name,
-            }
-        )
-    return items
-
-
-def pilot_metric_key(row: dict[str, Any]) -> str:
-    return PILOTS_METRIC_KEYS.get(normalize_column_key(row.get("indicator")), "")
-
-
-def parse_pilot_count(value: Any) -> float:
-    text = clean_text(value)
-    if not text:
-        return 0.0
-    compact = text.replace("\xa0", " ").replace(" ", "").replace(",", ".")
-    match = re.search(r"-?\d+(?:\.\d+)?", compact)
-    if not match:
-        return 0.0
-    try:
-        return float(match.group(0))
-    except ValueError:
-        return 0.0
-
-
-def format_pilot_count(value: float) -> str:
-    if abs(value - round(value)) < 1e-9:
-        return str(int(round(value)))
-    text = f"{value:.1f}".rstrip("0").rstrip(".")
-    return text.replace(".", ",")
-
-
-def format_pilot_delta(current: float, previous: float) -> str:
-    if abs(previous) < 1e-9:
-        if abs(current) < 1e-9:
-            return "0%"
-        return "+∞%"
-    delta = (current - previous) / previous * 100
-    rounded = int(round(delta))
-    if rounded == 0:
-        return "0%"
-    sign = "+" if rounded > 0 else ""
-    return f"{sign}{rounded}%"
-
-
-def ai_month_range_label(start: tuple[int, int], end: tuple[int, int]) -> str:
-    return f"{ai_month_label_from_sort((start[0], start[1], ''))} - {ai_month_label_from_sort((end[0], end[1], ''))}"
-
-
-def pilot_window(today: date | None = None) -> tuple[tuple[int, int], tuple[int, int], tuple[int, int], tuple[int, int]]:
-    today = today or date.today()
-    end = previous_ai_month(today.year, today.month)
-    start = shift_ai_month(end[0], end[1], -2)
-    previous_end = shift_ai_month(end[0], end[1], -1)
-    previous_start = shift_ai_month(end[0], end[1], -3)
-    return start, end, previous_start, previous_end
-
-
-def pilot_metric_value_for_month(
-    rows: list[dict[str, Any]],
-    metric_key: str,
-    month: tuple[int, int],
-) -> float:
-    rows_by_product: dict[str, tuple[int, int, dict[str, Any]]] = {}
-    for position, row in enumerate(rows):
-        if pilot_metric_key(row) != metric_key:
-            continue
-        month_sort = row.get("month_sort", (0, 0, ""))
-        if month_sort[0] != month[0] or month_sort[1] != month[1]:
-            continue
-        product_key = clean_text(row.get("product_key"))
-        source_order = int(row.get("source_order", position))
-        previous = rows_by_product.get(product_key)
-        if previous is None or (source_order, position) >= previous[:2]:
-            rows_by_product[product_key] = (source_order, position, row)
-    return sum(parse_pilot_count(item[2].get("text")) for item in rows_by_product.values())
-
-
-def build_pilots_digest(
-    rows: list[dict[str, Any]],
-    mapped_products: list[str],
-    today: date | None = None,
-) -> dict[str, Any] | None:
-    product_keys = {normalize_ai_product_key(product) for product in mapped_products if clean_text(product)}
-    if not product_keys:
-        return None
-
-    pilot_rows = [
-        row
-        for row in rows
-        if row.get("skill_key") == "pilots"
-        and row.get("product_key") in product_keys
-        and pilot_metric_key(row)
-    ]
-    if not pilot_rows:
-        return None
-
-    march_sorts = [
-        row.get("month_sort", (0, 0, ""))
-        for row in pilot_rows
-        if row.get("month_sort", (0, 0, ""))[0] and row.get("month_sort", (0, 0, ""))[1] == 3
-    ]
-    if march_sorts:
-        latest_march = max(march_sorts, key=lambda item: item[0])
-        end = (latest_march[0], 3)
-        start = shift_ai_month(end[0], end[1], -2)
-    else:
-        start, end, _, _ = pilot_window(today)
-    current = {
-        key: pilot_metric_value_for_month(pilot_rows, key, end)
-        for key in ("total", "self_service", "launched", "significant", "successful")
-    }
-    if not any(current.values()):
-        return None
-
-    total = format_pilot_count(current["total"])
-    launched = format_pilot_count(current["launched"])
-    significant = format_pilot_count(current["significant"])
-    successful = format_pilot_count(current["successful"])
-    self_service = format_pilot_count(current["self_service"])
-    period_label = (
-        f"январь-март {end[0]}"
-        if start[1] == 1 and end[1] == 3 and start[0] == end[0]
-        else ai_month_range_label(start, end)
-    )
-    texts = [
-        f"В рамках первого квартала ({period_label}) было запущено {total} пилотов.",
-        "Из них:",
-        f"- {launched} запущено",
-        f"- {significant} значимых",
-        f"- {successful} успешных",
-        f"Из {total} пилотов, было {self_service} Self-Service запусков.",
-    ]
-
-    end_sort = (end[0], end[1], "")
-    product_names = unique_non_empty(mapped_products)
-    product_label = product_names[0] if len(product_names) == 1 else ai_products_count_label(len(product_names))
-    digest_item = {
-        "indicator": "Пилотные кампании",
-        "row_type": "агрегация",
-        "traffic_light": "",
-        "digest_texts": texts,
-        "digest_rule": "",
-        "digest_month": ai_month_label_from_sort(end_sort),
-        "digest_is_stale": False,
-        "digest_stale_tooltip": "",
-        "ai_product_name": product_label,
-        "product_list": product_names,
-    }
-    return {
-        "traffic_light": "",
-        "digest_texts": texts,
-        "digest_rule": "",
-        "digest_indicator": "Пилотные кампании",
-        "digest_items": [digest_item],
-        "digest_month": ai_month_label_from_sort(end_sort),
-        "digest_month_raw": ai_month_label_from_sort(end_sort),
-        "digest_month_sort": end_sort,
-        "digest_display_month_sort": end_sort,
-        "digest_is_stale": False,
-        "digest_stale_tooltip": "",
-        "ai_tool_product_name": product_label,
-        "ai_tool_product_names": product_names,
-        "footer": ai_summary_footer(ai_month_label_from_sort(end_sort), product_names),
-    }
-
-
-def aggregate_ai_digests(digests: list[dict[str, Any]]) -> dict[str, Any]:
-    product_names = unique_non_empty([digest.get("mapped_product") or digest.get("ai_product_name", "") for digest in digests])
-    latest = max(digests, key=lambda digest: digest.get("digest_month_sort", (0, 0, "")))
-    single_product = len(product_names) == 1
-
-    texts: list[str] = []
-    items: list[dict[str, Any]] = []
-    for digest in digests:
-        digest_texts = digest.get("digest_texts", [])
-        product_name = clean_text(digest.get("mapped_product") or digest.get("ai_product_name", ""))
-        if digest_texts and single_product:
-            texts.extend(digest_texts)
-        elif digest_texts:
-            texts.append("\n".join([product_name, *digest_texts]))
-
-        for item in digest.get("digest_items", []):
-            item_copy = dict(item)
-            item_copy["ai_product_name"] = product_name
-            if not single_product and product_name:
-                item_copy["product_label"] = product_name
-            items.append(item_copy)
-
-    return {
-        "traffic_light": worst_ai_light([item.get("traffic_light", "") for item in items] or [digest.get("traffic_light", "") for digest in digests]),
-        "digest_texts": unique_non_empty(texts),
-        "digest_rule": "\n".join(unique_non_empty([digest.get("digest_rule", "") for digest in digests])),
-        "digest_indicator": ", ".join(unique_non_empty([item.get("indicator", "") for item in items] or [digest.get("digest_indicator", "") for digest in digests])),
-        "digest_items": items,
-        "digest_month": latest.get("digest_month", ""),
-        "digest_month_raw": latest.get("digest_month_raw", ""),
-        "digest_month_sort": latest.get("digest_month_sort", (0, 0, "")),
-        "digest_display_month_sort": latest.get("digest_display_month_sort", (0, 0, "")),
-        "digest_is_stale": bool(latest.get("digest_stale_tooltip", "")),
-        "digest_stale_tooltip": latest.get("digest_stale_tooltip", ""),
-        "ai_tool_product_name": ", ".join(product_names),
-        "ai_tool_product_names": product_names,
-        "footer": ai_summary_footer(latest.get("digest_month", ""), product_names),
-    }
-
-
-def digest_display_payload(skill_key: str, digest: dict[str, Any]) -> dict[str, Any]:
-    result = dict(digest)
-    if skill_key != "clickstream_funnel":
-        return result
-
-    product_names = list(result.get("ai_tool_product_names", []))
-    result["digest_month"] = ""
-    result["digest_month_raw"] = ""
-    result["digest_is_stale"] = False
-    result["digest_stale_tooltip"] = ""
-    result["footer"] = ai_summary_footer("", product_names)
-    result["digest_items"] = [
-        {
-            **item,
-            "digest_month": "",
-            "digest_is_stale": False,
-            "digest_stale_tooltip": "",
-        }
-        for item in result.get("digest_items", [])
-    ]
-    return result
-
-
-def build_ai_digest_index(rows: list[dict[str, Any]]) -> dict[tuple[str, str], dict[str, Any]]:
-    buckets: dict[tuple[str, str], list[dict[str, Any]]] = {}
-    for row in rows:
-        buckets.setdefault((row["skill_key"], row["product_key"]), []).append(row)
-
-    index: dict[tuple[str, str], dict[str, Any]] = {}
-    for key, bucket in buckets.items():
-        selected_month_sort = ai_latest_closed_month_sort(bucket)
-        latest_rows = [
-            row
-            for row in bucket
-            if ai_same_month(row["month_sort"], selected_month_sort)
-        ]
-        latest_rows.sort(key=lambda row: int(row.get("source_order", 0)))
-        if not latest_rows:
-            latest_key = max((row["month_sort"], order) for order, row in enumerate(bucket))
-            latest_rows = [
-                row
-                for order, row in enumerate(bucket)
-                if (row["month_sort"], order) == latest_key or row["month_sort"] == latest_key[0]
-            ]
-            latest_rows.sort(key=lambda row: int(row.get("source_order", 0)))
-            selected_month_sort = latest_key[0]
-        light_rows = [row for row in latest_rows if is_ai_light_row(row)]
-        raw_month_sort = selected_month_sort
-        display_month_sort = ai_display_month_sort(raw_month_sort)
-        month = ai_month_label_from_sort(display_month_sort)
-        stale_tooltip = ai_stale_tooltip(display_month_sort)
-        digest_items = build_digest_items(latest_rows, month, stale_tooltip)
-        color = worst_ai_light([item.get("traffic_light", "") for item in digest_items])
-        texts = unique_non_empty([text for item in digest_items for text in item.get("digest_texts", [])])
-        rules = unique_non_empty([row["rule"] for row in latest_rows])
-        indicators = unique_non_empty([item.get("indicator", "") for item in digest_items] or [row["indicator"] for row in light_rows or latest_rows])
-
-        if digest_items or color or texts or light_rows:
-            index[key] = {
-                "traffic_light": color or "gray",
-                "digest_texts": texts,
-                "digest_rule": rules[0] if rules else "",
-                "digest_indicator": indicators[0] if indicators else "",
-                "digest_items": digest_items,
-                "digest_month": month,
-                "digest_month_raw": ai_month_label_from_sort(raw_month_sort),
-                "digest_month_sort": raw_month_sort,
-                "digest_display_month_sort": display_month_sort,
-                "digest_is_stale": bool(stale_tooltip),
-                "digest_stale_tooltip": stale_tooltip,
-                "ai_product_name": latest_rows[0]["product"],
-            }
-
-    return index
 
 
 def find_block(product: dict[str, Any], block_code: str) -> dict[str, Any] | None:
@@ -1468,8 +627,6 @@ def sort_group_tool_buttons(tool: dict[str, Any]) -> None:
 
     def order(item: tuple[int, dict[str, Any]]) -> tuple[int, int]:
         index, button = item
-        if button.get("llm_summary"):
-            return (0, index)
         if normalize_lookup_key(button.get("name")) == pilot_search_key:
             return (2, index)
         return (1, index)
@@ -1477,689 +634,6 @@ def sort_group_tool_buttons(tool: dict[str, Any]) -> None:
     buttons[:] = [button for _, button in sorted(enumerate(buttons), key=order)]
 
 
-def find_group_tool(block: dict[str, Any], block_code: str) -> dict[str, Any] | None:
-    group_tool_name = AI_SKILL_GROUP_TOOLS.get(block_code)
-    if not group_tool_name:
-        return None
-    group_tool_key = normalize_lookup_key(group_tool_name)
-    for tool in block.get("tools", []):
-        if normalize_lookup_key(tool.get("name")) == group_tool_key:
-            return tool
-    return None
-
-
-def append_llm_summary_to_group(
-    block: dict[str, Any],
-    block_code: str,
-    summary: dict[str, str],
-    digests: list[dict[str, Any]],
-) -> bool:
-    return _llm.append_llm_summary_to_group(
-        block,
-        block_code,
-        summary,
-        digests,
-        find_group_tool=find_group_tool,
-        unique_non_empty=unique_non_empty,
-        parse_ai_light=parse_ai_light,
-        worst_ai_light=worst_ai_light,
-        clean_text=clean_text,
-        ai_summary_footer=ai_summary_footer,
-        refresh_group_tool_light=refresh_group_tool_light,
-    )
-
-
-def ensure_llm_summary_placeholder(block: dict[str, Any], block_code: str) -> bool:
-    return _llm.ensure_llm_summary_placeholder(
-        block,
-        block_code,
-        find_group_tool=find_group_tool,
-        refresh_group_tool_light=refresh_group_tool_light,
-    )
-
-
-def ensure_llm_summary_visible(data: dict[str, Any]) -> int:
-    return _llm.ensure_llm_summary_visible(
-        data,
-        block_codes=AI_SKILL_GROUP_TOOLS,
-        find_block=find_block,
-        ensure_placeholder=ensure_llm_summary_placeholder,
-    )
-
-
-def sync_llm_summary_recommendations(data: dict[str, Any]) -> int:
-    added = 0
-    for product in data.get("products", []):
-        product_name = clean_text(product.get("name"))
-        recommendations = [
-            item
-            for item in product.get("metric_recommendations", [])
-            if not item.get("llm_summary")
-        ]
-        llm_recommendations: list[dict[str, Any]] = []
-
-        for block_code in AI_SKILL_GROUP_TOOLS:
-            block = find_block(product, block_code)
-            tool = find_group_tool(block, block_code) if block else None
-            if not tool:
-                continue
-            for button in tool.get("buttons", []):
-                if not button.get("llm_summary"):
-                    continue
-                for item_index, digest_item in enumerate(button.get("digest_items", []), start=1):
-                    texts = unique_non_empty(digest_item.get("digest_texts", []))
-                    indicator = clean_text(digest_item.get("indicator")) or "Основные выводы"
-                    if not texts and not indicator:
-                        continue
-                    product_list = digest_item.get("product_list", [])
-                    if not isinstance(product_list, list):
-                        product_list = []
-                    button_products = button.get("ai_tool_product_names", [])
-                    if not isinstance(button_products, list):
-                        button_products = []
-                    ai_products = unique_non_empty(
-                        [
-                            digest_item.get("ai_product_name"),
-                            digest_item.get("product_label"),
-                            *product_list,
-                            *button_products,
-                        ]
-                    )
-                    llm_recommendations.append(
-                        {
-                            "id": f"llm-summary-{block_code}-{item_index}",
-                            "skill_key": "llm_summary",
-                            "skill_name": clean_text(button.get("name")) or "LLM-cуммаризация",
-                            "block_code": block_code,
-                            "row_type": "суммаризация",
-                            "is_traffic_light": True,
-                            "indicator": indicator,
-                            "traffic_light": (
-                                parse_ai_light(digest_item.get("traffic_light"))
-                                or parse_ai_light(button.get("traffic_light"))
-                                or "gray"
-                            ),
-                            "recommendations": texts,
-                            "rule": clean_text(digest_item.get("digest_rule")),
-                            "month": clean_text(
-                                digest_item.get("digest_month")
-                                or button.get("digest_month")
-                            ),
-                            "is_stale": bool(
-                                digest_item.get("digest_is_stale")
-                                or button.get("digest_is_stale")
-                            ),
-                            "stale_tooltip": clean_text(
-                                digest_item.get("digest_stale_tooltip")
-                                or button.get("digest_stale_tooltip")
-                            ),
-                            "ai_products": ai_products,
-                            "product_group": product_name,
-                            "llm_summary": True,
-                            "llm_placeholder": bool(button.get("llm_placeholder")),
-                        }
-                    )
-
-        product["metric_recommendations"] = [*llm_recommendations, *recommendations]
-        added += len(llm_recommendations)
-
-    digest_meta = data.get("ai_skill_digest")
-    if isinstance(digest_meta, dict):
-        digest_meta["recommendation_entities"] = sum(
-            1
-            for product in data.get("products", [])
-            if product.get("metric_recommendations")
-        )
-        digest_meta["recommendation_items"] = sum(
-            len(product.get("metric_recommendations", []))
-            for product in data.get("products", [])
-        )
-    return added
-
-
-def update_ai_tool(block: dict[str, Any], skill_key: str, payload: dict[str, Any]) -> bool:
-    label = AI_SKILL_LABELS[skill_key]
-    block_code = clean_text(block.get("code"))
-    payload = dict(payload)
-    payload_light = parse_ai_light(payload.get("traffic_light")) or "gray"
-    payload.setdefault("traffic_light", payload_light)
-    payload.setdefault("active", payload_light)
-    tools = block.setdefault("tools", [])
-
-    for tool in tools:
-        if normalize_ai_skill_key(tool.get("ai_tool_key")) == skill_key:
-            tool.update(payload)
-            tool["ai_digest"] = True
-            return True
-
-        buttons = tool.get("buttons")
-        if isinstance(buttons, list):
-            for item in buttons:
-                if normalize_ai_skill_key(item.get("ai_tool_key")) == skill_key:
-                    item.update(payload)
-                    item["ai_digest"] = True
-                    refresh_group_tool_light(tool)
-                    return True
-
-    group_tool_name = AI_SKILL_GROUP_TOOLS.get(block_code)
-    if group_tool_name:
-        group_tool_key = normalize_lookup_key(group_tool_name)
-        for tool in tools:
-            if normalize_lookup_key(tool.get("name")) == group_tool_key:
-                buttons = tool.setdefault("buttons", [])
-                buttons.append(
-                    {
-                        "name": label,
-                        "traffic_light": payload.get("traffic_light", "gray"),
-                        "button": {"type": "general", "label": "TBD", "link": ""},
-                        "footer": payload.get("footer", ""),
-                        "ai_digest": True,
-                        **payload,
-                    }
-                )
-                refresh_group_tool_light(tool)
-                return True
-
-    tools.append(
-        {
-            "name": label,
-            "traffic_light": payload.get("traffic_light", "gray"),
-            "button": {"type": "general", "label": "TBD", "link": ""},
-            "footer": payload.get("footer", ""),
-            "variant": "blue",
-            "ai_digest": True,
-            **payload,
-        }
-    )
-    return True
-
-
-def metric_recommendation_product_group(
-    product_name: str, ai_products: list[str]
-) -> str:
-    if normalize_mapping_key(product_name) != normalize_mapping_key("\u0412\u043a\u043b\u0430\u0434\u044b+\u041d\u0421"):
-        return " + ".join(ai_products)
-
-    aliases = {
-        normalize_ai_product_key("\u0412\u043a\u043b\u0430\u0434"): "\u0412\u043a\u043b\u0430\u0434\u044b",
-        normalize_ai_product_key("\u0412\u043a\u043b\u0430\u0434\u044b"): "\u0412\u043a\u043b\u0430\u0434\u044b",
-        normalize_ai_product_key("\u0412\u043a\u043b\u0430\u0434\u044b, \u0440\u0443\u0431."): "\u0412\u043a\u043b\u0430\u0434\u044b",
-        normalize_ai_product_key("\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442"): "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
-        normalize_ai_product_key("\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0439 \u0441\u0447\u0435\u0442 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)"): "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430 (\u043f\u043e\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435)",
-        normalize_ai_product_key("\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430"): "\u041d\u0430\u043a\u043e\u043f\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u0441\u0447\u0435\u0442\u0430",
-    }
-    groups = unique_non_empty(
-        [aliases.get(normalize_ai_product_key(name), name) for name in ai_products]
-    )
-    return " + ".join(groups)
-
-
-def ai_digest_meets_minimum_month(skill_key: str, digest: dict[str, Any]) -> bool:
-    if skill_key != "client_metrics":
-        return True
-    month_sort = digest.get("digest_display_month_sort") or digest.get("digest_month_sort") or (0, 0, "")
-    try:
-        month = (int(month_sort[0]), int(month_sort[1]))
-    except (IndexError, TypeError, ValueError):
-        return False
-    return month >= CLIENT_METRICS_MIN_MONTH
-
-
-def build_metric_recommendations(
-    product_name: str,
-    rows: list[dict[str, Any]],
-    mapping: dict[tuple[str, str], list[str]],
-    digest_index: dict[tuple[str, str], dict[str, Any]],
-) -> list[dict[str, Any]]:
-    product_key = normalize_mapping_key(product_name)
-    recommendations: list[dict[str, Any]] = []
-    seen: set[tuple[Any, ...]] = set()
-
-    for skill_key in AI_SKILL_ORDER:
-        mapped_products = mapping.get((product_key, skill_key), [])
-        if not mapped_products:
-            continue
-
-        if skill_key == "pilots":
-            digest = build_pilots_digest(rows, mapped_products)
-        else:
-            matched_digests = []
-            for mapped_product in mapped_products:
-                digest_item = digest_index.get(
-                    (skill_key, normalize_ai_product_key(mapped_product))
-                )
-                if digest_item and ai_digest_meets_minimum_month(skill_key, digest_item):
-                    matched_digests.append(
-                        {**digest_item, "mapped_product": mapped_product}
-                    )
-            digest = aggregate_ai_digests(matched_digests) if matched_digests else None
-
-        if not digest:
-            continue
-
-        display_digest = digest_display_payload(skill_key, digest)
-        items = list(display_digest.get("digest_items", []))
-        if not items and display_digest.get("digest_texts"):
-            items = [
-                {
-                    "indicator": display_digest.get("digest_indicator", ""),
-                    "traffic_light": display_digest.get("traffic_light", "gray"),
-                    "digest_texts": display_digest.get("digest_texts", []),
-                    "digest_rule": display_digest.get("digest_rule", ""),
-                    "digest_month": display_digest.get("digest_month", ""),
-                }
-            ]
-
-        for item in items:
-            texts = unique_non_empty(item.get("digest_texts", []))
-            row_type = clean_text(item.get("row_type"))
-            normalized_row_type = normalize_lookup_key(row_type)
-            is_traffic_light = any(
-                marker in normalized_row_type
-                for marker in ("светофор", "traffic", "light")
-            )
-            indicator = clean_text(
-                item.get("indicator")
-                or item.get("digest_indicator")
-                or display_digest.get("digest_indicator")
-                or AI_SKILL_LABELS.get(skill_key)
-                or skill_key
-            )
-            if not texts and not indicator:
-                continue
-
-            ai_products = unique_non_empty(
-                [
-                    item.get("ai_product_name"),
-                    item.get("product_label"),
-                    *item.get("product_list", []),
-                ]
-            )
-            if not ai_products:
-                ai_products = unique_non_empty(
-                    display_digest.get("ai_tool_product_names", [])
-                )
-            traffic_light = (
-                parse_ai_light(item.get("traffic_light"))
-                or parse_ai_light(display_digest.get("traffic_light"))
-                or "gray"
-            )
-            rule = clean_text(
-                item.get("digest_rule") or display_digest.get("digest_rule")
-            )
-            month = clean_text(
-                item.get("digest_month") or display_digest.get("digest_month")
-            )
-            dedupe_key = (
-                skill_key,
-                indicator,
-                tuple(texts),
-                rule,
-                tuple(ai_products),
-            )
-            if dedupe_key in seen:
-                continue
-            seen.add(dedupe_key)
-            recommendations.append(
-                {
-                    "id": f"{skill_key}-{len(recommendations) + 1}",
-                    "skill_key": skill_key,
-                    "skill_name": AI_SKILL_LABELS.get(skill_key, skill_key),
-                    "block_code": AI_SKILL_BLOCKS.get(skill_key, "other"),
-                    "row_type": row_type,
-                    "is_traffic_light": is_traffic_light,
-                    "indicator": indicator,
-                    "traffic_light": traffic_light,
-                    "recommendations": texts,
-                    "rule": rule,
-                    "month": month,
-                    "is_stale": bool(
-                        item.get("digest_is_stale")
-                        or display_digest.get("digest_is_stale")
-                    ),
-                    "stale_tooltip": clean_text(
-                        item.get("digest_stale_tooltip")
-                        or display_digest.get("digest_stale_tooltip")
-                    ),
-                    "ai_products": ai_products,
-                    "product_group": metric_recommendation_product_group(
-                        product_name, ai_products
-                    ),
-                }
-            )
-
-    light_order = {"red": 0, "yellow": 1, "green": 2, "gray": 3}
-    return sorted(
-        recommendations,
-        key=lambda item: (
-            light_order.get(item.get("traffic_light", "gray"), 3),
-            AI_SKILL_ORDER.index(item["skill_key"]),
-            normalize_lookup_key(item.get("indicator")),
-        ),
-    )
-
-
-def apply_ai_skill_digest(
-    data: dict[str, Any],
-    digest_path: Path,
-    mapping_path: Path,
-    update_llm_summary: bool = False,
-    llm_log: bool = DEFAULT_LLM_LOG,
-) -> dict[str, Any]:
-    rows = read_ai_digest_rows(digest_path)
-    mapping = read_ai_product_mapping(mapping_path)
-    mapping_total_rows = sum(len(products) for products in mapping.values())
-    llm_requested = bool(update_llm_summary)
-    llm_enabled = bool(llm_requested and gigachat_is_configured())
-    llm_summaries = 0
-    llm_candidates = 0
-    llm_skipped_no_block = 0
-    llm_skipped_no_mapping = 0
-    llm_skipped_no_digest = 0
-    llm_skipped_disabled = 0
-    llm_skipped_empty_summary = 0
-    llm_skipped_append_failed = 0
-    llm_unmatched_no_mapping = 0
-    llm_unmatched_no_digest = 0
-    llm_unmatched_samples: list[str] = []
-    llm_errors: list[str] = []
-    llm_jobs: list[tuple[str, str, list[dict[str, Any]], dict[str, Any]]] = []
-    llm_progress = tqdm(desc="LLM-суммаризация", unit="сводка") if llm_enabled and llm_log and tqdm is not None else None
-    if llm_log:
-        llm_log_event(
-            "setup",
-            {
-                "requested": llm_requested,
-                "enabled": llm_enabled,
-                "token_configured": bool(GIGACHAT_TOKEN),
-                "auth_url_configured": bool(GIGACHAT_AUTH_URL),
-                "digest_rows": len(rows),
-                "mapping_keys": len(mapping),
-                "mapping_rows": mapping_total_rows,
-                "digest_path": str(digest_path),
-                "mapping_path": str(mapping_path),
-            },
-        )
-        if not llm_requested:
-            llm_log_event("skip", {"reason": "llm_not_requested", "hint": "pass --update-llm-summary"})
-        elif not llm_enabled:
-            llm_log_event(
-                "skip",
-                {
-                    "reason": "gigachat_not_configured",
-                    "token_configured": bool(GIGACHAT_TOKEN),
-                    "auth_url_configured": bool(GIGACHAT_AUTH_URL),
-                },
-            )
-    if not rows:
-        if llm_progress is not None:
-            llm_progress.close()
-        if llm_log:
-            llm_log_event("skip", {"reason": "no_digest_rows", "digest_path": str(digest_path)})
-            llm_log_event("summary", {"reason": "no_digest_rows", "candidates": 0, "summaries": 0})
-        data["ai_skill_digest"] = {
-            "enabled": False,
-            "llm_requested": llm_requested,
-            "llm_enabled": llm_enabled,
-            "llm_candidates": 0,
-            "llm_skipped_no_block": 0,
-            "llm_skipped_no_mapping": 0,
-            "llm_skipped_no_digest": 0,
-            "llm_skipped_disabled": 0,
-            "llm_skipped_empty_summary": 0,
-            "llm_skipped_append_failed": 0,
-            "llm_unmatched_no_mapping": 0,
-            "llm_unmatched_no_digest": 0,
-            "llm_summaries": 0,
-            "llm_errors": [],
-            "source": str(digest_path),
-            "mapping": str(mapping_path),
-            "mapping_keys": 0,
-            "mapping_rows": 0,
-            "mapping_total_keys": len(mapping),
-            "mapping_total_rows": mapping_total_rows,
-            "matched_tools": 0,
-            "rows": 0,
-        }
-        return data
-
-    matched = 0
-    matched_mapping_keys: set[tuple[str, str]] = set()
-    matched_mapping_rows = 0
-    try:
-        digest_index = build_ai_digest_index(rows)
-        if llm_log:
-            llm_log_event("setup", {"digest_index_keys": len(digest_index)})
-
-        for product in data.get("products", []):
-            product_name = clean_text(product.get("name"))
-            product_key = normalize_mapping_key(product_name)
-            group_llm_digests: dict[str, list[dict[str, Any]]] = {}
-            product["metric_recommendations"] = build_metric_recommendations(
-                product_name,
-                rows,
-                mapping,
-                digest_index,
-            )
-
-            for skill_key in AI_SKILL_ORDER:
-                block_code = AI_SKILL_BLOCKS[skill_key]
-                block = find_block(product, block_code)
-                if not block:
-                    if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
-                        llm_skipped_no_block += 1
-                        if llm_log:
-                            llm_log_event(
-                                "skip",
-                                {
-                                    "reason": "no_block",
-                                    "product": product_name,
-                                    "product_key": product_key,
-                                    "skill_key": skill_key,
-                                    "block_code": block_code,
-                                },
-                            )
-                    continue
-
-                mapping_key = (product_key, skill_key)
-                mapped_products = mapping.get(mapping_key, [])
-                if not mapped_products:
-                    if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
-                        llm_unmatched_no_mapping += 1
-                        if len(llm_unmatched_samples) < 20:
-                            llm_unmatched_samples.append(
-                                f"{product_name} / {skill_key}: no mapping for {[product_key, skill_key]}"
-                            )
-                    continue
-
-                if skill_key == "pilots":
-                    digest = build_pilots_digest(rows, mapped_products)
-                    matched_count = len(digest.get("ai_tool_product_names", [])) if digest else 0
-                else:
-                    matched_digests = []
-                    for mapped_product in mapped_products:
-                        digest_item = digest_index.get((skill_key, normalize_ai_product_key(mapped_product)))
-                        if digest_item and ai_digest_meets_minimum_month(skill_key, digest_item):
-                            matched_digests.append({**digest_item, "mapped_product": mapped_product})
-                    digest = aggregate_ai_digests(matched_digests) if matched_digests else None
-                    matched_count = len(matched_digests)
-
-                if not digest:
-                    if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
-                        llm_unmatched_no_digest += 1
-                        if len(llm_unmatched_samples) < 20:
-                            llm_unmatched_samples.append(
-                                f"{product_name} / {skill_key}: no digest for {', '.join(mapped_products)}"
-                        )
-                    continue
-                matched_mapping_keys.add(mapping_key)
-                matched_mapping_rows += matched_count
-
-                if llm_requested and block_code in AI_SKILL_GROUP_TOOLS:
-                    group_llm_digests.setdefault(block_code, []).append({"skill_key": skill_key, **digest})
-                display_digest = digest_display_payload(skill_key, digest)
-                payload = {
-                    "traffic_light": display_digest.get("traffic_light") or "gray",
-                    "digest_texts": display_digest.get("digest_texts", []),
-                    "digest_rule": display_digest.get("digest_rule", ""),
-                    "digest_month": display_digest.get("digest_month", ""),
-                    "digest_month_raw": display_digest.get("digest_month_raw", ""),
-                    "digest_is_stale": display_digest.get("digest_is_stale", False),
-                    "digest_stale_tooltip": display_digest.get("digest_stale_tooltip", ""),
-                    "digest_indicator": display_digest.get("digest_indicator", ""),
-                    "digest_items": display_digest.get("digest_items", []),
-                    "ai_tool_key": skill_key,
-                    "ai_tool_product_name": display_digest.get("ai_tool_product_name", ""),
-                    "ai_tool_product_names": display_digest.get("ai_tool_product_names", []),
-                    "footer": display_digest.get("footer", ""),
-                }
-                if update_ai_tool(block, skill_key, payload):
-                    matched += 1
-
-            if llm_requested:
-                for block_code, digests in group_llm_digests.items():
-                    llm_candidates += 1
-                    if llm_log:
-                        llm_log_event(
-                            "candidate",
-                            {
-                                "product": product_name,
-                                "block_code": block_code,
-                                "skills": [clean_text(digest.get("skill_key")) for digest in digests],
-                            },
-                        )
-                    block = find_block(product, block_code)
-                    if not block:
-                        llm_skipped_no_block += 1
-                        if llm_log:
-                            llm_log_event(
-                                "skip",
-                                {
-                                    "reason": "candidate_block_missing",
-                                    "product": product_name,
-                                    "block_code": block_code,
-                                },
-                        )
-                        continue
-                    if not llm_enabled:
-                        llm_skipped_disabled += 1
-                        if llm_log:
-                            llm_log_event(
-                                "skip",
-                                {
-                                    "reason": "llm_disabled_for_candidate",
-                                    "product": product_name,
-                                    "block_code": block_code,
-                                    "skills": [clean_text(digest.get("skill_key")) for digest in digests],
-                                },
-                            )
-                        continue
-                    llm_jobs.append((product_name, block_code, digests, block))
-
-        llm_tasks = [
-            lambda product_name=product_name, block_code=block_code, digests=digests: build_llm_summary(
-                product_name, block_code, digests, log=llm_log
-            )
-            for product_name, block_code, digests, _ in llm_jobs
-        ]
-        for job, (summary, error) in zip(llm_jobs, _llm.run_parallel_llm_tasks(llm_tasks)):
-            product_name, block_code, digests, block = job
-            if error is not None:
-                llm_errors.append(f"{product_name} / {block_code}: {error}")
-                if llm_log:
-                    llm_log_event(
-                        "error",
-                        {
-                            "product": product_name,
-                            "block_code": block_code,
-                            "error": str(error),
-                        },
-                    )
-            elif not summary:
-                llm_skipped_empty_summary += 1
-                if llm_log:
-                    llm_log_event(
-                        "skip",
-                        {
-                            "reason": "empty_llm_summary",
-                            "product": product_name,
-                            "block_code": block_code,
-                        },
-                    )
-            elif append_llm_summary_to_group(block, block_code, summary, digests):
-                llm_summaries += 1
-            else:
-                llm_skipped_append_failed += 1
-                if llm_log:
-                    llm_log_event(
-                        "skip",
-                        {
-                            "reason": "append_llm_summary_failed",
-                            "product": product_name,
-                            "block_code": block_code,
-                        },
-                    )
-            if llm_progress is not None:
-                llm_progress.update(1)
-    finally:
-        if llm_progress is not None:
-            llm_progress.close()
-    if llm_log:
-        if llm_unmatched_samples:
-            llm_log_write("[LLM unmatched samples]\n" + "\n".join(llm_unmatched_samples))
-        llm_log_event(
-            "summary",
-            {
-                "requested": llm_requested,
-                "enabled": llm_enabled,
-                "candidates": llm_candidates,
-                "summaries": llm_summaries,
-                "errors": len(llm_errors),
-                "unmatched_no_mapping": llm_unmatched_no_mapping,
-                "unmatched_no_digest": llm_unmatched_no_digest,
-                "skipped_no_block": llm_skipped_no_block,
-                "skipped_no_mapping": llm_skipped_no_mapping,
-                "skipped_no_digest": llm_skipped_no_digest,
-                "skipped_disabled": llm_skipped_disabled,
-                "skipped_empty_summary": llm_skipped_empty_summary,
-                "skipped_append_failed": llm_skipped_append_failed,
-            },
-        )
-
-    data["ai_skill_digest"] = {
-        "enabled": True,
-        "llm_requested": llm_requested,
-        "llm_enabled": llm_enabled,
-        "llm_model": GIGACHAT_MODEL if llm_enabled else "",
-        "llm_candidates": llm_candidates,
-        "llm_skipped_no_block": llm_skipped_no_block,
-        "llm_skipped_no_mapping": llm_skipped_no_mapping,
-        "llm_skipped_no_digest": llm_skipped_no_digest,
-        "llm_skipped_disabled": llm_skipped_disabled,
-        "llm_skipped_empty_summary": llm_skipped_empty_summary,
-        "llm_skipped_append_failed": llm_skipped_append_failed,
-        "llm_unmatched_no_mapping": llm_unmatched_no_mapping,
-        "llm_unmatched_no_digest": llm_unmatched_no_digest,
-        "llm_summaries": llm_summaries,
-        "llm_errors": llm_errors[:20],
-        "source": str(digest_path),
-        "mapping": str(mapping_path),
-        "mapping_keys": len(matched_mapping_keys),
-        "mapping_rows": matched_mapping_rows,
-        "mapping_total_keys": len(mapping),
-        "mapping_total_rows": mapping_total_rows,
-        "rows": len(rows),
-        "matched_tools": matched,
-        "recommendation_entities": sum(
-            1 for product in data.get("products", [])
-            if product.get("metric_recommendations")
-        ),
-        "recommendation_items": sum(
-            len(product.get("metric_recommendations", []))
-            for product in data.get("products", [])
-        ),
-    }
-    return data
 
 
 def normalize_crosssell_key(value: Any) -> str:
@@ -3736,18 +2210,11 @@ def remove_ai_skills(data: dict[str, Any]) -> dict[str, Any]:
         return bool(
             normalize_lookup_key(tool.get("kind")) == "ai"
             or clean_text(tool.get("ai_tool_key"))
-            or tool.get("ai_digest")
             or name.startswith("навык «")
             or name.startswith("группа навыков «")
             or any(
                 isinstance(button, dict)
-                and (
-                    clean_text(button.get("ai_tool_key"))
-                    or button.get("ai_digest")
-                    or button.get("digest_items")
-                    or button.get("digest_texts")
-                    or button.get("llm_summary")
-                )
+                and clean_text(button.get("ai_tool_key"))
                 for button in buttons
             )
         )
@@ -3759,7 +2226,6 @@ def remove_ai_skills(data: dict[str, Any]) -> dict[str, Any]:
                 for tool in block.get("tools", [])
                 if isinstance(tool, dict) and not is_ai_tool(tool)
             ]
-    data.pop("ai_skill_digest", None)
     return data
 
 
@@ -3768,13 +2234,7 @@ def build_combined_data(
     title_sheet: str,
     detail_sheet: str,
     period: str,
-    ai_digest_path: Path | None = DEFAULT_AI_DIGEST_XLSX,
-    ai_product_map: Path = DEFAULT_AI_PRODUCT_MAP,
     crosssell_path: Path | None = None,
-    create_ai_map: bool = True,
-    refresh_ai_map: bool = False,
-    update_llm_summary: bool = DEFAULT_UPDATE_LLM_SUMMARY,
-    llm_log: bool = DEFAULT_LLM_LOG,
     include_ai_skills: bool = True,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     read_title_rows = _TITLE["read_rows"]
@@ -3804,25 +2264,6 @@ def build_combined_data(
         detail_data = remove_ai_skills(detail_data)
     detail_data = enrich_cx_journey_links(detail_data)
     combined = {**detail_data, "title": title_payload}
-    ai_map_created = False
-    if include_ai_skills and create_ai_map:
-        ai_map_created = create_ai_product_mapping_template(
-            combined,
-            ai_product_map,
-            overwrite=refresh_ai_map,
-        )
-    if include_ai_skills and ai_digest_path:
-        combined = apply_ai_skill_digest(
-            combined,
-            ai_digest_path,
-            ai_product_map,
-            update_llm_summary=update_llm_summary,
-            llm_log=llm_log,
-        )
-    llm_placeholders = ensure_llm_summary_visible(combined) if include_ai_skills else 0
-    llm_summary_recommendations = (
-        sync_llm_summary_recommendations(combined) if include_ai_skills else 0
-    )
     if include_ai_skills and crosssell_path:
         combined = apply_crosssell_export(combined, crosssell_path)
     else:
@@ -3838,29 +2279,6 @@ def build_combined_data(
         "title_units": len(title_payload["units"]),
         "title_types": len(title_payload["types"]),
         "ai_skills_enabled": include_ai_skills,
-        "ai_product_mapping": str(ai_product_map) if include_ai_skills else "",
-        "ai_product_mapping_created": ai_map_created,
-        "ai_digest_rows": combined.get("ai_skill_digest", {}).get("rows", 0),
-        "ai_digest_matched_tools": combined.get("ai_skill_digest", {}).get("matched_tools", 0),
-        "ai_digest_mapping_keys": combined.get("ai_skill_digest", {}).get("mapping_keys", 0),
-        "ai_digest_mapping_rows": combined.get("ai_skill_digest", {}).get("mapping_rows", 0),
-        "ai_digest_mapping_total_keys": combined.get("ai_skill_digest", {}).get("mapping_total_keys", 0),
-        "ai_digest_mapping_total_rows": combined.get("ai_skill_digest", {}).get("mapping_total_rows", 0),
-        "llm_summary_requested": combined.get("ai_skill_digest", {}).get("llm_requested", False),
-        "llm_summary_enabled": combined.get("ai_skill_digest", {}).get("llm_enabled", False),
-        "llm_candidates": combined.get("ai_skill_digest", {}).get("llm_candidates", 0),
-        "llm_unmatched_no_mapping": combined.get("ai_skill_digest", {}).get("llm_unmatched_no_mapping", 0),
-        "llm_unmatched_no_digest": combined.get("ai_skill_digest", {}).get("llm_unmatched_no_digest", 0),
-        "llm_skipped_no_block": combined.get("ai_skill_digest", {}).get("llm_skipped_no_block", 0),
-        "llm_skipped_no_mapping": combined.get("ai_skill_digest", {}).get("llm_skipped_no_mapping", 0),
-        "llm_skipped_no_digest": combined.get("ai_skill_digest", {}).get("llm_skipped_no_digest", 0),
-        "llm_skipped_disabled": combined.get("ai_skill_digest", {}).get("llm_skipped_disabled", 0),
-        "llm_skipped_empty_summary": combined.get("ai_skill_digest", {}).get("llm_skipped_empty_summary", 0),
-        "llm_skipped_append_failed": combined.get("ai_skill_digest", {}).get("llm_skipped_append_failed", 0),
-        "llm_placeholders": llm_placeholders,
-        "llm_summary_recommendations": llm_summary_recommendations,
-        "llm_summaries": combined.get("ai_skill_digest", {}).get("llm_summaries", 0),
-        "llm_summary_errors": len(combined.get("ai_skill_digest", {}).get("llm_errors", [])),
         "crosssell_enabled": combined.get("crosssell", {}).get("enabled", False),
         "crosssell_matched_products": combined.get("crosssell", {}).get("matched_products", 0),
         "crosssell_matched_markers": combined.get("crosssell", {}).get("matched_markers", 0),
@@ -3879,10 +2297,6 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
                 for tool in block.get("tools", []):
                     tool["footer"] = ""
                     tool["footer_dynamic"] = ""
-                    tool["ai_digest"] = False
-                    tool["digest_texts"] = []
-                    tool["digest_items"] = []
-                    tool["digest_rule"] = ""
             for metric in block.get("metrics", []):
                 if clean_text(metric.get("code")) == "hyp.datadriven_rating_7_5":
                     metric["name"] = "Оценка исследований >=7,5"
@@ -4395,60 +2809,6 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       line-height: 1.34;
     }
 
-    .llm-summary-card {
-      display: grid;
-      grid-template-columns: 10px minmax(0, 1fr);
-      gap: 10px;
-      align-items: start;
-      padding: 12px 13px;
-      border: 1px solid rgba(0,122,255,.16);
-      border-radius: 14px;
-      background: rgba(248,251,255,.92);
-    }
-
-    .llm-summary-body {
-      min-width: 0;
-    }
-
-    .llm-summary-title {
-      color: #1d1d1f;
-      font-size: 12.5px;
-      font-weight: 820;
-      line-height: 1.25;
-    }
-
-    .llm-summary-card .ai-digest-panel {
-      display: grid;
-      gap: 7px;
-      margin-top: 7px;
-      padding: 0;
-      border: 0;
-      border-radius: 0;
-      background: transparent;
-    }
-
-    .llm-summary-card .ai-digest-item {
-      padding: 2px 0 0;
-    }
-
-    .llm-summary-card .ai-digest-light {
-      margin-top: 4px;
-    }
-
-    .llm-summary-text {
-      display: grid;
-      gap: 5px;
-      margin-top: 6px;
-      color: #515154;
-      font-size: 12px;
-      line-height: 1.38;
-      white-space: pre-line;
-    }
-
-    .llm-summary-text p {
-      margin: 0;
-    }
-
 """
     html = replace_once(
         html,
@@ -4695,35 +3055,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       `;
     }
 
-    function llmSummaryTexts(item) {
-      const directTexts = digestTexts(item);
-      const itemTexts = digestItems(item).flatMap((entry) => (
-        Array.isArray(entry.digest_texts)
-          ? entry.digest_texts.map((text) => String(text || '').trim()).filter(Boolean)
-          : []
-      ));
-      return [...directTexts, ...itemTexts].filter(Boolean);
-    }
-
-    function llmSummaryCardHTML(item) {
-      const texts = llmSummaryTexts(item);
-      const light = item.active || item.traffic_light;
-      const content = texts.length
-        ? texts.map((text) => `<p>${esc(text)}</p>`).join('')
-        : '<p>AI-рекомендации пока недоступны: для продукта нет данных в AI-digest.</p>';
-      return `
-        <div class="llm-summary-card">
-          <span class="ai-digest-light ${digestLightClass(light)}"></span>
-          <div class="llm-summary-body">
-            <div class="llm-summary-title">AI-рекомендации${staleDigestBadgeHTML(item)}</div>
-            <div class="llm-summary-text">${content}</div>
-          </div>
-        </div>
-      `;
-    }
-
     function toolItemHTML(item, neutralLight = false) {
-      if (item.llm_summary) return llmSummaryCardHTML(item);
       const hasDigest = hasDigestPayload(item);
       return `
         <div class="tool-item${hasDigest ? ' has-ai-digest' : ''}">
@@ -5275,13 +3607,6 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
       height: 22px;
     }
 
-    .block-note.tool-group .llm-summary-card {
-      border: 0;
-      border-bottom: 1px solid rgba(0,0,0,.07);
-      border-radius: 0;
-      background: transparent;
-    }
-
     .block-note.tool-group .ai-digest-panel {
       margin: 6px 0 2px;
       padding: 10px 0 2px 32px;
@@ -5554,7 +3879,7 @@ def write_html(data: dict[str, Any], output_path: Path) -> None:
         )
         html = replace_once(
             html,
-            "<span>Отчет по продукту формируется LLM и доступен по ссылке</span>",
+            "<span>Дополнительные отчеты доступны по ссылкам</span>",
             "<span>Мы подготовили для вас AI-рекомендации по вашим ключевым метрикам</span>",
         )
     output_path.write_text(html, encoding="utf-8")
@@ -5570,17 +3895,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--period", default=DEFAULT_PERIOD, help="Period label")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")
     parser.add_argument("--json-output", type=Path, help="Optional combined report JSON output path")
-    parser.add_argument("--ai-digest-xlsx", type=Path, default=DEFAULT_AI_DIGEST_XLSX, help="Path to AI skill digest export .xlsx")
-    parser.add_argument("--ai-product-map", type=Path, default=DEFAULT_AI_PRODUCT_MAP, help="Path to DD ↔ AI product mapping .xlsx")
-    parser.set_defaults(update_ai_digest=DEFAULT_UPDATE_AI_DIGEST)
-    parser.add_argument("--update-ai-digest", dest="update_ai_digest", action="store_true", help="Update AI skill digest from API before building (default)")
-    parser.add_argument("--no-update-ai-digest", dest="update_ai_digest", action="store_false", help="Use local --ai-digest-xlsx without calling the export endpoint")
-    parser.add_argument("--download-ai-digest", dest="update_ai_digest", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--no-download-ai-digest", dest="update_ai_digest", action="store_false", help="Alias for --no-update-ai-digest")
-    parser.add_argument("--ai-digest-url", default=AI_SKILL_DIGEST_URL, help="AI skill digest export URL")
-    parser.add_argument("--ai-digest-token", default=AI_SKILL_DIGEST_TOKEN, help="Bearer token for GET /api/skill-digest/export")
-    parser.add_argument("--ai-digest-timeout", type=int, default=DEFAULT_AI_DIGEST_TIMEOUT, help="AI skill digest request timeout in seconds")
-    parser.add_argument("--skip-ai-digest", action="store_true", help="Build without AI skill digest enrichment")
     parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT_JSON, help="Path to cached Product Lens cross-sell export")
     parser.add_argument("--crosssell", action="store_true", help=argparse.SUPPRESS)
     parser.set_defaults(update_crosssell=DEFAULT_UPDATE_CROSSSELL)
@@ -5594,36 +3908,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--no-ai-skills",
         action="store_true",
-        help="Do not read, generate, or render AI skills",
+        help="Do not render AI skills or Cross-sell",
     )
-    parser.add_argument("--refresh-ai-product-map", action="store_true", help="Overwrite AI product mapping template")
-    parser.set_defaults(update_llm_summary=DEFAULT_UPDATE_LLM_SUMMARY)
-    parser.add_argument("--update-llm-summary", dest="update_llm_summary", action="store_true", help="Use GigaChat to add LLM summary into AI skill groups")
-    parser.add_argument("--no-update-llm-summary", dest="update_llm_summary", action="store_false", help="Do not call GigaChat for AI skill group summaries")
-    parser.set_defaults(llm_log=DEFAULT_LLM_LOG)
-    parser.add_argument("--llm-log", dest="llm_log", action="store_true", help="Print LLM input/output with tqdm while building summaries")
-    parser.add_argument("--no-llm-log", dest="llm_log", action="store_false", help="Disable verbose LLM input/output logging")
     return parser.parse_args(argv)
 
 
 def main() -> None:
     args = parse_args()
     ai_skills_enabled = not args.no_ai_skills
-    skip_ai_digest = args.skip_ai_digest or args.no_ai_skills
     skip_crosssell = args.no_ai_skills
-    ai_digest_source: dict[str, Any] = {
-        "mode": "disabled" if args.no_ai_skills else ("skipped" if args.skip_ai_digest else ("api_refresh" if args.update_ai_digest else "local_file")),
-        "request_enabled": bool(args.update_ai_digest and not skip_ai_digest),
-        "request_attempted": False,
-        "downloaded": False,
-        "download_error": "",
-        "digest_path": "" if args.no_ai_skills else str(args.ai_digest_xlsx),
-        "mapping_path": "" if args.no_ai_skills else str(args.ai_product_map),
-        "local_digest_used": bool(not skip_ai_digest and args.ai_digest_xlsx.exists()),
-        "llm_summary_requested": bool(args.update_llm_summary and ai_skills_enabled),
-        "llm_summary_configured": bool(ai_skills_enabled and gigachat_is_configured()),
-        "llm_log": bool(args.llm_log),
-    }
     crosssell_source: dict[str, Any] = {
         "mode": "disabled" if skip_crosssell else ("api_refresh" if args.update_crosssell else "local_file"),
         "request_enabled": bool(args.update_crosssell and not skip_crosssell and args.crosssell_token),
@@ -5633,25 +3926,6 @@ def main() -> None:
         "cache_path": "" if skip_crosssell else str(args.crosssell_json),
         "local_cache_used": bool(not skip_crosssell and args.crosssell_json.exists()),
     }
-    if args.update_ai_digest and not skip_ai_digest:
-        download_ai_skill_digest(
-            args.ai_digest_xlsx,
-            args.ai_digest_url,
-            timeout=args.ai_digest_timeout,
-            token=args.ai_digest_token,
-        )
-        ai_digest_source.update(
-            {
-                "request_attempted": True,
-                "downloaded": True,
-                "download_error": "",
-                "local_digest_used": True,
-            }
-        )
-    elif not skip_ai_digest and not args.ai_digest_xlsx.exists():
-        raise FileNotFoundError(
-            f"AI digest update disabled, but local file was not found: {args.ai_digest_xlsx}"
-        )
     if args.update_crosssell and not skip_crosssell and args.crosssell_token:
         download_crosssell_export(
             args.crosssell_json,
@@ -5671,19 +3945,12 @@ def main() -> None:
     elif args.update_crosssell and not skip_crosssell and not args.crosssell_token:
         crosssell_source["download_error"] = "PL_PARTNER_CROSSSELL_TOKEN не настроен"
     crosssell_path = None if skip_crosssell or not args.crosssell_json.exists() else args.crosssell_json
-    ai_digest_path = None if skip_ai_digest else args.ai_digest_xlsx
     data, summary = build_combined_data(
         args.input,
         args.title_sheet,
         args.detail_sheet,
         args.period,
-        ai_digest_path=ai_digest_path,
-        ai_product_map=args.ai_product_map,
         crosssell_path=crosssell_path,
-        create_ai_map=ai_skills_enabled,
-        refresh_ai_map=args.refresh_ai_product_map,
-        update_llm_summary=args.update_llm_summary and ai_skills_enabled,
-        llm_log=args.llm_log,
         include_ai_skills=ai_skills_enabled,
     )
     write_html(data, args.output)
@@ -5693,7 +3960,7 @@ def main() -> None:
             json.dumps(data, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
         )
-    print(json.dumps({"html": str(args.output), "ai_digest_source": ai_digest_source, "crosssell_source": crosssell_source, **summary}, ensure_ascii=False, indent=2))
+    print(json.dumps({"html": str(args.output), "crosssell_source": crosssell_source, **summary}, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":

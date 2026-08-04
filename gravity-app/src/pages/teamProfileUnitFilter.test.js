@@ -49,14 +49,12 @@ test('both Summary views use the same lifted unit filter', () => {
 test('team profile controls stay beside the heading without overlapping', () => {
   const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
   assert.match(stylesSource, /\.detail-header\s*\{[^}]*grid-template-columns:\s*minmax\(0, 1fr\) auto;/s);
-  assert.match(stylesSource, /\.detail-controls\s*\{[^}]*grid-template-columns:\s*310px 160px 220px;/s);
+  assert.match(stylesSource, /\.detail-controls\s*\{[^}]*grid-template-columns:\s*160px 220px;/s);
   assert.match(stylesSource, /@media \(max-width: 900px\) \{[^\n]*\.detail-header\s*\{[^}]*grid-template-columns:\s*1fr;[^}]*\}[^\n]*\.detail-controls\s*\{[^}]*grid-template-columns:\s*1fr;/);
 });
 
-test('compact section toggle does not overflow into the unit filter', () => {
-  const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
-  assert.match(profileSource, /<SegmentedRadioGroup value=\{lens\}.*width="max">/);
-  assert.match(profileSource, /<SegmentedRadioGroup\.Option value="metrics"[^>]*>.*AI-рекомендации/s);
-  assert.doesNotMatch(profileSource, /detail-section-select"><span>Раздел<\/span><Select value=\{\[lens\]\}/);
-  assert.match(stylesSource, /\.detail-section-select \.g-segmented-radio-group__option-text\s*\{[^}]*margin:\s*0 6px;[^}]*font-size:\s*12px;/s);
+test('team profile removes the replaced AI recommendations section toggle', () => {
+  assert.doesNotMatch(profileSource, /SegmentedRadioGroup|detail-section-select/);
+  assert.doesNotMatch(profileSource, /ProductMetricBlocks|setLens\(|lens === 'metrics'/);
+  assert.match(profileSource, /const openConfiguredSkill = \(recommendation\) => \{[\s\S]*setReportAccessOpen\(true\);/);
 });

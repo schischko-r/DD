@@ -28,8 +28,24 @@ export function worstDigestLight(items) {
   return order.find((light) => items.some((item) => (item.traffic_light || 'gray') === light)) || 'gray';
 }
 
+const REMOVED_DIGEST_SKILL_KEYS = new Set([
+  'clickstream_funnel',
+  'client_metrics',
+  'complaints',
+  'csi',
+  'drafts',
+  'funnel',
+  'llm_summary',
+]);
+
+export function presentableRecommendations(items) {
+  return (items || []).filter((item) => (
+    !REMOVED_DIGEST_SKILL_KEYS.has(String(item.skill_key || '').trim().toLowerCase())
+  ));
+}
+
 export function hasAvailableRecommendations(items) {
-  return (items || []).some((item) => !item.llm_placeholder);
+  return presentableRecommendations(items).length > 0;
 }
 
 export function hasManualValidationWarning(items) {

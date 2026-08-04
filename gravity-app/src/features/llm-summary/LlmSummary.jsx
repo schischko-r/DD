@@ -3,9 +3,9 @@ import {ChevronDown, ChevronRight, TriangleExclamationFill} from '@gravity-ui/ic
 import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text, Tooltip} from '@gravity-ui/uikit';
 import {filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
-import {crossSellMarketPresentation, crossSellWaitingDecisionCount, digestStatus, digestTheme, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {crossSellMarketPresentation, crossSellWaitingDecisionCount, digestStatus, digestTheme, presentableRecommendations, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
-export {digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, worstDigestLight} from './digestPresentation.js';
+export {digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, presentableRecommendations, worstDigestLight} from './digestPresentation.js';
 
 const MANUAL_VALIDATION_MESSAGE = 'Требует ручной валидации.';
 
@@ -130,9 +130,9 @@ export function RecommendationBody({item, useText = false}) {
   </div>;
 }
 
-export function ProductMetricRecommendations({product, onOpenReport}) {
+export function ProductMetricRecommendations({product}) {
   const [filter, setFilter] = useState('all');
-  const recommendations = product.metric_recommendations || [];
+  const recommendations = presentableRecommendations(product.metric_recommendations);
   const counts = recommendations.reduce((result, item) => {
     const light = item.traffic_light || 'gray';
     result[light] = (result[light] || 0) + 1;
@@ -160,15 +160,10 @@ export function ProductMetricRecommendations({product, onOpenReport}) {
         {months.length > 0 && <Label theme="info" size="s">{months.join(' · ')}</Label>}
       </header>
 
-      <Card className="promo metric-report-promo" view="outlined">
-        <div><Text variant="subheader-1">Посмотреть комплексный отчет по продукту</Text><Text variant="body-1" color="secondary">Мы подготовили для вас AI-рекомендации по вашим ключевым метрикам</Text></div>
-        <SemanticButton intent={BUTTON_INTENT.primary} onClick={onOpenReport}>Перейти <Icon data={ChevronRight} size={14} /></SemanticButton>
-      </Card>
-
       {recommendations.length === 0 ? (
         <Card className="metric-recommendations-empty" view="outlined">
           <Text variant="subheader-1">Рекомендаций пока нет</Text>
-          <Text variant="body-1" color="secondary">Для {product.type.toLowerCase()} «{product.name}» нет совпавших записей в ai_product_mapping и текущем AI Skill Digest.</Text>
+          <Text variant="body-1" color="secondary">Для {product.type.toLowerCase()} «{product.name}» пока нет доступных рекомендаций.</Text>
         </Card>
       ) : (
         <>
@@ -217,7 +212,7 @@ export function ProductMetricRecommendations({product, onOpenReport}) {
 
 function ProductMetricRows({items}) {
   return items.map((item) => <div className="metric-row product-metric-row" key={item.id}>
-    <div className="metric-copy">{item.is_traffic_light && item.skill_key !== 'llm_summary' ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><div className="product-metric-indicator"><b>{item.indicator}</b>{item.skill_key === 'cross_sell' && item.requires_manual_validation && <Tooltip content={MANUAL_VALIDATION_MESSAGE} openDelay={200}><span className="ai-manual-validation-warning" tabIndex={0} aria-label={MANUAL_VALIDATION_MESSAGE}><Icon className="ai-manual-validation-icon" data={TriangleExclamationFill} size={18} /></span></Tooltip>}</div><RecommendationBody item={item} />{item.is_traffic_light && item.skill_key !== 'llm_summary' && item.skill_key !== 'cross_sell' && item.rule && <small>Как читать сигнал: {readableDigestRule(item.rule)}</small>}{item.skill_key === 'cross_sell' && <div className="crosssell-feedback-action"><SemanticButton intent={BUTTON_INTENT.feedback} href="https://losshunter.ru/new/studio" target="_blank" rel="noreferrer">Добавить прогон</SemanticButton></div>}</div></div>
+    <div className="metric-copy">{item.is_traffic_light ? <i className={`metric-light metric-light-${digestTheme(item.traffic_light)}${item.traffic_light === 'gray' ? ' product-metric-empty-light' : ''}`} aria-hidden="true" /> : <span className="product-metric-light-spacer" aria-hidden="true" />}<div><div className="product-metric-indicator"><b>{item.indicator}</b>{item.skill_key === 'cross_sell' && item.requires_manual_validation && <Tooltip content={MANUAL_VALIDATION_MESSAGE} openDelay={200}><span className="ai-manual-validation-warning" tabIndex={0} aria-label={MANUAL_VALIDATION_MESSAGE}><Icon className="ai-manual-validation-icon" data={TriangleExclamationFill} size={18} /></span></Tooltip>}</div><RecommendationBody item={item} />{item.is_traffic_light && item.skill_key !== 'cross_sell' && item.rule && <small>Как читать сигнал: {readableDigestRule(item.rule)}</small>}{item.skill_key === 'cross_sell' && <div className="crosssell-feedback-action"><SemanticButton intent={BUTTON_INTENT.feedback} href="https://losshunter.ru/new/studio" target="_blank" rel="noreferrer">Добавить прогон</SemanticButton></div>}</div></div>
     <div className="product-metric-row-side">{item.month && <Text variant="caption-1" color="secondary">{item.month}</Text>}</div>
   </div>);
 }
@@ -234,14 +229,10 @@ export function recommendationBlockCode(product, requestedCode) {
   return requestedCode;
 }
 
-export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSkill}) {
-  const recommendations = product.metric_recommendations || [];
+export function ProductMetricBlocks({product, focusBlock, focusSkill}) {
+  const recommendations = presentableRecommendations(product.metric_recommendations);
   const [detailMode, setDetailMode] = useState('compact');
-  const [open, setOpen] = useState(() => new Set(
-    recommendations
-      .filter((item) => item.llm_summary)
-      .map((item) => recommendationBlockCode(product, item.block_code || 'other')),
-  ));
+  const [open, setOpen] = useState(() => new Set());
   const itemsByBlock = recommendations.reduce((result, item) => {
     const key = recommendationBlockCode(product, item.block_code || 'other');
     if (!result.has(key)) result.set(key, []);
@@ -275,11 +266,6 @@ export function ProductMetricBlocks({product, onOpenReport, focusBlock, focusSki
         title="Рекомендации по продуктовым метрикам"
         message="К ключевым блокам Data Driven мы подтянули доступные продуктовые показатели из текущей отчётности и подготовили рекомендации по зонам внимания."
       />
-
-      <Card className="promo metric-report-promo" view="outlined">
-        <div><Text variant="subheader-1">Посмотреть комплексный отчет по продукту</Text><Text variant="body-1" color="secondary">Больше подробностей можно посмотреть в комплексном отчёте. Мы подготовили его на основе расширенного пула источников, которые вы можете использовать.</Text></div>
-        <SemanticButton intent={BUTTON_INTENT.primary} onClick={onOpenReport}>Перейти <Icon data={ChevronRight} size={14} /></SemanticButton>
-      </Card>
 
       <section className="metrics-section product-metrics-section">
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид продуктовых метрик"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set(activeBlockCodes)); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>

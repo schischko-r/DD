@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {crossSellMarketPresentation, crossSellWaitingDecisionCount, digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
+import {crossSellMarketPresentation, crossSellWaitingDecisionCount, digestStatus, digestTheme, hasAvailableRecommendations, hasManualValidationWarning, presentableRecommendations, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
 test('digest presentation preserves traffic-light semantics', () => {
   assert.equal(digestTheme('red'), 'danger');
@@ -27,14 +27,22 @@ test('worst digest light keeps existing priority order', () => {
   assert.equal(worstDigestLight([]), 'gray');
 });
 
-test('recommendations are unavailable when only an empty LLM summary exists', () => {
+test('removed digest recommendations are excluded without hiding Cross-sell or unknown sources', () => {
+  const llmSummary = {skill_key: 'llm_summary'};
+  const csiDigest = {skill_key: 'csi'};
+  const funnelDigest = {skill_key: 'clickstream_funnel'};
+  const crossSell = {skill_key: 'cross_sell'};
+  const independentRecommendation = {skill_key: 'independent_source'};
+
+  assert.deepEqual(
+    presentableRecommendations([llmSummary, csiDigest, funnelDigest, crossSell, independentRecommendation]),
+    [crossSell, independentRecommendation],
+  );
   assert.equal(hasAvailableRecommendations([]), false);
-  assert.equal(hasAvailableRecommendations([{llm_summary: true, llm_placeholder: true}]), false);
-  assert.equal(hasAvailableRecommendations([
-    {llm_summary: true, llm_placeholder: true},
-    {skill_key: 'csi'},
-  ]), true);
-  assert.equal(hasAvailableRecommendations([{llm_summary: true}]), true);
+  assert.equal(hasAvailableRecommendations([llmSummary]), false);
+  assert.equal(hasAvailableRecommendations([csiDigest]), false);
+  assert.equal(hasAvailableRecommendations([llmSummary, crossSell]), true);
+  assert.equal(hasAvailableRecommendations([independentRecommendation]), true);
 });
 
 test('manual validation warning is driven by the recommendation flag', () => {
@@ -58,7 +66,7 @@ test('recommendation skill link uses the matching AI tool from the metric block'
     recommendationSkillLink(block, [{skill_key: 'clickstream_funnel'}]),
     'https://example.test/funnel',
   );
-  assert.equal(recommendationSkillLink(block, [{skill_key: 'llm_summary'}]), '');
+  assert.equal(recommendationSkillLink(block, [{skill_key: 'unknown'}]), '');
 });
 
 test('recommendation skill link supports a direct cross-sell tool', () => {

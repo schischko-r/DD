@@ -51,6 +51,7 @@ const TOOL_DEFINITIONS_BY_ID = new Map(
 
 export const TOOL_CATALOG = Object.freeze(
   Object.entries(HTML_PAGE_CONFIG)
+    .filter(([id]) => id !== 'llm_summary')
     .map(([id, configured]) => {
       const definition = TOOL_DEFINITIONS_BY_ID.get(id) || {};
       return Object.freeze({

@@ -143,7 +143,6 @@ test('query navigation accepts the parent funnel mapping and latest-period reque
       title: 'Анализ кликстрим воронок',
       icon: 'ChartLine',
     },
-    llm_summary: {url: '', title: 'AI-суммаризация', icon: 'Sparkles'},
     client_metrics: {url: '', title: 'Клиентские метрики', icon: 'ChartColumn'},
     complaints: {url: '', title: 'Жалобы и обращения', icon: 'Comments'},
     csi: {url: '', title: 'CSI', icon: 'CircleCheck'},
