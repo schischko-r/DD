@@ -1,9 +1,9 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Chart} from '@gravity-ui/charts';
-import {ArrowLeft, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo} from '@gravity-ui/icons';
+import {ArrowLeft, ArrowUpRightFromSquare, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo} from '@gravity-ui/icons';
 import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Modal, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
-import {RecommendationCell} from './RecommendationCell.js';
+import {isMetricAbove, RecommendationCell} from './RecommendationCell.js';
 
 const GROUPING_OPTIONS = [
   {value: 'directions', content: 'Направления'},
@@ -519,9 +519,7 @@ function RecommendationToolBlock({item, onAction}) {
     .filter((resource) => resource?.href || resource?.action)
     .filter((resource, index, all) => all.findIndex((candidate) => (candidate.href || candidate.action) === (resource.href || resource.action)) === index);
   if (!resources.length) return null;
-  const resourceLabel = (resource) => /^ссылке$/i.test(String(resource.label || '').trim()) && item.sourceTool
-    ? item.sourceTool
-    : String(resource.label || item.sourceTool || 'Открыть');
+  const resourceLabel = (resource) => String(resource.toolLabel || resource.label || item.sourceTool || 'Открыть');
   return (
     <div className="metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-resources backlog-useful-tools">
       <span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span>
@@ -529,7 +527,7 @@ function RecommendationToolBlock({item, onAction}) {
       <span className="metric-inline-instruction-resource-actions">
         {resources.map((resource) => resource.action
           ? <button key={resource.action} type="button" className="backlog-useful-tool-action" aria-haspopup="dialog" onClick={() => onAction(resource.action)}>{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></button>
-          : <Link key={resource.href} href={resource.href} target="_blank" rel="noreferrer">{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></Link>)}
+          : <Link key={resource.href} href={resource.href} target="_blank" rel="noreferrer">{resourceLabel(resource)}<Icon data={ArrowUpRightFromSquare} size={13} /></Link>)}
       </span>
     </div>
   );
@@ -599,7 +597,7 @@ function RecommendationCopy({item, resourcesBelow = false}) {
         <Flex className="ex-el-access-content" direction="column" gap="4">
           <Flex direction="column" gap="2">
             <Text id="ex-el-access-title" as="h2" variant="subheader-3">EX-EL</Text>
-            <Text variant="body-1">Ссылка на сервис: <Link href={EX_EL_SERVICE_URL} target="_blank" rel="noreferrer">открыть EX-EL</Link>.</Text>
+            <Text variant="body-1">Сервис: <Link href={EX_EL_SERVICE_URL} target="_blank" rel="noreferrer">EX-EL</Link>.</Text>
             <Text variant="body-1">Если нет доступа, его можно оформить через АС Друг.</Text>
           </Flex>
           <div className="ex-el-access-table-scroll">
@@ -626,19 +624,20 @@ function buildScenarioFocusColumns(periodLabel, resourcesBelow = false) {
     {
       id: 'scenario',
       name: 'Сценарий',
-      width: '24%',
+      width: '22%',
       primary: true,
+      template: (item) => <Text className="backlog-table-scenario" variant="subheader-1">{item.scenario}</Text>,
     },
     {
       id: 'share',
       name: `Доля · ${periodLabel}`,
-      width: '14%',
-      template: (item) => <Text variant="subheader-1">{formatPercentValue(item.share)}</Text>,
+      width: '13%',
+      template: (item) => <Text className="backlog-table-metric" variant="subheader-1">{formatPercentValue(item.share)}</Text>,
     },
     {
       id: 'recommendation',
       name: 'Рекомендация',
-      width: '62%',
+      width: '65%',
       template: (item) => <RecommendationCell><RecommendationCopy item={item} resourcesBelow={resourcesBelow} /></RecommendationCell>,
     },
   ];
@@ -666,7 +665,7 @@ function buildScenarioRecommendationColumns(resourcesBelow = false) {
     {
       id: 'direction',
       name: 'Направление',
-      width: '16%',
+      width: '13%',
       template: (item) => <Label theme="utility" size="s">{item.direction}</Label>,
     },
     {
@@ -674,31 +673,33 @@ function buildScenarioRecommendationColumns(resourcesBelow = false) {
       name: 'Сценарий',
       width: '14%',
       primary: true,
+      template: (item) => <Text className="backlog-table-scenario" variant="subheader-1">{item.scenario}</Text>,
     },
     {
       id: 'cycleTimeShare',
-      name: '% времени в сценарии',
-      width: '10%',
+      name: '% времени',
+      width: '8%',
       template: (item) => item.cycleTimeShare === null
         ? <Text color="secondary">—</Text>
-        : <Text variant="subheader-1">{formatPercentValue(item.cycleTimeShare)}</Text>,
+        : <Text className="backlog-table-metric" variant="subheader-1">{formatPercentValue(item.cycleTimeShare)}</Text>,
     },
     {
       id: 'continuous25thHours',
       name: 'TTM · топ-25%',
-      width: '10%',
-      template: (item) => <Text>{formatOptionalMetric(item.continuous25thHours, 'ч', 2)}</Text>,
+      width: '9%',
+      template: (item) => <Text className="backlog-table-metric backlog-table-metric--benchmark">{formatOptionalMetric(item.continuous25thHours, 'ч', 2)}</Text>,
     },
     {
       id: 'medianCycleTimeHours',
       name: 'TTM команды',
-      width: '10%',
-      template: (item) => <Text>{formatOptionalMetric(item.medianCycleTimeHours, 'ч', 1)}</Text>,
+      width: '9%',
+      template: (item) => <Text className={isMetricAbove(item.medianCycleTimeHours, item.continuous25thHours) ? 'backlog-table-metric backlog-table-metric--attention' : 'backlog-table-metric'}>{formatOptionalMetric(item.medianCycleTimeHours, 'ч', 1)}</Text>,
     },
     {
       id: 'info',
       name: 'Описание',
-      width: '22%',
+      width: '19%',
+      template: (item) => <Text className="backlog-table-description" color="secondary">{item.info}</Text>,
     },
     {
       id: 'recommendation',

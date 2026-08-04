@@ -59,7 +59,7 @@ test('backlog can return to the selected team profile with exact normalized name
   assert.match(openTeamSource, /setSelected\(target\);[\s\S]*?setView\('detail'\);[\s\S]*?window\.scrollTo\(0, 0\)/);
   assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
 
-  assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
+  assert.match(pageSource, /import \{ArrowLeft, ArrowUpRightFromSquare, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
   assert.match(pageSource, /import \{Box, Button, Card, Divider/);
   assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = '', variant = 'default'\}\)/);
   assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
