@@ -77,8 +77,15 @@ fi
         self.assertIn("python build_gravity_report.py", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
-    def test_default_build_runs_builder_then_uploader(self) -> None:
-        invocations = self.run_wrapper(upload=True)
+    def test_default_build_does_not_require_upload_configuration(self) -> None:
+        invocations = self.run_wrapper()
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("python build_gravity_report.py", invocations[0])
+        self.assertNotIn("upload_html.py", invocations[0])
+
+    def test_upload_flag_runs_builder_then_uploader(self) -> None:
+        invocations = self.run_wrapper("--upload", upload=True)
 
         self.assertEqual(len(invocations), 2)
         self.assertIn("python build_gravity_report.py", invocations[0])

@@ -58,7 +58,7 @@ load_env() {
 }
 
 DATA_ONLY=0
-UPLOAD_ENABLED=1
+UPLOAD_ENABLED=0
 STANDALONE_OUTPUT="$REPOSITORY_DIR/gravity-standalone.html"
 FORWARD_ARGS=()
 while (($# > 0)); do
@@ -70,6 +70,10 @@ while (($# > 0)); do
       ;;
     --no-upload)
       UPLOAD_ENABLED=0
+      shift
+      ;;
+    --upload)
+      UPLOAD_ENABLED=1
       shift
       ;;
     --standalone-output)

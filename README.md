@@ -26,13 +26,14 @@
 для offline-сборки: `./build_gravity_report.sh --no-update-crosssell`. Env-файл
 читается как dotenv: строки без формата `KEY=VALUE` безопасно пропускаются.
 
-После полной сборки скрипт загружает `gravity-standalone.html` в Qlik QRS.
-Для загрузки задайте `HTML_UPLOAD_CERT_PASSWORD`; сертификат и CA bundle по
+По умолчанию скрипт только собирает отчёт и не требует сертификат. Чтобы после
+сборки загрузить `gravity-standalone.html` в Qlik QRS, добавьте `--upload` и
+задайте `HTML_UPLOAD_CERT_PASSWORD`; сертификат и CA bundle по
 умолчанию читаются из `$HOME/Sandbox/certs/21090527.p12` и
 `$HOME/Sandbox/certs/sberca-chain.pem`. Их можно переопределить через
 `HTML_UPLOAD_CERT_PATH` и `HTML_UPLOAD_CA_BUNDLE`, endpoint — через
-`HTML_UPLOAD_URL`. Для локальной сборки без загрузки используйте `--no-upload`.
-Режим `--data-only` всегда пропускает загрузку.
+`HTML_UPLOAD_URL`. `--no-upload` сохранён для совместимости, а режим
+`--data-only` всегда пропускает загрузку.
 
 Команда использует flat-table-пайплайн из `build_calc_report.py`.
 Сборка не требует внешних digest-файлов и не вызывает генеративные модели. Интеграция
