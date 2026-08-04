@@ -17,6 +17,8 @@ class BuildGravityReportShellTest(unittest.TestCase):
         *arguments: str,
         upload: bool = False,
         dotenv: str | None = None,
+        extra_environment: dict[str, str] | None = None,
+        frontend_installed: bool = True,
     ) -> list[str]:
         with tempfile.TemporaryDirectory() as temp_dir:
             directory = Path(temp_dir)
@@ -36,7 +38,10 @@ fi
             )
             python_stub.chmod(0o755)
             npm_stub = directory / "npm"
-            npm_stub.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+            npm_stub.write_text(
+                '#!/bin/sh\nprintf "NPM:%s\\n" "$*" >> "$COMMAND_LOG"\n',
+                encoding="utf-8",
+            )
             npm_stub.chmod(0o755)
 
             environment = {
@@ -44,6 +49,15 @@ fi
                 "PYTHON": str(python_stub),
                 "COMMAND_LOG": str(log_path),
             }
+            if not frontend_installed:
+                frontend_dir = directory / "gravity-app"
+                frontend_dir.mkdir()
+                environment.update(
+                    {
+                        "GRAVITY_APP_DIR": str(frontend_dir),
+                        "NPM": str(npm_stub),
+                    }
+                )
             if dotenv is not None:
                 env_file = directory / ".env"
                 env_file.write_text(dotenv, encoding="utf-8")
@@ -60,6 +74,7 @@ fi
                         "HTML_UPLOAD_CA_BUNDLE": str(ca_bundle),
                     }
                 )
+            environment.update(extra_environment or {})
 
             subprocess.run(
                 ["/bin/bash", str(SCRIPT), *arguments],
@@ -78,12 +93,14 @@ fi
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
-    def test_default_build_does_not_require_upload_configuration(self) -> None:
-        invocations = self.run_wrapper()
+    def test_default_build_runs_builder_then_uploader(self) -> None:
+        invocations = self.run_wrapper(upload=True)
 
-        self.assertEqual(len(invocations), 1)
+        self.assertEqual(len(invocations), 2)
         self.assertIn("build_gravity_report.py", invocations[0])
-        self.assertNotIn("upload_html.py", invocations[0])
+        self.assertIn("upload_html.py", invocations[1])
+        self.assertIn("45678_3_test_", invocations[1])
+        self.assertNotIn("test-password", "\n".join(invocations))
 
     def test_upload_flag_runs_builder_then_uploader(self) -> None:
         invocations = self.run_wrapper("--upload", upload=True)
@@ -118,6 +135,33 @@ fi
             invocations[2],
             'DOTENV_COMMAND:$(printf "must not execute")',
         )
+
+    def test_existing_environment_takes_precedence_over_dotenv(self) -> None:
+        invocations = self.run_wrapper(
+            "--data-only",
+            dotenv='DOTENV_TEST_VALUE="from dotenv"\n',
+            extra_environment={"DOTENV_TEST_VALUE": "from caller"},
+        )
+
+        self.assertEqual(invocations[1], "DOTENV_TEST_VALUE:from caller")
+
+    def test_dotenv_standalone_path_is_used_for_automatic_upload(self) -> None:
+        invocations = self.run_wrapper(
+            upload=True,
+            dotenv="STANDALONE_HTML=final_report_from_excel.html\n",
+        )
+
+        self.assertIn(str(ROOT / "final_report_from_excel.html"), invocations[1])
+        self.assertNotIn(str(ROOT / "gravity-standalone.html"), invocations[1])
+
+    def test_custom_npm_installs_dependencies_on_a_fresh_machine(self) -> None:
+        invocations = self.run_wrapper(
+            "--no-upload",
+            frontend_installed=False,
+        )
+
+        self.assertEqual(invocations[0], "NPM:ci")
+        self.assertIn("build_gravity_report.py", invocations[1])
 
 
 if __name__ == "__main__":

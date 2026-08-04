@@ -6,13 +6,13 @@ import {ApplicableRadarDot, ApplicableRadarShape, COMPLEX_REPORT_URL, HELP_POPOV
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {
   RecommendationBody,
-  presentableRecommendations,
   recommendationBlockCode,
 } from '../features/llm-summary/LlmSummary.jsx';
 import {
   buildHtmlPageContext,
   findHtmlPageToolForRecommendation,
 } from '../features/html-pages/htmlPageTools.js';
+import {metricAiActionRecommendations} from './teamProfileAiSkillNavigation.js';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const AB_TEST_INSTRUCTION_LINKS = [
@@ -735,7 +735,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
   const score = scoreFor(product, rows);
   const maturity = groupFor(product, rows);
   const maturityTone = maturityTheme(maturity);
-  const aiRecommendations = presentableRecommendations(product.metric_recommendations);
+  const aiActionRecommendations = metricAiActionRecommendations(product);
   const profileSeries = radarSeries(product.type);
   const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter(isDdIndexMetric);
   const earnedPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
@@ -769,8 +769,8 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
     }
   };
   const aiRecommendationBlockCodes = useMemo(
-    () => new Set(aiRecommendations.map((item) => recommendationBlockCode(product, item.block_code || 'other'))),
-    [aiRecommendations, product],
+    () => new Set(aiActionRecommendations.map((item) => recommendationBlockCode(product, item.block_code || 'other'))),
+    [aiActionRecommendations, product],
   );
   const visibleMetricBlocks = useMemo(
     () => filterInapplicableMetricGroups(product.metrics || [], aiRecommendationBlockCodes, isVisibleMetric),
@@ -784,19 +784,21 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
   useEffect(() => () => {
     if (recommendationHighlightTimer.current) window.clearTimeout(recommendationHighlightTimer.current);
   }, []);
-  const mauAiRecommendation = aiRecommendations.find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')) && !/\bYAU\b/i.test(String(item.indicator || '')))
-    || aiRecommendations.find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')));
+  const clientMetricsAiRecommendations = aiActionRecommendations.filter((item) => item.skill_key === 'client_metrics' || /ключевые метрики/i.test(String(item.skill_name || '')));
+  const mauAiRecommendation = clientMetricsAiRecommendations[0]
+    || aiActionRecommendations.find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')) && !/\bYAU\b/i.test(String(item.indicator || '')))
+    || aiActionRecommendations.find((item) => item.block_code === 'general' && /\bMAU\b/i.test(String(item.indicator || '')));
   const hasMauAiRecommendation = Boolean(mauAiRecommendation);
-  const htmlPageAiRecommendations = aiRecommendations.reduce((matches, recommendation) => {
+  const htmlPageAiRecommendations = aiActionRecommendations.reduce((matches, recommendation) => {
     const tool = findHtmlPageToolForRecommendation(recommendation);
     if (!tool || matches.some((match) => match.tool.id === tool.id)) return matches;
     return [...matches, {tool, context: buildHtmlPageContext(tool, recommendation)}];
   }, []);
-  const draftAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'drafts' || item.skill_name === 'Черновики');
-  const campaignFunnelAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'funnel' || item.skill_name === 'Воронка кампейнинга');
-  const pilotAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'pilots' || item.skill_name === 'Пилотные кампании');
-  const csiAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'csi' || item.skill_name === 'CSI');
-  const complaintsAiRecommendations = aiRecommendations.filter((item) => item.skill_key === 'complaints' || item.skill_name === 'Жалобы и обращения');
+  const draftAiRecommendations = aiActionRecommendations.filter((item) => item.skill_key === 'drafts' || item.skill_name === 'Черновики');
+  const campaignFunnelAiRecommendations = aiActionRecommendations.filter((item) => item.skill_key === 'funnel' || item.skill_name === 'Воронка кампейнинга');
+  const pilotAiRecommendations = aiActionRecommendations.filter((item) => item.skill_key === 'pilots' || item.skill_name === 'Пилотные кампании');
+  const csiAiRecommendations = aiActionRecommendations.filter((item) => item.skill_key === 'csi' || item.skill_name === 'CSI');
+  const complaintsAiRecommendations = aiActionRecommendations.filter((item) => item.skill_key === 'complaints' || item.skill_name === 'Жалобы и обращения');
   const openConfiguredSkill = (recommendation) => {
     const tool = findHtmlPageToolForRecommendation(recommendation);
     if (tool) {

@@ -10,6 +10,8 @@ import {
   decodeHtmlPageContent,
   prepareHtmlPageSource,
 } from '../features/html-pages/htmlPageContent.js';
+import {resolveHtmlPageContext} from '../features/html-pages/htmlPageConfig.js';
+import {metricAiActionRecommendations} from '../pages/teamProfileAiSkillNavigation.js';
 
 const legacyReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed.html';
 const gravityReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed_gravity.html';
@@ -214,10 +216,29 @@ test('AsideHeader appends generated html_page items after a native divider', () 
 });
 
 test('Team profile resolves a generic html_page action from recommendation metadata', () => {
+  const clickstreamMapping = {
+    skill_key: 'clickstream_funnel',
+    skill_name: 'Воронка оформления в СБОЛ',
+    block_code: 'attract',
+    ai_products: ['Воронка. Открытие рублевых вкладов.'],
+  };
+  const [clickstreamAction] = metricAiActionRecommendations({
+    ai_skill_mappings: [clickstreamMapping],
+  });
+  assert.equal(clickstreamAction, clickstreamMapping);
+  assert.deepEqual(
+    resolveHtmlPageContext(
+      {valueSources: {funnel: ['ai_products.0']}},
+      clickstreamAction,
+    ),
+    {funnel: 'Воронка. Открытие рублевых вкладов.'},
+  );
   assert.match(
     teamProfileSource,
     /export function TeamProfilePage\(\{[^}]*\bonOpenHtmlPageTool\b[^}]*\}\)/,
   );
+  assert.match(teamProfileSource, /metricAiActionRecommendations\(product\)/);
+  assert.match(teamProfileSource, /htmlPageAiRecommendations = aiActionRecommendations\.reduce/);
   assert.match(teamProfileSource, /findHtmlPageToolForRecommendation/);
   assert.match(teamProfileSource, /onOpenHtmlPageTool/);
   assert.match(teamProfileSource, /tool\.action\?\.metricCode/);
@@ -757,7 +778,7 @@ test('HTML report fills the available application viewport', () => {
   );
 });
 
-test('Clickstream recommendation mappings, when present, exist as report funnels', () => {
+test('Clickstream AI skill mappings exist as report funnels', () => {
   const dataMarker = 'var _ALL_DATA = ';
   const dataStart = reportHtml.indexOf(dataMarker);
   assert.notEqual(dataStart, -1, '_ALL_DATA marker is missing from Clickstream HTML');
@@ -772,7 +793,7 @@ test('Clickstream recommendation mappings, when present, exist as report funnels
     clickstreamData.funnels.map((item) => [item.funnel_name, String(item.funnel_id)]),
   );
   const clickstreamRecommendations = reportData.products.flatMap((product) => (
-    (product.metric_recommendations || [])
+    (product.ai_skill_mappings || [])
       .filter((item) => (
         item.skill_key === 'clickstream_funnel'
         || item.skill_name === 'Воронка оформления в СБОЛ'
@@ -783,6 +804,14 @@ test('Clickstream recommendation mappings, when present, exist as report funnels
       }))
   ));
 
+  assert.ok(clickstreamRecommendations.length > 0, 'Clickstream AI skill mappings are missing');
+  assert.ok(
+    clickstreamRecommendations.some(({product, funnel}) => (
+      product === 'Вклады+НС'
+      && funnel === 'Воронка. Открытие рублевых вкладов.'
+    )),
+    'The deposits team must map to its Clickstream funnel',
+  );
   assert.ok(
     clickstreamRecommendations.every((item) => item.funnel),
     'Every Clickstream recommendation must declare product_group',

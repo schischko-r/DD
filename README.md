@@ -27,18 +27,20 @@
 читается как dotenv: строки без формата `KEY=VALUE` безопасно пропускаются.
 Python запускается напрямую через `${PYTHON:-python3}`; `uv` не используется.
 
-По умолчанию скрипт только собирает отчёт и не требует сертификат. Чтобы после
-сборки загрузить `gravity-standalone.html` в Qlik QRS, добавьте `--upload` и
-задайте `HTML_UPLOAD_CERT_PASSWORD`; сертификат и CA bundle по
+После успешной сборки скрипт автоматически загружает `gravity-standalone.html`
+в Qlik QRS. Задайте `HTML_UPLOAD_CERT_PASSWORD`; сертификат и CA bundle по
 умолчанию читаются из `$HOME/Sandbox/certs/21090527.p12` и
 `$HOME/Sandbox/certs/sberca-chain.pem`. Их можно переопределить через
 `HTML_UPLOAD_CERT_PATH` и `HTML_UPLOAD_CA_BUNDLE`, endpoint — через
-`HTML_UPLOAD_URL`. `--no-upload` сохранён для совместимости, а режим
-`--data-only` всегда пропускает загрузку.
+`HTML_UPLOAD_URL`. Флаг `--no-upload` отключает автоматическую загрузку,
+`--upload` сохранён как явный совместимый режим, а `--data-only` всегда
+пропускает загрузку.
 
 Команда использует flat-table-пайплайн из `build_calc_report.py`.
-Сборка не требует внешних digest-файлов и не вызывает генеративные модели. Интеграция
-cross-sell с Product Lens по умолчанию включена. Результаты записываются в
+Сборка не требует внешних digest-файлов и не вызывает генеративные модели. Связи
+навыков между карточкой команды и специализированными листами берутся из статического
+`ai_skill_product_mapping.json`; файл входит в репозиторий и не требует API дайджеста.
+Cross-sell с Product Lens по умолчанию включён. Результаты записываются в
 `gravity-app/public/report-data.json` и `gravity-standalone.html`. Если рядом
 лежит `sbertrack_all_full_history_to_export.xlsx`, перед сборкой UI также
 обновляется `gravity-app/public/backlog-data.json`.

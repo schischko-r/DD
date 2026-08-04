@@ -60,6 +60,56 @@ class SyntheticReportTest(unittest.TestCase):
             with self.subTest(flag=flag), self.assertRaises(SystemExit):
                 report.parse_args([flag])
 
+    def test_static_clickstream_mapping_for_deposits_and_savings(self) -> None:
+        data = {"products": [{"name": "Вклады+НС"}]}
+
+        report.apply_ai_skill_mappings(data)
+
+        clickstream = [
+            mapping
+            for mapping in data["products"][0]["ai_skill_mappings"]
+            if mapping["skill_key"] == "clickstream_funnel"
+        ]
+        self.assertEqual(
+            [mapping["product_group"] for mapping in clickstream],
+            [
+                "Воронка. Открытие рублевых вкладов.",
+                "Воронка. Открытия Накопительного счета без экрана ИС.",
+                "Воронка. Открытия накопительного счета с экраном ИС.",
+            ],
+        )
+        self.assertEqual(
+            [mapping["ai_products"] for mapping in clickstream],
+            [[mapping["product_group"]] for mapping in clickstream],
+        )
+
+    def test_static_ai_skill_mapping_has_no_digest_or_llm_metadata(self) -> None:
+        data = {"products": [{"name": "Вклады+НС"}]}
+
+        report.apply_ai_skill_mappings(data)
+
+        product = data["products"][0]
+        self.assertNotIn("metric_recommendations", product)
+        self.assertTrue(product["ai_skill_mappings"])
+        self.assertFalse(
+            {"llm_summary", "cross_sell"}
+            & {mapping["skill_key"] for mapping in product["ai_skill_mappings"]}
+        )
+        self.assertTrue(all(
+            set(mapping) == {
+                "skill_key",
+                "skill_name",
+                "block_code",
+                "ai_products",
+                "product_group",
+            }
+            for mapping in product["ai_skill_mappings"]
+        ))
+        serialized = json.dumps(product, ensure_ascii=False).casefold()
+        for forbidden in ("digest", "gigachat", "llm_summary", "traffic_light"):
+            with self.subTest(forbidden=forbidden):
+                self.assertNotIn(forbidden, serialized)
+
     def test_main_uses_existing_crosssell_cache_by_default(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             cache_path = Path(temp_dir) / "crosssell.json"

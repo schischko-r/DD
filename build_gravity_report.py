@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import shutil
 import subprocess
 import sys
@@ -21,11 +22,20 @@ DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
 
 
+def configured_path(variable: str, default: Path) -> Path:
+    value = os.getenv(variable, "").strip()
+    if not value:
+        return default
+    path = Path(value).expanduser()
+    return path if path.is_absolute() else ROOT / path
+
+
 def run(command: list[str], cwd: Path = ROOT) -> None:
     subprocess.run(command, cwd=cwd, check=True)
 
 
 def build(args: argparse.Namespace) -> None:
+    npm_command = os.getenv("NPM", "").strip() or NPM_COMMAND
     report_command = [
         sys.executable,
         str(ROOT / "build_calc_report.py"),
@@ -61,8 +71,8 @@ def build(args: argparse.Namespace) -> None:
     if args.data_only:
         return
 
-    run([NPM_COMMAND, "run", "build:clickstream"], cwd=ROOT / "gravity-app")
-    run([NPM_COMMAND, "run", "build"], cwd=ROOT / "gravity-app")
+    run([npm_command, "run", "build:clickstream"], cwd=ROOT / "gravity-app")
+    run([npm_command, "run", "build"], cwd=ROOT / "gravity-app")
     run(
         [
             sys.executable,
@@ -84,13 +94,27 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
             "flat_table.xlsx"
         )
     )
-    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
-    parser.add_argument("--period", default="II кв. 2026")
-    parser.add_argument("--legacy-output", type=Path, default=DEFAULT_LEGACY_OUTPUT)
-    parser.add_argument("--data-output", type=Path, default=DEFAULT_DATA_OUTPUT)
+    parser.add_argument(
+        "--input", type=Path, default=configured_path("INPUT_FILE", DEFAULT_INPUT)
+    )
+    parser.add_argument("--period", default=os.getenv("PERIOD", "II кв. 2026"))
+    parser.add_argument(
+        "--legacy-output",
+        type=Path,
+        default=configured_path("LEGACY_HTML", DEFAULT_LEGACY_OUTPUT),
+    )
+    parser.add_argument(
+        "--data-output",
+        type=Path,
+        default=configured_path("REPORT_JSON", DEFAULT_DATA_OUTPUT),
+    )
     parser.add_argument("--backlog-input", type=Path, default=DEFAULT_BACKLOG_INPUT)
     parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
-    parser.add_argument("--standalone-output", type=Path, default=DEFAULT_STANDALONE_OUTPUT)
+    parser.add_argument(
+        "--standalone-output",
+        type=Path,
+        default=configured_path("STANDALONE_HTML", DEFAULT_STANDALONE_OUTPUT),
+    )
     parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT)
     parser.add_argument(
         "--no-ai-skills",

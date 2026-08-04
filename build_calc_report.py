@@ -121,6 +121,9 @@ DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
 DEFAULT_PERIOD = _DD_FROM_EXCEL["DEFAULT_PERIOD"]
+DEFAULT_AI_SKILL_PRODUCT_MAPPING = Path(__file__).resolve().with_name(
+    "ai_skill_product_mapping.json"
+)
 DEFAULT_CROSSSELL_EXPORT_JSON = Path("crosssell_export.json")
 DEFAULT_UPDATE_CROSSSELL = True
 CROSSSELL_BASE_URL = os.getenv("PL_PARTNER_CROSSSELL_BASE_URL", "https://losshunter.ru").rstrip("/")
@@ -420,6 +423,65 @@ def worst_ai_light(lights: list[Any]) -> str:
     normalized = [value for value in normalized if value]
     return min(normalized, key=lambda value: priority.get(value, 3)) if normalized else "gray"
 
+
+def load_ai_skill_mappings(
+    path: Path = DEFAULT_AI_SKILL_PRODUCT_MAPPING,
+) -> dict[str, list[dict[str, Any]]]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    product_rows = payload.get("products") if isinstance(payload, dict) else None
+    if not isinstance(product_rows, list):
+        raise ValueError("AI skill mapping JSON должен содержать массив products")
+
+    mappings_by_product: dict[str, list[dict[str, Any]]] = {}
+    for product_row in product_rows:
+        if not isinstance(product_row, dict):
+            continue
+        product_name = clean_text(product_row.get("product_name"))
+        raw_mappings = product_row.get("mappings")
+        if not product_name or not isinstance(raw_mappings, list):
+            continue
+
+        mappings: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for raw_mapping in raw_mappings:
+            if not isinstance(raw_mapping, dict):
+                continue
+            skill_key = normalize_ai_skill_key(raw_mapping.get("skill_key"))
+            if not skill_key or skill_key in {"llm_summary", "cross_sell"}:
+                continue
+            ai_products = raw_mapping.get("ai_products")
+            mapping = {
+                "skill_key": skill_key,
+                "skill_name": clean_text(raw_mapping.get("skill_name")),
+                "block_code": clean_text(raw_mapping.get("block_code")),
+                "ai_products": unique_non_empty(ai_products if isinstance(ai_products, list) else []),
+                "product_group": clean_text(raw_mapping.get("product_group")),
+            }
+            identity = json.dumps(mapping, ensure_ascii=False, sort_keys=True)
+            if identity in seen:
+                continue
+            seen.add(identity)
+            mappings.append(mapping)
+
+        mappings_by_product[normalize_lookup_key(product_name)] = mappings
+
+    return mappings_by_product
+
+
+def apply_ai_skill_mappings(
+    data: dict[str, Any],
+    path: Path = DEFAULT_AI_SKILL_PRODUCT_MAPPING,
+) -> dict[str, Any]:
+    mappings_by_product = load_ai_skill_mappings(path)
+    for product in data.get("products", []):
+        product_mappings = mappings_by_product.get(
+            normalize_lookup_key(product.get("name")), []
+        )
+        product["ai_skill_mappings"] = [
+            {**mapping, "ai_products": list(mapping["ai_products"])}
+            for mapping in product_mappings
+        ]
+    return data
 
 
 def build_crosssell_headers(token: str = CROSSSELL_TOKEN, etag: str = "") -> dict[str, str]:
@@ -2236,6 +2298,7 @@ def build_combined_data(
     period: str,
     crosssell_path: Path | None = None,
     include_ai_skills: bool = True,
+    ai_skill_mapping_path: Path | None = DEFAULT_AI_SKILL_PRODUCT_MAPPING,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     read_title_rows = _TITLE["read_rows"]
     build_title_payload = _TITLE["build_payload"]
@@ -2260,6 +2323,8 @@ def build_combined_data(
     if include_ai_skills:
         detail_data = move_drafts_skill_to_attract(detail_data)
         detail_data = tag_ai_tool_keys(detail_data)
+        if ai_skill_mapping_path is not None:
+            detail_data = apply_ai_skill_mappings(detail_data, ai_skill_mapping_path)
     else:
         detail_data = remove_ai_skills(detail_data)
     detail_data = enrich_cx_journey_links(detail_data)

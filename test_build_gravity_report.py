@@ -62,6 +62,34 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             commands.index([report.NPM_COMMAND, "run", "build"]),
         )
 
+    def test_legacy_builder_environment_defaults_are_supported(self) -> None:
+        environment = {
+            "INPUT_FILE": "custom-input.xlsx",
+            "PERIOD": "III кв. 2026",
+            "LEGACY_HTML": "custom-legacy.html",
+            "REPORT_JSON": "custom-report.json",
+            "STANDALONE_HTML": "custom-standalone.html",
+        }
+
+        with patch.dict(report.os.environ, environment, clear=False):
+            args = report.parse_args([])
+
+        self.assertEqual(args.input, report.ROOT / "custom-input.xlsx")
+        self.assertEqual(args.period, "III кв. 2026")
+        self.assertEqual(args.legacy_output, report.ROOT / "custom-legacy.html")
+        self.assertEqual(args.data_output, report.ROOT / "custom-report.json")
+        self.assertEqual(args.standalone_output, report.ROOT / "custom-standalone.html")
+
+    def test_legacy_npm_environment_selects_frontend_executable(self) -> None:
+        args = report.parse_args([])
+
+        with patch.dict(report.os.environ, {"NPM": "custom-npm"}), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertIn(["custom-npm", "run", "build:clickstream"], commands)
+        self.assertIn(["custom-npm", "run", "build"], commands)
+
     def test_full_build_rebuilds_backlog_data_when_sbertrack_source_exists(self) -> None:
         args = report.parse_args([])
 

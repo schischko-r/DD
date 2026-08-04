@@ -2,8 +2,9 @@
 set -euo pipefail
 
 REPOSITORY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-GRAVITY_APP_DIR="$REPOSITORY_DIR/gravity-app"
+GRAVITY_APP_DIR="${GRAVITY_APP_DIR:-$REPOSITORY_DIR/gravity-app}"
 PYTHON_BIN="${PYTHON:-python3}"
+NPM_BIN="${NPM:-npm}"
 DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=NcxqOXsi37K3IXAO"
 
 load_dotenv_file() {
@@ -33,7 +34,9 @@ load_dotenv_file() {
         value="${value:1:$((${#value} - 2))}"
       fi
     fi
-    export "$key=$value"
+    if ! printenv "$key" >/dev/null 2>&1; then
+      export "$key=$value"
+    fi
   done < "$env_file"
 }
 
@@ -59,8 +62,9 @@ load_env() {
 }
 
 DATA_ONLY=0
-UPLOAD_ENABLED=0
+UPLOAD_ENABLED=1
 STANDALONE_OUTPUT="$REPOSITORY_DIR/gravity-standalone.html"
+STANDALONE_OUTPUT_SET=0
 FORWARD_ARGS=()
 while (($# > 0)); do
   case "$1" in
@@ -83,11 +87,13 @@ while (($# > 0)); do
         exit 2
       fi
       STANDALONE_OUTPUT="$2"
+      STANDALONE_OUTPUT_SET=1
       FORWARD_ARGS+=("$1" "$2")
       shift 2
       ;;
     --standalone-output=*)
       STANDALONE_OUTPUT="${1#*=}"
+      STANDALONE_OUTPUT_SET=1
       FORWARD_ARGS+=("$1")
       shift
       ;;
@@ -103,6 +109,12 @@ if ((DATA_ONLY == 1)); then
 fi
 
 load_env
+
+PYTHON_BIN="${PYTHON:-$PYTHON_BIN}"
+NPM_BIN="${NPM:-$NPM_BIN}"
+if ((STANDALONE_OUTPUT_SET == 0)) && [[ -n "${STANDALONE_HTML:-}" ]]; then
+  STANDALONE_OUTPUT="$STANDALONE_HTML"
+fi
 
 UPLOAD_URL="${HTML_UPLOAD_URL:-$DEFAULT_UPLOAD_URL}"
 UPLOAD_CERTIFICATE_PATH="${HTML_UPLOAD_CERT_PATH:-${HOME:+$HOME/Sandbox/certs/21090527.p12}}"
@@ -133,14 +145,14 @@ if ((UPLOAD_ENABLED == 1)); then
 fi
 
 if ((DATA_ONLY == 0)); then
-  if ! command -v npm >/dev/null 2>&1; then
-    echo "npm is required for a full Gravity UI build." >&2
+  if ! command -v "$NPM_BIN" >/dev/null 2>&1; then
+    echo "npm executable not found: $NPM_BIN" >&2
     exit 1
   fi
 
   if [[ ! -x "$GRAVITY_APP_DIR/node_modules/.bin/vite" ]]; then
     echo "Installing frontend dependencies..."
-    (cd "$GRAVITY_APP_DIR" && npm ci)
+    (cd "$GRAVITY_APP_DIR" && "$NPM_BIN" ci)
   fi
 fi
 
