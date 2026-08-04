@@ -4,6 +4,7 @@ import {readFileSync} from 'node:fs';
 
 const appSource = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const pageSource = readFileSync(new URL('./BacklogDecompositionPage.jsx', import.meta.url), 'utf8');
+const v2PageSource = readFileSync(new URL('./BacklogDecompositionV2Page.jsx', import.meta.url), 'utf8');
 const teamProfileSource = readFileSync(new URL('./TeamProfilePage.jsx', import.meta.url), 'utf8');
 const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 const backlogStylesStart = stylesSource.indexOf('.backlog-header');
@@ -19,7 +20,7 @@ const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, mon
   `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate};`,
 )();
 const recommendationRowsStart = pageSource.indexOf('export function buildScenarioRecommendationRows');
-const recommendationRowsEnd = pageSource.indexOf('const DD_SCENARIO_RECOMMENDATION_COLUMNS', recommendationRowsStart);
+const recommendationRowsEnd = pageSource.indexOf('function buildScenarioRecommendationColumns', recommendationRowsStart);
 const buildScenarioRecommendationRows = Function(
   `${pageSource.slice(recommendationRowsStart, recommendationRowsEnd).replace('export function', 'function')}; return buildScenarioRecommendationRows;`,
 )();
@@ -34,6 +35,10 @@ test('backlog decomposition is a dedicated sidebar view with its own data source
   assert.match(appSource, /current=\{view === 'backlog'\}/);
   assert.match(appSource, /onItemClick=\{\(\) => openBacklog\(\)\}/);
   assert.match(appSource, /view === 'backlog'[\s\S]*?<BacklogDecompositionPage/);
+  assert.match(appSource, /import \{BacklogDecompositionV2Page\} from '\.\.\/pages\/BacklogDecompositionV2Page\.jsx'/);
+  assert.match(appSource, /view === 'backlog-v2'[\s\S]*?<BacklogDecompositionV2Page/);
+  assert.match(appSource, /id="backlog-v2"[\s\S]*?title="Декомпозиция v2"[\s\S]*?icon=\{Copy\}/);
+  assert.match(v2PageSource, /<BacklogDecompositionPage \{\.\.\.props\} variant="v2" \/>/);
   assert.match(appSource, /import \{AsideHeader, FooterItem\} from '@gravity-ui\/navigation'/);
   assert.match(appSource, /import \{Divider, Flex, Spin\} from '@gravity-ui\/uikit'/);
   assert.match(appSource, /renderFooter=\{\(\{compact: footerCompact\}\) => \([\s\S]*?<Divider \/>[\s\S]*?<FooterItem[\s\S]*?id="backlog"/);
@@ -54,9 +59,9 @@ test('backlog can return to the selected team profile with exact normalized name
   assert.match(openTeamSource, /setSelected\(target\);[\s\S]*?setView\('detail'\);[\s\S]*?window\.scrollTo\(0, 0\)/);
   assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
 
-  assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
+  assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
   assert.match(pageSource, /import \{Box, Button, Card, Divider/);
-  assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
+  assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = '', variant = 'default'\}\)/);
   assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
 });
 
@@ -72,7 +77,7 @@ test('backlog CTA is available for every team represented in backlog data and op
   assert.match(appSource, /const openBacklog = \(teamKey = ''\) => \{[\s\S]*?setBacklogTeamKey\(String\(teamKey \|\| ''\)\);[\s\S]*?setView\('backlog'\)/);
   assert.match(appSource, /onBacklog=\{productBacklogTeam \? \(\) => openBacklog\(productBacklogTeam\.key\) : undefined\}/);
   assert.match(appSource, /initialTeamKey=\{backlogTeamKey\}/);
-  assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
+  assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = '', variant = 'default'\}\)/);
   assert.match(pageSource, /String\(initialTeamKey \|\| teams\[0\]\?\.key \|\| ''\)/);
   assert.match(pageSource, /const appliedInitialTeamKey = useRef\(null\)/);
   assert.match(pageSource, /requestedTeamKey !== appliedInitialTeamKey\.current/);
@@ -386,7 +391,8 @@ test('dashboard header keeps Gravity UI filters beside the title like the team c
   assert.equal(formatFreshnessDate('2026-07-10'), '10 июля 2026 г.');
   assert.match(pageSource, /const freshness = formatFreshnessDate\(team\?\.meta\?\.asOf \|\| data\?\.meta\?\.asOf\)/);
   const headerSource = pageSource.slice(pageSource.indexOf('<header className="backlog-header">'), pageSource.indexOf('</header>'));
-  assert.match(headerSource, /<Text as="h1"[^>]*>Декомпозиция бэклога<\/Text>/);
+  assert.match(headerSource, /<Text as="h1"[^>]*>\{pageTitle\}<\/Text>/);
+  assert.match(pageSource, /const pageTitle = resourcesBelow \? 'Декомпозиция v2' : 'Декомпозиция бэклога'/);
   assert.match(headerSource, /<Flex[^>]*alignItems="center"[^>]*gap="2"[^>]*>[\s\S]*?Данные на \{freshness\}/);
   assert.match(headerSource, /<Flex className="backlog-header-controls" alignItems="flex-end" gap="3">/);
   assert.match(headerSource, /aria-label="Команда"/);

@@ -1,7 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import React from 'react';
+import {renderToStaticMarkup} from 'react-dom/server';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
+import {RecommendationCell} from './RecommendationCell.js';
 
 const pageSource = readFileSync(new URL('./BacklogDecompositionPage.jsx', import.meta.url), 'utf8');
 const summarySource = readFileSync(new URL('../features/llm-summary/LlmSummary.jsx', import.meta.url), 'utf8');
@@ -74,12 +77,12 @@ test('scenario recommendation source preserves the approved rows and exact copy'
 
 test('recommendation table uses Gravity UI and is the final backlog analytics section', () => {
   assert.match(pageSource, /import \{[^}]*Table[^}]*\} from '@gravity-ui\/uikit'/);
-  assert.match(pageSource, /<Table[\s\S]*?columns=\{DD_SCENARIO_RECOMMENDATION_COLUMNS\}[\s\S]*?data=\{rows\}[\s\S]*?wordWrap/);
+  assert.match(pageSource, /const columns = buildScenarioRecommendationColumns\(resourcesBelow\)[\s\S]*?<Table[\s\S]*?columns=\{columns\}[\s\S]*?data=\{rows\}[\s\S]*?wordWrap/);
   assert.match(pageSource, /name: 'Направление'[\s\S]*?name: 'Сценарий'[\s\S]*?name: '% времени в сценарии'[\s\S]*?name: 'TTM · топ-25%'[\s\S]*?name: 'TTM команды'[\s\S]*?name: 'Описание'[\s\S]*?name: 'Рекомендация тимлиду'/);
   assert.match(pageSource, /formatOptionalMetric\(item\.continuous25thHours, 'ч', 2\)/);
   assert.match(pageSource, /formatOptionalMetric\(item\.medianCycleTimeHours, 'ч', 1\)/);
   assert.match(pageSource, /<Link href=\{resources\[0\]\.href\} target="_blank" rel="noreferrer">\{resources\[0\]\.label\}<\/Link>/);
-  assert.match(pageSource, /function RecommendationCopy\(\{item\}\)[\s\S]*?resource\.placement === 'inline'[\s\S]*?text\.indexOf\(resource\.label, cursor\)[\s\S]*?<Link key=\{`\$\{resource\.href\}-\$\{start\}`\}/);
+  assert.match(pageSource, /function RecommendationCopy\(\{item, resourcesBelow = false\}\)[\s\S]*?resourcesBelow \? \[\] : allResources\.filter\(\(resource\) => resource\.placement === 'inline'\)[\s\S]*?text\.indexOf\(resource\.label, cursor\)[\s\S]*?<Link key=\{`\$\{resource\.href\}-\$\{start\}`\}/);
   assert.match(pageSource, /<button[^>]*className="backlog-inline-action"[^>]*aria-haspopup="dialog"/);
   assert.match(pageSource, /<Modal[\s\S]*?AI Toolkit «Продуктовый аналитик»[\s\S]*?AI HUB B2C \(CI06049712\)[\s\S]*?Хазипова Мария Юрьевна/);
   assert.match(pageSource, /const EX_EL_SERVICE_URL = 'https:\/\/qlik\.sigma\.sbrf\.ru\/qs_b2c_data\/scim_sigma\/extensions\/excelapp\/index\.html#\/'/);
@@ -88,13 +91,38 @@ test('recommendation table uses Gravity UI and is the final backlog analytics se
   assert.match(pageSource, /QS_B2C_DATA_A_CAU[\s\S]*?QS_B2C_DATA_S_CAU/);
   assert.match(pageSource, /<Label theme="danger" size="m">Справочная информация, визуализация разовая, для инфо<\/Label>/);
   assert.ok(
-    pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} />') > pageSource.indexOf('<Card className="backlog-method-note"'),
+    pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} resourcesBelow={resourcesBelow} />') > pageSource.indexOf('<Card className="backlog-method-note"'),
   );
   assert.doesNotMatch(summarySource, /DdScenarioRecommendationTable|DD_SCENARIO_RECOMMENDATIONS/);
   assert.match(stylesSource, /\.dd-scenario-recommendations-scroll\s*\{[^}]*overflow-x:\s*auto;/s);
   assert.match(stylesSource, /\.dd-scenario-recommendations-table\s*\{\s*min-width:\s*1480px;/);
   assert.match(stylesSource, /\.ex-el-access-modal\s*\{[^}]*--g-modal-width:\s*min\(1040px,/s);
   assert.match(stylesSource, /\.ex-el-access-table-scroll\s*\{[^}]*overflow-x:\s*auto;/s);
+});
+
+test('decomposition v2 moves every recommendation resource into a useful-tools widget', () => {
+  assert.match(pageSource, /const resourcesBelow = variant === 'v2'/);
+  assert.match(pageSource, /const pageTitle = resourcesBelow \? 'Декомпозиция v2' : 'Декомпозиция бэклога'/);
+  assert.match(pageSource, /<Text as="h1" variant="display-2">\{pageTitle\}<\/Text>/);
+  assert.match(pageSource, /function RecommendationToolBlock\(\{item, onAction\}\)[\s\S]*?>Полезные инструменты<\/strong>/);
+  assert.match(pageSource, /resource\.action[\s\S]*?className="backlog-useful-tool-action"[\s\S]*?onClick=\{\(\) => onAction\(resource\.action\)\}/);
+  assert.match(pageSource, /<Link key=\{resource\.href\} href=\{resource\.href\} target="_blank" rel="noreferrer">/);
+  assert.match(pageSource, /\{resourcesBelow && <RecommendationToolBlock item=\{item\} onAction=\{setAccessModal\} \/>\}/);
+  assert.match(pageSource, /\{!resourcesBelow && <RecommendationResources item=\{item\} \/>\}/);
+  assert.equal((pageSource.match(/<RecommendationCell><RecommendationCopy item=\{item\} resourcesBelow=\{resourcesBelow\} \/><\/RecommendationCell>/g) || []).length, 2);
+  assert.match(stylesSource, /\.backlog-useful-tools\.metric-inline-instruction\s*\{[^}]*width:\s*100%;[^}]*margin:\s*10px 0 0;/s);
+  assert.match(stylesSource, /\.backlog-useful-tools \.backlog-useful-tool-action\s*\{[^}]*display:\s*inline-flex;/s);
+});
+
+test('decomposition v2 useful-tools widget has valid block markup', () => {
+  const html = renderToStaticMarkup(React.createElement(
+    RecommendationCell,
+    null,
+    React.createElement('div', {className: 'backlog-useful-tools'}, 'Полезные инструменты'),
+  ));
+  assert.match(html, /^<div[^>]*class="backlog-recommendation-cell/);
+  assert.match(html, /<div[^>]*backlog-useful-tools/);
+  assert.doesNotMatch(html, /<span[^>]*>\s*<div[^>]*backlog-useful-tools/);
 });
 
 test('high-share or high-TTM scenario recommendations are rendered above the full recommendation table', () => {
@@ -114,6 +142,6 @@ test('high-share or high-TTM scenario recommendations are rendered above the ful
   assert.ok(pageSource.includes("(?=\\s+час(?:а|ов)?"));
   assert.match(stylesSource, /\.backlog-recommendation-copy\s*\{[^}]*white-space:\s*pre-line;/s);
   assert.match(pageSource, /name: `Доля · \$\{periodLabel\}`/);
-  assert.ok(pageSource.indexOf('className="backlog-focus-recommendations-table"') < pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} />'));
+  assert.ok(pageSource.indexOf('className="backlog-focus-recommendations-table"') < pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} resourcesBelow={resourcesBelow} />'));
   assert.match(stylesSource, /\.backlog-focus-recommendations-scroll\s*\{[^}]*overflow-x:\s*auto;/s);
 });
