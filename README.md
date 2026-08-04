@@ -25,6 +25,7 @@
 `DD_ENV_FILE=/path/to/.env`. Все аргументы передаются в Python-сборщик, например
 для offline-сборки: `./build_gravity_report.sh --no-update-crosssell`. Env-файл
 читается как dotenv: строки без формата `KEY=VALUE` безопасно пропускаются.
+Python запускается напрямую через `${PYTHON:-python3}`; `uv` не используется.
 
 По умолчанию скрипт только собирает отчёт и не требует сертификат. Чтобы после
 сборки загрузить `gravity-standalone.html` в Qlik QRS, добавьте `--upload` и

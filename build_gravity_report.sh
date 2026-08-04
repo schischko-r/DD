@@ -3,6 +3,7 @@ set -euo pipefail
 
 REPOSITORY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRAVITY_APP_DIR="$REPOSITORY_DIR/gravity-app"
+PYTHON_BIN="${PYTHON:-python3}"
 DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=NcxqOXsi37K3IXAO"
 
 load_dotenv_file() {
@@ -146,28 +147,16 @@ fi
 cd "$REPOSITORY_DIR"
 
 run_builder() {
-  if command -v uv >/dev/null 2>&1; then
-    if ((${#FORWARD_ARGS[@]} > 0)); then
-      uv run --python 3.11 --with pandas --with openpyxl \
-        python build_gravity_report.py "${FORWARD_ARGS[@]}"
-    else
-      uv run --python 3.11 --with pandas --with openpyxl \
-        python build_gravity_report.py
-    fi
-    return
+  if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+    echo "Python executable not found: $PYTHON_BIN" >&2
+    exit 1
   fi
 
-  if command -v python3.11 >/dev/null 2>&1; then
-    if ((${#FORWARD_ARGS[@]} > 0)); then
-      python3.11 build_gravity_report.py "${FORWARD_ARGS[@]}"
-    else
-      python3.11 build_gravity_report.py
-    fi
-    return
+  if ((${#FORWARD_ARGS[@]} > 0)); then
+    "$PYTHON_BIN" build_gravity_report.py "${FORWARD_ARGS[@]}"
+  else
+    "$PYTHON_BIN" build_gravity_report.py
   fi
-
-  echo "Install uv or Python 3.11 to build the report." >&2
-  exit 1
 }
 
 run_uploader() {
@@ -194,13 +183,7 @@ run_uploader() {
     upload_args+=(--insecure)
   fi
 
-  if command -v uv >/dev/null 2>&1; then
-    uv run --python 3.11 --with cryptography --with requests \
-      python upload_html.py "${upload_args[@]}"
-    return
-  fi
-
-  python3.11 upload_html.py "${upload_args[@]}"
+  "$PYTHON_BIN" upload_html.py "${upload_args[@]}"
 }
 
 run_builder

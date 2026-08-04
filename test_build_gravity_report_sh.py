@@ -20,28 +20,29 @@ class BuildGravityReportShellTest(unittest.TestCase):
     ) -> list[str]:
         with tempfile.TemporaryDirectory() as temp_dir:
             directory = Path(temp_dir)
-            log_path = directory / "uv.log"
-            uv_stub = directory / "uv"
-            uv_stub.write_text(
+            log_path = directory / "commands.log"
+            python_stub = directory / "python"
+            python_stub.write_text(
                 """#!/bin/sh
-printf "%s\\n" "$*" >> "$UV_STUB_LOG"
+printf "%s\\n" "$*" >> "$COMMAND_LOG"
 if [ "${DOTENV_TEST_VALUE+x}" = x ]; then
-  printf "DOTENV_TEST_VALUE:%s\\n" "$DOTENV_TEST_VALUE" >> "$UV_STUB_LOG"
+  printf "DOTENV_TEST_VALUE:%s\\n" "$DOTENV_TEST_VALUE" >> "$COMMAND_LOG"
 fi
 if [ "${DOTENV_COMMAND+x}" = x ]; then
-  printf "DOTENV_COMMAND:%s\\n" "$DOTENV_COMMAND" >> "$UV_STUB_LOG"
+  printf "DOTENV_COMMAND:%s\\n" "$DOTENV_COMMAND" >> "$COMMAND_LOG"
 fi
 """,
                 encoding="utf-8",
             )
-            uv_stub.chmod(0o755)
+            python_stub.chmod(0o755)
             npm_stub = directory / "npm"
             npm_stub.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
             npm_stub.chmod(0o755)
 
             environment = {
                 "PATH": f"{directory}:/usr/bin:/bin",
-                "UV_STUB_LOG": str(log_path),
+                "PYTHON": str(python_stub),
+                "COMMAND_LOG": str(log_path),
             }
             if dotenv is not None:
                 env_file = directory / ".env"
@@ -74,22 +75,22 @@ fi
         invocations = self.run_wrapper("--no-upload")
 
         self.assertEqual(len(invocations), 1)
-        self.assertIn("python build_gravity_report.py", invocations[0])
+        self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
     def test_default_build_does_not_require_upload_configuration(self) -> None:
         invocations = self.run_wrapper()
 
         self.assertEqual(len(invocations), 1)
-        self.assertIn("python build_gravity_report.py", invocations[0])
+        self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
     def test_upload_flag_runs_builder_then_uploader(self) -> None:
         invocations = self.run_wrapper("--upload", upload=True)
 
         self.assertEqual(len(invocations), 2)
-        self.assertIn("python build_gravity_report.py", invocations[0])
-        self.assertIn("python upload_html.py", invocations[1])
+        self.assertIn("build_gravity_report.py", invocations[0])
+        self.assertIn("upload_html.py", invocations[1])
         self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
 
