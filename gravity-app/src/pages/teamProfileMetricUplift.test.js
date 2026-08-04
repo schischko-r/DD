@@ -24,6 +24,9 @@ const upliftRecommendationSource = profileSource.match(
 const blockTitleSource = profileSource.match(
   /export function teamProfileBlockTitle[\s\S]*?(?=\nfunction AlertsHelpContent)/,
 )?.[0]?.replace('export ', '') || '';
+const normalizeUpliftBindingSource = profileSource.match(
+  /function normalizeUpliftBinding[\s\S]*?(?=\nfunction metricUpliftRecommendation)/,
+)?.[0] || '';
 
 const upliftRecommendationContext = Object.create(null);
 runInNewContext(
@@ -34,7 +37,7 @@ globalThis.upliftRecommendationApi = {metricUpliftRecommendation};`,
 const {upliftRecommendationApi} = upliftRecommendationContext;
 const blockTitleContext = Object.create(null);
 runInNewContext(
-  `${blockTitleSource}\nglobalThis.blockTitleApi = {teamProfileBlockTitle};`,
+  `${normalizeUpliftBindingSource}\n${blockTitleSource}\nglobalThis.blockTitleApi = {teamProfileBlockTitle};`,
   blockTitleContext,
 );
 
@@ -49,12 +52,33 @@ function recommendation(blockCode, blockName, metricCode, metricName, metricPerc
 test('team profile labels goals and CX blocks for their audience', () => {
   const {teamProfileBlockTitle} = blockTitleContext.blockTitleApi;
   assert.equal(teamProfileBlockTitle({code: 'goals', name: 'Цели'}), 'Цели уровня ЛЮ/ЛТ');
+  assert.equal(teamProfileBlockTitle({name: 'Цели'}), 'Цели уровня ЛЮ/ЛТ');
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score'}]}), 'CX Score');
+  assert.equal(teamProfileBlockTitle({name: 'Клиентский опыт', metrics: [{name: 'CX Score'}]}), 'CX Score');
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX Score'}]}), 'CX/UX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX-Score'}]}), 'CX/UX Score');
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UХ Score'}]}), 'CX/UX Score');
-  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score', buttons: [{label: 'UX Score'}]}]}), 'CX/UX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score', label: 'UX Score'}]}), 'CX/UX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score', buttons: [{label: 'UX Score'}]}]}), 'CX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX   Score'}]}), 'CX Score');
+  assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX Score report'}]}), 'CX Score');
   assert.match(profileSource, /<h3>\{teamProfileBlockTitle\(block\)\}<\/h3>/);
   assert.match(profileSource, /name: teamProfileBlockTitle\(block\)/);
+});
+
+test('draft AI action suppresses the duplicate generic Drafts skill link', () => {
+  assert.match(
+    profileSource,
+    /const hasDraftAiInsight = draftAiRecommendations\.length > 0 && \/\^attract\\\.chernoviki_v_sbol_70\$\/i\.test\(metric\.code\)/,
+  );
+  assert.match(
+    profileSource,
+    /metricSkillLinks\(block, metric\)\.filter\(\(action\) => !\(hasDraftAiInsight && \/\^черновики\$\/i\.test\(action\.label\)\)\)/,
+  );
+  assert.match(
+    profileSource,
+    /if \(hasDraftAiInsight\) aiMetricInsight = metricAiInsight\('черновикам в СБОЛ', openDraftAiRecommendation\)/,
+  );
 });
 
 test('metric uplift uses the total maximum of applicable DD-index metrics', () => {

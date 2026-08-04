@@ -175,6 +175,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Создание структурированных отчетов в Excel.',
     sourceTool: 'EX-EL',
     recommendation: 'Рекомендуем оценить EX-EL как основной инструмент для типовых Excel-отчётов и начать с одного регулярного отчёта с наибольшими трудозатратами.',
+    resources: [{label: 'EX-EL', action: 'ex-el-access', placement: 'inline'}],
   },
   {
     key: 'presentations',
@@ -183,6 +184,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Расчет и упаковка выводов в слайды (PowerPoint) для руководства или контрагентов.',
     sourceTool: 'EX-EL',
     recommendation: 'Рекомендуем использовать EX-EL для подготовки повторяющихся расчётных блоков, оставляя аналитику выводов и управленческий нарратив за владельцем материала.',
+    resources: [{label: 'EX-EL', action: 'ex-el-access', placement: 'inline'}],
   },
   {
     key: 'dashboard_improvements',
