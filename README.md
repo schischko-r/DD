@@ -23,7 +23,8 @@
 Скрипт использует корневой `.env`, а при его отсутствии также проверяет
 `$HOME/Documents/Codex/DD-dev/.env`. Другой env-файл можно передать через
 `DD_ENV_FILE=/path/to/.env`. Все аргументы передаются в Python-сборщик, например
-для offline-сборки: `./build_gravity_report.sh --no-update-crosssell`.
+для offline-сборки: `./build_gravity_report.sh --no-update-crosssell`. Env-файл
+читается как dotenv: строки без формата `KEY=VALUE` безопасно пропускаются.
 
 После полной сборки скрипт загружает `gravity-standalone.html` в Qlik QRS.
 Для загрузки задайте `HTML_UPLOAD_CERT_PASSWORD`; сертификат и CA bundle по

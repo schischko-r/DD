@@ -5,6 +5,37 @@ REPOSITORY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRAVITY_APP_DIR="$REPOSITORY_DIR/gravity-app"
 DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=NcxqOXsi37K3IXAO"
 
+load_dotenv_file() {
+  local env_file="$1"
+  local line=""
+  local key=""
+  local value=""
+
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line%$'\r'}"
+    [[ "$line" =~ ^[[:space:]]*$ ]] && continue
+    [[ "$line" =~ ^[[:space:]]*# ]] && continue
+    [[ "$line" != *=* ]] && continue
+
+    key="${line%%=*}"
+    value="${line#*=}"
+    key="${key#"${key%%[![:space:]]*}"}"
+    key="${key%"${key##*[![:space:]]}"}"
+    [[ "$key" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+
+    value="${value#"${value%%[![:space:]]*}"}"
+    value="${value%"${value##*[![:space:]]}"}"
+    if ((${#value} >= 2)); then
+      if [[ "${value:0:1}" == '"' && "${value:$((${#value} - 1)):1}" == '"' ]]; then
+        value="${value:1:$((${#value} - 2))}"
+      elif [[ "${value:0:1}" == "'" && "${value:$((${#value} - 1)):1}" == "'" ]]; then
+        value="${value:1:$((${#value} - 2))}"
+      fi
+    fi
+    export "$key=$value"
+  done < "$env_file"
+}
+
 load_env() {
   local env_file=""
 
@@ -21,10 +52,7 @@ load_env() {
   fi
 
   if [[ -n "$env_file" ]]; then
-    set -a
-    # shellcheck disable=SC1090
-    source "$env_file"
-    set +a
+    load_dotenv_file "$env_file"
     echo "Loaded environment: $env_file"
   fi
 }

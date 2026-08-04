@@ -12,13 +12,26 @@ SCRIPT = ROOT / "build_gravity_report.sh"
 
 
 class BuildGravityReportShellTest(unittest.TestCase):
-    def run_wrapper(self, *arguments: str, upload: bool = False) -> list[str]:
+    def run_wrapper(
+        self,
+        *arguments: str,
+        upload: bool = False,
+        dotenv: str | None = None,
+    ) -> list[str]:
         with tempfile.TemporaryDirectory() as temp_dir:
             directory = Path(temp_dir)
             log_path = directory / "uv.log"
             uv_stub = directory / "uv"
             uv_stub.write_text(
-                '#!/bin/sh\nprintf "%s\\n" "$*" >> "$UV_STUB_LOG"\n',
+                """#!/bin/sh
+printf "%s\\n" "$*" >> "$UV_STUB_LOG"
+if [ "${DOTENV_TEST_VALUE+x}" = x ]; then
+  printf "DOTENV_TEST_VALUE:%s\\n" "$DOTENV_TEST_VALUE" >> "$UV_STUB_LOG"
+fi
+if [ "${DOTENV_COMMAND+x}" = x ]; then
+  printf "DOTENV_COMMAND:%s\\n" "$DOTENV_COMMAND" >> "$UV_STUB_LOG"
+fi
+""",
                 encoding="utf-8",
             )
             uv_stub.chmod(0o755)
@@ -30,6 +43,10 @@ class BuildGravityReportShellTest(unittest.TestCase):
                 "PATH": f"{directory}:/usr/bin:/bin",
                 "UV_STUB_LOG": str(log_path),
             }
+            if dotenv is not None:
+                env_file = directory / ".env"
+                env_file.write_text(dotenv, encoding="utf-8")
+                environment["DD_ENV_FILE"] = str(env_file)
             if upload:
                 certificate = directory / "client.p12"
                 ca_bundle = directory / "ca.pem"
@@ -75,6 +92,24 @@ class BuildGravityReportShellTest(unittest.TestCase):
         self.assertEqual(len(invocations), 1)
         self.assertIn("--data-only", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
+
+    def test_dotenv_ignores_non_assignment_lines_without_executing_them(self) -> None:
+        invocations = self.run_wrapper(
+            "--data-only",
+            dotenv=(
+                'DOTENV_TEST_VALUE="hello world"\n'
+                'DOTENV_COMMAND=$(printf "must not execute")\n'
+                "title: ignored metadata\n"
+            ),
+        )
+
+        self.assertEqual(len(invocations), 3)
+        self.assertIn("--data-only", invocations[0])
+        self.assertEqual(invocations[1], "DOTENV_TEST_VALUE:hello world")
+        self.assertEqual(
+            invocations[2],
+            'DOTENV_COMMAND:$(printf "must not execute")',
+        )
 
 
 if __name__ == "__main__":
