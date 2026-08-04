@@ -59,7 +59,7 @@ test('backlog can return to the selected team profile with exact normalized name
   assert.match(openTeamSource, /setSelected\(target\);[\s\S]*?setView\('detail'\);[\s\S]*?window\.scrollTo\(0, 0\)/);
   assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
 
-  assert.match(pageSource, /import \{ArrowLeft, ArrowUpRightFromSquare, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
+  assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
   assert.match(pageSource, /import \{Box, Button, Card, Divider/);
   assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = '', variant = 'default'\}\)/);
   assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
@@ -248,6 +248,8 @@ test('scenario focus recommendations use high share or a team TTM above the benc
   assert.equal(result.items.some((item) => item.key === 'at-benchmark'), true, 'a high-share scenario is included at the benchmark');
   assert.equal(result.items.some((item) => item.key === 'small'), true, 'a low-share scenario is included when team TTM exceeds the benchmark');
   assert.equal(result.items[0].recommendation, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 часа.\nЗначение по вашей команде: 51,5 часов.\n\nПредлагаемый инструментарий: Рекомендуем первое. Рекомендуем второе.');
+  assert.equal(result.items[0].recommendationSummary, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 часа.\nЗначение по вашей команде: 51,5 часов.');
+  assert.equal(result.items[0].toolRecommendation, 'Рекомендуем первое. Рекомендуем второе.');
   assert.deepEqual(result.items[0].resources, [{label: 'ссылке', href: 'https://example.test/a'}]);
   assert.deepEqual(buildScenarioFocusRecommendations([{key: '2026-Q3', isComplete: false}], []).items, []);
 });
@@ -313,6 +315,8 @@ test('scenario focus recommendations require a high share when benchmark data is
 
   assert.deepEqual(result.items.map((item) => item.key), ['high-share-missing-benchmark']);
   assert.equal(result.items[0].recommendation, 'Предлагаемый инструментарий: Рекомендуем высокий приоритет.');
+  assert.equal(result.items[0].recommendationSummary, '');
+  assert.equal(result.items[0].toolRecommendation, 'Рекомендуем высокий приоритет.');
 });
 
 test('scenario focus recommendations preserve approved resources and exclude unapproved regulator exports', () => {

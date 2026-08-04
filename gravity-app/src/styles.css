@@ -396,15 +396,10 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .backlog-inline-action { margin: 0; padding: 0; border: 0; border-radius: 0; background: none; color: var(--g-color-text-link); font: inherit; letter-spacing: 0; text-decoration: none; cursor: pointer; }
 .backlog-inline-action:hover { color: var(--g-color-text-link-hover); }
 .backlog-inline-action:focus-visible { outline: 2px solid var(--g-color-line-focus); outline-offset: 2px; }
-.backlog-useful-tools.metric-inline-instruction { width: 100%; min-height: 44px; margin: 10px 0 0; padding: 8px 10px; grid-column: auto; grid-template-columns: 28px minmax(0, 1fr); align-items: start; background: color-mix(in srgb, var(--g-color-base-info-light) 34%, var(--g-color-base-background)); }
-.backlog-useful-tools .metric-inline-instruction-icon { grid-column: 1; grid-row: 1 / span 2; }
-.backlog-useful-tools .metric-inline-instruction-copy { grid-column: 2; }
-.backlog-useful-tools .metric-inline-instruction-resource-actions { grid-column: 2; justify-content: flex-start; gap: 6px; }
-.backlog-useful-tools .metric-inline-instruction-resource-actions a,
-.backlog-useful-tools .backlog-useful-tool-action { min-height: 30px; padding: 5px 8px; display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--g-color-line-info); border-radius: 6px; background: var(--g-color-base-background); color: var(--g-color-text-info-heavy); font: 600 11px/1.2 var(--dd-font-sans); letter-spacing: 0; text-decoration: none; white-space: normal; cursor: pointer; }
-.backlog-useful-tools .metric-inline-instruction-resource-actions a:hover,
+.backlog-useful-tools.metric-inline-instruction { width: 100%; min-height: 44px; margin: 10px 0 0; grid-column: auto; }
+.backlog-useful-tools .metric-inline-instruction-copy small { overflow: visible; font-size: 11px; line-height: 1.4; text-overflow: clip; white-space: normal; }
+.backlog-useful-tools .backlog-useful-tool-action { min-height: 30px; padding: 5px 8px; display: inline-flex; align-items: center; gap: 4px; border: 0; border-radius: 6px; background: transparent; color: var(--g-color-base-brand); font: 600 11px/1.2 var(--dd-font-sans); letter-spacing: 0; text-decoration: none; white-space: nowrap; cursor: pointer; }
 .backlog-useful-tools .backlog-useful-tool-action:hover { background: var(--g-color-base-info-light-hover); }
-.backlog-useful-tools .metric-inline-instruction-resource-actions a:focus-visible,
 .backlog-useful-tools .backlog-useful-tool-action:focus-visible { outline: 2px solid var(--g-color-line-focus); outline-offset: 1px; }
 .product-analyst-access-modal { --g-modal-width: min(640px, calc(100vw - 32px)); --g-modal-max-height: calc(100vh - 40px); }
 .product-analyst-access-content { padding: 24px; }

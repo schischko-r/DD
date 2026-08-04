@@ -117,13 +117,16 @@ test('decomposition v2 moves every recommendation resource into a useful-tools w
   assert.match(pageSource, /resource\.action[\s\S]*?className="backlog-useful-tool-action"[\s\S]*?onClick=\{\(\) => onAction\(resource\.action\)\}/);
   assert.match(pageSource, /<Link key=\{resource\.href\} href=\{resource\.href\} target="_blank" rel="noreferrer">/);
   assert.match(pageSource, /String\(resource\.toolLabel \|\| resource\.label \|\| item\.sourceTool \|\| 'Открыть'\)/);
-  assert.match(pageSource, /Icon data=\{ArrowUpRightFromSquare\} size=\{13\}/);
+  assert.match(pageSource, /<Link key=\{resource\.href\}[\s\S]*?<Icon data=\{ChevronRight\} size=\{13\} \/>/);
+  assert.match(pageSource, /<strong>Полезные инструменты<\/strong>\{toolRecommendation && <small>\{toolRecommendation\}<\/small>\}/);
+  assert.match(pageSource, /resourcesBelow && typeof item\.toolRecommendation === 'string'[\s\S]*?item\.recommendationSummary \|\| ''/);
   assert.match(pageSource, /\{resourcesBelow && <RecommendationToolBlock item=\{item\} onAction=\{setAccessModal\} \/>\}/);
   assert.match(pageSource, /\{!resourcesBelow && <RecommendationResources item=\{item\} \/>\}/);
   assert.equal((pageSource.match(/<RecommendationCell><RecommendationCopy item=\{item\} resourcesBelow=\{resourcesBelow\} \/><\/RecommendationCell>/g) || []).length, 2);
   assert.match(stylesSource, /\.backlog-useful-tools\.metric-inline-instruction\s*\{[^}]*width:\s*100%;[^}]*margin:\s*10px 0 0;/s);
   assert.match(stylesSource, /\.backlog-useful-tools \.backlog-useful-tool-action\s*\{[^}]*display:\s*inline-flex;/s);
-  assert.match(stylesSource, /\.backlog-useful-tools \.metric-inline-instruction-resource-actions\s*\{[^}]*grid-column:\s*2;[^}]*justify-content:\s*flex-start;/s);
+  assert.match(stylesSource, /\.backlog-useful-tools \.metric-inline-instruction-copy small\s*\{[^}]*white-space:\s*normal;/s);
+  assert.doesNotMatch(stylesSource, /\.backlog-useful-tools \.metric-inline-instruction-resource-actions\s*\{/);
 });
 
 test('decomposition v2 useful-tools widget has valid block markup', () => {

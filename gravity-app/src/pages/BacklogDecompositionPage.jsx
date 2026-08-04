@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Chart} from '@gravity-ui/charts';
-import {ArrowLeft, ArrowUpRightFromSquare, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo} from '@gravity-ui/icons';
+import {ArrowLeft, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo} from '@gravity-ui/icons';
 import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Modal, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
 import {isMetricAbove, RecommendationCell} from './RecommendationCell.js';
@@ -202,13 +202,19 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const resources = approvedRows
         .flatMap((item) => item.resources || [])
         .filter((resource, index, all) => all.findIndex((item) => (item.href || item.action) === (resource.href || resource.action)) === index);
+      const recommendationSummary = hasValidBenchmark
+        ? `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.`
+        : '';
+      const toolRecommendation = approvedRows.map((item) => item.recommendation).join(' ');
       return {
         key: String(scenario?.key || scenario?.label || ''),
         scenario: String(scenario?.label || scenario?.key || 'Без сценария'),
         share,
         continuous25thHours,
         medianCycleTimeHours,
-        recommendation: `${hasValidBenchmark ? `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.\n\n` : ''}Предлагаемый инструментарий: ${approvedRows.map((item) => item.recommendation).join(' ')}`,
+        recommendation: `${recommendationSummary ? `${recommendationSummary}\n\n` : ''}Предлагаемый инструментарий: ${toolRecommendation}`,
+        recommendationSummary,
+        toolRecommendation,
         resources,
       };
     })
@@ -518,24 +524,27 @@ function RecommendationToolBlock({item, onAction}) {
   const resources = (item.resources || [])
     .filter((resource) => resource?.href || resource?.action)
     .filter((resource, index, all) => all.findIndex((candidate) => (candidate.href || candidate.action) === (resource.href || resource.action)) === index);
-  if (!resources.length) return null;
+  const toolRecommendation = String(item.toolRecommendation || '').trim();
+  if (!resources.length && !toolRecommendation) return null;
   const resourceLabel = (resource) => String(resource.toolLabel || resource.label || item.sourceTool || 'Открыть');
   return (
     <div className="metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-resources backlog-useful-tools">
       <span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span>
-      <span className="metric-inline-instruction-copy"><strong>Полезные инструменты</strong></span>
-      <span className="metric-inline-instruction-resource-actions">
+      <span className="metric-inline-instruction-copy"><strong>Полезные инструменты</strong>{toolRecommendation && <small>{toolRecommendation}</small>}</span>
+      {resources.length > 0 && <span className="metric-inline-instruction-resource-actions">
         {resources.map((resource) => resource.action
           ? <button key={resource.action} type="button" className="backlog-useful-tool-action" aria-haspopup="dialog" onClick={() => onAction(resource.action)}>{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></button>
-          : <Link key={resource.href} href={resource.href} target="_blank" rel="noreferrer">{resourceLabel(resource)}<Icon data={ArrowUpRightFromSquare} size={13} /></Link>)}
-      </span>
+          : <Link key={resource.href} href={resource.href} target="_blank" rel="noreferrer">{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></Link>)}
+      </span>}
     </div>
   );
 }
 
 function RecommendationCopy({item, resourcesBelow = false}) {
   const [accessModal, setAccessModal] = useState(null);
-  const text = String(item.recommendation || item.text || '');
+  const text = String(resourcesBelow && typeof item.toolRecommendation === 'string'
+    ? item.recommendationSummary || ''
+    : item.recommendation || item.text || '');
   const allResources = item.resources || [];
   const inlineResources = resourcesBelow ? [] : allResources.filter((resource) => resource.placement === 'inline');
   const productAnalystResource = allResources.find((resource) => resource.action === 'product-analyst-access');
