@@ -130,7 +130,7 @@ test('quarter filter keeps history through the selected quarter and hides later 
   assert.match(pageSource, /const visibleMonths = useMemo\(\(\) => monthsThroughQuarter\(months, quarter\), \[months, quarter\]\)/);
 });
 
-test('created KPI uses the latest available month inside the selected quarter', () => {
+test('created KPI uses the selected-quarter total while mini charts remain monthly', () => {
   const selectedMonths = [
     {key: '2024-04', label: 'Апрель 2024', createdCount: 8},
     {key: '2024-05', label: 'Май 2024', createdCount: 13},
@@ -138,9 +138,11 @@ test('created KPI uses the latest available month inside the selected quarter', 
 
   assert.deepEqual(selectLatestMonth(selectedMonths), selectedMonths[1]);
   assert.equal(selectLatestMonth([]), null);
-  assert.match(pageSource, /const latestMonth = selectLatestMonth\(selectedMonths\)/);
-  assert.match(pageSource, /const latestMonthCreated = metric\(latestMonth, 'createdCount', 'created'\)/);
-  assert.match(pageSource, /value=\{formatNumber\(latestMonthCreated\)\} label="Создано за месяц" note=\{latestMonth \? monthLabel\(latestMonth\) : 'Нет данных за выбранный квартал'\}/);
+  assert.doesNotMatch(pageSource, /const latestMonth = selectLatestMonth\(selectedMonths\)/);
+  assert.doesNotMatch(pageSource, /latestMonthCreated/);
+  assert.match(pageSource, /value=\{formatNumber\(created\)\} label="Создано за квартал" note=\{selectedPeriodLabel\}/);
+  assert.match(pageSource, /const selectedPeriodLabel = shortQuarterLabel\(quarter\)/);
+  assert.equal((pageSource.match(/buildKpiMiniChartData\(visibleMonths,/g) || []).length, 5);
 });
 
 test('dashboard insights consume the backend quarter schema and enforce the 40 percent goal', () => {
@@ -207,7 +209,7 @@ test('insights use Created as the shared denominator', () => {
   assert.doesNotMatch(visibleCopy, /усили[йя]|трудо(?:затрат|ёмк|емк)|причин|потому|из-за|вызван/i);
 });
 
-test('scenario focus recommendations use the latest complete quarter and strict share threshold', () => {
+test('scenario focus recommendations use high share or a team TTM above the benchmark', () => {
   const result = buildScenarioFocusRecommendations([
     {key: '2026-Q1', isComplete: true, createdCount: 10, scenarios: [
       {key: 'alpha', label: 'Alpha', count: 5, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 1},
@@ -233,15 +235,36 @@ test('scenario focus recommendations use the latest complete quarter and strict 
 
   assert.equal(result.quarter.key, '2026-Q2');
   assert.equal(result.periodLabel, '2Q26');
-  assert.equal(result.items.length, 1);
+  assert.equal(result.items.length, 5);
   assert.equal(result.items[0].scenario, 'Alpha');
   assert.equal(result.items[0].share, 15);
-  assert.equal(result.items.some((item) => item.key === 'ten-percent'), false, 'exactly 10% is excluded');
-  assert.equal(result.items.some((item) => item.key === 'below-benchmark'), false, 'a scenario below the benchmark is excluded');
-  assert.equal(result.items.some((item) => item.key === 'at-benchmark'), false, 'a scenario at the benchmark is excluded');
-  assert.equal(result.items[0].recommendation, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 часа. Значение по вашей команде: 51,5 часов. Предлагаемый инструментарий для снижения трудозатрат: Рекомендуем первое. Рекомендуем второе.');
+  assert.equal(result.items.some((item) => item.key === 'ten-percent'), true, 'exactly 10% is included when team TTM exceeds the benchmark');
+  assert.equal(result.items.some((item) => item.key === 'below-benchmark'), true, 'a high-share scenario is included below the benchmark');
+  assert.equal(result.items.some((item) => item.key === 'at-benchmark'), true, 'a high-share scenario is included at the benchmark');
+  assert.equal(result.items.some((item) => item.key === 'small'), true, 'a low-share scenario is included when team TTM exceeds the benchmark');
+  assert.equal(result.items[0].recommendation, 'Лучшие аналитики в среднем выполняют такие задачи за 2,11 часа.\nЗначение по вашей команде: 51,5 часов.\n\nПредлагаемый инструментарий: Рекомендуем первое. Рекомендуем второе.');
   assert.deepEqual(result.items[0].resources, [{label: 'ссылке', href: 'https://example.test/a'}]);
   assert.deepEqual(buildScenarioFocusRecommendations([{key: '2026-Q3', isComplete: false}], []).items, []);
+});
+
+test('scenario focus recommendations exclude manual updates, BI bugfixes and employee training', () => {
+  const excludedKeys = ['dashboard_manual_data_update', 'BI_bugfix', 'employee_trainings'];
+  const result = buildScenarioFocusRecommendations([{
+    key: '2026-Q2',
+    isComplete: true,
+    createdCount: 30,
+    scenarios: excludedKeys.map((key) => ({
+      key,
+      label: key,
+      count: 10,
+      continuous25thHours: 1,
+      medianCycleTimeHours: 25,
+      cycleTimeSampleCount: 5,
+    })),
+  }], excludedKeys.map((key) => ({key, recommendation: `Рекомендуем ${key}.`})));
+
+  assert.deepEqual(result.items, []);
+  assert.match(pageSource, /const SCENARIO_RECOMMENDATION_EXCLUSIONS = new Set\(\[[\s\S]*?'dashboard_manual_data_update'[\s\S]*?'bi_bugfix'[\s\S]*?'employee_trainings'/);
 });
 
 test('scenario recommendation rows preserve the catalog and add selected-quarter TTM metrics', () => {
@@ -262,26 +285,29 @@ test('scenario recommendation rows preserve the catalog and add selected-quarter
   ]);
 });
 
-test('scenario focus recommendations require valid samples and benchmarks', () => {
+test('scenario focus recommendations require a high share when benchmark data is unavailable', () => {
   const recommendationRows = [
     {key: 'missing-sample', recommendation: 'Рекомендуем выборку.'},
     {key: 'zero-sample', recommendation: 'Рекомендуем выборку.'},
     {key: 'missing-benchmark', recommendation: 'Рекомендуем бенчмарк.'},
     {key: 'missing-median', recommendation: 'Рекомендуем медиану.'},
+    {key: 'high-share-missing-benchmark', recommendation: 'Рекомендуем высокий приоритет.'},
   ];
   const result = buildScenarioFocusRecommendations([{
     key: '2026-Q2',
     isComplete: true,
-    createdCount: 20,
+    createdCount: 40,
     scenarios: [
       {key: 'missing-sample', count: 3, continuous25thHours: 1, medianCycleTimeHours: 25},
       {key: 'zero-sample', count: 3, continuous25thHours: 1, medianCycleTimeHours: 25, cycleTimeSampleCount: 0},
       {key: 'missing-benchmark', count: 3, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
       {key: 'missing-median', count: 3, continuous25thHours: 1, medianCycleTimeHours: null, cycleTimeSampleCount: 2},
+      {key: 'high-share-missing-benchmark', count: 5, medianCycleTimeHours: 25, cycleTimeSampleCount: 2},
     ],
   }], recommendationRows);
 
-  assert.deepEqual(result.items, []);
+  assert.deepEqual(result.items.map((item) => item.key), ['high-share-missing-benchmark']);
+  assert.equal(result.items[0].recommendation, 'Предлагаемый инструментарий: Рекомендуем высокий приоритет.');
 });
 
 test('scenario focus recommendations preserve approved resources and exclude unapproved regulator exports', () => {
@@ -305,7 +331,7 @@ test('scenario focus recommendations preserve approved resources and exclude una
 
   assert.deepEqual(result.items.map((item) => item.key), ['customer_experience_analytics']);
   assert.deepEqual(result.items[0].resources, resources);
-  assert.match(result.items[0].recommendation, /Предлагаемый инструментарий для снижения трудозатрат: Рекомендуем перейти по ссылке и открыть Продуктовый аналитик\.$/);
+  assert.match(result.items[0].recommendation, /Предлагаемый инструментарий: Рекомендуем перейти по ссылке и открыть Продуктовый аналитик\.$/);
 });
 
 test('quarter dashboard exposes goal, KPI and evidence panels in a compact layout', () => {
@@ -313,7 +339,7 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
     'Цель подтверждена',
     'Цель не подтверждена',
     'Доля Discovery в созданных задачах квартала',
-    'Создано за месяц',
+    'Создано за квартал',
     'Завершено из созданных',
     'Медианный TTM',
     'Заполнение Story Points',
@@ -378,7 +404,9 @@ test('KPI and recommendations are composed from neutral Gravity UI primitives', 
   assert.match(pageSource, /chartData=\{kpiMiniCharts\.(?:created|createdResolved|routineAutomation)\}/);
   assert.doesNotMatch(pageSource, /createdOpen|Открыто из созданных/);
   assert.match(pageSource, /chartUnit="задач"/);
-  assert.match(pageSource, /<RoutineAutomationCard total=\{created\} routineShare=\{routineShare\} routineCount=\{routineCount\} automationShare=\{automationShare\} automationCount=\{automationCount\} chartData=\{kpiMiniCharts\.routineAutomation\} \/>/);
+  assert.match(pageSource, /<RoutineAutomationCard periodLabel=\{selectedPeriodLabel\} total=\{created\} routineShare=\{routineShare\} routineCount=\{routineCount\} automationShare=\{automationShare\} automationCount=\{automationCount\} chartData=\{kpiMiniCharts\.routineAutomation\} \/>/);
+  assert.match(pageSource, /function RoutineAutomationCard\(\{periodLabel,[^}]+\}[\s\S]*?>\{periodLabel\}<\/Text>/);
+  assert.equal((pageSource.match(/\$\{selectedPeriodLabel\} ·/g) || []).length, 3);
   assert.match(pageSource, /function RoutineAutomationCard[\s\S]*?<Card className="backlog-kpi-card backlog-kpi-card--combined" view="outlined" size="l"/);
   assert.match(pageSource, /<Flex className="backlog-kpi-chart-layout" alignItems="stretch" gap="2">[\s\S]*?<Chart data=\{chartData\} lang="ru" \/>[\s\S]*?<Flex className="backlog-kpi-chart-legend" direction="column" justifyContent="center" gap="1" role="list" aria-label="Легенда графика">/);
   assert.match(pageSource, /<Text color="danger"><Icon data=\{CircleFill\} size=\{8\} \/><\/Text><Text variant="caption-2">Рутина<\/Text>/);
@@ -659,7 +687,7 @@ test('KPI charts use their declared Created or completed-task cohorts', () => {
   ]);
   assert.doesNotMatch(kpiSource, /(?:^|[^A-Za-z])resolvedCount|endBacklogCount/);
   assert.match(pageSource, /const createdResolved = metric\(quarter, 'createdResolvedCount'\)/);
-  assert.match(pageSource, /label="Завершено из созданных" note=\{`\$\{formatPercentValue\(createdResolvedShare\)\} от задач · Resolved \/ Done`\}/);
+  assert.match(pageSource, /label="Завершено из созданных" note=\{`\$\{selectedPeriodLabel\} · \$\{formatPercentValue\(createdResolvedShare\)\} от задач · Resolved \/ Done`\}/);
   assert.doesNotMatch(pageSource, /createdOpen|Открыто из созданных/);
 
   const structureBuilder = pageSource.slice(pageSource.indexOf('export function buildBacklogChartData'), pageSource.indexOf('export function buildScenarioRankingChartData'));

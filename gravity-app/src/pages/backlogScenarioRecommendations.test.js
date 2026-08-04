@@ -18,7 +18,7 @@ test('scenario recommendation source preserves the approved rows and exact copy'
     for (const resource of item.resources || []) {
       assert.ok(resource.label);
       if (resource.href) assert.match(resource.href, /^https:\/\//);
-      else assert.equal(resource.action, 'product-analyst-access');
+      else assert.ok(['product-analyst-access', 'ex-el-access'].includes(resource.action));
     }
   }
 
@@ -64,6 +64,12 @@ test('scenario recommendation source preserves the approved rows and exact copy'
   const manualDataQuality = DD_SCENARIO_RECOMMENDATIONS.filter((item) => item.key === 'manual_data_quality_control');
   assert.equal(manualDataQuality.length, 1);
   assert.doesNotMatch(manualDataQuality[0].sourceTool, /Навигатор/);
+
+  for (const key of ['excel_reports', 'presentations']) {
+    const exEl = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === key);
+    assert.match(exEl.recommendation, /EX-EL/);
+    assert.deepEqual(exEl.resources, [{label: 'EX-EL', action: 'ex-el-access', placement: 'inline'}]);
+  }
 });
 
 test('recommendation table uses Gravity UI and is the final backlog analytics section', () => {
@@ -76,6 +82,10 @@ test('recommendation table uses Gravity UI and is the final backlog analytics se
   assert.match(pageSource, /function RecommendationCopy\(\{item\}\)[\s\S]*?resource\.placement === 'inline'[\s\S]*?text\.indexOf\(resource\.label, cursor\)[\s\S]*?<Link key=\{`\$\{resource\.href\}-\$\{start\}`\}/);
   assert.match(pageSource, /<button[^>]*className="backlog-inline-action"[^>]*aria-haspopup="dialog"/);
   assert.match(pageSource, /<Modal[\s\S]*?AI Toolkit «Продуктовый аналитик»[\s\S]*?AI HUB B2C \(CI06049712\)[\s\S]*?Хазипова Мария Юрьевна/);
+  assert.match(pageSource, /const EX_EL_SERVICE_URL = 'https:\/\/qlik\.sigma\.sbrf\.ru\/qs_b2c_data\/scim_sigma\/extensions\/excelapp\/index\.html#\/'/);
+  assert.match(pageSource, /name: 'АС'[\s\S]*?name: 'Роль'[\s\S]*?name: 'Комментарий'[\s\S]*?name: 'Блок'/);
+  assert.match(pageSource, /<Modal[\s\S]*?id="ex-el-access-title"[\s\S]*?Если нет доступа, его можно оформить через АС Друг[\s\S]*?columns=\{EX_EL_ACCESS_COLUMNS\}[\s\S]*?data=\{EX_EL_ACCESS_ROWS\}/);
+  assert.match(pageSource, /QS_B2C_DATA_A_CAU[\s\S]*?QS_B2C_DATA_S_CAU/);
   assert.match(pageSource, /<Label theme="danger" size="m">Справочная информация, визуализация разовая, для инфо<\/Label>/);
   assert.ok(
     pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} />') > pageSource.indexOf('<Card className="backlog-method-note"'),
@@ -83,19 +93,26 @@ test('recommendation table uses Gravity UI and is the final backlog analytics se
   assert.doesNotMatch(summarySource, /DdScenarioRecommendationTable|DD_SCENARIO_RECOMMENDATIONS/);
   assert.match(stylesSource, /\.dd-scenario-recommendations-scroll\s*\{[^}]*overflow-x:\s*auto;/s);
   assert.match(stylesSource, /\.dd-scenario-recommendations-table\s*\{\s*min-width:\s*1480px;/);
+  assert.match(stylesSource, /\.ex-el-access-modal\s*\{[^}]*--g-modal-width:\s*min\(1040px,/s);
+  assert.match(stylesSource, /\.ex-el-access-table-scroll\s*\{[^}]*overflow-x:\s*auto;/s);
 });
 
-test('high-share scenario recommendations are rendered above the full recommendation table', () => {
+test('high-share or high-TTM scenario recommendations are rendered above the full recommendation table', () => {
   const recommendationCard = pageSource.slice(
     pageSource.indexOf('<section className="backlog-actions-grid">'),
     pageSource.indexOf('<Card className="backlog-method-note"'),
   );
-  assert.match(recommendationCard, /Сценарии с долей более 10%/);
-  assert.doesNotMatch(recommendationCard, /Сценарии с долей более 10% и превышением бенчмарка/);
+  assert.match(recommendationCard, /Сценарии в фокусе/);
+  assert.match(recommendationCard, /Доля &gt;10% или TTM команды выше TTM топ-25%/);
   assert.match(recommendationCard, /<Card className="backlog-list-card"[^>]*style=\{\{'\-\-g-card-background-color': 'var\(--g-color-base-background\)'\}\}/);
-  assert.match(recommendationCard, /Последний полный квартал · \{scenarioFocus\.periodLabel \|\| 'нет данных'\}/);
+  assert.match(recommendationCard, /последний полный квартал · \{scenarioFocus\.periodLabel \|\| 'нет данных'\}/);
   assert.match(recommendationCard, /<Table className="backlog-focus-recommendations-table" columns=\{scenarioFocusColumns\} data=\{scenarioFocus\.items\}/);
-  assert.match(recommendationCard, /нет сценариев с долей более 10% и доступными рекомендациями/);
+  assert.match(recommendationCard, /нет сценариев с долей более 10% или превышением TTM топ-25% и доступными рекомендациями/);
+  assert.match(pageSource, /className="backlog-recommendation-copy"/);
+  assert.match(pageSource, /segment === 'Предлагаемый инструментарий:'[\s\S]*?<strong key=\{`emphasis-/);
+  assert.ok(pageSource.includes("part.split(/(Предлагаемый инструментарий:|\\d+"));
+  assert.ok(pageSource.includes("(?=\\s+час(?:а|ов)?"));
+  assert.match(stylesSource, /\.backlog-recommendation-copy\s*\{[^}]*white-space:\s*pre-line;/s);
   assert.match(pageSource, /name: `Доля · \$\{periodLabel\}`/);
   assert.ok(pageSource.indexOf('className="backlog-focus-recommendations-table"') < pageSource.indexOf('<DdScenarioRecommendationTable quarter={quarter} />'));
   assert.match(stylesSource, /\.backlog-focus-recommendations-scroll\s*\{[^}]*overflow-x:\s*auto;/s);

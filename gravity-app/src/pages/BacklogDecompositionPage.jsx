@@ -12,6 +12,11 @@ const DISCOVERY_TARGET = 40;
 const STORY_POINTS_TARGET = 90;
 const STORY_POINTS_GUIDE_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15525024800';
 const QUARTER_REFERENCE_COLOR = 'var(--g-color-line-generic)';
+const SCENARIO_RECOMMENDATION_EXCLUSIONS = new Set([
+  'dashboard_manual_data_update',
+  'bi_bugfix',
+  'employee_trainings',
+]);
 
 const formatNumber = (value, maximumFractionDigits = 0) => Number.isFinite(Number(value))
   ? new Intl.NumberFormat('ru-RU', {maximumFractionDigits}).format(Number(value))
@@ -177,9 +182,11 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
 
   const items = scenarios
     .map((scenario) => {
+      const scenarioKey = String(scenario?.key || '').toLocaleLowerCase('ru-RU');
+      if (SCENARIO_RECOMMENDATION_EXCLUSIONS.has(scenarioKey)) return null;
       const count = Number(scenario?.count) || 0;
       const share = total > 0 ? count / total * 100 : Number(scenario?.share) || 0;
-      const sourceRows = recommendationsByKey.get(String(scenario?.key || '').toLocaleLowerCase('ru-RU')) || [];
+      const sourceRows = recommendationsByKey.get(scenarioKey) || [];
       const approvedRows = sourceRows.filter((item) => item?.recommendation);
       const continuous25thHours = scenario?.continuous25thHours;
       const medianCycleTimeHours = scenario?.medianCycleTimeHours;
@@ -188,7 +195,8 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
         && Number.isFinite(continuous25thHours)
         && Number.isFinite(medianCycleTimeHours);
       const exceedsBenchmark = hasValidBenchmark && medianCycleTimeHours > continuous25thHours;
-      if (!approvedRows.length || !exceedsBenchmark) return null;
+      const hasHighShare = share > 10;
+      if (!approvedRows.length || (!hasHighShare && !exceedsBenchmark)) return null;
 
       const resources = approvedRows
         .flatMap((item) => item.resources || [])
@@ -199,11 +207,11 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
         share,
         continuous25thHours,
         medianCycleTimeHours,
-        recommendation: `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thHours, 2)} часа. Значение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов. Предлагаемый инструментарий для снижения трудозатрат: ${approvedRows.map((item) => item.recommendation).join(' ')}`,
+        recommendation: `${hasValidBenchmark ? `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.\n\n` : ''}Предлагаемый инструментарий: ${approvedRows.map((item) => item.recommendation).join(' ')}`,
         resources,
       };
     })
-    .filter((item) => item && item.share > 10)
+    .filter(Boolean)
     .sort((a, b) => b.share - a.share);
 
   return {quarter, periodLabel: shortQuarterLabel(quarter), items};
@@ -432,7 +440,7 @@ function KpiCard({value, label, note, chartData, chartUnit}) {
   );
 }
 
-function RoutineAutomationCard({total, routineShare, routineCount, automationShare, automationCount, chartData}) {
+function RoutineAutomationCard({periodLabel, total, routineShare, routineCount, automationShare, automationCount, chartData}) {
   const hasChart = chartData?.series?.data?.length > 0;
   const referenceMax = chartData?.yAxis?.[0]?.plotLines?.[0]?.value;
   const referenceText = Number.isFinite(referenceMax)
@@ -442,6 +450,7 @@ function RoutineAutomationCard({total, routineShare, routineCount, automationSha
     <Card className="backlog-kpi-card backlog-kpi-card--combined" view="outlined" size="l" spacing={{p: 4}}>
       <Flex direction="column" gap="2" height="100%">
         <Text as="div" variant="caption-2" color="secondary">Рутина и автоматизация</Text>
+        <Text as="div" variant="body-1" color="secondary">{periodLabel}</Text>
         <Box className="backlog-kpi-comparison">
           <Flex direction="column" gap="1">
             <Text as="div" variant="subheader-1">Рутина</Text>
@@ -480,29 +489,62 @@ function RecommendationResources({item}) {
   return <> Материалы: {resources.map((resource, index) => <React.Fragment key={resource.href}>{index > 0 && (index === resources.length - 1 ? ' и ' : ', ')}<Link href={resource.href} target="_blank" rel="noreferrer">{resource.label}</Link></React.Fragment>)}.</>;
 }
 
+const EX_EL_SERVICE_URL = 'https://qlik.sigma.sbrf.ru/qs_b2c_data/scim_sigma/extensions/excelapp/index.html#/';
+const EX_EL_ACCESS_COLUMNS = [
+  {id: 'system', name: 'АС', width: '28%'},
+  {id: 'role', name: 'Роль', width: '30%'},
+  {id: 'comment', name: 'Комментарий', width: '34%'},
+  {id: 'block', name: 'Блок', width: '8%'},
+];
+const EX_EL_ACCESS_ROWS = [
+  {
+    id: 'alpha',
+    system: 'АС ПКАП Аналитика персонализации клиента (ПРОМ)',
+    role: 'QS B2C Data Группа пользователей ЦА QS_B2C_DATA_A_CAU',
+    comment: 'Сотрудникам ЦА для доступа к ресурсу платформы в альфе (чтение)',
+    block: 'ЦА',
+  },
+  {
+    id: 'sigma',
+    system: 'АС ПКАП Аналитика персонализации клиента (ПРОМ)',
+    role: 'QS B2C Data Группа пользователей ЦА (SIGMA) QS_B2C_DATA_S_CAU',
+    comment: 'Сотрудникам ЦА для доступа к ресурсу платформы в сигме (чтение)',
+    block: 'ЦА',
+  },
+];
+
 function RecommendationCopy({item}) {
-  const [productAnalystModalOpen, setProductAnalystModalOpen] = useState(false);
+  const [accessModal, setAccessModal] = useState(null);
   const text = String(item.recommendation || item.text || '');
   const inlineResources = (item.resources || []).filter((resource) => resource.placement === 'inline');
   const productAnalystResource = inlineResources.find((resource) => resource.action === 'product-analyst-access');
+  const exElResource = inlineResources.find((resource) => resource.action === 'ex-el-access');
   const parts = [];
   let cursor = 0;
   inlineResources.forEach((resource) => {
     const start = text.indexOf(resource.label, cursor);
     if (start < 0) return;
     if (start > cursor) parts.push(text.slice(cursor, start));
-    parts.push(resource.action === 'product-analyst-access'
-      ? <button key={`${resource.action}-${start}`} type="button" className="backlog-inline-action" aria-haspopup="dialog" onClick={() => setProductAnalystModalOpen(true)}>{resource.label}</button>
+    parts.push(resource.action
+      ? <button key={`${resource.action}-${start}`} type="button" className="backlog-inline-action" aria-haspopup="dialog" onClick={() => setAccessModal(resource.action)}>{resource.label}</button>
       : <Link key={`${resource.href}-${start}`} href={resource.href} target="_blank" rel="noreferrer">{resource.label}</Link>);
     cursor = start + resource.label.length;
   });
   parts.push(text.slice(cursor));
+  const emphasizedParts = parts.flatMap((part, partIndex) => {
+    if (typeof part !== 'string') return [part];
+    return part.split(/(Предлагаемый инструментарий:|\d+(?:[,.]\d+)?(?=\s+час(?:а|ов)?(?:[.\s]|$)))/u).map((segment, segmentIndex) => (
+      segment === 'Предлагаемый инструментарий:' || /^\d+(?:[,.]\d+)?$/.test(segment)
+        ? <strong key={`emphasis-${partIndex}-${segmentIndex}`}>{segment}</strong>
+        : segment
+    ));
+  });
   return <>
-    {parts}<RecommendationResources item={item} />
+    <span className="backlog-recommendation-copy">{emphasizedParts}<RecommendationResources item={item} /></span>
     {productAnalystResource && (
       <Modal
-        open={productAnalystModalOpen}
-        onOpenChange={setProductAnalystModalOpen}
+        open={accessModal === 'product-analyst-access'}
+        onOpenChange={(open) => setAccessModal(open ? 'product-analyst-access' : null)}
         contentClassName="product-analyst-access-modal"
         contentOverflow="auto"
         aria-labelledby="product-analyst-access-title"
@@ -518,7 +560,37 @@ function RecommendationCopy({item}) {
             <li>В обосновании указать «Для разработки и тестирования инструмента AI суммаризации».</li>
           </ul>
           <Text variant="body-1">Для входа в систему используйте почтовый адрес сигма и первичный пароль. ФИО, кому направить первичный пароль, просьба направить на почту (Хазипова Мария Юрьевна).</Text>
-          <Flex justifyContent="flex-end"><Button view="action" size="l" onClick={() => setProductAnalystModalOpen(false)}>Закрыть</Button></Flex>
+          <Flex justifyContent="flex-end"><Button view="action" size="l" onClick={() => setAccessModal(null)}>Закрыть</Button></Flex>
+        </Flex>
+      </Modal>
+    )}
+    {exElResource && (
+      <Modal
+        open={accessModal === 'ex-el-access'}
+        onOpenChange={(open) => setAccessModal(open ? 'ex-el-access' : null)}
+        contentClassName="ex-el-access-modal"
+        contentOverflow="auto"
+        aria-labelledby="ex-el-access-title"
+      >
+        <Flex className="ex-el-access-content" direction="column" gap="4">
+          <Flex direction="column" gap="2">
+            <Text id="ex-el-access-title" as="h2" variant="subheader-3">EX-EL</Text>
+            <Text variant="body-1">Ссылка на сервис: <Link href={EX_EL_SERVICE_URL} target="_blank" rel="noreferrer">открыть EX-EL</Link>.</Text>
+            <Text variant="body-1">Если нет доступа, его можно оформить через АС Друг.</Text>
+          </Flex>
+          <div className="ex-el-access-table-scroll">
+            <Table
+              className="ex-el-access-table"
+              columns={EX_EL_ACCESS_COLUMNS}
+              data={EX_EL_ACCESS_ROWS}
+              getRowId={(row) => row.id}
+              verticalAlign="top"
+              width="max"
+              wordWrap
+              aria-label="Роли доступа к EX-EL через АС Друг"
+            />
+          </div>
+          <Flex justifyContent="flex-end"><Button view="action" size="l" onClick={() => setAccessModal(null)}>Закрыть</Button></Flex>
         </Flex>
       </Modal>
     )}
@@ -676,7 +748,6 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   }, [quarters, selectedQuarterKey]);
   const quarter = quarters.find((item) => quarterKey(item) === selectedQuarterKey) || defaultQuarter;
   const selectedMonths = useMemo(() => monthsForQuarter(months, quarter), [months, quarter]);
-  const latestMonth = selectLatestMonth(selectedMonths);
   const visibleMonths = useMemo(() => monthsThroughQuarter(months, quarter), [months, quarter]);
   const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths), [grouping, selectedMonths, visibleMonths]);
   const dashboard = useMemo(() => buildDashboardInsights(quarter), [quarter]);
@@ -698,7 +769,6 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
 
   const discoveryCount = metric(quarter, 'discoveryCount');
   const created = metric(quarter, 'createdCount', 'created');
-  const latestMonthCreated = metric(latestMonth, 'createdCount', 'created');
   const discoveryShare = metric(quarter, 'discoveryShare') ?? (created ? discoveryCount / created * 100 : 0);
   const createdResolved = metric(quarter, 'createdResolvedCount');
   const createdResolvedShare = created ? (createdResolved ?? 0) / created * 100 : 0;
@@ -722,6 +792,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const freshness = formatFreshnessDate(team?.meta?.asOf || data?.meta?.asOf);
   const discoveryGoalProgress = Math.min(100, Math.max(0, discoveryShare / DISCOVERY_TARGET * 100));
   const scenarioFocusColumns = buildScenarioFocusColumns(scenarioFocus.periodLabel);
+  const selectedPeriodLabel = shortQuarterLabel(quarter);
   const kpiMiniCharts = {
     created: buildKpiMiniChartData(visibleMonths, [{name: 'Создано', key: 'createdCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
     createdResolved: buildKpiMiniChartData(visibleMonths, [{name: 'Завершено из созданных', key: 'createdResolvedCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
@@ -778,11 +849,11 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       </Card>
 
       <section className="backlog-kpi-grid" aria-label="Ключевые показатели квартала">
-        <KpiCard value={formatNumber(latestMonthCreated)} label="Создано за месяц" note={latestMonth ? monthLabel(latestMonth) : 'Нет данных за выбранный квартал'} chartData={kpiMiniCharts.created} chartUnit="задач" />
-        <KpiCard value={formatNumber(createdResolved)} label="Завершено из созданных" note={`${formatPercentValue(createdResolvedShare)} от задач · Resolved / Done`} chartData={kpiMiniCharts.createdResolved} chartUnit="задач" />
-        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианный TTM" note={Number.isFinite(cycleTimeSampleCount) ? `По ${formatNumber(cycleTimeSampleCount)} завершённым задачам квартала` : 'От In Progress до Resolved / Done'} chartData={kpiMiniCharts.medianTtm} chartUnit="дн." />
-        <KpiCard value={Number.isFinite(storyPointsFilledShare) ? formatPercentValue(storyPointsFilledShare) : '—'} label="Заполнение Story Points" note={Number.isFinite(storyPointsFilledCount) && Number.isFinite(storyPointsBaseCount) ? `${formatNumber(storyPointsFilledCount)} из ${formatNumber(storyPointsBaseCount)} созданных задач` : 'Доля созданных задач с оценкой'} chartData={kpiMiniCharts.storyPoints} chartUnit="%" />
-        <RoutineAutomationCard total={created} routineShare={routineShare} routineCount={routineCount} automationShare={automationShare} automationCount={automationCount} chartData={kpiMiniCharts.routineAutomation} />
+        <KpiCard value={formatNumber(created)} label="Создано за квартал" note={selectedPeriodLabel} chartData={kpiMiniCharts.created} chartUnit="задач" />
+        <KpiCard value={formatNumber(createdResolved)} label="Завершено из созданных" note={`${selectedPeriodLabel} · ${formatPercentValue(createdResolvedShare)} от задач · Resolved / Done`} chartData={kpiMiniCharts.createdResolved} chartUnit="задач" />
+        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианный TTM" note={`${selectedPeriodLabel} · ${Number.isFinite(cycleTimeSampleCount) ? `по ${formatNumber(cycleTimeSampleCount)} завершённым задачам` : 'от In Progress до Resolved / Done'}`} chartData={kpiMiniCharts.medianTtm} chartUnit="дн." />
+        <KpiCard value={Number.isFinite(storyPointsFilledShare) ? formatPercentValue(storyPointsFilledShare) : '—'} label="Заполнение Story Points" note={`${selectedPeriodLabel} · ${Number.isFinite(storyPointsFilledCount) && Number.isFinite(storyPointsBaseCount) ? `${formatNumber(storyPointsFilledCount)} из ${formatNumber(storyPointsBaseCount)} созданных задач` : 'доля созданных задач с оценкой'}`} chartData={kpiMiniCharts.storyPoints} chartUnit="%" />
+        <RoutineAutomationCard periodLabel={selectedPeriodLabel} total={created} routineShare={routineShare} routineCount={routineCount} automationShare={automationShare} automationCount={automationCount} chartData={kpiMiniCharts.routineAutomation} />
       </section>
 
       <section className="backlog-analysis-grid">
@@ -815,12 +886,12 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
               <Divider />
               <Flex direction="column" gap="3">
                 <Flex direction="column" gap="1">
-                  <Text variant="subheader-1">Сценарии с долей более 10%</Text>
-                  <Text variant="caption-2" color="secondary">Последний полный квартал · {scenarioFocus.periodLabel || 'нет данных'}</Text>
+                  <Text variant="subheader-1">Сценарии в фокусе</Text>
+                  <Text variant="caption-2" color="secondary">Доля &gt;10% или TTM команды выше TTM топ-25% · последний полный квартал · {scenarioFocus.periodLabel || 'нет данных'}</Text>
                 </Flex>
                 {scenarioFocus.items.length
-                  ? <Box className="backlog-focus-recommendations-scroll"><Table className="backlog-focus-recommendations-table" columns={scenarioFocusColumns} data={scenarioFocus.items} getRowId="key" verticalAlign="top" width="max" wordWrap aria-label={`Рекомендации по сценариям с долей более 10% за ${scenarioFocus.periodLabel}`} /></Box>
-                  : <Text color="secondary">В последнем полном квартале нет сценариев с долей более 10% и доступными рекомендациями.</Text>}
+                  ? <Box className="backlog-focus-recommendations-scroll"><Table className="backlog-focus-recommendations-table" columns={scenarioFocusColumns} data={scenarioFocus.items} getRowId="key" verticalAlign="top" width="max" wordWrap aria-label={`Рекомендации по сценариям в фокусе за ${scenarioFocus.periodLabel}`} /></Box>
+                  : <Text color="secondary">В последнем полном квартале нет сценариев с долей более 10% или превышением TTM топ-25% и доступными рекомендациями.</Text>}
               </Flex>
               <Divider />
               <Text variant="subheader-1">Другие действия по метрикам</Text>
