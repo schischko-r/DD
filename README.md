@@ -17,8 +17,13 @@
 Полная локальная сборка Gravity UI из единого `flat_table.xlsx`, включая JSON, Vite bundle и standalone HTML:
 
 ```bash
-python build_gravity_report.py
+./build_gravity_report.sh
 ```
+
+Скрипт использует корневой `.env`, а при его отсутствии также проверяет
+`$HOME/Documents/Codex/DD-dev/.env`. Другой env-файл можно передать через
+`DD_ENV_FILE=/path/to/.env`. Все аргументы передаются в Python-сборщик, например
+для offline-сборки: `./build_gravity_report.sh --no-update-crosssell`.
 
 Команда использует flat-table-пайплайн из `build_calc_report.py`.
 Сборка не требует внешних digest-файлов и не вызывает генеративные модели. Интеграция
