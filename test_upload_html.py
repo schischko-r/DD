@@ -32,7 +32,11 @@ class UploadHtmlTest(unittest.TestCase):
                 repository_dir=repository_dir,
                 home=home,
             ),
-            (Path("/workspace/certs"), Path("/Users/alice/Sandbox/certs")),
+            (
+                Path("/workspace/certs"),
+                Path("/Users/alice/Documents/Git/certs"),
+                Path("/Users/alice/Sandbox/certs"),
+            ),
         )
 
     def test_legacy_invocation_requires_only_certificate_password(self) -> None:

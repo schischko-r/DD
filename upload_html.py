@@ -21,14 +21,18 @@ def default_credential_directories(
     *,
     repository_dir: Path | None = None,
     home: Path | None = None,
-) -> tuple[Path, Path]:
+) -> tuple[Path, ...]:
     repository_dir = (
         repository_dir
         if repository_dir is not None
         else Path(__file__).resolve().parent
     )
     home = home if home is not None else Path.home()
-    return repository_dir.parent / "certs", home / "Sandbox" / "certs"
+    return (
+        repository_dir.parent / "certs",
+        home / "Documents" / "Git" / "certs",
+        home / "Sandbox" / "certs",
+    )
 
 
 def resolve_certificate_path(
