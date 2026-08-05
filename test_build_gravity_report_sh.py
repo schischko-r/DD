@@ -65,7 +65,7 @@ fi
                 env_file.write_text(dotenv, encoding="utf-8")
                 environment["DD_ENV_FILE"] = str(env_file)
             if upload:
-                certificate_dir = directory / "home" / "Sandbox" / "certs"
+                certificate_dir = directory / "home" / "Documents" / "Git" / "certs"
                 certificate_dir.mkdir(parents=True)
                 (certificate_dir / "21090527.p12").touch()
                 (certificate_dir / "sberca-chain.pem").touch()
@@ -112,9 +112,9 @@ fi
         self.assertNotIn("test-password", "\n".join(invocations))
         self.assertNotIn("--cert-password", invocations[1])
         self.assertIn("--cert-path", invocations[1])
-        self.assertIn("/Sandbox/certs/21090527.p12", invocations[1])
+        self.assertIn("/Documents/Git/certs/21090527.p12", invocations[1])
         self.assertIn("--ca-bundle", invocations[1])
-        self.assertIn("/Sandbox/certs/sberca-chain.pem", invocations[1])
+        self.assertIn("/Documents/Git/certs/sberca-chain.pem", invocations[1])
 
     def test_upload_flag_runs_builder_then_uploader(self) -> None:
         invocations = self.run_wrapper("--upload", upload=True)

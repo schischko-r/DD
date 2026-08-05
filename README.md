@@ -29,8 +29,8 @@ Python запускается напрямую через `${PYTHON:-python3}`; 
 
 После успешной сборки скрипт автоматически загружает `gravity-standalone.html`
 в Qlik QRS. Задайте `HTML_UPLOAD_CERT_PASSWORD`. По умолчанию wrapper использует
-`$HOME/Sandbox/certs/21090527.p12` и
-`$HOME/Sandbox/certs/sberca-chain.pem` и проверяет их до начала сборки.
+`$HOME/Documents/Git/certs/21090527.p12` и
+`$HOME/Documents/Git/certs/sberca-chain.pem` и проверяет их до начала сборки.
 Пути можно переопределить через `HTML_UPLOAD_CERT_PATH` и
 `HTML_UPLOAD_CA_BUNDLE` (или CLI-флаги `--cert-path` и `--ca-bundle`), endpoint —
 через `HTML_UPLOAD_URL`. Прямой legacy-вызов `upload_html.py` поддерживает
