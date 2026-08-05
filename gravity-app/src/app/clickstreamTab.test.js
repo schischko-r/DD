@@ -255,7 +255,6 @@ test('Team profile resolves a generic html_page action from recommendation metad
     'mauAiRecommendation',
     'draftAiRecommendations[0]',
     'campaignFunnelAiRecommendations[0]',
-    'pilotAiRecommendations[0]',
     'csiAiRecommendations[0]',
     'complaintsAiRecommendations[0]',
   ]) {
@@ -264,6 +263,10 @@ test('Team profile resolves a generic html_page action from recommendation metad
       `${recommendation} must route to a configured HTML page`,
     );
   }
+  assert.match(
+    teamProfileSource,
+    /const pilotHtmlTool = findHtmlPageToolForRecommendation\(PILOT_CAMPAIGNS_RECOMMENDATION\);[\s\S]*onOpenHtmlPageTool\(pilotHtmlTool\.id, buildHtmlPageContext\(pilotHtmlTool, pilotAiRecommendation\)\);/,
+  );
   assert.match(teamProfileSource, /const openConfiguredSkill = \(recommendation\) => \{[\s\S]*setReportAccessOpen\(true\);/);
   assert.match(
     teamProfileSource,
