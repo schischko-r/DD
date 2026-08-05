@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Chart} from '@gravity-ui/charts';
-import {ArrowLeft, ChartColumn, Check, ChevronRight, CircleFill, CircleInfo} from '@gravity-ui/icons';
+import {ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo} from '@gravity-ui/icons';
 import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Modal, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
 import {isMetricAbove, RecommendationCell} from './RecommendationCell.js';
@@ -520,33 +520,11 @@ const EX_EL_ACCESS_ROWS = [
   },
 ];
 
-function RecommendationToolBlock({item, onAction}) {
-  const resources = (item.resources || [])
-    .filter((resource) => resource?.href || resource?.action)
-    .filter((resource, index, all) => all.findIndex((candidate) => (candidate.href || candidate.action) === (resource.href || resource.action)) === index);
-  const toolRecommendation = String(item.toolRecommendation || '').trim();
-  if (!resources.length && !toolRecommendation) return null;
-  const resourceLabel = (resource) => String(resource.toolLabel || resource.label || item.sourceTool || 'Открыть');
-  return (
-    <div className="metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-resources backlog-useful-tools">
-      <span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span>
-      <span className="metric-inline-instruction-copy"><strong>Полезные инструменты</strong>{toolRecommendation && <small>{toolRecommendation}</small>}</span>
-      {resources.length > 0 && <span className="metric-inline-instruction-resource-actions">
-        {resources.map((resource) => resource.action
-          ? <button key={resource.action} type="button" className="backlog-useful-tool-action" aria-haspopup="dialog" onClick={() => onAction(resource.action)}>{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></button>
-          : <Link key={resource.href} href={resource.href} target="_blank" rel="noreferrer">{resourceLabel(resource)}<Icon data={ChevronRight} size={13} /></Link>)}
-      </span>}
-    </div>
-  );
-}
-
-function RecommendationCopy({item, resourcesBelow = false}) {
+function RecommendationCopy({item}) {
   const [accessModal, setAccessModal] = useState(null);
-  const text = String(resourcesBelow && typeof item.toolRecommendation === 'string'
-    ? item.recommendationSummary || ''
-    : item.recommendation || item.text || '');
+  const text = String(item.recommendation || item.text || '');
   const allResources = item.resources || [];
-  const inlineResources = resourcesBelow ? [] : allResources.filter((resource) => resource.placement === 'inline');
+  const inlineResources = allResources.filter((resource) => resource.placement === 'inline');
   const productAnalystResource = allResources.find((resource) => resource.action === 'product-analyst-access');
   const exElResource = allResources.find((resource) => resource.action === 'ex-el-access');
   const parts = [];
@@ -570,8 +548,7 @@ function RecommendationCopy({item, resourcesBelow = false}) {
     ));
   });
   return <>
-    <span className="backlog-recommendation-copy">{emphasizedParts}{!resourcesBelow && <RecommendationResources item={item} />}</span>
-    {resourcesBelow && <RecommendationToolBlock item={item} onAction={setAccessModal} />}
+    <span className="backlog-recommendation-copy">{emphasizedParts}<RecommendationResources item={item} /></span>
     {productAnalystResource && (
       <Modal
         open={accessModal === 'product-analyst-access'}
@@ -628,7 +605,7 @@ function RecommendationCopy({item, resourcesBelow = false}) {
   </>;
 }
 
-function buildScenarioFocusColumns(periodLabel, resourcesBelow = false) {
+function buildScenarioFocusColumns(periodLabel) {
   return [
     {
       id: 'scenario',
@@ -647,7 +624,7 @@ function buildScenarioFocusColumns(periodLabel, resourcesBelow = false) {
       id: 'recommendation',
       name: 'Рекомендация',
       width: '65%',
-      template: (item) => <RecommendationCell><RecommendationCopy item={item} resourcesBelow={resourcesBelow} /></RecommendationCell>,
+      template: (item) => <RecommendationCell><RecommendationCopy item={item} /></RecommendationCell>,
     },
   ];
 }
@@ -669,7 +646,7 @@ export function buildScenarioRecommendationRows(quarter, recommendationRows = DD
   });
 }
 
-function buildScenarioRecommendationColumns(resourcesBelow = false) {
+function buildScenarioRecommendationColumns() {
   return [
     {
       id: 'direction',
@@ -714,15 +691,15 @@ function buildScenarioRecommendationColumns(resourcesBelow = false) {
       id: 'recommendation',
       name: 'Рекомендация тимлиду',
       width: '28%',
-      template: (item) => <RecommendationCell><RecommendationCopy item={item} resourcesBelow={resourcesBelow} /></RecommendationCell>,
+      template: (item) => <RecommendationCell><RecommendationCopy item={item} /></RecommendationCell>,
     },
   ];
 }
 
-function DdScenarioRecommendationTable({quarter, resourcesBelow = false}) {
+function DdScenarioRecommendationTable({quarter}) {
   const rows = buildScenarioRecommendationRows(quarter);
   const periodLabel = shortQuarterLabel(quarter);
-  const columns = buildScenarioRecommendationColumns(resourcesBelow);
+  const columns = buildScenarioRecommendationColumns();
   return (
     <Card className="dd-scenario-recommendations" view="outlined" size="l" spacing={{p: 5}}>
       <div className="dd-scenario-recommendations-head">
@@ -753,7 +730,7 @@ function PageState({type}) {
   return <main className="content dashboard-page backlog-page"><Flex className="backlog-page-state" alignItems="center" justifyContent="center" gap="3"><Icon data={type === 'error' ? CircleInfo : ChartColumn} size={24} /><Flex direction="column" gap="1"><Text variant="subheader-1">{type === 'error' ? 'Данные бэклога пока недоступны' : 'Нет данных для отображения'}</Text><Text color="secondary">{type === 'error' ? 'Остальные разделы приложения продолжают работать.' : 'Для построения дашборда нужны квартальные данные.'}</Text></Flex></Flex></main>;
 }
 
-export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, initialTeamKey = '', variant = 'default'}) {
+export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, initialTeamKey = ''}) {
   const [grouping, setGrouping] = useState('directions');
   const teams = useMemo(() => getTeamDatasets(data || {}), [data]);
   const [selectedTeamKey, setSelectedTeamKey] = useState(() => String(initialTeamKey || teams[0]?.key || ''));
@@ -828,9 +805,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const hasSeries = chartData.series.data.length > 0;
   const freshness = formatFreshnessDate(team?.meta?.asOf || data?.meta?.asOf);
   const discoveryGoalProgress = Math.min(100, Math.max(0, discoveryShare / DISCOVERY_TARGET * 100));
-  const resourcesBelow = variant === 'v2';
-  const pageTitle = resourcesBelow ? 'Декомпозиция v2' : 'Декомпозиция бэклога';
-  const scenarioFocusColumns = buildScenarioFocusColumns(scenarioFocus.periodLabel, resourcesBelow);
+  const scenarioFocusColumns = buildScenarioFocusColumns(scenarioFocus.periodLabel);
   const selectedPeriodLabel = shortQuarterLabel(quarter);
   const kpiMiniCharts = {
     created: buildKpiMiniChartData(visibleMonths, [{name: 'Создано', key: 'createdCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
@@ -848,7 +823,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       {onOpenTeam && <Box spacing={{mb: 2}}><Button view="flat" size="m" onClick={() => onOpenTeam(team)}><Icon data={ArrowLeft} size={16} />Назад к карточке команды</Button></Box>}
       <header className="backlog-header">
         <Flex direction="column" gap="1">
-          <Text as="h1" variant="display-2">{pageTitle}</Text>
+          <Text as="h1" variant="display-2">Декомпозиция бэклога</Text>
           <Text variant="body-1" color="secondary">Структура и статус задач, созданных в выбранном квартале</Text>
           {freshness && <Flex alignItems="center" gap="2"><Icon data={CircleInfo} size={16} /><Text variant="caption-2" color="secondary">Данные на {freshness}</Text></Flex>}
         </Flex>
@@ -942,7 +917,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       <Card className="backlog-method-note" view="outlined" spacing={{p: 4}}>
         <Flex alignItems="flex-start" gap="2" wrap><Icon data={CircleInfo} size={16} /><Text variant="subheader-1">Методика</Text><Text variant="caption-2" color="secondary">Временные графики показывают историю по месяцу создания до выбранного квартала включительно. Discovery, рутина и автоматизация считаются внутри Created-когорты; «Завершено из созданных» — задачи в статусах Resolved / Done.{freshness ? ` Источник актуален на ${freshness}.` : ''}</Text></Flex>
       </Card>
-      <DdScenarioRecommendationTable quarter={quarter} resourcesBelow={resourcesBelow} />
+      <DdScenarioRecommendationTable quarter={quarter} />
     </main>
   );
 }

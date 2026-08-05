@@ -1,10 +1,9 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Copy, Ticket} from '@gravity-ui/icons';
+import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Ticket} from '@gravity-ui/icons';
 import {Divider, Flex, Spin} from '@gravity-ui/uikit';
 import {AsideHeader, FooterItem} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
 import {BacklogDecompositionPage} from '../pages/BacklogDecompositionPage.jsx';
-import {BacklogDecompositionV2Page} from '../pages/BacklogDecompositionV2Page.jsx';
 import {DashboardPage} from '../pages/DashboardPage.jsx';
 import {HtmlReportPage} from '../pages/HtmlReportPage.jsx';
 import {SummaryPage} from '../pages/SummaryPage.jsx';
@@ -98,11 +97,6 @@ export function App() {
     setView('backlog');
     window.scrollTo(0, 0);
   };
-  const openBacklogV2 = (teamKey = '') => {
-    setBacklogTeamKey(String(teamKey || ''));
-    setView('backlog-v2');
-    window.scrollTo(0, 0);
-  };
   const openBacklogTeam = (teamDataset) => {
     const requestedNames = [teamDataset?.label, teamDataset?.meta?.teamLabel]
       .map(normalizeTeamName)
@@ -173,9 +167,7 @@ export function App() {
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'backlog'
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
-            : view === 'backlog-v2'
-              ? <BacklogDecompositionV2Page data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
-              : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
+            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
   return (
     <AsideHeader
       compact={compact}
@@ -196,15 +188,6 @@ export function App() {
             compact={footerCompact}
             current={view === 'backlog'}
             onItemClick={() => openBacklog()}
-          />
-          <FooterItem
-            id="backlog-v2"
-            title="Декомпозиция v2"
-            tooltipText="Декомпозиция v2"
-            icon={Copy}
-            compact={footerCompact}
-            current={view === 'backlog-v2'}
-            onItemClick={() => openBacklogV2()}
           />
         </Flex>
       )}
