@@ -26,16 +26,15 @@
 для offline-сборки: `./build_gravity_report.sh --no-update-crosssell`. Env-файл
 читается как dotenv: строки без формата `KEY=VALUE` безопасно пропускаются.
 Python запускается напрямую, без `uv`: значение `PYTHON` имеет приоритет, иначе
-wrapper предпочитает `python3.11`, а при его отсутствии с явным сообщением использует
-`python3`. Один и тот же выбранный интерпретатор используется для сборки и загрузки.
+wrapper использует `python3`. Один и тот же выбранный интерпретатор используется для
+сборки и загрузки.
 
 После успешной сборки скрипт автоматически загружает `gravity-standalone.html`
 в Qlik QRS. Задайте `HTML_UPLOAD_CERT_PASSWORD`. По умолчанию wrapper использует
-`$HOME/Documents/Git/certs/21090527.p12` и
-`$HOME/Documents/Git/certs/sberca-chain.pem` и проверяет их до начала сборки.
-Пути можно переопределить через `HTML_UPLOAD_CERT_PATH` и
-`HTML_UPLOAD_CA_BUNDLE` (или CLI-флаги `--cert-path` и `--ca-bundle`), endpoint —
-через `HTML_UPLOAD_URL`. Прямой legacy-вызов `upload_html.py` поддерживает
+автообнаружение сертификата и CA bundle из `upload_html.py`; он проверяет стандартные
+каталоги сертификатов. Пути можно явно переопределить через `HTML_UPLOAD_CERT_PATH` и
+`HTML_UPLOAD_CA_BUNDLE`: только тогда wrapper передаёт `--cert-path` и `--ca-bundle`.
+Endpoint задаётся через `HTML_UPLOAD_URL`. Прямой legacy-вызов `upload_html.py` поддерживает
 `--cert-password`. Флаг `--no-upload` отключает автоматическую загрузку,
 `--upload` сохранён как явный совместимый режим, а `--data-only` всегда
 пропускает загрузку.

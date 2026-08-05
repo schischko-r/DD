@@ -20,7 +20,6 @@ class BuildGravityReportShellTest(unittest.TestCase):
         extra_environment: dict[str, str] | None = None,
         frontend_installed: bool = True,
         upload_path_overrides: bool = False,
-        python311_available: bool = False,
         python3_available: bool = False,
     ) -> tuple[list[str], str]:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -40,13 +39,6 @@ fi
                 encoding="utf-8",
             )
             python_stub.chmod(0o755)
-            if python311_available:
-                python311_stub = directory / "python3.11"
-                python311_stub.write_text(
-                    '#!/bin/sh\nprintf "%s\\n" "$*" >> "$COMMAND_LOG"\n',
-                    encoding="utf-8",
-                )
-                python311_stub.chmod(0o755)
             if python3_available:
                 python3_stub = directory / "python3"
                 python3_stub.write_text(
@@ -82,10 +74,6 @@ fi
                 env_file.write_text(dotenv, encoding="utf-8")
                 environment["DD_ENV_FILE"] = str(env_file)
             if upload:
-                certificate_dir = directory / "home" / "Documents" / "Git" / "certs"
-                certificate_dir.mkdir(parents=True)
-                (certificate_dir / "21090527.p12").touch()
-                (certificate_dir / "sberca-chain.pem").touch()
                 environment["HTML_UPLOAD_CERT_PASSWORD"] = "test-password"
             if upload_path_overrides:
                 override_dir = directory / "overrides"
@@ -120,7 +108,7 @@ fi
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
-    def test_default_build_runs_builder_then_uploader(self) -> None:
+    def test_default_upload_omits_paths_for_uploader_auto_discovery(self) -> None:
         invocations, _ = self.run_wrapper(upload=True)
 
         self.assertEqual(len(invocations), 2)
@@ -129,10 +117,8 @@ fi
         self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
         self.assertNotIn("--cert-password", invocations[1])
-        self.assertIn("--cert-path", invocations[1])
-        self.assertIn("/Documents/Git/certs/21090527.p12", invocations[1])
-        self.assertIn("--ca-bundle", invocations[1])
-        self.assertIn("/Documents/Git/certs/sberca-chain.pem", invocations[1])
+        self.assertNotIn("--cert-path", invocations[1])
+        self.assertNotIn("--ca-bundle", invocations[1])
 
     def test_upload_flag_runs_builder_then_uploader(self) -> None:
         invocations, _ = self.run_wrapper("--upload", upload=True)
@@ -143,7 +129,8 @@ fi
         self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
         self.assertNotIn("--cert-password", invocations[1])
-        self.assertIn("--cert-path", invocations[1])
+        self.assertNotIn("--cert-path", invocations[1])
+        self.assertNotIn("--ca-bundle", invocations[1])
 
     def test_upload_path_overrides_are_forwarded_without_prevalidation(self) -> None:
         invocations, _ = self.run_wrapper(
@@ -215,18 +202,7 @@ fi
         self.assertIn("Python runtime:", output)
         self.assertIn("(PYTHON)", output)
 
-    def test_python_311_is_preferred_when_python_is_not_configured(self) -> None:
-        invocations, output = self.run_wrapper(
-            "--no-upload",
-            extra_environment={"WITHOUT_PYTHON": "1"},
-            python311_available=True,
-        )
-
-        self.assertEqual(len(invocations), 1)
-        self.assertIn("build_gravity_report.py", invocations[0])
-        self.assertIn("Python runtime: python3.11 (python3.11)", output)
-
-    def test_python3_fallback_is_announced_when_python_311_is_unavailable(self) -> None:
+    def test_python3_is_used_when_python_is_not_configured(self) -> None:
         invocations, output = self.run_wrapper(
             "--no-upload",
             extra_environment={"WITHOUT_PYTHON": "1"},
@@ -235,7 +211,7 @@ fi
 
         self.assertEqual(len(invocations), 1)
         self.assertIn("build_gravity_report.py", invocations[0])
-        self.assertIn("Python runtime: python3 (python3 fallback)", output)
+        self.assertIn("Python runtime: python3 (python3)", output)
 
 
 if __name__ == "__main__":

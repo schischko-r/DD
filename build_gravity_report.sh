@@ -113,12 +113,9 @@ select_python() {
   if [[ -n "${PYTHON:-}" ]]; then
     PYTHON_BIN="$PYTHON"
     PYTHON_RUNTIME_SOURCE="PYTHON"
-  elif command -v python3.11 >/dev/null 2>&1; then
-    PYTHON_BIN="python3.11"
-    PYTHON_RUNTIME_SOURCE="python3.11"
   else
     PYTHON_BIN="python3"
-    PYTHON_RUNTIME_SOURCE="python3 fallback"
+    PYTHON_RUNTIME_SOURCE="python3"
   fi
 
   if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
@@ -136,8 +133,6 @@ if ((STANDALONE_OUTPUT_SET == 0)) && [[ -n "${STANDALONE_HTML:-}" ]]; then
 fi
 
 UPLOAD_URL="${HTML_UPLOAD_URL:-$DEFAULT_UPLOAD_URL}"
-UPLOAD_CERTIFICATE_PATH="${HTML_UPLOAD_CERT_PATH:-${HOME:+$HOME/Documents/Git/certs/21090527.p12}}"
-UPLOAD_CA_BUNDLE="${HTML_UPLOAD_CA_BUNDLE:-${HOME:+$HOME/Documents/Git/certs/sberca-chain.pem}}"
 UPLOAD_TIMEOUT="${HTML_UPLOAD_TIMEOUT:-120}"
 UPLOAD_INSECURE=0
 if [[ "${HTML_UPLOAD_INSECURE_TLS:-}" =~ ^(1|true|yes)$ ]]; then
@@ -147,14 +142,6 @@ fi
 if ((UPLOAD_ENABLED == 1)); then
   if [[ -z "${HTML_UPLOAD_CERT_PASSWORD:-}" ]]; then
     echo "Set HTML_UPLOAD_CERT_PASSWORD or run with --no-upload." >&2
-    exit 1
-  fi
-  if [[ -z "$UPLOAD_CERTIFICATE_PATH" || ! -f "$UPLOAD_CERTIFICATE_PATH" ]]; then
-    echo "Upload certificate not found: ${UPLOAD_CERTIFICATE_PATH:-not configured}" >&2
-    exit 1
-  fi
-  if ((UPLOAD_INSECURE == 0)) && [[ -n "$UPLOAD_CA_BUNDLE" && ! -f "$UPLOAD_CA_BUNDLE" ]]; then
-    echo "Upload CA bundle not found: $UPLOAD_CA_BUNDLE" >&2
     exit 1
   fi
   if [[ ! "$UPLOAD_TIMEOUT" =~ ^[1-9][0-9]*$ ]]; then
@@ -199,11 +186,13 @@ run_uploader() {
   upload_args=(
     "$STANDALONE_OUTPUT"
     "$UPLOAD_URL"
-    --cert-path "$UPLOAD_CERTIFICATE_PATH"
     --timeout "$UPLOAD_TIMEOUT"
   )
-  if [[ -n "$UPLOAD_CA_BUNDLE" ]]; then
-    upload_args+=(--ca-bundle "$UPLOAD_CA_BUNDLE")
+  if [[ -n "${HTML_UPLOAD_CERT_PATH:-}" ]]; then
+    upload_args+=(--cert-path "$HTML_UPLOAD_CERT_PATH")
+  fi
+  if [[ -n "${HTML_UPLOAD_CA_BUNDLE:-}" ]]; then
+    upload_args+=(--ca-bundle "$HTML_UPLOAD_CA_BUNDLE")
   fi
   if ((UPLOAD_INSECURE == 1)); then
     upload_args+=(--insecure)
