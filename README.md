@@ -30,12 +30,16 @@ wrapper использует `python3`. Один и тот же выбранны
 сборки и загрузки.
 
 После успешной сборки скрипт автоматически загружает `gravity-standalone.html`
-в Qlik QRS. Задайте `HTML_UPLOAD_CERT_PASSWORD`. По умолчанию wrapper использует
-автообнаружение сертификата и CA bundle из `upload_html.py`; он проверяет стандартные
+в Qlik QRS. Укажите `HTML_UPLOAD_CERT_PASSWORD`; wrapper использует
+автообнаружение сертификата и CA bundle из `upload_html.py` и проверяет стандартные
 каталоги сертификатов. Пути можно явно переопределить через `HTML_UPLOAD_CERT_PATH` и
 `HTML_UPLOAD_CA_BUNDLE`: только тогда wrapper передаёт `--cert-path` и `--ca-bundle`.
-Endpoint задаётся через `HTML_UPLOAD_URL`. Прямой legacy-вызов `upload_html.py` поддерживает
-`--cert-password`. Флаг `--no-upload` отключает автоматическую загрузку,
+Endpoint задаётся через `HTML_UPLOAD_URL`, а браузерный User-Agent — через
+`HTML_UPLOAD_USER_AGENT`; `HTML_UPLOAD_BOOTSTRAP_URL` позволяет переопределить
+страницу, через которую сертификат создаёт сессию. Загрузчик сначала открывает эту
+страницу в одной `requests.Session`, проверяет, что сервер установил cookie сессии, и
+затем отправляет файл той же сессией; cookie не передаются и не сохраняются вручную.
+Прямой legacy-вызов `upload_html.py` поддерживает `--cert-password`. Флаг `--no-upload` отключает автоматическую загрузку,
 `--upload` сохранён как явный совместимый режим, а `--data-only` всегда
 пропускает загрузку.
 

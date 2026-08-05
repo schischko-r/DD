@@ -16,6 +16,11 @@ from urllib.parse import parse_qs, urlparse
 
 LEGACY_CERTIFICATE_NAME = "21090527"
 CA_BUNDLE_NAME = "sberca-chain.pem"
+DEFAULT_BROWSER_USER_AGENT = (
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+)
+DEFAULT_BOOTSTRAP_URL = "https://oko-qs.sigma.sbrf.ru/prom/dev-hub/mashup-editor/"
 
 
 def default_credential_directories(
@@ -101,6 +106,13 @@ def xrf_key_from_url(url: str) -> str:
     return values[0]
 
 
+def origin_from_url(url: str) -> str:
+    parsed_url = urlparse(url)
+    if parsed_url.scheme not in {"http", "https"} or not parsed_url.netloc:
+        raise ValueError("Bootstrap URL must have an HTTP(S) origin")
+    return f"{parsed_url.scheme}://{parsed_url.netloc}"
+
+
 def write_client_credentials(
     certificate_path: Path,
     password: str,
@@ -150,34 +162,46 @@ def upload_html(
     certificate_path: Path,
     certificate_password: str,
     *,
+    user_agent: str = DEFAULT_BROWSER_USER_AGENT,
+    bootstrap_url: str = DEFAULT_BOOTSTRAP_URL,
     ca_bundle: Path | None = None,
     timeout: int = 120,
     insecure: bool = False,
-    request_post: Callable[..., Any] | None = None,
+    session_factory: Callable[[], Any] | None = None,
     credential_writer: Callable[[Path, str, Path], tuple[Path, Path]] | None = None,
 ) -> int:
     if not html_path.is_file():
         raise FileNotFoundError(f"HTML file not found: {html_path}")
-    if not certificate_path.is_file():
-        raise FileNotFoundError(f"Client certificate not found: {certificate_path}")
     if not insecure and ca_bundle is not None and not ca_bundle.is_file():
         raise FileNotFoundError(f"CA bundle not found: {ca_bundle}")
+    if not certificate_path.is_file():
+        raise FileNotFoundError(f"Client certificate not found: {certificate_path}")
     if not certificate_password:
         raise ValueError("Client certificate password is empty")
 
-    if request_post is None:
+    if session_factory is None:
         try:
             import requests
         except ModuleNotFoundError as error:
             raise RuntimeError("Python package 'requests' is required for upload") from error
-        request_post = requests.post
+        session_factory = requests.Session
 
     credential_writer = credential_writer or write_client_credentials
     verify: bool | str = False if insecure else str(ca_bundle) if ca_bundle else True
-    headers = {
-        "Accept": "application/json",
+    bootstrap_origin = origin_from_url(bootstrap_url)
+    post_headers = {
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "en-US",
         "Content-Type": "text/html",
+        "Origin": bootstrap_origin,
+        "Referer": bootstrap_url,
+        "User-Agent": user_agent,
         "X-Qlik-Xrfkey": xrf_key_from_url(url),
+    }
+    bootstrap_headers = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
+        "User-Agent": user_agent,
     }
 
     with tempfile.TemporaryDirectory(prefix="dd-html-upload-") as temp_dir:
@@ -186,22 +210,41 @@ def upload_html(
             certificate_password,
             Path(temp_dir),
         )
+        session = session_factory()
+        session.cert = (str(certificate_pem), str(key_pem))
+        session.verify = verify
+        bootstrap_response = session.get(
+            bootstrap_url,
+            headers=bootstrap_headers,
+            timeout=timeout,
+            allow_redirects=True,
+        )
+        if bootstrap_response.status_code == 401:
+            raise RuntimeError(
+                "Qlik bootstrap rejected client certificate authorization (HTTP 401); "
+                "verify the configured Qlik access without exposing credentials."
+            )
+        bootstrap_response.raise_for_status()
+        if not session.cookies:
+            raise RuntimeError(
+                "Qlik bootstrap completed without creating a session cookie; "
+                "verify the configured Qlik access without exposing credentials."
+            )
         with html_path.open("rb") as html_file:
-            response = request_post(
+            response = session.post(
                 url,
-                headers=headers,
+                headers=post_headers,
                 data=html_file,
-                cert=(str(certificate_pem), str(key_pem)),
-                verify=verify,
                 timeout=timeout,
             )
-        if response.status_code == 401:
-            raise RuntimeError(
-                "QRS rejected authorization (HTTP 401); verify the client certificate "
-                "and its Qlik access without exposing the certificate password."
-            )
-        response.raise_for_status()
-        return int(response.status_code)
+
+    if response.status_code == 401:
+        raise RuntimeError(
+            "QRS upload rejected client certificate session authorization (HTTP 401); "
+            "verify the configured Qlik access without exposing credentials."
+        )
+    response.raise_for_status()
+    return int(response.status_code)
 
 
 def parse_args(arguments: list[str] | None = None) -> argparse.Namespace:
@@ -238,6 +281,8 @@ def main() -> None:
         args.url,
         certificate_path,
         password,
+        user_agent=os.getenv("HTML_UPLOAD_USER_AGENT", DEFAULT_BROWSER_USER_AGENT),
+        bootstrap_url=os.getenv("HTML_UPLOAD_BOOTSTRAP_URL", DEFAULT_BOOTSTRAP_URL),
         ca_bundle=resolve_ca_bundle(args.ca_bundle),
         timeout=args.timeout,
         insecure=args.insecure,

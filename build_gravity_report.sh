@@ -4,7 +4,7 @@ set -euo pipefail
 REPOSITORY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRAVITY_APP_DIR="${GRAVITY_APP_DIR:-$REPOSITORY_DIR/gravity-app}"
 NPM_BIN="${NPM:-npm}"
-DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=NcxqOXsi37K3IXAO"
+DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_2/uploadfile?externalpath=45678_2.html&overwrite=true&xrfkey=MuD1I2PlM8mAiG8E"
 
 load_dotenv_file() {
   local env_file="$1"
