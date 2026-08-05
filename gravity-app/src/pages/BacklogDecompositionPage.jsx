@@ -3,7 +3,7 @@ import {Chart} from '@gravity-ui/charts';
 import {ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo} from '@gravity-ui/icons';
 import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Modal, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
-import {isMetricAbove, RecommendationCell} from './RecommendationCell.js';
+import {RecommendationCell} from './RecommendationCell.js';
 
 const GROUPING_OPTIONS = [
   {value: 'directions', content: 'Направления'},
@@ -22,13 +22,13 @@ const SCENARIO_RECOMMENDATION_EXCLUSIONS = new Set([
 const formatNumber = (value, maximumFractionDigits = 0) => Number.isFinite(Number(value))
   ? new Intl.NumberFormat('ru-RU', {maximumFractionDigits}).format(Number(value))
   : '—';
-const formatPercentValue = (value, maximumFractionDigits = 1) => `${formatNumber(value, maximumFractionDigits)}%`;
-const formatPercent = ({value}) => formatPercentValue(value);
 const formatOptionalMetric = (value, unit, maximumFractionDigits = 1) => {
   if (value === null || value === undefined || value === '') return '—';
   const number = Number(value);
   return Number.isFinite(number) ? `${formatNumber(number, maximumFractionDigits)} ${unit}` : '—';
 };
+const formatPercentValue = (value, maximumFractionDigits = 1) => `${formatNumber(value, maximumFractionDigits)}%`;
+const formatPercent = ({value}) => formatPercentValue(value);
 const formatFreshnessDate = (value) => {
   if (!value) return '';
   const date = new Date(`${value}T00:00:00`);
@@ -191,6 +191,7 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const approvedRows = sourceRows.filter((item) => item?.recommendation);
       const continuous25thHours = scenario?.continuous25thHours;
       const medianCycleTimeHours = scenario?.medianCycleTimeHours;
+      const scenarioLabel = String(scenario?.label || scenario?.key || 'Без сценария');
       const hasValidBenchmark = Number.isFinite(scenario?.cycleTimeSampleCount)
         && scenario.cycleTimeSampleCount > 0
         && Number.isFinite(continuous25thHours)
@@ -202,20 +203,28 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const resources = approvedRows
         .flatMap((item) => item.resources || [])
         .filter((resource, index, all) => all.findIndex((item) => (item.href || item.action) === (resource.href || resource.action)) === index);
-      const recommendationSummary = hasValidBenchmark
-        ? `Лучшие аналитики в среднем выполняют такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.`
+      const shouldShowBenchmarkSummary = hasValidBenchmark
+        && scenarioKey !== 'unknown'
+        && scenarioLabel.trim() !== 'Невозможно разметить';
+      const recommendationSummary = shouldShowBenchmarkSummary
+        ? `25-й перцентиль аналитиков выполняет такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.`
         : '';
       const toolRecommendation = approvedRows.map((item) => item.recommendation).join(' ');
+      const isUnmappedScenario = scenarioKey === 'unknown'
+        || scenarioLabel.trim() === 'Невозможно разметить';
       return {
         key: String(scenario?.key || scenario?.label || ''),
-        scenario: String(scenario?.label || scenario?.key || 'Без сценария'),
+        scenario: scenarioLabel,
         share,
         continuous25thHours,
         medianCycleTimeHours,
-        recommendation: `${recommendationSummary ? `${recommendationSummary}\n\n` : ''}Предлагаемый инструментарий: ${toolRecommendation}`,
+        recommendation: isUnmappedScenario
+          ? toolRecommendation
+          : `${recommendationSummary ? `${recommendationSummary}\n\n` : ''}Предлагаемый инструментарий: ${toolRecommendation}`,
         recommendationSummary,
         toolRecommendation,
         resources,
+        isUnmappedScenario,
       };
     })
     .filter(Boolean)
@@ -407,7 +416,7 @@ export function buildDashboardInsights(quarter = {}) {
   const recommendations = [];
   if (Number.isFinite(storyPointsFilledShare) && storyPointsFilledShare < STORY_POINTS_TARGET) recommendations.push({
     title: 'Заполнять Story Points',
-    text: 'Используйте Story Points для планирования нагрузки в спринтах и оценки производительности. Подробнее можно почитать здесь',
+    text: 'Рекомендуем заполнять поле Story Points / Относительная сложность для планирования. Базовой считается нагрузка 6,4 SP в день для аналитика. Подробнее можно почитать здесь',
     resources: [{label: 'здесь', href: STORY_POINTS_GUIDE_URL, placement: 'inline'}],
     theme: 'warning',
   });
@@ -610,119 +619,35 @@ function buildScenarioFocusColumns(periodLabel) {
     {
       id: 'scenario',
       name: 'Сценарий',
-      width: '22%',
+      width: '20%',
       primary: true,
       template: (item) => <Text className="backlog-table-scenario" variant="subheader-1">{item.scenario}</Text>,
     },
     {
       id: 'share',
       name: `Доля · ${periodLabel}`,
-      width: '13%',
+      width: '12%',
       template: (item) => <Text className="backlog-table-metric" variant="subheader-1">{formatPercentValue(item.share)}</Text>,
+    },
+    {
+      id: 'continuous25thHours',
+      name: 'Время в работе · 25-й перцентиль по всем аналитикам',
+      width: '12%',
+      template: (item) => <Text className="backlog-table-metric" color="secondary">{item.isUnmappedScenario ? '—' : formatOptionalMetric(item.continuous25thHours, 'ч', 2)}</Text>,
+    },
+    {
+      id: 'medianCycleTimeHours',
+      name: 'Медианное время в работе вашей команды',
+      width: '12%',
+      template: (item) => <Text className="backlog-table-metric" variant="subheader-1">{item.isUnmappedScenario ? '—' : formatOptionalMetric(item.medianCycleTimeHours, 'ч', 1)}</Text>,
     },
     {
       id: 'recommendation',
       name: 'Рекомендация',
-      width: '65%',
+      width: '44%',
       template: (item) => <RecommendationCell><RecommendationCopy item={item} /></RecommendationCell>,
     },
   ];
-}
-
-export function buildScenarioRecommendationRows(quarter, recommendationRows = DD_SCENARIO_RECOMMENDATIONS) {
-  const scenariosByKey = new Map((quarter?.scenarios || []).map((item) => [
-    String(item?.key || '').toLocaleLowerCase('ru-RU'),
-    item,
-  ]));
-
-  return recommendationRows.map((item) => {
-    const scenario = scenariosByKey.get(String(item?.key || '').toLocaleLowerCase('ru-RU'));
-    return {
-      ...item,
-      cycleTimeShare: scenario?.cycleTimeShare ?? null,
-      continuous25thHours: scenario?.continuous25thHours ?? null,
-      medianCycleTimeHours: scenario?.medianCycleTimeHours ?? null,
-    };
-  });
-}
-
-function buildScenarioRecommendationColumns() {
-  return [
-    {
-      id: 'direction',
-      name: 'Направление',
-      width: '13%',
-      template: (item) => <Label theme="utility" size="s">{item.direction}</Label>,
-    },
-    {
-      id: 'scenario',
-      name: 'Сценарий',
-      width: '14%',
-      primary: true,
-      template: (item) => <Text className="backlog-table-scenario" variant="subheader-1">{item.scenario}</Text>,
-    },
-    {
-      id: 'cycleTimeShare',
-      name: '% времени',
-      width: '8%',
-      template: (item) => item.cycleTimeShare === null
-        ? <Text color="secondary">—</Text>
-        : <Text className="backlog-table-metric" variant="subheader-1">{formatPercentValue(item.cycleTimeShare)}</Text>,
-    },
-    {
-      id: 'continuous25thHours',
-      name: 'TTM · топ-25%',
-      width: '9%',
-      template: (item) => <Text className="backlog-table-metric backlog-table-metric--benchmark">{formatOptionalMetric(item.continuous25thHours, 'ч', 2)}</Text>,
-    },
-    {
-      id: 'medianCycleTimeHours',
-      name: 'TTM команды',
-      width: '9%',
-      template: (item) => <Text className={isMetricAbove(item.medianCycleTimeHours, item.continuous25thHours) ? 'backlog-table-metric backlog-table-metric--attention' : 'backlog-table-metric'}>{formatOptionalMetric(item.medianCycleTimeHours, 'ч', 1)}</Text>,
-    },
-    {
-      id: 'info',
-      name: 'Описание',
-      width: '19%',
-      template: (item) => <Text className="backlog-table-description" color="secondary">{item.info}</Text>,
-    },
-    {
-      id: 'recommendation',
-      name: 'Рекомендация тимлиду',
-      width: '28%',
-      template: (item) => <RecommendationCell><RecommendationCopy item={item} /></RecommendationCell>,
-    },
-  ];
-}
-
-function DdScenarioRecommendationTable({quarter}) {
-  const rows = buildScenarioRecommendationRows(quarter);
-  const periodLabel = shortQuarterLabel(quarter);
-  const columns = buildScenarioRecommendationColumns();
-  return (
-    <Card className="dd-scenario-recommendations" view="outlined" size="l" spacing={{p: 5}}>
-      <div className="dd-scenario-recommendations-head">
-        <div>
-          <Text as="h2" variant="subheader-3">Рекомендации по сценариям работы</Text>
-          <Text variant="body-1" color="secondary">Выбранный квартал · {periodLabel || 'нет данных'} · направления, сценарии и описания из «Описания DD.xlsx»</Text>
-        </div>
-        <Label theme="danger" size="m">Справочная информация, визуализация разовая, для инфо</Label>
-      </div>
-      <div className="dd-scenario-recommendations-scroll">
-        <Table
-          className="dd-scenario-recommendations-table"
-          columns={columns}
-          data={rows}
-          getRowId={(item, index) => `${item.direction}-${item.scenario}-${index}`}
-          verticalAlign="top"
-          width="max"
-          wordWrap
-          aria-label="Рекомендации тимлиду по сценариям аналитической работы"
-        />
-      </div>
-    </Card>
-  );
 }
 
 function PageState({type}) {
@@ -810,7 +735,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const kpiMiniCharts = {
     created: buildKpiMiniChartData(visibleMonths, [{name: 'Создано', key: 'createdCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
     createdResolved: buildKpiMiniChartData(visibleMonths, [{name: 'Завершено из созданных', key: 'createdResolvedCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
-    medianTtm: buildKpiMiniChartData(visibleMonths, [{name: 'Медианный TTM', key: 'medianCycleTimeDays'}], {unit: 'дн.', scaleMonths: selectedMonths}),
+    medianTtm: buildKpiMiniChartData(visibleMonths, [{name: 'Медианное время в работе', key: 'medianCycleTimeDays'}], {unit: 'дн.', scaleMonths: selectedMonths}),
     storyPoints: buildKpiMiniChartData(visibleMonths, [{name: 'Заполнение Story Points', key: 'storyPointsFilledShare'}], {format: 'percent', scaleMonths: selectedMonths}),
     routineAutomation: buildKpiMiniChartData(visibleMonths, [
       {name: 'Рутина', key: 'exportRoutineShare', color: 'var(--g-color-text-danger)'},
@@ -865,7 +790,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       <section className="backlog-kpi-grid" aria-label="Ключевые показатели квартала">
         <KpiCard value={formatNumber(created)} label="Создано за квартал" note={selectedPeriodLabel} chartData={kpiMiniCharts.created} chartUnit="задач" />
         <KpiCard value={formatNumber(createdResolved)} label="Завершено из созданных" note={`${selectedPeriodLabel} · ${formatPercentValue(createdResolvedShare)} от задач · Resolved / Done`} chartData={kpiMiniCharts.createdResolved} chartUnit="задач" />
-        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианный TTM" note={`${selectedPeriodLabel} · ${Number.isFinite(cycleTimeSampleCount) ? `по ${formatNumber(cycleTimeSampleCount)} завершённым задачам` : 'от In Progress до Resolved / Done'}`} chartData={kpiMiniCharts.medianTtm} chartUnit="дн." />
+        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианное время в работе" note={`${selectedPeriodLabel} · ${Number.isFinite(cycleTimeSampleCount) ? `по ${formatNumber(cycleTimeSampleCount)} завершённым задачам` : 'от In Progress до Resolved / Done'}`} chartData={kpiMiniCharts.medianTtm} chartUnit="дн." />
         <KpiCard value={Number.isFinite(storyPointsFilledShare) ? formatPercentValue(storyPointsFilledShare) : '—'} label="Заполнение Story Points" note={`${selectedPeriodLabel} · ${Number.isFinite(storyPointsFilledCount) && Number.isFinite(storyPointsBaseCount) ? `${formatNumber(storyPointsFilledCount)} из ${formatNumber(storyPointsBaseCount)} созданных задач` : 'доля созданных задач с оценкой'}`} chartData={kpiMiniCharts.storyPoints} chartUnit="%" />
         <RoutineAutomationCard periodLabel={selectedPeriodLabel} total={created} routineShare={routineShare} routineCount={routineCount} automationShare={automationShare} automationCount={automationCount} chartData={kpiMiniCharts.routineAutomation} />
       </section>
@@ -901,11 +826,11 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
               <Flex direction="column" gap="3">
                 <Flex direction="column" gap="1">
                   <Text variant="subheader-1">Сценарии в фокусе</Text>
-                  <Text variant="caption-2" color="secondary">Доля &gt;10% или TTM команды выше TTM топ-25% · последний полный квартал · {scenarioFocus.periodLabel || 'нет данных'}</Text>
+                  <Text variant="caption-2" color="secondary">Доля &gt;10% или время в работе команды выше 25-го перцентиля · последний полный квартал · {scenarioFocus.periodLabel || 'нет данных'}</Text>
                 </Flex>
                 {scenarioFocus.items.length
                   ? <Box className="backlog-focus-recommendations-scroll"><Table className="backlog-focus-recommendations-table" columns={scenarioFocusColumns} data={scenarioFocus.items} getRowId="key" verticalAlign="top" width="max" wordWrap aria-label={`Рекомендации по сценариям в фокусе за ${scenarioFocus.periodLabel}`} /></Box>
-                  : <Text color="secondary">В последнем полном квартале нет сценариев с долей более 10% или превышением TTM топ-25% и доступными рекомендациями.</Text>}
+                  : <Text color="secondary">В последнем полном квартале нет сценариев с долей &gt;10% или временем в работе команды выше 25-го перцентиля и доступными рекомендациями.</Text>}
               </Flex>
               <Divider />
               <Text variant="subheader-1">Другие действия по метрикам</Text>
@@ -917,7 +842,6 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       <Card className="backlog-method-note" view="outlined" spacing={{p: 4}}>
         <Flex alignItems="flex-start" gap="2" wrap><Icon data={CircleInfo} size={16} /><Text variant="subheader-1">Методика</Text><Text variant="caption-2" color="secondary">Временные графики показывают историю по месяцу создания до выбранного квартала включительно. Discovery, рутина и автоматизация считаются внутри Created-когорты; «Завершено из созданных» — задачи в статусах Resolved / Done.{freshness ? ` Источник актуален на ${freshness}.` : ''}</Text></Flex>
       </Card>
-      <DdScenarioRecommendationTable quarter={quarter} />
     </main>
   );
 }

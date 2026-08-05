@@ -1392,7 +1392,7 @@
           "label": "Разработка методологии",
           "count": 6,
           "share": 1.84,
-          "continuous25thHours": 0.0,
+          "continuous25thHours": 1.0,
           "medianCycleTimeHours": 73.9,
           "cycleTimeSampleCount": 3,
           "cycleTimeShare": 6.89
@@ -1754,7 +1754,7 @@
           "label": "Разработка методологии",
           "count": 2,
           "share": 0.4,
-          "continuous25thHours": 0.0,
+          "continuous25thHours": 1.0,
           "medianCycleTimeHours": 47.0,
           "cycleTimeSampleCount": 2,
           "cycleTimeShare": 0.27
@@ -3397,7 +3397,7 @@
               "label": "Разработка методологии",
               "count": 6,
               "share": 1.84,
-              "continuous25thHours": 0.0,
+              "continuous25thHours": 1.0,
               "medianCycleTimeHours": 73.9,
               "cycleTimeSampleCount": 3,
               "cycleTimeShare": 6.89
@@ -3759,7 +3759,7 @@
               "label": "Разработка методологии",
               "count": 2,
               "share": 0.4,
-              "continuous25thHours": 0.0,
+              "continuous25thHours": 1.0,
               "medianCycleTimeHours": 47.0,
               "cycleTimeSampleCount": 2,
               "cycleTimeShare": 0.27

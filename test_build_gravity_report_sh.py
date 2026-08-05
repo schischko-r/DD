@@ -20,7 +20,9 @@ class BuildGravityReportShellTest(unittest.TestCase):
         extra_environment: dict[str, str] | None = None,
         frontend_installed: bool = True,
         upload_path_overrides: bool = False,
-    ) -> list[str]:
+        python311_available: bool = False,
+        python3_available: bool = False,
+    ) -> tuple[list[str], str]:
         with tempfile.TemporaryDirectory() as temp_dir:
             directory = Path(temp_dir)
             log_path = directory / "commands.log"
@@ -38,6 +40,20 @@ fi
                 encoding="utf-8",
             )
             python_stub.chmod(0o755)
+            if python311_available:
+                python311_stub = directory / "python3.11"
+                python311_stub.write_text(
+                    '#!/bin/sh\nprintf "%s\\n" "$*" >> "$COMMAND_LOG"\n',
+                    encoding="utf-8",
+                )
+                python311_stub.chmod(0o755)
+            if python3_available:
+                python3_stub = directory / "python3"
+                python3_stub.write_text(
+                    '#!/bin/sh\nprintf "%s\\n" "$*" >> "$COMMAND_LOG"\n',
+                    encoding="utf-8",
+                )
+                python3_stub.chmod(0o755)
             npm_stub = directory / "npm"
             npm_stub.write_text(
                 '#!/bin/sh\nprintf "NPM:%s\\n" "$*" >> "$COMMAND_LOG"\n',
@@ -48,9 +64,10 @@ fi
             environment = {
                 "HOME": str(directory / "home"),
                 "PATH": f"{directory}:/usr/bin:/bin",
-                "PYTHON": str(python_stub),
                 "COMMAND_LOG": str(log_path),
             }
+            if not (extra_environment or {}).get("WITHOUT_PYTHON"):
+                environment["PYTHON"] = str(python_stub)
             if not frontend_installed:
                 frontend_dir = directory / "gravity-app"
                 frontend_dir.mkdir()
@@ -84,8 +101,9 @@ fi
                     }
                 )
             environment.update(extra_environment or {})
+            environment.pop("WITHOUT_PYTHON", None)
 
-            subprocess.run(
+            result = subprocess.run(
                 ["/bin/bash", str(SCRIPT), *arguments],
                 cwd=ROOT,
                 env=environment,
@@ -93,17 +111,17 @@ fi
                 capture_output=True,
                 text=True,
             )
-            return log_path.read_text(encoding="utf-8").splitlines()
+            return log_path.read_text(encoding="utf-8").splitlines(), result.stdout
 
     def test_no_upload_with_no_forwarded_arguments_runs_builder_once(self) -> None:
-        invocations = self.run_wrapper("--no-upload")
+        invocations, _ = self.run_wrapper("--no-upload")
 
         self.assertEqual(len(invocations), 1)
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
     def test_default_build_runs_builder_then_uploader(self) -> None:
-        invocations = self.run_wrapper(upload=True)
+        invocations, _ = self.run_wrapper(upload=True)
 
         self.assertEqual(len(invocations), 2)
         self.assertIn("build_gravity_report.py", invocations[0])
@@ -117,7 +135,7 @@ fi
         self.assertIn("/Documents/Git/certs/sberca-chain.pem", invocations[1])
 
     def test_upload_flag_runs_builder_then_uploader(self) -> None:
-        invocations = self.run_wrapper("--upload", upload=True)
+        invocations, _ = self.run_wrapper("--upload", upload=True)
 
         self.assertEqual(len(invocations), 2)
         self.assertIn("build_gravity_report.py", invocations[0])
@@ -128,7 +146,7 @@ fi
         self.assertIn("--cert-path", invocations[1])
 
     def test_upload_path_overrides_are_forwarded_without_prevalidation(self) -> None:
-        invocations = self.run_wrapper(
+        invocations, _ = self.run_wrapper(
             upload=True,
             upload_path_overrides=True,
         )
@@ -139,14 +157,14 @@ fi
         self.assertIn("/overrides/ca.pem", invocations[1])
 
     def test_data_only_never_uploads(self) -> None:
-        invocations = self.run_wrapper("--data-only")
+        invocations, _ = self.run_wrapper("--data-only")
 
         self.assertEqual(len(invocations), 1)
         self.assertIn("--data-only", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
     def test_dotenv_ignores_non_assignment_lines_without_executing_them(self) -> None:
-        invocations = self.run_wrapper(
+        invocations, _ = self.run_wrapper(
             "--data-only",
             dotenv=(
                 'DOTENV_TEST_VALUE="hello world"\n'
@@ -164,7 +182,7 @@ fi
         )
 
     def test_existing_environment_takes_precedence_over_dotenv(self) -> None:
-        invocations = self.run_wrapper(
+        invocations, _ = self.run_wrapper(
             "--data-only",
             dotenv='DOTENV_TEST_VALUE="from dotenv"\n',
             extra_environment={"DOTENV_TEST_VALUE": "from caller"},
@@ -173,7 +191,7 @@ fi
         self.assertEqual(invocations[1], "DOTENV_TEST_VALUE:from caller")
 
     def test_dotenv_standalone_path_is_used_for_automatic_upload(self) -> None:
-        invocations = self.run_wrapper(
+        invocations, _ = self.run_wrapper(
             upload=True,
             dotenv="STANDALONE_HTML=final_report_from_excel.html\n",
         )
@@ -182,13 +200,42 @@ fi
         self.assertNotIn(str(ROOT / "gravity-standalone.html"), invocations[1])
 
     def test_custom_npm_installs_dependencies_on_a_fresh_machine(self) -> None:
-        invocations = self.run_wrapper(
+        invocations, _ = self.run_wrapper(
             "--no-upload",
             frontend_installed=False,
         )
 
         self.assertEqual(invocations[0], "NPM:ci")
         self.assertIn("build_gravity_report.py", invocations[1])
+
+    def test_python_environment_override_is_used_for_build_and_upload(self) -> None:
+        invocations, output = self.run_wrapper(upload=True)
+
+        self.assertEqual(len(invocations), 2)
+        self.assertIn("Python runtime:", output)
+        self.assertIn("(PYTHON)", output)
+
+    def test_python_311_is_preferred_when_python_is_not_configured(self) -> None:
+        invocations, output = self.run_wrapper(
+            "--no-upload",
+            extra_environment={"WITHOUT_PYTHON": "1"},
+            python311_available=True,
+        )
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("build_gravity_report.py", invocations[0])
+        self.assertIn("Python runtime: python3.11 (python3.11)", output)
+
+    def test_python3_fallback_is_announced_when_python_311_is_unavailable(self) -> None:
+        invocations, output = self.run_wrapper(
+            "--no-upload",
+            extra_environment={"WITHOUT_PYTHON": "1"},
+            python3_available=True,
+        )
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("build_gravity_report.py", invocations[0])
+        self.assertIn("Python runtime: python3 (python3 fallback)", output)
 
 
 if __name__ == "__main__":

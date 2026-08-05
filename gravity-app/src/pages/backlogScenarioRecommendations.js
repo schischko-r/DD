@@ -127,23 +127,6 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     recommendation: 'Рекомендуем повысить качество описаний задач для более корректного мапинга задач с нашей стороны',
   },
   {
-    key: 'project_management',
-    direction: 'Организационное',
-    scenario: 'Project Management',
-    info: 'Управление сроками, задачами, командой в рамках аналитических проектов.',
-    sourceTool: 'переход в jira|Сбертрек',
-    recommendation: 'Рекомендуем вести сроки, владельцев и зависимости аналитических проектов в Jira или Сбертреке и отказаться от параллельных ручных списков.',
-  },
-  {
-    key: 'social_communications',
-    direction: 'Организационное',
-    scenario: 'Встречи, коммуникации',
-    info: 'Участие во внутренних и внешних встречах, консультирование коллег и заказчиков, согласование требований с подрядчиками, решение операционных и организационных вопросов',
-    sourceTool: 'Использование Автопротокола в jass',
-    recommendation: 'Рекомендуем использовать Автопротокол для встреч, а решения, владельцев и сроки переносить из саммари в трекер задач.',
-    resources: [{label: 'Автопротокол JAS', href: 'https://potok.sber.ru/notes/summary?utm_source=mail&utm_campaign=winback'}],
-  },
-  {
     key: 'employee_trainings',
     direction: 'Организационное',
     scenario: 'Обучение сотрудников',
@@ -160,15 +143,6 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     recommendation: 'Рекомендуем назначить владельцев ключевых разделов базы знаний, ввести срок пересмотра материалов и единый шаблон описания аналитических артефактов.',
   },
   {
-    key: 'business_requirements_composing',
-    direction: 'Организационное',
-    scenario: 'Формирование БТ/ТЗ',
-    info: 'Формализация задач от бизнеса в техническое задание для разработки.',
-    sourceTool: 'Использование Автопротокола в jass',
-    recommendation: 'Рекомендуем собирать требования через Автопротокол, а затем фиксировать в БТ/ТЗ решения, ограничения, владельцев и критерии приёмки.',
-    resources: [{label: 'Автопротокол JAS', href: 'https://potok.sber.ru/notes/summary?utm_source=mail&utm_campaign=winback'}],
-  },
-  {
     key: 'excel_reports',
     direction: 'Отчеты вне BI',
     scenario: 'Отчеты в Excel',
@@ -183,7 +157,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     scenario: 'Презентации',
     info: 'Расчет и упаковка выводов в слайды (PowerPoint) для руководства или контрагентов.',
     sourceTool: 'EX-EL',
-    recommendation: 'Рекомендуем использовать EX-EL для подготовки повторяющихся расчётных блоков, оставляя аналитику выводов и управленческий нарратив за владельцем материала.',
+    recommendation: 'Для подготовки материалов рекомендуем использовать EX-EL.',
     resources: [{label: 'EX-EL', action: 'ex-el-access', placement: 'inline'}],
   },
   {

@@ -22,6 +22,13 @@ class FakeResponse:
         return None
 
 
+class UnauthorizedResponse:
+    status_code = 401
+
+    def raise_for_status(self) -> None:
+        raise AssertionError("401 should have a QRS-specific error")
+
+
 class UploadHtmlTest(unittest.TestCase):
     def test_default_credential_directories_cover_repo_parent_and_sandbox(self) -> None:
         repository_dir = Path("/workspace/repo")
@@ -173,6 +180,27 @@ class UploadHtmlTest(unittest.TestCase):
             tuple(Path(item).name for item in captured["cert"]),
             ("client.pem", "key.pem"),
         )
+
+    def test_upload_401_explains_qrs_authorization_rejection(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            directory = Path(temp_dir)
+            html_path = directory / "report.html"
+            certificate_path = directory / "client.p12"
+            html_path.write_text("<html>report</html>", encoding="utf-8")
+            certificate_path.touch()
+
+            with self.assertRaisesRegex(RuntimeError, "QRS rejected authorization"):
+                upload_html(
+                    html_path,
+                    "https://example.test/upload?xrfkey=1234567890abcdef",
+                    certificate_path,
+                    "secret",
+                    request_post=lambda *_args, **_kwargs: UnauthorizedResponse(),
+                    credential_writer=lambda _certificate, _password, output_dir: (
+                        output_dir / "client.pem",
+                        output_dir / "key.pem",
+                    ),
+                )
 
 
 if __name__ == "__main__":

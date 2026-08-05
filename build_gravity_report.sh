@@ -3,7 +3,6 @@ set -euo pipefail
 
 REPOSITORY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRAVITY_APP_DIR="${GRAVITY_APP_DIR:-$REPOSITORY_DIR/gravity-app}"
-PYTHON_BIN="${PYTHON:-python3}"
 NPM_BIN="${NPM:-npm}"
 DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=NcxqOXsi37K3IXAO"
 
@@ -110,7 +109,27 @@ fi
 
 load_env
 
-PYTHON_BIN="${PYTHON:-$PYTHON_BIN}"
+select_python() {
+  if [[ -n "${PYTHON:-}" ]]; then
+    PYTHON_BIN="$PYTHON"
+    PYTHON_RUNTIME_SOURCE="PYTHON"
+  elif command -v python3.11 >/dev/null 2>&1; then
+    PYTHON_BIN="python3.11"
+    PYTHON_RUNTIME_SOURCE="python3.11"
+  else
+    PYTHON_BIN="python3"
+    PYTHON_RUNTIME_SOURCE="python3 fallback"
+  fi
+
+  if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
+    echo "Python executable not found: $PYTHON_BIN" >&2
+    exit 1
+  fi
+
+  echo "Python runtime: $PYTHON_BIN ($PYTHON_RUNTIME_SOURCE)"
+}
+
+select_python
 NPM_BIN="${NPM:-$NPM_BIN}"
 if ((STANDALONE_OUTPUT_SET == 0)) && [[ -n "${STANDALONE_HTML:-}" ]]; then
   STANDALONE_OUTPUT="$STANDALONE_HTML"
@@ -159,11 +178,6 @@ fi
 cd "$REPOSITORY_DIR"
 
 run_builder() {
-  if ! command -v "$PYTHON_BIN" >/dev/null 2>&1; then
-    echo "Python executable not found: $PYTHON_BIN" >&2
-    exit 1
-  fi
-
   if ((${#FORWARD_ARGS[@]} > 0)); then
     "$PYTHON_BIN" build_gravity_report.py "${FORWARD_ARGS[@]}"
   else

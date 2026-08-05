@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import getpass
 import os
+import sys
 import tempfile
 from collections.abc import Mapping
 from pathlib import Path
@@ -194,6 +195,11 @@ def upload_html(
                 verify=verify,
                 timeout=timeout,
             )
+        if response.status_code == 401:
+            raise RuntimeError(
+                "QRS rejected authorization (HTTP 401); verify the client certificate "
+                "and its Qlik access without exposing the certificate password."
+            )
         response.raise_for_status()
         return int(response.status_code)
 
@@ -222,10 +228,15 @@ def main() -> None:
         raise SystemExit(
             f"Pass --cert-password or set {args.cert_password_env} before uploading"
         )
+    certificate_path = resolve_certificate_path(args.cert_path)
+    print(
+        f"Upload diagnostics: Python {sys.version.split()[0]}; "
+        f"certificate path: {certificate_path}"
+    )
     status_code = upload_html(
         args.html,
         args.url,
-        resolve_certificate_path(args.cert_path),
+        certificate_path,
         password,
         ca_bundle=resolve_ca_bundle(args.ca_bundle),
         timeout=args.timeout,

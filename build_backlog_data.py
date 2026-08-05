@@ -99,7 +99,7 @@ SCENARIO_CONTINUOUS_25TH_HOURS = {
     "growth_factors_research": 5.90,
     "knowledge_base_maintenance": 2.11,
     "manual_data_quality_control": 0.20,
-    "methodology_dev": 0.00,
+    "methodology_dev": 1.00,
     "metrics_calculation": 1.25,
     "presentations": 3.88,
     "project_management": 4.54,
