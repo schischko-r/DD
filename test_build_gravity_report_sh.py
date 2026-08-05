@@ -19,6 +19,7 @@ class BuildGravityReportShellTest(unittest.TestCase):
         dotenv: str | None = None,
         extra_environment: dict[str, str] | None = None,
         frontend_installed: bool = True,
+        upload_path_overrides: bool = False,
     ) -> list[str]:
         with tempfile.TemporaryDirectory() as temp_dir:
             directory = Path(temp_dir)
@@ -45,6 +46,7 @@ fi
             npm_stub.chmod(0o755)
 
             environment = {
+                "HOME": str(directory / "home"),
                 "PATH": f"{directory}:/usr/bin:/bin",
                 "PYTHON": str(python_stub),
                 "COMMAND_LOG": str(log_path),
@@ -63,7 +65,24 @@ fi
                 env_file.write_text(dotenv, encoding="utf-8")
                 environment["DD_ENV_FILE"] = str(env_file)
             if upload:
+                certificate_dir = directory / "home" / "Sandbox" / "certs"
+                certificate_dir.mkdir(parents=True)
+                (certificate_dir / "21090527.p12").touch()
+                (certificate_dir / "sberca-chain.pem").touch()
                 environment["HTML_UPLOAD_CERT_PASSWORD"] = "test-password"
+            if upload_path_overrides:
+                override_dir = directory / "overrides"
+                override_dir.mkdir()
+                certificate = override_dir / "client.p12"
+                ca_bundle = override_dir / "ca.pem"
+                certificate.touch()
+                ca_bundle.touch()
+                environment.update(
+                    {
+                        "HTML_UPLOAD_CERT_PATH": str(certificate),
+                        "HTML_UPLOAD_CA_BUNDLE": str(ca_bundle),
+                    }
+                )
             environment.update(extra_environment or {})
 
             subprocess.run(
@@ -92,8 +111,10 @@ fi
         self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
         self.assertNotIn("--cert-password", invocations[1])
-        self.assertNotIn("--cert-path", invocations[1])
-        self.assertNotIn("--ca-bundle", invocations[1])
+        self.assertIn("--cert-path", invocations[1])
+        self.assertIn("/Sandbox/certs/21090527.p12", invocations[1])
+        self.assertIn("--ca-bundle", invocations[1])
+        self.assertIn("/Sandbox/certs/sberca-chain.pem", invocations[1])
 
     def test_upload_flag_runs_builder_then_uploader(self) -> None:
         invocations = self.run_wrapper("--upload", upload=True)
@@ -104,18 +125,18 @@ fi
         self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
         self.assertNotIn("--cert-password", invocations[1])
+        self.assertIn("--cert-path", invocations[1])
 
     def test_upload_path_overrides_are_forwarded_without_prevalidation(self) -> None:
         invocations = self.run_wrapper(
             upload=True,
-            extra_environment={
-                "HTML_UPLOAD_CERT_PATH": "/missing/client.p12",
-                "HTML_UPLOAD_CA_BUNDLE": "/missing/ca.pem",
-            },
+            upload_path_overrides=True,
         )
 
-        self.assertIn("--cert-path /missing/client.p12", invocations[1])
-        self.assertIn("--ca-bundle /missing/ca.pem", invocations[1])
+        self.assertIn("--cert-path", invocations[1])
+        self.assertIn("/overrides/client.p12", invocations[1])
+        self.assertIn("--ca-bundle", invocations[1])
+        self.assertIn("/overrides/ca.pem", invocations[1])
 
     def test_data_only_never_uploads(self) -> None:
         invocations = self.run_wrapper("--data-only")
