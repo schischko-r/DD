@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayText, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -16,6 +16,11 @@ test('report percentage helpers clamp and aggregate values', () => {
   assert.equal(percent(5, 4), 100);
   assert.equal(percent(1, 0), 0);
   assert.equal(blockPercent({metrics: [{value: 1, max_value: 2}, {value: 2, max_value: 2}]}), 75);
+});
+
+test('display copy uses the hyphenated up-sell spelling', () => {
+  assert.equal(displayText('Допродажи (upsell)'), 'Допродажи (up-sell)');
+  assert.equal(displayText('Работа с upsell-механикой'), 'Работа с up-sell-механикой');
 });
 
 test('recommendation uplifts add up to the remaining displayed index', () => {

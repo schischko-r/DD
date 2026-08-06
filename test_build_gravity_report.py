@@ -5,6 +5,13 @@ import build_gravity_report as report
 
 
 class GravityBuildCrosssellTest(unittest.TestCase):
+    def setUp(self) -> None:
+        self.backlog_source = patch.object(report.Path, "is_file", return_value=True)
+        self.backlog_source.start()
+
+    def tearDown(self) -> None:
+        self.backlog_source.stop()
+
     def test_crosssell_is_enabled_by_default(self) -> None:
         args = report.parse_args([])
 
@@ -90,28 +97,10 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertIn(["custom-npm", "run", "build:clickstream"], commands)
         self.assertIn(["custom-npm", "run", "build"], commands)
 
-    def test_full_build_uses_existing_backlog_data_without_rebuilding_it(self) -> None:
+    def test_full_build_rebuilds_backlog_data_from_source_by_default(self) -> None:
         args = report.parse_args([])
 
-        with patch.object(report.Path, "is_file", return_value=True), patch.object(report, "run") as run:
-            report.build(args)
-
-        commands = [call.args[0] for call in run.call_args_list]
-        self.assertFalse(any("build_backlog_data.py" in command for command in commands))
-        standalone_command = next(
-            command
-            for command in commands
-            if command[1] == str(report.ROOT / "build_gravity_standalone.py")
-        )
-        self.assertEqual(
-            standalone_command[-2:],
-            ["--backlog-data", str(report.DEFAULT_BACKLOG_DATA)],
-        )
-
-    def test_full_build_rebuilds_backlog_data_with_the_explicit_flag(self) -> None:
-        args = report.parse_args(["--with-backlog"])
-
-        with patch.object(report.Path, "is_file", return_value=True), patch.object(report, "run") as run:
+        with patch.object(report, "run") as run:
             report.build(args)
 
         commands = [call.args[0] for call in run.call_args_list]
@@ -135,6 +124,13 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             standalone_command[-2:],
             ["--backlog-data", str(report.DEFAULT_BACKLOG_DATA)],
         )
+
+    def test_full_build_requires_backlog_source(self) -> None:
+        args = report.parse_args([])
+
+        with patch.object(report.Path, "is_file", return_value=False):
+            with self.assertRaisesRegex(FileNotFoundError, "Backlog source not found"):
+                report.build(args)
 
 
 if __name__ == "__main__":

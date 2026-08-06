@@ -40,6 +40,8 @@ def run(
 
 def build(args: argparse.Namespace) -> None:
     npm_command = os.getenv("NPM", "").strip() or NPM_COMMAND
+    if not args.backlog_input.is_file():
+        raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
     report_command = [
         sys.executable,
         str(ROOT / "build_calc_report.py"),
@@ -61,19 +63,16 @@ def build(args: argparse.Namespace) -> None:
         report_command.append("--no-update-crosssell")
 
     run(report_command)
-    if args.with_backlog:
-        if not args.backlog_input.is_file():
-            raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
-        run(
-            [
-                sys.executable,
-                str(ROOT / "build_backlog_data.py"),
-                "--input",
-                str(args.backlog_input),
-                "--output",
-                str(args.backlog_data),
-            ]
-        )
+    run(
+        [
+            sys.executable,
+            str(ROOT / "build_backlog_data.py"),
+            "--input",
+            str(args.backlog_input),
+            "--output",
+            str(args.backlog_data),
+        ]
+    )
     if args.data_only:
         return
 
@@ -117,11 +116,6 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--backlog-input", type=Path, default=DEFAULT_BACKLOG_INPUT)
     parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
-    parser.add_argument(
-        "--with-backlog",
-        action="store_true",
-        help="Rebuild backlog data before the default-enabled Backlog decomposition page build",
-    )
     parser.add_argument(
         "--standalone-output",
         type=Path,

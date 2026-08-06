@@ -13,6 +13,7 @@ import {
   findHtmlPageToolForRecommendation,
 } from '../features/html-pages/htmlPageTools.js';
 import {metricAiActionRecommendations} from './teamProfileAiSkillNavigation.js';
+import {displayText} from '../domain/report.js';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const AB_TEST_INSTRUCTION_LINKS = [
@@ -438,7 +439,7 @@ const PRODUCT_MECHANICS_HELP = {
   'mehaniki.uderzhanie_klientov': [{title: 'Удержание клиентов.', items: [['1 балл (100%)', 'через создание ценности.'], ['0,5 балла (50%)', 'только через информационную коммуникацию.']]}],
   'mehaniki.vozvrat_klientov': [{title: 'Возврат клиентов.', items: [['1 балл (100%)', 'через создание ценности.'], ['0,5 балла (50%)', 'только через информационную коммуникацию.']]}],
   'mehaniki.cross_sell': [{title: 'Перекрёстные продажи (cross-sell).', items: [['1 балл (100%)', 'в процессе оформления и после покупки.'], ['0,5 балла (50%)', 'в процессе оформления или после покупки.']]}],
-  'mehaniki.doprodazhi_upsell': [{title: 'Дополнительные продажи (upsell).', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'mehaniki.doprodazhi_upsell': [{title: 'Дополнительные продажи (up-sell).', items: [['1 балл (100%)', 'механика настроена.']]}],
   'mehaniki.gibkoe_izmenenie_usloviy_produkta': [{title: 'Гибкость изменений без IT. Ценообразование не учитывается.', items: [['1 балл (100%)', 'изменение условий с персонализацией до клиентских подсегментов.'], ['0,5 балла (50%)', 'изменение набора опций без персонализации.']]}],
   'mehaniki.monitoring_mehanik': [{title: 'Мониторинг эффективности механик.', items: [['0,25 балла (100%)', 'есть метрики мониторинга.']]}],
 };
@@ -479,7 +480,7 @@ const SERVICE_CHANNEL_MECHANICS_HELP = {
   'mehaniki.informirovaniya_klienta': [{title: 'Информирование клиента о статусе обращения.', items: [['1 балл (100%)', 'механика настроена.']]}],
   'mehaniki.personalizaciya': [{title: 'Персонализация скриптов.', description: 'Разные скрипты и предложения для разных сегментов вплоть до конкретного человека; скрипт меняется в зависимости от волны контакта.', items: [['1 балл (100%)', 'настроена по большинству компонентов.'], ['0,5 балла (50%)', 'настроена частично.']]}],
   'mehaniki.kontrolya_kachestva_rechi': [{title: 'Контроль качества речи.', description: 'Автоматический анализ обязательных фраз и соблюдения скрипта, выборочные прослушивания, подсказки оператору в реальном времени.', items: [['1 балл (100%)', 'настроен по большинству компонентов.'], ['0,5 балла (50%)', 'настроен частично.']]}],
-  'mehaniki.uderzhaniya_klienta': [{title: 'Удержание клиента.', description: 'При обращении клиента по закрытию продукта настроен специальный сценарий удержания или механики upsell.', items: [['1 балл (100%)', 'механика настроена.']]}],
+  'mehaniki.uderzhaniya_klienta': [{title: 'Удержание клиента.', description: 'При обращении клиента по закрытию продукта настроен специальный сценарий удержания или механики up-sell.', items: [['1 балл (100%)', 'механика настроена.']]}],
 };
 
 const TELEMARKETING_MECHANICS_HELP = {
@@ -511,7 +512,7 @@ function MechanicsMetricHelp({metric, product}) {
   const code = String(metric?.code || '').trim().toLowerCase();
   const sections = helpByMetric?.[code];
   if (!sections) return null;
-  return <span className="mechanics-metric-help"><HelpMark aria-label={`Критерии оценки: ${metric.name}`} popoverProps={HELP_POPOVER_PROPS}><MechanicsHelpContent audience={audience} sections={sections} /></HelpMark></span>;
+  return <span className="mechanics-metric-help"><HelpMark aria-label={`Критерии оценки: ${displayText(metric.name)}`} popoverProps={HELP_POPOVER_PROPS}><MechanicsHelpContent audience={audience} sections={sections} /></HelpMark></span>;
 }
 
 function CxHelpContent({audience}) {
@@ -620,17 +621,17 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
       <MetricRecommendationTrigger
         recommendation={metricRecommendation}
         className="metric-name-recommendation-trigger"
-        title={`Рекомендация для метрики «${metric.name}»`}
-        triggerLabel={`Открыть рекомендацию для метрики «${metric.name}»`}
-        popupLabel={`Рекомендация для метрики «${metric.name}»`}
+        title={`Рекомендация для метрики «${displayText(metric.name)}»`}
+        triggerLabel={`Открыть рекомендацию для метрики «${displayText(metric.name)}»`}
+        popupLabel={`Рекомендация для метрики «${displayText(metric.name)}»`}
       >
-        <b>{metric.name}</b>
+        <b>{displayText(metric.name)}</b>
       </MetricRecommendationTrigger>
     )
-    : <b>{metric.name}</b>;
+    : <b>{displayText(metric.name)}</b>;
   return (
     <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}${highlighted ? ' metric-row-highlighted' : ''}`}>
-      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line">{metricName}{showInformationalBadge && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{metric.footer}</span>}</div></div>
+      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line">{metricName}{showInformationalBadge && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{displayText(metric.footer)}</span>}</div></div>
       <div className="metric-value">{detailScore ? <><div className="metric-value-caption">{mechanicsHelp}<div className="metric-value-group">{indexUpliftBadge}{upliftDigitalTrace}{digitallyConfirmed && <DigitalTraceConfirmation />}<span className="metric-value-label">{valueLabel}</span></div></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={value} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{mechanicsHelp}<div className="metric-value-group">{indexUpliftBadge}{upliftDigitalTrace}{digitallyConfirmed && <DigitalTraceConfirmation />}<Label className="metric-status-label" theme={status.theme}>{status.label}</Label></div></div>}</div>
       {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
       <MetricInlineResources title="Инструкция к А/В тестам" actions={instructionLinks} />

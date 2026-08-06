@@ -51,16 +51,10 @@ endpoint можно переопределить через `HTML_UPLOAD_PROD_UR
 навыков между карточкой команды и специализированными листами берутся из статического
 `ai_skill_product_mapping.json`; файл входит в репозиторий и не требует API дайджеста.
 Cross-sell с Product Lens по умолчанию включён. Результаты записываются в
-`gravity-app/public/report-data.json` и `gravity-standalone.html`. Чтобы
-включить «Декомпозицию бэклога» в сайдбаре и standalone-отчёте, запустите
-сборку с явным флагом:
-
-```bash
-./build_gravity_report.sh --with-backlog
-```
-
-При этом используется `sbertrack_all_full_history_to_export.xlsx` и обновляется
-`gravity-app/public/backlog-data.json`.
+`gravity-app/public/report-data.json`, `gravity-app/public/backlog-data.json` и
+`gravity-standalone.html`. Каждая сборка пересобирает данные «Декомпозиции
+бэклога» из `sbertrack_all_full_history_to_export.xlsx`; без исходной выгрузки
+сборка завершится с ошибкой.
 
 Локальный сервер для разработки:
 
