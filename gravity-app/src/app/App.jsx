@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Ticket} from '@gravity-ui/icons';
-import {Divider, Flex, Spin} from '@gravity-ui/uikit';
-import {AsideHeader, FooterItem} from '@gravity-ui/navigation';
+import {Spin} from '@gravity-ui/uikit';
+import {AsideHeader} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
 import {BacklogDecompositionPage} from '../pages/BacklogDecompositionPage.jsx';
 import {DashboardPage} from '../pages/DashboardPage.jsx';
@@ -149,6 +149,26 @@ export function App() {
       current: view === 'about',
       onItemClick: () => setView('about'),
     },
+    {
+      id: 'skills-divider',
+      type: 'divider',
+    },
+    ...HTML_PAGE_TOOLS.map((tool) => ({
+      id: `html-page:${tool.id}`,
+      title: tool.title,
+      tooltipText: tool.title,
+      icon: htmlPageIcon(tool.icon),
+      current: view === `html-page:${tool.id}`,
+      onItemClick: () => openHtmlPageTool(tool.id),
+    })),
+    ...(BACKLOG_DECOMPOSITION_ENABLED ? [{
+      id: 'backlog',
+      title: 'Декомпозиция бэклога',
+      tooltipText: 'Декомпозиция бэклога',
+      icon: Ticket,
+      current: view === 'backlog',
+      onItemClick: () => openBacklog(),
+    }] : []),
   ];
   const content = view === 'summary'
     ? <SummaryPage products={data.products} rows={rows} unitFilter={summaryFilters.unit} onUnitFilterChange={(unit) => updateSummaryFilters({unit})} />
@@ -170,32 +190,6 @@ export function App() {
       className="dd-navigation"
       logo={{text: 'Data-Driven Index', iconSrc: ocb2cLogo, iconSize: 30, iconClassName: 'dd-navigation-logo', href: '#', onClick: (event) => { event.preventDefault(); setView('dashboard'); window.scrollTo(0, 0); }, 'aria-label': 'Открыть Summary'}}
       menuItems={menuItems}
-      renderFooter={({compact: footerCompact}) => (
-        <Flex direction="column" gap="2">
-          <Divider />
-          {HTML_PAGE_TOOLS.map((tool) => (
-            <FooterItem
-              key={tool.id}
-              id={`html-page:${tool.id}`}
-              title={tool.title}
-              tooltipText={tool.title}
-              icon={htmlPageIcon(tool.icon)}
-              compact={footerCompact}
-              current={view === `html-page:${tool.id}`}
-              onItemClick={() => openHtmlPageTool(tool.id)}
-            />
-          ))}
-          {BACKLOG_DECOMPOSITION_ENABLED && <FooterItem
-            id="backlog"
-            title="Декомпозиция бэклога"
-            tooltipText="Декомпозиция бэклога"
-            icon={Ticket}
-            compact={footerCompact}
-            current={view === 'backlog'}
-            onItemClick={() => openBacklog()}
-          />}
-        </Flex>
-      )}
       renderContent={() => content}
     />
   );
