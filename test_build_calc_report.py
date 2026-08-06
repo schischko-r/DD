@@ -2,6 +2,7 @@ import unittest
 import tempfile
 import json
 import inspect
+import ssl
 import unicodedata
 import urllib.error
 from io import BytesIO
@@ -48,6 +49,14 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertFalse(cached_args.update_crosssell)
         self.assertIsNone(
             inspect.signature(report.build_combined_data).parameters["crosssell_path"].default
+        )
+
+    def test_crosssell_skips_tls_certificate_validation_by_default(self) -> None:
+        self.assertTrue(report.CROSSSELL_INSECURE_TLS)
+        self.assertEqual(report.crosssell_ssl_context().verify_mode, ssl.CERT_NONE)
+        self.assertEqual(
+            report.crosssell_ssl_context(insecure_tls=False).verify_mode,
+            ssl.CERT_REQUIRED,
         )
 
     def test_digest_and_llm_build_options_are_removed(self) -> None:
