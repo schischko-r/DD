@@ -14,7 +14,7 @@ import {htmlPageIcon} from '../features/html-pages/htmlPageIcons.js';
 import ocb2cLogo from '../assets/ocb2c.png';
 
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
-const BACKLOG_DECOMPOSITION_ENABLED = import.meta.env.VITE_BACKLOG_DECOMPOSITION_ENABLED === 'true';
+const BACKLOG_DECOMPOSITION_ENABLED = import.meta.env.VITE_BACKLOG_DECOMPOSITION_ENABLED !== 'false';
 const normalizeTeamName = (value) => String(value || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('ru-RU');
 
 export function App() {

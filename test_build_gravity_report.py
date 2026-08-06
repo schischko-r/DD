@@ -90,7 +90,7 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertIn(["custom-npm", "run", "build:clickstream"], commands)
         self.assertIn(["custom-npm", "run", "build"], commands)
 
-    def test_full_build_skips_backlog_without_the_explicit_flag(self) -> None:
+    def test_full_build_uses_existing_backlog_data_without_rebuilding_it(self) -> None:
         args = report.parse_args([])
 
         with patch.object(report.Path, "is_file", return_value=True), patch.object(report, "run") as run:
@@ -98,6 +98,15 @@ class GravityBuildCrosssellTest(unittest.TestCase):
 
         commands = [call.args[0] for call in run.call_args_list]
         self.assertFalse(any("build_backlog_data.py" in command for command in commands))
+        standalone_command = next(
+            command
+            for command in commands
+            if command[1] == str(report.ROOT / "build_gravity_standalone.py")
+        )
+        self.assertEqual(
+            standalone_command[-2:],
+            ["--backlog-data", str(report.DEFAULT_BACKLOG_DATA)],
+        )
 
     def test_full_build_rebuilds_backlog_data_with_the_explicit_flag(self) -> None:
         args = report.parse_args(["--with-backlog"])
@@ -117,13 +126,14 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             ],
             commands,
         )
-        frontend_build = next(
-            call for call in run.call_args_list
-            if call.args[0] == [report.NPM_COMMAND, "run", "build"]
+        standalone_command = next(
+            command
+            for command in commands
+            if command[1] == str(report.ROOT / "build_gravity_standalone.py")
         )
         self.assertEqual(
-            frontend_build.kwargs["environment"]["VITE_BACKLOG_DECOMPOSITION_ENABLED"],
-            "true",
+            standalone_command[-2:],
+            ["--backlog-data", str(report.DEFAULT_BACKLOG_DATA)],
         )
 
 

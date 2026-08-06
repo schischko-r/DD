@@ -53,7 +53,7 @@ test('sidebar puts generated HTML pages and backlog below one divider in the mai
   }
   assert.match(appSource, /import \{Spin\} from '@gravity-ui\/uikit'/);
   assert.match(appSource, /import \{AsideHeader\} from '@gravity-ui\/navigation'/);
-  assert.match(appSource, /BACKLOG_DECOMPOSITION_ENABLED = import\.meta\.env\.VITE_BACKLOG_DECOMPOSITION_ENABLED === 'true'/);
+  assert.match(appSource, /BACKLOG_DECOMPOSITION_ENABLED = import\.meta\.env\.VITE_BACKLOG_DECOMPOSITION_ENABLED !== 'false'/);
   assert.match(appSource, /id: 'skills-divider',[\s\S]*?type: 'divider'/);
   assert.match(appSource, /id: 'skills-divider',[\s\S]*?HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED \? \[\{[\s\S]*?id: 'backlog'/);
   assert.match(appSource, /id: 'backlog',[\s\S]*?current: view === 'backlog'/);
