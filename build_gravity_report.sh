@@ -4,7 +4,8 @@ set -euo pipefail
 REPOSITORY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 GRAVITY_APP_DIR="${GRAVITY_APP_DIR:-$REPOSITORY_DIR/gravity-app}"
 NPM_BIN="${NPM:-npm}"
-DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_2/uploadfile?externalpath=45678_2.html&overwrite=true&xrfkey=MuD1I2PlM8mAiG8E"
+DEFAULT_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_3_test_/uploadfile?externalpath=45678_3_test_.html&overwrite=true&xrfkey=MuD1I2PlM8mAiG8E"
+DEFAULT_PROD_UPLOAD_URL="https://oko-qs.sigma.sbrf.ru/prom/qrs/extension/45678_2/uploadfile?externalpath=45678_2.html&overwrite=true&xrfkey=MuD1I2PlM8mAiG8E"
 
 load_dotenv_file() {
   local env_file="$1"
@@ -62,6 +63,7 @@ load_env() {
 
 DATA_ONLY=0
 UPLOAD_ENABLED=1
+UPDATE_PROD=0
 STANDALONE_OUTPUT="$REPOSITORY_DIR/gravity-standalone.html"
 STANDALONE_OUTPUT_SET=0
 FORWARD_ARGS=()
@@ -78,6 +80,10 @@ while (($# > 0)); do
       ;;
     --upload)
       UPLOAD_ENABLED=1
+      shift
+      ;;
+    --upd-prod)
+      UPDATE_PROD=1
       shift
       ;;
     --standalone-output)
@@ -133,6 +139,7 @@ if ((STANDALONE_OUTPUT_SET == 0)) && [[ -n "${STANDALONE_HTML:-}" ]]; then
 fi
 
 UPLOAD_URL="${HTML_UPLOAD_URL:-$DEFAULT_UPLOAD_URL}"
+PROD_UPLOAD_URL="${HTML_UPLOAD_PROD_URL:-$DEFAULT_PROD_UPLOAD_URL}"
 UPLOAD_TIMEOUT="${HTML_UPLOAD_TIMEOUT:-120}"
 UPLOAD_INSECURE=0
 if [[ "${HTML_UPLOAD_INSECURE_TLS:-}" =~ ^(1|true|yes)$ ]]; then
@@ -174,6 +181,7 @@ run_builder() {
 
 run_uploader() {
   local upload_args
+  local target_url="$1"
 
   if [[ "$STANDALONE_OUTPUT" != /* ]]; then
     STANDALONE_OUTPUT="$REPOSITORY_DIR/$STANDALONE_OUTPUT"
@@ -185,7 +193,7 @@ run_uploader() {
 
   upload_args=(
     "$STANDALONE_OUTPUT"
-    "$UPLOAD_URL"
+    "$target_url"
     --timeout "$UPLOAD_TIMEOUT"
   )
   if [[ -n "${HTML_UPLOAD_CERT_PATH:-}" ]]; then
@@ -203,5 +211,8 @@ run_uploader() {
 
 run_builder
 if ((UPLOAD_ENABLED == 1)); then
-  run_uploader
+  run_uploader "$UPLOAD_URL"
+  if ((UPDATE_PROD == 1)); then
+    run_uploader "$PROD_UPLOAD_URL"
+  fi
 fi

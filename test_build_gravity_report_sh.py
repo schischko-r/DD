@@ -114,7 +114,7 @@ fi
         self.assertEqual(len(invocations), 2)
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertIn("upload_html.py", invocations[1])
-        self.assertIn("45678_2", invocations[1])
+        self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
         self.assertNotIn("--cert-password", invocations[1])
         self.assertNotIn("--cert-path", invocations[1])
@@ -126,11 +126,30 @@ fi
         self.assertEqual(len(invocations), 2)
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertIn("upload_html.py", invocations[1])
-        self.assertIn("45678_2", invocations[1])
+        self.assertIn("45678_3_test_", invocations[1])
         self.assertNotIn("test-password", "\n".join(invocations))
         self.assertNotIn("--cert-password", invocations[1])
         self.assertNotIn("--cert-path", invocations[1])
         self.assertNotIn("--ca-bundle", invocations[1])
+
+    def test_update_prod_uploads_test_then_prod_without_forwarding_flag(self) -> None:
+        invocations, _ = self.run_wrapper("--upd-prod", upload=True)
+
+        self.assertEqual(len(invocations), 3)
+        self.assertIn("build_gravity_report.py", invocations[0])
+        self.assertNotIn("--upd-prod", invocations[0])
+        self.assertIn("upload_html.py", invocations[1])
+        self.assertIn("45678_3_test_", invocations[1])
+        self.assertIn("upload_html.py", invocations[2])
+        self.assertIn("extension/45678_2/uploadfile", invocations[2])
+        self.assertIn("externalpath=45678_2.html", invocations[2])
+
+    def test_update_prod_respects_no_upload(self) -> None:
+        invocations, _ = self.run_wrapper("--upd-prod", "--no-upload")
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("build_gravity_report.py", invocations[0])
+        self.assertNotIn("--upd-prod", invocations[0])
 
     def test_upload_path_overrides_are_forwarded_without_prevalidation(self) -> None:
         invocations, _ = self.run_wrapper(
@@ -144,10 +163,11 @@ fi
         self.assertIn("/overrides/ca.pem", invocations[1])
 
     def test_data_only_never_uploads(self) -> None:
-        invocations, _ = self.run_wrapper("--data-only")
+        invocations, _ = self.run_wrapper("--data-only", "--upd-prod")
 
         self.assertEqual(len(invocations), 1)
         self.assertIn("--data-only", invocations[0])
+        self.assertNotIn("--upd-prod", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
     def test_dotenv_ignores_non_assignment_lines_without_executing_them(self) -> None:
