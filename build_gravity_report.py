@@ -78,14 +78,9 @@ def build(args: argparse.Namespace) -> None:
         return
 
     run([npm_command, "run", "build:clickstream"], cwd=ROOT / "gravity-app")
-    frontend_environment = {
-        **os.environ,
-        "VITE_BACKLOG_DECOMPOSITION_ENABLED": "true" if args.with_backlog else "false",
-    }
     run(
         [npm_command, "run", "build"],
         cwd=ROOT / "gravity-app",
-        environment=frontend_environment,
     )
     standalone_command = [
         sys.executable,
@@ -95,8 +90,7 @@ def build(args: argparse.Namespace) -> None:
         "--output",
         str(args.standalone_output),
     ]
-    if args.with_backlog:
-        standalone_command.extend(["--backlog-data", str(args.backlog_data)])
+    standalone_command.extend(["--backlog-data", str(args.backlog_data)])
     run(standalone_command)
 
 
@@ -126,7 +120,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--with-backlog",
         action="store_true",
-        help="Build and show the Backlog decomposition page",
+        help="Rebuild backlog data before the default-enabled Backlog decomposition page build",
     )
     parser.add_argument(
         "--standalone-output",
