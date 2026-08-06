@@ -30,8 +30,12 @@ def configured_path(variable: str, default: Path) -> Path:
     return path if path.is_absolute() else ROOT / path
 
 
-def run(command: list[str], cwd: Path = ROOT) -> None:
-    subprocess.run(command, cwd=cwd, check=True)
+def run(
+    command: list[str],
+    cwd: Path = ROOT,
+    environment: dict[str, str] | None = None,
+) -> None:
+    subprocess.run(command, cwd=cwd, check=True, env=environment)
 
 
 def build(args: argparse.Namespace) -> None:
@@ -57,7 +61,9 @@ def build(args: argparse.Namespace) -> None:
         report_command.append("--no-update-crosssell")
 
     run(report_command)
-    if args.backlog_input.is_file():
+    if args.with_backlog:
+        if not args.backlog_input.is_file():
+            raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
         run(
             [
                 sys.executable,
@@ -72,19 +78,26 @@ def build(args: argparse.Namespace) -> None:
         return
 
     run([npm_command, "run", "build:clickstream"], cwd=ROOT / "gravity-app")
-    run([npm_command, "run", "build"], cwd=ROOT / "gravity-app")
+    frontend_environment = {
+        **os.environ,
+        "VITE_BACKLOG_DECOMPOSITION_ENABLED": "true" if args.with_backlog else "false",
+    }
     run(
-        [
-            sys.executable,
-            str(ROOT / "build_gravity_standalone.py"),
-            "--data",
-            str(args.data_output),
-            "--output",
-            str(args.standalone_output),
-            "--backlog-data",
-            str(args.backlog_data),
-        ]
+        [npm_command, "run", "build"],
+        cwd=ROOT / "gravity-app",
+        environment=frontend_environment,
     )
+    standalone_command = [
+        sys.executable,
+        str(ROOT / "build_gravity_standalone.py"),
+        "--data",
+        str(args.data_output),
+        "--output",
+        str(args.standalone_output),
+    ]
+    if args.with_backlog:
+        standalone_command.extend(["--backlog-data", str(args.backlog_data)])
+    run(standalone_command)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -110,6 +123,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--backlog-input", type=Path, default=DEFAULT_BACKLOG_INPUT)
     parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
+    parser.add_argument(
+        "--with-backlog",
+        action="store_true",
+        help="Build and show the Backlog decomposition page",
+    )
     parser.add_argument(
         "--standalone-output",
         type=Path,

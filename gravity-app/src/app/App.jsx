@@ -14,6 +14,7 @@ import {htmlPageIcon} from '../features/html-pages/htmlPageIcons.js';
 import ocb2cLogo from '../assets/ocb2c.png';
 
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
+const BACKLOG_DECOMPOSITION_ENABLED = import.meta.env.VITE_BACKLOG_DECOMPOSITION_ENABLED === 'true';
 const normalizeTeamName = (value) => String(value || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('ru-RU');
 
 export function App() {
@@ -35,6 +36,10 @@ export function App() {
       .then(setData);
   }, []);
   useEffect(() => {
+    if (!BACKLOG_DECOMPOSITION_ENABLED) {
+      setBacklog({status: 'disabled', data: null});
+      return undefined;
+    }
     fetch('./backlog-data.json', {cache: 'no-store'})
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -114,6 +119,7 @@ export function App() {
       title: 'Summary',
       tooltipText: 'Summary',
       icon: ChartMixed,
+      qa: 'dd-primary-navigation',
       current: view === 'dashboard',
       onItemClick: () => setView('dashboard'),
     },
@@ -122,6 +128,7 @@ export function App() {
       title: '\u041f\u0440\u043e\u0444\u0438\u043b\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u044b',
       tooltipText: '\u041f\u0440\u043e\u0444\u0438\u043b\u044c \u043a\u043e\u043c\u0430\u043d\u0434\u044b',
       icon: BarsAscendingAlignLeft,
+      qa: 'dd-primary-navigation',
       current: view === 'detail',
       onItemClick: () => setView('detail'),
     },
@@ -138,24 +145,10 @@ export function App() {
       title: 'О Data Driven',
       tooltipText: 'О Data Driven',
       icon: CircleInfo,
+      qa: 'dd-primary-navigation',
       current: view === 'about',
       onItemClick: () => setView('about'),
     },
-    ...(HTML_PAGE_TOOLS.length ? [
-      {
-        id: 'html-pages-divider',
-        title: '',
-        type: 'divider',
-      },
-      ...HTML_PAGE_TOOLS.map((tool) => ({
-        id: `html-page:${tool.id}`,
-        title: tool.title,
-        tooltipText: tool.title,
-        icon: htmlPageIcon(tool.icon),
-        current: view === `html-page:${tool.id}`,
-        onItemClick: () => openHtmlPageTool(tool.id),
-      })),
-    ] : []),
   ];
   const content = view === 'summary'
     ? <SummaryPage products={data.products} rows={rows} unitFilter={summaryFilters.unit} onUnitFilterChange={(unit) => updateSummaryFilters({unit})} />
@@ -165,9 +158,9 @@ export function App() {
         ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
         : view === 'about'
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
-          : view === 'backlog'
+          : view === 'backlog' && BACKLOG_DECOMPOSITION_ENABLED
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
-            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
+            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
   return (
     <AsideHeader
       compact={compact}
@@ -180,7 +173,19 @@ export function App() {
       renderFooter={({compact: footerCompact}) => (
         <Flex direction="column" gap="2">
           <Divider />
-          <FooterItem
+          {HTML_PAGE_TOOLS.map((tool) => (
+            <FooterItem
+              key={tool.id}
+              id={`html-page:${tool.id}`}
+              title={tool.title}
+              tooltipText={tool.title}
+              icon={htmlPageIcon(tool.icon)}
+              compact={footerCompact}
+              current={view === `html-page:${tool.id}`}
+              onItemClick={() => openHtmlPageTool(tool.id)}
+            />
+          ))}
+          {BACKLOG_DECOMPOSITION_ENABLED && <FooterItem
             id="backlog"
             title="Декомпозиция бэклога"
             tooltipText="Декомпозиция бэклога"
@@ -188,7 +193,7 @@ export function App() {
             compact={footerCompact}
             current={view === 'backlog'}
             onItemClick={() => openBacklog()}
-          />
+          />}
         </Flex>
       )}
       renderContent={() => content}

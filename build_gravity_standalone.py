@@ -135,7 +135,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build standalone Gravity UI HTML")
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE)
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA)
-    parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
+    parser.add_argument("--backlog-data", type=Path)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--html-page-root", type=Path, default=ROOT)
     return parser.parse_args()

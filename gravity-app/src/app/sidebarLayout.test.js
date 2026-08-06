@@ -34,13 +34,27 @@ test('sidebar brand icon and title share the same vertical center', () => {
   assert.match(stylesSource, /\.dd-navigation-logo img\s*\{[^}]*display:\s*block;/);
 });
 
-test('sidebar preserves navigation items and reserves the separated footer for backlog', () => {
+test('primary navigation icons use the blue informational accent', () => {
+  for (const id of ['dashboard', 'detail', 'about']) {
+    assert.match(
+      appSource,
+      new RegExp(`id: '${id}'[\\s\\S]*?qa: 'dd-primary-navigation'`),
+    );
+  }
+  assert.match(
+    stylesSource,
+    /\.dd-navigation \[data-qa='dd-primary-navigation'\] svg\s*\{[^}]*color:\s*var\(--g-color-text-info\);/,
+  );
+});
+
+test('sidebar keeps generated HTML pages in the footer and gates backlog by the build flag', () => {
   for (const id of ['dashboard', 'detail', 'about']) {
     assert.match(appSource, new RegExp(`id: '${id}'`));
   }
   assert.match(appSource, /renderFooter=/);
   assert.match(appSource, /import \{Divider, Flex, Spin\} from '@gravity-ui\/uikit'/);
-  assert.match(appSource, /renderFooter=[\s\S]*?<Flex[^>]*direction="column"[\s\S]*?<Divider \/>[\s\S]*?<FooterItem[\s\S]*?id="backlog"/);
+  assert.match(appSource, /BACKLOG_DECOMPOSITION_ENABLED = import\.meta\.env\.VITE_BACKLOG_DECOMPOSITION_ENABLED === 'true'/);
+  assert.match(appSource, /renderFooter=[\s\S]*?<Flex[^>]*direction="column"[\s\S]*?<Divider \/>[\s\S]*?HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED && <FooterItem[\s\S]*?id="backlog"/);
   assert.match(appSource, /id="backlog"[\s\S]*?current=\{view === 'backlog'\}/);
   assert.doesNotMatch(appSource, /backlog-v2|BacklogDecompositionV2Page|openBacklogV2/);
   assert.doesNotMatch(stylesSource, /dd-navigation-backlog-footer|\.gn-footer-item/);

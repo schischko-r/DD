@@ -134,7 +134,10 @@ CROSSSELL_SHOWCASE_URL = f"{CROSSSELL_BASE_URL}/showcase/crosssell/"
 CROSSSELL_TOKEN = os.getenv("PL_PARTNER_CROSSSELL_TOKEN", "")
 DEFAULT_CROSSSELL_TIMEOUT = int(os.getenv("PL_PARTNER_CROSSSELL_TIMEOUT", "60"))
 CROSSSELL_CA_BUNDLE = os.getenv("PL_PARTNER_CROSSSELL_CA_BUNDLE", "").strip()
-CROSSSELL_INSECURE_TLS = os.getenv("PL_PARTNER_CROSSSELL_INSECURE_TLS", "").strip().lower() in {"1", "true", "yes"}
+# Product Lens is an internal service authenticated with a bearer token.  Its
+# certificate chain is not available in the local trust store, so do not
+# validate it unless explicitly requested through the environment.
+CROSSSELL_INSECURE_TLS = os.getenv("PL_PARTNER_CROSSSELL_INSECURE_TLS", "true").strip().lower() in {"1", "true", "yes"}
 CROSSSELL_SKILL_KEY = "cross_sell"
 CROSSSELL_SKILL_LABEL = "Cross-sell"
 CROSSSELL_BLOCK_CODE = "mehaniki"

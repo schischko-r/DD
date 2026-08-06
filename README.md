@@ -51,9 +51,16 @@ endpoint можно переопределить через `HTML_UPLOAD_PROD_UR
 навыков между карточкой команды и специализированными листами берутся из статического
 `ai_skill_product_mapping.json`; файл входит в репозиторий и не требует API дайджеста.
 Cross-sell с Product Lens по умолчанию включён. Результаты записываются в
-`gravity-app/public/report-data.json` и `gravity-standalone.html`. Если рядом
-лежит `sbertrack_all_full_history_to_export.xlsx`, перед сборкой UI также
-обновляется `gravity-app/public/backlog-data.json`.
+`gravity-app/public/report-data.json` и `gravity-standalone.html`. Чтобы
+включить «Декомпозицию бэклога» в сайдбаре и standalone-отчёте, запустите
+сборку с явным флагом:
+
+```bash
+./build_gravity_report.sh --with-backlog
+```
+
+При этом используется `sbertrack_all_full_history_to_export.xlsx` и обновляется
+`gravity-app/public/backlog-data.json`.
 
 Локальный сервер для разработки:
 
@@ -245,6 +252,9 @@ Cross-sell интеграция использует `GET /api/v1/crosssell/mark
 стабильный контракт и `GET /api/v1/crosssell/products` для продуктов каталога,
 у которых marker ещё не сформирован. Сопоставление с DD выполняется по имени
 после NFC/casefold-нормализации; токен должен иметь scope `crosssell:read`.
+Проверка TLS-сертификата для внутреннего Product Lens по умолчанию отключена;
+защита доступа выполняется Bearer-токеном. Чтобы принудительно включить проверку
+сертификата, задайте `PL_PARTNER_CROSSSELL_INSECURE_TLS=false`.
 Снимки рыночного исследования загружаются из `GET /api/v1/crosssell/market`,
 а предложения и источники исследованных продуктов — из
 `GET /api/v1/crosssell/market/{uid}`. ETag списка и каждого продукта хранится
