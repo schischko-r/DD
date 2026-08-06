@@ -32,7 +32,7 @@ test('backlog decomposition is a dedicated sidebar view with its own data source
   assert.doesNotMatch(appSource, /BacklogDecompositionV2Page|backlog-v2|openBacklogV2|\bCopy\b/);
   assert.match(appSource, /import \{AsideHeader, FooterItem\} from '@gravity-ui\/navigation'/);
   assert.match(appSource, /import \{Divider, Flex, Spin\} from '@gravity-ui\/uikit'/);
-  assert.match(appSource, /renderFooter=\{\(\{compact: footerCompact\}\) => \([\s\S]*?<Divider \/>[\s\S]*?<FooterItem[\s\S]*?id="backlog"/);
+  assert.match(appSource, /renderFooter=\{\(\{compact: footerCompact\}\) => \([\s\S]*?<Divider \/>[\s\S]*?HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED && <FooterItem[\s\S]*?id="backlog"/);
   assert.ok(appSource.indexOf('id="backlog"') > appSource.indexOf('menuItems={menuItems}'), 'backlog belongs to the footer, not the main menu');
   const mainMenuSource = appSource.slice(appSource.indexOf('const menuItems = ['), appSource.indexOf('const openBacklog'));
   assert.doesNotMatch(mainMenuSource, /(?:id:|id=)\s*['"]backlog['"]/);
@@ -66,7 +66,7 @@ test('backlog CTA is available for every team represented in backlog data and op
   assert.match(teamProfileSource, /label:\s*['"]Декомпозиция бэклога['"]/);
   assert.match(teamProfileSource, /onClick:\s*onBacklog/);
   assert.match(appSource, /const openBacklog = \(teamKey = ''\) => \{[\s\S]*?setBacklogTeamKey\(String\(teamKey \|\| ''\)\);[\s\S]*?setView\('backlog'\)/);
-  assert.match(appSource, /onBacklog=\{productBacklogTeam \? \(\) => openBacklog\(productBacklogTeam\.key\) : undefined\}/);
+  assert.match(appSource, /onBacklog=\{BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam \? \(\) => openBacklog\(productBacklogTeam\.key\) : undefined\}/);
   assert.match(appSource, /initialTeamKey=\{backlogTeamKey\}/);
   assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
   assert.match(pageSource, /String\(initialTeamKey \|\| teams\[0\]\?\.key \|\| ''\)/);

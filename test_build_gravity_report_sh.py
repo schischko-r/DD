@@ -170,6 +170,12 @@ fi
         self.assertNotIn("--upd-prod", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
+    def test_with_backlog_is_forwarded_to_the_python_builder(self) -> None:
+        invocations, _ = self.run_wrapper("--with-backlog", "--no-upload")
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("--with-backlog", invocations[0])
+
     def test_dotenv_ignores_non_assignment_lines_without_executing_them(self) -> None:
         invocations, _ = self.run_wrapper(
             "--data-only",

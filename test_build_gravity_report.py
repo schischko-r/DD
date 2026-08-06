@@ -90,8 +90,17 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertIn(["custom-npm", "run", "build:clickstream"], commands)
         self.assertIn(["custom-npm", "run", "build"], commands)
 
-    def test_full_build_rebuilds_backlog_data_when_sbertrack_source_exists(self) -> None:
+    def test_full_build_skips_backlog_without_the_explicit_flag(self) -> None:
         args = report.parse_args([])
+
+        with patch.object(report.Path, "is_file", return_value=True), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertFalse(any("build_backlog_data.py" in command for command in commands))
+
+    def test_full_build_rebuilds_backlog_data_with_the_explicit_flag(self) -> None:
+        args = report.parse_args(["--with-backlog"])
 
         with patch.object(report.Path, "is_file", return_value=True), patch.object(report, "run") as run:
             report.build(args)
@@ -107,6 +116,14 @@ class GravityBuildCrosssellTest(unittest.TestCase):
                 str(report.DEFAULT_BACKLOG_DATA),
             ],
             commands,
+        )
+        frontend_build = next(
+            call for call in run.call_args_list
+            if call.args[0] == [report.NPM_COMMAND, "run", "build"]
+        )
+        self.assertEqual(
+            frontend_build.kwargs["environment"]["VITE_BACKLOG_DECOMPOSITION_ENABLED"],
+            "true",
         )
 
 
