@@ -136,7 +136,7 @@ test('html_page URL, title and Gravity icon come from the Vite env map', () => {
   );
   assert.match(toolCatalogSource, /icon:\s*configured\.icon\s*\|\|\s*['"]ChartLine['"]/);
   assert.match(toolCatalogSource, /\.filter\(\(entry\)\s*=>\s*entry\.url\)/);
-  assert.match(appSource, /icon=\{htmlPageIcon\(tool\.icon\)\}/);
+  assert.match(appSource, /icon:\s*htmlPageIcon\(tool\.icon\)/);
   for (const icon of [
     'ChartAreaStacked',
     'ChartAreaStackedNormalized',
@@ -192,20 +192,22 @@ test('html_page catalog resolves recommendations and builds mapped context gener
   );
 });
 
-test('AsideHeader renders generated html_page items in the footer before backlog', () => {
+test('AsideHeader renders generated html_page items after the primary-navigation divider and before backlog', () => {
   assert.match(
     appSource,
     /import\s*\{[^}]*HTML_PAGE_TOOLS[^}]*\}\s*from\s*['"][^'"]*htmlPageTools\.js['"]/,
   );
-  assert.doesNotMatch(appSource, /id:\s*['"]html-pages-divider['"]/);
-  const footerSource = appSource.match(/renderFooter=\{\(\{compact: footerCompact\}\) => \(([\s\S]*?)\n\s*\)\}/)?.[1];
-  assert.ok(footerSource, 'AsideHeader footer definition is missing');
-  const generatedItemsIndex = footerSource.indexOf('HTML_PAGE_TOOLS.map');
-  const backlogIndex = footerSource.indexOf('id="backlog"');
-  assert.ok(generatedItemsIndex >= 0, 'Generated HTML pages are missing from the footer');
-  assert.ok(backlogIndex > generatedItemsIndex, 'Backlog must be below generated HTML pages');
-  assert.match(footerSource, /<FooterItem[\s\S]*?id=\{`html-page:\$\{tool\.id\}`\}/);
-  assert.match(footerSource, /title=\{tool\.title\}/);
+  const menuItemsSource = appSource.slice(appSource.indexOf('const menuItems = ['), appSource.indexOf('const content ='));
+  const dividerIndex = menuItemsSource.indexOf("id: 'skills-divider'");
+  const generatedItemsIndex = menuItemsSource.indexOf('HTML_PAGE_TOOLS.map');
+  const backlogIndex = menuItemsSource.indexOf("id: 'backlog'");
+  assert.ok(dividerIndex >= 0, 'Primary-navigation divider is missing');
+  assert.ok(generatedItemsIndex > dividerIndex, 'Generated HTML pages must be below the divider');
+  assert.ok(backlogIndex > generatedItemsIndex, 'Backlog must be below generated HTML pages without another divider');
+  assert.equal((menuItemsSource.match(/type: 'divider'/g) || []).length, 1);
+  assert.match(menuItemsSource, /id:\s*`html-page:\$\{tool\.id\}`/);
+  assert.match(menuItemsSource, /title:\s*tool\.title/);
+  assert.doesNotMatch(appSource, /renderFooter=|FooterItem/);
 });
 
 test('Team profile resolves a generic html_page action from recommendation metadata', () => {

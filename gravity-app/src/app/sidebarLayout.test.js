@@ -47,15 +47,17 @@ test('primary navigation icons use the blue informational accent', () => {
   );
 });
 
-test('sidebar keeps generated HTML pages in the footer and gates backlog by the build flag', () => {
+test('sidebar puts generated HTML pages and backlog below one divider in the main navigation', () => {
   for (const id of ['dashboard', 'detail', 'about']) {
     assert.match(appSource, new RegExp(`id: '${id}'`));
   }
-  assert.match(appSource, /renderFooter=/);
-  assert.match(appSource, /import \{Divider, Flex, Spin\} from '@gravity-ui\/uikit'/);
+  assert.match(appSource, /import \{Spin\} from '@gravity-ui\/uikit'/);
+  assert.match(appSource, /import \{AsideHeader\} from '@gravity-ui\/navigation'/);
   assert.match(appSource, /BACKLOG_DECOMPOSITION_ENABLED = import\.meta\.env\.VITE_BACKLOG_DECOMPOSITION_ENABLED === 'true'/);
-  assert.match(appSource, /renderFooter=[\s\S]*?<Flex[^>]*direction="column"[\s\S]*?<Divider \/>[\s\S]*?HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED && <FooterItem[\s\S]*?id="backlog"/);
-  assert.match(appSource, /id="backlog"[\s\S]*?current=\{view === 'backlog'\}/);
+  assert.match(appSource, /id: 'skills-divider',[\s\S]*?type: 'divider'/);
+  assert.match(appSource, /id: 'skills-divider',[\s\S]*?HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED \? \[\{[\s\S]*?id: 'backlog'/);
+  assert.match(appSource, /id: 'backlog',[\s\S]*?current: view === 'backlog'/);
+  assert.doesNotMatch(appSource, /renderFooter=|FooterItem|<Divider \/>/);
   assert.doesNotMatch(appSource, /backlog-v2|BacklogDecompositionV2Page|openBacklogV2/);
   assert.doesNotMatch(stylesSource, /dd-navigation-backlog-footer|\.gn-footer-item/);
   assert.doesNotMatch(appSource, /className="navigation-period"/);

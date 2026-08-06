@@ -22,22 +22,21 @@ const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, mon
 test('backlog decomposition is a dedicated sidebar view with its own data source', () => {
   assert.match(appSource, /import \{BacklogDecompositionPage\} from '\.\.\/pages\/BacklogDecompositionPage\.jsx'/);
   assert.match(appSource, /fetch\('\.\/backlog-data\.json', \{cache: 'no-store'\}\)/);
-  assert.match(appSource, /id="backlog"/);
-  assert.match(appSource, /title="Декомпозиция бэклога"/);
+  assert.match(appSource, /id: 'backlog'/);
+  assert.match(appSource, /title: 'Декомпозиция бэклога'/);
   assert.match(appSource, /import \{[^\n]*Ticket[^\n]*\} from '@gravity-ui\/icons'/);
-  assert.match(appSource, /id="backlog"[\s\S]*?icon=\{Ticket\}/);
-  assert.match(appSource, /current=\{view === 'backlog'\}/);
-  assert.match(appSource, /onItemClick=\{\(\) => openBacklog\(\)\}/);
+  assert.match(appSource, /id: 'backlog',[\s\S]*?icon: Ticket/);
+  assert.match(appSource, /id: 'backlog',[\s\S]*?current: view === 'backlog'/);
+  assert.match(appSource, /id: 'backlog',[\s\S]*?onItemClick: \(\) => openBacklog\(\)/);
   assert.match(appSource, /view === 'backlog'[\s\S]*?<BacklogDecompositionPage/);
   assert.doesNotMatch(appSource, /BacklogDecompositionV2Page|backlog-v2|openBacklogV2|\bCopy\b/);
-  assert.match(appSource, /import \{AsideHeader, FooterItem\} from '@gravity-ui\/navigation'/);
-  assert.match(appSource, /import \{Divider, Flex, Spin\} from '@gravity-ui\/uikit'/);
-  assert.match(appSource, /renderFooter=\{\(\{compact: footerCompact\}\) => \([\s\S]*?<Divider \/>[\s\S]*?HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED && <FooterItem[\s\S]*?id="backlog"/);
-  assert.ok(appSource.indexOf('id="backlog"') > appSource.indexOf('menuItems={menuItems}'), 'backlog belongs to the footer, not the main menu');
-  const mainMenuSource = appSource.slice(appSource.indexOf('const menuItems = ['), appSource.indexOf('const openBacklog'));
-  assert.doesNotMatch(mainMenuSource, /(?:id:|id=)\s*['"]backlog['"]/);
-  assert.ok(appSource.indexOf('renderFooter=') > appSource.indexOf('menuItems={menuItems}'));
-  assert.ok(appSource.indexOf('renderContent=') > appSource.indexOf('renderFooter='));
+  assert.match(appSource, /import \{AsideHeader\} from '@gravity-ui\/navigation'/);
+  assert.match(appSource, /import \{Spin\} from '@gravity-ui\/uikit'/);
+  const mainMenuSource = appSource.slice(appSource.indexOf('const menuItems = ['), appSource.indexOf('const content ='));
+  assert.match(mainMenuSource, /id: 'skills-divider',[\s\S]*?type: 'divider'/);
+  assert.match(mainMenuSource, /HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED \? \[\{[\s\S]*?id: 'backlog'/);
+  assert.equal((mainMenuSource.match(/type: 'divider'/g) || []).length, 1);
+  assert.doesNotMatch(appSource, /renderFooter=|FooterItem|<Divider \/>/);
   assert.doesNotMatch(stylesSource, /dd-navigation-backlog-footer|\.gn-footer-item/);
 });
 
