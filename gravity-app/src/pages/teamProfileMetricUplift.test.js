@@ -394,7 +394,7 @@ test('only incomplete described metrics without uplift use the name trigger', ()
   );
   assert.match(
     metricRowSource,
-    /const metricName = metricRecommendation && indexUplift === 0 && value < 100\s*\? \([\s\S]*?<MetricRecommendationTrigger[\s\S]*?className="metric-name-recommendation-trigger"[\s\S]*?triggerLabel=\{`Открыть рекомендацию для метрики «\$\{metric\.name\}»`\}[\s\S]*?<b>\{metric\.name\}<\/b>[\s\S]*?<\/MetricRecommendationTrigger>[\s\S]*?\)\s*: <b>\{metric\.name\}<\/b>;/,
+    /const metricName = metricRecommendation && indexUplift === 0 && value < 100\s*\? \([\s\S]*?<MetricRecommendationTrigger[\s\S]*?className="metric-name-recommendation-trigger"[\s\S]*?triggerLabel=\{`Открыть рекомендацию для метрики «\$\{displayText\(metric\.name\)\}»`\}[\s\S]*?<b>\{displayText\(metric\.name\)\}<\/b>[\s\S]*?<\/MetricRecommendationTrigger>[\s\S]*?\)\s*: <b>\{displayText\(metric\.name\)\}<\/b>;/,
   );
   assert.match(
     metricRowSource,
@@ -544,7 +544,7 @@ test('uplift and incomplete no-uplift metric name share one keyboard-accessible 
   );
   assert.match(
     metricRowSource,
-    /<MetricRecommendationTrigger[\s\S]*?className="metric-name-recommendation-trigger"[\s\S]*?>\s*<b>\{metric\.name\}<\/b>\s*<\/MetricRecommendationTrigger>/,
+    /<MetricRecommendationTrigger[\s\S]*?className="metric-name-recommendation-trigger"[\s\S]*?>\s*<b>\{displayText\(metric\.name\)\}<\/b>\s*<\/MetricRecommendationTrigger>/,
   );
   assert.match(triggerOpenTag, /type="button"/);
   assert.match(triggerOpenTag, /aria-haspopup="dialog"/);

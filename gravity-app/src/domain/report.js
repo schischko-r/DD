@@ -11,6 +11,10 @@ export function percent(value, max) {
   return Math.max(0, Math.min(100, Math.round((Number(value) / Number(max)) * 100)));
 }
 
+export function displayText(value) {
+  return String(value || '').replace(/\bupsell\b/gi, 'up-sell');
+}
+
 export function allocateIndexUplifts(recommendations, currentScore) {
   const score = Math.max(0, Math.min(100, Number(currentScore) || 0));
   const targetTenths = Math.round((100 - score) * 10);
