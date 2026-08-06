@@ -34,6 +34,19 @@ test('sidebar brand icon and title share the same vertical center', () => {
   assert.match(stylesSource, /\.dd-navigation-logo img\s*\{[^}]*display:\s*block;/);
 });
 
+test('primary navigation icons use the blue informational accent', () => {
+  for (const id of ['dashboard', 'detail', 'about']) {
+    assert.match(
+      appSource,
+      new RegExp(`id: '${id}'[\\s\\S]*?qa: 'dd-primary-navigation'`),
+    );
+  }
+  assert.match(
+    stylesSource,
+    /\.dd-navigation \[data-qa='dd-primary-navigation'\] svg\s*\{[^}]*color:\s*var\(--g-color-text-info\);/,
+  );
+});
+
 test('sidebar keeps generated HTML pages in the footer and gates backlog by the build flag', () => {
   for (const id of ['dashboard', 'detail', 'about']) {
     assert.match(appSource, new RegExp(`id: '${id}'`));
