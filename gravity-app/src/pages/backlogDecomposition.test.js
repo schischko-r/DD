@@ -237,8 +237,8 @@ test('scenario focus recommendations use high share or team time in work above t
   assert.equal(result.items.some((item) => item.key === 'below-benchmark'), true, 'a high-share scenario is included below the benchmark');
   assert.equal(result.items.some((item) => item.key === 'at-benchmark'), true, 'a high-share scenario is included at the benchmark');
   assert.equal(result.items.some((item) => item.key === 'small'), true, 'a low-share scenario is included when team time in work exceeds the benchmark');
-  assert.equal(result.items[0].recommendation, '25-й перцентиль аналитиков выполняет такие задачи за 2,11 часа.\nЗначение по вашей команде: 51,5 часов.\n\nПредлагаемый инструментарий: Рекомендуем первое. Рекомендуем второе.');
-  assert.equal(result.items[0].recommendationSummary, '25-й перцентиль аналитиков выполняет такие задачи за 2,11 часа.\nЗначение по вашей команде: 51,5 часов.');
+  assert.equal(result.items[0].recommendation, 'Предлагаемый инструментарий: Рекомендуем первое. Рекомендуем второе.');
+  assert.equal(result.items[0].recommendationSummary, '');
   assert.equal(result.items[0].toolRecommendation, 'Рекомендуем первое. Рекомендуем второе.');
   assert.deepEqual(result.items[0].resources, [{label: 'ссылке', href: 'https://example.test/a'}]);
   assert.deepEqual(buildScenarioFocusRecommendations([{key: '2026-Q3', isComplete: false}], []).items, []);

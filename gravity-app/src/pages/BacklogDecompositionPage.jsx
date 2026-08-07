@@ -203,12 +203,7 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const resources = approvedRows
         .flatMap((item) => item.resources || [])
         .filter((resource, index, all) => all.findIndex((item) => (item.href || item.action) === (resource.href || resource.action)) === index);
-      const shouldShowBenchmarkSummary = hasValidBenchmark
-        && scenarioKey !== 'unknown'
-        && scenarioLabel.trim() !== 'Невозможно разметить';
-      const recommendationSummary = shouldShowBenchmarkSummary
-        ? `25-й перцентиль аналитиков выполняет такие задачи за ${formatNumber(continuous25thHours, 2)} часа.\nЗначение по вашей команде: ${formatNumber(medianCycleTimeHours, 1)} часов.`
-        : '';
+      const recommendationSummary = '';
       const toolRecommendation = approvedRows.map((item) => item.recommendation).join(' ');
       const isUnmappedScenario = scenarioKey === 'unknown'
         || scenarioLabel.trim() === 'Невозможно разметить';
@@ -220,7 +215,7 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
         medianCycleTimeHours,
         recommendation: isUnmappedScenario
           ? toolRecommendation
-          : `${recommendationSummary ? `${recommendationSummary}\n\n` : ''}Предлагаемый инструментарий: ${toolRecommendation}`,
+          : `Предлагаемый инструментарий: ${toolRecommendation}`,
         recommendationSummary,
         toolRecommendation,
         resources,
