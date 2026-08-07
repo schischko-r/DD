@@ -213,7 +213,7 @@ export function App() {
     : activeHtmlPageTool
       ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
       : view === 'dashboard'
-        ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
+        ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
         : view === 'about'
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'initiatives'

@@ -1,11 +1,19 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {ChevronRight, CircleDollar, CircleInfo, NodesRight, Persons} from '@gravity-ui/icons';
+import {ChevronRight, CircleDollar, CircleInfo, CircleTree, NodesRight, Persons} from '@gravity-ui/icons';
 import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {antiTopBlockLabel, displayText} from '../domain/report.js';
 import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone} from '../features/catalog/Catalog.jsx';
 
-export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout}) {
+function DashboardActionCard({icon, title, description, action, onClick}) {
+  return <Card className="dashboard-about-card" type="action" aria-label={`${title}: ${action.toLocaleLowerCase('ru-RU')}`} onClick={onClick}>
+    <div className="dashboard-about-icon"><Icon data={icon} size={24} /></div>
+    <div className="dashboard-about-copy"><Text variant="subheader-2">{title}</Text><Text variant="body-1" color="secondary">{description}</Text></div>
+    <span className="dashboard-about-action">{action} <Icon data={ChevronRight} size={14} /></span>
+  </Card>;
+}
+
+export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout, onInitiatives}) {
   const [catalogType, setCatalogType] = useState('');
   const [catalogMaturity, setCatalogMaturity] = useState(null);
   const [teamContactOpen, setTeamContactOpen] = useState(false);
@@ -142,19 +150,10 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{displayText(item.name)}</b><small className="dashboard-antitop-block" title={antiTopBlockLabel(item.block)}>{antiTopBlockLabel(item.block)}</small></div><div className="dashboard-antitop-result"><strong>{item.incompleteShare}%</strong><small>{item.incompleteTeams} из {item.teams} команд</small></div></div>)}</div></Card>
       </section>
 
-      <Card
-        className="dashboard-about-card"
-        type="action"
-        aria-label="О Data Driven: открыть методологию"
-        onClick={onAbout}
-      >
-        <div className="dashboard-about-icon"><Icon data={CircleInfo} size={24} /></div>
-        <div className="dashboard-about-copy">
-          <Text variant="subheader-2">О Data Driven</Text>
-          <Text variant="body-1" color="secondary">Формула индекса, критерии и баллы, правила применимости и шкала зрелости команд.</Text>
-        </div>
-        <span className="dashboard-about-action">Методология <Icon data={ChevronRight} size={14} /></span>
-      </Card>
+      <section className="dashboard-navigation-cards" aria-label="Дополнительные разделы">
+        <DashboardActionCard icon={CircleTree} title="Развитие инструмента" description="Централизованные мероприятия по развитию практик и повышению Data-Driven Index." action="Перейти" onClick={onInitiatives} />
+        <DashboardActionCard icon={CircleInfo} title="О Data Driven" description="Формула индекса, критерии и баллы, правила применимости и шкала зрелости команд." action="Методология" onClick={onAbout} />
+      </section>
     </main>
   );
 }
