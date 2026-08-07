@@ -15,7 +15,7 @@ test('scenario recommendation source preserves the approved rows and exact copy'
     assert.ok(item.direction);
     assert.ok(item.scenario);
     assert.ok(item.info);
-    assert.ok(item.recommendation.startsWith('Рекомендуем ') || item.key === 'presentations');
+    assert.ok(item.recommendation.startsWith('Рекомендуем ') || item.recommendation.startsWith('Предлагаемый инструментарий:') || item.key === 'presentations');
     for (const resource of item.resources || []) {
       assert.ok(resource.label);
       if (resource.href) assert.match(resource.href, /^https:\/\//);
@@ -59,6 +59,21 @@ test('scenario recommendation source preserves the approved rows and exact copy'
     placement: 'inline',
   }]);
 
+  const exportsToExcel = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === 'exports_to_excel');
+  assert.equal(
+    exportsToExcel.recommendation,
+    'Предлагаемый инструментарий: рекомендуем подключить витрины к агентам для автоматизации выгрузок: Агент CX, Агент DB.',
+  );
+  assert.deepEqual(exportsToExcel.resources, [
+    {label: 'Агент CX', href: 'https://navigator.sigma.sbrf.ru/gdash/1000004321', placement: 'inline'},
+    {label: 'Агент DB', href: 'https://confluence.sberbank.ru/login.action?os_destination=%2Fpages%2Fviewpage.action%3FpageId%3D23031908778&permissionViolation=true', placement: 'inline'},
+  ]);
+
+  const financialImpact = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === 'financial_impact_estimation');
+  assert.deepEqual(financialImpact.resources, [
+    {label: 'A/B', href: 'https://ab.sberbank.ru/experiments?source=1', placement: 'inline'},
+  ]);
+
   const unknown = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === 'unknown');
   assert.equal(unknown.recommendation, 'Рекомендуем повысить качество описаний задач для более корректного мапинга задач с нашей стороны');
 
@@ -72,7 +87,14 @@ test('scenario recommendation source preserves the approved rows and exact copy'
   }
   const manualDataQuality = DD_SCENARIO_RECOMMENDATIONS.filter((item) => item.key === 'manual_data_quality_control');
   assert.equal(manualDataQuality.length, 1);
-  assert.doesNotMatch(manualDataQuality[0].sourceTool, /Навигатор/);
+  assert.equal(
+    manualDataQuality[0].recommendation,
+    'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO. Для настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
+  );
+  assert.deepEqual(manualDataQuality[0].resources, [
+    {label: 'Централизованный сервис ККД CDO', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403', placement: 'inline'},
+    {label: 'инструментом Штаба', href: 'https://sbertrack.sberbank.ru/swtr/wiki/unit/QLIKPROS1-585?space=QLIKPROS1&tenant=default&suite=wiki_page', placement: 'inline'},
+  ]);
 
   for (const key of ['excel_reports', 'presentations']) {
     const exEl = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === key);

@@ -45,9 +45,12 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     direction: 'Выгрузка',
     scenario: 'Выгрузки в Excel',
     info: 'Формирование выгрузки по разовому запросу. Данные без глубокой обработки или «как есть» из источника',
-    sourceTool: 'OpenCode',
-    recommendation: 'Рекомендуем переводить повторяющиеся выгрузки в параметризованные скрипты с помощью OpenCode в Datalab AI.',
-    resources: [{label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333'}],
+    sourceTool: 'Агент CX и Агент DB',
+    recommendation: 'Предлагаемый инструментарий: рекомендуем подключить витрины к агентам для автоматизации выгрузок: Агент CX, Агент DB.',
+    resources: [
+      {label: 'Агент CX', href: 'https://navigator.sigma.sbrf.ru/gdash/1000004321', placement: 'inline'},
+      {label: 'Агент DB', href: 'https://confluence.sberbank.ru/login.action?os_destination=%2Fpages%2Fviewpage.action%3FpageId%3D23031908778&permissionViolation=true', placement: 'inline'},
+    ],
   },
   {
     key: 'excel_automatic_reports',
@@ -76,11 +79,11 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     direction: 'Данные и автоматизация',
     scenario: 'Ручной ККД',
     info: 'Ручной контроль качества данных, сверка, исправление ошибок в данных вручную.',
-    sourceTool: 'Централизованный сервис ККД',
-    recommendation: 'Рекомендуем выбрать один повторяющийся контроль и пилотно автоматизировать его через централизованный сервис ККД, отслеживая результат в отчёте B2C.',
+    sourceTool: 'Централизованный сервис ККД CDO и Штаб',
+    recommendation: 'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO. Для настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
     resources: [
-      {label: 'Централизованный сервис ККД', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403'},
-      {label: 'Отчёт ККД B2C', href: 'https://navigator.sigma.sbrf.ru/gdash/1000000237/1000002468'},
+      {label: 'Централизованный сервис ККД CDO', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403', placement: 'inline'},
+      {label: 'инструментом Штаба', href: 'https://sbertrack.sberbank.ru/swtr/wiki/unit/QLIKPROS1-585?space=QLIKPROS1&tenant=default&suite=wiki_page', placement: 'inline'},
     ],
   },
   {
@@ -117,6 +120,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Финансово-экономическое обоснование, прогноз окупаемости, расчет юнит-экономики гипотезы, расчет эффекта от проделанных акций/кампаний.',
     sourceTool: 'АВ тестирование',
     recommendation: 'Рекомендуем подтверждать финансовый эффект через дизайн A/B-теста: заранее фиксировать основную метрику, горизонт наблюдения и правила расчёта эффекта.',
+    resources: [{label: 'A/B', href: 'https://ab.sberbank.ru/experiments?source=1', placement: 'inline'}],
   },
   {
     key: 'unknown',

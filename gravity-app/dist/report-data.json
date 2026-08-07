@@ -115807,113 +115807,6 @@
         },
         {
           "type": "block",
-          "code": "attract",
-          "name": "Воронка привлечения",
-          "tools": [
-            {
-              "name": "Группа навыков «Привлечение»",
-              "traffic_light": "green",
-              "buttons": [
-                {
-                  "name": "Пилотные кампании",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
-                  },
-                  "ai_tool_key": "pilots"
-                },
-                {
-                  "name": "Воронка кампейнинга",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000049944"
-                  },
-                  "ai_tool_key": "funnel"
-                },
-                {
-                  "name": "Воронка оформления в СБОЛ",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768"
-                  },
-                  "ai_tool_key": "clickstream_funnel"
-                },
-                {
-                  "name": "Черновики",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
-                  },
-                  "footer": "Общий светофор",
-                  "ai_tool_key": "drafts"
-                },
-                {
-                  "name": "Поиск по пилотам",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
-                  }
-                }
-              ]
-            }
-          ],
-          "metrics": [
-            {
-              "code": "attract.benchmarks",
-              "name": "Наличие бенчмарков",
-              "footer": "Цели / динамика / рынок",
-              "value": 0.5,
-              "max_value": 0.5,
-              "is_applicabble_flg": true,
-              "traffic_light": "green",
-              "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-              "recommendations": [
-                "Сформировать бенчмарки по продуктовым метрикам"
-              ],
-              "recommendation_group": 5,
-              "recommendation_groups": [
-                5
-              ],
-              "recommendation_difficulty": 5,
-              "recommendation_items": [
-                {
-                  "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0.5,
-                  "max_value": 0.5,
-                  "gap": 0
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "metric_subgroup": "Анализ",
-              "sort": 6.0
-            }
-          ],
-          "actions": [
-            {
-              "label": "Отчет \"Пилотные кампании\"",
-              "url": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
-            },
-            {
-              "label": "Отчет \"Воронки из коммуникации в продажу\"",
-              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000687"
-            }
-          ]
-        },
-        {
-          "type": "block",
           "code": "churn",
           "name": "Воронка оттока",
           "tools": [
@@ -116094,8 +115987,8 @@
               "code": "churn.benchmarks",
               "name": "Наличие бенчмарков",
               "footer": "Цели / динамика / рынок",
-              "value": 0.5,
-              "max_value": 0.5,
+              "value": 1,
+              "max_value": 1,
               "is_applicabble_flg": true,
               "traffic_light": "green",
               "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
@@ -116112,8 +116005,8 @@
                   "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
                   "group": 5,
                   "recommendation_difficulty": 5,
-                  "value": 0.5,
-                  "max_value": 0.5,
+                  "value": 1,
+                  "max_value": 1,
                   "gap": 0
                 }
               ],
@@ -116515,7 +116408,18 @@
           "type": "block",
           "code": "hyp",
           "name": "Гипотезы и инициативы",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Навык «Черновики»",
+              "traffic_light": "green",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+              },
+              "footer": "Общий светофор"
+            }
+          ],
           "metrics": [
             {
               "code": "hyp.discovery_40_backlog",
@@ -116830,8 +116734,8 @@
           "tools": [],
           "metrics": [
             {
-              "code": "voronka_ispolьzovaniya.regulyarnostь",
-              "name": "Регулярность",
+              "code": "voronka_ispolьzovaniya.nastroena_otchetnostь",
+              "name": "Настроена отчетность",
               "footer": "Настроена по воронке",
               "value": 0.5,
               "max_value": 0.5,
@@ -116950,6 +116854,1416 @@
                   "value": 1,
                   "max_value": 1,
                   "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Анализ",
+              "sort": 4.0
+            },
+            {
+              "code": "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami",
+              "name": "Мероприятия по работе с отклонениями",
+              "footer": "План действий по отклонениям",
+              "value": 1,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Сформировать список мероприятий по улучшению метрик воронки",
+              "recommendations": [
+                "Сформировать список мероприятий по улучшению метрик воронки"
+              ],
+              "recommendation_group": 4,
+              "recommendation_groups": [
+                4
+              ],
+              "recommendation_difficulty": 4,
+              "recommendation_items": [
+                {
+                  "recommendation": "Сформировать список мероприятий по улучшению метрик воронки",
+                  "group": 4,
+                  "recommendation_difficulty": 4,
+                  "value": 1,
+                  "max_value": 1,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Анализ",
+              "sort": 5.0
+            }
+          ]
+        }
+      ],
+      "tribe": "Аутентификация клиентов",
+      "ai_skill_mappings": []
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "type": "Канал",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "period": "II кв. 2026",
+      "product_group_uuid": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0",
+      "links": {},
+      "metrics": [
+        {
+          "type": "block",
+          "code": "general",
+          "name": "Знание ключевых метрик",
+          "tools": [
+            {
+              "name": "Навык «Ключевые метрики»",
+              "traffic_light": "green",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052527"
+              },
+              "footer": "Общий светофор",
+              "ai_tool_key": "client_metrics"
+            }
+          ],
+          "metrics": [
+            {
+              "code": "general.obъem_celevogo_rynka_v_rossii",
+              "name": "Объем целевого рынка в России",
+              "footer": "Оценка потенциального объема клиентов в России",
+              "value": 0.2,
+              "max_value": 0.2,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Знание метрик и инструментов",
+              "recommendations": [
+                "Знание метрик и инструментов"
+              ],
+              "recommendation_group": 1,
+              "recommendation_groups": [
+                1
+              ],
+              "recommendation_difficulty": 1,
+              "recommendation_items": [
+                {
+                  "recommendation": "Знание метрик и инструментов",
+                  "group": 1,
+                  "recommendation_difficulty": 1,
+                  "value": 0.2,
+                  "max_value": 0.2,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 1.0
+            },
+            {
+              "code": "general.obъem_celevogo_rynka_v_sbere",
+              "name": "Объем целевого рынка в Сбере",
+              "footer": "Оценка потенциального объема клиентов в Сбере",
+              "value": 0.2,
+              "max_value": 0.2,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Знание метрик и инструментов",
+              "recommendations": [
+                "Знание метрик и инструментов"
+              ],
+              "recommendation_group": 1,
+              "recommendation_groups": [
+                1
+              ],
+              "recommendation_difficulty": 1,
+              "recommendation_items": [
+                {
+                  "recommendation": "Знание метрик и инструментов",
+                  "group": 1,
+                  "recommendation_difficulty": 1,
+                  "value": 0.2,
+                  "max_value": 0.2,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 2.0
+            },
+            {
+              "code": "general.mau_u_vashego_kanala",
+              "name": "MAU у вашего канала",
+              "footer": "Активная месячная аудитория",
+              "value": 0.2,
+              "max_value": 0.2,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Знание метрик и инструментов",
+              "recommendations": [
+                "Знание метрик и инструментов"
+              ],
+              "recommendation_group": 1,
+              "recommendation_groups": [
+                1
+              ],
+              "recommendation_difficulty": 1,
+              "recommendation_items": [
+                {
+                  "recommendation": "Знание метрик и инструментов",
+                  "group": 1,
+                  "recommendation_difficulty": 1,
+                  "value": 0.2,
+                  "max_value": 0.2,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 4.0
+            },
+            {
+              "code": "general.dau_kanala",
+              "name": "DAU канала",
+              "footer": "Активная дневная аудитория",
+              "value": 0.2,
+              "max_value": 0.2,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Знание метрик и инструментов",
+              "recommendations": [
+                "Знание метрик и инструментов"
+              ],
+              "recommendation_group": 1,
+              "recommendation_groups": [
+                1
+              ],
+              "recommendation_difficulty": 1,
+              "recommendation_items": [
+                {
+                  "recommendation": "Знание метрик и инструментов",
+                  "group": 1,
+                  "recommendation_difficulty": 1,
+                  "value": 0.2,
+                  "max_value": 0.2,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 5.0
+            },
+            {
+              "code": "general.dau_mau",
+              "name": "DAU/MAU",
+              "footer": "Липкость по каналу/поверхности",
+              "value": 0.2,
+              "max_value": 0.2,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Знание метрик и инструментов",
+              "recommendations": [
+                "Знание метрик и инструментов"
+              ],
+              "recommendation_group": 1,
+              "recommendation_groups": [
+                1
+              ],
+              "recommendation_difficulty": 1,
+              "recommendation_items": [
+                {
+                  "recommendation": "Знание метрик и инструментов",
+                  "group": 1,
+                  "recommendation_difficulty": 1,
+                  "value": 0.2,
+                  "max_value": 0.2,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 6.0
+            },
+            {
+              "code": "general.navigator_reporting_knowledge",
+              "name": "Знание об отчетности в Навигаторе",
+              "footer": "Понимание доступной отчетности и регулярного мониторинга",
+              "value": 0.25,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "yellow",
+              "recommendation": "Знание метрик и инструментов",
+              "recommendations": [
+                "Знание метрик и инструментов"
+              ],
+              "recommendation_group": 1,
+              "recommendation_groups": [
+                1
+              ],
+              "recommendation_difficulty": 1,
+              "recommendation_items": [
+                {
+                  "recommendation": "Знание метрик и инструментов",
+                  "group": 1,
+                  "recommendation_difficulty": 1,
+                  "value": 0.25,
+                  "max_value": 0.5,
+                  "gap": 0.25
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 13.0
+            }
+          ],
+          "actions": [
+            {
+              "label": "Воронки активности продуктов",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/12215/1000034254"
+            },
+            {
+              "label": "Продукты-спутники",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/12215/1000030917"
+            }
+          ]
+        },
+        {
+          "type": "block",
+          "code": "goals",
+          "name": "Цели",
+          "tools": [
+            {
+              "name": "Навык «Цели»",
+              "traffic_light": "gray",
+              "button": {
+                "type": "general",
+                "label": "TBD",
+                "link": ""
+              },
+              "footer_dynamic": "",
+              "footer": ""
+            }
+          ],
+          "metrics": [
+            {
+              "code": "goals.monitored",
+              "name": "Цели выведены на мониторинг",
+              "footer": "Регулярное обновление в Навигаторе",
+              "value": 1,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Обогащение целей в Навигаторе",
+              "recommendations": [
+                "Обогащение целей в Навигаторе"
+              ],
+              "recommendation_group": 2,
+              "recommendation_groups": [
+                2
+              ],
+              "recommendation_difficulty": 2,
+              "recommendation_items": [
+                {
+                  "recommendation": "Обогащение целей в Навигаторе",
+                  "group": 2,
+                  "recommendation_difficulty": 2,
+                  "value": 1,
+                  "max_value": 1,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 1.0
+            },
+            {
+              "code": "goals.factor_analysis_l1_l2",
+              "name": "Факторный анализ - драйверы 1-2 ур.",
+              "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
+              "value": 0,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
+              "recommendations": [
+                "Декомпозировать значения целей на драйверы, вывести в Навигатор"
+              ],
+              "recommendation_group": 7,
+              "recommendation_groups": [
+                7
+              ],
+              "recommendation_difficulty": 7,
+              "recommendation_items": [
+                {
+                  "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
+                  "group": 7,
+                  "recommendation_difficulty": 7,
+                  "value": 0,
+                  "max_value": 1,
+                  "gap": 1
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 2.0
+            },
+            {
+              "code": "goals.forecast",
+              "name": "Прогноз по целям",
+              "footer": "Прогноз выведен в Навигатор",
+              "value": 0,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
+              "recommendations": [
+                "Сформировать прогнозные значения, вывести в Навигатор"
+              ],
+              "recommendation_group": 8,
+              "recommendation_groups": [
+                8
+              ],
+              "recommendation_difficulty": 8,
+              "recommendation_items": [
+                {
+                  "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
+                  "group": 8,
+                  "recommendation_difficulty": 8,
+                  "value": 0,
+                  "max_value": 1,
+                  "gap": 1
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 3.0
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Цели в мастер-деше\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000003149",
+              "notice": "Для обогащения мастер-деша обратитесь в штаб Юнита"
+            }
+          ],
+          "digital_goals_value": 0,
+          "digital_goals_max": 0
+        },
+        {
+          "type": "block",
+          "code": "churn",
+          "name": "Воронка оттока",
+          "tools": [
+            {
+              "name": "Навык «Анализ оттока»",
+              "traffic_light": "gray",
+              "button": {
+                "type": "general",
+                "label": "TBD",
+                "link": ""
+              },
+              "footer": "Общий светофор",
+              "variant": "gray"
+            }
+          ],
+          "metrics": [
+            {
+              "code": "churn.nastroena_otchetnostь",
+              "name": "Настроена отчетность",
+              "footer": "по воронке оттока",
+              "value": 0.5,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Настроить мониторинг по воронке оттока",
+              "recommendations": [
+                "Настроить мониторинг по воронке оттока"
+              ],
+              "recommendation_group": 2,
+              "recommendation_groups": [
+                2
+              ],
+              "recommendation_difficulty": 2,
+              "recommendation_items": [
+                {
+                  "recommendation": "Настроить мониторинг по воронке оттока",
+                  "group": 2,
+                  "recommendation_difficulty": 2,
+                  "value": 0.5,
+                  "max_value": 0.5,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Отчетность",
+              "sort": 1.0
+            },
+            {
+              "code": "churn.report_completeness",
+              "name": "Полнота отчета",
+              "footer": "Retention, CR, удержание",
+              "value": 0.25,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "yellow",
+              "recommendation": "Обогатить метриками мониторинг по воронке оттока",
+              "recommendations": [
+                "Обогатить метриками мониторинг по воронке оттока"
+              ],
+              "recommendation_group": 3,
+              "recommendation_groups": [
+                3
+              ],
+              "recommendation_difficulty": 3,
+              "recommendation_items": [
+                {
+                  "recommendation": "Обогатить метриками мониторинг по воронке оттока",
+                  "group": 3,
+                  "recommendation_difficulty": 3,
+                  "value": 0.25,
+                  "max_value": 0.5,
+                  "gap": 0.25
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Отчетность",
+              "sort": 2.0
+            },
+            {
+              "code": "churn.regulyarnostь",
+              "name": "Регулярность",
+              "footer": "Автоматически (daily / weekly) или по запросу",
+              "value": 1,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Автоматизировать расчет воронки оттока",
+              "recommendations": [
+                "Автоматизировать расчет воронки оттока"
+              ],
+              "recommendation_group": 4,
+              "recommendation_groups": [
+                4
+              ],
+              "recommendation_difficulty": 4,
+              "recommendation_items": [
+                {
+                  "recommendation": "Автоматизировать расчет воронки оттока",
+                  "group": 4,
+                  "recommendation_difficulty": 4,
+                  "value": 1,
+                  "max_value": 1,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": true,
+              "dd_calculation_flg": 0,
+              "metric_subgroup": "Отчетность",
+              "sort": 3.0
+            },
+            {
+              "code": "churn.funnel_analysis",
+              "name": "Проведение комплексного анализа воронки оттока",
+              "footer": "Оценка причин и узких мест",
+              "value": 0,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "traffic_light": "gray",
+              "recommendation": "Провести анализ оттока, выявить точки роста",
+              "recommendations": [
+                "Провести анализ оттока, выявить точки роста"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Провести анализ оттока, выявить точки роста",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Анализ",
+              "sort": 4.0
+            },
+            {
+              "code": "churn.deviation_actions",
+              "name": "Мероприятия по работе с отклонениями",
+              "footer": "План действий по отклонениям",
+              "value": 0,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "traffic_light": "gray",
+              "recommendation": "Сформировать список мероприятий по снижению оттока",
+              "recommendations": [
+                "Сформировать список мероприятий по снижению оттока"
+              ],
+              "recommendation_group": 4,
+              "recommendation_groups": [
+                4
+              ],
+              "recommendation_difficulty": 4,
+              "recommendation_items": [
+                {
+                  "recommendation": "Сформировать список мероприятий по снижению оттока",
+                  "group": 4,
+                  "recommendation_difficulty": 4,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Анализ",
+              "sort": 5.0
+            },
+            {
+              "code": "churn.benchmarks",
+              "name": "Наличие бенчмарков",
+              "footer": "Цели / динамика / рынок",
+              "value": 0,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
+              "recommendations": [
+                "Сформировать бенчмарки по продуктовым метрикам"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 1,
+                  "gap": 1
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Анализ",
+              "sort": 6.0
+            }
+          ]
+        },
+        {
+          "type": "block",
+          "code": "alerts",
+          "name": "Алерты",
+          "tools": [
+            {
+              "name": "Инструкция",
+              "traffic_light": "yellow",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://sbervideo.sberbank.ru/meetups/pJ8GgU3POkQ4iouPGdY?t=1365"
+              },
+              "footer": "по настройке алертов по отчету",
+              "variant": "blue",
+              "kind": "instruction",
+              "show_dots": false
+            }
+          ],
+          "metrics": [
+            {
+              "code": "alerts.business_metrics",
+              "name": "Оповещения по бизнес-метрикам",
+              "footer": "Светофоры целей, драйверов, воронок",
+              "value": 0,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Внедрить систему оповещений",
+              "recommendations": [
+                "Внедрить систему оповещений"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Внедрить систему оповещений",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 1,
+                  "gap": 1
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 1.0
+            },
+            {
+              "code": "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui",
+              "name": "Оповещения по проблемам, связанным с UX/UI",
+              "footer": "Авто-алерты по UХ/UI проблемам",
+              "value": 0.5,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "yellow",
+              "recommendation": "Внедрить систему оповещений",
+              "recommendations": [
+                "Внедрить систему оповещений"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Внедрить систему оповещений",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0.5,
+                  "max_value": 1,
+                  "gap": 0.5
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 1.0
+            },
+            {
+              "code": "alerts.system_failures",
+              "name": "Оповещения по системным сбоям",
+              "footer": "Авто-алерты по IT-инфраструктуре",
+              "value": 1,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Внедрить систему оповещений",
+              "recommendations": [
+                "Внедрить систему оповещений"
+              ],
+              "recommendation_group": 3,
+              "recommendation_groups": [
+                3
+              ],
+              "recommendation_difficulty": 3,
+              "recommendation_items": [
+                {
+                  "recommendation": "Внедрить систему оповещений",
+                  "group": 3,
+                  "recommendation_difficulty": 3,
+                  "value": 1,
+                  "max_value": 1,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 2.0
+            }
+          ]
+        },
+        {
+          "type": "block",
+          "code": "mehaniki",
+          "name": "Механики",
+          "tools": [],
+          "metrics": [
+            {
+              "code": "mehaniki.vozvrat_klientov",
+              "name": "Возврат клиентов",
+              "footer": "Реактивация оттекающих клиентов",
+              "value": 0,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "traffic_light": "gray",
+              "recommendation": "Проработать механики реактивации клиентов",
+              "recommendations": [
+                "Проработать механики реактивации клиентов"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Проработать механики реактивации клиентов",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                },
+                {
+                  "recommendation": "Проработать механики реактивации клиентов",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 4.0
+            },
+            {
+              "code": "mehaniki.uderzhanie_klientov",
+              "name": "Удержание клиентов",
+              "footer": "Коммуникация + ценность",
+              "value": 0.5,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Проработать механики удержания клиентов",
+              "recommendations": [
+                "Проработать механики удержания клиентов"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Проработать механики удержания клиентов",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                },
+                {
+                  "recommendation": "Проработать механики удержания клиентов",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0.5,
+                  "max_value": 0.5,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 6.0
+            },
+            {
+              "code": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+              "name": "Гибкое изменение условий продукта",
+              "footer": "Возможность изменить набор опций по продукту без IT-разработки",
+              "value": 0.5,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "yellow",
+              "recommendation": "Выстроить процесс гибкого изменения условий без IT",
+              "recommendations": [
+                "Выстроить процесс гибкого изменения условий без IT"
+              ],
+              "recommendation_group": 10,
+              "recommendation_groups": [
+                10
+              ],
+              "recommendation_difficulty": 10,
+              "recommendation_items": [
+                {
+                  "recommendation": "Выстроить процесс гибкого изменения условий без IT",
+                  "group": 10,
+                  "recommendation_difficulty": 10,
+                  "value": 0.5,
+                  "max_value": 1,
+                  "gap": 0.5
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 7.0
+            },
+            {
+              "code": "mehaniki.personalizaciya_interfeysa_kontenta",
+              "name": "Персонализация интерфейса/контента",
+              "footer": "Механики, влияющие на клиентский опыт",
+              "value": 0,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Развитие механик",
+              "recommendations": [
+                "Развитие механик"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Развитие механик",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0.5,
+                  "gap": 0.5
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 12.0
+            },
+            {
+              "code": "mehaniki.stimulirovanie_klienta",
+              "name": "Стимулирование клиента",
+              "footer": "Механики, влияющие на клиентский опыт",
+              "value": 0,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Развитие механик",
+              "recommendations": [
+                "Развитие механик"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Развитие механик",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0.5,
+                  "gap": 0.5
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 13.0
+            },
+            {
+              "code": "mehaniki.obuchayuschie_mehaniki",
+              "name": "Обучающие механики",
+              "footer": "Механики, влияющие на клиентский опыт",
+              "value": 0,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Развитие механик",
+              "recommendations": [
+                "Развитие механик"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Развитие механик",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0.5,
+                  "gap": 0.5
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 14.0
+            },
+            {
+              "code": "mehaniki.monitoring_mehanik",
+              "name": "Мониторинг механик",
+              "footer": "Настроен по ключевым механикам работы с клиентской базой",
+              "value": 0.25,
+              "max_value": 0.25,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Настроить мониторинг по ключевым механикам",
+              "recommendations": [
+                "Настроить мониторинг по ключевым механикам"
+              ],
+              "recommendation_group": 2,
+              "recommendation_groups": [
+                2
+              ],
+              "recommendation_difficulty": 2,
+              "recommendation_items": [
+                {
+                  "recommendation": "Настроить мониторинг по ключевым механикам",
+                  "group": 2,
+                  "recommendation_difficulty": 2,
+                  "value": 0.25,
+                  "max_value": 0.25,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 22.0
+            }
+          ]
+        },
+        {
+          "type": "block",
+          "code": "hyp",
+          "name": "Гипотезы и инициативы",
+          "tools": [
+            {
+              "name": "Навык «Черновики»",
+              "traffic_light": "red",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+              },
+              "footer": "Общий светофор"
+            }
+          ],
+          "metrics": [
+            {
+              "code": "hyp.discovery_40_backlog",
+              "name": "Discovery >=40% бэклога",
+              "footer": "Доля исследовательских задач DA",
+              "value": 0,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Сфокусировать бэклог аналитиков на research-задачи",
+              "recommendations": [
+                "Сфокусировать бэклог аналитиков на research-задачи"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Сфокусировать бэклог аналитиков на research-задачи",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 1,
+                  "gap": 1
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 1.0
+            },
+            {
+              "code": "hyp.datadriven_rating_7_5",
+              "name": "Оценка исследований >=7,5",
+              "footer": "Средняя оценка проведенных исследований",
+              "value": 0,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Повысить качество проведенных исследований",
+              "recommendations": [
+                "Повысить качество проведенных исследований"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Повысить качество проведенных исследований",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 1,
+                  "gap": 1
+                }
+              ],
+              "button": {
+                "type": "metric",
+                "label": "Открыть библиотеку решений",
+                "link": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=15315863819"
+              },
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 2.0
+            },
+            {
+              "code": "hyp.ab_tests",
+              "name": "A/B-тесты",
+              "footer": "Проведение A/B тестов",
+              "value": 0,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "traffic_light": "gray",
+              "recommendation": "Запустить A/B-тестирование",
+              "recommendations": [
+                "Запустить A/B-тестирование"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Запустить A/B-тестирование",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 3.0
+            },
+            {
+              "code": "hyp.extra_initiatives",
+              "name": "Доп. инициативы сверх БП",
+              "footer": "Наличие доходных/расходных инициатив сверх БП",
+              "value": 0,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "traffic_light": "gray",
+              "recommendation": "Сформировать перечень инициатив",
+              "recommendations": [
+                "Сформировать перечень инициатив"
+              ],
+              "recommendation_group": 3,
+              "recommendation_groups": [
+                3
+              ],
+              "recommendation_difficulty": 3,
+              "recommendation_items": [
+                {
+                  "recommendation": "Сформировать перечень инициатив",
+                  "group": 3,
+                  "recommendation_difficulty": 3,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 4.0
+            }
+          ],
+          "actions": [
+            {
+              "label": "Отчет \"Черновики\"",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000003969"
+            }
+          ]
+        },
+        {
+          "type": "block",
+          "code": "cx",
+          "name": "Клиентский опыт",
+          "tools": [
+            {
+              "name": "Группа навыков «Анализ Score»",
+              "traffic_light": "gray",
+              "buttons": [
+                {
+                  "name": "Жалобы и обращения",
+                  "traffic_light": "gray",
+                  "button": {
+                    "type": "general",
+                    "label": "Перейти",
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050769"
+                  },
+                  "ai_tool_key": "complaints"
+                },
+                {
+                  "name": "CSI",
+                  "traffic_light": "gray",
+                  "button": {
+                    "type": "general",
+                    "label": "Перейти",
+                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053756"
+                  },
+                  "ai_tool_key": "csi"
+                }
+              ]
+            }
+          ],
+          "metrics": [
+            {
+              "code": "cx.score",
+              "name": "CX Score",
+              "footer": "Зеленая зона клиентского пути",
+              "value": 0,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "traffic_light": "gray",
+              "recommendation": "Достигнуть целевого CX Score",
+              "recommendations": [
+                "Достигнуть целевого CX Score"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Достигнуть целевого CX Score",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0,
+                  "max_value": 0,
+                  "gap": 0
+                }
+              ],
+              "button": {
+                "type": "metric",
+                "label": "Открыть CX Score",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000001746"
+              },
+              "buttons": [
+                {
+                  "type": "metric",
+                  "label": "UX Score",
+                  "link": "https://uxscore.sigma.sbrf.ru/"
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 1.0
+            }
+          ],
+          "info": {
+            "type": "losshunter",
+            "variant": "cta",
+            "title": "Аналитика клиентского пути",
+            "button": {
+              "type": "metric",
+              "label": "Перейти",
+              "link": "https://losshunter.ru"
+            },
+            "links": [
+              {
+                "label": "CJXplorer",
+                "link": "https://cjxplorer.com/",
+                "sub": "Целевая платформа CX"
+              },
+              {
+                "label": "LossHunter",
+                "link": "https://losshunter.ru"
+              }
+            ]
+          }
+        },
+        {
+          "type": "block",
+          "code": "dannye",
+          "name": "Данные",
+          "tools": [],
+          "metrics": [
+            {
+              "code": "dannye.promyshlenye_dannye",
+              "name": "Промышленые данные",
+              "footer": "Промышленные/лабораторные данные",
+              "value": 0.25,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "yellow",
+              "recommendation": "Выстроить промышленный тракт данных",
+              "recommendations": [
+                "Выстроить промышленный тракт данных"
+              ],
+              "recommendation_group": 8,
+              "recommendation_groups": [
+                8
+              ],
+              "recommendation_difficulty": 8,
+              "recommendation_items": [
+                {
+                  "recommendation": "Выстроить промышленный тракт данных",
+                  "group": 8,
+                  "recommendation_difficulty": 8,
+                  "value": 0.25,
+                  "max_value": 0.5,
+                  "gap": 0.25
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 1.0
+            },
+            {
+              "code": "dannye.kontrolь_kachestva_dannyh_kkd",
+              "name": "Контроль качества данных (ККД)",
+              "footer": "Качество данных",
+              "value": 0.25,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "yellow",
+              "recommendation": "Настроить автоматизированный контроль качества ключевых данных",
+              "recommendations": [
+                "Настроить автоматизированный контроль качества ключевых данных"
+              ],
+              "recommendation_group": 6,
+              "recommendation_groups": [
+                6
+              ],
+              "recommendation_difficulty": 6,
+              "recommendation_items": [
+                {
+                  "recommendation": "Настроить автоматизированный контроль качества ключевых данных",
+                  "group": 6,
+                  "recommendation_difficulty": 6,
+                  "value": 0.25,
+                  "max_value": 0.5,
+                  "gap": 0.25
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "sort": 2.0
+            }
+          ]
+        },
+        {
+          "type": "block",
+          "code": "voronka_ispolьzovaniya",
+          "name": "Воронка использования",
+          "tools": [],
+          "metrics": [
+            {
+              "code": "voronka_ispolьzovaniya.nastroena_otchetnostь",
+              "name": "Настроена отчетность",
+              "footer": "Настроена по воронке",
+              "value": 0.5,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Настроить мониторинг по воронке",
+              "recommendations": [
+                "Настроить мониторинг по воронке"
+              ],
+              "recommendation_group": 2,
+              "recommendation_groups": [
+                2
+              ],
+              "recommendation_difficulty": 2,
+              "recommendation_items": [
+                {
+                  "recommendation": "Настроить мониторинг по воронке",
+                  "group": 2,
+                  "recommendation_difficulty": 2,
+                  "value": 0.5,
+                  "max_value": 0.5,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Отчетность",
+              "sort": 1.0
+            },
+            {
+              "code": "voronka_ispolьzovaniya.polnota_otcheta",
+              "name": "Полнота отчета",
+              "footer": "Источники, CR, объемы, сегменты",
+              "value": 0,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "traffic_light": "red",
+              "recommendation": "Донасытить метриками мониторинг по воронке",
+              "recommendations": [
+                "Донасытить метриками мониторинг по воронке"
+              ],
+              "recommendation_group": 3,
+              "recommendation_groups": [
+                3
+              ],
+              "recommendation_difficulty": 3,
+              "recommendation_items": [
+                {
+                  "recommendation": "Донасытить метриками мониторинг по воронке",
+                  "group": 3,
+                  "recommendation_difficulty": 3,
+                  "value": 0,
+                  "max_value": 0.5,
+                  "gap": 0.5
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Отчетность",
+              "sort": 2.0
+            },
+            {
+              "code": "voronka_ispolьzovaniya.regulyarnostь",
+              "name": "Регулярность",
+              "footer": "Daily / weekly",
+              "value": 1,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "green",
+              "recommendation": "Автоматизировать расчет воронке",
+              "recommendations": [
+                "Автоматизировать расчет воронке"
+              ],
+              "recommendation_group": 4,
+              "recommendation_groups": [
+                4
+              ],
+              "recommendation_difficulty": 4,
+              "recommendation_items": [
+                {
+                  "recommendation": "Автоматизировать расчет воронке",
+                  "group": 4,
+                  "recommendation_difficulty": 4,
+                  "value": 1,
+                  "max_value": 1,
+                  "gap": 0
+                }
+              ],
+              "excluded_from_index": false,
+              "dd_calculation_flg": 1,
+              "metric_subgroup": "Отчетность",
+              "sort": 3.0
+            },
+            {
+              "code": "voronka_ispolьzovaniya.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya",
+              "name": "Проведение комплексного анализа воронки использования",
+              "footer": "Оценка причин и узких мест",
+              "value": 0.5,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "traffic_light": "yellow",
+              "recommendation": "Провести анализ воронки, выявить точки роста",
+              "recommendations": [
+                "Провести анализ воронки, выявить точки роста"
+              ],
+              "recommendation_group": 5,
+              "recommendation_groups": [
+                5
+              ],
+              "recommendation_difficulty": 5,
+              "recommendation_items": [
+                {
+                  "recommendation": "Провести анализ воронки, выявить точки роста",
+                  "group": 5,
+                  "recommendation_difficulty": 5,
+                  "value": 0.5,
+                  "max_value": 1,
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -117708,6 +119022,15 @@
         "score": 70,
         "group": "Зрелые",
         "type": "продукт"
+      },
+      {
+        "id": "upload-title-80",
+        "order": 79,
+        "unit": "Data",
+        "name": "Единый личный кабинет (ЕЛК)",
+        "score": 47,
+        "group": "Развивающиеся",
+        "type": "Канал"
       }
     ],
     "units": [

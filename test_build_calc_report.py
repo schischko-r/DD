@@ -622,7 +622,13 @@ class SyntheticReportTest(unittest.TestCase):
                     "value": 1.0,
                     "max_value": 1.0,
                 }
-                for product in ("ЧАТ", "Колл-центр", "Телемаркетинг")
+                for product in (
+                    "ЧАТ",
+                    "Колл-центр",
+                    "Телемаркетинг",
+                    "Единый личный кабинет (ЕЛК)",
+                    "SberID",
+                )
             ]
         )
 
@@ -632,6 +638,8 @@ class SyntheticReportTest(unittest.TestCase):
             "ЧАТ": "Воронка входа в канал",
             "Колл-центр": "Воронка входа в канал",
             "Телемаркетинг": "Воронка продаж",
+            "Единый личный кабинет (ЕЛК)": "Воронка оттока",
+            "SberID": "Воронка оттока",
         }
         for product, target_group in expected.items():
             actual = result[result["_product_key"].eq(product)]

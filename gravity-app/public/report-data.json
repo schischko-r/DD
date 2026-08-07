@@ -255,10 +255,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -273,9 +273,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -317,10 +317,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -335,9 +335,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -1817,10 +1817,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -1835,9 +1835,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -1879,10 +1879,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -1897,9 +1897,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -3437,10 +3437,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -3455,9 +3455,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -6548,10 +6548,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -6566,9 +6566,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -6610,10 +6610,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -6628,9 +6628,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -8092,10 +8092,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -8110,9 +8110,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -8154,10 +8154,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -8172,9 +8172,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -9645,10 +9645,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -9663,9 +9663,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -9676,10 +9676,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -9694,9 +9694,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -11199,10 +11199,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -11217,9 +11217,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -11230,10 +11230,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -11248,9 +11248,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -12770,10 +12770,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -12788,9 +12788,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -12832,10 +12832,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -12850,9 +12850,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -15882,10 +15882,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -15900,9 +15900,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -15944,10 +15944,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -15962,9 +15962,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -17489,10 +17489,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -17507,9 +17507,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -17551,10 +17551,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -17569,9 +17569,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -19006,10 +19006,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -19024,9 +19024,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -19068,10 +19068,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -19086,9 +19086,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -20513,10 +20513,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -20531,9 +20531,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -20544,10 +20544,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -20562,9 +20562,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -20575,10 +20575,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -20593,9 +20593,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -22066,10 +22066,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -22084,9 +22084,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -22097,10 +22097,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -22115,9 +22115,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -22128,10 +22128,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -22146,9 +22146,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -23572,10 +23572,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -23590,9 +23590,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -23603,10 +23603,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -23621,9 +23621,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -23634,10 +23634,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -23652,9 +23652,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -25098,10 +25098,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -25116,9 +25116,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -25129,10 +25129,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -25147,9 +25147,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -25160,10 +25160,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -25178,9 +25178,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -26660,10 +26660,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -26678,9 +26678,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -26722,10 +26722,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -26740,9 +26740,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -28240,10 +28240,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -28258,9 +28258,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -28302,10 +28302,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -28320,9 +28320,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -29747,10 +29747,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -29765,9 +29765,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -29809,10 +29809,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -29827,9 +29827,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -31309,10 +31309,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -31327,9 +31327,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -31371,10 +31371,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -31389,9 +31389,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -32854,10 +32854,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -32872,9 +32872,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -32885,10 +32885,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -32903,9 +32903,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -35978,10 +35978,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -35996,9 +35996,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -36040,10 +36040,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -36058,9 +36058,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -37474,10 +37474,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -37492,9 +37492,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -37536,10 +37536,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -37554,9 +37554,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -38981,10 +38981,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -38999,9 +38999,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -40570,10 +40570,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -40588,9 +40588,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -40601,10 +40601,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -40619,9 +40619,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -40632,10 +40632,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -40650,9 +40650,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -42077,10 +42077,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -42095,9 +42095,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -42108,10 +42108,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -42126,9 +42126,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -42139,10 +42139,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -42157,9 +42157,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -43583,10 +43583,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -43601,9 +43601,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -43614,10 +43614,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -43632,9 +43632,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -43645,10 +43645,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -43663,9 +43663,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -45089,10 +45089,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -45107,9 +45107,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -45120,10 +45120,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -45138,9 +45138,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -45151,10 +45151,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -45169,9 +45169,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -46595,10 +46595,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -46613,9 +46613,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -46626,10 +46626,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -46644,9 +46644,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -46657,10 +46657,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -46675,9 +46675,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -48139,10 +48139,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -48157,9 +48157,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -48201,10 +48201,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -48219,9 +48219,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -49646,10 +49646,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -49664,9 +49664,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -52714,10 +52714,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -52732,9 +52732,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -55725,10 +55725,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -55743,9 +55743,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -55756,10 +55756,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -55774,9 +55774,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -57172,10 +57172,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -57190,9 +57190,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -60186,10 +60186,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -60204,9 +60204,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -60217,10 +60217,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -60235,9 +60235,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -60248,10 +60248,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -60266,9 +60266,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -63327,10 +63327,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -63345,9 +63345,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -64827,10 +64827,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -64845,9 +64845,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -64889,10 +64889,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -64907,9 +64907,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -66309,10 +66309,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -66327,9 +66327,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -66340,10 +66340,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -66358,9 +66358,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -67816,10 +67816,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -67834,9 +67834,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -67878,10 +67878,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -67896,9 +67896,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -69365,10 +69365,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -69383,9 +69383,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -70991,10 +70991,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -71009,9 +71009,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -74024,10 +74024,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -74042,9 +74042,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -74055,10 +74055,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -74073,9 +74073,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -74086,10 +74086,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -74104,9 +74104,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -75604,10 +75604,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -75622,9 +75622,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -75666,10 +75666,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -75684,9 +75684,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -78667,10 +78667,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -78685,9 +78685,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -80174,10 +80174,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -80192,9 +80192,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -80236,10 +80236,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -80254,9 +80254,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -81727,10 +81727,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -81745,9 +81745,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -81758,10 +81758,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -81776,9 +81776,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -81789,10 +81789,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -81807,9 +81807,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -83234,10 +83234,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -83252,9 +83252,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -84741,10 +84741,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -84759,9 +84759,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -84772,10 +84772,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -84790,9 +84790,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -84803,10 +84803,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -84821,9 +84821,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -86285,10 +86285,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -86303,9 +86303,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -86347,10 +86347,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -86365,9 +86365,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -87838,10 +87838,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -87856,9 +87856,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -87900,10 +87900,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -87918,9 +87918,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -89409,10 +89409,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -89427,9 +89427,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -90884,10 +90884,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -90902,9 +90902,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -90915,10 +90915,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -90933,9 +90933,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -90946,10 +90946,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -90964,9 +90964,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -92383,10 +92383,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -92401,9 +92401,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -92445,10 +92445,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -92463,9 +92463,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -93918,10 +93918,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -93936,9 +93936,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -93949,10 +93949,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -93967,9 +93967,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -93980,10 +93980,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -93998,9 +93998,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -95435,10 +95435,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -95453,9 +95453,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -95466,10 +95466,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -95484,9 +95484,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -95497,10 +95497,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -95515,9 +95515,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -97006,10 +97006,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -97024,9 +97024,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -97037,10 +97037,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -97055,9 +97055,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -98463,10 +98463,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -98481,9 +98481,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -98494,10 +98494,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -98512,9 +98512,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -99435,10 +99435,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -99453,9 +99453,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -99466,10 +99466,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -99484,9 +99484,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -99497,10 +99497,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -99515,9 +99515,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -100455,10 +100455,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -100473,9 +100473,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -100486,10 +100486,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -100504,9 +100504,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -100517,10 +100517,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -100535,9 +100535,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -101535,10 +101535,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -101553,9 +101553,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -101566,10 +101566,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -101584,9 +101584,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -102622,10 +102622,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -102640,9 +102640,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -102653,10 +102653,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -102671,9 +102671,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -103775,10 +103775,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -103793,9 +103793,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -105275,10 +105275,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -105293,9 +105293,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -105306,10 +105306,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -105324,9 +105324,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -106331,10 +106331,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -106349,9 +106349,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -106362,10 +106362,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -106380,9 +106380,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -106393,10 +106393,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -106411,9 +106411,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -107605,10 +107605,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -107623,9 +107623,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -110822,10 +110822,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -110840,9 +110840,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -110853,10 +110853,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -110871,9 +110871,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -110884,10 +110884,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -110902,9 +110902,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -112407,10 +112407,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -112425,9 +112425,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -112438,10 +112438,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -112456,9 +112456,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -113428,10 +113428,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -113446,9 +113446,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -113459,10 +113459,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -113477,9 +113477,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -113490,10 +113490,10 @@
               "code": "goals.forecast",
               "name": "Прогноз по целям",
               "footer": "Прогноз выведен в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
               "recommendations": [
                 "Сформировать прогнозные значения, вывести в Навигатор"
@@ -113508,9 +113508,9 @@
                   "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
                   "group": 8,
                   "recommendation_difficulty": 8,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -114509,10 +114509,10 @@
               "code": "goals.monitored",
               "name": "Цели выведены на мониторинг",
               "footer": "Регулярное обновление в Навигаторе",
-              "value": 0,
+              "value": 1,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "green",
               "recommendation": "Обогащение целей в Навигаторе",
               "recommendations": [
                 "Обогащение целей в Навигаторе"
@@ -114527,9 +114527,9 @@
                   "recommendation": "Обогащение целей в Навигаторе",
                   "group": 2,
                   "recommendation_difficulty": 2,
-                  "value": 0,
+                  "value": 1,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0
                 }
               ],
               "excluded_from_index": false,
@@ -114540,10 +114540,10 @@
               "code": "goals.factor_analysis_l1_l2",
               "name": "Факторный анализ - драйверы 1-2 ур.",
               "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
-              "value": 0,
+              "value": 0.5,
               "max_value": 1,
               "is_applicabble_flg": true,
-              "traffic_light": "red",
+              "traffic_light": "yellow",
               "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
               "recommendations": [
                 "Декомпозировать значения целей на драйверы, вывести в Навигатор"
@@ -114558,9 +114558,9 @@
                   "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
                   "group": 7,
                   "recommendation_difficulty": 7,
-                  "value": 0,
+                  "value": 0.5,
                   "max_value": 1,
-                  "gap": 1
+                  "gap": 0.5
                 }
               ],
               "excluded_from_index": false,
@@ -115807,113 +115807,6 @@
         },
         {
           "type": "block",
-          "code": "attract",
-          "name": "Воронка привлечения",
-          "tools": [
-            {
-              "name": "Группа навыков «Привлечение»",
-              "traffic_light": "green",
-              "buttons": [
-                {
-                  "name": "Пилотные кампании",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
-                  },
-                  "ai_tool_key": "pilots"
-                },
-                {
-                  "name": "Воронка кампейнинга",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000049944"
-                  },
-                  "ai_tool_key": "funnel"
-                },
-                {
-                  "name": "Воронка оформления в СБОЛ",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768"
-                  },
-                  "ai_tool_key": "clickstream_funnel"
-                },
-                {
-                  "name": "Черновики",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
-                  },
-                  "footer": "Общий светофор",
-                  "ai_tool_key": "drafts"
-                },
-                {
-                  "name": "Поиск по пилотам",
-                  "traffic_light": "green",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
-                  }
-                }
-              ]
-            }
-          ],
-          "metrics": [
-            {
-              "code": "attract.benchmarks",
-              "name": "Наличие бенчмарков",
-              "footer": "Цели / динамика / рынок",
-              "value": 0.5,
-              "max_value": 0.5,
-              "is_applicabble_flg": true,
-              "traffic_light": "green",
-              "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-              "recommendations": [
-                "Сформировать бенчмарки по продуктовым метрикам"
-              ],
-              "recommendation_group": 5,
-              "recommendation_groups": [
-                5
-              ],
-              "recommendation_difficulty": 5,
-              "recommendation_items": [
-                {
-                  "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0.5,
-                  "max_value": 0.5,
-                  "gap": 0
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "metric_subgroup": "Анализ",
-              "sort": 6.0
-            }
-          ],
-          "actions": [
-            {
-              "label": "Отчет \"Пилотные кампании\"",
-              "url": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
-            },
-            {
-              "label": "Отчет \"Воронки из коммуникации в продажу\"",
-              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000687"
-            }
-          ]
-        },
-        {
-          "type": "block",
           "code": "churn",
           "name": "Воронка оттока",
           "tools": [
@@ -116094,8 +115987,8 @@
               "code": "churn.benchmarks",
               "name": "Наличие бенчмарков",
               "footer": "Цели / динамика / рынок",
-              "value": 0.5,
-              "max_value": 0.5,
+              "value": 1,
+              "max_value": 1,
               "is_applicabble_flg": true,
               "traffic_light": "green",
               "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
@@ -116112,8 +116005,8 @@
                   "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
                   "group": 5,
                   "recommendation_difficulty": 5,
-                  "value": 0.5,
-                  "max_value": 0.5,
+                  "value": 1,
+                  "max_value": 1,
                   "gap": 0
                 }
               ],
@@ -116515,7 +116408,18 @@
           "type": "block",
           "code": "hyp",
           "name": "Гипотезы и инициативы",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Навык «Черновики»",
+              "traffic_light": "green",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+              },
+              "footer": "Общий светофор"
+            }
+          ],
           "metrics": [
             {
               "code": "hyp.discovery_40_backlog",
@@ -116830,8 +116734,8 @@
           "tools": [],
           "metrics": [
             {
-              "code": "voronka_ispolьzovaniya.regulyarnostь",
-              "name": "Регулярность",
+              "code": "voronka_ispolьzovaniya.nastroena_otchetnostь",
+              "name": "Настроена отчетность",
               "footer": "Настроена по воронке",
               "value": 0.5,
               "max_value": 0.5,
@@ -116894,13 +116798,13 @@
               "sort": 2.0
             },
             {
-              "code": "voronka_ispolьzovaniya.regulyarnostь_avto",
-              "name": "Регулярность (авто)",
+              "code": "voronka_ispolьzovaniya.ispolьzovanie_regulyarnostь_avto",
+              "name": "Использование.Регулярность (авто)",
               "footer": "Daily / weekly",
               "value": 1,
-              "max_value": 1,
-              "is_applicabble_flg": true,
-              "traffic_light": "green",
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "traffic_light": "gray",
               "recommendation": "Автоматизировать расчет воронке",
               "recommendations": [
                 "Автоматизировать расчет воронке"
@@ -116916,7 +116820,7 @@
                   "group": 4,
                   "recommendation_difficulty": 4,
                   "value": 1,
-                  "max_value": 1,
+                  "max_value": 0,
                   "gap": 0
                 }
               ],
@@ -117344,113 +117248,6 @@
         },
         {
           "type": "block",
-          "code": "attract",
-          "name": "Воронка привлечения",
-          "tools": [
-            {
-              "name": "Группа навыков «Привлечение»",
-              "traffic_light": "red",
-              "buttons": [
-                {
-                  "name": "Пилотные кампании",
-                  "traffic_light": "red",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
-                  },
-                  "ai_tool_key": "pilots"
-                },
-                {
-                  "name": "Воронка кампейнинга",
-                  "traffic_light": "red",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000049944"
-                  },
-                  "ai_tool_key": "funnel"
-                },
-                {
-                  "name": "Воронка оформления в СБОЛ",
-                  "traffic_light": "red",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768"
-                  },
-                  "ai_tool_key": "clickstream_funnel"
-                },
-                {
-                  "name": "Черновики",
-                  "traffic_light": "red",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
-                  },
-                  "footer": "Общий светофор",
-                  "ai_tool_key": "drafts"
-                },
-                {
-                  "name": "Поиск по пилотам",
-                  "traffic_light": "red",
-                  "button": {
-                    "type": "general",
-                    "label": "Перейти",
-                    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
-                  }
-                }
-              ]
-            }
-          ],
-          "metrics": [
-            {
-              "code": "attract.benchmarks",
-              "name": "Наличие бенчмарков",
-              "footer": "Цели / динамика / рынок",
-              "value": 0,
-              "max_value": 0.5,
-              "is_applicabble_flg": true,
-              "traffic_light": "red",
-              "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-              "recommendations": [
-                "Сформировать бенчмарки по продуктовым метрикам"
-              ],
-              "recommendation_group": 5,
-              "recommendation_groups": [
-                5
-              ],
-              "recommendation_difficulty": 5,
-              "recommendation_items": [
-                {
-                  "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0,
-                  "max_value": 0.5,
-                  "gap": 0.5
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "metric_subgroup": "Анализ",
-              "sort": 6.0
-            }
-          ],
-          "actions": [
-            {
-              "label": "Отчет \"Пилотные кампании\"",
-              "url": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
-            },
-            {
-              "label": "Отчет \"Воронки из коммуникации в продажу\"",
-              "url": "https://navigator.sigma.sbrf.ru/gdash/1000000687"
-            }
-          ]
-        },
-        {
-          "type": "block",
           "code": "churn",
           "name": "Воронка оттока",
           "tools": [
@@ -117632,7 +117429,7 @@
               "name": "Наличие бенчмарков",
               "footer": "Цели / динамика / рынок",
               "value": 0,
-              "max_value": 0.5,
+              "max_value": 1,
               "is_applicabble_flg": true,
               "traffic_light": "red",
               "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
@@ -117650,8 +117447,8 @@
                   "group": 5,
                   "recommendation_difficulty": 5,
                   "value": 0,
-                  "max_value": 0.5,
-                  "gap": 0.5
+                  "max_value": 1,
+                  "gap": 1
                 }
               ],
               "excluded_from_index": false,
@@ -118021,7 +117818,18 @@
           "type": "block",
           "code": "hyp",
           "name": "Гипотезы и инициативы",
-          "tools": [],
+          "tools": [
+            {
+              "name": "Навык «Черновики»",
+              "traffic_light": "red",
+              "button": {
+                "type": "general",
+                "label": "Перейти",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+              },
+              "footer": "Общий светофор"
+            }
+          ],
           "metrics": [
             {
               "code": "hyp.discovery_40_backlog",
@@ -118509,7 +118317,7 @@
         "order": 0,
         "unit": "УБ",
         "name": "БПИФ",
-        "score": 48,
+        "score": 52,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118518,8 +118326,8 @@
         "order": 1,
         "unit": "УБ",
         "name": "Брокерский счет",
-        "score": 37,
-        "group": "Требуют внимания",
+        "score": 42,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118527,7 +118335,7 @@
         "order": 2,
         "unit": "CBP",
         "name": "Вклады+НС",
-        "score": 35,
+        "score": 37,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118545,7 +118353,7 @@
         "order": 4,
         "unit": "УБ",
         "name": "ДСЖ КК",
-        "score": 47,
+        "score": 56,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118554,7 +118362,7 @@
         "order": 5,
         "unit": "УБ",
         "name": "ДУ",
-        "score": 28,
+        "score": 36,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118563,7 +118371,7 @@
         "order": 6,
         "unit": "DB",
         "name": "Дебетовая карта",
-        "score": 52,
+        "score": 57,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118572,7 +118380,7 @@
         "order": 7,
         "unit": "DB",
         "name": "Детская карта",
-        "score": 34,
+        "score": 38,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118581,8 +118389,8 @@
         "order": 8,
         "unit": "УБ",
         "name": "ЗПИФ",
-        "score": 57,
-        "group": "Развивающиеся",
+        "score": 65,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -118599,8 +118407,8 @@
         "order": 10,
         "unit": "УБ",
         "name": "ИСЖ",
-        "score": 38,
-        "group": "Требуют внимания",
+        "score": 46,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118608,7 +118416,7 @@
         "order": 11,
         "unit": "УБ",
         "name": "ИнвестКопилка",
-        "score": 43,
+        "score": 50,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118617,7 +118425,7 @@
         "order": 12,
         "unit": "DB",
         "name": "Интернет-Эквайринг",
-        "score": 33,
+        "score": 37,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118626,8 +118434,8 @@
         "order": 13,
         "unit": "CBP",
         "name": "Конверсия",
-        "score": 38,
-        "group": "Требуют внимания",
+        "score": 44,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118635,8 +118443,8 @@
         "order": 14,
         "unit": "ДомКлик",
         "name": "Много денег (НКПЗН)",
-        "score": 58,
-        "group": "Развивающиеся",
+        "score": 66,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -118644,7 +118452,7 @@
         "order": 15,
         "unit": "CBP",
         "name": "Монеты",
-        "score": 42,
+        "score": 52,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118653,8 +118461,8 @@
         "order": 16,
         "unit": "УБ",
         "name": "НСЖ",
-        "score": 32,
-        "group": "Требуют внимания",
+        "score": 43,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118662,8 +118470,8 @@
         "order": 17,
         "unit": "УБ",
         "name": "ОПИФ",
-        "score": 55,
-        "group": "Развивающиеся",
+        "score": 62,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -118671,7 +118479,7 @@
         "order": 18,
         "unit": "CBP",
         "name": "Объект Авто",
-        "score": 30,
+        "score": 34,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118680,7 +118488,7 @@
         "order": 19,
         "unit": "УБ",
         "name": "ПДС",
-        "score": 45,
+        "score": 53,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118689,8 +118497,8 @@
         "order": 20,
         "unit": "CX",
         "name": "Пакет услуг СберПервый",
-        "score": 39,
-        "group": "Требуют внимания",
+        "score": 43,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118698,7 +118506,7 @@
         "order": 21,
         "unit": "CX",
         "name": "Пакет услуг СберПремьер",
-        "score": 52,
+        "score": 58,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118716,7 +118524,7 @@
         "order": 23,
         "unit": "DB",
         "name": "Переводы по РФ",
-        "score": 62,
+        "score": 68,
         "group": "Зрелые",
         "type": "продукт"
       },
@@ -118725,7 +118533,7 @@
         "order": 24,
         "unit": "DB",
         "name": "Переводы подарков",
-        "score": 32,
+        "score": 37,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118734,8 +118542,8 @@
         "order": 25,
         "unit": "DB",
         "name": "Платежи",
-        "score": 37,
-        "group": "Требуют внимания",
+        "score": 41,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118743,7 +118551,7 @@
         "order": 26,
         "unit": "DB",
         "name": "СберЧаевые",
-        "score": 32,
+        "score": 38,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118752,7 +118560,7 @@
         "order": 27,
         "unit": "ДомКлик",
         "name": "Сделка ИЖС",
-        "score": 46,
+        "score": 53,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118761,7 +118569,7 @@
         "order": 28,
         "unit": "ДомКлик",
         "name": "Сделка вторичка",
-        "score": 67,
+        "score": 74,
         "group": "Зрелые",
         "type": "продукт"
       },
@@ -118770,7 +118578,7 @@
         "order": 29,
         "unit": "ДомКлик",
         "name": "Сделка с Первичным жильём",
-        "score": 61,
+        "score": 69,
         "group": "Зрелые",
         "type": "продукт"
       },
@@ -118779,7 +118587,7 @@
         "order": 30,
         "unit": "CBP",
         "name": "Сейфы",
-        "score": 42,
+        "score": 48,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118788,7 +118596,7 @@
         "order": 31,
         "unit": "УБ",
         "name": "Страхование залога",
-        "score": 45,
+        "score": 54,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118797,7 +118605,7 @@
         "order": 32,
         "unit": "DB",
         "name": "Сценарии оплаты",
-        "score": 48,
+        "score": 51,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118815,7 +118623,7 @@
         "order": 34,
         "unit": "DB",
         "name": "Трансграничные переводы",
-        "score": 36,
+        "score": 38,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118833,7 +118641,7 @@
         "order": 36,
         "unit": "DB",
         "name": "Транспортный эквайринг",
-        "score": 19,
+        "score": 24,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118842,7 +118650,7 @@
         "order": 37,
         "unit": "УБ",
         "name": "ЦФА",
-        "score": 22,
+        "score": 27,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118860,8 +118668,8 @@
         "order": 39,
         "unit": "DB",
         "name": "SberPay Ecom",
-        "score": 33,
-        "group": "Требуют внимания",
+        "score": 44,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118878,8 +118686,8 @@
         "order": 41,
         "unit": "CBP",
         "name": "Автокредит",
-        "score": 38,
-        "group": "Требуют внимания",
+        "score": 40,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118887,7 +118695,7 @@
         "order": 42,
         "unit": "УБ",
         "name": "ВЗР",
-        "score": 48,
+        "score": 56,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118896,7 +118704,7 @@
         "order": 43,
         "unit": "PC",
         "name": "Выписки, справки",
-        "score": 42,
+        "score": 54,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118905,7 +118713,7 @@
         "order": 44,
         "unit": "УБ",
         "name": "ДСЖ ПК",
-        "score": 46,
+        "score": 55,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118914,7 +118722,7 @@
         "order": 45,
         "unit": "УБ",
         "name": "ЗЛС",
-        "score": 50,
+        "score": 54,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118923,8 +118731,8 @@
         "order": 46,
         "unit": "УБ",
         "name": "Залоговое страхование (корпоративное страхование)",
-        "score": 35,
-        "group": "Требуют внимания",
+        "score": 40,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118941,7 +118749,7 @@
         "order": 48,
         "unit": "DB",
         "name": "Кредитные карты",
-        "score": 53,
+        "score": 60,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118950,7 +118758,7 @@
         "order": 49,
         "unit": "CBP",
         "name": "ОМС",
-        "score": 51,
+        "score": 57,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -118968,7 +118776,7 @@
         "order": 51,
         "unit": "CBP",
         "name": "Слитки",
-        "score": 26,
+        "score": 30,
         "group": "Требуют внимания",
         "type": "продукт"
       },
@@ -118977,8 +118785,8 @@
         "order": 52,
         "unit": "УБ",
         "name": "Страхование жизни",
-        "score": 36,
-        "group": "Требуют внимания",
+        "score": 44,
+        "group": "Развивающиеся",
         "type": "продукт"
       },
       {
@@ -118986,8 +118794,8 @@
         "order": 53,
         "unit": "CBP",
         "name": "Кредитный потенциал",
-        "score": 56,
-        "group": "Развивающиеся",
+        "score": 66,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -118995,7 +118803,7 @@
         "order": 54,
         "unit": "CBP",
         "name": "Образовательный кредит",
-        "score": 54,
+        "score": 58,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -119004,8 +118812,8 @@
         "order": 55,
         "unit": "УБ",
         "name": "КАСКО",
-        "score": 57,
-        "group": "Развивающиеся",
+        "score": 63,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -119013,8 +118821,8 @@
         "order": 56,
         "unit": "УБ",
         "name": "ОСАГО",
-        "score": 57,
-        "group": "Развивающиеся",
+        "score": 61,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -119022,8 +118830,8 @@
         "order": 57,
         "unit": "CX",
         "name": "СберПрайм",
-        "score": 57,
-        "group": "Развивающиеся",
+        "score": 61,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -119031,7 +118839,7 @@
         "order": 58,
         "unit": "CBP",
         "name": "POS-кредиты",
-        "score": 50,
+        "score": 54,
         "group": "Развивающиеся",
         "type": "продукт"
       },
@@ -119040,8 +118848,8 @@
         "order": 59,
         "unit": "УБ",
         "name": "Личная защита Плюс",
-        "score": 51,
-        "group": "Развивающиеся",
+        "score": 61,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -119049,7 +118857,7 @@
         "order": 60,
         "unit": "DB",
         "name": "SberPay NFC",
-        "score": 70,
+        "score": 77,
         "group": "Зрелые",
         "type": "продукт"
       },
@@ -119058,8 +118866,8 @@
         "order": 61,
         "unit": "DB",
         "name": "Оплата улыбкой",
-        "score": 58,
-        "group": "Развивающиеся",
+        "score": 66,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -119067,7 +118875,7 @@
         "order": 62,
         "unit": "CBP",
         "name": "Потребительский кредит",
-        "score": 71,
+        "score": 77,
         "group": "Зрелые",
         "type": "продукт"
       },
@@ -119076,8 +118884,8 @@
         "order": 63,
         "unit": "CX",
         "name": "СберСпасибо",
-        "score": 60,
-        "group": "Развивающиеся",
+        "score": 68,
+        "group": "Зрелые",
         "type": "продукт"
       },
       {
@@ -119085,7 +118893,7 @@
         "order": 64,
         "unit": "CX",
         "name": "Дети",
-        "score": 46,
+        "score": 54,
         "group": "Развивающиеся",
         "type": "Сегмент"
       },
@@ -119094,7 +118902,7 @@
         "order": 65,
         "unit": "CX",
         "name": "Зрелость",
-        "score": 29,
+        "score": 38,
         "group": "Требуют внимания",
         "type": "Сегмент"
       },
@@ -119103,8 +118911,8 @@
         "order": 66,
         "unit": "PC",
         "name": "Колл-центр",
-        "score": 77,
-        "group": "Зрелые",
+        "score": 90,
+        "group": "Лидеры",
         "type": "Канал"
       },
       {
@@ -119112,8 +118920,8 @@
         "order": 67,
         "unit": "CX",
         "name": "МВС",
-        "score": 35,
-        "group": "Требуют внимания",
+        "score": 41,
+        "group": "Развивающиеся",
         "type": "Сегмент"
       },
       {
@@ -119121,7 +118929,7 @@
         "order": 68,
         "unit": "CX",
         "name": "Молодежь",
-        "score": 40,
+        "score": 48,
         "group": "Развивающиеся",
         "type": "Сегмент"
       },
@@ -119130,7 +118938,7 @@
         "order": 69,
         "unit": "DP",
         "name": "СберKids",
-        "score": 54,
+        "score": 58,
         "group": "Развивающиеся",
         "type": "Канал"
       },
@@ -119139,8 +118947,8 @@
         "order": 70,
         "unit": "PC",
         "name": "Телемаркетинг",
-        "score": 73,
-        "group": "Зрелые",
+        "score": 84,
+        "group": "Лидеры",
         "type": "Канал"
       },
       {
@@ -119148,8 +118956,8 @@
         "order": 71,
         "unit": "PC",
         "name": "Чат",
-        "score": 60,
-        "group": "Развивающиеся",
+        "score": 72,
+        "group": "Зрелые",
         "type": "Канал"
       },
       {
@@ -119157,7 +118965,7 @@
         "order": 72,
         "unit": "DP",
         "name": "СБОЛ",
-        "score": 57,
+        "score": 60,
         "group": "Развивающиеся",
         "type": "Канал"
       },
@@ -119175,7 +118983,7 @@
         "order": 74,
         "unit": "DP",
         "name": "Уведомления",
-        "score": 44,
+        "score": 53,
         "group": "Развивающиеся",
         "type": "Канал"
       },
@@ -119184,8 +118992,8 @@
         "order": 75,
         "unit": "CX",
         "name": "Рабочий возраст",
-        "score": 55,
-        "group": "Развивающиеся",
+        "score": 62,
+        "group": "Зрелые",
         "type": "Сегмент"
       },
       {
@@ -119193,7 +119001,7 @@
         "order": 76,
         "unit": "CX",
         "name": "PB",
-        "score": 43,
+        "score": 52,
         "group": "Развивающиеся",
         "type": "Сегмент"
       },
@@ -119202,7 +119010,7 @@
         "order": 77,
         "unit": "CX",
         "name": "Top Affluent",
-        "score": 47,
+        "score": 53,
         "group": "Развивающиеся",
         "type": "Сегмент"
       },
@@ -119211,7 +119019,7 @@
         "order": 78,
         "unit": "Data",
         "name": "SberID",
-        "score": 72,
+        "score": 70,
         "group": "Зрелые",
         "type": "продукт"
       },
@@ -119240,7 +119048,7 @@
       "продукт",
       "Сегмент"
     ],
-    "avgScore": 46
+    "avgScore": 51
   },
   "crosssell": {
     "enabled": false,

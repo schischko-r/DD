@@ -1703,6 +1703,8 @@ SINGLE_FUNNEL_BENCHMARK_TARGETS = {
     normalize_lookup_key("Коллцентр"): "Воронка входа в канал",
     normalize_lookup_key("Колл центр"): "Воронка входа в канал",
     normalize_lookup_key("Телемаркетинг"): "Воронка продаж",
+    normalize_lookup_key("Единый личный кабинет (ЕЛК)"): "Воронка оттока",
+    normalize_lookup_key("SberID"): "Воронка оттока",
 }
 
 
