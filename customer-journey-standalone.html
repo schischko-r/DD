@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Жизненный путь клиента</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/styles/fonts.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/styles/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/variables.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/layout/variables.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/layout/Box/Box.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/layout/Flex/Flex.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Card/Card.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Text/text/text.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Text/colorText/colorText.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Label/Label.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Button/Button.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Icon/Icon.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Alert/Alert.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Divider/Divider.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Progress/Progress.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/SegmentedRadioGroup/SegmentedRadioGroup.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Select/variables.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Select/Select.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Select/components/SelectControl/SelectControl.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Select/components/SelectPopup/SelectPopup.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Select/components/SelectList/SelectList.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/uikit@7.44.2/build/esm/components/Popup/Popup.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/charts@1.57.0/dist/esm/components/AxisX/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/charts@1.57.0/dist/esm/components/AxisY/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/charts@1.57.0/dist/esm/components/ChartInner/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/charts@1.57.0/dist/esm/components/Legend/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/charts@1.57.0/dist/esm/components/PlotTitle/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/charts@1.57.0/dist/esm/components/Tooltip/styles.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gravity-ui/charts@1.57.0/dist/esm/hooks/useShapes/styles.css" />
+    <style>
+      html, body, #root { min-height: 100%; margin: 0; }
+      .page { max-width: 1520px; margin: 0 auto; padding: 20px 24px; }
+      .page-stack { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+      .page-header { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; }
+      .header-copy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; min-width: 0; }
+      .header-controls { display: grid; grid-template-columns: 180px 210px; gap: 8px; align-items: center; }
+      .workspace { overflow: hidden; }
+      .workspace-content { display: grid; grid-template-columns: minmax(0, 68fr) auto minmax(320px, 32fr); height: 640px; min-height: 640px; overflow: hidden; }
+      .stage-map { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; padding: 16px 24px; }
+      .stage-button { height: auto; min-height: 56px; }
+      .stage-button .g-button__text { width: 100%; }
+      .stage-content { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px; align-items: start; }
+      .stage-copy { min-width: 0; }
+      .stage-status { max-width: 100%; overflow: hidden; }
+      .mobile-stage-select { display: none; padding: 16px; }
+      .active-panel { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 12px; padding: 24px; min-width: 0; overflow: hidden; }
+      .active-heading { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; }
+      .active-copy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 4px; }
+      .mobile-finding { display: none; }
+      .chart-box { width: 100%; min-width: 0; height: 390px; min-height: 390px; overflow: hidden; }
+      .chart-caption { display: flex; align-items: center; gap: 6px; }
+      .progress-area { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+      .progress-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+      .context-panel { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 16px; padding: 24px; min-width: 0; }
+      .context-section { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+      .signals { display: grid; grid-template-columns: minmax(0, 1fr); gap: 6px; }
+      .signal-content { width: 100%; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start; padding: 8px 0; }
+      .signal-button { height: auto; min-height: 44px; justify-content: flex-start; margin: 0 -8px; }
+      .signal-button .g-button__text { width: 100%; overflow: visible; white-space: normal; text-align: left; }
+      .signal-copy { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3px; min-width: 0; }
+      .signal-action { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; min-width: 0; }
+      .footer { padding: 0 4px; }
+      @media (max-width: 1300px) {
+        .stage-status { display: none; }
+        .stage-content { grid-template-columns: auto minmax(0, 1fr); }
+        .workspace-content { grid-template-columns: minmax(0, 66fr) auto minmax(300px, 34fr); height: 704px; min-height: 704px; }
+        .active-panel { padding: 20px; }
+        .context-panel { padding: 20px; }
+      }
+      @media (max-width: 1100px) {
+        .page-header { grid-template-columns: minmax(0, 1fr); }
+        .header-controls { grid-template-columns: 240px 280px; justify-content: start; }
+        .workspace { min-height: 0; overflow: visible; }
+        .stage-map { display: none; }
+        .mobile-stage-select { display: block; }
+        .workspace-content { grid-template-columns: minmax(0, 1fr); height: auto; min-height: 0; overflow: visible; }
+        .column-divider { display: none; }
+        .active-panel { overflow: visible; }
+        .context-panel { padding: 16px; }
+        .mobile-finding { display: block; }
+        .desktop-finding { display: none; }
+      }
+      @media (max-width: 640px) {
+        .page { padding: 16px; }
+        .header-controls { grid-template-columns: minmax(0, 1fr); }
+        .active-panel { padding: 16px; }
+        .context-panel { padding: 16px; }
+        .active-heading { grid-template-columns: minmax(0, 1fr); }
+        .chart-box { height: 340px; min-height: 340px; }
+        .signal-content { grid-template-columns: minmax(0, 1fr); }
+      }
+    </style>
+    <script type="importmap">
+      {"imports":{
+        "react":"https://esm.sh/react@18.3.1",
+        "react/jsx-runtime":"https://esm.sh/react@18.3.1/jsx-runtime",
+        "react/jsx-dev-runtime":"https://esm.sh/react@18.3.1/jsx-dev-runtime",
+        "react-dom":"https://esm.sh/react-dom@18.3.1?external=react",
+        "react-dom/client":"https://esm.sh/react-dom@18.3.1/client?external=react",
+        "@gravity-ui/uikit":"https://esm.sh/@gravity-ui/uikit@7.44.2?bundle&external=react,react-dom",
+        "@gravity-ui/icons":"https://esm.sh/@gravity-ui/icons@2.20.0?bundle&external=react",
+        "@gravity-ui/charts":"https://esm.sh/@gravity-ui/charts@1.57.0?bundle&external=react,react-dom,@gravity-ui/uikit"
+      }}
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.28.4/babel.min.js"></script>
+  </head>
+  <body>
+    <main id="root"></main>
+    <script type="text/babel" data-type="module" data-presets="react">
+      import React, {useState} from 'react';
+      import {createRoot} from 'react-dom/client';
+      import {Alert, Box, Button, Card, Divider, Flex, Icon, Label, Progress, SegmentedRadioGroup, Select, Text, ThemeProvider} from '@gravity-ui/uikit';
+      import {ArrowRight, CircleInfo} from '@gravity-ui/icons';
+      import {Chart} from '@gravity-ui/charts';
+
+      const DATA = {
+        audience: {current: {mau: 12000000, yau: 28000000}, previous: {mau: 11900000, yau: 27800000}},
+        campaign: {
+          current: {
+            total: [{name:'Охват',value:7400000},{name:'Вовлечение',value:3150000},{name:'Переход',value:1400000},{name:'Начало оформления',value:1100000},{name:'Продажа',value:700000}],
+            push: [{name:'Охват',value:4100000},{name:'Вовлечение',value:1750000},{name:'Переход',value:760000},{name:'Начало оформления',value:590000},{name:'Продажа',value:385000}],
+            inApp: [{name:'Охват',value:2100000},{name:'Вовлечение',value:930000},{name:'Переход',value:410000},{name:'Начало оформления',value:330000},{name:'Продажа',value:205000}],
+            emailSms: [{name:'Охват',value:1200000},{name:'Вовлечение',value:470000},{name:'Переход',value:230000},{name:'Начало оформления',value:180000},{name:'Продажа',value:110000}],
+          },
+          previous: {total: [{name:'Охват',value:8100000},{name:'Вовлечение',value:3360000},{name:'Переход',value:1390000},{name:'Начало оформления',value:1130000},{name:'Продажа',value:770000}]},
+        },
+        pilots: {
+          current: [{name:'Всего запусков',value:48},{name:'С промокампанией',value:32},{name:'Достигли целевого действия',value:22},{name:'Масштабированы',value:12}],
+          previous: [{name:'Всего запусков',value:62},{name:'С промокампанией',value:43},{name:'Достигли целевого действия',value:30},{name:'Масштабированы',value:16}],
+          selfServiceCurrent: 18, selfServicePrevious: 20,
+        },
+        sbol: {
+          current: [{name:'Начали оформление',value:1100000},{name:'Выбрали продукт и условия',value:1030000},{name:'Согласия и передача данных',value:824000},{name:'Автоматическая проверка',value:766000},{name:'Подтверждение',value:728000},{name:'Прямая продажа',value:672000}],
+          previous: [{name:'Начали оформление',value:1130000},{name:'Выбрали продукт и условия',value:1075000},{name:'Согласия и передача данных',value:924000},{name:'Автоматическая проверка',value:860000},{name:'Подтверждение',value:820000},{name:'Прямая продажа',value:742000}],
+        },
+        drafts: {funnel:[{name:'Незавершённые оформления',value:428000},{name:'Получили коммуникацию',value:150000},{name:'Вернулись в оформление',value:42000},{name:'Завершили оформление',value:28000}],totalTriggerEvents:20,connectedTriggerEvents:7,withoutCommunication:278000,goalSales:60000,actualSales:28000,potentialAdditionalSales:52000},
+        csi: {current:[{name:'Общий CSI',value:78},{name:'После коммуникации',value:80},{name:'После начала оформления',value:76},{name:'Согласия и передача данных',value:63},{name:'После успешного оформления',value:82}],previous:[{name:'Общий CSI',value:79},{name:'После коммуникации',value:80},{name:'После начала оформления',value:77},{name:'Согласия и передача данных',value:70},{name:'После успешного оформления',value:82}]},
+        complaints: {currentTotal:28400,previousTotal:25100,themes:[{name:'Технические ошибки',value:9100},{name:'Статус заявки и причины отказа',value:6800},{name:'Согласия и обработка данных',value:5700},{name:'Условия и стоимость продукта',value:4600},{name:'Нерелевантные коммуникации',value:2200}]},
+        problems: [
+          {name:'Непонятно, зачем запрашиваются согласия и данные',stage:'Согласия'},
+          {name:'Повторный ввод уже известных банку данных',stage:'Выбор условий'},
+          {name:'Таймауты и технические ошибки после отправки формы',stage:'Проверка'},
+          {name:'Непонятен статус заявки или причина отказа',stage:'Подтверждение'},
+          {name:'После незавершения не всегда приходит коммуникация',stage:'Черновики'},
+        ],
+        sales: {current:{directCampaign:672000,recoveredDrafts:28000,campaignTotal:700000,nonCampaign:300000,total:1000000},previous:{directCampaign:742000,recoveredDrafts:28000,campaignTotal:770000,nonCampaign:300000,total:1070000}},
+      };
+
+      function formatCompactNumber(value) {
+        if (Math.abs(value) >= 1000000) {
+          const digits = Math.abs(value) >= 10000000 ? 1 : 2;
+          return `${new Intl.NumberFormat('ru-RU', {minimumFractionDigits: digits, maximumFractionDigits: digits}).format(value / 1000000)} млн`;
+        }
+        if (Math.abs(value) >= 1000) return `${new Intl.NumberFormat('ru-RU', {maximumFractionDigits: 1}).format(value / 1000)} тыс.`;
+        return new Intl.NumberFormat('ru-RU').format(value);
+      }
+      function formatPercent(value) { return `${new Intl.NumberFormat('ru-RU', {minimumFractionDigits: 1, maximumFractionDigits: 1}).format(value * 100)}%`; }
+      function formatDelta(value) { return `${value > 0 ? '+' : ''}${formatPercent(value)}`; }
+      function conversion(current, previous) { return previous ? current / previous : 0; }
+      function change(current, previous) { return previous ? current / previous - 1 : 0; }
+      function percentagePointChange(current, previous) { return (current - previous) * 100; }
+
+      function makeFunnelChart(name, items) {
+        return {series:{data:[{type:'funnel',name,shape:'rectangle',connectors:{enabled:true},dataLabels:{enabled:true,inside:false,align:'right',anchor:'plot',reserveSpace:true,preserveLineBreaks:true},data:items.map((item,index)=>({value:item.value,name:item.name,label:index===0?`${item.name}\n${formatCompactNumber(item.value)}`:`${item.name}\n${formatCompactNumber(item.value)} · ${formatPercent(conversion(item.value,items[index-1].value))}`}))}]},legend:{enabled:false},tooltip:{enabled:true}};
+      }
+      function makeLineChart(current, previous) {
+        const displayNames=['Общий','Комм.','Старт','Согласия','Успех'];
+        return {series:{data:[
+          {type:'line',name:'Июнь 2026',data:current.map((item,index)=>({x:displayNames[index],y:item.value,name:item.name,label:item.value,custom:{fullName:item.name}})),marker:{enabled:true},dataLabels:{enabled:true}},
+          {type:'line',name:'Май 2026',data:previous.map((item,index)=>({x:displayNames[index],y:item.value,name:item.name,custom:{fullName:item.name}})),marker:{enabled:true}},
+        ]},xAxis:{type:'category',categories:displayNames,labels:{autoRotation:false}},yAxis:[{min:0,max:100}],legend:{enabled:true},tooltip:{enabled:true}};
+      }
+      function makeBarYChart(items) {
+        const displayNames=['Техошибки','Статус','Согласия','Условия','Комм.'];
+        return {series:{data:[{type:'bar-y',name:'Обращения',data:items.map((item,index)=>({x:item.value,y:displayNames[index],name:item.name,label:formatCompactNumber(item.value),custom:{fullName:item.name}})),dataLabels:{enabled:true}}]},yAxis:[{type:'category',categories:displayNames}],legend:{enabled:false},tooltip:{enabled:true}};
+      }
+      function makeWaterfallChart() {
+        const sales=DATA.sales.current;
+        const d=[{x:'Прямые',name:'Прямые продажи',y:sales.directCampaign,label:formatCompactNumber(sales.directCampaign),custom:{fullName:'Прямые продажи'}},{x:'Черновики',name:'Возврат через черновики',y:sales.recoveredDrafts,label:formatCompactNumber(sales.recoveredDrafts),custom:{fullName:'Возврат через черновики'}},{x:'Кампейнинг',name:'Продажи кампейнинга',total:true,label:formatCompactNumber(sales.campaignTotal),custom:{fullName:'Продажи кампейнинга'}},{x:'Без камп.',name:'Без кампейнинга',y:sales.nonCampaign,label:formatCompactNumber(sales.nonCampaign),custom:{fullName:'Без кампейнинга'}},{x:'Всего',name:'Всего продаж',total:true,label:formatCompactNumber(sales.total),custom:{fullName:'Всего продаж'}}];
+        return {series:{data:[{type:'waterfall',name:'Продажи',data:d,dataLabels:{enabled:true}}]},xAxis:{type:'category',categories:d.map((v)=>v.x)},legend:{enabled:false},tooltip:{enabled:true}};
+      }
+
+      const STORY_NAVIGATION = [
+        {id:'overview',number:'01',title:'Кампейнинг',status:'Снижение',theme:'danger'},
+        {id:'pilots',number:'02',title:'Пилоты',status:'Риск',theme:'danger'},
+        {id:'sbol',number:'03',title:'СБОЛ',status:'Критично',theme:'danger'},
+        {id:'drafts',number:'04',title:'Черновики',status:'Недостаточно',theme:'warning'},
+        {id:'csi',number:'05',title:'CSI',status:'Низкий опыт',theme:'danger'},
+        {id:'complaints',number:'06',title:'Жалобы',status:'Рост',theme:'warning'},
+        {id:'result',number:'07',title:'Результат',status:'Основной вклад',theme:'success'},
+      ];
+
+      const STORY_STEPS = [
+        {id:'overview',sectionId:'story-overview',title:'Кампейнинг',summary:'Продажи от кампейнинга снизились на 9,1% месяц к месяцу. При этом переходы практически не изменились: 1,39 млн → 1,40 млн',recommendation:{theme:'warning',text:'Проверить объём пилотных запусков и post-click конверсию в СБОЛ как две отдельные ветки диагностики.'},caption:'Текущая воронка по эксклюзивной атрибуции; переключатель меняет канал.',chart:'campaign',signals:[
+          {theme:'danger',label:'–8,6%',title:'Снижается верх кампейнинговой воронки',description:'Охват сократился с 8,10 до 7,40 млн. Возможный операционный драйвер — снижение числа запусков',action:'Проверить пилотные кампании',target:'pilots'},
+          {theme:'danger',label:'–5,4 п.п.',title:'Переходы стабильны, но продажи снизились',description:'Click → sale снизилась с 55,4% до 50,0%. Потеря возникает после перехода',action:'Перейти в воронку СБОЛ',target:'sbol'},
+          {theme:'success',label:'70%',title:'Кампейнинг остаётся главным источником продаж',description:'700 тыс. из 1,00 млн продаж атрибутированы кампейнингу',action:'Посмотреть итоговый результат',target:'result'}]},
+        {id:'pilots',sectionId:'story-pilots',title:'Пилотные кампании',summary:'Число запусков снизилось с 62 до 48, или на 22,6%. Сокращение затронуло весь путь от промокампании до масштабирования',recommendation:{theme:'warning',text:'Проверить 14 незапущенных кампаний, восстановить частоту запусков и расширить self-service.'},caption:'Операционный funnel инициатив, не клиентский поток.',chart:'pilots',signals:[
+          {theme:'danger',label:'–22,6%',title:'Стало меньше запусков',description:'Снижение числа пилотов согласуется со снижением охвата в верхней части кампейнинговой воронки',action:'Вернуться к общей воронке',target:'overview'},
+          {theme:'info',label:'37,5%',title:'Self-service не компенсирует снижение запусков',description:'Через self-service запущено 18 из 48 кампаний. Доля выросла, но абсолютное число запусков сократилось',action:'Проверить нижнюю часть воронки',target:'sbol'}]},
+        {id:'sbol',sectionId:'story-sbol',title:'Оформление в СБОЛ',summary:'Главная точка потери — согласия и передача данных. Отток на этом шаге вырос с 14% до 20%, а прямые продажи снизились с 742 до 672 тыс.',recommendation:{theme:'danger',text:'Переработать согласия и предзаполнение, устранить технические ошибки и проверить изменения отдельным пилотом.'},caption:'Воронка заканчивается прямой продажей; возврат из черновиков считается отдельно.',chart:'sbol',signals:[
+          {theme:'danger',label:'–20%',title:'На шаге согласий теряется 206 тыс. клиентов',description:'Потеря выросла примерно на 6 п.п. относительно предыдущего периода',action:'Проверить клиентский опыт',target:'csi'},
+          {theme:'warning',label:'428 тыс.',title:'Большой объём незавершённых оформлений',description:'Клиенты, не дошедшие до прямой продажи, формируют пул для механики черновиков',action:'Проверить догрев через черновики',target:'drafts'},
+          {theme:'warning',label:'Гипотезы',title:'Проблемы концентрируются вокруг одного участка пути',description:'Непонятные согласия, повторный ввод данных и технические ошибки совпадают с ключевой точкой оттока',action:'Посмотреть жалобы',target:'complaints'}]},
+        {id:'drafts',sectionId:'story-drafts',title:'Черновики и догрев',summary:'Коммуникацией покрыто только 150 тыс. из 428 тыс. незавершённых оформлений. 278 тыс. клиентов не получают догрев.',recommendation:{theme:'warning',text:'Подключить 13 событий, начиная с незавершения на согласиях, технической ошибки и прерывания после проверки.'},caption:'28 тыс. восстановленных продаж уже входят в 700 тыс. продаж кампейнинга.',chart:'drafts',signals:[
+          {theme:'warning',label:'7 из 20',title:'Большая часть событий не запускает коммуникацию',description:'Покрытие триггерных событий составляет только 35%',action:'Посмотреть влияние на продажи',target:'result'},
+          {theme:'danger',label:'278 тыс.',title:'Клиенты остаются без коммуникации',description:'65% незавершивших оформление не получают сообщение или push для возврата',action:'Проверить жалобы на коммуникации',target:'complaints'},
+          {theme:'danger',label:'46,7%',title:'Цель по восстановленным продажам не выполнена',description:'Факт — 28 тыс. при цели 60 тыс. Разрыв составляет 32 тыс. продаж',action:'Посмотреть итоговый результат',target:'result'}]},
+        {id:'csi',sectionId:'story-csi',title:'CSI по этапам пути',summary:'CSI на этапе согласий составляет 63 пункта — на 7 пунктов ниже предыдущего периода и значительно ниже остальных этапов.',recommendation:{theme:'info',text:'Использовать CSI как подтверждающий сигнал, но не как доказательство причины. Сопоставить падение с обращениями и техническими событиями'},caption:'Текущий и предыдущий период; шкала CSI от 0 до 100.',chart:'csi',signals:[
+          {theme:'danger',label:'63',title:'Минимум CSI совпадает с максимумом оттока',description:'На этапе согласий одновременно наблюдаются худшая оценка опыта и максимальная потеря клиентов',action:'Посмотреть структуру обращений',target:'complaints'},
+          {theme:'danger',label:'–7',title:'Проблема усилилась относительно прошлого периода',description:'CSI на шаге согласий снизился с 70 до 63',action:'Вернуться к воронке СБОЛ',target:'sbol'}]},
+        {id:'complaints',sectionId:'story-complaints',title:'Жалобы и обращения',summary:'Количество обращений выросло на 13,1%, до 28,4 тыс. Технические ошибки и вопросы по согласиям формируют 52% всего объёма.',recommendation:{theme:'warning',text:'Объединить технические ошибки, согласия и повторный ввод данных в одну программу улучшения этапа оформления'},caption:'Тематики обращений за текущий месяц; 2,4 обращения на 1 000 MAU.',chart:'complaints',signals:[
+          {theme:'danger',label:'52%',title:'Технические ошибки и согласия — основной кластер проблем',description:'Эти тематики напрямую соответствуют участку максимального оттока в СБОЛ',action:'Вернуться к воронке СБОЛ',target:'sbol'},
+          {theme:'info',label:'2,4',title:'2,4 обращения на 1 000 MAU',description:'Активная аудитория остаётся стабильной, поэтому рост обращений нельзя объяснить только ростом базы',action:'Посмотреть итоговую картину',target:'result'}]},
+        {id:'result',sectionId:'story-result',title:'Итоговый бизнес-результат',summary:'Кампейнинг формирует 700 тыс. продаж, или 70% общего результата. Из них 672 тыс. получены напрямую и только 28 тыс. восстановлены через черновики.',recommendation:{theme:'success',text:'Три главных действия: восстановить частоту пилотных запусков, устранить потери на согласиях и расширить покрытие черновиков с 7 до 20 событий'},caption:'Waterfall исключает двойной счёт восстановленных продаж.',chart:'result',signals:[
+          {theme:'danger',label:'–6,5%',title:'Общие продажи снизились',description:'Результат снизился с 1,07 до 1,00 млн. Основное снижение приходится на кампейнинг',action:'Вернуться к общей воронке',target:'overview'},
+          {theme:'info',label:'42,9%',title:'Активная аудитория стабильна',description:'MAU — 12,0 млн, YAU — 28,0 млн. Основная проблема находится в конверсии пути, а не в размере активной аудитории',action:'Проверить воронку СБОЛ',target:'sbol'},
+          {theme:'warning',label:'до 52 тыс.',title:'Есть сценарный потенциал в черновиках',description:'Расширение покрытия коммуникацией может вернуть дополнительный объём продаж. Это сценарная оценка, а не прогноз',action:'Проверить черновики',target:'drafts'}]},
+      ];
+
+      function activeChart(step, campaignChannel) {
+        if (step.chart==='campaign') return makeFunnelChart('Воронка кампейнинга',DATA.campaign.current[campaignChannel]);
+        if (step.chart==='pilots') return makeFunnelChart('Пилотные кампании',DATA.pilots.current);
+        if (step.chart==='sbol') return makeFunnelChart('Оформление в СБОЛ',DATA.sbol.current);
+        if (step.chart==='drafts') return makeFunnelChart('Черновики и догрев',DATA.drafts.funnel);
+        if (step.chart==='csi') return makeLineChart(DATA.csi.current,DATA.csi.previous);
+        if (step.chart==='complaints') return makeBarYChart(DATA.complaints.themes);
+        return makeWaterfallChart();
+      }
+
+      function StageMap({activeStepId,onNavigate}) {
+        return <Box className="stage-map">{STORY_NAVIGATION.map((item)=><Button key={item.id} view={item.id===activeStepId?'outlined':'flat'} size="m" className="stage-button" onClick={()=>onNavigate(item.id)}><Box className="stage-content"><Label theme="utility">{item.number}</Label><Flex className="stage-copy" direction="column" alignItems="flex-start" gap="1"><Text variant="subheader-1">{item.title}</Text><Label className="stage-status" theme={item.theme}>{item.status}</Label></Flex></Box></Button>)}</Box>;
+      }
+
+      function ActiveStoryPanel({step,index,campaignChannel,setCampaignChannel}) {
+        const triggerCoverage=conversion(DATA.drafts.connectedTriggerEvents,DATA.drafts.totalTriggerEvents);
+        const goalProgress=conversion(DATA.drafts.actualSales,DATA.drafts.goalSales);
+        return <Box className="active-panel">
+          <Box className="active-heading">
+            <Box className="active-copy"><Flex gap="2" alignItems="center" wrap><Label theme="utility">Этап {index+1} из {STORY_STEPS.length}</Label><Label theme={STORY_NAVIGATION[index].theme}>{STORY_NAVIGATION[index].status}</Label></Flex><Text variant="header-1">{step.title}</Text></Box>
+            {step.id==='result' && <Label theme="success">700 тыс. · 70%</Label>}
+          </Box>
+          <Box className="mobile-finding"><Alert theme={step.recommendation.theme} view="outlined" title="Главный вывод" message={step.summary}/></Box>
+          {step.chart==='campaign' && <SegmentedRadioGroup value={campaignChannel} onUpdate={setCampaignChannel} size="s" width="max">
+            <SegmentedRadioGroup.Option value="total">Тотал</SegmentedRadioGroup.Option><SegmentedRadioGroup.Option value="push">Push</SegmentedRadioGroup.Option><SegmentedRadioGroup.Option value="inApp">In-app</SegmentedRadioGroup.Option><SegmentedRadioGroup.Option value="emailSms">Email и SMS</SegmentedRadioGroup.Option>
+          </SegmentedRadioGroup>}
+          <Divider/>
+          <Box className="chart-box"><Chart key={`${step.id}-${campaignChannel}`} data={activeChart(step,campaignChannel)} lang="ru"/></Box>
+          <Flex className="chart-caption"><Icon data={CircleInfo} size={14}/><Text variant="body-1" color="secondary">{step.caption}</Text></Flex>
+          {step.chart==='drafts' && <Box className="progress-area">
+            <Box className="progress-row"><Text variant="body-2">Покрытие триггеров</Text><Label theme="warning">{formatPercent(triggerCoverage)}</Label></Box><Progress value={triggerCoverage*100} size="s" theme="warning"/>
+            <Box className="progress-row"><Text variant="body-2">Выполнение цели</Text><Label theme="danger">{formatPercent(goalProgress)}</Label></Box><Progress value={goalProgress*100} size="s" theme="danger"/>
+          </Box>}
+        </Box>;
+      }
+
+      function ContextPanel({step,onNavigate}) {
+        return <Box className="context-panel">
+          <Box className="desktop-finding"><Alert theme={step.recommendation.theme} view="outlined" title="Главный вывод" message={step.summary}/></Box>
+          <Divider/>
+          <Box className="context-section"><Text variant="subheader-2">Сигналы для решения</Text><Box className="signals">{step.signals.slice(0,2).map((signal,signalIndex)=><React.Fragment key={signal.title}>{signalIndex>0&&<Divider/>}<Button view="flat" size="l" width="max" className="signal-button" onClick={()=>onNavigate(signal.target)}><Box className="signal-content"><Label theme={signal.theme}>{signal.label}</Label><Box className="signal-copy"><Text variant="subheader-1">{signal.title}</Text><Text variant="body-2" color="secondary">{signal.description}</Text><Flex className="signal-action"><Text variant="body-2" color="link">{signal.action}</Text><Icon data={ArrowRight} size={14}/></Flex></Box></Box></Button></React.Fragment>)}</Box></Box>
+          <Divider/>
+          <Box className="context-section"><Text variant="subheader-2">Следующее действие</Text><Text variant="body-2">{step.recommendation.text}</Text></Box>
+        </Box>;
+      }
+
+      function App(){
+        const initialStage=window.location.hash.slice(1); const [period,setPeriod]=useState(['june']); const [product,setProduct]=useState(['all']); const [activeStepId,setActiveStepId]=useState(STORY_STEPS.some((step)=>step.id===initialStage)?initialStage:'overview'); const [campaignChannel,setCampaignChannel]=useState('total');
+        const activeStep=STORY_STEPS.find((s)=>s.id===activeStepId); const activeIndex=STORY_STEPS.findIndex((s)=>s.id===activeStepId);
+        const navigateToStep=(id)=>{setActiveStepId(id);window.history.replaceState(null,'',`#${id}`);};
+        return <ThemeProvider theme="light"><Box className="page"><Box className="page-stack">
+          <header className="page-header"><Box className="header-copy"><Flex gap="2" alignItems="center" wrap><Text variant="header-1">Жизненный путь клиента</Text><Label theme="utility">Синтетические данные</Label></Flex><Text variant="body-1" color="secondary">От кампейнинга до продажи и клиентского опыта</Text></Box><Box className="header-controls"><Select aria-label="Период" label="Период" width="max" value={period} onUpdate={setPeriod} options={[{value:'june',content:'Июнь 2026'},{value:'may',content:'Май 2026'},{value:'april',content:'Апрель 2026'}]}/><Select aria-label="Продукт" label="Продукт" width="max" value={product} onUpdate={setProduct} options={[{value:'all',content:'Все продукты'},{value:'credit',content:'Кредит'},{value:'card',content:'Карта'},{value:'deposit',content:'Вклад'}]}/></Box></header>
+          <Card view="outlined" type="container" size="l" className="workspace"><StageMap activeStepId={activeStepId} onNavigate={navigateToStep}/><Box className="mobile-stage-select"><Select aria-label="Этап пути" label="Этап пути" width="max" value={[activeStepId]} onUpdate={(value)=>navigateToStep(value[0])} options={STORY_NAVIGATION.map((item)=>({value:item.id,content:`${item.number} · ${item.title} — ${item.status}`}))}/></Box><Divider/><Box className="workspace-content"><ActiveStoryPanel step={activeStep} index={activeIndex} campaignChannel={campaignChannel} setCampaignChannel={setCampaignChannel}/><Divider orientation="vertical" className="column-divider"/><ContextPanel step={activeStep} onNavigate={navigateToStep}/></Box></Card>
+          <Box className="footer"><Text variant="body-1" color="secondary">Все данные синтетические. Связи между пилотами, воронками, CSI, жалобами и продажами отражают аналитические гипотезы и не являются доказанной причинностью.</Text></Box>
+        </Box></Box></ThemeProvider>;
+      }
+      createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+  </body>
+</html>
