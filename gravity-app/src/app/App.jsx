@@ -16,9 +16,12 @@ import ocb2cLogo from '../assets/ocb2c.png';
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
 const BACKLOG_DECOMPOSITION_ENABLED = import.meta.env.VITE_BACKLOG_DECOMPOSITION_ENABLED !== 'false';
 const normalizeTeamName = (value) => String(value || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('ru-RU');
+const CJXPLORER_PRODUCT_ALIASES = {'Кредитные карты': 'Кредитная карта', SberID: 'Сбер ID'};
 
 export function App() {
   const [data, setData] = useState(null);
+  const [cjxplorer, setCjxplorer] = useState(null);
+  const [cjxplorerCreditCard, setCjxplorerCreditCard] = useState(null);
   const [backlog, setBacklog] = useState({status: 'loading', data: null});
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
@@ -35,6 +38,8 @@ export function App() {
       .then((response) => response.json())
       .then(setData);
   }, []);
+  useEffect(() => { fetch('./cjxplorer-summary.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorer).catch(() => setCjxplorer(null)); }, []);
+  useEffect(() => { fetch('./cjxplorer-credit-card.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorerCreditCard).catch(() => setCjxplorerCreditCard(null)); }, []);
   useEffect(() => {
     if (!BACKLOG_DECOMPOSITION_ENABLED) {
       setBacklog({status: 'disabled', data: null});
@@ -73,6 +78,13 @@ export function App() {
     || data.products.find((item) => /^вклады\s*\+\s*нс$/i.test(String(item.name || '').trim()))
     || data.products[0];
   const product = selected || defaultProduct;
+  const cjxplorerName = CJXPLORER_PRODUCT_ALIASES[product.name];
+  const cjxplorerSummaryProduct = cjxplorerName
+    ? cjxplorer?.products?.find((item) => String(item.name || '').trim().toLocaleLowerCase('ru') === cjxplorerName.toLocaleLowerCase('ru')) || null
+    : null;
+  const cjxplorerProduct = cjxplorerSummaryProduct
+    ? {...cjxplorerSummaryProduct, ...(cjxplorerCreditCard?.product?.id === cjxplorerSummaryProduct.id ? cjxplorerCreditCard.product : {})}
+    : null;
   const openProduct = (item) => {
     updateSummaryFilters({unit: item.unit && isUnitFilterOption(item.unit) ? item.unit : ''});
     setSelected(item);
@@ -180,7 +192,7 @@ export function App() {
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'backlog' && BACKLOG_DECOMPOSITION_ENABLED
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
-            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
+            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} cjxplorerProduct={cjxplorerProduct} />;
   return (
     <AsideHeader
       compact={compact}

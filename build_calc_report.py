@@ -191,7 +191,7 @@ PRODUCT_ENTITY_TYPES = {"product", "продукт"}
 SEGMENT_UPLOAD_SHEET_NAMES = {"сегменты на заливку"}
 SEGMENT_ENTITY_TYPES = {"segment", "сегмент"}
 CHANNEL_UPLOAD_SHEET_NAMES = {"каналы на заливку"}
-CHANNEL_ENTITY_TYPES = {"channel", "канал"}
+CHANNEL_ENTITY_TYPES = {"channel", "канал", "канал/поверхность", "канал / поверхность"}
 REPORT_ENTITY_TYPES = PRODUCT_ENTITY_TYPES | SEGMENT_ENTITY_TYPES | CHANNEL_ENTITY_TYPES
 METRIC_BLOCK_DISPLAY_ORDER = (
     "general",
@@ -1301,7 +1301,7 @@ def derive_flat_table_entity_types(frame: Any) -> dict[str, str]:
             for value in rows.get("Column4", _PD.Series(dtype="object"))
             if clean_text(value)
         }
-        if "канал" in markers:
+        if markers & CHANNEL_ENTITY_TYPES:
             result[product] = "Канал"
         elif not markers:
             result[product] = "Сегмент"
