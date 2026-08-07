@@ -504,6 +504,7 @@ class SyntheticReportTest(unittest.TestCase):
             {"code": "voronka_onbordinga"},
             {"code": "mehaniki"},
             {"code": "goals"},
+            {"code": "voronka_ispolьzovaniya"},
             {"code": "attract"},
             {"code": "voronka_vhoda_v_kanal"},
             {"code": "unknown_second"},
@@ -514,6 +515,7 @@ class SyntheticReportTest(unittest.TestCase):
             [
                 "general",
                 "goals",
+                "voronka_ispolьzovaniya",
                 "attract",
                 "churn",
                 "voronka_vhoda_v_kanal",
@@ -527,6 +529,36 @@ class SyntheticReportTest(unittest.TestCase):
                 "unknown_second",
             ],
         )
+
+    def test_reporting_regularity_is_ordered_beneath_reporting_setup(self) -> None:
+        metrics = [
+            {"name": "Настроена отчетность", "metric_subgroup": "Отчетность", "sort": 1},
+            {"name": "Полнота отчёта", "metric_subgroup": "Отчетность", "sort": 2},
+            {"name": "Регулярность", "metric_subgroup": "Отчетность", "sort": 3},
+            {"name": "Проведение анализа", "metric_subgroup": "Анализ", "sort": 4},
+        ]
+
+        ordered = report.order_reporting_metrics(metrics)
+
+        self.assertEqual(
+            [metric["name"] for metric in ordered],
+            ["Настроена отчетность", "Регулярность", "Полнота отчёта", "Проведение анализа"],
+        )
+
+    def test_reporting_regularity_order_accepts_auto_metric_name(self) -> None:
+        metrics = [
+            {"name": "Настроена отчетность", "metric_subgroup": "Отчетность", "sort": 1},
+            {"name": "Полнота отчета", "metric_subgroup": "Отчетность", "sort": 2},
+            {"name": "Использование.Регулярность (авто)", "metric_subgroup": "Отчетность", "sort": 3},
+        ]
+
+        ordered = report.order_reporting_metrics(metrics)
+
+        self.assertEqual([metric["name"] for metric in ordered], [
+            "Настроена отчетность",
+            "Использование.Регулярность (авто)",
+            "Полнота отчета",
+        ])
 
     def test_single_funnel_benchmark_is_split_between_attract_and_churn(self) -> None:
         rows = report._PD.DataFrame(
@@ -639,7 +671,7 @@ class SyntheticReportTest(unittest.TestCase):
             "Колл-центр": "Воронка входа в канал",
             "Телемаркетинг": "Воронка продаж",
             "Единый личный кабинет (ЕЛК)": "Воронка оттока",
-            "SberID": "Воронка оттока",
+            "SberID": "Воронка использования",
         }
         for product, target_group in expected.items():
             actual = result[result["_product_key"].eq(product)]

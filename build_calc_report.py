@@ -196,6 +196,7 @@ REPORT_ENTITY_TYPES = PRODUCT_ENTITY_TYPES | SEGMENT_ENTITY_TYPES | CHANNEL_ENTI
 METRIC_BLOCK_DISPLAY_ORDER = (
     "general",
     "goals",
+    "voronka_ispolьzovaniya",
     "attract",
     "churn",
     "voronka_vhoda_v_kanal",
@@ -1704,7 +1705,7 @@ SINGLE_FUNNEL_BENCHMARK_TARGETS = {
     normalize_lookup_key("Колл центр"): "Воронка входа в канал",
     normalize_lookup_key("Телемаркетинг"): "Воронка продаж",
     normalize_lookup_key("Единый личный кабинет (ЕЛК)"): "Воронка оттока",
-    normalize_lookup_key("SberID"): "Воронка оттока",
+    normalize_lookup_key("SberID"): "Воронка использования",
 }
 
 
@@ -2132,6 +2133,45 @@ def metric_sort_key(metric: dict[str, Any], original_index: int) -> tuple[float,
     return (100_000 + original_index, original_index)
 
 
+def order_reporting_metrics(metrics: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Place regularity beneath reporting setup, before report completeness."""
+    def metric_name_key(metric: dict[str, Any]) -> str:
+        return normalize_lookup_key(metric.get("name")).replace("ё", "е")
+
+    grouped_metrics: dict[str, list[tuple[int, dict[str, Any]]]] = {}
+    for index, metric in enumerate(metrics):
+        subgroup = normalize_lookup_key(metric.get("metric_subgroup"))
+        grouped_metrics.setdefault(subgroup, []).append((index, metric))
+
+    for indexed_metrics in grouped_metrics.values():
+        setup = next(
+            (item for item in indexed_metrics if metric_name_key(item[1]) == normalize_lookup_key("Настроена отчетность")),
+            None,
+        )
+        regularity = [
+            item for item in indexed_metrics
+            if "регулярность" in metric_name_key(item[1])
+        ]
+        completeness = next(
+            (item for item in indexed_metrics if metric_name_key(item[1]).startswith(normalize_lookup_key("Полнота отчета"))),
+            None,
+        )
+        if not setup or not regularity or not completeness:
+            continue
+
+        setup_sort, setup_index = metric_sort_key(setup[1], setup[0])
+        for offset, (_, metric) in enumerate(regularity, start=1):
+            metric["sort"] = setup_sort + offset / 10
+        completeness[1]["sort"] = setup_sort + (len(regularity) + 1) / 10
+
+    return [
+        metric
+        for index, metric in sorted(
+            enumerate(metrics), key=lambda item: metric_sort_key(item[1], item[0])
+        )
+    ]
+
+
 def sort_metric_blocks(blocks: list[dict[str, Any]]) -> list[dict[str, Any]]:
     indexed_blocks = list(enumerate(blocks))
     return [
@@ -2182,10 +2222,10 @@ def enrich_metric_layout(
 
                 indexed_metrics.append((index, metric))
 
-            block["metrics"] = [
+            block["metrics"] = order_reporting_metrics([
                 metric
                 for index, metric in sorted(indexed_metrics, key=lambda item: metric_sort_key(item[1], item[0]))
-            ]
+            ])
 
         product["metrics"] = sort_metric_blocks(product.get("metrics", []))
 

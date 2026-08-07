@@ -79,6 +79,7 @@ test('funnel regularity is visually nested under reporting only in funnel blocks
   const {isFunnelReportingRegularity} = funnelRegularityContext.funnelRegularityApi;
   assert.equal(isFunnelReportingRegularity({code: 'attract'}, {name: 'Регулярность'}), true);
   assert.equal(isFunnelReportingRegularity({code: 'churn'}, {name: 'Регулярность (авто)'}), true);
+  assert.equal(isFunnelReportingRegularity({code: 'voronka_ispolьzovaniya'}, {name: 'Использование.Регулярность (авто)'}), true);
   assert.equal(isFunnelReportingRegularity({code: 'goals'}, {name: 'Регулярность'}), false);
   assert.equal(isFunnelReportingRegularity({code: 'attract'}, {name: 'Полнота отчета'}), false);
   assert.match(profileSource, /nested=\{isFunnelReportingRegularity\(block, metric\)\}/);

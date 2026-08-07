@@ -574,8 +574,8 @@ function DigitalTraceConfirmation({message = 'Подтверждено на Ци
 }
 
 function isFunnelReportingRegularity(block, metric) {
-  return ['attract', 'churn'].includes(String(block?.code || '').toLowerCase())
-    && /^регулярность(?:\s*\(авто\))?$/i.test(String(metric?.name || '').trim());
+  return /^(?:attract|churn|voronka_)/i.test(String(block?.code || '').trim())
+    && /регулярность(?:\s*\(авто\))?$/i.test(String(metric?.name || '').trim());
 }
 
 const CROSS_SELL_UNCONFIRMED_MESSAGE = 'Мы не смогли подтвердить наличие кросс-продаж. При наличии, добавьте видео на платформу CJXplorer, иначе в следующем периоде значение скорректируется.';
