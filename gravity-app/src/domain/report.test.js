@@ -21,6 +21,7 @@ test('report percentage helpers clamp and aggregate values', () => {
 test('display copy uses the hyphenated up-sell spelling', () => {
   assert.equal(displayText('Допродажи (upsell)'), 'Допродажи (up-sell)');
   assert.equal(displayText('Работа с upsell-механикой'), 'Работа с up-sell-механикой');
+  assert.equal(displayText('Использование.Регулярность (авто)'), 'Регулярность (авто)');
 });
 
 test('recommendation uplifts add up to the remaining displayed index', () => {

@@ -87,6 +87,18 @@ test('funnel regularity is visually nested under reporting only in funnel blocks
   assert.match(stylesSource, /\.metric-row-nested::before/);
 });
 
+test('data quality metric reuses the centralized KКД instruction from backlog recommendations', () => {
+  assert.match(profileSource, /CENTRALIZED_KKD_CDO_URL/);
+  assert.match(profileSource, /\^dannye\\\.kontrol\.\*kkd\$\/i/);
+  assert.match(profileSource, /title="Инструкция" subtitle="Централизованный сервис ККД" href=\{CENTRALIZED_KKD_CDO_URL\}/);
+});
+
+test('industrial data metric reuses FeatureStore and materials from backlog recommendations', () => {
+  assert.match(profileSource, /\^dannye\\\.promyshlenye_dannye\$\/i/);
+  assert.match(profileSource, /title="Инструкции и материалы" subtitle="по опромышливанию данных" actions=\{INDUSTRIAL_DATA_RESOURCES\}/);
+  assert.match(profileSource, /function MetricInlineResources\(\{title, subtitle, actions\}\)/);
+});
+
 test('business metrics analytics action follows the DD metric grid instead of AI recommendations', () => {
   assert.match(
     profileSource,

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
+import {CENTRALIZED_KKD_CDO_URL, DATA_MARTS_RESOURCES, DD_SCENARIO_RECOMMENDATIONS, FEATURE_STORE_URL, INDUSTRIAL_DATA_RESOURCES} from './backlogScenarioRecommendations.js';
 import {isMetricAbove} from './RecommendationCell.js';
 
 const pageSource = readFileSync(new URL('./BacklogDecompositionPage.jsx', import.meta.url), 'utf8');
@@ -57,7 +57,7 @@ test('scenario recommendation source preserves the approved rows and exact copy'
   assert.equal(methodology.recommendation, 'Рекомендуем оформлять согласованные методологии как переиспользуемые артефакты во FeatureStore');
   assert.deepEqual(methodology.resources, [{
     label: 'FeatureStore',
-    href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=21560591134',
+    href: FEATURE_STORE_URL,
     placement: 'inline',
   }]);
 
@@ -94,9 +94,13 @@ test('scenario recommendation source preserves the approved rows and exact copy'
     'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO.\n\nДля настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
   );
   assert.deepEqual(manualDataQuality[0].resources, [
-    {label: 'Централизованный сервис ККД CDO', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403', placement: 'inline'},
+    {label: 'Централизованный сервис ККД CDO', href: CENTRALIZED_KKD_CDO_URL, placement: 'inline'},
     {label: 'инструментом Штаба', href: 'https://sbertrack.sberbank.ru/swtr/wiki/unit/QLIKPROS1-585?space=QLIKPROS1&tenant=default&suite=wiki_page', placement: 'inline'},
   ]);
+
+  const dataMarts = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === 'data_marts');
+  assert.equal(dataMarts.resources, DATA_MARTS_RESOURCES);
+  assert.deepEqual(INDUSTRIAL_DATA_RESOURCES.map((item) => item.label), ['FeatureStore', 'Стандарт проектирования витрин', 'Шаблон базовых витрин', 'Контакты CDO']);
 
   for (const key of ['excel_reports', 'presentations']) {
     const exEl = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === key);

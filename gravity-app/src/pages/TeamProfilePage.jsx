@@ -15,6 +15,7 @@ import {
 import {metricAiActionRecommendations} from './teamProfileAiSkillNavigation.js';
 import {displayText} from '../domain/report.js';
 import {CJXplorerDialog} from '../features/cjxplorer/CJXplorerDialog.jsx';
+import {CENTRALIZED_KKD_CDO_URL, INDUSTRIAL_DATA_RESOURCES} from './backlogScenarioRecommendations.js';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const AB_TEST_INSTRUCTION_LINKS = [
@@ -275,9 +276,9 @@ function MetricInlineAction({title, subtitle, href, onClick, tone = 'info', acti
     : <button className={className} type="button" onClick={onClick}>{content}</button>;
 }
 
-function MetricInlineResources({title, actions}) {
+function MetricInlineResources({title, subtitle, actions}) {
   if (!actions.length) return null;
-  return <div className="metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-resources"><span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span><span className="metric-inline-instruction-copy"><strong>{title}</strong></span><span className="metric-inline-instruction-resource-actions">{actions.map((action) => <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a>)}</span></div>;
+  return <div className="metric-inline-instruction metric-inline-instruction-button metric-inline-instruction-resources"><span className="metric-inline-instruction-icon"><Icon data={CircleInfo} size={15} /></span><span className="metric-inline-instruction-copy"><strong>{title}</strong>{subtitle && <small>{subtitle}</small>}</span><span className="metric-inline-instruction-resource-actions">{actions.map((action) => <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a>)}</span></div>;
 }
 
 function metricAiInsight(subject, onClick) {
@@ -649,6 +650,8 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
       <MetricInlineResources title="Инструкция к А/В тестам" actions={instructionLinks} />
       {library && <MetricInlineAction title="Библиотека решений" subtitle="Практики для повышения оценки исследований" href={library.link} actionLabel="Открыть" />}
       {zeroAction && <MetricInlineAction title="Запустить" subtitle="первый пилот в Self-Service" href={zeroAction.link || zeroAction.url} />}
+      {/^dannye\.promyshlenye_dannye$/i.test(String(metric.code || '')) && <MetricInlineResources title="Инструкции и материалы" subtitle="по опромышливанию данных" actions={INDUSTRIAL_DATA_RESOURCES} />}
+      {/^dannye\.kontrol.*kkd$/i.test(String(metric.code || '')) && <MetricInlineAction title="Инструкция" subtitle="Централизованный сервис ККД" href={CENTRALIZED_KKD_CDO_URL} />}
       <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={[...insights, ...skillActions]} />
     </div>
   );

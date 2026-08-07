@@ -1,3 +1,16 @@
+export const CENTRALIZED_KKD_CDO_URL = 'https://mapp.sberbank.ru/sberdataproducts/page/49403';
+export const FEATURE_STORE_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=21560591134';
+export const FEATURE_STORE_RESOURCE = Object.freeze({label: 'FeatureStore', href: FEATURE_STORE_URL});
+export const DATA_MARTS_RESOURCES = Object.freeze([
+  {label: 'Стандарт проектирования витрин', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=23607905561'},
+  {label: 'Шаблон базовых витрин', href: 'https://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17033528890'},
+  {label: 'Контакты CDO', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=12446342550'},
+]);
+export const INDUSTRIAL_DATA_RESOURCES = Object.freeze([
+  FEATURE_STORE_RESOURCE,
+  ...DATA_MARTS_RESOURCES,
+]);
+
 export const DD_SCENARIO_RECOMMENDATIONS = [
   {
     key: 'AI',
@@ -29,7 +42,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Разработка правил расчета метрик, согласование определений с бизнесом.',
     sourceTool: 'FeatureStore',
     recommendation: 'Рекомендуем оформлять согласованные методологии как переиспользуемые артефакты во FeatureStore',
-    resources: [{label: 'FeatureStore', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=21560591134', placement: 'inline'}],
+    resources: [{...FEATURE_STORE_RESOURCE, placement: 'inline'}],
   },
   {
     key: 'metrics_calculation',
@@ -68,11 +81,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     info: 'Проектирование и создание витрин данных для отчетов или дашбордов (ETL/ELT процессы).',
     sourceTool: 'Стандарты создания витрин',
     recommendation: 'Рекомендуем начинать новые витрины со стандартного маршрута проектирования, для базовых витрин использовать готовый шаблон и заранее подключать CDO юнита.',
-    resources: [
-      {label: 'Стандарт проектирования витрин', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=23607905561'},
-      {label: 'Шаблон базовых витрин', href: 'https://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17033528890'},
-      {label: 'Контакты CDO', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=12446342550'},
-    ],
+    resources: DATA_MARTS_RESOURCES,
   },
   {
     key: 'manual_data_quality_control',
@@ -82,7 +91,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     sourceTool: 'Централизованный сервис ККД CDO и Штаб',
     recommendation: 'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO.\n\nДля настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
     resources: [
-      {label: 'Централизованный сервис ККД CDO', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403', placement: 'inline'},
+      {label: 'Централизованный сервис ККД CDO', href: CENTRALIZED_KKD_CDO_URL, placement: 'inline'},
       {label: 'инструментом Штаба', href: 'https://sbertrack.sberbank.ru/swtr/wiki/unit/QLIKPROS1-585?space=QLIKPROS1&tenant=default&suite=wiki_page', placement: 'inline'},
     ],
   },

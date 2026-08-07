@@ -12,7 +12,9 @@ export function percent(value, max) {
 }
 
 export function displayText(value) {
-  return String(value || '').replace(/\bupsell\b/gi, 'up-sell');
+  return String(value || '')
+    .replace(/^\s*использование\.\s*(регулярность\s*\(авто\))\s*$/iu, '$1')
+    .replace(/\bupsell\b/gi, 'up-sell');
 }
 
 export function allocateIndexUplifts(recommendations, currentScore) {
