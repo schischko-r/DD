@@ -6,7 +6,7 @@ const summarySource = readFileSync(new URL('./LlmSummary.jsx', import.meta.url),
 
 test('cross-sell summary labels potential and feedback counts from their actual fields', () => {
   assert.equal(
-    (summarySource.match(/Подтвержденных потенциальных cross-sell связок: \{crossSellCount\(item\.api_potential_n\)\}\./g) || []).length,
+    (summarySource.match(/Потенциальных cross-sell связок: \{crossSellCount\(item\.api_potential_n\)\}\./g) || []).length,
     2,
   );
   assert.match(

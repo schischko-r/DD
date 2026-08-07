@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayText, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayText, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -235,13 +235,17 @@ test('overview reports require at least one applicable metric in their block', (
   assert.equal(isReportMetricRelevant({metrics: [{is_applicabble_flg: true}]}, overview), true);
 });
 
-test('digital trace confirmation is limited to listed product cross-sell metrics', () => {
-  const product = {type: 'Продукт', name: 'ОСАГО'};
+test('cross-sell digital trace state comes from Product Lens data', () => {
+  const product = {type: 'Продукт', name: 'ОСАГО', metric_recommendations: [{skill_key: 'cross_sell', crosssell_marker: true, dd_crosssell_value: 1, api_seen_around_n: 12, api_seen_out_n: 8, api_seen_in_n: 4}]};
   const block = {code: 'mehaniki', name: 'Механики'};
   const metric = {code: 'mehaniki.cross_sell', name: 'Cross-sell'};
 
   assert.equal(isCrossSellDigitallyConfirmed(product, block, metric), true);
-  assert.equal(isCrossSellDigitallyConfirmed({...product, name: 'Другой продукт'}, block, metric), false);
+  assert.equal(isCrossSellDigitallyUnconfirmed(product, block, metric), false);
+  const unconfirmed = {...product, metric_recommendations: [{skill_key: 'cross_sell', crosssell_marker: true, dd_crosssell_value: 1, api_seen_around_n: 0, api_seen_out_n: 0, api_seen_in_n: 0}]};
+  assert.equal(isCrossSellDigitallyConfirmed(unconfirmed, block, metric), false);
+  assert.equal(isCrossSellDigitallyUnconfirmed(unconfirmed, block, metric), true);
+  assert.equal(isCrossSellDigitallyUnconfirmed({...unconfirmed, metric_recommendations: [{...unconfirmed.metric_recommendations[0], crosssell_marker: false}]}, block, metric), false);
   assert.equal(isCrossSellDigitallyConfirmed({...product, type: 'Сегмент'}, block, metric), false);
   assert.equal(isCrossSellDigitallyConfirmed(product, {code: 'general'}, metric), false);
   assert.equal(isCrossSellDigitallyConfirmed(product, block, {code: 'mehaniki.upsell'}), false);

@@ -103,34 +103,40 @@ export function inapplicableMetricLabel(metric) {
   return isAbTests ? 'Нет плана по A/B' : 'Не применимо';
 }
 
-const DIGITAL_TRACE_CROSS_SELL_PRODUCTS = new Set([
-  'ОСАГО',
-  'КАСКО',
-  'Брокерский счет',
-  'ВЗР',
-  'Страхование залога',
-  'ЗЛС',
-  'Вклады+НС',
-  'ОМС',
-  'Потребительский кредит',
-  'Выписки, справки',
-  'Кредитные карты',
-  'Платежи',
-  'Переводы по РФ',
-  'Дебетовая карта',
-  'SberPay NFC',
-  'Детская карта',
-  'СберСпасибо',
-]);
+function crossSellRecommendation(product) {
+  return (product?.metric_recommendations || []).find((item) =>
+    String(item?.skill_key || '').trim().toLowerCase() === 'cross_sell',
+  );
+}
 
-export function isCrossSellDigitallyConfirmed(product, block, metric) {
+function isCrossSellMetric(product, block, metric) {
   const isProduct = /^продукт$/i.test(String(product?.type || '').trim());
   const isMechanics = /^mehaniki$/i.test(String(block?.code || '').trim())
     || /^механики$/i.test(String(block?.name || '').trim());
   const isCrossSell = /^mehaniki\.cross_sell$/i.test(String(metric?.code || '').trim())
     || /^cross-sell$/i.test(String(metric?.name || '').trim());
-  return isProduct && isMechanics && isCrossSell
-    && DIGITAL_TRACE_CROSS_SELL_PRODUCTS.has(String(product?.name || '').trim());
+  return isProduct && isMechanics && isCrossSell;
+}
+
+export function isCrossSellDigitallyConfirmed(product, block, metric) {
+  const recommendation = crossSellRecommendation(product);
+  return isCrossSellMetric(product, block, metric)
+    && recommendation?.crosssell_marker === true
+    && recommendation.api_seen_around_n != null
+    && Number(recommendation.api_seen_around_n) > 0;
+}
+
+export function isCrossSellDigitallyUnconfirmed(product, block, metric) {
+  const recommendation = crossSellRecommendation(product);
+  return isCrossSellMetric(product, block, metric)
+    && recommendation?.crosssell_marker === true
+    && Number(recommendation.dd_crosssell_value) > 0
+    && recommendation.api_seen_around_n != null
+    && recommendation.api_seen_out_n != null
+    && recommendation.api_seen_in_n != null
+    && Number(recommendation.api_seen_around_n) === 0
+    && Number(recommendation.api_seen_out_n) === 0
+    && Number(recommendation.api_seen_in_n) === 0;
 }
 
 const AGE_SEGMENT_NAMES = new Set(['Молодежь', 'Дети', 'Рабочий возраст', 'Зрелость']);

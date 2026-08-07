@@ -109,7 +109,7 @@ export function RecommendationBody({item, useText = false}) {
   const hasSeenInValue = item.api_seen_in_n != null && Number.isFinite(Number(item.api_seen_in_n));
   if (hasSeenOutValue && hasSeenInValue && Number(item.api_seen_out_n) === 0 && Number(item.api_seen_in_n) === 0) {
     return <div className="crosssell-summary">
-      <p>Подтвержденных потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+      <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
       <CrossSellFeedbackCount count={waitingDecisionCount} />
       <CrossSellMarket presentation={marketPresentation} />
       <CrossSellNextSteps />
@@ -123,7 +123,7 @@ export function RecommendationBody({item, useText = false}) {
       {hasSeenOut && <li>{crossSellCountPhrase(item.api_seen_out_n, ['связка', 'связки', 'связок'])} — кросс-селл с другими продуктами в рамках сценариев вашего продукта.</li>}
       {hasSeenIn && <li>{crossSellCountPhrase(item.api_seen_in_n, ['связка', 'связки', 'связок'])} — кросс-селл в сценариях других продуктов с вашим продуктом.</li>}
     </ul></>}
-    <p>Подтвержденных потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
+    <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
     <CrossSellFeedbackCount count={waitingDecisionCount} />
     <CrossSellMarket presentation={marketPresentation} />
     <CrossSellNextSteps />
