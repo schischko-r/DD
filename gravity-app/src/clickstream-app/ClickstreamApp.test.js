@@ -138,25 +138,13 @@ test('query navigation accepts the parent funnel mapping and latest-period reque
     .find((line) => line.startsWith('VITE_HTML_PAGE_URLS='));
   assert.ok(envLine, 'VITE_HTML_PAGE_URLS is missing');
   assert.deepEqual(JSON.parse(envLine.slice(envLine.indexOf('=') + 1)), {
-    clickstream: {
-      url: `./${gravityReportFileName}`,
-      title: 'Анализ кликстрим воронок',
-      icon: 'ChartLine',
-    },
-    client_metrics: {url: '', title: 'Клиентские метрики', icon: 'ChartColumn'},
-    complaints: {url: '', title: 'Жалобы и обращения', icon: 'Comments'},
-    csi: {url: '', title: 'CSI', icon: 'CircleCheck'},
-    drafts: {
-      url: './report_merge_funnel_drafts.html',
-      title: 'Черновики и оформление в СБОЛ',
-      icon: 'FileText',
-    },
-    outreach_copy: {
-      url: './report_merge_funnel_drafts_copy_paste.html',
-      title: 'Коммуникации · copy-paste',
-      icon: 'PaperPlane',
-    },
-    funnel: {url: '', title: 'Воронка кампейнинга', icon: 'ChartAreaStacked'},
+    clickstream: {url: 'Кликстрим_Месячный_все_воронки.html', title: 'Воронка оформления в СБОЛ', icon: 'Smartphone'},
+    pilots: {url: 'pilots_07-08-2026.html', title: 'Пилотные кампании', icon: 'PaperPlane'},
+    funnel: {url: 'Воронка_SberPAY_2026-07-31.html', title: 'Воронка кампейнинга', icon: 'Funnel'},
+    complaints: {url: 'Жалобы_все_продукты.html', title: 'Жалобы', icon: 'FaceSad'},
+    drafts: {url: 'Черновики_все_продукты.html', title: 'Черновики', icon: 'FileText'},
+    client_metrics: {url: 'Клиентские_метрики_все_продукты.html', title: 'MAU', icon: 'ChartAreaStackedNormalized'},
+    csi: {url: 'CSI_все_продукты.html', title: 'CSI', icon: 'Heart'},
   });
 });
 

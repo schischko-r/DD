@@ -5,7 +5,7 @@ import {extractClickstreamData} from './src/clickstream/clickstreamDataCore.js';
 const CLICKSTREAM_SOURCE = resolve(
   import.meta.dirname,
   '..',
-  'Кликстрим_Месячный_все_воронки_zeroed.html',
+  'Кликстрим_Месячный_все_воронки.html',
 );
 const CLICKSTREAM_DATA_MODULE = 'virtual:clickstream-data';
 const RESOLVED_CLICKSTREAM_DATA_MODULE = `\0${CLICKSTREAM_DATA_MODULE}`;

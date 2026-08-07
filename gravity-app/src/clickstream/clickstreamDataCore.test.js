@@ -11,7 +11,7 @@ import {
 
 test('extractClickstreamData reads the real neighboring legacy report', () => {
   const source = readFileSync(
-    new URL('../../../Кликстрим_Месячный_все_воронки_zeroed.html', import.meta.url),
+    new URL('../../../Кликстрим_Месячный_все_воронки.html', import.meta.url),
     'utf8',
   );
   const data = extractClickstreamData(source);

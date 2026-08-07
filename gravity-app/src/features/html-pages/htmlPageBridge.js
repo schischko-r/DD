@@ -66,6 +66,33 @@ function nativeExpectedValue(control, value) {
   return option?.value ?? value;
 }
 
+function datalistValue(document, control, value) {
+  const listId = control?.getAttribute?.('list');
+  if (!listId) return {ready: true, value};
+  const list = document.getElementById?.(listId) || document.querySelector?.(`#${listId}`);
+  const options = Array.from(list?.querySelectorAll?.('option') || []);
+  if (!options.length) return {ready: false, value: ''};
+
+  const normalizedValue = normalizeText(value);
+  const option = options.find((candidate) => (
+    normalizeText(candidate.value) === normalizedValue
+    || normalizeText(candidate.textContent) === normalizedValue
+  ));
+  return {ready: true, value: option?.value || ''};
+}
+
+function directFieldValue(document, control, value) {
+  if (control?.options) {
+    const normalizedValue = normalizeText(value);
+    const option = Array.from(control.options).find((candidate) => (
+      normalizeText(candidate.value) === normalizedValue
+      || normalizeText(candidate.textContent || candidate.label) === normalizedValue
+    ));
+    return {ready: true, value: option?.value || ''};
+  }
+  return datalistValue(document, control, value);
+}
+
 function applyNativeValue(document, container, control, value, markerKey) {
   const expectedValue = String(value ?? '');
   const normalizedExpected = normalizeText(expectedValue);
@@ -207,6 +234,45 @@ function applyFieldValue(document, container, value) {
   return applyGravityValue(document, container, value);
 }
 
+function applyGroupedFieldValue(document, field, container, value) {
+  const productControl = nativeControl(container);
+  if (!productControl) return false;
+
+  const directValue = directFieldValue(document, productControl, value);
+  if (!directValue.ready) return false;
+  if (directValue.value) {
+    return applyNativeValue(
+      document,
+      container,
+      productControl,
+      directValue.value,
+      '__ddiBridgeNativeValue',
+    );
+  }
+
+  const groupContainer = document.querySelector(field.groupSelector);
+  const groupControl = nativeControl(groupContainer);
+  if (!groupContainer || !groupControl) return false;
+  if (!applyNativeValue(
+    document,
+    groupContainer,
+    groupControl,
+    value,
+    '__ddiBridgeGroupValue',
+  )) {
+    return false;
+  }
+
+  const pill = document.querySelector(field.groupPillSelector);
+  if (!pill) return false;
+  if (!groupContainer.__ddiBridgeGroupPill) {
+    pill.click();
+    groupContainer.__ddiBridgeGroupPill = true;
+    return false;
+  }
+  return Boolean(productControl.value);
+}
+
 function applyLatestPeriod(document, container) {
   const control = nativeControl(container);
   if (control?.options) {
@@ -251,7 +317,10 @@ export function applyHtmlPageBridge(document, bridge = {}, context = {}) {
       if (field.required) return {ready: false, showTriggered: false};
       continue;
     }
-    if (!applyFieldValue(document, container, value)) {
+    const applied = field.groupSelector
+      ? applyGroupedFieldValue(document, field, container, value)
+      : applyFieldValue(document, container, value);
+    if (!applied) {
       return {ready: false, showTriggered: false};
     }
   }
@@ -261,6 +330,10 @@ export function applyHtmlPageBridge(document, bridge = {}, context = {}) {
     if (!periodContainer || !applyLatestPeriod(document, periodContainer)) {
       return {ready: false, showTriggered: false};
     }
+  }
+
+  if (bridge.autoSubmitOnChange) {
+    return {ready: true, showTriggered: true};
   }
 
   const showControl = findShowControl(document, bridge.showSelector);

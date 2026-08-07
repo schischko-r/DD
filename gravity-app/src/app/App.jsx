@@ -109,7 +109,7 @@ export function App() {
     window.scrollTo(0, 0);
   };
   const openHtmlPageTool = (toolId, context = {}) => {
-    setHtmlPageContext(context);
+    setHtmlPageContext({...context, product: product?.name || ''});
     setView(`html-page:${toolId}`);
     window.scrollTo(0, 0);
   };

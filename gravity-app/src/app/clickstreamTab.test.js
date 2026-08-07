@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createServer as createNetServer} from 'node:net';
 import {fileURLToPath} from 'node:url';
 import {
   applyHtmlPageBridge,
@@ -105,25 +106,13 @@ test('tool catalog declares Clickstream as a universal html_page integration', (
 
 test('html_page URL, title and Gravity icon come from the Vite env map', () => {
   assert.deepEqual(htmlPageEnvConfig, {
-    clickstream: {
-      url: `./${gravityReportFileName}`,
-      title: 'Анализ кликстрим воронок',
-      icon: 'ChartLine',
-    },
-    client_metrics: {url: '', title: 'Клиентские метрики', icon: 'ChartColumn'},
-    complaints: {url: '', title: 'Жалобы и обращения', icon: 'Comments'},
-    csi: {url: '', title: 'CSI', icon: 'CircleCheck'},
-    drafts: {
-      url: './report_merge_funnel_drafts.html',
-      title: 'Черновики и оформление в СБОЛ',
-      icon: 'FileText',
-    },
-    outreach_copy: {
-      url: './report_merge_funnel_drafts_copy_paste.html',
-      title: 'Коммуникации · copy-paste',
-      icon: 'PaperPlane',
-    },
-    funnel: {url: '', title: 'Воронка кампейнинга', icon: 'ChartAreaStacked'},
+    clickstream: {url: 'Кликстрим_Месячный_все_воронки.html', title: 'Воронка оформления в СБОЛ', icon: 'Smartphone'},
+    pilots: {url: 'pilots_07-08-2026.html', title: 'Пилотные кампании', icon: 'PaperPlane'},
+    funnel: {url: 'Воронка_SberPAY_2026-07-31.html', title: 'Воронка кампейнинга', icon: 'Funnel'},
+    complaints: {url: 'Жалобы_все_продукты.html', title: 'Жалобы', icon: 'FaceSad'},
+    drafts: {url: 'Черновики_все_продукты.html', title: 'Черновики', icon: 'FileText'},
+    client_metrics: {url: 'Клиентские_метрики_все_продукты.html', title: 'MAU', icon: 'ChartAreaStackedNormalized'},
+    csi: {url: 'CSI_все_продукты.html', title: 'CSI', icon: 'Heart'},
   });
 
   assert.match(toolCatalogSource, /import\.meta\.env\.VITE_HTML_PAGE_URLS/);
@@ -271,6 +260,7 @@ test('Team profile resolves a generic html_page action from recommendation metad
 
 test('App opens a resolved html_page with mapped context and renders the generic report page', () => {
   assert.match(appSource, /const openHtmlPageTool\s*=\s*\(toolId,\s*context\s*=\s*\{\}\)\s*=>/);
+  assert.match(appSource, /setHtmlPageContext\(\{\.\.\.context,\s*product:\s*product\?\.name\s*\|\|\s*['"]['"]\}\)/);
   assert.match(appSource, /setView\(`html-page:\$\{toolId\}`\)/);
   const teamProfile = appSource.match(/<TeamProfilePage\b[\s\S]*?\/>/)?.[0];
   assert.ok(teamProfile, 'Team profile view is missing');
@@ -338,7 +328,21 @@ test('configured sibling HTML uses incremental standalone embedding with a prese
 });
 
 test('Vite serves the configured Gravity UI sibling report instead of the application fallback', async (t) => {
+  const previousHtmlPageUrls = process.env.VITE_HTML_PAGE_URLS;
+  process.env.VITE_HTML_PAGE_URLS = JSON.stringify(htmlPageEnvConfig);
+  t.after(() => {
+    if (previousHtmlPageUrls === undefined) delete process.env.VITE_HTML_PAGE_URLS;
+    else process.env.VITE_HTML_PAGE_URLS = previousHtmlPageUrls;
+  });
   const {createServer} = await import('vite');
+  const port = await new Promise((resolve, reject) => {
+    const probe = createNetServer();
+    probe.once('error', reject);
+    probe.listen(0, '127.0.0.1', () => {
+      const address = probe.address();
+      probe.close((error) => error ? reject(error) : resolve(address.port));
+    });
+  });
   const server = await createServer({
     configFile: fileURLToPath(new URL('../../vite.config.js', import.meta.url)),
     optimizeDeps: {
@@ -346,7 +350,7 @@ test('Vite serves the configured Gravity UI sibling report instead of the applic
     },
     server: {
       host: '127.0.0.1',
-      port: 0,
+      port,
       strictPort: true,
     },
   });
@@ -356,7 +360,7 @@ test('Vite serves the configured Gravity UI sibling report instead of the applic
   const address = server.httpServer?.address();
   assert.ok(address && typeof address === 'object', 'Vite test server did not expose a port');
   const reportUrl = new URL(
-    `/${encodeURIComponent(gravityReportFileName)}`,
+    `/${encodeURIComponent(htmlPageEnvConfig.clickstream.url)}`,
     `http://127.0.0.1:${address.port}`,
   );
   const response = await fetch(reportUrl);
@@ -365,9 +369,8 @@ test('Vite serves the configured Gravity UI sibling report instead of the applic
   assert.equal(response.status, 200);
   assert.match(response.headers.get('content-type') || '', /^text\/html\b/);
   assert.ok(body.length > 1_000_000, 'Configured request returned the small Vite app fallback');
-  assert.match(body, /Анализ кликстрим воронок/);
-  assert.match(body, /@gravity-ui\/uikit|g-card|clickstream-summary-grid/);
-  assert.doesNotMatch(body, /var _ALL_DATA\s*=/);
+  assert.match(body, /Кликстрим — Месячный — выгрузка/);
+  assert.match(body, /var _ALL_DATA\s*=/);
 
   assert.match(viteConfigSource, /const allowedFiles\s*=\s*new Map\(\)/);
   assert.match(viteConfigSource, /allowedFiles\.get\(requestPath\)/);
@@ -493,6 +496,121 @@ test('generic HTML report selects the chronologically latest enabled period and 
   assert.match(bridgeSource, /latestPeriodValue\(control\.options\)/);
   assert.match(bridgeSource, /normalizeText\(control\.value\)\s*===\s*normalizedExpected/);
   assert.match(bridgeSource, /if \(showTriggered\) showControl\.click\(\)/);
+});
+
+test('HTML report relies on change events when the embedded page has no Show button', () => {
+  const productControl = {
+    tagName: 'SELECT',
+    value: '',
+    options: [{value: 'Вклады', textContent: 'Вклады', disabled: false}],
+    dispatchEvent() {},
+  };
+  const periodControl = {
+    tagName: 'SELECT',
+    value: '',
+    options: [
+      {value: '2026-07', textContent: 'июль 2026', disabled: false},
+      {value: '2026-08', textContent: 'август 2026', disabled: false},
+    ],
+    dispatchEvent() {},
+  };
+  const controls = new Map([
+    ['#exp-product', productControl],
+    ['#exp-month', periodControl],
+  ]);
+  const fakeDocument = {
+    defaultView: {Event},
+    querySelector(selector) {
+      return controls.get(selector) || null;
+    },
+  };
+  const bridge = {
+    fields: [{contextKey: 'product', selector: '#exp-product', required: true}],
+    latestPeriodSelector: '#exp-month',
+    autoSubmitOnChange: true,
+  };
+
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'}),
+    {ready: false, showTriggered: false},
+  );
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'}),
+    {ready: false, showTriggered: false},
+  );
+  assert.deepEqual(
+    applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады'}),
+    {ready: true, showTriggered: true},
+  );
+  assert.equal(periodControl.value, '2026-08');
+});
+
+test('HTML report resolves a DDI product group through the embedded product picker', () => {
+  const productControl = {
+    tagName: 'INPUT',
+    value: '',
+    getAttribute(name) {
+      return name === 'list' ? 'products' : null;
+    },
+    dispatchEvent() {},
+  };
+  const groupControl = {
+    tagName: 'INPUT',
+    value: '',
+    getAttribute() {
+      return null;
+    },
+    dispatchEvent() {},
+  };
+  const periodControl = {
+    tagName: 'SELECT',
+    value: '',
+    options: [{value: '2026-06', textContent: 'июнь 2026', disabled: false}],
+    dispatchEvent() {},
+  };
+  const showControl = {clicks: 0, click() { this.clicks += 1; }};
+  const productList = {
+    querySelectorAll(selector) {
+      return selector === 'option'
+        ? [{value: 'Вклады', textContent: 'Вклады'}]
+        : [];
+    },
+  };
+  const pill = {click() { productControl.value = 'Вклады'; }};
+  const fakeDocument = {
+    defaultView: {Event},
+    getElementById(id) {
+      return id === 'products' ? productList : null;
+    },
+    querySelector(selector) {
+      if (selector === '#exp-product') return productControl;
+      if (selector === '#exp-filter-panel input.filter-select:not([list])') return groupControl;
+      if (selector === '#exp-filter-panel .group-pill') return pill;
+      if (selector === '#exp-period') return periodControl;
+      if (selector === '#exp-show') return showControl;
+      return null;
+    },
+  };
+  const bridge = {
+    fields: [{
+      contextKey: 'product',
+      selector: '#exp-product',
+      required: true,
+      groupSelector: '#exp-filter-panel input.filter-select:not([list])',
+      groupPillSelector: '#exp-filter-panel .group-pill',
+    }],
+    latestPeriodSelector: '#exp-period',
+    showSelector: '#exp-show',
+  };
+
+  let result = {ready: false, showTriggered: false};
+  for (let attempt = 0; attempt < 6 && !result.showTriggered; attempt += 1) {
+    result = applyHtmlPageBridge(fakeDocument, bridge, {product: 'Вклады+НС'});
+  }
+  assert.deepEqual(result, {ready: true, showTriggered: true});
+  assert.equal(groupControl.value, 'Вклады+НС');
+  assert.equal(productControl.value, 'Вклады');
+  assert.equal(showControl.clicks, 1);
 });
 
 test('generic HTML report does not click Show when a native select rejects the mapped product', () => {

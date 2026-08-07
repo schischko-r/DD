@@ -43,6 +43,86 @@ const TOOL_DEFINITIONS = [
       showSelector: '#exp-show, button[onclick="_doLoad()"]',
     }),
   }),
+  Object.freeze({
+    id: 'pilots',
+    bridge: Object.freeze({
+      fields: Object.freeze([
+        Object.freeze({
+          contextKey: 'product',
+          selector: '#exp-product',
+          required: true,
+          groupSelector: '#exp-filter-panel input.filter-select:not([list])',
+          groupPillSelector: '#exp-filter-panel .group-pill',
+        }),
+      ]),
+      latestPeriodSelector: '#exp-month',
+      autoSubmitOnChange: true,
+    }),
+  }),
+  Object.freeze({
+    id: 'funnel',
+    bridge: Object.freeze({
+      fields: Object.freeze([
+        Object.freeze({
+          contextKey: 'product',
+          selector: '#exp-product',
+          required: true,
+          groupSelector: '#exp-filter-row input.filter-select:not([list])',
+          groupPillSelector: '#exp-filter-row .group-pill',
+        }),
+      ]),
+      latestPeriodSelector: '#exp-dt',
+      showSelector: 'button[onclick="onFilterChange()"]',
+    }),
+  }),
+  Object.freeze({
+    id: 'client_metrics',
+    bridge: Object.freeze({
+      fields: Object.freeze([
+        Object.freeze({
+          contextKey: 'product',
+          selector: '#exp-product',
+          required: true,
+          groupSelector: '#exp-filter-panel input.filter-select:not([list])',
+          groupPillSelector: '#exp-filter-panel .group-pill',
+        }),
+      ]),
+      latestPeriodSelector: '#exp-date',
+      showSelector: 'button[onclick="_onDate()"]',
+    }),
+  }),
+  Object.freeze({
+    id: 'drafts',
+    bridge: Object.freeze({
+      fields: Object.freeze([
+        Object.freeze({
+          contextKey: 'product',
+          selector: '#exp-product',
+          required: true,
+          groupSelector: '#exp-filter-panel input.filter-select:not([list])',
+          groupPillSelector: '#exp-filter-panel .group-pill',
+        }),
+      ]),
+      latestPeriodSelector: '#exp-period',
+      showSelector: '#exp-show, button[onclick="_doLoad()"]',
+    }),
+  }),
+  ...['csi', 'complaints'].map((id) => Object.freeze({
+    id,
+    bridge: Object.freeze({
+      fields: Object.freeze([
+        Object.freeze({
+          contextKey: 'product',
+          selector: '#exp-product',
+          required: true,
+          groupSelector: '#exp-filter-panel input.filter-select:not([list])',
+          groupPillSelector: '#exp-filter-panel .group-pill',
+        }),
+      ]),
+      latestPeriodSelector: '#exp-period',
+      showSelector: '#exp-show, button[onclick="_doLoad()"]',
+    }),
+  })),
 ];
 
 const TOOL_DEFINITIONS_BY_ID = new Map(
