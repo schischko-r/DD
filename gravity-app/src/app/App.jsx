@@ -16,9 +16,27 @@ import ocb2cLogo from '../assets/ocb2c.png';
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
 const BACKLOG_DECOMPOSITION_ENABLED = import.meta.env.VITE_BACKLOG_DECOMPOSITION_ENABLED !== 'false';
 const normalizeTeamName = (value) => String(value || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('ru-RU');
+const CJXPLORER_PRODUCT_ALIASES = {
+  'Автокредит': ['Автокредит', 'Автокредит (с2с)'], 'Платежи': ['Автоплатеж', 'Оплата с нескольких счетов', 'Платеж ЖКХ (Дом)', 'Платежи'],
+  'БПИФ': ['БПИФ'], 'Брокерский счет': ['Брокерское обслуживание'], 'СБОЛ': ['Веб СБОЛ', 'Витрина инвестиций', 'Витрина страхования', 'МП СБОЛ', 'Поиск в МП СБОЛ', 'Раздел «Настройки» в МП СБОЛ', 'Раздел Выгода в МП СБОЛ'],
+  'Вклады+НС': ['Вклад', 'Вклад Лучший %', 'Вклад Молодежный', 'Вклад Сбер Акционер', 'Накопительный счет для массовых клиентов', 'Накопительный счет Премиум'], 'ПДС': ['Вклад «Забота о будущем» + ПДС', 'ПДС'],
+  'Дебетовая карта': ['Дебетовая карта', 'Зарплатная карта', 'Молодежная карта'], 'Потребительский кредит': ['Деньги до зарплаты', 'Кредит наличными (Потребительский кредит)', 'Потребительский кредит', 'Реструктуризация', 'Рефинансирование'],
+  'POS-кредиты': ['Деньги за покупки (POS)'], 'Детская карта': ['Детская карта'], 'ЗЛС': ['Защита на любой случай (ЗЛС)'], 'ЗПИФ': ['ЗПИФ'], 'ИСЖ': ['ИСЖ'], 'Кредитные карты': ['Кредитная карта'],
+  'Кредитный потенциал': ['Кредитный потенциал', 'Кредитный потенциал (СХ)'], 'Переводы по РФ': ['Межбанковский перевод', 'Перевод по СБП', 'Переводы', 'Переводы по СберХаб', 'Переводы ТГП'],
+  'Наследство': ['Наследство'], 'НСЖ': ['НСЖ', 'НСЖ (накопительное страхование жизни)'], 'Конверсия': ['Обмен безналичной валюты', 'Обмен наличной валюты без идентификации'], 'Образовательный кредит': ['Образовательный кредит'],
+  'ОМС': ['ОМС (Обезличенный металлический счёт)'], 'ОПИФ': ['ОПИФ (Открытый паевой инвестиционный фонд)'], 'Сценарии оплаты': ['Оплата картой на терминале'], 'SberPay NFC': ['Оплата телефоном SberPay NFC', 'SberPay NFC'],
+  'BNPL': ['Оплата частями (BNPL)'], 'Пенсионный продукт': ['Пенсия', 'Перевод пенсии в Сбер'], 'Телеком (Оплата сотовой связи) и сканер QR': ['Платеж за Телеком'], 'Переводы подарков': ['Подарок в переводах'],
+  'Чат': ['Поддержка в чате'], 'СберПрайм': ['Подписка Прайм'], 'Пакет услуг СберПремьер': ['Премиальный пакет'], 'СберСпасибо': ['Программа лояльности (бонусы "Спасибо")'],
+  'Пакет услуг СберПервый': ['ПУ Сбер Первый'], 'Самозанятые. Списочная регистрация': ['Самозанятость (Своё дело)'], 'СберИнвестор': ['Сбер Инвестиции (приложение)'],
+  'СберЗдоровье': ['СберЗдоровье'], 'СберМобайл': ['СберМобайл'], 'СберKids': ['СберKids (приложение)'], 'Сейфы': ['Сейфы'], 'Страхование жизни': ['Страхование жизни'], 'Оплата улыбкой': ['SberPay Улыбка'],
+  SberID: ['Детский Сбер ID', 'Сбер ID'],
+};
 
 export function App() {
   const [data, setData] = useState(null);
+  const [cjxplorer, setCjxplorer] = useState(null);
+  const [cjxplorerCreditCard, setCjxplorerCreditCard] = useState(null);
+  const [cjxplorerDetails, setCjxplorerDetails] = useState(null);
   const [backlog, setBacklog] = useState({status: 'loading', data: null});
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
@@ -35,6 +53,9 @@ export function App() {
       .then((response) => response.json())
       .then(setData);
   }, []);
+  useEffect(() => { fetch('./cjxplorer-summary.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorer).catch(() => setCjxplorer(null)); }, []);
+  useEffect(() => { fetch('./cjxplorer-credit-card.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorerCreditCard).catch(() => setCjxplorerCreditCard(null)); }, []);
+  useEffect(() => { fetch('./cjxplorer-product-details.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorerDetails).catch(() => setCjxplorerDetails(null)); }, []);
   useEffect(() => {
     if (!BACKLOG_DECOMPOSITION_ENABLED) {
       setBacklog({status: 'disabled', data: null});
@@ -73,6 +94,13 @@ export function App() {
     || data.products.find((item) => /^вклады\s*\+\s*нс$/i.test(String(item.name || '').trim()))
     || data.products[0];
   const product = selected || defaultProduct;
+  const cjxplorerNames = CJXPLORER_PRODUCT_ALIASES[product.name] || [];
+  const cjxplorerSummaryProduct = cjxplorerNames.map((name) => cjxplorer?.products?.find((item) => String(item.name || '').trim().toLocaleLowerCase('ru') === name.toLocaleLowerCase('ru'))).find(Boolean) || null;
+  const cjxplorerDetail = cjxplorerDetails?.products?.find((item) => item.id === cjxplorerSummaryProduct?.id)
+    || (cjxplorerCreditCard?.product?.id === cjxplorerSummaryProduct?.id ? cjxplorerCreditCard.product : null);
+  const cjxplorerProduct = cjxplorerSummaryProduct
+    ? {...cjxplorerSummaryProduct, ...(cjxplorerDetail || {})}
+    : null;
   const openProduct = (item) => {
     updateSummaryFilters({unit: item.unit && isUnitFilterOption(item.unit) ? item.unit : ''});
     setSelected(item);
@@ -180,7 +208,7 @@ export function App() {
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'backlog' && BACKLOG_DECOMPOSITION_ENABLED
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
-            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} />;
+            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} cjxplorerProduct={cjxplorerProduct} />;
   return (
     <AsideHeader
       compact={compact}

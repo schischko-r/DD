@@ -101,7 +101,7 @@ export function metricWord(count) {
 export const catalogGroups = [
   {type: 'Продукт', label: 'Продукты', tone: 'product'},
   {type: 'Сегмент', label: 'Сегменты', tone: 'segment'},
-  {type: 'Канал', label: 'Каналы', tone: 'channel'},
+  {type: 'Канал', label: 'Каналы и поверхности', tone: 'channel'},
 ];
 
 export function CatalogDialog({openType, products, rows, onOpen, onClose}) {

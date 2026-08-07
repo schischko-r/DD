@@ -40,7 +40,7 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
   const categoryMeta = [
     {key: 'product', label: 'Продукты', typeLabel: 'Продукт', icon: CircleDollar, tone: 'product'},
     {key: 'segment', label: 'Сегменты', typeLabel: 'Сегмент', icon: Persons, tone: 'segment'},
-    {key: 'channel', label: 'Каналы', typeLabel: 'Канал', icon: NodesRight, tone: 'channel'},
+    {key: 'channel', label: 'Каналы и поверхности', typeLabel: 'Канал', icon: NodesRight, tone: 'channel'},
   ];
   const maturityLevels = [
     {theme: 'success', label: 'Лидеры'},
