@@ -144,6 +144,14 @@ fi
         self.assertIn("extension/45678_2/uploadfile", invocations[2])
         self.assertIn("externalpath=45678_2.html", invocations[2])
 
+    def test_update_prod_only_skips_build_and_test_upload(self) -> None:
+        invocations, _ = self.run_wrapper("--upd-prod-only", upload=True)
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("upload_html.py", invocations[0])
+        self.assertIn("extension/45678_2/uploadfile", invocations[0])
+        self.assertNotIn("45678_3_test_", invocations[0])
+
     def test_update_prod_respects_no_upload(self) -> None:
         invocations, _ = self.run_wrapper("--upd-prod", "--no-upload")
 

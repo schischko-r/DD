@@ -64,6 +64,7 @@ load_env() {
 DATA_ONLY=0
 UPLOAD_ENABLED=1
 UPDATE_PROD=0
+UPDATE_PROD_ONLY=0
 STANDALONE_OUTPUT="$REPOSITORY_DIR/gravity-standalone.html"
 STANDALONE_OUTPUT_SET=0
 FORWARD_ARGS=()
@@ -84,6 +85,10 @@ while (($# > 0)); do
       ;;
     --upd-prod)
       UPDATE_PROD=1
+      shift
+      ;;
+    --upd-prod-only)
+      UPDATE_PROD_ONLY=1
       shift
       ;;
     --standalone-output)
@@ -157,7 +162,7 @@ if ((UPLOAD_ENABLED == 1)); then
   fi
 fi
 
-if ((DATA_ONLY == 0)); then
+if ((DATA_ONLY == 0 && UPDATE_PROD_ONLY == 0)); then
   if ! command -v "$NPM_BIN" >/dev/null 2>&1; then
     echo "npm executable not found: $NPM_BIN" >&2
     exit 1
@@ -209,10 +214,16 @@ run_uploader() {
   "$PYTHON_BIN" upload_html.py "${upload_args[@]}"
 }
 
-run_builder
-if ((UPLOAD_ENABLED == 1)); then
-  run_uploader "$UPLOAD_URL"
-  if ((UPDATE_PROD == 1)); then
+if ((UPDATE_PROD_ONLY == 1)); then
+  if ((UPLOAD_ENABLED == 1)); then
     run_uploader "$PROD_UPLOAD_URL"
+  fi
+else
+  run_builder
+  if ((UPLOAD_ENABLED == 1)); then
+    run_uploader "$UPLOAD_URL"
+    if ((UPDATE_PROD == 1)); then
+      run_uploader "$PROD_UPLOAD_URL"
+    fi
   fi
 fi
