@@ -28,6 +28,9 @@ const blockTitleSource = profileSource.match(
 const normalizeUpliftBindingSource = profileSource.match(
   /function normalizeUpliftBinding[\s\S]*?(?=\nfunction metricUpliftRecommendation)/,
 )?.[0] || '';
+const funnelRegularitySource = profileSource.match(
+  /function isFunnelReportingRegularity[\s\S]*?(?=\nconst CROSS_SELL_UNCONFIRMED_MESSAGE)/,
+  )?.[0] || '';
 
 const upliftRecommendationContext = Object.create(null);
 runInNewContext(
@@ -36,6 +39,11 @@ globalThis.upliftRecommendationApi = {metricUpliftRecommendation};`,
   upliftRecommendationContext,
 );
 const {upliftRecommendationApi} = upliftRecommendationContext;
+const funnelRegularityContext = Object.create(null);
+runInNewContext(
+  `${funnelRegularitySource}\nglobalThis.funnelRegularityApi = {isFunnelReportingRegularity};`,
+  funnelRegularityContext,
+);
 const blockTitleContext = Object.create(null);
 runInNewContext(
   `${normalizeUpliftBindingSource}\n${blockTitleSource}\nglobalThis.blockTitleApi = {teamProfileBlockTitle};`,
@@ -65,6 +73,17 @@ test('team profile labels goals and CX blocks for their audience', () => {
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX Score report'}]}), 'CX Score');
   assert.match(profileSource, /<h3>\{teamProfileBlockTitle\(block\)\}<\/h3>/);
   assert.match(profileSource, /name: teamProfileBlockTitle\(block\)/);
+});
+
+test('funnel regularity is visually nested under reporting only in funnel blocks', () => {
+  const {isFunnelReportingRegularity} = funnelRegularityContext.funnelRegularityApi;
+  assert.equal(isFunnelReportingRegularity({code: 'attract'}, {name: 'Регулярность'}), true);
+  assert.equal(isFunnelReportingRegularity({code: 'churn'}, {name: 'Регулярность (авто)'}), true);
+  assert.equal(isFunnelReportingRegularity({code: 'goals'}, {name: 'Регулярность'}), false);
+  assert.equal(isFunnelReportingRegularity({code: 'attract'}, {name: 'Полнота отчета'}), false);
+  assert.match(profileSource, /nested=\{isFunnelReportingRegularity\(block, metric\)\}/);
+  assert.match(stylesSource, /\.metric-list \.metric-row-nested \{ position: relative; padding-left: 52px; \}/);
+  assert.match(stylesSource, /\.metric-row-nested::before/);
 });
 
 test('business metrics analytics action follows the DD metric grid instead of AI recommendations', () => {

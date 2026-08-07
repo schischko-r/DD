@@ -7,6 +7,9 @@ from pathlib import Path
 from build_gravity_standalone import (
     BASE64_CHUNK_SIZE,
     DEFAULT_BACKLOG_DATA,
+    DEFAULT_CJXPLORER_CREDIT_CARD_DATA,
+    DEFAULT_CJXPLORER_PRODUCT_DETAILS_DATA,
+    DEFAULT_CJXPLORER_SUMMARY_DATA,
     DEFAULT_OUTPUT,
     _load_json,
     build,
@@ -23,6 +26,16 @@ class BuildGravityStandaloneTest(unittest.TestCase):
         self.assertIn(_load_json(DEFAULT_BACKLOG_DATA), result)
         self.assertIn(f'"historyEnd":"{meta["historyEnd"]}"', result)
         self.assertIn(f'"includedTickets":{meta["includedTickets"]}', result)
+
+    def test_repository_standalone_embeds_cjxplorer_data_for_file_opening(self) -> None:
+        result = DEFAULT_OUTPUT.read_text(encoding="utf-8")
+        for data_path, filename in (
+            (DEFAULT_CJXPLORER_SUMMARY_DATA, "cjxplorer-summary.json"),
+            (DEFAULT_CJXPLORER_CREDIT_CARD_DATA, "cjxplorer-credit-card.json"),
+            (DEFAULT_CJXPLORER_PRODUCT_DETAILS_DATA, "cjxplorer-product-details.json"),
+        ):
+            self.assertNotIn(f"./{filename}", result)
+            self.assertIn(_load_json(data_path), result)
 
     def test_vite_config_deduplicates_react_for_standalone_charts(self) -> None:
         app_root = DEFAULT_OUTPUT.parent / "gravity-app"
@@ -101,6 +114,47 @@ class BuildGravityStandaloneTest(unittest.TestCase):
                 result,
             )
             self.assertNotIn("</script>&>", result)
+
+    def test_embeds_cjxplorer_data_when_the_bundle_fetches_it(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            summary_data = root / "cjxplorer-summary.json"
+            credit_card_data = root / "cjxplorer-credit-card.json"
+            product_details_data = root / "cjxplorer-product-details.json"
+            output = root / "standalone.html"
+            template.write_text(
+                '<script>fetch("./report-data.json").then(load);'
+                "fetch('./cjxplorer-summary.json', {cache: 'no-store'}).then(loadSummary);"
+                'fetch("./cjxplorer-credit-card.json").then(loadCreditCard);'
+                "fetch('./cjxplorer-product-details.json', {cache: 'no-store'}).then(loadDetails)</script>",
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            summary_data.write_text(json.dumps({"products": [{"name": "Сводка"}]}), encoding="utf-8")
+            credit_card_data.write_text(json.dumps({"product": {"name": "Карта"}}), encoding="utf-8")
+            product_details_data.write_text(json.dumps({"products": [{"name": "Детали </script>"}]}), encoding="utf-8")
+
+            build(
+                template,
+                data,
+                output,
+                cjxplorer_summary_data_path=summary_data,
+                cjxplorer_credit_card_data_path=credit_card_data,
+                cjxplorer_product_details_data_path=product_details_data,
+            )
+
+            result = output.read_text(encoding="utf-8")
+            for filename in (
+                "cjxplorer-summary.json",
+                "cjxplorer-credit-card.json",
+                "cjxplorer-product-details.json",
+            ):
+                self.assertNotIn(f"./{filename}", result)
+            self.assertIn('{"products":[{"name":"Сводка"}]}', result)
+            self.assertIn('{"product":{"name":"Карта"}}', result)
+            self.assertIn('{"products":[{"name":"Детали \\u003c/script\\u003e"}]}', result)
 
     def test_requires_backlog_fetch_marker_only_when_backlog_data_is_requested(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

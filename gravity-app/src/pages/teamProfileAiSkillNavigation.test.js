@@ -67,3 +67,11 @@ test('mapped skill actions keep their metric bindings and report-access fallback
   );
   assert.doesNotMatch(profileSource, /ProductMetricBlocks|ProductMetricRecommendations|setLens\(|lens === 'metrics'/);
 });
+
+test('CX Score prioritizes CJ analysis before CSI and complaints', () => {
+  const cj = profileSource.indexOf("aiMetricInsights.push({title: 'Оценка CJ'");
+  const csi = profileSource.indexOf("aiMetricInsights.push(metricAiInsight('CSI'");
+  const complaints = profileSource.indexOf("aiMetricInsights.push(metricAiInsight('жалобам и обращениям'");
+
+  assert.ok(cj >= 0 && cj < csi && csi < complaints);
+});

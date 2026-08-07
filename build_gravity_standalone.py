@@ -15,6 +15,9 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_TEMPLATE = ROOT / "gravity-app" / "dist" / "index.html"
 DEFAULT_DATA = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
+DEFAULT_CJXPLORER_SUMMARY_DATA = ROOT / "gravity-app" / "public" / "cjxplorer-summary.json"
+DEFAULT_CJXPLORER_CREDIT_CARD_DATA = ROOT / "gravity-app" / "public" / "cjxplorer-credit-card.json"
+DEFAULT_CJXPLORER_PRODUCT_DETAILS_DATA = ROOT / "gravity-app" / "public" / "cjxplorer-product-details.json"
 DEFAULT_OUTPUT = ROOT / "gravity-standalone.html"
 HTML_PAGE_MANIFEST_PATTERN = re.compile(
     r'<script\b'
@@ -98,34 +101,42 @@ def _replacement(data: str) -> str:
     return f"Promise.resolve({{ok: true, json: () => Promise.resolve({data})}})"
 
 
+def _embed_json_fetch(template: str, data_path: Path, filename: str) -> str:
+    replacement = _replacement(_load_json(data_path))
+    fetch_pattern = re.compile(
+        rf"fetch\(([\"'])\./{re.escape(filename)}\1(?:\s*,\s*\{{\s*cache\s*:\s*([\"'])no-store\2\s*\}})?\)"
+    )
+    template, replacement_count = fetch_pattern.subn(lambda _match: replacement, template)
+    if replacement_count == 0:
+        raise ValueError(
+            f"The bundle does not contain the {filename.removesuffix('.json')} fetch marker"
+        )
+    return template
+
+
 def build(
     template_path: Path,
     data_path: Path,
     output_path: Path,
     html_page_root: Path = ROOT,
     backlog_data_path: Path | None = None,
+    cjxplorer_summary_data_path: Path | None = None,
+    cjxplorer_credit_card_data_path: Path | None = None,
+    cjxplorer_product_details_data_path: Path | None = None,
 ) -> None:
     template = template_path.read_text(encoding="utf-8")
-    replacement = _replacement(_load_json(data_path))
-
-    fetch_pattern = re.compile(
-        r"fetch\(([\"'])\./report-data\.json\1(?:\s*,\s*\{\s*cache\s*:\s*([\"'])no-store\2\s*\})?\)"
-    )
-    template, replacement_count = fetch_pattern.subn(lambda _match: replacement, template)
-
-    if replacement_count == 0:
-        raise ValueError("The bundle does not contain the report-data fetch marker")
+    template = _embed_json_fetch(template, data_path, "report-data.json")
 
     if backlog_data_path is not None:
-        backlog_replacement = _replacement(_load_json(backlog_data_path))
-        backlog_fetch_pattern = re.compile(
-            r"fetch\(([\"'])\./backlog-data\.json\1(?:\s*,\s*\{\s*cache\s*:\s*([\"'])no-store\2\s*\})?\)"
-        )
-        template, backlog_replacement_count = backlog_fetch_pattern.subn(
-            lambda _match: backlog_replacement, template
-        )
-        if backlog_replacement_count == 0:
-            raise ValueError("The bundle does not contain the backlog-data fetch marker")
+        template = _embed_json_fetch(template, backlog_data_path, "backlog-data.json")
+
+    for data_path, filename in (
+        (cjxplorer_summary_data_path, "cjxplorer-summary.json"),
+        (cjxplorer_credit_card_data_path, "cjxplorer-credit-card.json"),
+        (cjxplorer_product_details_data_path, "cjxplorer-product-details.json"),
+    ):
+        if data_path is not None:
+            template = _embed_json_fetch(template, data_path, filename)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     _embed_html_pages_incrementally(template, output_path, html_page_root)
@@ -136,6 +147,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE)
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA)
     parser.add_argument("--backlog-data", type=Path)
+    parser.add_argument("--cjxplorer-summary-data", type=Path, default=DEFAULT_CJXPLORER_SUMMARY_DATA)
+    parser.add_argument("--cjxplorer-credit-card-data", type=Path, default=DEFAULT_CJXPLORER_CREDIT_CARD_DATA)
+    parser.add_argument("--cjxplorer-product-details-data", type=Path, default=DEFAULT_CJXPLORER_PRODUCT_DETAILS_DATA)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--html-page-root", type=Path, default=ROOT)
     return parser.parse_args()
@@ -149,6 +163,9 @@ def main() -> None:
         args.output,
         html_page_root=args.html_page_root,
         backlog_data_path=args.backlog_data,
+        cjxplorer_summary_data_path=args.cjxplorer_summary_data,
+        cjxplorer_credit_card_data_path=args.cjxplorer_credit_card_data,
+        cjxplorer_product_details_data_path=args.cjxplorer_product_details_data,
     )
     print(args.output)
 
