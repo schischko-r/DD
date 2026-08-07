@@ -210,6 +210,28 @@ METRIC_BLOCK_DISPLAY_ORDER = (
 METRIC_BLOCK_DISPLAY_RANK = {
     block_code: index for index, block_code in enumerate(METRIC_BLOCK_DISPLAY_ORDER)
 }
+DATA_UNIT_BLOCK_LINKS = {
+    "sberid": {
+        "знание ключевых метрик": {
+            "label": "Ключевые метрики SberID",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000002350",
+        },
+        "воронка использования": {
+            "label": "Воронка использования SberID",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000001827",
+        },
+    },
+    "единый личный кабинет (елк)": {
+        "воронка использования": {
+            "label": "Воронка использования ЕЛК",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000002960",
+        },
+    },
+}
+DATA_UNIT_KKD_LINK = {
+    "label": "Отчёт ККД",
+    "link": "https://navigator.sigma.sbrf.ru/gdash/1000004198",
+}
 CHANNEL_EXCLUDED_METRIC_IDS = {6, 7, 8, 11, 14, 103, 207, 210}
 CHANNEL_FLAT_REQUIRED_COLUMNS = {
     "metric_code",
@@ -2232,6 +2254,34 @@ def enrich_metric_layout(
     return data
 
 
+def add_data_unit_block_links(data: dict[str, Any]) -> dict[str, Any]:
+    """Add approved Navigator reports only to the requested Data-unit cards."""
+    for product in data.get("products", []):
+        if normalize_lookup_key(product.get("unit")) != normalize_lookup_key("Data"):
+            continue
+        product_links = DATA_UNIT_BLOCK_LINKS.get(normalize_lookup_key(product.get("name")), {})
+        is_target_product = bool(product_links) or normalize_lookup_key(product.get("name")) in {
+            normalize_lookup_key("SberID"),
+            normalize_lookup_key("Единый личный кабинет (ЕЛК)"),
+        }
+        if not is_target_product:
+            continue
+        for block in product.get("metrics", []):
+            block_name = normalize_lookup_key(block.get("name"))
+            action = product_links.get(block_name)
+            if action:
+                actions = block.setdefault("actions", [])
+                if not any(item.get("url") == action["url"] for item in actions):
+                    actions.append(action.copy())
+            if block_name != normalize_lookup_key("Данные"):
+                continue
+            for metric in block.get("metrics", []):
+                if "ккд" not in normalize_lookup_key(metric.get("name")):
+                    continue
+                metric["button"] = DATA_UNIT_KKD_LINK.copy()
+    return data
+
+
 def move_drafts_skill_to_attract(data: dict[str, Any]) -> dict[str, Any]:
     drafts_key = normalize_lookup_key("Черновики")
     target_group_name = AI_SKILL_GROUP_TOOLS["attract"]
@@ -2373,6 +2423,7 @@ def build_combined_data(
     else:
         detail_data = remove_ai_skills(detail_data)
     detail_data = enrich_cx_journey_links(detail_data)
+    detail_data = add_data_unit_block_links(detail_data)
     combined = {**detail_data, "title": title_payload}
     if include_ai_skills and crosssell_path:
         combined = apply_crosssell_export(combined, crosssell_path)

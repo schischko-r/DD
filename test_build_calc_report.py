@@ -560,6 +560,30 @@ class SyntheticReportTest(unittest.TestCase):
             "Полнота отчета",
         ])
 
+    def test_data_unit_links_are_limited_to_sberid_and_elk(self) -> None:
+        data = {"products": [
+            {"name": "SberID", "unit": "Data", "metrics": [
+                {"name": "Знание ключевых метрик", "metrics": []},
+                {"name": "Воронка использования", "metrics": []},
+                {"name": "Данные", "metrics": [{"name": "Контроль качества данных (ККД)"}]},
+            ]},
+            {"name": "Единый личный кабинет (ЕЛК)", "unit": "Data", "metrics": [
+                {"name": "Воронка использования", "metrics": []},
+                {"name": "Данные", "metrics": [{"name": "Контроль качества данных (ККД)"}]},
+            ]},
+            {"name": "Другой продукт", "unit": "Data", "metrics": [{"name": "Данные", "metrics": [{"name": "Контроль качества данных (ККД)"}]}]},
+        ]}
+
+        report.add_data_unit_block_links(data)
+
+        sberid, elk, other = data["products"]
+        self.assertEqual(sberid["metrics"][0]["actions"][0]["url"], "https://navigator.sigma.sbrf.ru/gdash/1000002350")
+        self.assertEqual(sberid["metrics"][1]["actions"][0]["url"], "https://navigator.sigma.sbrf.ru/gdash/1000001827")
+        self.assertEqual(elk["metrics"][0]["actions"][0]["url"], "https://navigator.sigma.sbrf.ru/gdash/1000002960")
+        self.assertEqual(sberid["metrics"][2]["metrics"][0]["button"]["link"], "https://navigator.sigma.sbrf.ru/gdash/1000004198")
+        self.assertEqual(elk["metrics"][1]["metrics"][0]["button"]["link"], "https://navigator.sigma.sbrf.ru/gdash/1000004198")
+        self.assertNotIn("button", other["metrics"][0]["metrics"][0])
+
     def test_single_funnel_benchmark_is_split_between_attract_and_churn(self) -> None:
         rows = report._PD.DataFrame(
             [

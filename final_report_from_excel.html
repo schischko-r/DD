@@ -137311,6 +137311,10 @@
             {
               "label": "Продукты-спутники",
               "url": "https://navigator.sigma.sbrf.ru/gdash/12215/1000030917"
+            },
+            {
+              "label": "Ключевые метрики SberID",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002350"
             }
           ]
         },
@@ -137634,6 +137638,12 @@
               "metric_subgroup": "Анализ",
               "sort": 6.0
             }
+          ],
+          "actions": [
+            {
+              "label": "Воронка использования SberID",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000001827"
+            }
           ]
         },
         {
@@ -137851,45 +137861,6 @@
               "sort": 3.0
             },
             {
-              "code": "mehaniki.vozvrat_klientov",
-              "name": "Возврат клиентов",
-              "footer": "Реактивация оттекающих клиентов",
-              "value": 0,
-              "max_value": 0,
-              "is_applicabble_flg": false,
-              "traffic_light": "gray",
-              "recommendation": "Проработать механики реактивации клиентов",
-              "recommendations": [
-                "Проработать механики реактивации клиентов"
-              ],
-              "recommendation_group": 5,
-              "recommendation_groups": [
-                5
-              ],
-              "recommendation_difficulty": 5,
-              "recommendation_items": [
-                {
-                  "recommendation": "Проработать механики реактивации клиентов",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0,
-                  "max_value": 0,
-                  "gap": 0
-                },
-                {
-                  "recommendation": "Проработать механики реактивации клиентов",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0,
-                  "max_value": 0,
-                  "gap": 0
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "sort": 4.0
-            },
-            {
               "code": "mehaniki.bezopasnostь_i_kontrolь",
               "name": "Безопасность и контроль",
               "footer": "Уведомления о подозрительном входе, выход на всех устройствах",
@@ -137919,45 +137890,6 @@
               "excluded_from_index": false,
               "dd_calculation_flg": 1,
               "sort": 4.0
-            },
-            {
-              "code": "mehaniki.uderzhanie_klientov",
-              "name": "Удержание клиентов",
-              "footer": "Коммуникация + ценность",
-              "value": 0,
-              "max_value": 1,
-              "is_applicabble_flg": true,
-              "traffic_light": "red",
-              "recommendation": "Проработать механики удержания клиентов",
-              "recommendations": [
-                "Проработать механики удержания клиентов"
-              ],
-              "recommendation_group": 5,
-              "recommendation_groups": [
-                5
-              ],
-              "recommendation_difficulty": 5,
-              "recommendation_items": [
-                {
-                  "recommendation": "Проработать механики удержания клиентов",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0,
-                  "max_value": 1,
-                  "gap": 1
-                },
-                {
-                  "recommendation": "Проработать механики удержания клиентов",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0,
-                  "max_value": 0,
-                  "gap": 0
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "sort": 6.0
             },
             {
               "code": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
@@ -138137,37 +138069,6 @@
               "excluded_from_index": false,
               "dd_calculation_flg": 1,
               "sort": 3.0
-            },
-            {
-              "code": "hyp.extra_initiatives",
-              "name": "Доп. инициативы сверх БП",
-              "footer": "Наличие доходных/расходных инициатив сверх БП",
-              "value": 0,
-              "max_value": 0,
-              "is_applicabble_flg": false,
-              "traffic_light": "gray",
-              "recommendation": "Сформировать перечень инициатив",
-              "recommendations": [
-                "Сформировать перечень инициатив"
-              ],
-              "recommendation_group": 3,
-              "recommendation_groups": [
-                3
-              ],
-              "recommendation_difficulty": 3,
-              "recommendation_items": [
-                {
-                  "recommendation": "Сформировать перечень инициатив",
-                  "group": 3,
-                  "recommendation_difficulty": 3,
-                  "value": 0,
-                  "max_value": 0,
-                  "gap": 0
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "sort": 4.0
             }
           ],
           "actions": [
@@ -138285,7 +138186,7 @@
             {
               "code": "dannye.promyshlenye_dannye",
               "name": "Промышленые данные",
-              "footer": "Промышленные/лабораторные данные",
+              "footer": "Все ключевые метрики строятся на остнове промышленных данных (витрины, DWH, автоматизированные пайплайны)",
               "value": 0.5,
               "max_value": 0.5,
               "is_applicabble_flg": true,
@@ -138325,16 +138226,16 @@
               "recommendations": [
                 "Настроить автоматизированный контроль качества ключевых данных"
               ],
-              "recommendation_group": 6,
+              "recommendation_group": 4,
               "recommendation_groups": [
-                6
+                4
               ],
-              "recommendation_difficulty": 6,
+              "recommendation_difficulty": 4,
               "recommendation_items": [
                 {
                   "recommendation": "Настроить автоматизированный контроль качества ключевых данных",
-                  "group": 6,
-                  "recommendation_difficulty": 6,
+                  "group": 4,
+                  "recommendation_difficulty": 4,
                   "value": 0.25,
                   "max_value": 0.5,
                   "gap": 0.25
@@ -138342,7 +138243,11 @@
               ],
               "excluded_from_index": false,
               "dd_calculation_flg": 1,
-              "sort": 2.0
+              "sort": 2.0,
+              "button": {
+                "label": "Отчёт ККД",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000004198"
+              }
             }
           ]
         }
@@ -138443,10 +138348,10 @@
               "code": "general.mau_u_vashego_kanala",
               "name": "MAU у вашего канала",
               "footer": "Активная месячная аудитория",
-              "value": 0.2,
+              "value": 0,
               "max_value": 0.2,
               "is_applicabble_flg": true,
-              "traffic_light": "green",
+              "traffic_light": "red",
               "recommendation": "Знание метрик и инструментов",
               "recommendations": [
                 "Знание метрик и инструментов"
@@ -138461,9 +138366,9 @@
                   "recommendation": "Знание метрик и инструментов",
                   "group": 1,
                   "recommendation_difficulty": 1,
-                  "value": 0.2,
+                  "value": 0,
                   "max_value": 0.2,
-                  "gap": 0
+                  "gap": 0.2
                 }
               ],
               "excluded_from_index": false,
@@ -138862,6 +138767,12 @@
               "dd_calculation_flg": 1,
               "metric_subgroup": "Анализ",
               "sort": 5.0
+            }
+          ],
+          "actions": [
+            {
+              "label": "Воронка использования ЕЛК",
+              "url": "https://navigator.sigma.sbrf.ru/gdash/1000002960"
             }
           ]
         },
@@ -139547,37 +139458,6 @@
               "excluded_from_index": false,
               "dd_calculation_flg": 1,
               "sort": 3.0
-            },
-            {
-              "code": "hyp.extra_initiatives",
-              "name": "Доп. инициативы сверх БП",
-              "footer": "Наличие доходных/расходных инициатив сверх БП",
-              "value": 0,
-              "max_value": 0,
-              "is_applicabble_flg": false,
-              "traffic_light": "gray",
-              "recommendation": "Сформировать перечень инициатив",
-              "recommendations": [
-                "Сформировать перечень инициатив"
-              ],
-              "recommendation_group": 3,
-              "recommendation_groups": [
-                3
-              ],
-              "recommendation_difficulty": 3,
-              "recommendation_items": [
-                {
-                  "recommendation": "Сформировать перечень инициатив",
-                  "group": 3,
-                  "recommendation_difficulty": 3,
-                  "value": 0,
-                  "max_value": 0,
-                  "gap": 0
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "sort": 4.0
             }
           ],
           "actions": [
@@ -139695,7 +139575,7 @@
             {
               "code": "dannye.promyshlenye_dannye",
               "name": "Промышленые данные",
-              "footer": "Промышленные/лабораторные данные",
+              "footer": "Все ключевые метрики строятся на остнове промышленных данных (витрины, DWH, автоматизированные пайплайны)",
               "value": 0.25,
               "max_value": 0.5,
               "is_applicabble_flg": true,
@@ -139735,16 +139615,16 @@
               "recommendations": [
                 "Настроить автоматизированный контроль качества ключевых данных"
               ],
-              "recommendation_group": 6,
+              "recommendation_group": 4,
               "recommendation_groups": [
-                6
+                4
               ],
-              "recommendation_difficulty": 6,
+              "recommendation_difficulty": 4,
               "recommendation_items": [
                 {
                   "recommendation": "Настроить автоматизированный контроль качества ключевых данных",
-                  "group": 6,
-                  "recommendation_difficulty": 6,
+                  "group": 4,
+                  "recommendation_difficulty": 4,
                   "value": 0.25,
                   "max_value": 0.5,
                   "gap": 0.25
@@ -139752,7 +139632,11 @@
               ],
               "excluded_from_index": false,
               "dd_calculation_flg": 1,
-              "sort": 2.0
+              "sort": 2.0,
+              "button": {
+                "label": "Отчёт ККД",
+                "link": "https://navigator.sigma.sbrf.ru/gdash/1000004198"
+              }
             }
           ]
         }
@@ -140470,7 +140354,7 @@
         "order": 78,
         "unit": "Data",
         "name": "SberID",
-        "score": 70,
+        "score": 74,
         "group": "Зрелые",
         "type": "продукт"
       },
@@ -140479,7 +140363,7 @@
         "order": 79,
         "unit": "Data",
         "name": "Единый личный кабинет (ЕЛК)",
-        "score": 47,
+        "score": 46,
         "group": "Развивающиеся",
         "type": "Канал"
       }
@@ -140503,7 +140387,7 @@
   },
   "crosssell": {
     "enabled": true,
-    "source": "crosssell_export.json",
+    "source": "/Users/roman/Documents/Codex/DD-dev/crosssell_export.json",
     "status": "ok",
     "round_id": "r12-20260806T152241Z",
     "generated_at": "2026-08-06T15:22:43+00:00",
