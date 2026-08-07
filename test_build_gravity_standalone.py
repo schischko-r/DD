@@ -7,6 +7,7 @@ from pathlib import Path
 from build_gravity_standalone import (
     BASE64_CHUNK_SIZE,
     DEFAULT_BACKLOG_DATA,
+    DEFAULT_INITIATIVES_DATA,
     DEFAULT_CJXPLORER_CREDIT_CARD_DATA,
     DEFAULT_CJXPLORER_PRODUCT_DETAILS_DATA,
     DEFAULT_CJXPLORER_SUMMARY_DATA,
@@ -36,6 +37,12 @@ class BuildGravityStandaloneTest(unittest.TestCase):
         ):
             self.assertNotIn(f"./{filename}", result)
             self.assertIn(_load_json(data_path), result)
+
+    def test_repository_standalone_embeds_initiatives_data_for_file_opening(self) -> None:
+        result = DEFAULT_OUTPUT.read_text(encoding="utf-8")
+
+        self.assertNotIn("./initiatives-backlog.json", result)
+        self.assertIn(_load_json(DEFAULT_INITIATIVES_DATA), result)
 
     def test_vite_config_deduplicates_react_for_standalone_charts(self) -> None:
         app_root = DEFAULT_OUTPUT.parent / "gravity-app"
@@ -114,6 +121,30 @@ class BuildGravityStandaloneTest(unittest.TestCase):
                 result,
             )
             self.assertNotIn("</script>&>", result)
+
+    def test_embeds_initiatives_data_when_the_bundle_fetches_it(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            initiatives_data = root / "initiatives-backlog.json"
+            output = root / "standalone.html"
+            template.write_text(
+                '<script>fetch("./report-data.json").then(load);'
+                "fetch('./initiatives-backlog.json', {cache: 'no-store'}).then(loadInitiatives)</script>",
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            initiatives_data.write_text(
+                json.dumps([{"metric": "Мероприятие </script>"}]),
+                encoding="utf-8",
+            )
+
+            build(template, data, output, initiatives_data_path=initiatives_data)
+
+            result = output.read_text(encoding="utf-8")
+            self.assertNotIn("./initiatives-backlog.json", result)
+            self.assertIn('[{"metric":"Мероприятие \\u003c/script\\u003e"}]', result)
 
     def test_embeds_cjxplorer_data_when_the_bundle_fetches_it(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

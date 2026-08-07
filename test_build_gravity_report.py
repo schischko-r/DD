@@ -121,8 +121,13 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             if command[1] == str(report.ROOT / "build_gravity_standalone.py")
         )
         self.assertEqual(
-            standalone_command[-2:],
-            ["--backlog-data", str(report.DEFAULT_BACKLOG_DATA)],
+            standalone_command[-4:],
+            [
+                "--backlog-data",
+                str(report.DEFAULT_BACKLOG_DATA),
+                "--initiatives-data",
+                str(report.DEFAULT_INITIATIVES_DATA),
+            ],
         )
 
     def test_full_build_requires_backlog_source(self) -> None:
