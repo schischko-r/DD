@@ -47,6 +47,15 @@ test('primary navigation icons use the blue informational accent', () => {
   );
 });
 
+test('about Data Driven navigation uses Gravity CircleQuestion icon', () => {
+  assert.match(appSource, /import \{[^}]*CircleQuestion[^}]*\} from '@gravity-ui\/icons'/);
+  assert.match(appSource, /id: 'about',[\s\S]*?icon: CircleQuestion/);
+  assert.match(
+    readFileSync(new URL('../../package.json', import.meta.url), 'utf8'),
+    /"@gravity-ui\/icons": "2\.20\.0"/,
+  );
+});
+
 test('sidebar puts generated HTML pages and backlog below one divider in the main navigation', () => {
   for (const id of ['dashboard', 'detail', 'about']) {
     assert.match(appSource, new RegExp(`id: '${id}'`));

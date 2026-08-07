@@ -166,6 +166,65 @@ function shortQuarterLabel(quarter) {
   return `${match[2]}Q${match[1].slice(-2)}`;
 }
 
+function medianHours(values = []) {
+  const numbers = values
+    .map(Number)
+    .filter(Number.isFinite)
+    .sort((left, right) => left - right);
+  if (!numbers.length) return null;
+  const middle = Math.floor(numbers.length / 2);
+  const value = numbers.length % 2 ? numbers[middle] : (numbers[middle - 1] + numbers[middle]) / 2;
+  return Math.round(value * 10) / 10;
+}
+
+function toolkitKey(resources = []) {
+  const links = resources
+    .map((resource) => String(resource?.href || resource?.action || '').trim())
+    .filter(Boolean)
+    .sort();
+  return links.length ? links.join('|') : '';
+}
+
+function weightedBenchmark(items = []) {
+  const benchmarkedItems = items.filter((item) => Number.isFinite(item.continuous25thHours));
+  const weight = benchmarkedItems.reduce((sum, item) => sum + item.count, 0);
+  if (!weight) return null;
+  return benchmarkedItems.reduce((sum, item) => sum + item.continuous25thHours * item.count, 0) / weight;
+}
+
+function aggregateScenarioFocusItems(items = []) {
+  const grouped = new Map();
+  items.forEach((item) => {
+    const key = toolkitKey(item.resources);
+    const canRecalculateMedian = Array.isArray(item.cycleTimeHours);
+    const groupKey = key && canRecalculateMedian ? key : `scenario:${item.key}`;
+    if (!grouped.has(groupKey)) grouped.set(groupKey, []);
+    grouped.get(groupKey).push(item);
+  });
+
+  return [...grouped.values()].map((members) => {
+    if (members.length === 1) return members[0];
+    const count = members.reduce((sum, item) => sum + item.count, 0);
+    const cycleTimeHours = members.flatMap((item) => item.cycleTimeHours);
+    const resources = members[0].resources;
+    const toolRecommendation = [...new Set(members.map((item) => item.toolRecommendation))].join(' ');
+    return {
+      ...members[0],
+      key: members.map((item) => item.key).join('+'),
+      scenario: members.map((item) => item.scenario).join(' + '),
+      count,
+      share: 0,
+      continuous25thHours: weightedBenchmark(members),
+      medianCycleTimeHours: medianHours(cycleTimeHours),
+      cycleTimeSampleCount: cycleTimeHours.length,
+      cycleTimeHours,
+      recommendation: `Предлагаемый инструментарий: ${toolRecommendation}`,
+      toolRecommendation,
+      resources,
+    };
+  });
+}
+
 export function buildScenarioFocusRecommendations(quarters = [], recommendationRows = DD_SCENARIO_RECOMMENDATIONS) {
   const quarter = [...quarters].reverse().find((item) => item?.isComplete === true);
   if (!quarter) return {quarter: null, periodLabel: '', items: []};
@@ -181,7 +240,7 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
     return result;
   }, new Map());
 
-  const items = scenarios
+  const candidates = scenarios
     .map((scenario) => {
       const scenarioKey = String(scenario?.key || '').toLocaleLowerCase('ru-RU');
       if (SCENARIO_RECOMMENDATION_EXCLUSIONS.has(scenarioKey)) return null;
@@ -192,13 +251,7 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       const continuous25thHours = scenario?.continuous25thHours;
       const medianCycleTimeHours = scenario?.medianCycleTimeHours;
       const scenarioLabel = String(scenario?.label || scenario?.key || 'Без сценария');
-      const hasValidBenchmark = Number.isFinite(scenario?.cycleTimeSampleCount)
-        && scenario.cycleTimeSampleCount > 0
-        && Number.isFinite(continuous25thHours)
-        && Number.isFinite(medianCycleTimeHours);
-      const exceedsBenchmark = hasValidBenchmark && medianCycleTimeHours > continuous25thHours;
-      const hasHighShare = share > 10;
-      if (!approvedRows.length || (!hasHighShare && !exceedsBenchmark)) return null;
+      if (!approvedRows.length) return null;
 
       const resources = approvedRows
         .flatMap((item) => item.resources || [])
@@ -210,9 +263,12 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
       return {
         key: String(scenario?.key || scenario?.label || ''),
         scenario: scenarioLabel,
+        count,
         share,
         continuous25thHours,
         medianCycleTimeHours,
+        cycleTimeSampleCount: scenario?.cycleTimeSampleCount,
+        cycleTimeHours: Array.isArray(scenario?.cycleTimeHours) ? scenario.cycleTimeHours : null,
         recommendation: isUnmappedScenario
           ? toolRecommendation
           : `Предлагаемый инструментарий: ${toolRecommendation}`,
@@ -222,7 +278,19 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
         isUnmappedScenario,
       };
     })
-    .filter(Boolean)
+    .filter(Boolean);
+
+  const items = aggregateScenarioFocusItems(candidates)
+    .map((item) => {
+      const share = total > 0 ? item.count / total * 100 : item.share;
+      const hasValidBenchmark = Number.isFinite(item.cycleTimeSampleCount)
+        && item.cycleTimeSampleCount > 0
+        && Number.isFinite(item.continuous25thHours)
+        && Number.isFinite(item.medianCycleTimeHours);
+      const exceedsBenchmark = hasValidBenchmark && item.medianCycleTimeHours > item.continuous25thHours;
+      return {...item, share, hasHighShare: share > 10, exceedsBenchmark};
+    })
+    .filter((item) => item.hasHighShare || item.exceedsBenchmark)
     .sort((a, b) => b.share - a.share);
 
   return {quarter, periodLabel: shortQuarterLabel(quarter), items};

@@ -244,6 +244,29 @@ test('scenario focus recommendations use high share or team time in work above t
   assert.deepEqual(buildScenarioFocusRecommendations([{key: '2026-Q3', isComplete: false}], []).items, []);
 });
 
+test('scenario focus recommendations collapse identical toolkits and recalculate their metrics', () => {
+  const result = buildScenarioFocusRecommendations([{
+    key: '2026-Q2',
+    isComplete: true,
+    createdCount: 10,
+    scenarios: [
+      {key: 'excel_reports', label: 'Отчеты в Excel', count: 2, continuous25thHours: 2, medianCycleTimeHours: 10, cycleTimeSampleCount: 2, cycleTimeHours: [4, 16]},
+      {key: 'presentations', label: 'Презентации', count: 3, continuous25thHours: 4, medianCycleTimeHours: 30, cycleTimeSampleCount: 3, cycleTimeHours: [20, 30, 40]},
+    ],
+  }], [
+    {key: 'excel_reports', recommendation: 'Рекомендуем EX-EL для отчетов.', resources: [{label: 'EX-EL', action: 'ex-el-access'}]},
+    {key: 'presentations', recommendation: 'Рекомендуем EX-EL для презентаций.', resources: [{label: 'EX-EL', action: 'ex-el-access'}]},
+  ]);
+
+  assert.equal(result.items.length, 1);
+  assert.equal(result.items[0].scenario, 'Отчеты в Excel + Презентации');
+  assert.equal(result.items[0].share, 50);
+  assert.equal(result.items[0].continuous25thHours, 3.2);
+  assert.equal(result.items[0].medianCycleTimeHours, 20);
+  assert.equal(result.items[0].cycleTimeSampleCount, 5);
+  assert.match(result.items[0].recommendation, /Рекомендуем EX-EL для отчетов\. Рекомендуем EX-EL для презентаций\./);
+});
+
 test('scenario focus recommendations exclude manual updates, BI bugfixes and employee training', () => {
   const excludedKeys = ['dashboard_manual_data_update', 'BI_bugfix', 'employee_trainings'];
   const result = buildScenarioFocusRecommendations([{

@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Ticket} from '@gravity-ui/icons';
+import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleQuestion, Ticket} from '@gravity-ui/icons';
 import {Spin} from '@gravity-ui/uikit';
 import {AsideHeader} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
@@ -172,7 +172,7 @@ export function App() {
       id: 'about',
       title: 'О Data Driven',
       tooltipText: 'О Data Driven',
-      icon: CircleInfo,
+      icon: CircleQuestion,
       qa: 'dd-primary-navigation',
       current: view === 'about',
       onItemClick: () => setView('about'),

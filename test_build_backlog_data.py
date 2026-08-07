@@ -829,6 +829,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             self.assertIn("continuous25thHours", scenario)
             self.assertIn("medianCycleTimeHours", scenario)
             self.assertIn("cycleTimeSampleCount", scenario)
+            self.assertIn("cycleTimeHours", scenario)
 
     def test_quarter_scenario_cycle_time_share_uses_valid_ttm_denominator(self) -> None:
         path = Path(self.temporary_directory.name) / "scenario_cycle_time_share.xlsx"

@@ -858,6 +858,7 @@ def _build_team_aggregates(
                         "continuous25thHours": SCENARIO_CONTINUOUS_25TH_HOURS[key],
                         "medianCycleTimeHours": _median_hours(cycle_times),
                         "cycleTimeSampleCount": len(cycle_times),
+                        "cycleTimeHours": [round(value * 24, 2) for value in cycle_times],
                         "cycleTimeShare": _percentage(
                             sum(cycle_times), quarter_cycle_time_total
                         ),
