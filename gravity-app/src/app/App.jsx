@@ -36,6 +36,7 @@ export function App() {
   const [data, setData] = useState(null);
   const [cjxplorer, setCjxplorer] = useState(null);
   const [cjxplorerCreditCard, setCjxplorerCreditCard] = useState(null);
+  const [cjxplorerDetails, setCjxplorerDetails] = useState(null);
   const [backlog, setBacklog] = useState({status: 'loading', data: null});
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
@@ -54,6 +55,7 @@ export function App() {
   }, []);
   useEffect(() => { fetch('./cjxplorer-summary.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorer).catch(() => setCjxplorer(null)); }, []);
   useEffect(() => { fetch('./cjxplorer-credit-card.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorerCreditCard).catch(() => setCjxplorerCreditCard(null)); }, []);
+  useEffect(() => { fetch('./cjxplorer-product-details.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorerDetails).catch(() => setCjxplorerDetails(null)); }, []);
   useEffect(() => {
     if (!BACKLOG_DECOMPOSITION_ENABLED) {
       setBacklog({status: 'disabled', data: null});
@@ -94,8 +96,10 @@ export function App() {
   const product = selected || defaultProduct;
   const cjxplorerNames = CJXPLORER_PRODUCT_ALIASES[product.name] || [];
   const cjxplorerSummaryProduct = cjxplorerNames.map((name) => cjxplorer?.products?.find((item) => String(item.name || '').trim().toLocaleLowerCase('ru') === name.toLocaleLowerCase('ru'))).find(Boolean) || null;
+  const cjxplorerDetail = cjxplorerDetails?.products?.find((item) => item.id === cjxplorerSummaryProduct?.id)
+    || (cjxplorerCreditCard?.product?.id === cjxplorerSummaryProduct?.id ? cjxplorerCreditCard.product : null);
   const cjxplorerProduct = cjxplorerSummaryProduct
-    ? {...cjxplorerSummaryProduct, ...(cjxplorerCreditCard?.product?.id === cjxplorerSummaryProduct.id ? cjxplorerCreditCard.product : {})}
+    ? {...cjxplorerSummaryProduct, ...(cjxplorerDetail || {})}
     : null;
   const openProduct = (item) => {
     updateSummaryFilters({unit: item.unit && isUnitFilterOption(item.unit) ? item.unit : ''});
