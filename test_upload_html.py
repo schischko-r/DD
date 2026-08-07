@@ -36,6 +36,13 @@ class UnauthorizedResponse:
         raise AssertionError("401 should have a QRS-specific error")
 
 
+class TemporaryFailureResponse:
+    status_code = 504
+
+    def raise_for_status(self) -> None:
+        raise AssertionError("504 should only be raised after retries are exhausted")
+
+
 class FakeSession:
     def __init__(
         self,
@@ -306,6 +313,70 @@ class UploadHtmlTest(unittest.TestCase):
                         output_dir / "key.pem",
                     ),
                 )
+
+    def test_upload_retries_temporary_gateway_failures_with_fresh_file_handles(self) -> None:
+        session = FakeSession()
+        responses = [TemporaryFailureResponse(), TemporaryFailureResponse(), FakeResponse()]
+
+        def post(_url: str, **kwargs: Any) -> Any:
+            kwargs["body"] = kwargs["data"].read()
+            session.calls.append(("POST", _url, kwargs))
+            return responses.pop(0)
+
+        session.post = post  # type: ignore[method-assign]
+        delays: list[float] = []
+        with tempfile.TemporaryDirectory() as temp_dir:
+            directory = Path(temp_dir)
+            html_path = directory / "report.html"
+            certificate_path = directory / "client.p12"
+            html_path.write_text("<html>report</html>", encoding="utf-8")
+            certificate_path.touch()
+
+            status = upload_html(
+                html_path,
+                "https://example.test/upload?xrfkey=1234567890abcdef",
+                certificate_path,
+                "secret",
+                retries=2,
+                retry_delay=1.5,
+                sleeper=delays.append,
+                session_factory=lambda: session,
+                credential_writer=lambda _certificate, _password, output_dir: (
+                    output_dir / "client.pem",
+                    output_dir / "key.pem",
+                ),
+            )
+
+        self.assertEqual(status, 201)
+        self.assertEqual(delays, [1.5, 3.0])
+        post_calls = [call for call in session.calls if call[0] == "POST"]
+        self.assertEqual(len(post_calls), 3)
+        self.assertTrue(all(call[2]["body"] == b"<html>report</html>" for call in post_calls))
+
+    def test_upload_does_not_retry_non_temporary_failure(self) -> None:
+        session = FakeSession(post_response=UnauthorizedResponse())
+        with tempfile.TemporaryDirectory() as temp_dir:
+            directory = Path(temp_dir)
+            html_path = directory / "report.html"
+            certificate_path = directory / "client.p12"
+            html_path.write_text("<html>report</html>", encoding="utf-8")
+            certificate_path.touch()
+
+            with self.assertRaisesRegex(RuntimeError, "QRS upload rejected"):
+                upload_html(
+                    html_path,
+                    "https://example.test/upload?xrfkey=1234567890abcdef",
+                    certificate_path,
+                    "secret",
+                    retries=2,
+                    sleeper=lambda _delay: self.fail("Unexpected retry"),
+                    session_factory=lambda: session,
+                    credential_writer=lambda _certificate, _password, output_dir: (
+                        output_dir / "client.pem",
+                        output_dir / "key.pem",
+                    ),
+                )
+        self.assertEqual(len([call for call in session.calls if call[0] == "POST"]), 1)
 
     def test_upload_401_explains_qrs_authorization_rejection(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

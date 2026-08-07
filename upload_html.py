@@ -8,6 +8,7 @@ import getpass
 import os
 import sys
 import tempfile
+import time
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any, Callable
@@ -21,6 +22,7 @@ DEFAULT_BROWSER_USER_AGENT = (
     "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 )
 DEFAULT_BOOTSTRAP_URL = "https://oko-qs.sigma.sbrf.ru/prom/dev-hub/mashup-editor/"
+RETRYABLE_UPLOAD_STATUS_CODES = frozenset({502, 503, 504})
 
 
 def default_credential_directories(
@@ -166,9 +168,12 @@ def upload_html(
     bootstrap_url: str = DEFAULT_BOOTSTRAP_URL,
     ca_bundle: Path | None = None,
     timeout: int = 120,
+    retries: int = 2,
+    retry_delay: float = 5.0,
     insecure: bool = False,
     session_factory: Callable[[], Any] | None = None,
     credential_writer: Callable[[Path, str, Path], tuple[Path, Path]] | None = None,
+    sleeper: Callable[[float], None] = time.sleep,
 ) -> int:
     if not html_path.is_file():
         raise FileNotFoundError(f"HTML file not found: {html_path}")
@@ -178,6 +183,10 @@ def upload_html(
         raise FileNotFoundError(f"Client certificate not found: {certificate_path}")
     if not certificate_password:
         raise ValueError("Client certificate password is empty")
+    if retries < 0:
+        raise ValueError("Upload retries must not be negative")
+    if retry_delay < 0:
+        raise ValueError("Upload retry delay must not be negative")
 
     if session_factory is None:
         try:
@@ -230,13 +239,20 @@ def upload_html(
                 "Qlik bootstrap completed without creating a session cookie; "
                 "verify the configured Qlik access without exposing credentials."
             )
-        with html_path.open("rb") as html_file:
-            response = session.post(
-                url,
-                headers=post_headers,
-                data=html_file,
-                timeout=timeout,
-            )
+        for attempt in range(retries + 1):
+            with html_path.open("rb") as html_file:
+                response = session.post(
+                    url,
+                    headers=post_headers,
+                    data=html_file,
+                    timeout=timeout,
+                )
+            if (
+                response.status_code not in RETRYABLE_UPLOAD_STATUS_CODES
+                or attempt == retries
+            ):
+                break
+            sleeper(retry_delay * (2**attempt))
 
     if response.status_code == 401:
         raise RuntimeError(
@@ -255,6 +271,18 @@ def parse_args(arguments: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--cert-path", type=Path)
     parser.add_argument("--ca-bundle", type=Path)
     parser.add_argument("--timeout", type=int, default=120)
+    parser.add_argument(
+        "--retries",
+        type=int,
+        default=2,
+        help="Retries after temporary 502, 503, or 504 upload responses",
+    )
+    parser.add_argument(
+        "--retry-delay",
+        type=float,
+        default=5.0,
+        help="Initial retry delay in seconds; it doubles after each retry",
+    )
     parser.add_argument("--insecure", action="store_true")
     parser.add_argument(
         "--cert-password-env",
@@ -285,6 +313,8 @@ def main() -> None:
         bootstrap_url=os.getenv("HTML_UPLOAD_BOOTSTRAP_URL", DEFAULT_BOOTSTRAP_URL),
         ca_bundle=resolve_ca_bundle(args.ca_bundle),
         timeout=args.timeout,
+        retries=args.retries,
+        retry_delay=args.retry_delay,
         insecure=args.insecure,
     )
     print(f"Uploaded {args.html} (HTTP {status_code})")
