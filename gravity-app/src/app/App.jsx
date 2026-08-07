@@ -1,11 +1,12 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleQuestion, Ticket} from '@gravity-ui/icons';
+import {BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleQuestion, CircleTree, Ticket} from '@gravity-ui/icons';
 import {Spin} from '@gravity-ui/uikit';
 import {AsideHeader} from '@gravity-ui/navigation';
 import {AboutPage} from '../pages/AboutPage.jsx';
 import {BacklogDecompositionPage} from '../pages/BacklogDecompositionPage.jsx';
 import {DashboardPage} from '../pages/DashboardPage.jsx';
 import {HtmlReportPage} from '../pages/HtmlReportPage.jsx';
+import {InitiativesBacklogPage} from '../pages/InitiativesBacklogPage.jsx';
 import {SummaryPage} from '../pages/SummaryPage.jsx';
 import {TeamProfilePage} from '../pages/TeamProfilePage.jsx';
 import {isUnitFilterOption} from '../features/catalog/Catalog.jsx';
@@ -178,6 +179,15 @@ export function App() {
       onItemClick: () => setView('about'),
     },
     {
+      id: 'initiatives',
+      title: 'Развитие инструмента',
+      tooltipText: 'Развитие инструмента',
+      icon: CircleTree,
+      qa: 'dd-primary-navigation',
+      current: view === 'initiatives',
+      onItemClick: () => { setView('initiatives'); window.scrollTo(0, 0); },
+    },
+    {
       id: 'skills-divider',
       type: 'divider',
     },
@@ -206,6 +216,8 @@ export function App() {
         ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} />
         : view === 'about'
           ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
+          : view === 'initiatives'
+            ? <InitiativesBacklogPage />
           : view === 'backlog' && BACKLOG_DECOMPOSITION_ENABLED
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
             : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} cjxplorerProduct={cjxplorerProduct} />;
