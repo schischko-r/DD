@@ -192,6 +192,10 @@ function weightedBenchmark(items = []) {
   return benchmarkedItems.reduce((sum, item) => sum + item.continuous25thHours * item.count, 0) / weight;
 }
 
+function withoutRecommendationHeading(value) {
+  return String(value || '').replace(/^Предлагаемый инструментарий:\s*/iu, '');
+}
+
 function aggregateScenarioFocusItems(items = []) {
   const grouped = new Map();
   items.forEach((item) => {
@@ -207,11 +211,13 @@ function aggregateScenarioFocusItems(items = []) {
     const count = members.reduce((sum, item) => sum + item.count, 0);
     const cycleTimeHours = members.flatMap((item) => item.cycleTimeHours);
     const resources = members[0].resources;
-    const toolRecommendation = [...new Set(members.map((item) => item.toolRecommendation))].join(' ');
+    const sourceTool = members.map((item) => item.sourceTool).find(Boolean) || 'общий инструментарий';
+    const sourceToolLabel = sourceTool === 'OpenCode' ? 'OpenCode (аналог Claude)' : sourceTool;
+    const toolRecommendation = `Рекомендуем использовать ${sourceToolLabel} для этих сценариев.`;
     return {
       ...members[0],
       key: members.map((item) => item.key).join('+'),
-      scenario: members.map((item) => item.scenario).join(' + '),
+      scenario: members.map((item) => item.scenario).join('\n'),
       count,
       share: 0,
       continuous25thHours: weightedBenchmark(members),
@@ -220,6 +226,7 @@ function aggregateScenarioFocusItems(items = []) {
       cycleTimeHours,
       recommendation: `Предлагаемый инструментарий: ${toolRecommendation}`,
       toolRecommendation,
+      sourceTool,
       resources,
     };
   });
@@ -257,7 +264,9 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
         .flatMap((item) => item.resources || [])
         .filter((resource, index, all) => all.findIndex((item) => (item.href || item.action) === (resource.href || resource.action)) === index);
       const recommendationSummary = '';
-      const toolRecommendation = approvedRows.map((item) => item.recommendation).join(' ');
+      const toolRecommendation = approvedRows
+        .map((item) => withoutRecommendationHeading(item.recommendation))
+        .join(' ');
       const isUnmappedScenario = scenarioKey === 'unknown'
         || scenarioLabel.trim() === 'Невозможно разметить';
       return {
@@ -274,6 +283,7 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
           : `Предлагаемый инструментарий: ${toolRecommendation}`,
         recommendationSummary,
         toolRecommendation,
+        sourceTool: approvedRows.map((item) => item.sourceTool).find(Boolean) || resources[0]?.label || '',
         resources,
         isUnmappedScenario,
       };
@@ -296,7 +306,25 @@ export function buildScenarioFocusRecommendations(quarters = [], recommendationR
   return {quarter, periodLabel: shortQuarterLabel(quarter), items};
 }
 
-export function buildBacklogChartData(months = [], grouping = 'directions', scaleMonths = months) {
+export function buildBacklogCategoryFilterOptions(months = [], grouping = 'directions') {
+  const categories = [];
+  const categoryKeys = new Set();
+
+  months.forEach((month) => {
+    const items = Array.isArray(month?.[grouping]) ? month[grouping] : [];
+    items.forEach((item) => {
+      const key = itemKey(item);
+      if (key && !categoryKeys.has(key)) {
+        categoryKeys.add(key);
+        categories.push({value: key, content: itemLabel(item)});
+      }
+    });
+  });
+
+  return [{value: '', content: 'Все'}, ...categories];
+}
+
+export function buildBacklogChartData(months = [], grouping = 'directions', scaleMonths = months, categoryFilter = '') {
   const categories = [];
   const categoryByKey = new Map();
 
@@ -304,7 +332,7 @@ export function buildBacklogChartData(months = [], grouping = 'directions', scal
     const items = Array.isArray(month?.[grouping]) ? month[grouping] : [];
     items.forEach((item) => {
       const key = itemKey(item);
-      if (key && !categoryByKey.has(key)) {
+      if (key && (!categoryFilter || key === categoryFilter) && !categoryByKey.has(key)) {
         const category = {key, name: itemLabel(item)};
         categoryByKey.set(key, category);
         categories.push(category);
@@ -315,6 +343,7 @@ export function buildBacklogChartData(months = [], grouping = 'directions', scal
   const scaleTotals = scaleMonths.map((month) => {
     const items = Array.isArray(month?.[grouping]) ? month[grouping] : [];
     return items.reduce((total, item) => {
+      if (categoryFilter && itemKey(item) !== categoryFilter) return total;
       const value = Number(item?.count);
       return total + (Number.isFinite(value) ? value : 0);
     }, 0);
@@ -477,26 +506,29 @@ export function buildDashboardInsights(quarter = {}) {
   });
 
   const recommendations = [];
-  if (Number.isFinite(storyPointsFilledShare) && storyPointsFilledShare < STORY_POINTS_TARGET) recommendations.push({
-    title: 'Заполнять Story Points',
-    text: 'Рекомендуем заполнять поле Story Points / Относительная сложность для планирования. Базовой считается нагрузка 6,4 SP в день для аналитика. Подробнее можно почитать здесь',
-    resources: [{label: 'здесь', href: STORY_POINTS_GUIDE_URL, placement: 'inline'}],
-    theme: 'warning',
-  });
   if (discoveryShare < DISCOVERY_TARGET) recommendations.push({
     title: 'Зарезервировать ≥40% задач под аналитику и исследования',
     text: `При объёме ${formatNumber(created)} созданных задач нужно направить ещё ${formatNumber(missingDiscovery)} задач в направление «Аналитика».`,
     theme: 'danger',
   });
-  if (routineShare >= 20 && automationShare < routineShare) recommendations.push({
-    title: 'Автоматизировать повторяющиеся выгрузки и Excel-отчёты',
-    text: `Рутина занимает ${formatPercentValue(routineShare)} созданных задач, а задачи про автоматизацию — ${formatPercentValue(automationShare)}. Начать с самых частых сценариев.`,
-    theme: 'warning',
+  const ticketHygieneItems = [];
+  if (Number.isFinite(storyPointsFilledShare) && storyPointsFilledShare < STORY_POINTS_TARGET) ticketHygieneItems.push({
+    title: 'Заполнять Story Points',
+    text: 'Рекомендуем заполнять поле Story Points / Относительная сложность для планирования. Базовой считается нагрузка 6,4 SP в день для аналитика. Подробнее можно почитать здесь',
+    resources: [{label: 'здесь', href: STORY_POINTS_GUIDE_URL, placement: 'inline'}],
   });
-  if (unknownShare > 0) recommendations.push({
-    title: 'Улучшить заполнение задач',
+  if (created > 0) ticketHygieneItems.push({
+    title: 'Гигиена ведения статусов',
+    text: 'Рекомендуем актуализировать статусы в трекере по ходу выполнения задач.',
+  });
+  if (unknownShare > 0) ticketHygieneItems.push({
+    title: 'Заполнение задач',
     text: `Повысить полноту описаний и заполнение обязательных полей, чтобы улучшить качество автоматической разметки. Сейчас направление не определено у ${formatPercentValue(unknownShare)} задач.`,
-    theme: 'info',
+  });
+  if (ticketHygieneItems.length) recommendations.push({
+    title: 'Гигиена ведения тикетов',
+    items: ticketHygieneItems,
+    theme: 'warning',
   });
   return {insights: insights.slice(0, 5), recommendations, missingDiscovery, gap, confirmed: discoveryShare >= DISCOVERY_TARGET};
 }
@@ -565,7 +597,7 @@ function RecommendationResources({item}) {
   if (resources.length === 1) {
     return <> Посмотрите рекомендации по <Link href={resources[0].href} target="_blank" rel="noreferrer">{resources[0].label}</Link>.</>;
   }
-  return <> Материалы: {resources.map((resource, index) => <React.Fragment key={resource.href}>{index > 0 && (index === resources.length - 1 ? ' и ' : ', ')}<Link href={resource.href} target="_blank" rel="noreferrer">{resource.label}</Link></React.Fragment>)}.</>;
+  return <><br /><br />Материалы: {resources.map((resource, index) => <React.Fragment key={resource.href}>{index > 0 && (index === resources.length - 1 ? ' и ' : ', ')}<Link href={resource.href} target="_blank" rel="noreferrer">{resource.label}</Link></React.Fragment>)}.</>;
 }
 
 const EX_EL_SERVICE_URL = 'https://qlik.sigma.sbrf.ru/qs_b2c_data/scim_sigma/extensions/excelapp/index.html#/';
@@ -684,7 +716,7 @@ function buildScenarioFocusColumns(periodLabel) {
       name: 'Сценарий',
       width: '20%',
       primary: true,
-      template: (item) => <Text className="backlog-table-scenario" variant="subheader-1">{item.scenario}</Text>,
+      template: (item) => <Text className="backlog-table-scenario" variant="body-1">{item.scenario}</Text>,
     },
     {
       id: 'share',
@@ -720,6 +752,7 @@ function PageState({type}) {
 
 export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, initialTeamKey = ''}) {
   const [grouping, setGrouping] = useState('directions');
+  const [categoryFilter, setCategoryFilter] = useState('');
   const teams = useMemo(() => getTeamDatasets(data || {}), [data]);
   const [selectedTeamKey, setSelectedTeamKey] = useState(() => String(initialTeamKey || teams[0]?.key || ''));
   const appliedInitialTeamKey = useRef(null);
@@ -751,7 +784,11 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const quarter = quarters.find((item) => quarterKey(item) === selectedQuarterKey) || defaultQuarter;
   const selectedMonths = useMemo(() => monthsForQuarter(months, quarter), [months, quarter]);
   const visibleMonths = useMemo(() => monthsThroughQuarter(months, quarter), [months, quarter]);
-  const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths), [grouping, selectedMonths, visibleMonths]);
+  const categoryFilterOptions = useMemo(() => buildBacklogCategoryFilterOptions(visibleMonths, grouping), [grouping, visibleMonths]);
+  useEffect(() => {
+    if (!categoryFilterOptions.some((option) => option.value === categoryFilter)) setCategoryFilter('');
+  }, [categoryFilter, categoryFilterOptions]);
+  const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths, categoryFilter), [categoryFilter, grouping, selectedMonths, visibleMonths]);
   const dashboard = useMemo(() => buildDashboardInsights(quarter), [quarter]);
   const teamOptions = useMemo(() => teams.map((item) => ({value: String(item?.key), content: String(item?.label || item?.key)})), [teams]);
   const quarterOptions = useMemo(() => quarters.map((item) => ({value: quarterKey(item), content: quarterLabel(item)})), [quarters]);
@@ -864,7 +901,8 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
             <Flex alignItems="flex-start" justifyContent="space-between" gap="4" wrap>
               <Flex direction="column" gap="1"><Text as="h2" variant="subheader-2">Структура созданных задач</Text><Text variant="caption-2" color="secondary">Задача учитывается один раз — в месяце создания</Text></Flex>
               <Flex className="backlog-controls" alignItems="center" justifyContent="flex-end" gap="2" wrap>
-                <Select value={[grouping]} options={GROUPING_OPTIONS} onUpdate={(value) => setGrouping(value[0] || 'directions')} size="m" width={164} popupWidth={164} popupPlacement="bottom-start" aria-label="Группировка" />
+                <Select value={[grouping]} options={GROUPING_OPTIONS} onUpdate={(value) => { setGrouping(value[0] || 'directions'); setCategoryFilter(''); }} size="m" width={164} popupWidth={164} popupPlacement="bottom-start" aria-label="Группировка" />
+                <Select value={[categoryFilter]} options={categoryFilterOptions} onUpdate={(value) => setCategoryFilter(value[0] || '')} size="m" width={220} popupWidth={260} popupPlacement="bottom-start" aria-label={grouping === 'directions' ? 'Направление графика' : 'Сценарий графика'} />
               </Flex>
             </Flex>
             {hasSeries ? <Box className="backlog-chart"><Chart data={chartData} lang="ru" /></Box> : <Flex className="backlog-chart-empty" alignItems="center" justifyContent="center" gap="2"><Icon data={ChartColumn} size={22} /><Text color="secondary">Нет помесячных данных</Text></Flex>}
@@ -897,7 +935,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
               </Flex>
               <Divider />
               <Text variant="subheader-1">Другие действия по метрикам</Text>
-              <Flex direction="column" gap="4">{dashboard.recommendations.map((item, index) => <React.Fragment key={item.title}><Flex alignItems="flex-start" gap="3"><Label theme="normal" size="s" icon={<Icon data={Check} size={14} />}>Шаг {index + 1}</Label><Flex direction="column" gap="1" grow><Text variant="subheader-1">{item.title}</Text><Text variant="body-1" color="secondary"><RecommendationCopy item={item} /></Text></Flex></Flex>{index < dashboard.recommendations.length - 1 && <Divider />}</React.Fragment>)}{!dashboard.recommendations.length && <Text color="secondary">Критических отклонений в выбранном квартале нет.</Text>}</Flex>
+              <Flex direction="column" gap="4">{dashboard.recommendations.map((item, index) => <React.Fragment key={item.title}><Flex alignItems="flex-start" gap="3"><Label theme="normal" size="s" icon={<Icon data={Check} size={14} />}>Шаг {index + 1}</Label><Flex direction="column" gap="3" grow><Text variant="subheader-1">{item.title}</Text>{item.items?.map((child) => <Flex key={child.title} alignItems="flex-start" gap="2"><Icon data={Check} size={16} /><Flex direction="column" gap="1" grow><Text variant="body-1">{child.title}</Text><Text variant="body-1" color="secondary"><RecommendationCopy item={child} /></Text></Flex></Flex>)}{!item.items?.length && <Text variant="body-1" color="secondary"><RecommendationCopy item={item} /></Text>}</Flex></Flex>{index < dashboard.recommendations.length - 1 && <Divider />}</React.Fragment>)}{!dashboard.recommendations.length && <Text color="secondary">Критических отклонений в выбранном квартале нет.</Text>}</Flex>
           </Flex>
         </Card>
       </section>

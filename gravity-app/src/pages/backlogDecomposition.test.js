@@ -15,8 +15,8 @@ const backlogStyleRules = `${backlogBaseStyles}\n${backlogResponsiveStyles}`;
 const helpersStart = pageSource.indexOf('const GROUPING_OPTIONS');
 const helpersEnd = pageSource.indexOf('function KpiCard');
 const helpersSource = pageSource.slice(helpersStart, helpersEnd).replaceAll('export function', 'function');
-const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate} = Function(
-  `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate};`,
+const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogCategoryFilterOptions, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate} = Function(
+  `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogCategoryFilterOptions, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate};`,
 )();
 
 test('backlog decomposition is a dedicated sidebar view with its own data source', () => {
@@ -157,19 +157,22 @@ test('dashboard insights consume the backend quarter schema and enforce the 40 p
   assert.ok(Math.abs(missed.gap - 6.67) < 0.001);
   assert.ok(missed.insights.some((item) => item.title.includes('Discovery')));
   assert.ok(missed.insights.every((item) => item.title && item.text));
-  assert.ok(missed.recommendations.some((item) => item.title === 'Зарезервировать ≥40% задач под аналитику и исследования'));
-  assert.ok(missed.recommendations.some((item) => item.title.includes('Автоматизировать')));
-  assert.ok(missed.recommendations.some((item) => item.title === 'Улучшить заполнение задач'));
+  assert.deepEqual(missed.recommendations.map((item) => item.title), [
+    'Зарезервировать ≥40% задач под аналитику и исследования',
+    'Гигиена ведения тикетов',
+  ]);
   assert.ok(!missed.recommendations.some((item) => item.title === 'Ограничить WIP и закрыть разрыв потока'));
-  assert.equal(missed.recommendations[0].text, 'Рекомендуем заполнять поле Story Points / Относительная сложность для планирования. Базовой считается нагрузка 6,4 SP в день для аналитика. Подробнее можно почитать здесь');
-  assert.deepEqual(missed.recommendations[0].resources, [{
+  assert.deepEqual(missed.recommendations[1].items.map((item) => item.title), ['Заполнять Story Points', 'Гигиена ведения статусов', 'Заполнение задач']);
+  assert.equal(missed.recommendations[1].items[0].text, 'Рекомендуем заполнять поле Story Points / Относительная сложность для планирования. Базовой считается нагрузка 6,4 SP в день для аналитика. Подробнее можно почитать здесь');
+  assert.deepEqual(missed.recommendations[1].items[0].resources, [{
     label: 'здесь',
     href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15525024800',
     placement: 'inline',
   }]);
-  assert.ok(missed.recommendations.some((item) => item.text.includes('Повысить полноту описаний и заполнение обязательных полей')));
-  assert.ok(missed.recommendations.some((item) => item.text.includes('Сейчас направление не определено у 16,7% задач')));
-  const recommendationCopy = missed.recommendations.map(({title, text}) => `${title} ${text}`).join(' ');
+  assert.equal(missed.recommendations[1].items[1].text, 'Рекомендуем актуализировать статусы в трекере по ходу выполнения задач.');
+  assert.ok(missed.recommendations[1].items.some((item) => item.text.includes('Повысить полноту описаний и заполнение обязательных полей')));
+  assert.ok(missed.recommendations[1].items.some((item) => item.text.includes('Сейчас направление не определено у 16,7% задач')));
+  const recommendationCopy = missed.recommendations.flatMap(({title, text, items = []}) => [`${title} ${text || ''}`, ...items.map((item) => `${item.title} ${item.text}`)]).join(' ');
   assert.doesNotMatch(recommendationCopy, /Классифицировать задачи без направления/);
   assert.doesNotMatch(recommendationCopy, /Разметить направление/);
   assert.ok(!missed.recommendations.some((item) => item.title.includes('без сценария')));
@@ -180,7 +183,9 @@ test('dashboard insights consume the backend quarter schema and enforce the 40 p
   assert.equal(confirmed.missingDiscovery, 0);
   assert.ok(confirmed.insights[0].title.includes('Discovery'));
   assert.ok(!confirmed.recommendations.some((item) => item.title.includes('≥40%')));
-  assert.ok(!confirmed.recommendations.some((item) => item.text.includes('Story Points')));
+  assert.ok(!confirmed.recommendations.flatMap((item) => item.items || [item]).some((item) => item.text.includes('Story Points')));
+  assert.deepEqual(confirmed.recommendations.map((item) => item.title), ['Гигиена ведения тикетов']);
+  assert.deepEqual(confirmed.recommendations[0].items.map((item) => item.title), ['Гигиена ведения статусов']);
 });
 
 test('insights use Created as the shared denominator', () => {
@@ -259,12 +264,35 @@ test('scenario focus recommendations collapse identical toolkits and recalculate
   ]);
 
   assert.equal(result.items.length, 1);
-  assert.equal(result.items[0].scenario, 'Отчеты в Excel + Презентации');
+  assert.equal(result.items[0].scenario, 'Отчеты в Excel\nПрезентации');
   assert.equal(result.items[0].share, 50);
   assert.equal(result.items[0].continuous25thHours, 3.2);
   assert.equal(result.items[0].medianCycleTimeHours, 20);
   assert.equal(result.items[0].cycleTimeSampleCount, 5);
-  assert.match(result.items[0].recommendation, /Рекомендуем EX-EL для отчетов\. Рекомендуем EX-EL для презентаций\./);
+  assert.equal(result.items[0].recommendation, 'Предлагаемый инструментарий: Рекомендуем использовать EX-EL для этих сценариев.');
+});
+
+test('scenario values use regular body text', () => {
+  assert.match(pageSource, /className="backlog-table-scenario" variant="body-1"/);
+  assert.doesNotMatch(pageSource, /className="backlog-table-scenario" variant="subheader-1"/);
+});
+
+test('grouped OpenCode recommendation explains the Claude equivalent', () => {
+  assert.match(pageSource, /sourceTool === 'OpenCode' \? 'OpenCode \(аналог Claude\)' : sourceTool/);
+});
+
+test('recommendations render their heading only once', () => {
+  const result = buildScenarioFocusRecommendations([{
+    key: '2026-Q2',
+    isComplete: true,
+    createdCount: 2,
+    scenarios: [{key: 'exports', label: 'Выгрузки', count: 2, continuous25thHours: 1, medianCycleTimeHours: 2, cycleTimeSampleCount: 1}],
+  }], [{
+    key: 'exports',
+    recommendation: 'Предлагаемый инструментарий: Рекомендуем использовать витрину.',
+  }]);
+
+  assert.equal(result.items[0].recommendation, 'Предлагаемый инструментарий: Рекомендуем использовать витрину.');
 });
 
 test('scenario focus recommendations exclude manual updates, BI bugfixes and employee training', () => {
@@ -584,11 +612,16 @@ test('quarter and grouping filters retain native Gravity Select chrome', () => {
   const groupingSelectStart = pageSource.indexOf('<Select value={[grouping]}');
   const quarterSelect = pageSource.slice(quarterSelectStart, pageSource.indexOf('/>', quarterSelectStart));
   const groupingSelect = pageSource.slice(groupingSelectStart, pageSource.indexOf('/>', groupingSelectStart));
+  const categoryFilterStart = pageSource.indexOf('<Select value={[categoryFilter]}');
+  const categoryFilterSelect = pageSource.slice(categoryFilterStart, pageSource.indexOf('/>', categoryFilterStart));
   for (const prop of ['options={quarterOptions}', 'size="l"', 'width="max"', 'popupWidth="fit"', 'popupPlacement="bottom-end"']) {
     assert.ok(quarterSelect.includes(prop), `quarter Select keeps ${prop}`);
   }
   for (const prop of ['options={GROUPING_OPTIONS}', 'size="m"', 'width={164}', 'popupWidth={164}', 'popupPlacement="bottom-start"']) {
     assert.ok(groupingSelect.includes(prop), `grouping Select keeps ${prop}`);
+  }
+  for (const prop of ['options={categoryFilterOptions}', 'size="m"', 'width={220}', 'popupWidth={260}', 'popupPlacement="bottom-start"']) {
+    assert.ok(categoryFilterSelect.includes(prop), `category filter Select keeps ${prop}`);
   }
   assert.doesNotMatch(pageSource, /SegmentedRadioGroup|measure/);
   assert.doesNotMatch(pageSource, /<Select\.Option\b/);
@@ -646,7 +679,7 @@ test('team selector switches complete datasets and preserves top-level fallback'
 });
 
 test('stacked Created chart shows history only through the selected quarter with a quarter stack reference line', () => {
-  assert.match(pageSource, /buildBacklogChartData\(visibleMonths, grouping, selectedMonths\)/);
+  assert.match(pageSource, /buildBacklogChartData\(visibleMonths, grouping, selectedMonths, categoryFilter\)/);
   assert.doesNotMatch(pageSource, /buildBacklogChartData\(months, grouping, selectedMonths\)/);
   const history = [
     {key: '2024-01', label: 'Январь', directions: [
@@ -686,6 +719,25 @@ test('stacked Created chart shows history only through the selected quarter with
   const emptyScale = buildBacklogChartData(history, 'directions', []);
   assert.equal(Object.hasOwn(emptyScale.yAxis[0], 'max'), false);
   assert.deepEqual(emptyScale.yAxis[0].plotLines, []);
+});
+
+test('structure chart category filter offers contextual categories and filters a selected category', () => {
+  const months = [
+    {key: '2024-01', label: 'Январь', directions: [{key: 'analytics', label: 'Аналитика', count: 3}, {key: 'automation', label: 'Автоматизация', count: 2}]},
+    {key: '2024-02', label: 'Февраль', directions: [{key: 'analytics', label: 'Аналитика', count: 4}]},
+  ];
+
+  assert.deepEqual(buildBacklogCategoryFilterOptions(months, 'directions'), [
+    {value: '', content: 'Все'},
+    {value: 'analytics', content: 'Аналитика'},
+    {value: 'automation', content: 'Автоматизация'},
+  ]);
+
+  const chart = buildBacklogChartData(months, 'directions', months, 'analytics');
+  assert.deepEqual(chart.series.data.map((series) => series.name), ['Аналитика']);
+  assert.deepEqual(chart.series.data[0].data.map((point) => point.y), [3, 4]);
+  assert.equal(chart.yAxis[0].plotLines[0].value, 4);
+  assert.match(pageSource, /setGrouping\(value\[0\] \|\| 'directions'\); setCategoryFilter\(''\);/);
 });
 
 test('Created semantics remain explicit alongside selected-quarter delivery quality KPIs', () => {

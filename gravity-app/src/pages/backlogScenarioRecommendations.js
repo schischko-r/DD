@@ -14,7 +14,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     scenario: 'Аналитика клиентского опыта',
     info: 'Анализ поведения пользователей, пути клиента, воронки, когортный анализ.',
     sourceTool: 'OpenCode',
-    recommendation: 'Рекомендуем для оптимизации работы с кодом попробовать OpenCode в DataLab AI — аналог Claude. Для оценки клиентских путей рекомендуем использовать LossHunter и CJExplorer. Также предлагаем воспользоваться AI Toolkit «Продуктовый аналитик».',
+    recommendation: 'Рекомендуем для оптимизации работы с кодом попробовать OpenCode в DataLab AI — аналог Claude.\n\nДля оценки клиентских путей рекомендуем использовать LossHunter и CJExplorer.\n\nТакже предлагаем воспользоваться AI Toolkit «Продуктовый аналитик».',
     resources: [
       {label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333', placement: 'inline'},
       {label: 'LossHunter', href: 'https://losshunter.ru', placement: 'inline'},
@@ -80,7 +80,7 @@ export const DD_SCENARIO_RECOMMENDATIONS = [
     scenario: 'Ручной ККД',
     info: 'Ручной контроль качества данных, сверка, исправление ошибок в данных вручную.',
     sourceTool: 'Централизованный сервис ККД CDO и Штаб',
-    recommendation: 'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO. Для настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
+    recommendation: 'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO.\n\nДля настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
     resources: [
       {label: 'Централизованный сервис ККД CDO', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403', placement: 'inline'},
       {label: 'инструментом Штаба', href: 'https://sbertrack.sberbank.ru/swtr/wiki/unit/QLIKPROS1-585?space=QLIKPROS1&tenant=default&suite=wiki_page', placement: 'inline'},

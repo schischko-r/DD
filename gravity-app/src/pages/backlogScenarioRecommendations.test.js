@@ -35,6 +35,8 @@ test('scenario recommendation source preserves the approved rows and exact copy'
   assert.match(openCode.recommendation, /OpenCode в DataLab AI — аналог Claude/);
   assert.doesNotMatch(openCode.recommendation, /ссылк/i);
   assert.match(openCode.recommendation, /Для оценки клиентских путей рекомендуем использовать LossHunter и CJExplorer/);
+  assert.match(openCode.recommendation, /OpenCode в DataLab AI — аналог Claude\.\n\nДля оценки клиентских путей/);
+  assert.match(openCode.recommendation, /CJExplorer\.\n\nТакже предлагаем воспользоваться AI Toolkit/);
   assert.match(openCode.recommendation, /Также предлагаем воспользоваться AI Toolkit «Продуктовый аналитик»/);
   assert.deepEqual(openCode.resources, [
     {label: 'OpenCode в DataLab AI', href: 'https://mapp.sberbank.ru/b2cda/page/394333', placement: 'inline'},
@@ -89,7 +91,7 @@ test('scenario recommendation source preserves the approved rows and exact copy'
   assert.equal(manualDataQuality.length, 1);
   assert.equal(
     manualDataQuality[0].recommendation,
-    'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO. Для настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
+    'Предлагаемый инструментарий: для автоматизации ККД витрин в промышленном контуре рекомендуем использовать Централизованный сервис ККД CDO.\n\nДля настройки ККД в отчетности рекомендуем воспользоваться инструментом Штаба.',
   );
   assert.deepEqual(manualDataQuality[0].resources, [
     {label: 'Централизованный сервис ККД CDO', href: 'https://mapp.sberbank.ru/sberdataproducts/page/49403', placement: 'inline'},
@@ -140,6 +142,7 @@ test('focused time-in-work recommendation table retains Gravity UI resources and
 
 test('recommendations consistently retain inline resources and access modals', () => {
   assert.match(pageSource, /<span className="backlog-recommendation-copy">\{emphasizedParts\}<RecommendationResources item=\{item\} \/><\/span>/);
+  assert.match(pageSource, /return <>\<br \/>\<br \/>Материалы:/);
   assert.equal((pageSource.match(/<RecommendationCell><RecommendationCopy item=\{item\} \/><\/RecommendationCell>/g) || []).length, 1);
   assert.doesNotMatch(pageSource, /variant = 'default'|resourcesBelow|RecommendationToolBlock|backlog-useful-tools/);
   assert.doesNotMatch(stylesSource, /backlog-useful-tools|backlog-useful-tool-action/);
