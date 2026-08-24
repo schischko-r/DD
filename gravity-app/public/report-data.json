@@ -1763,7 +1763,145 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 52.0,
+        "expected_uplift": 22.3,
+        "expected_score": 74.3,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 10,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проработано понимание доступной отчетности и регулярного мониторинга",
+            "due_date": "2026-08-05",
+            "expected_uplift": 3.4,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 11,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Совместно со штабом обогатить целями в Навигаторе",
+            "due_date": "2026-10-30",
+            "expected_uplift": 2.0,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 12,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Настроить мониторинг по воронке оттока",
+            "due_date": "2026-08-31",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 13,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Обогатить метриками мониторинг по воронке привлечения",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 14,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Провести анализ привлечения, выявить точки роста",
+            "due_date": "2026-08-31",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 15,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Сформировать бенчмарки по продуктовым метрикам",
+            "due_date": "2026-08-31",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 16,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Провести анализ оттока, выявить точки роста",
+            "due_date": "2026-08-31",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 17,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Сформировать бенчмарки по продуктовым метрикам",
+            "due_date": "2026-08-31",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 18,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со штабом декомпозировать значения целей на драйверы, вывести в Навигатор",
+            "due_date": "2026-10-30",
+            "expected_uplift": 3.9,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 19,
+            "source_product_name": "БПИФ",
+            "unit": "УБ",
+            "profile_name": "БПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со штабом сформировать прогнозные значения, вывести в Навигатор",
+            "due_date": "2026-10-30",
+            "expected_uplift": 2.0,
+            "status": "Ожидание"
+          }
+        ]
+      }
     },
     {
       "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
@@ -3526,7 +3664,54 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 42.0,
+        "expected_uplift": 9.0,
+        "expected_score": 51.0,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 20,
+            "source_product_name": "Брокерский счет",
+            "unit": "УБ",
+            "profile_name": "Брокерский счет",
+            "quarter": "Q32026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация отчетности и знаний продукта",
+            "due_date": "2026-11-30",
+            "expected_uplift": 3.8,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 21,
+            "source_product_name": "Брокерский счет",
+            "unit": "УБ",
+            "profile_name": "Брокерский счет",
+            "quarter": "Q32026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация и вывод драйверов целей ЛТ/ЛЮ",
+            "due_date": "2026-11-30",
+            "expected_uplift": 3.3,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 22,
+            "source_product_name": "Брокерский счет",
+            "unit": "УБ",
+            "profile_name": "Брокерский счет",
+            "quarter": "Q32026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Запустить A/B-тестирование открытия счета",
+            "due_date": "2026-11-30",
+            "expected_uplift": 1.9,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
@@ -5479,7 +5664,54 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 37.0,
+        "expected_uplift": 9.5,
+        "expected_score": 46.5,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "СВР",
+            "source_row": 2,
+            "source_product_name": "Вклады + НС",
+            "unit": "CBP",
+            "profile_name": "Вклады + НС",
+            "quarter": "4Q",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "пилотирование расширения воронки по черновикам",
+            "due_date": "сентябрь - пилот\nоктябрь - корректировка триггера и рост метрики",
+            "expected_uplift": 3.8,
+            "status": "запланированы пилоты"
+          },
+          {
+            "source_sheet": "СВР",
+            "source_row": 3,
+            "source_product_name": "Вклады + НС",
+            "unit": "CBP",
+            "profile_name": "Вклады + НС",
+            "quarter": "3Q",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "запуск успешных пилотов через SS",
+            "due_date": "3Q",
+            "expected_uplift": 1.9,
+            "status": "запланированы пилоты"
+          },
+          {
+            "source_sheet": "СВР",
+            "source_row": 4,
+            "source_product_name": "Вклады + НС",
+            "unit": "CBP",
+            "profile_name": "Вклады + НС",
+            "quarter": "4Q",
+            "development_block": "CX Score",
+            "planned_activity": "доработка и уточнение методологии расчетов",
+            "due_date": "4Q",
+            "expected_uplift": 3.8,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "2770002e-6b7e-5753-9915-189d0cf5272f¦Военная пенсия",
@@ -7561,7 +7793,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 28.0,
+        "expected_uplift": 0.0,
+        "expected_score": 28.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 23,
+            "source_product_name": "Военная пенсия",
+            "unit": "DB",
+            "profile_name": "Военная пенсия",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "Исключить из оценки и расчета",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
@@ -9276,7 +9529,171 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 56.0,
+        "expected_uplift": 43.3,
+        "expected_score": 99.3,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 132,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация и вывод драйверов целей ЛТ/ЛЮ\nСкорректировать оценку. Драйверы согласно модели бизнес-планирования выведены в Навигатор. Факторный анализ - драйверы 1-2 ур.",
+            "due_date": "2026-12-31",
+            "expected_uplift": 3.8,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 133,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация отчетности и знаний продукта.\n1) Объем целевого рынка в Сбере. Выведен в Навигатор, но требуется корректировка показателя. Требуется наложить фильтры, при которых мы не можем страховать клиента\n2) Клиенты с продуктом. Выведен в Навигатор, но требуется корректировка показателя. Выводит только оплаченные страховки по ДСЖ КК, без учета клиентов, которые не оплатили страховку. Проверить учет нового продукта ПУ Страховка с выгодой.\n3) MAU продукта. Требуется доработка в разрезе каналов.",
+            "due_date": "2026-12-31",
+            "expected_uplift": 3.8,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 134,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Настроить мониторинг по воронке оттока",
+            "due_date": "2026-12-31",
+            "expected_uplift": 1.1,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 135,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Обогатить метриками мониторинг по воронке оттока",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.2,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 136,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Обогатить метриками мониторинг по воронке привлечения\nВыведен уровень проникновения в новые карты. Дополнить другими каналами продаж, кампаниями продаж",
+            "due_date": "2026-12-31",
+            "expected_uplift": 1.1,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 138,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Увеличить покрытие черновиков",
+            "due_date": "2026-08-31",
+            "expected_uplift": 4.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 139,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрить систему оповещений",
+            "due_date": "2026-12-31",
+            "expected_uplift": 6.7,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 140,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Настроить мониторинг по ключевым механикам",
+            "due_date": "2026-12-31",
+            "expected_uplift": 4.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 141,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи",
+            "due_date": "2026-12-31",
+            "expected_uplift": 4.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 142,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Повысить качество проведенных исследований",
+            "due_date": "2026-12-31",
+            "expected_uplift": 4.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 143,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Развитие кампейнинга",
+            "due_date": "2026-08-31",
+            "expected_uplift": 2.2,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 144,
+            "source_product_name": "ДСЖ КК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ КК",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Выстроить процесс гибкого изменения условий без IT",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.4,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "7d3e85aa-cc1a-5831-9db0-35735fe9bd0a¦ДУ",
@@ -11345,7 +11762,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 36.0,
+        "expected_uplift": 0.0,
+        "expected_score": 36.0,
+        "expected_level": "Требуют внимания",
+        "items": []
+      }
     },
     {
       "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
@@ -13111,7 +13535,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 57.0,
+        "expected_uplift": 1.7,
+        "expected_score": 58.7,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 8,
+            "source_product_name": "Дебетовая карта",
+            "unit": "DB",
+            "profile_name": "Дебетовая карта",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проверить воронку TAM/SAM (+1,7пп)\nШтабу B2C:\n1. Исключить блок бенчмарков, нерелевантно по словам ВП (+1,9пп)",
+            "due_date": "2026-09-30",
+            "expected_uplift": 1.7,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
@@ -14870,7 +15315,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 38.0,
+        "expected_uplift": 3.9,
+        "expected_score": 41.9,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 13,
+            "source_product_name": "Детская карта",
+            "unit": "DB",
+            "profile_name": "Детская карта",
+            "quarter": "3Q2026",
+            "development_block": "",
+            "planned_activity": "1. Подготовить DD (+3,9 пп)",
+            "due_date": "2026-09-30",
+            "expected_uplift": 3.9,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
@@ -16618,7 +17084,106 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 65.0,
+        "expected_uplift": 18.2,
+        "expected_score": 83.2,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 236,
+            "source_product_name": "ЗПИФ",
+            "unit": "УБ",
+            "profile_name": "ЗПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проработано понимание доступной отчетности и регулярного мониторинга",
+            "due_date": "2026-08-05",
+            "expected_uplift": 3.4,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 237,
+            "source_product_name": "ЗПИФ",
+            "unit": "УБ",
+            "profile_name": "ЗПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Настроить отчетность по воронке привлечения",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 238,
+            "source_product_name": "ЗПИФ",
+            "unit": "УБ",
+            "profile_name": "ЗПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Провести комплексный анализ воронки оттока (пошаговая воронка, CTR, объёмы, сегментный или когортный разрез, retention, механики удержания, UX/UI).",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 239,
+            "source_product_name": "ЗПИФ",
+            "unit": "УБ",
+            "profile_name": "ЗПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со штабом вывести в навигатор драйверы согласно модели бизнес-планирования",
+            "due_date": "2026-10-30",
+            "expected_uplift": 3.9,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 240,
+            "source_product_name": "ЗПИФ",
+            "unit": "УБ",
+            "profile_name": "ЗПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Повысить качество проведенных исследований",
+            "due_date": "2026-11-15",
+            "expected_uplift": 3.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 241,
+            "source_product_name": "ЗПИФ",
+            "unit": "УБ",
+            "profile_name": "ЗПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Изменим условия с персонализацией до клиентских подсегментов",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 242,
+            "source_product_name": "ЗПИФ",
+            "unit": "УБ",
+            "profile_name": "ЗПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Настроенны механики  возврата клиентов через создание ценности продукта",
+            "due_date": "2026-08-05",
+            "expected_uplift": 2.0,
+            "status": "Выполнен"
+          }
+        ]
+      }
     },
     {
       "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
@@ -18361,7 +18926,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 30.0,
+        "expected_uplift": 0.0,
+        "expected_score": 30.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 22,
+            "source_product_name": "Зарплатный продукт",
+            "unit": "DB",
+            "profile_name": "Зарплатный продукт",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "не нашли опросник",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
@@ -20534,7 +21120,106 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 46.0,
+        "expected_uplift": 20.7,
+        "expected_score": 66.7,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 258,
+            "source_product_name": "ИСЖ",
+            "unit": "УБ",
+            "profile_name": "ИСЖ",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со штабом декомпозировать значения целей на драйверы, вывести в Навигатор",
+            "due_date": "2026-10-30",
+            "expected_uplift": 4.1,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 259,
+            "source_product_name": "ИСЖ",
+            "unit": "УБ",
+            "profile_name": "ИСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проработка понимания доступной отчетности и регулярного мониторинга в Navigator.",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 260,
+            "source_product_name": "ИСЖ",
+            "unit": "УБ",
+            "profile_name": "ИСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Настроить метрики и мониторинг по воронке привлечения",
+            "due_date": "2026-09-30",
+            "expected_uplift": 3.1,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 261,
+            "source_product_name": "ИСЖ",
+            "unit": "УБ",
+            "profile_name": "ИСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Настроить метрики и мониторинг по воронке оттоков",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.2,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 262,
+            "source_product_name": "ИСЖ",
+            "unit": "УБ",
+            "profile_name": "ИСЖ",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Провести АВ тестирование карточек. Повысить качество проведенных исследований",
+            "due_date": "2026-10-30",
+            "expected_uplift": 4.1,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 263,
+            "source_product_name": "ИСЖ",
+            "unit": "УБ",
+            "profile_name": "ИСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Проведение анализа привлечения, выявление точек роста",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.1,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 264,
+            "source_product_name": "ИСЖ",
+            "unit": "УБ",
+            "profile_name": "ИСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Проведение анализа оттоков, выявление точек роста",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.1,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
@@ -22255,7 +22940,132 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 50.0,
+        "expected_uplift": 30.0,
+        "expected_score": 80.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 243,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Объем целевого рынка в Сбере + Клиенты с продуктом. Задача: Свести статистику потенциала сервиса ИнвестКопилки и пересчитать показатели дешборда DD. На стороне ИнвестКопилки.",
+            "due_date": "2026-09-30",
+            "expected_uplift": 30.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 244,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Факторный анализ = драйверы 1-2 ур. Задача: В мастер-дэше нет целей продукта - выведены цели ЛЮ/ЛТ, ссылку на детальный дашборд добавляем в 3м квартале (цели ЛТ), надо синхронизировать методологию учета по вопросу. На стороне Штаба УБ + ИнвестКопика",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 245,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Полнота отчетности + Проведение комплексного анализа воронок оттока. Задача: завести в Навигатор дэшборды анализа Retention, CR, удержание + подробная аналитика оттока. На стороне ИнвестКопилки",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 246,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Алерты",
+            "planned_activity": "Оповещение по бизнес-метрикам. Нерелевантно для нашего сервиса. Просим убрать метрику с нашего дэшборда.",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 247,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Гибкое изменение условий продукта. Нерелевантно для нашего сервиса. Просим убрать метрику с нашего дешборда. Изменение условий рассматриваем как простройку суб-проектов в рамках Микроинвестирования. Потребуется отдельный мониторинг этих проектов в будущем.",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 248,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Допродажи (upsell). Просим скорректировать параметр, так как у нас есть и переход из сервиса в Сбер Сову. И мы тестировали функционал «О развитии в инвестициях» с переходом в открытие брокерского счета. А таже проводим А/Б тесты на стороне продаж для развития когорты клиентов: перевод в другие продукты и/или повышение чеков Автонакоплений. С нашей стороны upsell выполнен.",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 249,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Discovery >=40% бэклога. Ссылка на доску Дата-аналитика:\nhttps://sbertrack.sberbank.ru/swtr/board/fc08e852-22a0-41c4-bd30-416aade9a5b2?space=INVESTMB&tenant=default&spaces=%5B%7B%22label%22%3A%22InvestMoneyBox%22%2C%22value%22%3A%22INVESTMB%22%7D%5D\nЕсли имеется в виду Discovery не только по анализу данных, то у нас есть несколько выделенных ролей в команде на исследования разного уровня. Включая работу Discovery в смежных командах (например продажи). Прошу скорректировать параметр на 100%.\nОценка исследований >=7,5 Задача: Проработать вопрос со Штабом УБ, так как у нас нет запросов в Штаб, мы все делаем сами. Может поэтому не попадаем в отчетность. На стороне ИнвестКопилки.",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 253,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Настроена отчетность. Воронка у нас автоматическая в Кликстрим. Прошу скорректировать параметр на 100%.\nПолнота отчета. Объемы, сегменты, когорты у нас автоматически выставляются фильтрами в Навигатор. Прошу скорректировать параметр на 100%\nРегулярность. Мы регулярно отслеживаем воронки привлечения, в период акции на ежедневной основе, в остальное несколько раз в неделю. Кликстрим автоматический, Навигатор автоматический. Прошу скорректировать параметр на 100%.",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 256,
+            "source_product_name": "ИнвестКопилка",
+            "unit": "УБ",
+            "profile_name": "ИнвестКопилка",
+            "quarter": "3Q2026",
+            "development_block": "Кампейнинг",
+            "planned_activity": "Черновики. С понедельника этой недели черновики не только уходят по ПУШ, но и через Баннеры. Прошу скорректировать параметр на 100%.\nНаличие Self-servcie + Наличие успешных бизнес-запусков. Задача: Разобраться что за Self-servcie, потому что каждый месяц запускаются пилоты и коммуникации и акции. Есть успешные, даже проводилась отчетность по А/Б на уровень Р.Н.Вестеровского. На стороне ИнвестКопилки разобраться.",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
@@ -24271,7 +25081,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 37.0,
+        "expected_uplift": 0.0,
+        "expected_score": 37.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 17,
+            "source_product_name": "Интернет-Эквайринг",
+            "unit": "DB",
+            "profile_name": "Интернет-Эквайринг",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "не нашли опросник",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
@@ -26175,7 +27006,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 44.0,
+        "expected_uplift": 0.0,
+        "expected_score": 44.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
@@ -28214,7 +29052,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 66.0,
+        "expected_uplift": 0.0,
+        "expected_score": 66.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
@@ -30339,7 +31184,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 52.0,
+        "expected_uplift": 0.0,
+        "expected_score": 52.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
@@ -32093,7 +32945,93 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 43.0,
+        "expected_uplift": 20.6,
+        "expected_score": 63.6,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 272,
+            "source_product_name": "НСЖ",
+            "unit": "УБ",
+            "profile_name": "НСЖ",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со штабом вывести в навигатор драйверы согласно модели бизнес-планирования",
+            "due_date": "2026-11-30",
+            "expected_uplift": 2.0,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 273,
+            "source_product_name": "НСЖ",
+            "unit": "УБ",
+            "profile_name": "НСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проработано понимание доступной отчетности и регулярного мониторинга",
+            "due_date": "2026-08-31",
+            "expected_uplift": 3.6,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 274,
+            "source_product_name": "НСЖ",
+            "unit": "УБ",
+            "profile_name": "НСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.3,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 275,
+            "source_product_name": "НСЖ",
+            "unit": "УБ",
+            "profile_name": "НСЖ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Провести анализ оттока, выявить точки роста",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.1,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 276,
+            "source_product_name": "НСЖ",
+            "unit": "УБ",
+            "profile_name": "НСЖ",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Повысить качество проведенных исследований",
+            "due_date": "2026-11-30",
+            "expected_uplift": 4.3,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 277,
+            "source_product_name": "НСЖ",
+            "unit": "УБ",
+            "profile_name": "НСЖ",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Развитие кампейнинга",
+            "due_date": "2026-11-30",
+            "expected_uplift": 4.3,
+            "status": "Ожидание"
+          }
+        ]
+      }
     },
     {
       "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
@@ -33843,7 +34781,119 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 62.0,
+        "expected_uplift": 18.7,
+        "expected_score": 80.7,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 278,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проработано понимание доступной отчетности и регулярного мониторинга",
+            "due_date": "2026-08-05",
+            "expected_uplift": 3.3,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 279,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Настроить отчетность по воронке привлечения",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 280,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Обогатить метриками мониторинг по воронке привлечения",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 281,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со штабом вывести в навигатор драйверы согласно модели бизнес-планирования",
+            "due_date": "2026-10-30",
+            "expected_uplift": 3.8,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 282,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Совместно со штабом обогатить метриками мониторинг по воронке оттока",
+            "due_date": "2026-10-30",
+            "expected_uplift": 1.9,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 283,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Добавить условия с персонализацией до клиентских подсегментов",
+            "due_date": "2026-08-05",
+            "expected_uplift": 1.9,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 284,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Повысить качество проведенных исследований",
+            "due_date": "2026-11-15",
+            "expected_uplift": 3.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 285,
+            "source_product_name": "ОПИФ",
+            "unit": "УБ",
+            "profile_name": "ОПИФ",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Провести анализ оттока, выявить точки роста",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.9,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
@@ -35416,7 +36466,14 @@
           "crosssell_sources": [],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 34.0,
+        "expected_uplift": 0.0,
+        "expected_score": 34.0,
+        "expected_level": "Требуют внимания",
+        "items": []
+      }
     },
     {
       "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
@@ -37211,7 +38268,93 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 53.0,
+        "expected_uplift": 20.1,
+        "expected_score": 73.1,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 292,
+            "source_product_name": "ПДС",
+            "unit": "УБ",
+            "profile_name": "ПДС",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация отчетности и знаний продукта",
+            "due_date": "2026-09-30",
+            "expected_uplift": 3.5,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 293,
+            "source_product_name": "ПДС",
+            "unit": "УБ",
+            "profile_name": "ПДС",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация и вывод драйверов целей ЛТ/ЛЮ",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.1,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 294,
+            "source_product_name": "ПДС",
+            "unit": "УБ",
+            "profile_name": "ПДС",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Настроить мониторинг по воронке оттока",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.1,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 295,
+            "source_product_name": "ПДС",
+            "unit": "УБ",
+            "profile_name": "ПДС",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Обогатить метриками мониторинг по воронке оттока",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.1,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 296,
+            "source_product_name": "ПДС",
+            "unit": "УБ",
+            "profile_name": "ПДС",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Увеличить покрытие черновиков",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.2,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 297,
+            "source_product_name": "ПДС",
+            "unit": "УБ",
+            "profile_name": "ПДС",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Провести анализ оттока, выявить точки роста",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.1,
+            "status": "Ожидание"
+          }
+        ]
+      }
     },
     {
       "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
@@ -38756,7 +39899,80 @@
           ],
           "product_group": "Сбербанк Первый"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 43.0,
+        "expected_uplift": 13.9,
+        "expected_score": 56.9,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 6,
+            "source_product_name": "ПУ СберПервый",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПервый",
+            "quarter": "",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрить систему оповещений\nОбраз результата: Вопрос на проработке у Ю.Петуховой, вернутся в ближайшее время. По результату донести на РГ DD до трайбов",
+            "due_date": "",
+            "expected_uplift": 3.8,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 7,
+            "source_product_name": "ПУ СберПервый",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПервый",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор\nЦентрализованно проверить для всех трайбов (частично решена);\nДекомпозировать значения целей на драйверы, вывести в Навигатор",
+            "due_date": "",
+            "expected_uplift": 1.9,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 8,
+            "source_product_name": "ПУ СберПервый",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПервый",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи\n- Направлены правила заполнения задач, необходимо на РГ data-driven рассказать, как правильно заводить задачи;\n- Сформировать перечень инициатив",
+            "due_date": "",
+            "expected_uplift": 1.9,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 9,
+            "source_product_name": "ПУ СберПервый",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПервый",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Знание метрик и инструментов\nРезультат на основе опроса. Трайбам необходимо лучше знать свои метрики",
+            "due_date": "",
+            "expected_uplift": 2.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 10,
+            "source_product_name": "ПУ СберПервый",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПервый",
+            "quarter": "",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Обогатить метриками мониторинг по воронке привлечения/оттока - задача в работе у Е.Волобуева;\nПровести анализ привлечения, выявить точки роста",
+            "due_date": "",
+            "expected_uplift": 3.8,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
@@ -40327,7 +41543,67 @@
           ],
           "product_group": "Сбербанк Премьер"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 58.0,
+        "expected_uplift": 11.0,
+        "expected_score": 69.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 2,
+            "source_product_name": "ПУ СберПремьер",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПремьер",
+            "quarter": "",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрить систему оповещений\nОбраз результата: Вопрос на проработке у Ю.Петуховой, вернутся в ближайшее время. По результату донести на РГ DD до трайбов",
+            "due_date": "",
+            "expected_uplift": 4.0,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 3,
+            "source_product_name": "ПУ СберПремьер",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПремьер",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор\nЦентрализованно проверить для всех трайбов (частично решена)",
+            "due_date": "",
+            "expected_uplift": 4.0,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 4,
+            "source_product_name": "ПУ СберПремьер",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПремьер",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи\nНаправлены правила заполнения задач, необходимо на РГ data-driven рассказать, как правильно заводить задачи",
+            "due_date": "",
+            "expected_uplift": 2.0,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 5,
+            "source_product_name": "ПУ СберПремьер",
+            "unit": "CX",
+            "profile_name": "Пакет услуг СберПремьер",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Знание метрик и инструментов\nРезультат на основе опроса. Трайбам необходимо лучше знать свои метрики",
+            "due_date": "",
+            "expected_uplift": 1.0,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
@@ -42082,7 +43358,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 33.0,
+        "expected_uplift": 0.0,
+        "expected_score": 33.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 21,
+            "source_product_name": "Пенсионный продукт",
+            "unit": "DB",
+            "profile_name": "Пенсионный продукт",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "не нашли опросник",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
@@ -43786,7 +45083,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 68.0,
+        "expected_uplift": 0.0,
+        "expected_score": 68.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 3,
+            "source_product_name": "Переводы по РФ",
+            "unit": "DB",
+            "profile_name": "Переводы по РФ",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "мероприятия не запланированы, т.к. Зрелая команда",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "20f8336c-e0cf-5944-9c0e-5f201a9c4561¦Переводы подарков",
@@ -45423,7 +46741,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 37.0,
+        "expected_uplift": 0.0,
+        "expected_score": 37.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 16,
+            "source_product_name": "Переводы подарков",
+            "unit": "DB",
+            "profile_name": "Переводы подарков",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "Исключить из оценки и расчета",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
@@ -47194,7 +48533,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 41.0,
+        "expected_uplift": 4.0,
+        "expected_score": 45.0,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 11,
+            "source_product_name": "Платежи",
+            "unit": "DB",
+            "profile_name": "Платежи",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Вывести прогноз в Навигатор (+4пп)\nШтабу B2C:\n1. Объединить Сценарии оплаты и Платежи (+10пп)\n2. Засчитать DD по выставленным счетам (+4пп)\n3. Засчитать наличие бенчмарков (+4пп)",
+            "due_date": "2026-10-31",
+            "expected_uplift": 4.0,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
@@ -49218,7 +50578,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 38.0,
+        "expected_uplift": 0.0,
+        "expected_score": 38.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 14,
+            "source_product_name": "СберЧаевые",
+            "unit": "DB",
+            "profile_name": "СберЧаевые",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "не нашли опросник",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
@@ -51233,7 +52614,54 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 53.0,
+        "expected_uplift": 14.0,
+        "expected_score": 67.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "ДомКлик",
+            "source_row": 3,
+            "source_product_name": "Сделка ИЖС, Загородка",
+            "unit": "ДомКлик",
+            "profile_name": "Сделка ИЖС",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Внедрение «дерева метрик» в разрезе по дивизионам (в тч загородка) позволит прорабоотать отклонение в «Анализе воронки оттока»",
+            "due_date": "",
+            "expected_uplift": 8.0,
+            "status": ""
+          },
+          {
+            "source_sheet": "ДомКлик",
+            "source_row": 4,
+            "source_product_name": "Сделка ИЖС, Загородка",
+            "unit": "ДомКлик",
+            "profile_name": "Сделка ИЖС",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Доля задач DA, связанных с исследованиями (Discovery) ≥40% бэклога: \nКонвертация существующих задач на выгрузку в исследовательские через интервью заказчика, выявление истинной потребности",
+            "due_date": "",
+            "expected_uplift": 2.0,
+            "status": ""
+          },
+          {
+            "source_sheet": "ДомКлик",
+            "source_row": 5,
+            "source_product_name": "Сделка ИЖС, Загородка",
+            "unit": "ДомКлик",
+            "profile_name": "Сделка ИЖС",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Запуск пилота акции лояльности в неипотеке, даем скидки партнеру на ипотечные сделки за неипотеку для увеличению партнерской базы.\nНа регулярной основе CRM рассылки, продуктовые акции на пути клиента (например, Регистрация и Расчеты за 490р)",
+            "due_date": "",
+            "expected_uplift": 4.0,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
@@ -53249,7 +54677,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 74.0,
+        "expected_uplift": 5.8,
+        "expected_score": 79.8,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "ДомКлик",
+            "source_row": 2,
+            "source_product_name": "Сделка вторичка,\nЗагородка",
+            "unit": "ДомКлик",
+            "profile_name": "Сделка вторичка",
+            "quarter": "3Q2026",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрение «дерева метрик» в разрезе по дивизионам (в тч загородка) позволит проработать отклонение в «Алертах по системным сбоям»",
+            "due_date": "",
+            "expected_uplift": 5.8,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
@@ -55308,7 +56757,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 69.0,
+        "expected_uplift": 0.0,
+        "expected_score": 69.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
@@ -57290,7 +58746,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 48.0,
+        "expected_uplift": 0.0,
+        "expected_score": 48.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
@@ -59001,7 +60464,158 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 54.0,
+        "expected_uplift": 25.1,
+        "expected_score": 79.1,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 298,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "(Совместно со Штабом УБ синхронизация) Знание об отчетности в Навигаторе",
+            "due_date": "2026-12-31",
+            "expected_uplift": 1.5,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 299,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "(Совместно со Штабом УБ синхронизация)  Факторный анализ - драйверы 1-2 ур.",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 300,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "(Требуется синхронизация) Настроена отчетность по воронке привлечения",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 301,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "(Требуется синхронизация) Полнота отчета - Источники/CR/CTR/CPC",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 302,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "(Требуется синхронизация)  Регулярность автоматически (daily / weekly)",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 303,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Анализ - Проведение комплексного анализа воронки привлечения. Оценка эффективности, поиск точек роста",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 304,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Кампейнинг - Черновик в СБОЛ >70%",
+            "due_date": "2026-12-31",
+            "expected_uplift": 1.2,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 305,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Кампейнинг - Наличие Self-Service",
+            "due_date": "2026-09-01",
+            "expected_uplift": 2.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 306,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Кампейнинг - Наличие успешных бизнес-запусков  Self-Service",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 307,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Отчетность - Полнота отчета",
+            "due_date": "2026-12-31",
+            "expected_uplift": 1.5,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 308,
+            "source_product_name": "Страхование залога",
+            "unit": "УБ",
+            "profile_name": "Страхование залога",
+            "quarter": "4Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Отчетность - Проведение комплексного анализа воронки оттока",
+            "due_date": "2026-12-31",
+            "expected_uplift": 1.5,
+            "status": "Ожидание"
+          }
+        ]
+      }
     },
     {
       "id": "9ab3c21c-493a-54dc-92ec-022aefb84f84¦Сценарии оплаты",
@@ -60674,7 +62288,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 51.0,
+        "expected_uplift": 0.0,
+        "expected_score": 51.0,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 9,
+            "source_product_name": "Сценарии оплаты",
+            "unit": "DB",
+            "profile_name": "Сценарии оплаты",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "Исключить из оценки и расчета",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
@@ -62388,7 +64023,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 63.0,
+        "expected_uplift": 0.0,
+        "expected_score": 63.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 6,
+            "source_product_name": "Торговый Эквайринг",
+            "unit": "DB",
+            "profile_name": "Торговый Эквайринг",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "мероприятия не запланированы, т.к. Зрелая команда",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
@@ -64084,7 +65740,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 38.0,
+        "expected_uplift": 4.2,
+        "expected_score": 42.2,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 15,
+            "source_product_name": "Трансграничные переводы",
+            "unit": "DB",
+            "profile_name": "Трансграничные переводы",
+            "quarter": "4Q2026",
+            "development_block": "",
+            "planned_activity": "Подготовить DD (+4,2пп)\nШтабу B2C:\n1. Исключить блок бенчмарков, нерелевантно по словам ВП (+2,1пп)\n2. Цели выведены в Навигатор, дэшборд Переводы за рубеж (+4,2пп)",
+            "due_date": "2026-10-31",
+            "expected_uplift": 4.2,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
@@ -65591,7 +67268,28 @@
         }
       ],
       "tribe": "Альтернативные платежные методы",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 34.0,
+        "expected_uplift": 10.2,
+        "expected_score": 44.2,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 20,
+            "source_product_name": "Трансграничный эквайринг",
+            "unit": "DB",
+            "profile_name": "Трансграничный эквайринг",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "1. Подготовить DD (+4,8пп)\n2. Вывести дэшборд с основными показателями (+4,9пп)\n3. Рассказать про продукты-спутники (+0,5пп)",
+            "due_date": "2026-11-30",
+            "expected_uplift": 10.2,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "b4d7d4f8-e4c7-5cc2-ada8-9fb3801fb28a¦Транспортный эквайринг",
@@ -67649,7 +69347,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 24.0,
+        "expected_uplift": 0.0,
+        "expected_score": 24.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 24,
+            "source_product_name": "Транспортный эквайринг",
+            "unit": "DB",
+            "profile_name": "Транспортный эквайринг",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "Исключить из оценки и расчета",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
@@ -69712,7 +71431,80 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 27.0,
+        "expected_uplift": 23.0,
+        "expected_score": 50.0,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 309,
+            "source_product_name": "ЦФА",
+            "unit": "УБ",
+            "profile_name": "ЦФА",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Гибкое изменение условий продукта",
+            "due_date": "2026-09-30",
+            "expected_uplift": 5.3,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 310,
+            "source_product_name": "ЦФА",
+            "unit": "УБ",
+            "profile_name": "ЦФА",
+            "quarter": "4Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Определить объем целевого рынка России и Сбера совместно со Штабом УБ",
+            "due_date": "2026-12-31",
+            "expected_uplift": 4.5,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 311,
+            "source_product_name": "ЦФА",
+            "unit": "УБ",
+            "profile_name": "ЦФА",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи",
+            "due_date": "2026-12-31",
+            "expected_uplift": 5.3,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 312,
+            "source_product_name": "ЦФА",
+            "unit": "УБ",
+            "profile_name": "ЦФА",
+            "quarter": "4Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Настроить мониторинг по воронке оттока совместно со Штабом УБ",
+            "due_date": "2026-12-31",
+            "expected_uplift": 2.6,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 313,
+            "source_product_name": "ЦФА",
+            "unit": "УБ",
+            "profile_name": "ЦФА",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Повысить качество проведенных исследований",
+            "due_date": "2026-12-31",
+            "expected_uplift": 5.3,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "8e9b9731-8712-59fd-b654-6aac03844b1c¦Школьные сервисы",
@@ -71746,7 +73538,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 36.0,
+        "expected_uplift": 0.0,
+        "expected_score": 36.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 19,
+            "source_product_name": "Школьные сервисы",
+            "unit": "DB",
+            "profile_name": "Школьные сервисы",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "Исключить из оценки и расчета",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
@@ -73450,7 +75263,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 44.0,
+        "expected_uplift": 0.0,
+        "expected_score": 44.0,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 10,
+            "source_product_name": "SberPay Ecom",
+            "unit": "DB",
+            "profile_name": "SberPay Ecom",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "не нашли опросник",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
@@ -75163,7 +76997,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 40.0,
+        "expected_uplift": 0.0,
+        "expected_score": 40.0,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 12,
+            "source_product_name": "SberPay Вжух",
+            "unit": "DB",
+            "profile_name": "SberPay Вжух",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "не нашли опросник",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
@@ -77088,7 +78943,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 40.0,
+        "expected_uplift": 0.0,
+        "expected_score": 40.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
@@ -78844,7 +80706,119 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 56.0,
+        "expected_uplift": 47.0,
+        "expected_score": 100.0,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 23,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Объем целевого рынка в России\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета\nКак считает продуктовая команда:\nСогласно оф.данным Росстата (https://rosstat.gov.ru/statistics/turizm)\nчисло выездных туристских поездок граждан России в зарубежные страны за 1q26 = 5,63 млн. Т.о в год : 5,63*4 = 22,5 млн. поездок. Это объем целевого рынка в России.\nОбъем целевого рынка в Сбере\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета\nКак считает продуктовая команда:\n1) Посчитаем частоту поездок в год на 1 россиянина: 22,5 млн. поездок / 146 млн. чел. = 15,4 %.\n2) Применим частоту поездок в год на 1 россиянина к объему активных пользователей Сбера: 100 млн. активн.польз * 15,4% = 15,4 млн. Далее вычитаем 2,6 млн. владельцы ПУ, где включена страховка\nТ.о.  объем целевого рынка в Сбере = 12,8 млн. поездок\nКлиенты  с продуктом\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета\nКак считает продуктовая команда:\nПо продукту \"Страхование путешественников\" отсутствует автопролонгация / подписка. Доля годовых полисов 0,33% от общего числа (н-р: за июль 26г. 74 шт. годовых полиса из общего числа 22 474 шт.). 99,7% полисов - краткосрочные полисы со средним сроком поездки = 12, таким образом считаем кол-во оформленных полисов.\nФакт за период с янв.26 по июль 26 = 115 257 шт. ; план с авг.26 по дек.26 = 82 000 шт.; ИТОГО = 195 257\nMAU продукта\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета\nКак считает продуктовая команда:\nMAU считается по кол-ву уник. клиентов, которые перешли на карточку продукта в МП СБОЛ. Таких 100 000 клиентов\nMAU — количество уникальных пользователей, которые совершили хотя бы одно целевое действие на протяжении 30 дней. Целевое действие = переход на карточку продукта, если смотреть целевое действие = оформление продукта, то это будет та же самая цифра, что и \"Клиенты с продуктом\"\nЗнание продуктов спутников\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nЗнание об отчетности в Навигаторе\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 4.5,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 59,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Настроена отчетность по воронке привлечения\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nПолнота отчета (Источники, CR, объемы, сегменты)\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nРегулярность. Автоматически (daily / weekly) или по запросу\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nНаличие бенчмарков. Цели / динамика / рынок\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета\nНаличие Self-service. Self-service / кампейнинг, успешность\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета. У продуктовой команды есть выделенный сотрудник для работы Self-service\nНастроен Дэшборд по отображению кампаний продаж в кампейнинге - https://qlik.sigma.sbrf.ru/qs_b2c_data/scim_sigma/sense/app/25e1a8c8-9a7c-4072-bf29-055bba63e97e/sheet/996accc8-5be9-4cf2-92f5-eb932bbf3980/state/analysis\nНаличие успешных бизнес-запусков. Self-service / кампейнинг, успешность\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета. У продуктовой команды есть выделенный сотрудник для работы Self-service\nНастроен Дэшборд по отображению кампаний продаж в кампейнинге - https://qlik.sigma.sbrf.ru/qs_b2c_data/scim_sigma/sense/app/25e1a8c8-9a7c-4072-bf29-055bba63e97e/sheet/996accc8-5be9-4cf2-92f5-eb932bbf3980/state/analysis",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 7.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 84,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Алерты",
+            "planned_activity": "Оповещения по бизнес-метрикам. Светофоры целей, драйверов, воронок\nТекущее значение в дешборде  50%.\nМероприятие: синхронизация по логике расчета\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 88,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Discovery >=40% бэклога. Доля исследовательских задач DA\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета. Продуктовая команда регулярно проверяет гипотезы\nОценка исследований >=7,5. Средняя оценка проведенных исследований\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета. Продуктовая команда проводит исследования\nДоп. инициативы сверх БП. Наличие доходных/расходных инициатив сверх БП\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета.",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 14.8,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 99,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Факторный анализ - драйверы 1-2 ур.. Драйверы согласно модели бизнес-планирования выведены в Навигатор\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета.",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 3.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 102,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Настроена отчетность. По воронке оттока\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nПолнота отчета. Retention, CR, удержание\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nРегулярность. Автоматически (daily / weekly) или по запросу\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nНаличие бенчмарков. Цели / динамика / рынок\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета.",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 4.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 117,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Возврат клиентов. Реактивация оттекающих клиентов.\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%\nГибкое изменение условий продукта. Возможность изменить набор опций по продукту без IT-разработки\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета.\nCross-sell. В оформлении и после покупки\nТекущее значение в дешборде  50%.\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 7.9,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 128,
+            "source_product_name": "ВЗР",
+            "unit": "УБ",
+            "profile_name": "ВЗР",
+            "quarter": "3Q2026",
+            "development_block": "Клиентский опыт",
+            "planned_activity": "CX Score. Зеленая зона клиентского пути\nМероприятие: совместно с штабом УБ синхронизировать логику, чтобы довести до 100%",
+            "due_date": "Проведение встречи после отправки ДК (до 14.08) для синхронизации и согласования логики расчетов",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
@@ -80580,7 +82554,54 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 54.0,
+        "expected_uplift": 15.4,
+        "expected_score": 69.4,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "PC",
+            "source_row": 5,
+            "source_product_name": "Выписки и справки",
+            "unit": "PC",
+            "profile_name": "Выписки, справки",
+            "quarter": "",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Настроить отчетность, чтобы построить воронку оформления",
+            "due_date": "",
+            "expected_uplift": 6.2,
+            "status": ""
+          },
+          {
+            "source_sheet": "PC",
+            "source_row": 6,
+            "source_product_name": "Выписки и справки",
+            "unit": "PC",
+            "profile_name": "Выписки, справки",
+            "quarter": "",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Наличие бенчмарков - удалить из расчета в 3 кв., т.к. неприменимо",
+            "due_date": "",
+            "expected_uplift": 3.1,
+            "status": ""
+          },
+          {
+            "source_sheet": "PC",
+            "source_row": 7,
+            "source_product_name": "Выписки и справки",
+            "unit": "PC",
+            "profile_name": "Выписки, справки",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Доля исследовательских задач >=40%. Введение ролевой модели и калькулятора достаточности ресурса DA",
+            "due_date": "",
+            "expected_uplift": 6.1,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
@@ -82279,7 +84300,41 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 55.0,
+        "expected_uplift": 30.0,
+        "expected_score": 85.0,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 130,
+            "source_product_name": "ДСЖ ПК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ ПК",
+            "quarter": "Q32026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация отчетности и знаний продукта. В рамках данного мероприятия отдельно с каждым несогласным продуктом будет проводиться точечная выверка методологии и корректность расчета в ДБ «Активные Клиенты & MAU Продуктов и Сервисов».",
+            "due_date": "2026-09-30",
+            "expected_uplift": 30.0,
+            "status": ""
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 131,
+            "source_product_name": "ДСЖ ПК",
+            "unit": "УБ",
+            "profile_name": "ДСЖ ПК",
+            "quarter": "Q32026",
+            "development_block": "Цели",
+            "planned_activity": "Совместно со Штабом УБ проведена синхронизация и вывод драйверов целей ЛТ/ЛЮ»",
+            "due_date": "2026-09-30",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
@@ -84436,7 +86491,106 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 54.0,
+        "expected_uplift": 46.0,
+        "expected_score": 100.0,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 151,
+            "source_product_name": "ЗЛС",
+            "unit": "УБ",
+            "profile_name": "ЗЛС",
+            "quarter": "4Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Объем целевого рынка в Сбере\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета Штаб УБ и В2С\nКак считает продуктовая команда:\nЛица от 18 до 80 лет\nMAU продукта\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета\nКак считает продуктовая команда:\nMAU считается по кол-ву уникальных клиентов, которые перешли на детальные карточки продукта в МП СБОЛ. Таких 100 000 клиентов\nMAU - количество уникальных пользователей, которые совершили хотя бы одно целевое действие на протяжении 30 дней. Целевое действие = переход на карточку продукта, если смотреть цеелвое действие = оформление продукта, то это будет та же самая цифра, что и \"Клиенты с продуктом\".\nСсылка на отчет в Навигаторе: https://navigator.sigma.sbrf.ru/gdash/1000000820/1000012918?period=2026-06-01%7C%7C%7C2026-06-30\nЗнание об отчетности в Навигаторе\nТекущее значение в дешборде  50%\nМероприятие: совместно с штабом УБ синхронизировать методологию, чтобы довести до 100%",
+            "due_date": "Проведение встреч со Штабом УБ до 31.08.2026.",
+            "expected_uplift": 2.6,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 168,
+            "source_product_name": "ЗЛС",
+            "unit": "УБ",
+            "profile_name": "ЗЛС",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Полнота отчета\nТекущее значение в дешборде  50%\nМероприятия: задача поставлена на Штаб УБ, ожидаем реализацию, ссылка на задачу в jira: https://jira.sberbank.ru/browse/DASHBOARD-6101.\nТакже реализован отчет по воронкам разных источниов переходов, ссылка на отчет в Навигаторе: https://navigator.sigma.sbrf.ru/gdash/1000000820/1000012918?period=2026-06-01%7C%7C%7C2026-06-30\nНаличие бенчмарков\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по логике расчета Штаб УБ, Штаб В2С, СБС\nЧерновики в СБОЛ >=70%\nТекущее значение в дешборде  0%\nТекущее покрытие по коммуникациям составляет 77%, ссылка на отчет Навигаторе: https://navigator.sigma.sbrf.ru/gdash/1000003969",
+            "due_date": "Проведение встреч со Штабом УБ до 31.08.2026.",
+            "expected_uplift": 7.1,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 180,
+            "source_product_name": "ЗЛС",
+            "unit": "УБ",
+            "profile_name": "ЗЛС",
+            "quarter": "4Q2026",
+            "development_block": "Алерты",
+            "planned_activity": "Оповещения по бизнес-метрикам\nТекущее значение в дешборде  50%\nНастроены алерты из АС Рефлекса, настроена ежедневная рассылка по витрине ЗЛС.\nМероприятие: совместно со штабом УБ синхронизировать логику, чтобы довести до 100%",
+            "due_date": "Проведение встреч со Штабом УБ до 31.08.2026.",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 184,
+            "source_product_name": "ЗЛС",
+            "unit": "УБ",
+            "profile_name": "ЗЛС",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Discovery >=40% бэклога\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по методологии. Продуктовая команда регулярно проверяет гипотезы\nОценка исследований >=7,5\nТекущее значение в дешборде  0%\nЗапущена регулярная кампания опросов СХ по ЗЛС\nМероприятие: синхронизация по методологии.\nA/B-тесты\nнет плана по A/B\nРегулярное проведение АБ-тестов: за 1 пг 2026 проведено 2 АБ-теста СБОЛ ЗЛС + в рамках КВУБ - 6 АБ-тестов.\nДоп. инициативы сверх БП\nТекущее значение в дешборде  0%\nМероприятие: синхронизация по методологии.",
+            "due_date": "Проведение встреч со Штабом УБ до 31.08.2026.",
+            "expected_uplift": 12.2,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 200,
+            "source_product_name": "ЗЛС",
+            "unit": "УБ",
+            "profile_name": "ЗЛС",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Цели выведены на мониторинг\nТекущее значение в дешборде  0%\nМероприятие: синхронизироваться со Штабом УБ\nСсылка на отчет в Навигаторе: https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=7\nФакторный анализ - драйверы 1-2 ур.\nТекущее значение в дешборде  0%\nМероприятие: синхронизироваться со Штабом УБ\nСсылки на отчет в Навигаторе:\nОтчет RR: https://navigator.sigma.sbrf.ru/gdash/1000001002/1000010105\nМодуль на клиента (факторный анализ): https://navigator.sigma.sbrf.ru/gdash/1000001002/1000010222\nДействующий факторный анализ: https://navigator.sigma.sbrf.ru/gdash/1000000820/1000007927",
+            "due_date": "Проведение встреч со Штабом УБ до 31.08.2026.",
+            "expected_uplift": 8.1,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 212,
+            "source_product_name": "ЗЛС",
+            "unit": "УБ",
+            "profile_name": "ЗЛС",
+            "quarter": "4Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Полнота отчета\nТекущее значение в дешборде  0%\nОтчет в Навигаторе - CR: https://navigator.sigma.sbrf.ru/gdash/1000000820/1000012918?period=2026-06-01%7C%7C%7C2026-06-30\nОтчет в Навигаторе  - удержание: https://navigator.sigma.sbrf.ru/gdash/1000000826/1000008041\nПроведение комплексного анализа воронки оттока\nТекущее значение в дешборде  50%\nМероприятие: синхронизироваться по методолгии со Штабом УБ\nНаличие бенчмарков\nТекущее значение в дешборде  0%\nМероприятия: сихронизироваться по методолгии со Штабом УБ, В2С, СБС.",
+            "due_date": "Проведение встреч со Штабом УБ до 31.08.2026.",
+            "expected_uplift": 6.0,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 224,
+            "source_product_name": "ЗЛС",
+            "unit": "УБ",
+            "profile_name": "ЗЛС",
+            "quarter": "4Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Возврат клиентов\nТекущее значение в дешборде  50%\nПо продукту существует: подключение АП на карточке продукта, оплата очередного взноса в 1 клик, пролонгация.\nМероприятие: синхронизироваться по методолгии со Штабом УБ\nГибкое изменение условий продукта\nТекущее значение в дешборде  0%\nПродукт 360 и страховой конвейер.\nCross-sell\nТекущее значение в дешборде  50%\nНе применимо для продукта ЗЛС.",
+            "due_date": "Проведение встреч со Штабом УБ до 31.08.2026.",
+            "expected_uplift": 8.0,
+            "status": "Ожидание"
+          }
+        ]
+      }
     },
     {
       "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
@@ -86491,7 +88645,93 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 40.0,
+        "expected_uplift": 21.4,
+        "expected_score": 61.4,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 145,
+            "source_product_name": "Залоговое страхование (корпоративное страхование)",
+            "unit": "УБ",
+            "profile_name": "Залоговое страхование (корпоративное страхование)",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Актуализировать информацию на соотвествие показателей для продукта",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.1,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 146,
+            "source_product_name": "Залоговое страхование (корпоративное страхование)",
+            "unit": "УБ",
+            "profile_name": "Залоговое страхование (корпоративное страхование)",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Добавить доступ к задачам по аналитике",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.3,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 147,
+            "source_product_name": "Залоговое страхование (корпоративное страхование)",
+            "unit": "УБ",
+            "profile_name": "Залоговое страхование (корпоративное страхование)",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Добавить существующую отчетность по продукту",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.3,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 148,
+            "source_product_name": "Залоговое страхование (корпоративное страхование)",
+            "unit": "УБ",
+            "profile_name": "Залоговое страхование (корпоративное страхование)",
+            "quarter": "4Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Скорректировать логику отчета по пролонгации в инструменте Навигатор",
+            "due_date": "2026-12-31",
+            "expected_uplift": 4.3,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 149,
+            "source_product_name": "Залоговое страхование (корпоративное страхование)",
+            "unit": "УБ",
+            "profile_name": "Залоговое страхование (корпоративное страхование)",
+            "quarter": "3Q2026",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Актуализировать информацию на соотвествие показателей для продукта",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.1,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 150,
+            "source_product_name": "Залоговое страхование (корпоративное страхование)",
+            "unit": "УБ",
+            "profile_name": "Залоговое страхование (корпоративное страхование)",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Актуализировать информацию на соотвествие показателей для продукта",
+            "due_date": "2026-09-30",
+            "expected_uplift": 4.3,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "e146d7b5-0627-5493-b841-3e87393d585c¦Как зарплатный",
@@ -88486,7 +90726,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 37.0,
+        "expected_uplift": 0.0,
+        "expected_score": 37.0,
+        "expected_level": "Требуют внимания",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 18,
+            "source_product_name": "Как зарплатный",
+            "unit": "DB",
+            "profile_name": "Как зарплатный",
+            "quarter": "",
+            "development_block": "",
+            "planned_activity": "Исключить из оценки и расчета",
+            "due_date": "",
+            "expected_uplift": null,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
@@ -90261,7 +92522,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 60.0,
+        "expected_uplift": 3.7,
+        "expected_score": 63.7,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 7,
+            "source_product_name": "Кредитные карты",
+            "unit": "DB",
+            "profile_name": "Кредитные карты",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проверить воронку TAM/SAM, рассказать ВП о дэшах (+3,7пп)\nШтабу B2C:\n1. Учесть июньские DD (+3,8пп)\n2. Скорректировать знание продуктов-спутников (ВП ответил)",
+            "due_date": "2026-09-30",
+            "expected_uplift": 3.7,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
@@ -91888,7 +94170,14 @@
           "crosssell_sources": [],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 57.0,
+        "expected_uplift": 0.0,
+        "expected_score": 57.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
@@ -93591,7 +95880,119 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 47.0,
+        "expected_uplift": 30.1,
+        "expected_score": 77.1,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 2,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Цели выведены в Навигатор",
+            "due_date": "2026-07-27",
+            "expected_uplift": 5.7,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 3,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Цели декомпозированы на драйверы и выведены в Навигатор",
+            "due_date": "2026-07-27",
+            "expected_uplift": 5.7,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 4,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Сформированы прогнозные значения и выведены в Навигатор",
+            "due_date": "2026-07-27",
+            "expected_uplift": 5.7,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 5,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проработано понимание доступной отчетности и регулярного мониторинга",
+            "due_date": "2026-07-27",
+            "expected_uplift": 1.5,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 6,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Настроена отчетность по воронке привлечения",
+            "due_date": "2026-07-27",
+            "expected_uplift": 1.5,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 7,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Отчетность по воронке привлечения обогащена метриками (полнота)",
+            "due_date": "2026-07-27",
+            "expected_uplift": 1.4,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 8,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Исключить из расчета \"Гибкое изменение условий продукта\" - Не применимо для продукта",
+            "due_date": "2026-09-30",
+            "expected_uplift": 5.7,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 9,
+            "source_product_name": "СберСова",
+            "unit": "УБ",
+            "profile_name": "СберСова",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Механики Cross-sell проработаны",
+            "due_date": "2026-08-31",
+            "expected_uplift": 2.9,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
@@ -95602,7 +98003,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 30.0,
+        "expected_uplift": 0.0,
+        "expected_score": 30.0,
+        "expected_level": "Требуют внимания",
+        "items": []
+      }
     },
     {
       "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
@@ -97345,7 +99753,14 @@
           ],
           "requires_manual_validation": true
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 44.0,
+        "expected_uplift": 0.0,
+        "expected_score": 44.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
@@ -99235,7 +101650,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 66.0,
+        "expected_uplift": 0.0,
+        "expected_score": 66.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
@@ -101291,7 +103713,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 58.0,
+        "expected_uplift": 0.0,
+        "expected_score": 58.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
@@ -103031,7 +105460,106 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 63.0,
+        "expected_uplift": 15.0,
+        "expected_score": 78.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 265,
+            "source_product_name": "КАСКО",
+            "unit": "УБ",
+            "profile_name": "КАСКО",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Совместно со штабом синхронизация методологии расчетов, актуализация текущей методики по определению метрик",
+            "due_date": "2026-08-31",
+            "expected_uplift": 3.7,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 266,
+            "source_product_name": "КАСКО",
+            "unit": "УБ",
+            "profile_name": "КАСКО",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Скорректировать ответ в опросе в соответствии с фактическим наличием отчетов в Навигаторе",
+            "due_date": "2026-09-30",
+            "expected_uplift": 5.8,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 267,
+            "source_product_name": "КАСКО",
+            "unit": "УБ",
+            "profile_name": "КАСКО",
+            "quarter": "4Q2026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Пересмотр методологии для скорринговых продуктов. Нам необходимо отправлять черновики только тем, кому готовы дать предложение, а не всем",
+            "due_date": "2026-11-30",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 268,
+            "source_product_name": "КАСКО",
+            "unit": "УБ",
+            "profile_name": "КАСКО",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "По оценке исследований изучить методику оценки, заполнять запрашиваемый файл ворд в соответствии с требованиями, проверять самостоятельно в потоке",
+            "due_date": "2026-09-30",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 269,
+            "source_product_name": "КАСКО",
+            "unit": "УБ",
+            "profile_name": "КАСКО",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Доп инициативы сверх бизнес плана не применима для продукта, так как на 2026г была зашита амбиция Х2 к факту 2025года, а не плавный рост",
+            "due_date": "2026-09-30",
+            "expected_uplift": 1.0,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 270,
+            "source_product_name": "КАСКО",
+            "unit": "УБ",
+            "profile_name": "КАСКО",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Допродажи, Переход клиента на более ценный продукт или расширенный пакет услуг - в каско реализовано. Отправила видео Марии Черковой для синхронизации понимания наличия опции",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.0,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 271,
+            "source_product_name": "КАСКО",
+            "unit": "УБ",
+            "profile_name": "КАСКО",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Гибкое изменение условий продукта - сбиться по методологии для каско, часть условий выведено в бизнес-параметры для оперативного изменения",
+            "due_date": "2026-08-31",
+            "expected_uplift": 0.5,
+            "status": "Ожидание"
+          }
+        ]
+      }
     },
     {
       "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
@@ -104766,7 +107294,93 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 61.0,
+        "expected_uplift": 13.0,
+        "expected_score": 74.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "УБ",
+            "source_row": 286,
+            "source_product_name": "ОСАГО",
+            "unit": "УБ",
+            "profile_name": "ОСАГО",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Синхронизация методологии расчетов, актуализация текущей методики по определению метрик.",
+            "due_date": "2026-08-31",
+            "expected_uplift": 3.7,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 287,
+            "source_product_name": "ОСАГО",
+            "unit": "УБ",
+            "profile_name": "ОСАГО",
+            "quarter": "3Q2026",
+            "development_block": "Цели",
+            "planned_activity": "Скорректировать ответ в опросе в соответствии с фактическим наличием отчетов в навигаторе.",
+            "due_date": "31.09.2026",
+            "expected_uplift": 5.8,
+            "status": "Выполнен"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 288,
+            "source_product_name": "ОСАГО",
+            "unit": "УБ",
+            "profile_name": "ОСАГО",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "По оценке исследований изучить методику оценки, заполнять запрашиваемый файл ворд в соответствии с требованиями, проверять самостоятельно в потоке.",
+            "due_date": "31.09.2026",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 289,
+            "source_product_name": "ОСАГО",
+            "unit": "УБ",
+            "profile_name": "ОСАГО",
+            "quarter": "3Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Доп инициативы сверх бизнес плана не применимы для продукта, так как на 2026г была зашита амбиция +60% к плану 2025года, а не плавный рост.",
+            "due_date": "31.09.2026",
+            "expected_uplift": 1.0,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 290,
+            "source_product_name": "ОСАГО",
+            "unit": "УБ",
+            "profile_name": "ОСАГО",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Допродажи, изменение методологии под ОСАГО не применимы, т.к. допродажи запрещены законом.",
+            "due_date": "2026-08-31",
+            "expected_uplift": 1.0,
+            "status": "Ожидание"
+          },
+          {
+            "source_sheet": "УБ",
+            "source_row": 291,
+            "source_product_name": "ОСАГО",
+            "unit": "УБ",
+            "profile_name": "ОСАГО",
+            "quarter": "3Q2026",
+            "development_block": "Механики",
+            "planned_activity": "Гибкое изменение условий продукта - сбиться по методологии для ОСАГО, часть условий выведено в бизнес-параметры для оперативного изменения.",
+            "due_date": "2026-08-31",
+            "expected_uplift": 0.5,
+            "status": "Ожидание"
+          }
+        ]
+      }
     },
     {
       "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
@@ -106408,7 +109022,14 @@
           "crosssell_sources": [],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 61.0,
+        "expected_uplift": 0.0,
+        "expected_score": 61.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
@@ -108384,7 +111005,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 54.0,
+        "expected_uplift": 0.0,
+        "expected_score": 54.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
@@ -110391,7 +113019,14 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 61.0,
+        "expected_uplift": 0.0,
+        "expected_score": 61.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
@@ -112095,7 +114730,28 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 77.0,
+        "expected_uplift": 5.3,
+        "expected_score": 82.3,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 2,
+            "source_product_name": "SberPay NFC",
+            "unit": "DB",
+            "profile_name": "SberPay NFC",
+            "quarter": "4Q2026",
+            "development_block": "Знание ключевых метрик\nЦели",
+            "planned_activity": "1. Проверить воронку TAM/SAM (+3пп)\n2. Вывести прогноз в Навигатор (+2,3пп)",
+            "due_date": "2026-10-31",
+            "expected_uplift": 5.3,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
@@ -113781,7 +116437,41 @@
           ],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 66.0,
+        "expected_uplift": 5.0,
+        "expected_score": 71.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "DB",
+            "source_row": 4,
+            "source_product_name": "Оплата улыбкой",
+            "unit": "DB",
+            "profile_name": "Оплата улыбкой",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Проверить воронку TAM/SAM",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "DB",
+            "source_row": 5,
+            "source_product_name": "Оплата улыбкой",
+            "unit": "DB",
+            "profile_name": "Оплата улыбкой",
+            "quarter": "4Q2026",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Повысить долю исследований >=40%",
+            "due_date": "2026-11-30",
+            "expected_uplift": 2.5,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
@@ -115423,7 +118113,54 @@
           "crosssell_sources": [],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 77.0,
+        "expected_uplift": 5.4,
+        "expected_score": 82.4,
+        "expected_level": "Лидеры",
+        "items": [
+          {
+            "source_sheet": "СВР",
+            "source_row": 5,
+            "source_product_name": "ПК",
+            "unit": "CBP",
+            "profile_name": "Потребительский кредит",
+            "quarter": "3Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Гемба для команды по отчетности в Навигаторе (совместно со штабом: Герасимова Ольга)",
+            "due_date": "2026-09-30",
+            "expected_uplift": 1.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "СВР",
+            "source_row": 6,
+            "source_product_name": "ПК",
+            "unit": "CBP",
+            "profile_name": "Потребительский кредит",
+            "quarter": "3Q2026",
+            "development_block": "Цели уровня ЛЮ/ЛТ",
+            "planned_activity": "Вывод планов и прогнозов в мастер-дэш по КПЭ ЛТ и Картине недели",
+            "due_date": "2026-09-30",
+            "expected_uplift": 2.0,
+            "status": "В работе"
+          },
+          {
+            "source_sheet": "СВР",
+            "source_row": 7,
+            "source_product_name": "ПК",
+            "unit": "CBP",
+            "profile_name": "Потребительский кредит",
+            "quarter": "4Q2026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Гемба для команды по ключевым метрикам, в т.ч. объем целевого рынка России и Сбера",
+            "due_date": "2026-10-31",
+            "expected_uplift": 2.4,
+            "status": "В работе"
+          }
+        ]
+      }
     },
     {
       "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
@@ -117029,7 +119766,14 @@
           "crosssell_sources": [],
           "requires_manual_validation": false
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 68.0,
+        "expected_uplift": 0.0,
+        "expected_score": 68.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
@@ -118001,7 +120745,67 @@
           ],
           "product_group": "Дети"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 54.0,
+        "expected_uplift": 14.2,
+        "expected_score": 68.2,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 17,
+            "source_product_name": "Дети",
+            "unit": "CX",
+            "profile_name": "Дети",
+            "quarter": "",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрить систему оповещений",
+            "due_date": "",
+            "expected_uplift": 4.9,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 18,
+            "source_product_name": "Дети",
+            "unit": "CX",
+            "profile_name": "Дети",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор",
+            "due_date": "",
+            "expected_uplift": 4.9,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 19,
+            "source_product_name": "Дети",
+            "unit": "CX",
+            "profile_name": "Дети",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи:\nправильно формировать задачи",
+            "due_date": "",
+            "expected_uplift": 2.4,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 20,
+            "source_product_name": "Дети",
+            "unit": "CX",
+            "profile_name": "Дети",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Необходимо улучшить знание своих метрики",
+            "due_date": "",
+            "expected_uplift": 2.0,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
@@ -118982,7 +121786,54 @@
           ],
           "product_group": "Родители"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 38.0,
+        "expected_uplift": 9.7,
+        "expected_score": 47.7,
+        "expected_level": "Развивающиеся",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 25,
+            "source_product_name": "Зрелость",
+            "unit": "CX",
+            "profile_name": "Зрелость",
+            "quarter": "",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрить систему оповещений",
+            "due_date": "",
+            "expected_uplift": 4.9,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 26,
+            "source_product_name": "Зрелость",
+            "unit": "CX",
+            "profile_name": "Зрелость",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор",
+            "due_date": "",
+            "expected_uplift": 2.4,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 27,
+            "source_product_name": "Зрелость",
+            "unit": "CX",
+            "profile_name": "Зрелость",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи:\nправильно формировать задачи",
+            "due_date": "",
+            "expected_uplift": 2.4,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
@@ -120070,7 +122921,14 @@
         }
       ],
       "tribe": "Развитие сервиса в каналах",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 90.0,
+        "expected_uplift": 0.0,
+        "expected_score": 90.0,
+        "expected_level": "Лидеры",
+        "items": []
+      }
     },
     {
       "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
@@ -121188,7 +124046,93 @@
           ],
           "product_group": "Родители"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 41.0,
+        "expected_uplift": 22.1,
+        "expected_score": 63.1,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 11,
+            "source_product_name": "МВС",
+            "unit": "CX",
+            "profile_name": "МВС",
+            "quarter": "",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрить систему оповещений",
+            "due_date": "",
+            "expected_uplift": 4.3,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 12,
+            "source_product_name": "МВС",
+            "unit": "CX",
+            "profile_name": "МВС",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор;\nДекомпозировать значения целей на драйверы, вывести в Навигатор",
+            "due_date": "",
+            "expected_uplift": 4.3,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 13,
+            "source_product_name": "МВС",
+            "unit": "CX",
+            "profile_name": "МВС",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи:\n- Сформировать перечень инициатив\n- Повысить качество проводимых исследований",
+            "due_date": "",
+            "expected_uplift": 8.6,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 14,
+            "source_product_name": "МВС",
+            "unit": "CX",
+            "profile_name": "МВС",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Необходимо улучшить знание своих метрики",
+            "due_date": "",
+            "expected_uplift": 0.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 15,
+            "source_product_name": "МВС",
+            "unit": "CX",
+            "profile_name": "МВС",
+            "quarter": "",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Обогатить метриками мониторинг по воронке привлечения/оттока -\nПровести анализ привлечения, выявить точки роста",
+            "due_date": "",
+            "expected_uplift": 3.3,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 16,
+            "source_product_name": "МВС",
+            "unit": "CX",
+            "profile_name": "МВС",
+            "quarter": "",
+            "development_block": "Механики",
+            "planned_activity": "Проработать механики повышения уровня клиента",
+            "due_date": "",
+            "expected_uplift": 1.1,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
@@ -122178,7 +125122,67 @@
           ],
           "product_group": "Родители"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 48.0,
+        "expected_uplift": 18.9,
+        "expected_score": 66.9,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 21,
+            "source_product_name": "Молодежь",
+            "unit": "CX",
+            "profile_name": "Молодежь",
+            "quarter": "",
+            "development_block": "Алерты",
+            "planned_activity": "Внедрить систему оповещений",
+            "due_date": "",
+            "expected_uplift": 5.1,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 22,
+            "source_product_name": "Молодежь",
+            "unit": "CX",
+            "profile_name": "Молодежь",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор",
+            "due_date": "",
+            "expected_uplift": 5.1,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 23,
+            "source_product_name": "Молодежь",
+            "unit": "CX",
+            "profile_name": "Молодежь",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи:\nправильно формировать задачи",
+            "due_date": "",
+            "expected_uplift": 5.1,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 24,
+            "source_product_name": "Молодежь",
+            "unit": "CX",
+            "profile_name": "Молодежь",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Необходимо улучшить знание своих метрики",
+            "due_date": "",
+            "expected_uplift": 3.6,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
@@ -123833,7 +126837,41 @@
         }
       ],
       "tribe": "СберKids",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 58.0,
+        "expected_uplift": 15.6,
+        "expected_score": 73.6,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "DP",
+            "source_row": 2,
+            "source_product_name": "СберKids",
+            "unit": "DP",
+            "profile_name": "СберKids",
+            "quarter": "Q3",
+            "development_block": "Цели",
+            "planned_activity": "Вывести в Навигатор факторный анализ драйверов 1-2 ур. и прогноз",
+            "due_date": "2026-09-30",
+            "expected_uplift": 7.0,
+            "status": ""
+          },
+          {
+            "source_sheet": "DP",
+            "source_row": 3,
+            "source_product_name": "СберKids",
+            "unit": "DP",
+            "profile_name": "СберKids",
+            "quarter": "Q4",
+            "development_block": "Механики",
+            "planned_activity": "Настроить механики реактивации и удержания оттекающих клиентов",
+            "due_date": "2026-12-31",
+            "expected_uplift": 8.6,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
@@ -124858,7 +127896,14 @@
         }
       ],
       "tribe": "Развитие продаж в каналах",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 84.0,
+        "expected_uplift": 0.0,
+        "expected_score": 84.0,
+        "expected_level": "Лидеры",
+        "items": []
+      }
     },
     {
       "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
@@ -125946,7 +128991,14 @@
         }
       ],
       "tribe": "Платформа Phygital",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 72.0,
+        "expected_uplift": 0.0,
+        "expected_score": 72.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
@@ -127663,7 +130715,14 @@
         }
       ],
       "tribe": "СБОЛ",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 60.0,
+        "expected_uplift": 0.0,
+        "expected_score": 60.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     },
     {
       "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
@@ -129194,7 +132253,54 @@
         }
       ],
       "tribe": "СберИнвестор",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 46.0,
+        "expected_uplift": 17.6,
+        "expected_score": 63.6,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "DP",
+            "source_row": 4,
+            "source_product_name": "СберИнвестор",
+            "unit": "DP",
+            "profile_name": "СберИнвестор",
+            "quarter": "Q3",
+            "development_block": "Цели",
+            "planned_activity": "Декомпозировать значения целей на драйверы, сформировать прогнозные значения, вывести в Навигатор",
+            "due_date": "2026-09-30",
+            "expected_uplift": 10.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "DP",
+            "source_row": 5,
+            "source_product_name": "СберИнвестор",
+            "unit": "DP",
+            "profile_name": "СберИнвестор",
+            "quarter": "Q3",
+            "development_block": "Механики",
+            "planned_activity": "Проработать механики реактивации клиентов",
+            "due_date": "2026-09-30",
+            "expected_uplift": 1.8,
+            "status": ""
+          },
+          {
+            "source_sheet": "DP",
+            "source_row": 6,
+            "source_product_name": "СберИнвестор",
+            "unit": "DP",
+            "profile_name": "СберИнвестор",
+            "quarter": "Q3",
+            "development_block": "Воронка оттока",
+            "planned_activity": "Провести анализ оттока, выявить точки роста. Сформировать перечень мероприятий по снижению оттока",
+            "due_date": "2026-09-30",
+            "expected_uplift": 5.3,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
@@ -130880,7 +133986,41 @@
         }
       ],
       "tribe": "Уведомления",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 53.0,
+        "expected_uplift": 9.2,
+        "expected_score": 62.2,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "DP",
+            "source_row": 7,
+            "source_product_name": "Уведомления",
+            "unit": "DP",
+            "profile_name": "Уведомления",
+            "quarter": "Q3",
+            "development_block": "Механики",
+            "planned_activity": "Проработать механики реактивации и удержания клиентов",
+            "due_date": "2026-09-30",
+            "expected_uplift": 5.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "DP",
+            "source_row": 8,
+            "source_product_name": "Уведомления",
+            "unit": "DP",
+            "profile_name": "Уведомления",
+            "quarter": "Q3",
+            "development_block": "Гипотезы",
+            "planned_activity": "Повысить качество проведенных исседований",
+            "due_date": "2026-09-30",
+            "expected_uplift": 3.7,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
@@ -131963,7 +135103,14 @@
           ],
           "product_group": "Становление"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 62.0,
+        "expected_uplift": 0.0,
+        "expected_score": 62.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
@@ -133044,7 +136191,54 @@
           ],
           "product_group": "Родители"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 52.0,
+        "expected_uplift": 8.5,
+        "expected_score": 60.5,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 28,
+            "source_product_name": "PB",
+            "unit": "CX",
+            "profile_name": "PB",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор",
+            "due_date": "",
+            "expected_uplift": 2.3,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 29,
+            "source_product_name": "PB",
+            "unit": "CX",
+            "profile_name": "PB",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи:\nправильно формировать задачи",
+            "due_date": "",
+            "expected_uplift": 4.5,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 30,
+            "source_product_name": "PB",
+            "unit": "CX",
+            "profile_name": "PB",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Необходимо улучшить знание своих метрики",
+            "due_date": "",
+            "expected_uplift": 1.7,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
@@ -134170,7 +137364,67 @@
           ],
           "product_group": "Родители"
         }
-      ]
+      ],
+      "roadmap": {
+        "current_score": 53.0,
+        "expected_uplift": 8.0,
+        "expected_score": 61.0,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "CX",
+            "source_row": 31,
+            "source_product_name": "TA",
+            "unit": "CX",
+            "profile_name": "Top Affluent",
+            "quarter": "",
+            "development_block": "Цели",
+            "planned_activity": "Сформировать прогнозные значения, вывести в Навигатор;\nДекомпозировать значения целей на драйверы, вывести в Навигатор",
+            "due_date": "",
+            "expected_uplift": 4.2,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 32,
+            "source_product_name": "TA",
+            "unit": "CX",
+            "profile_name": "Top Affluent",
+            "quarter": "",
+            "development_block": "Гипотезы и инициативы",
+            "planned_activity": "Сфокусировать бэклог аналитиков на research-задачи:\nправильно формировать задачи",
+            "due_date": "",
+            "expected_uplift": 2.1,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 33,
+            "source_product_name": "TA",
+            "unit": "CX",
+            "profile_name": "Top Affluent",
+            "quarter": "",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Необходимо улучшить знание своих метрики",
+            "due_date": "",
+            "expected_uplift": 0.6,
+            "status": ""
+          },
+          {
+            "source_sheet": "CX",
+            "source_row": 34,
+            "source_product_name": "TA",
+            "unit": "CX",
+            "profile_name": "Top Affluent",
+            "quarter": "",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Обогатить метриками мониторинг по воронке привлечения",
+            "due_date": "",
+            "expected_uplift": 1.1,
+            "status": ""
+          }
+        ]
+      }
     },
     {
       "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
@@ -135367,7 +138621,14 @@
         }
       ],
       "tribe": "Аутентификация клиентов",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 74.0,
+        "expected_uplift": 0.0,
+        "expected_score": 74.0,
+        "expected_level": "Зрелые",
+        "items": []
+      }
     },
     {
       "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
@@ -136756,7 +140017,14 @@
         }
       ],
       "tribe": "Аутентификация клиентов",
-      "ai_skill_mappings": []
+      "ai_skill_mappings": [],
+      "roadmap": {
+        "current_score": 46.0,
+        "expected_uplift": 0.0,
+        "expected_score": 46.0,
+        "expected_level": "Развивающиеся",
+        "items": []
+      }
     }
   ],
   "title": {
@@ -137501,7 +140769,7 @@
   },
   "crosssell": {
     "enabled": true,
-    "source": "/Users/roman/Documents/Codex/DD-dev/crosssell_export.json",
+    "source": "crosssell_export.json",
     "status": "ok",
     "round_id": "r12-20260806T152241Z",
     "generated_at": "2026-08-06T15:22:43+00:00",

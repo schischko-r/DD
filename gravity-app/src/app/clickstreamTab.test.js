@@ -61,7 +61,7 @@ const reportData = JSON.parse(readFileSync(
   'utf8',
 ));
 const reportHtml = readFileSync(
-  new URL(`../../../${legacyReportFileName}`, import.meta.url),
+  new URL(`../../../source-html-reports/zeroed/current/${legacyReportFileName}`, import.meta.url),
   'utf8',
 );
 

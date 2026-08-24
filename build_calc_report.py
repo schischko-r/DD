@@ -18,9 +18,12 @@ import ssl
 import unicodedata
 import urllib.error
 import urllib.request
+from datetime import date, datetime
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote, urlsplit
+
+from openpyxl import load_workbook
 
 
 _TITLE_SOURCE = '#!/usr/bin/env python3\n"""Build a standalone Data-Driven Index title page from a simple Excel list."""\n\nfrom __future__ import annotations\n\nimport argparse\nimport json\nfrom pathlib import Path\nfrom typing import Any\n\nimport pandas as pd\n\n\nDEFAULT_INPUT = Path("Расчет_список(1).xlsx")\nDEFAULT_SHEET = "титул"\nDEFAULT_OUTPUT = Path("final_title_from_excel.html")\n\nBASE_REQUIRED_COLUMNS = ("Юнит", "Продукт", "Оценка", "Группа")\nTYPE_COLUMNS = ("type", "тип")\nNAME_FIXES = {\n    "Молодеж": "Молодежь",\n}\n\n\ndef clean_text(value: Any) -> str:\n    if pd.isna(value):\n        return ""\n    return str(value).strip()\n\n\ndef clean_type(value: Any) -> str:\n    entity_type = clean_text(value).lower()\n    if entity_type in {"product", "продукт"}:\n        return "продукт"\n    if entity_type in {"segment", "сегмент"}:\n        return "сегмент"\n    return entity_type or "продукт"\n\n\ndef clean_name(value: Any) -> str:\n    name = clean_text(value)\n    return NAME_FIXES.get(name, name)\n\n\ndef score_to_percent(value: Any) -> int:\n    score = pd.to_numeric(value, errors="coerce")\n    if pd.isna(score):\n        raise ValueError(f"Некорректная оценка: {value!r}")\n    if score <= 1:\n        score *= 100\n    return max(0, min(100, int(round(float(score)))))\n\n\ndef read_rows(path: Path, sheet_name: str) -> list[dict[str, Any]]:\n    if path.name.startswith("~$"):\n        raise ValueError("Временный Excel-файл Office нельзя использовать как источник")\n\n    df = pd.read_excel(path, sheet_name=sheet_name)\n    type_column = next((column for column in TYPE_COLUMNS if column in df.columns), None)\n    missing = [column for column in BASE_REQUIRED_COLUMNS if column not in df.columns]\n    if type_column is None:\n        missing.append("type/тип")\n    if missing:\n        raise ValueError("В Excel нет обязательных колонок: " + ", ".join(missing))\n\n    required_columns = (*BASE_REQUIRED_COLUMNS, type_column)\n    source = df.loc[:, required_columns].copy()\n    nulls = {\n        column: int(source[column].isna().sum())\n        for column in required_columns\n        if int(source[column].isna().sum())\n    }\n    if nulls:\n        raise ValueError("В обязательных колонках есть пропуски: " + json.dumps(nulls, ensure_ascii=False))\n\n    rows: list[dict[str, Any]] = []\n    for order, row in source.iterrows():\n        unit = clean_text(row["Юнит"])\n        name = clean_name(row["Продукт"])\n        group = clean_text(row["Группа"])\n        entity_type = clean_type(row[type_column])\n        if not unit or not name:\n            continue\n        rows.append(\n            {\n                "id": f"row-{len(rows) + 1}",\n                "order": int(order),\n                "unit": unit,\n                "name": name,\n                "score": score_to_percent(row["Оценка"]),\n                "group": group,\n                "type": entity_type,\n            }\n        )\n\n    if not rows:\n        raise ValueError("После очистки в Excel не осталось строк для отчета")\n    return rows\n\n\ndef build_payload(rows: list[dict[str, Any]]) -> dict[str, Any]:\n    units = sorted({row["unit"] for row in rows}, key=str.casefold)\n    types = sorted({row["type"] for row in rows}, key=str.casefold)\n    avg_score = round(sum(row["score"] for row in rows) / len(rows))\n    return {\n        "rows": rows,\n        "units": units,\n        "types": types,\n        "avgScore": avg_score,\n    }\n\n\nHTML_TEMPLATE = """<!doctype html>\n<html lang="ru">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1">\n  <title>Data-Driven Index - титульная витрина</title>\n  <style>\n    :root {\n      --bg: #f5f5f7;\n      --surface: #fff;\n      --ink: #1d1d1f;\n      --muted: #86868b;\n      --line: rgba(0,0,0,.08);\n      --line-strong: rgba(0,0,0,.12);\n      --blue: #007aff;\n      --green: #34c759;\n      --yellow: #ffcc00;\n      --orange: #ff9500;\n      --red: #ff3b30;\n      --gray-dot: #c7c7cc;\n    }\n\n    * { box-sizing: border-box; }\n    html { background: var(--bg); }\n    body {\n      margin: 0;\n      background: var(--bg);\n      color: var(--ink);\n      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;\n      -webkit-font-smoothing: antialiased;\n    }\n\n    button, select { font: inherit; }\n    button { border: 0; }\n\n    .app { min-height: 100vh; }\n\n    .topbar {\n      position: sticky;\n      top: 0;\n      z-index: 20;\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 24px;\n      padding: 16px 40px;\n      background: rgba(255,255,255,.78);\n      border-bottom: 1px solid var(--line);\n      backdrop-filter: saturate(180%) blur(18px);\n    }\n\n    .brand {\n      display: flex;\n      align-items: center;\n      gap: 12px;\n      min-width: 0;\n    }\n\n    .brand-mark {\n      width: 34px;\n      height: 34px;\n      display: grid;\n      place-items: center;\n      border-radius: 8px;\n      background: linear-gradient(150deg,#2bb84a,#178a2c);\n      color: #fff;\n      font-size: 13px;\n      font-weight: 800;\n      letter-spacing: 0;\n      box-shadow: 0 6px 16px rgba(23,138,44,.22);\n    }\n\n    .brand-title { min-width: 0; }\n\n    .brand-title strong {\n      display: block;\n      overflow: hidden;\n      font-size: 15px;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .brand-title span {\n      display: block;\n      margin-top: 2px;\n      overflow: hidden;\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .top-actions {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      gap: 10px;\n      flex-wrap: wrap;\n    }\n\n    .pill {\n      display: inline-flex;\n      align-items: center;\n      min-height: 34px;\n      padding: 7px 13px;\n      border: 1px solid var(--line);\n      border-radius: 999px;\n      background: #fff;\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 600;\n      letter-spacing: 0;\n      white-space: nowrap;\n    }\n\n    .page {\n      width: min(1180px, calc(100vw - 56px));\n      margin: 0 auto;\n      padding: 34px 0 76px;\n    }\n\n    .hero {\n      display: grid;\n      grid-template-columns: 1.3fr .7fr;\n      gap: 24px;\n      align-items: end;\n      margin-bottom: 26px;\n    }\n\n    .hero h1 {\n      margin: 0;\n      max-width: 720px;\n      color: var(--ink);\n      font-size: 42px;\n      line-height: 1.04;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .hero p {\n      margin: 12px 0 0;\n      max-width: 740px;\n      color: #6e6e73;\n      font-size: 16px;\n      line-height: 1.45;\n      letter-spacing: 0;\n    }\n\n    .hero-stat-grid {\n      display: grid;\n      grid-template-columns: repeat(3, minmax(0, 1fr));\n      gap: 8px;\n    }\n\n    .hero-stat {\n      min-width: 0;\n      padding: 14px 14px 13px;\n      border: 1px solid var(--line);\n      border-radius: 8px;\n      background: #fff;\n    }\n\n    .hero-stat b {\n      display: block;\n      font-size: 28px;\n      line-height: 1;\n      font-weight: 760;\n      letter-spacing: 0;\n    }\n\n    .hero-stat span {\n      display: block;\n      margin-top: 7px;\n      color: var(--muted);\n      font-size: 12px;\n      line-height: 1.2;\n      letter-spacing: 0;\n    }\n\n    .toolbar {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      margin-bottom: 14px;\n    }\n\n    .toolbar-controls {\n      display: flex;\n      align-items: center;\n      justify-content: flex-end;\n      gap: 10px;\n      flex-wrap: wrap;\n    }\n\n    .filter-wrap {\n      display: inline-flex;\n      align-items: center;\n      gap: 7px;\n      min-height: 36px;\n      padding: 3px 5px 3px 11px;\n      border: 1px solid var(--line);\n      border-radius: 10px;\n      background: #fff;\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 700;\n      letter-spacing: 0;\n      text-transform: uppercase;\n    }\n\n    .filter-wrap select {\n      min-width: 132px;\n      min-height: 28px;\n      border: 0;\n      border-radius: 8px;\n      outline: none;\n      background: #f5f5f7;\n      color: var(--ink);\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 650;\n      letter-spacing: 0;\n      text-transform: none;\n    }\n\n    .segmented {\n      display: inline-flex;\n      gap: 3px;\n      padding: 3px;\n      border-radius: 10px;\n      background: #e9e9eb;\n    }\n\n    .segmented button {\n      min-height: 30px;\n      padding: 6px 12px;\n      border-radius: 8px;\n      background: transparent;\n      color: var(--muted);\n      cursor: pointer;\n      font-size: 13px;\n      font-weight: 650;\n      letter-spacing: 0;\n    }\n\n    .segmented button.active {\n      background: #fff;\n      color: var(--ink);\n      box-shadow: 0 1px 3px rgba(0,0,0,.12);\n    }\n\n    .caption {\n      color: var(--muted);\n      font-size: 12px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .message {\n      margin: 18px 0 0;\n      padding: 18px 20px;\n      border: 1px solid var(--line);\n      border-radius: 8px;\n      background: #fff;\n      color: #6e6e73;\n      font-size: 14px;\n      font-weight: 650;\n    }\n\n    .table {\n      overflow: hidden;\n      border: 1px solid var(--line);\n      border-radius: 18px;\n      background: #fff;\n      box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 18px 40px -24px rgba(0,0,0,.16);\n    }\n\n    .table-head,\n    .product-row {\n      display: grid;\n      grid-template-columns: minmax(240px, 1.5fr) minmax(150px, .7fr) minmax(150px, .7fr) minmax(120px, .45fr);\n      align-items: center;\n      column-gap: 18px;\n      padding: 0 28px;\n    }\n\n    .table-head {\n      min-height: 46px;\n      border-bottom: 1px solid var(--line);\n      background: #fcfcfe;\n      color: #86868b;\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .05em;\n      text-transform: uppercase;\n    }\n\n    .table-head > div { text-align: center; }\n    .table-head > div:first-child { text-align: left; }\n\n    .unit-row {\n      display: flex;\n      align-items: center;\n      justify-content: space-between;\n      gap: 16px;\n      padding: 13px 28px;\n      border-top: 1px solid var(--line);\n      background: #fbfbfd;\n    }\n\n    .unit-row.first { border-top: 0; }\n\n    .unit-name {\n      display: flex;\n      align-items: center;\n      gap: 10px;\n      flex: 1 1 auto;\n      min-width: 0;\n      overflow: hidden;\n    }\n\n    .unit-dot {\n      width: 9px;\n      height: 9px;\n      flex: none;\n      border-radius: 999px;\n    }\n\n    .unit-name b {\n      min-width: 0;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 14px;\n      font-weight: 700;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .unit-name span,\n    .unit-avg {\n      color: var(--muted);\n      font-size: 12px;\n      letter-spacing: 0;\n      white-space: nowrap;\n    }\n\n    .unit-count {\n      flex: none;\n    }\n\n    .unit-row.hide-unit-count .unit-count {\n      display: none;\n    }\n\n    .unit-row.hide-unit-count .unit-avg-label {\n      display: none;\n    }\n\n    .unit-avg b {\n      color: var(--ink);\n      font-size: 14px;\n      letter-spacing: 0;\n    }\n\n    .product-row {\n      min-height: 88px;\n      border-top: 1px solid var(--line);\n      justify-items: center;\n      transition: background .18s ease;\n    }\n\n    .product-row:hover { background: #f7f8fa; }\n\n    .product-name {\n      justify-self: stretch;\n      min-width: 0;\n    }\n\n    .product-name b {\n      display: block;\n      overflow: hidden;\n      color: var(--ink);\n      font-size: 16px;\n      font-weight: 700;\n      line-height: 1.25;\n      letter-spacing: 0;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .product-name span {\n      display: block;\n      margin-bottom: 4px;\n      color: #a1a1a6;\n      font-size: 11px;\n      font-weight: 700;\n      letter-spacing: .02em;\n      text-transform: uppercase;\n    }\n\n    .dd-cell {\n      display: grid;\n      grid-template-columns: minmax(0, 1fr);\n      justify-items: center;\n      align-content: center;\n      row-gap: 6px;\n      width: 176px;\n      min-height: 56px;\n      padding: 6px 12px;\n      border-radius: 14px;\n      background: transparent;\n    }\n\n    .status-label {\n      grid-column: 1;\n      grid-row: 2;\n      justify-self: center;\n      max-width: 100%;\n      overflow: hidden;\n      font-size: 11px;\n      font-weight: 650;\n      line-height: 1.15;\n      letter-spacing: .01em;\n      text-align: center;\n      text-overflow: ellipsis;\n      white-space: nowrap;\n    }\n\n    .score-label {\n      grid-column: 1;\n      grid-row: 1;\n      justify-self: center;\n      color: currentColor;\n      font-size: 30px;\n      font-weight: 780;\n      line-height: 1;\n      letter-spacing: 0;\n      text-align: center;\n      font-variant-numeric: tabular-nums;\n    }\n\n    .progress {\n      grid-column: 1;\n      grid-row: 3;\n      width: 100%;\n      max-width: 148px;\n      height: 6px;\n      justify-self: center;\n      overflow: hidden;\n      border-radius: 999px;\n      background: rgba(0,0,0,.07);\n    }\n\n    .progress i {\n      display: block;\n      height: 100%;\n      border-radius: inherit;\n      background: currentColor;\n      transition: width .5s cubic-bezier(.2,.8,.2,1);\n    }\n\n    .group-cell {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      max-width: 100%;\n      min-height: 30px;\n      padding: 6px 11px;\n      border: 1px solid var(--line);\n      border-radius: 999px;\n      background: color-mix(in srgb, currentColor 12%, white);\n      color: #6e6e73;\n      font-size: 12px;\n      font-weight: 700;\n      line-height: 1.15;\n      text-align: center;\n      white-space: normal;\n    }\n\n    .go-cell {\n      display: flex;\n      justify-self: center;\n      justify-content: center;\n    }\n\n    .go-button {\n      display: inline-flex;\n      align-items: center;\n      justify-content: center;\n      min-height: 34px;\n      padding: 8px 14px;\n      border-radius: 999px;\n      background: rgba(142,142,147,.14);\n      color: #8e8e93;\n      cursor: not-allowed;\n      font-size: 13px;\n      font-weight: 650;\n      line-height: 1.1;\n      white-space: nowrap;\n    }\n\n    .hidden { display: none !important; }\n\n    @media (max-width: 900px) {\n      .topbar { padding: 14px 20px; }\n      .page {\n        width: min(100% - 28px, 1180px);\n        padding-top: 22px;\n      }\n      .hero {\n        grid-template-columns: 1fr;\n        align-items: start;\n      }\n      .hero h1 { font-size: 34px; }\n      .toolbar {\n        align-items: flex-start;\n        flex-direction: column;\n      }\n      .toolbar-controls {\n        justify-content: flex-start;\n        width: 100%;\n      }\n      .unit-row {\n        gap: 12px;\n        padding: 13px 18px;\n      }\n      .table-head { display: none; }\n      .product-row {\n        grid-template-columns: 1fr;\n        justify-items: stretch;\n        row-gap: 14px;\n        padding: 18px 18px;\n      }\n      .dd-cell {\n        justify-items: start;\n        width: min(100%, 240px);\n        padding-left: 0;\n      }\n      .status-label,\n      .score-label,\n      .progress {\n        justify-self: start;\n        text-align: left;\n      }\n      .group-cell {\n        justify-content: flex-start;\n        width: fit-content;\n      }\n      .go-cell {\n        justify-self: start;\n        justify-content: flex-start;\n      }\n    }\n  </style>\n</head>\n<body>\n  <div class="app">\n    <header class="topbar">\n      <div class="brand">\n        <div class="brand-mark">Data</div>\n        <div class="brand-title">\n          <strong>Data-Driven Index</strong>\n          <span>Титульная витрина</span>\n        </div>\n      </div>\n      <div class="top-actions">\n        <span class="pill" id="periodPill">Расчетный список</span>\n      </div>\n    </header>\n\n    <main class="page">\n      <section id="titleView">\n        <div class="hero">\n          <div>\n            <h1>Data-Driven Index</h1>\n          </div>\n          <div class="hero-stat-grid">\n            <div class="hero-stat"><b id="statProducts">0</b><span>команд</span></div>\n            <div class="hero-stat"><b id="statUnits">0</b><span>юнитов</span></div>\n            <div class="hero-stat"><b id="statAvg">0%</b><span>средний Data-Driven Index</span></div>\n          </div>\n        </div>\n\n        <div class="toolbar">\n          <div class="caption">Продукты, сегменты и Data-Driven Index</div>\n          <div class="toolbar-controls">\n            <label class="filter-wrap">Юнит <select id="unitFilter"></select></label>\n            <label class="filter-wrap">Тип <select id="typeFilter"></select></label>\n            <div class="segmented" role="group" aria-label="Сортировка">\n              <button id="sortUnitBtn" type="button" class="active">По юнитам</button>\n              <button id="sortIndexBtn" type="button">По Data-Driven Index</button>\n            </div>\n          </div>\n        </div>\n\n        <div id="titleMessage" class="message hidden"></div>\n        <div id="productTable" class="table hidden"></div>\n      </section>\n    </main>\n  </div>\n\n  <script id="data-driven-title-data" type="application/json">\n__DATA_JSON__\n  </script>\n  <script>\n    const $ = (id) => document.getElementById(id);\n    const MODEL = JSON.parse($(\'data-driven-title-data\').textContent);\n    const UNIT_COLORS = {\n      \'CBP\': \'#007aff\',\n      \'PC\': \'#007aff\',\n      \'ДомКлик\': \'#007aff\',\n      \'УБ\': \'#007aff\',\n      \'СХ\': \'#007aff\',\n      \'DB\': \'#007aff\',\n      \'default\': \'#007aff\',\n    };\n    const state = {\n      sort: \'unit\',\n      unit: \'all\',\n      type: \'all\',\n    };\n\n    function esc(value) {\n      return String(value ?? \'\').replace(/[&<>"\']/g, (ch) => ({\n        \'&\': \'&amp;\',\n        \'<\': \'&lt;\',\n        \'>\': \'&gt;\',\n        \'"\': \'&quot;\',\n        "\'": \'&#39;\',\n      }[ch]));\n    }\n\n    function compareText(a, b) {\n      return String(a || \'\').localeCompare(String(b || \'\'), \'ru\', { sensitivity: \'base\' });\n    }\n\n    function normalizeGroup(group) {\n      return String(group || \'\').trim().replace(/\\\\s+/g, \' \').toLowerCase();\n    }\n\n    function groupTheme(group) {\n      const normalized = normalizeGroup(group);\n      if (normalized === \'требуют внимания\') {\n        return { accent: \'#f3a6a0\', text: \'#9f2a25\', bg: \'#fff1f0\', border: \'#f5c2bd\' };\n      }\n      if (normalized === \'развивающиеся\') {\n        return { accent: \'#f4b183\', text: \'#9a4a16\', bg: \'#fff4e8\', border: \'#f7cfaa\' };\n      }\n      if (normalized === \'зрелые\') {\n        return { accent: \'#e8c46a\', text: \'#7a5a10\', bg: \'#fff8df\', border: \'#efd98d\' };\n      }\n      if (normalized === \'лидеры\') {\n        return { accent: \'#8fd6b0\', text: \'#1f7a4d\', bg: \'#eefaf3\', border: \'#bde8cf\' };\n      }\n      return { accent: \'#c7c7cc\', text: \'#6e6e73\', bg: \'#f5f5f7\', border: \'#d1d1d6\' };\n    }\n\n    function averageGroup(rows) {\n      if (!rows.length) return \'\';\n      const rank = {\n        \'требуют внимания\': 1,\n        \'развивающиеся\': 2,\n        \'зрелые\': 3,\n        \'лидеры\': 4,\n      };\n      const labels = {\n        1: \'Требуют внимания\',\n        2: \'Развивающиеся\',\n        3: \'Зрелые\',\n        4: \'Лидеры\',\n      };\n      const avg = Math.round(rows.reduce((sum, row) => sum + (rank[normalizeGroup(row.group)] || 0), 0) / rows.length);\n      return labels[avg] || \'\';\n    }\n\n    function pluralTeam(n) {\n      const m = n % 10;\n      const h = n % 100;\n      if (m === 1 && h !== 11) return \'команда\';\n      if (m >= 2 && m <= 4 && (h < 12 || h > 14)) return \'команды\';\n      return \'команд\';\n    }\n\n    function filteredRows() {\n      return MODEL.rows.filter((row) => {\n        const unitOk = state.unit === \'all\' || row.unit === state.unit;\n        const typeOk = state.type === \'all\' || row.type === state.type;\n        return unitOk && typeOk;\n      });\n    }\n\n    function sortedRows(rows) {\n      const copy = [...rows];\n      if (state.sort === \'index\') {\n        return copy.sort((a, b) => (b.score - a.score) || compareText(a.name, b.name));\n      }\n      return copy.sort((a, b) => compareText(a.unit, b.unit) || compareText(a.name, b.name));\n    }\n\n    function avgScore(rows) {\n      if (!rows.length) return 0;\n      return Math.round(rows.reduce((sum, row) => sum + row.score, 0) / rows.length);\n    }\n\n    function renderFilters() {\n      $(\'unitFilter\').innerHTML = [\n        \'<option value="all">Все юниты</option>\',\n        ...MODEL.units.map((unit) => `<option value="${esc(unit)}">${esc(unit)}</option>`),\n      ].join(\'\');\n      $(\'typeFilter\').innerHTML = [\n        \'<option value="all">Все типы</option>\',\n        ...MODEL.types.map((type) => `<option value="${esc(type)}">${esc(type)}</option>`),\n      ].join(\'\');\n    }\n\n    function renderStats(rows) {\n      const units = new Set(rows.map((row) => row.unit));\n      $(\'statProducts\').textContent = rows.length;\n      $(\'statUnits\').textContent = units.size;\n      $(\'statAvg\').textContent = avgScore(rows) + \'%\';\n    }\n\n    function tableHeadHTML() {\n      return `\n        <div class="table-head">\n          <div>Продукт / сегмент</div>\n          <div>Data-Driven Index</div>\n          <div>Группа</div>\n          <div>Действие</div>\n        </div>\n      `;\n    }\n\n    function unitRowHTML(unit, rows, isFirst) {\n      const color = UNIT_COLORS[unit] || UNIT_COLORS.default;\n      const avg = avgScore(rows);\n      const avgGroup = averageGroup(rows);\n      return `\n        <div class="unit-row ${isFirst ? \'first\' : \'\'}">\n          <div class="unit-name">\n            <i class="unit-dot" style="background:${color}"></i>\n            <b>${esc(unit)}</b>\n            <span class="unit-count">${rows.length} ${pluralTeam(rows.length)}</span>\n          </div>\n          <div class="unit-avg"><span class="unit-avg-label">средний Data-Driven Index</span> <b style="color:${groupTheme(avgGroup).text}">${avg}%</b></div>\n        </div>\n      `;\n    }\n\n    function fitUnitHeaders() {\n      const narrow = window.matchMedia(\'(max-width: 900px)\').matches;\n      document.querySelectorAll(\'.unit-row\').forEach((row) => {\n        const name = row.querySelector(\'.unit-name b\');\n        row.classList.remove(\'hide-unit-count\');\n        if (!narrow || !name) return;\n        if (name.scrollWidth > name.clientWidth + 1) {\n          row.classList.add(\'hide-unit-count\');\n        }\n      });\n    }\n\n    function productRowHTML(row, showUnit) {\n      const group = row.group || \'Без группы\';\n      const theme = groupTheme(group);\n      const subline = showUnit ? `${row.unit} · ${row.type}` : row.type;\n      return `\n        <div class="product-row">\n          <div class="product-name">\n            <span>${esc(subline)}</span>\n            <b title="${esc(row.name)}">${esc(row.name)}</b>\n          </div>\n          <div class="dd-cell" style="color:${theme.accent}">\n            <span class="status-label" style="color:${theme.text}">${esc(group)}</span>\n            <span class="score-label">${row.score}%</span>\n            <span class="progress"><i style="width:${row.score}%"></i></span>\n          </div>\n          <div class="group-cell" style="color:${theme.text};background:${theme.bg};border-color:${theme.border}">${esc(group)}</div>\n          <div class="go-cell">\n            <button type="button" class="go-button" disabled>Перейти</button>\n          </div>\n        </div>\n      `;\n    }\n\n    function renderTable() {\n      const rows = filteredRows();\n      const sorted = sortedRows(rows);\n      const table = $(\'productTable\');\n      const message = $(\'titleMessage\');\n      renderStats(rows);\n\n      if (!sorted.length) {\n        table.classList.add(\'hidden\');\n        message.classList.remove(\'hidden\');\n        message.textContent = \'Нет данных по выбранным фильтрам\';\n        return;\n      }\n\n      message.classList.add(\'hidden\');\n      table.classList.remove(\'hidden\');\n\n      if (state.sort === \'index\') {\n        table.innerHTML = tableHeadHTML() + sorted.map((row) => productRowHTML(row, true)).join(\'\');\n        fitUnitHeaders();\n        return;\n      }\n\n      const chunks = [];\n      const units = [...new Set(sorted.map((row) => row.unit))];\n      units.forEach((unit, index) => {\n        const unitRows = sorted.filter((row) => row.unit === unit);\n        chunks.push(unitRowHTML(unit, unitRows, index === 0));\n        unitRows.forEach((row) => chunks.push(productRowHTML(row, false)));\n      });\n      table.innerHTML = tableHeadHTML() + chunks.join(\'\');\n      fitUnitHeaders();\n    }\n\n    function setSort(sort) {\n      state.sort = sort;\n      $(\'sortUnitBtn\').classList.toggle(\'active\', sort === \'unit\');\n      $(\'sortIndexBtn\').classList.toggle(\'active\', sort === \'index\');\n      renderTable();\n    }\n\n    function init() {\n      renderFilters();\n      $(\'unitFilter\').addEventListener(\'change\', (event) => {\n        state.unit = event.target.value;\n        renderTable();\n      });\n      $(\'typeFilter\').addEventListener(\'change\', (event) => {\n        state.type = event.target.value;\n        renderTable();\n      });\n      $(\'sortUnitBtn\').addEventListener(\'click\', () => setSort(\'unit\'));\n      $(\'sortIndexBtn\').addEventListener(\'click\', () => setSort(\'index\'));\n      window.addEventListener(\'resize\', fitUnitHeaders);\n      renderTable();\n    }\n\n    init();\n  </script>\n</body>\n</html>\n"""\n\n\ndef build_html(payload: dict[str, Any]) -> str:\n    data_json = json.dumps(payload, ensure_ascii=False, indent=2).replace("</", "<\\\\/")\n    return HTML_TEMPLATE.replace("__DATA_JSON__", data_json)\n\n\ndef parse_args() -> argparse.Namespace:\n    parser = argparse.ArgumentParser(description="Generate standalone Data-Driven Index title page from Расчет_список.xlsx")\n    parser.add_argument("--input", type=Path, default=DEFAULT_INPUT, help="Path to source .xlsx")\n    parser.add_argument("--sheet", default=DEFAULT_SHEET, help="Sheet name")\n    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")\n    return parser.parse_args()\n\n\ndef main() -> None:\n    args = parse_args()\n    rows = read_rows(args.input, args.sheet)\n    payload = build_payload(rows)\n    args.output.write_text(build_html(payload), encoding="utf-8")\n\n    summary = {\n        "html": str(args.output),\n        "rows": len(rows),\n        "units": len(payload["units"]),\n        "types": len(payload["types"]),\n        "missing_required_values": 0,\n    }\n    print(json.dumps(summary, ensure_ascii=False, indent=2))\n\n\nif __name__ == "__main__":\n    main()\n'
@@ -117,6 +120,7 @@ except ModuleNotFoundError:
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
 DEFAULT_INPUT = Path("flat_table.xlsx")
+DEFAULT_ROADMAP_INPUT = Path("Дорожные карты по повышению рейтинга DD.xlsx")
 DEFAULT_TITLE_SHEET = "титул"
 DEFAULT_DETAIL_SHEET = "деталка"
 DEFAULT_OUTPUT = Path("final_report_from_excel.html")
@@ -260,6 +264,18 @@ FLAT_TABLE_REQUIRED_COLUMNS = {
 }
 UPLOAD_INFORMATIONAL_METRIC_NAMES = {"цифр.факторы", "цифр.цели", "цифр.прогнозы"}
 REGULARITY_METRIC_NAMES = {"регулярность", "регулярность (авто)"}
+ROADMAP_UNIT_ALIASES = {
+    "СВР": "CBP",
+}
+ROADMAP_PROFILE_ALIASES = {
+    ("CBP", "ПК"): "Потребительский кредит",
+    ("CX", "ПУ СберПремьер"): "Пакет услуг СберПремьер",
+    ("CX", "ПУ СберПервый"): "Пакет услуг СберПервый",
+    ("CX", "TA"): "Top Affluent",
+    ("PC", "Выписки и справки"): "Выписки, справки",
+    ("ДомКлик", "Сделка вторичка, Загородка"): "Сделка вторичка",
+    ("ДомКлик", "Сделка ИЖС, Загородка"): "Сделка ИЖС",
+}
 UPLOAD_META_ROWS = (
     ("metric", "ID"),
     ("metric_name", "metric_name"),
@@ -402,6 +418,233 @@ def excel_scalar(value: Any) -> Any:
 
 def normalize_lookup_key(value: Any) -> str:
     return re.sub(r"\s+", " ", clean_text(value)).casefold()
+
+
+def normalize_roadmap_key(value: Any) -> str:
+    normalized = unicodedata.normalize("NFKC", clean_text(value)).casefold().replace("ё", "е")
+    return re.sub(r"[^0-9a-zа-я]+", "", normalized)
+
+
+def roadmap_unit_name(sheet_name: Any) -> str:
+    source = clean_text(sheet_name)
+    for alias, canonical in ROADMAP_UNIT_ALIASES.items():
+        if normalize_roadmap_key(source) == normalize_roadmap_key(alias):
+            return canonical
+    return source
+
+
+def roadmap_profile_name(unit: str, source_name: Any) -> str:
+    name = re.sub(r"\s+", " ", clean_text(source_name))
+    for (alias_unit, alias_name), canonical in ROADMAP_PROFILE_ALIASES.items():
+        if (
+            normalize_roadmap_key(unit) == normalize_roadmap_key(alias_unit)
+            and normalize_roadmap_key(name) == normalize_roadmap_key(alias_name)
+        ):
+            return canonical
+    return name
+
+
+def roadmap_profile_key(unit: Any, name: Any) -> tuple[str, str]:
+    return normalize_roadmap_key(unit), normalize_roadmap_key(name)
+
+
+def expected_maturity_level(score: float) -> str:
+    if score < 40:
+        return "Требуют внимания"
+    if score <= 60:
+        return "Развивающиеся"
+    if score <= 80:
+        return "Зрелые"
+    return "Лидеры"
+
+
+def _roadmap_cell_value(worksheet: Any, row: int, column: int) -> Any:
+    for merged_range in worksheet.merged_cells.ranges:
+        if (
+            merged_range.min_row <= row <= merged_range.max_row
+            and merged_range.min_col <= column <= merged_range.max_col
+        ):
+            return worksheet.cell(merged_range.min_row, merged_range.min_col).value
+    return worksheet.cell(row, column).value
+
+
+def _roadmap_merged_end_row(worksheet: Any, row: int, column: int) -> int:
+    for merged_range in worksheet.merged_cells.ranges:
+        if (
+            merged_range.min_row <= row <= merged_range.max_row
+            and merged_range.min_col <= column <= merged_range.max_col
+        ):
+            return merged_range.max_row
+    return row
+
+
+def _roadmap_merged_start_row(worksheet: Any, row: int, column: int) -> int:
+    for merged_range in worksheet.merged_cells.ranges:
+        if (
+            merged_range.min_row <= row <= merged_range.max_row
+            and merged_range.min_col <= column <= merged_range.max_col
+        ):
+            return merged_range.min_row
+    return row
+
+
+def _roadmap_json_value(value: Any) -> Any:
+    if value is None:
+        return ""
+    if isinstance(value, (datetime, date)):
+        return value.date().isoformat() if isinstance(value, datetime) else value.isoformat()
+    return excel_scalar(value)
+
+
+def _is_roadmap_sheet(worksheet: Any) -> bool:
+    return (
+        normalize_lookup_key(worksheet.cell(1, 2).value).startswith("продукт")
+        and normalize_lookup_key(worksheet.cell(1, 3).value) == "квартал"
+        and normalize_lookup_key(worksheet.cell(1, 4).value) == "блок для развития"
+        and normalize_lookup_key(worksheet.cell(1, 5).value) == "планируемое мероприятие"
+        and normalize_lookup_key(worksheet.cell(1, 7).value).startswith(
+            "ожидание прироста индекса dd, п.п"
+        )
+    )
+
+
+def read_roadmap_workbook(path: Path) -> list[dict[str, Any]]:
+    workbook = load_workbook(path, data_only=True)
+    rows: list[dict[str, Any]] = []
+    recognized_sheets = 0
+
+    for worksheet in workbook.worksheets:
+        if not _is_roadmap_sheet(worksheet):
+            continue
+        recognized_sheets += 1
+        unit = roadmap_unit_name(worksheet.title)
+        for source_row in range(2, worksheet.max_row + 1):
+            raw_uplift = worksheet.cell(source_row, 7).value
+            has_uplift = raw_uplift is not None and clean_text(raw_uplift) != ""
+            uplift = clean_number(raw_uplift) if has_uplift else None
+            if has_uplift and uplift is None:
+                raise ValueError(
+                    f"Некорректный ожидаемый прирост в {worksheet.title}!G{source_row}: "
+                    f"{raw_uplift!r}"
+                )
+            if not has_uplift:
+                raw_activity = worksheet.cell(source_row, 5).value
+                if not isinstance(raw_activity, str) or not clean_text(raw_activity):
+                    continue
+                logical_columns = (4, 6, 8)
+                if any(
+                    _roadmap_merged_start_row(worksheet, source_row, column) != source_row
+                    for column in logical_columns
+                ):
+                    continue
+            source_name = clean_text(_roadmap_cell_value(worksheet, source_row, 2))
+            if not source_name:
+                raise ValueError(
+                    f"Не указана команда/продукт для ожидаемого прироста в "
+                    f"{worksheet.title}!G{source_row}"
+                )
+            if normalize_lookup_key(source_name).startswith("продукт"):
+                continue
+
+            merged_end_row = (
+                _roadmap_merged_end_row(worksheet, source_row, 7)
+                if has_uplift
+                else max(
+                    _roadmap_merged_end_row(worksheet, source_row, column)
+                    for column in (4, 6, 8)
+                )
+            )
+            activity_parts = [
+                activity
+                for activity_row in range(source_row, merged_end_row + 1)
+                if (activity := clean_text(worksheet.cell(activity_row, 5).value))
+            ]
+            profile_name = roadmap_profile_name(unit, source_name)
+            rows.append(
+                {
+                    "source_sheet": worksheet.title,
+                    "source_row": source_row,
+                    "source_product_name": source_name,
+                    "unit": unit,
+                    "profile_name": profile_name,
+                    "quarter": clean_text(_roadmap_cell_value(worksheet, source_row, 3)),
+                    "development_block": clean_text(
+                        _roadmap_cell_value(worksheet, source_row, 4)
+                    ),
+                    "planned_activity": "\n".join(activity_parts),
+                    "due_date": _roadmap_json_value(
+                        _roadmap_cell_value(worksheet, source_row, 6)
+                    ),
+                    "expected_uplift": float(uplift) if uplift is not None else None,
+                    "status": clean_text(_roadmap_cell_value(worksheet, source_row, 8)),
+                }
+            )
+
+    if not recognized_sheets:
+        raise ValueError("В книге дорожных карт нет ожидаемых листов с колонками B:G")
+    return rows
+
+
+def apply_roadmap_data(
+    data: dict[str, Any],
+    roadmap_rows: list[dict[str, Any]],
+) -> dict[str, Any]:
+    rows_by_profile: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    for row in roadmap_rows:
+        key = roadmap_profile_key(row.get("unit"), row.get("profile_name"))
+        rows_by_profile.setdefault(key, []).append(row)
+
+    title_scores = {
+        roadmap_profile_key(row.get("unit"), row.get("name")): clean_number(row.get("score"))
+        for row in data.get("title", {}).get("rows", [])
+    }
+    matched_keys: set[tuple[str, str]] = set()
+    profiles_with_items = 0
+    for product in data.get("products", []):
+        key = roadmap_profile_key(product.get("unit"), product.get("name"))
+        items = rows_by_profile.get(key, [])
+        if items:
+            matched_keys.add(key)
+            profiles_with_items += 1
+        current_score = title_scores.get(key)
+        expected_uplift = round(
+            math.fsum(
+                float(uplift)
+                for item in items
+                if (uplift := clean_number(item.get("expected_uplift"))) is not None
+            ),
+            1,
+        )
+        expected_score = (
+            round(max(0.0, min(100.0, current_score + expected_uplift)), 1)
+            if current_score is not None
+            else None
+        )
+        product["roadmap"] = {
+            "current_score": current_score,
+            "expected_uplift": expected_uplift,
+            "expected_score": expected_score,
+            "expected_level": (
+                expected_maturity_level(expected_score) if expected_score is not None else ""
+            ),
+            "items": items,
+        }
+
+    unmatched = [
+        {
+            "unit": items[0]["unit"],
+            "profile_name": items[0]["profile_name"],
+            "source_product_name": items[0]["source_product_name"],
+            "items": len(items),
+        }
+        for key, items in rows_by_profile.items()
+        if key not in matched_keys
+    ]
+    return {
+        "roadmap_items": len(roadmap_rows),
+        "roadmap_profiles_with_items": profiles_with_items,
+        "roadmap_unmatched_profiles": unmatched,
+    }
 
 
 def normalize_ai_skill_key(value: Any) -> str:
@@ -2394,6 +2637,7 @@ def build_combined_data(
     crosssell_path: Path | None = None,
     include_ai_skills: bool = True,
     ai_skill_mapping_path: Path | None = DEFAULT_AI_SKILL_PRODUCT_MAPPING,
+    roadmap_path: Path | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     read_title_rows = _TITLE["read_rows"]
     build_title_payload = _TITLE["build_payload"]
@@ -2433,9 +2677,13 @@ def build_combined_data(
             "source": str(crosssell_path) if crosssell_path else "",
             "reason": "ai_skills_disabled" if not include_ai_skills else "skipped",
         }
+    roadmap_summary: dict[str, Any] = {}
+    if roadmap_path is not None:
+        roadmap_summary = apply_roadmap_data(combined, read_roadmap_workbook(roadmap_path))
     combined["ai_skills_enabled"] = include_ai_skills
     summary = {
         **detail_summary,
+        **roadmap_summary,
         "title_rows": title_rows_count,
         "title_units": len(title_payload["units"]),
         "title_types": len(title_payload["types"]),
@@ -4056,6 +4304,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--period", default=DEFAULT_PERIOD, help="Period label")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT, help="Output standalone HTML path")
     parser.add_argument("--json-output", type=Path, help="Optional combined report JSON output path")
+    parser.add_argument(
+        "--roadmap-input",
+        type=Path,
+        default=DEFAULT_ROADMAP_INPUT,
+        help="Path to the optional DD rating roadmap workbook",
+    )
     parser.add_argument("--crosssell-json", type=Path, default=DEFAULT_CROSSSELL_EXPORT_JSON, help="Path to cached Product Lens cross-sell export")
     parser.add_argument("--crosssell", action="store_true", help=argparse.SUPPRESS)
     parser.set_defaults(update_crosssell=DEFAULT_UPDATE_CROSSSELL)
@@ -4133,6 +4387,7 @@ def main() -> None:
         args.period,
         crosssell_path=crosssell_path,
         include_ai_skills=ai_skills_enabled,
+        roadmap_path=args.roadmap_input if args.roadmap_input.is_file() else None,
     )
     write_html(data, args.output)
     if args.json_output:

@@ -9,6 +9,8 @@ from io import BytesIO
 from pathlib import Path
 from unittest.mock import patch
 
+from openpyxl import Workbook
+
 import build_calc_report as report
 
 
@@ -40,6 +42,182 @@ class SyntheticReportTest(unittest.TestCase):
     def test_cyrillic_cx_unit_is_normalized_to_latin(self) -> None:
         self.assertEqual(report.normalize_upload_unit("CX"), "CX")
         self.assertEqual(report.normalize_upload_unit("СХ"), "CX")
+
+    def test_expected_maturity_level_uses_current_report_thresholds(self) -> None:
+        self.assertEqual(report.expected_maturity_level(39.9), "Требуют внимания")
+        self.assertEqual(report.expected_maturity_level(40), "Развивающиеся")
+        self.assertEqual(report.expected_maturity_level(60), "Развивающиеся")
+        self.assertEqual(report.expected_maturity_level(60.1), "Зрелые")
+        self.assertEqual(report.expected_maturity_level(80), "Зрелые")
+        self.assertEqual(report.expected_maturity_level(80.1), "Лидеры")
+
+    def test_roadmap_rows_are_matched_summed_and_preserved(self) -> None:
+        workbook = Workbook()
+        sheet = workbook.active
+        sheet.title = "СВР"
+        sheet.append([
+            None,
+            "Продукт",
+            "Квартал",
+            "Блок для развития",
+            "Планируемое мероприятие",
+            "Срок исполнения",
+            "Ожидание прироста индекса DD, п.п.",
+            "Статус",
+        ])
+        sheet.append([None, "Вклады + НС", "3Q2026", "Цели", "Шаг 1", "3Q", 2.5, "В работе"])
+        sheet.append([None, None, None, None, "Шаг 2", None, None, None])
+        sheet.append([None, "ПК", "4Q2026", "Цели", "Шаг 3", "4Q", 1.5, "Ожидание"])
+        sheet.append([None, "Без uplift", "4Q2026", "Цели", "Шаг без оценки", "4Q", None, "Ожидание"])
+        sheet.merge_cells("B2:B3")
+        sheet.merge_cells("C2:C3")
+        sheet.merge_cells("D2:D3")
+        sheet.merge_cells("F2:F3")
+        sheet.merge_cells("G2:G3")
+        sheet.merge_cells("H2:H3")
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            source = Path(temp_dir) / "roadmaps.xlsx"
+            workbook.save(source)
+            roadmap_rows = report.read_roadmap_workbook(source)
+
+        self.assertEqual(len(roadmap_rows), 3)
+        self.assertEqual(roadmap_rows[0]["unit"], "CBP")
+        self.assertEqual(roadmap_rows[0]["profile_name"], "Вклады + НС")
+        self.assertEqual(roadmap_rows[0]["planned_activity"], "Шаг 1\nШаг 2")
+        self.assertEqual(roadmap_rows[1]["profile_name"], "Потребительский кредит")
+        self.assertIsNone(roadmap_rows[2]["expected_uplift"])
+
+        data = {
+            "products": [
+                {"unit": "CBP", "name": "Вклады+НС"},
+                {"unit": "CBP", "name": "Потребительский кредит"},
+                {"unit": "CBP", "name": "Без uplift"},
+                {"unit": "CBP", "name": "Без дорожной карты"},
+            ],
+            "title": {
+                "rows": [
+                    {"unit": "CBP", "name": "Вклады+НС", "score": 60},
+                    {"unit": "CBP", "name": "Потребительский кредит", "score": 80},
+                    {"unit": "CBP", "name": "Без uplift", "score": 95},
+                    {"unit": "CBP", "name": "Без дорожной карты", "score": 95},
+                ]
+            },
+        }
+        summary = report.apply_roadmap_data(data, roadmap_rows)
+
+        self.assertEqual(summary["roadmap_items"], 3)
+        self.assertEqual(summary["roadmap_profiles_with_items"], 3)
+        self.assertEqual(summary["roadmap_unmatched_profiles"], [])
+        self.assertEqual(data["products"][0]["roadmap"]["expected_uplift"], 2.5)
+        self.assertEqual(data["products"][0]["roadmap"]["expected_score"], 62.5)
+        self.assertEqual(data["products"][0]["roadmap"]["expected_level"], "Зрелые")
+        self.assertEqual(data["products"][1]["roadmap"]["expected_score"], 81.5)
+        self.assertEqual(data["products"][1]["roadmap"]["expected_level"], "Лидеры")
+        self.assertEqual(data["products"][2]["roadmap"]["expected_uplift"], 0.0)
+        self.assertEqual(data["products"][2]["roadmap"]["expected_score"], 95.0)
+        self.assertEqual(len(data["products"][2]["roadmap"]["items"]), 1)
+        self.assertEqual(data["products"][3]["roadmap"]["items"], [])
+
+    def test_roadmap_expected_score_is_capped_at_one_hundred(self) -> None:
+        data = {
+            "products": [{"unit": "УБ", "name": "ВЗР"}],
+            "title": {"rows": [{"unit": "УБ", "name": "ВЗР", "score": 56}]},
+        }
+        rows = [
+            {
+                "unit": "УБ",
+                "profile_name": "ВЗР",
+                "source_product_name": "ВЗР",
+                "expected_uplift": 47,
+            }
+        ]
+
+        report.apply_roadmap_data(data, rows)
+
+        roadmap = data["products"][0]["roadmap"]
+        self.assertEqual(roadmap["expected_uplift"], 47.0)
+        self.assertEqual(roadmap["expected_score"], 100.0)
+        self.assertEqual(roadmap["expected_level"], "Лидеры")
+
+    def test_roadmap_uplift_is_summed_per_product_and_rounded_to_tenths(self) -> None:
+        data = {
+            "products": [
+                {"unit": "CBP", "name": "Вклады+НС"},
+                {"unit": "CBP", "name": "Потребительский кредит"},
+            ],
+            "title": {
+                "rows": [
+                    {"unit": "CBP", "name": "Вклады+НС", "score": 55},
+                    {"unit": "CBP", "name": "Потребительский кредит", "score": 10},
+                ]
+            },
+        }
+        rows = [
+            {
+                "unit": "CBP",
+                "profile_name": "Вклады+НС",
+                "source_product_name": "Вклады+НС",
+                "expected_uplift": 1.25,
+            },
+            {
+                "unit": "CBP",
+                "profile_name": "Вклады+НС",
+                "source_product_name": "Вклады+НС",
+                "expected_uplift": 2.26,
+            },
+            {
+                "unit": "CBP",
+                "profile_name": "Потребительский кредит",
+                "source_product_name": "Потребительский кредит",
+                "expected_uplift": 7.44,
+            },
+        ]
+
+        report.apply_roadmap_data(data, rows)
+
+        deposits = data["products"][0]["roadmap"]
+        consumer_loan = data["products"][1]["roadmap"]
+        self.assertEqual(deposits["expected_uplift"], 3.5)
+        self.assertEqual(deposits["expected_score"], 58.5)
+        self.assertEqual(len(deposits["items"]), 2)
+        self.assertEqual(consumer_loan["expected_uplift"], 7.4)
+        self.assertEqual(consumer_loan["expected_score"], 17.4)
+        self.assertEqual(len(consumer_loan["items"]), 1)
+
+    def test_roadmap_data_handles_empty_items_and_missing_current_score(self) -> None:
+        data = {
+            "products": [
+                {"unit": "CBP", "name": "Без дорожной карты"},
+                {"unit": "CBP", "name": "Без текущей оценки"},
+            ],
+            "title": {
+                "rows": [
+                    {"unit": "CBP", "name": "Без дорожной карты", "score": 60},
+                ]
+            },
+        }
+        rows = [
+            {
+                "unit": "CBP",
+                "profile_name": "Без текущей оценки",
+                "source_product_name": "Без текущей оценки",
+                "expected_uplift": 5,
+            }
+        ]
+
+        summary = report.apply_roadmap_data(data, rows)
+
+        empty = data["products"][0]["roadmap"]
+        missing_score = data["products"][1]["roadmap"]
+        self.assertEqual(empty["items"], [])
+        self.assertEqual(empty["expected_uplift"], 0.0)
+        self.assertEqual(empty["expected_score"], 60.0)
+        self.assertIsNone(missing_score["current_score"])
+        self.assertIsNone(missing_score["expected_score"])
+        self.assertEqual(missing_score["expected_level"], "")
+        self.assertEqual(summary["roadmap_profiles_with_items"], 1)
+        self.assertEqual(summary["roadmap_unmatched_profiles"], [])
 
     def test_crosssell_is_enabled_by_default_and_can_use_local_cache(self) -> None:
         default_args = report.parse_args([])
