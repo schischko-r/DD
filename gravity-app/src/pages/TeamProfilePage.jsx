@@ -343,7 +343,7 @@ function RoadmapUplift({roadmap, currentLevel, productName}) {
         <Text className="index-roadmap-uplift-value" variant="body-1">+ {upliftLabel} п.п.</Text>
       </div>
       {showExpectedLevel && <div className="index-roadmap-expected-row"><Text variant="body-1" color="secondary">Новый ожидаемый уровень:</Text><Text className="index-roadmap-expected-level" variant="body-1">{expectedLevel}</Text></div>}
-      <Button className="index-roadmap-dialog-trigger" view="flat-info" size="s" type="button" aria-haspopup="dialog" aria-label={`Открыть дорожную карту продукта ${productName}`} onClick={() => setOpen(true)}>Перейти <Icon data={ChevronRight} size={13} /></Button>
+      <Button className="index-roadmap-dialog-trigger" view="flat-info" size="s" type="button" aria-haspopup="dialog" aria-label={`Открыть дорожную карту продукта ${productName}`} onClick={() => setOpen(true)}>Перейти к мероприятиям <Icon data={ChevronRight} size={13} /></Button>
     </section>
     <Dialog className="roadmap-dialog" open={open} onClose={() => setOpen(false)} hasCloseButton maxWidth="xl" fullWidth contentOverflow="auto" aria-label={`Дорожная карта продукта ${productName}`}>
       <Dialog.Header caption={productName} />

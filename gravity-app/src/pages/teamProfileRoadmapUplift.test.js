@@ -48,7 +48,7 @@ test('team profile renders the roadmap uplift directly below the next-level copy
   assert.match(roadmapSource, /<Text className="index-roadmap-uplift-value" variant="body-1">\+ \{upliftLabel\} п\.\u043f\.<\/Text>/);
   assert.doesNotMatch(roadmapSource, /index-roadmap-uplift-(?:trigger|value)[^>]*(?:onClick|aria-haspopup)/);
   assert.match(roadmapSource, /\{showExpectedLevel && <div className="index-roadmap-expected-row"><Text[^>]+>Новый ожидаемый уровень:<\/Text><Text[^>]+>\{expectedLevel\}<\/Text><\/div>\}/);
-  assert.match(roadmapSource, /<Button className="index-roadmap-dialog-trigger" view="flat-info" size="s" type="button" aria-haspopup="dialog" aria-label=\{`Открыть дорожную карту продукта \$\{productName\}`\} onClick=\{\(\) => setOpen\(true\)\}>Перейти <Icon data=\{ChevronRight\} size=\{13\} \/><\/Button>/);
+  assert.match(roadmapSource, /<Button className="index-roadmap-dialog-trigger" view="flat-info" size="s" type="button" aria-haspopup="dialog" aria-label=\{`Открыть дорожную карту продукта \$\{productName\}`\} onClick=\{\(\) => setOpen\(true\)\}>Перейти к мероприятиям <Icon data=\{ChevronRight\} size=\{13\} \/><\/Button>/);
 });
 
 test('roadmap dialog contains one semantic table with the exact four-column header', () => {
