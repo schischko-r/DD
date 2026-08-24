@@ -326,12 +326,6 @@ function roadmapCell(value) {
   return String(value ?? '').trim() || '—';
 }
 
-function roadmapDate(value) {
-  const text = roadmapCell(value);
-  const isoDate = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  return isoDate ? `${isoDate[3]}.${isoDate[2]}.${isoDate[1]}` : text;
-}
-
 function RoadmapUplift({roadmap, currentLevel, productName}) {
   const [open, setOpen] = useState(false);
   const items = Array.isArray(roadmap?.items) ? roadmap.items : [];
@@ -345,10 +339,11 @@ function RoadmapUplift({roadmap, currentLevel, productName}) {
   return <>
     <section className="index-roadmap-uplift" aria-label="Прогноз по дорожной карте">
       <div className="index-roadmap-summary-row">
-        <Text variant="body-1" color="secondary">Исходя из дорожной карты продукта ожидается аплифт:</Text>
-        <Button className="index-roadmap-uplift-trigger" view="flat-success" size="s" type="button" aria-haspopup="dialog" aria-label={`Открыть детализацию дорожной карты: плюс ${upliftLabel} процентных пункта`} onClick={() => setOpen(true)}>+ {upliftLabel} п.п.</Button>
+        <Text variant="body-1" color="secondary">Исходя из дорожной карты продукта ожидается uplift:</Text>
+        <Text className="index-roadmap-uplift-value" variant="body-1">+ {upliftLabel} п.п.</Text>
       </div>
       {showExpectedLevel && <div className="index-roadmap-expected-row"><Text variant="body-1" color="secondary">Новый ожидаемый уровень:</Text><Text className="index-roadmap-expected-level" variant="body-1">{expectedLevel}</Text></div>}
+      <Button className="index-roadmap-dialog-trigger" view="flat-info" size="s" type="button" aria-haspopup="dialog" aria-label={`Открыть дорожную карту продукта ${productName}`} onClick={() => setOpen(true)}>Перейти <Icon data={ChevronRight} size={13} /></Button>
     </section>
     <Dialog className="roadmap-dialog" open={open} onClose={() => setOpen(false)} hasCloseButton maxWidth="xl" fullWidth contentOverflow="auto" aria-label={`Дорожная карта продукта ${productName}`}>
       <Dialog.Header caption={productName} />
@@ -359,7 +354,6 @@ function RoadmapUplift({roadmap, currentLevel, productName}) {
               <tr>
                 <th scope="col">Блок для развития</th>
                 <th scope="col">Квартал</th>
-                <th scope="col">Срок</th>
                 <th scope="col">Планируемое мероприятие</th>
                 <th scope="col">Ожидание прироста индекса DD, п.п.</th>
               </tr>
@@ -370,7 +364,6 @@ function RoadmapUplift({roadmap, currentLevel, productName}) {
                 return <tr key={`${row.item.source_sheet || productName}-${row.item.source_row ?? rowIndex}-${rowIndex}`}>
                   {row.blockRowSpan > 0 && <th className="roadmap-group-cell roadmap-block-cell" scope="rowgroup" rowSpan={row.blockRowSpan}>{row.blockLabel}</th>}
                   {row.quarterRowSpan > 0 && <th className="roadmap-group-cell roadmap-quarter-cell" scope="rowgroup" rowSpan={row.quarterRowSpan}>{row.quarterLabel}</th>}
-                  {row.dueDateRowSpan > 0 && <th className="roadmap-group-cell roadmap-due-date-cell" scope="rowgroup" rowSpan={row.dueDateRowSpan}>{roadmapDate(row.dueDateLabel)}</th>}
                   <td className="roadmap-activity">{roadmapCell(row.item.planned_activity)}</td>
                   <td className="roadmap-uplift-cell">{upliftValue ? `+ ${upliftValue} п.п.` : '—'}</td>
                 </tr>;
