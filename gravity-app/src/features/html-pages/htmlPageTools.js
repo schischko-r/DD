@@ -1,23 +1,40 @@
 import {
+  HTML_PAGE_API_SKILL_KEYS,
+  htmlPageContentIds,
+  mergeEmbeddedHtmlPageConfig,
   parseHtmlPageConfig,
   resolveHtmlPageContext,
 } from './htmlPageConfig.js';
 
-const HTML_PAGE_CONFIG = parseHtmlPageConfig(
-  import.meta.env.VITE_HTML_PAGE_URLS,
+function embeddedHtmlPageIds() {
+  if (typeof document === 'undefined') return [];
+  return Array.from(document.querySelectorAll(
+    'script[type="application/octet-stream"][data-ddi-html-page-id]',
+  )).map((candidate) => candidate.dataset.ddiHtmlPageId);
+}
+
+const HTML_PAGE_CONFIG = mergeEmbeddedHtmlPageConfig(
+  parseHtmlPageConfig(import.meta.env.VITE_HTML_PAGE_URLS),
+  embeddedHtmlPageIds(),
 );
 
 function embeddedHtmlPageContent(id) {
   if (typeof document === 'undefined') return '';
-  const content = Array.from(document.querySelectorAll(
+  const contents = Array.from(document.querySelectorAll(
     'script[type="application/octet-stream"][data-ddi-html-page-id]',
-  )).find((candidate) => candidate.dataset.ddiHtmlPageId === id);
-  return content?.textContent?.trim() || '';
+  ));
+  for (const contentId of htmlPageContentIds(id)) {
+    const content = contents.find(
+      (candidate) => candidate.dataset.ddiHtmlPageId === contentId,
+    );
+    if (content?.textContent?.trim()) return content.textContent.trim();
+  }
+  return '';
 }
 
-const TOOL_DEFINITIONS = [
-  Object.freeze({
-    id: 'clickstream',
+function clickstreamToolDefinition(id) {
+  return Object.freeze({
+    id,
     tool: 'html_page',
     title: 'Кликстрим',
     iframeTitle: 'Кликстрим — месячный отчёт',
@@ -42,7 +59,12 @@ const TOOL_DEFINITIONS = [
       latestPeriodSelector: '#exp-period',
       showSelector: '#exp-show, button[onclick="_doLoad()"]',
     }),
-  }),
+  });
+}
+
+const TOOL_DEFINITIONS = [
+  clickstreamToolDefinition('clickstream'),
+  clickstreamToolDefinition('clickstream_funnel'),
   Object.freeze({
     id: 'pilots',
     bridge: Object.freeze({
@@ -123,7 +145,26 @@ const TOOL_DEFINITIONS = [
       showSelector: '#exp-show, button[onclick="_doLoad()"]',
     }),
   })),
+  Object.freeze({
+    id: 'digital_index',
+    title: 'Цифровой индекс',
+    iframeTitle: 'Цифровой индекс',
+  }),
+  Object.freeze({
+    id: 'funnel_b2c',
+    title: 'Воронка B2C',
+    iframeTitle: 'Воронка B2C',
+  }),
 ];
+
+const DEFINED_API_SKILL_KEYS = new Set(
+  TOOL_DEFINITIONS.map((entry) => entry.id),
+);
+for (const skillKey of HTML_PAGE_API_SKILL_KEYS) {
+  if (!DEFINED_API_SKILL_KEYS.has(skillKey)) {
+    throw new Error(`Missing HTML page tool definition for API skill ${skillKey}`);
+  }
+}
 
 const TOOL_DEFINITIONS_BY_ID = new Map(
   TOOL_DEFINITIONS.map((entry) => [entry.id, entry]),
@@ -165,7 +206,11 @@ export const TOOL_CATALOG = Object.freeze(
         icon: configured.icon || 'ChartLine',
       });
     })
-    .filter((entry) => entry.url),
+    .filter((entry) => entry.url || entry.contentBase64)
+    .filter((entry, _index, entries) => (
+      entry.id !== 'clickstream'
+      || !entries.some((candidate) => candidate.id === 'clickstream_funnel')
+    )),
 );
 
 export const HTML_PAGE_TOOLS = Object.freeze(

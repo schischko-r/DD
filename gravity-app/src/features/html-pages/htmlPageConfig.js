@@ -2,6 +2,49 @@ function normalizeText(value) {
   return typeof value === 'string' ? value.trim() : '';
 }
 
+export const HTML_PAGE_API_SKILL_KEYS = Object.freeze([
+  'csi',
+  'drafts',
+  'client_metrics',
+  'pilots',
+  'complaints',
+  'digital_index',
+  'funnel',
+  'funnel_b2c',
+  'clickstream_funnel',
+]);
+
+const HTML_PAGE_CONTENT_ID_ALIASES = Object.freeze({
+  clickstream: 'clickstream_funnel',
+});
+
+const HTML_PAGE_CONFIG_FALLBACK_IDS = Object.freeze({
+  clickstream_funnel: 'clickstream',
+});
+
+export function htmlPageContentIds(id) {
+  const normalizedId = normalizeText(id);
+  if (!normalizedId) return [];
+  const canonicalId = HTML_PAGE_CONTENT_ID_ALIASES[normalizedId] || normalizedId;
+  return canonicalId === normalizedId
+    ? [canonicalId]
+    : [canonicalId, normalizedId];
+}
+
+export function mergeEmbeddedHtmlPageConfig(config, embeddedIds = []) {
+  const merged = {...config};
+  const availableIds = new Set(embeddedIds);
+  for (const skillKey of HTML_PAGE_API_SKILL_KEYS) {
+    if (availableIds.has(skillKey) && !merged[skillKey]) {
+      const fallbackId = HTML_PAGE_CONFIG_FALLBACK_IDS[skillKey];
+      merged[skillKey] = fallbackId && merged[fallbackId]
+        ? {...merged[fallbackId]}
+        : {url: '', title: '', icon: ''};
+    }
+  }
+  return merged;
+}
+
 function normalizeHtmlPageEntry(value) {
   if (typeof value === 'string') {
     return {url: value.trim(), title: '', icon: ''};

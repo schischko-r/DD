@@ -1,10 +1,56 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  HTML_PAGE_API_SKILL_KEYS,
   adjacentHtmlPagePath,
+  htmlPageContentIds,
+  mergeEmbeddedHtmlPageConfig,
   parseHtmlPageConfig,
   resolveHtmlPageContext,
 } from './htmlPageConfig.js';
+
+test('HTML page config exposes every API-supported skill key', () => {
+  assert.deepEqual(HTML_PAGE_API_SKILL_KEYS, [
+    'csi',
+    'drafts',
+    'client_metrics',
+    'pilots',
+    'complaints',
+    'digital_index',
+    'funnel',
+    'funnel_b2c',
+    'clickstream_funnel',
+  ]);
+});
+
+test('legacy Clickstream config can consume canonical API embedded content', () => {
+  assert.deepEqual(
+    htmlPageContentIds('clickstream'),
+    ['clickstream_funnel', 'clickstream'],
+  );
+  assert.deepEqual(htmlPageContentIds('clickstream_funnel'), ['clickstream_funnel']);
+  assert.deepEqual(htmlPageContentIds(''), []);
+});
+
+test('embedded API pages extend local config without replacing its fallback metadata', () => {
+  const localClickstream = {
+    url: './clickstream.html',
+    title: 'Локальный кликстрим',
+    icon: 'ChartLine',
+  };
+  assert.deepEqual(
+    mergeEmbeddedHtmlPageConfig(
+      {clickstream: localClickstream},
+      ['digital_index', 'funnel_b2c', 'clickstream_funnel', 'unknown'],
+    ),
+    {
+      clickstream: localClickstream,
+      digital_index: {url: '', title: '', icon: ''},
+      funnel_b2c: {url: '', title: '', icon: ''},
+      clickstream_funnel: localClickstream,
+    },
+  );
+});
 
 test('HTML page env accepts metadata objects and legacy URL strings', () => {
   assert.deepEqual(

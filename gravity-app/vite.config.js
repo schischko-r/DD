@@ -5,6 +5,10 @@ import react from '@vitejs/plugin-react';
 import {viteSingleFile} from 'vite-plugin-singlefile';
 import {clickstreamDataPlugin} from './clickstreamDataPlugin.js';
 import {
+  htmlReportApiPlugin,
+  resolveHtmlReportApiConfig,
+} from './htmlReportApi.js';
+import {
   adjacentHtmlPagePath,
   parseHtmlPageConfig,
 } from './src/features/html-pages/htmlPageConfig.js';
@@ -87,11 +91,17 @@ function siblingHtmlPageManifest(entries) {
 export default defineConfig(({mode}) => {
   const environment = loadEnv(mode, REPOSITORY_ROOT, 'VITE_');
   const exampleEnvironment = loadEnv('example', REPOSITORY_ROOT, 'VITE_');
+  const htmlApiEnvironment = loadEnv(mode, REPOSITORY_ROOT, 'AI_HTML_');
   const htmlPageUrlsRaw = process.env.VITE_HTML_PAGE_URLS
     || environment.VITE_HTML_PAGE_URLS
     || exampleEnvironment.VITE_HTML_PAGE_URLS
     || '{}';
   const htmlPageConfig = parseHtmlPageConfig(htmlPageUrlsRaw, {strict: true});
+  const htmlReportApiConfig = resolveHtmlReportApiConfig({
+    AI_HTML_API_BASE_URL: process.env.AI_HTML_API_BASE_URL
+      ?? htmlApiEnvironment.AI_HTML_API_BASE_URL,
+    AI_HTML_TOKEN: process.env.AI_HTML_TOKEN ?? htmlApiEnvironment.AI_HTML_TOKEN,
+  });
 
   return {
     envDir: REPOSITORY_ROOT,
@@ -105,7 +115,9 @@ export default defineConfig(({mode}) => {
       react(),
       clickstreamDataPlugin(),
       siblingHtmlPages(htmlPageConfig),
-      siblingHtmlPageManifest(htmlPageConfig),
+      htmlReportApiConfig
+        ? htmlReportApiPlugin(htmlReportApiConfig)
+        : siblingHtmlPageManifest(htmlPageConfig),
       viteSingleFile(),
     ],
     build: {target: 'es2020'},

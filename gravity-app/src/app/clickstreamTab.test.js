@@ -14,8 +14,7 @@ import {
 import {resolveHtmlPageContext} from '../features/html-pages/htmlPageConfig.js';
 import {metricAiActionRecommendations} from '../pages/teamProfileAiSkillNavigation.js';
 
-const legacyReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed.html';
-const gravityReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed_gravity.html';
+const legacyReportFileName = 'source-html-reports/zeroed/legacy/Кликстрим_Месячный_все_воронки_zeroed.html';
 const appSource = readFileSync(new URL('./App.jsx', import.meta.url), 'utf8');
 const teamProfileSource = readFileSync(
   new URL('../pages/TeamProfilePage.jsx', import.meta.url),
@@ -124,7 +123,10 @@ test('html_page URL, title and Gravity icon come from the Vite env map', () => {
     /title:\s*configured\.title\s*\|\|\s*definition\.title\s*\|\|\s*id/,
   );
   assert.match(toolCatalogSource, /icon:\s*configured\.icon\s*\|\|\s*['"]ChartLine['"]/);
-  assert.match(toolCatalogSource, /\.filter\(\(entry\)\s*=>\s*entry\.url\)/);
+  assert.match(
+    toolCatalogSource,
+    /\.filter\(\(entry\)\s*=>\s*entry\.url\s*\|\|\s*entry\.contentBase64\)/,
+  );
   assert.match(appSource, /icon:\s*htmlPageIcon\(tool\.icon\)/);
   for (const icon of [
     'ChartAreaStacked',
