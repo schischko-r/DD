@@ -22,7 +22,10 @@ const envExampleSource = readFileSync(
 );
 
 const gravityReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed_gravity.html';
-const gravityReportUrl = new URL(`../../../${gravityReportFileName}`, import.meta.url);
+const gravityReportUrl = new URL(
+  `../../../source-html-reports/zeroed/legacy/${gravityReportFileName}`,
+  import.meta.url,
+);
 
 test('Clickstream report is a React page composed from Gravity UI controls', () => {
   assert.match(mainSource, /import\s*\{ThemeProvider\}\s*from\s*['"]@gravity-ui\/uikit['"]/);

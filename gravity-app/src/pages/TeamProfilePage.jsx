@@ -13,7 +13,8 @@ import {
   findHtmlPageToolForRecommendation,
 } from '../features/html-pages/htmlPageTools.js';
 import {metricAiActionRecommendations} from './teamProfileAiSkillNavigation.js';
-import {displayText} from '../domain/report.js';
+import {flattenRoadmapItems} from './teamProfileRoadmapGroups.js';
+import {displayText, formatRoadmapUplift, roadmapLevelChanged} from '../domain/report.js';
 import {CJXplorerDialog} from '../features/cjxplorer/CJXplorerDialog.jsx';
 import {CENTRALIZED_KKD_CDO_URL, INDUSTRIAL_DATA_RESOURCES} from './backlogScenarioRecommendations.js';
 
@@ -319,6 +320,60 @@ function CrossSellPreviewDialog({preview, onClose}) {
       </div>
     </Dialog.Body>
   </Dialog>;
+}
+
+function roadmapCell(value) {
+  return String(value ?? '').trim() || '—';
+}
+
+function RoadmapUplift({roadmap, currentLevel, productName}) {
+  const [open, setOpen] = useState(false);
+  const items = Array.isArray(roadmap?.items) ? roadmap.items : [];
+  const rows = useMemo(() => flattenRoadmapItems(items), [items]);
+  const uplift = Number(roadmap?.expected_uplift);
+  const upliftLabel = formatRoadmapUplift(uplift);
+  if (!items.length || !Number.isFinite(uplift) || uplift <= 0 || !upliftLabel) return null;
+  const expectedLevel = String(roadmap.expected_level ?? '').trim();
+  const showExpectedLevel = roadmapLevelChanged(currentLevel, expectedLevel);
+
+  return <>
+    <section className="index-roadmap-uplift" aria-label="Прогноз по дорожной карте">
+      <div className="index-roadmap-summary-row">
+        <Text variant="body-1" color="secondary">Исходя из дорожной карты продукта ожидается uplift:</Text>
+        <Text className="index-roadmap-uplift-value" variant="body-1">+ {upliftLabel} п.п.</Text>
+      </div>
+      {showExpectedLevel && <div className="index-roadmap-expected-row"><Text variant="body-1" color="secondary">Новый ожидаемый уровень:</Text><Text className="index-roadmap-expected-level" variant="body-1">{expectedLevel}</Text></div>}
+      <Button className="index-roadmap-dialog-trigger" view="flat-info" size="s" type="button" aria-haspopup="dialog" aria-label={`Открыть дорожную карту продукта ${productName}`} onClick={() => setOpen(true)}>Перейти к мероприятиям <Icon data={ChevronRight} size={13} /></Button>
+    </section>
+    <Dialog className="roadmap-dialog" open={open} onClose={() => setOpen(false)} hasCloseButton maxWidth="xl" fullWidth contentOverflow="auto" aria-label={`Дорожная карта продукта ${productName}`}>
+      <Dialog.Header caption={productName} />
+      <Dialog.Body className="roadmap-dialog-body">
+        <div className="roadmap-table-scroll">
+          <table className="roadmap-table" aria-label={`Дорожная карта продукта ${productName}`}>
+            <thead>
+              <tr>
+                <th scope="col">Блок для развития</th>
+                <th scope="col">Квартал</th>
+                <th scope="col">Планируемое мероприятие</th>
+                <th scope="col">Ожидание прироста индекса DD, п.п.</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, rowIndex) => {
+                const upliftValue = formatRoadmapUplift(row.item.expected_uplift);
+                return <tr key={`${row.item.source_sheet || productName}-${row.item.source_row ?? rowIndex}-${rowIndex}`}>
+                  {row.blockRowSpan > 0 && <th className="roadmap-group-cell roadmap-block-cell" scope="rowgroup" rowSpan={row.blockRowSpan}>{row.blockLabel}</th>}
+                  {row.quarterRowSpan > 0 && <th className="roadmap-group-cell roadmap-quarter-cell" scope="rowgroup" rowSpan={row.quarterRowSpan}>{row.quarterLabel}</th>}
+                  <td className="roadmap-activity">{roadmapCell(row.item.planned_activity)}</td>
+                  <td className="roadmap-uplift-cell">{upliftValue ? `+ ${upliftValue} п.п.` : '—'}</td>
+                </tr>;
+              })}
+            </tbody>
+          </table>
+        </div>
+      </Dialog.Body>
+    </Dialog>
+  </>;
 }
 
 function GoalsHelpContent() {
@@ -926,7 +981,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
       <div className="detail-lens-content">
       <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b></div></div>
       <section className="detail-overview">
-        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div><div className="index-methodology-footer"><Text variant="body-1" color="secondary">Подробнее о подходе и критериях оценки, тут:</Text><Button view="flat-info" size="s" onClick={onAbout}>Перейти <Icon data={ChevronRight} size={13} /></Button></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={profileSeries.fill} dotRadius={2} />} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
+        <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{product.name}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{score}%</strong><b>/ 100</b><em>{maturity}</em></div><Progress value={score} theme={maturityTone} size="s" /><div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={nextLevel ? 'primary' : 'positive'}>{nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div><RoadmapUplift key={product.id || product.name} roadmap={product.roadmap} currentLevel={maturity} productName={product.name} /><div className="index-methodology-footer"><Text variant="body-1" color="secondary">Подробнее о подходе и критериях оценки, тут:</Text><Button view="flat-info" size="s" onClick={onAbout}>Перейти <Icon data={ChevronRight} size={13} /></Button></div>{detailScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="55%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick />} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={profileSeries.fill} dotRadius={2} />} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
         <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{recommendationCard.visible.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <button type="button" className="top-recommendation recommendation-action" onClick={() => openRecommendationDetails(item)} key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></button>; })}{recommendationCard.hiddenCount > 0 && <button type="button" className="top-recommendation top-recommendation-summary recommendation-action" onClick={() => setRecommendationsOpen(true)}><div className="recommendation-marker"><span>+</span></div><div><b>Остальные рекомендации</b><small>{recommendationCard.hiddenCount} в полном списке</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{recommendationCard.hiddenUplift.toFixed(1)} п.п. индекса</b></div></div></button>}<Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button></Card>
       </section>
       <Dialog open={recommendationsOpen} onClose={() => setRecommendationsOpen(false)} hasCloseButton maxWidth="m" fullWidth contentOverflow="auto">

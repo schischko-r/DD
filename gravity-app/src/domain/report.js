@@ -17,6 +17,28 @@ export function displayText(value) {
     .replace(/\bupsell\b/gi, 'up-sell');
 }
 
+export function formatRoadmapUplift(value) {
+  if (value == null || String(value).trim() === '') return '';
+  const uplift = Number(value);
+  if (!Number.isFinite(uplift)) return '';
+  const rounded = Math.round(uplift * 10) / 10;
+  return rounded.toFixed(Number.isInteger(rounded) ? 0 : 1).replace('.', ',');
+}
+
+function normalizeMaturityLevel(value) {
+  const level = String(value || '').trim().toLocaleLowerCase('ru-RU');
+  if (level.startsWith('лидер')) return 'лидеры';
+  if (level.startsWith('зрел')) return 'зрелые';
+  if (level.startsWith('развива')) return 'развивающиеся';
+  if (level.startsWith('требу')) return 'требуют внимания';
+  return level;
+}
+
+export function roadmapLevelChanged(currentLevel, expectedLevel) {
+  const expected = normalizeMaturityLevel(expectedLevel);
+  return Boolean(expected) && normalizeMaturityLevel(currentLevel) !== expected;
+}
+
 export function allocateIndexUplifts(recommendations, currentScore) {
   const score = Math.max(0, Math.min(100, Number(currentScore) || 0));
   const targetTenths = Math.round((100 - score) * 10);

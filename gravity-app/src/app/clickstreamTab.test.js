@@ -14,7 +14,7 @@ import {
 import {resolveHtmlPageContext} from '../features/html-pages/htmlPageConfig.js';
 import {metricAiActionRecommendations} from '../pages/teamProfileAiSkillNavigation.js';
 
-const legacyReportFileName = 'source-html-reports/zeroed/legacy/Кликстрим_Месячный_все_воронки_zeroed.html';
+const legacyReportFileName = 'Кликстрим_Месячный_все_воронки_zeroed.html';
 const appSource = readFileSync(new URL('./App.jsx', import.meta.url), 'utf8');
 const teamProfileSource = readFileSync(
   new URL('../pages/TeamProfilePage.jsx', import.meta.url),
@@ -60,7 +60,7 @@ const reportData = JSON.parse(readFileSync(
   'utf8',
 ));
 const reportHtml = readFileSync(
-  new URL(`../../../${legacyReportFileName}`, import.meta.url),
+  new URL(`../../../source-html-reports/zeroed/current/${legacyReportFileName}`, import.meta.url),
   'utf8',
 );
 
