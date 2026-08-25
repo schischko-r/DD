@@ -5,6 +5,7 @@
 __pycache__/
 *.pyc
 crosssell_export.json
+source-html-reports/downloaded/
 Agent.html
 build_dd_from_excel.py
 build_dd_json2.py

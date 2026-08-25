@@ -1,11 +1,16 @@
 import assert from 'node:assert/strict';
+import {mkdtemp, readdir, readFile, rm, writeFile} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import test from 'node:test';
 import {
   AI_HTML_REPORT_SKILL_KEYS,
   embeddedHtmlReportTags,
   fetchHtmlReports,
   htmlReportApiPlugin,
+  htmlReportFilesPlugin,
   htmlReportApiUrl,
+  readHtmlReports,
   resolveHtmlReportApiConfig,
 } from './htmlReportApi.js';
 import {HTML_PAGE_API_SKILL_KEYS} from './src/features/html-pages/htmlPageConfig.js';
@@ -124,21 +129,73 @@ test('HTML is base64-encoded in the established inert script markers', () => {
 });
 
 test('Vite plugin caches mocked fetches and keeps credentials out of emitted tags', async () => {
+  const reportsDirectory = await mkdtemp(join(tmpdir(), 'ddi-html-api-'));
   let calls = 0;
   const plugin = htmlReportApiPlugin({
     baseUrl: 'https://reports.example.test',
     token: 'build-only-token',
-    skillKeys: ['csi'],
-    fetchImpl: async () => {
+    reportsDirectory,
+    fetchImpl: async (url) => {
       calls += 1;
-      return {ok: true, status: 200, text: async () => '<html>CSI</html>'};
+      const skillKey = url.split('/').at(-1);
+      return {
+        ok: true,
+        status: 200,
+        text: async () => `<html>${skillKey}</html>`,
+      };
     },
   });
 
-  const first = await plugin.transformIndexHtml.handler();
-  const second = await plugin.transformIndexHtml.handler();
+  try {
+    const first = await plugin.transformIndexHtml.handler();
+    const second = await plugin.transformIndexHtml.handler();
 
-  assert.deepEqual(second, first);
-  assert.equal(calls, 1);
-  assert.doesNotMatch(JSON.stringify(first), /build-only-token/);
+    assert.deepEqual(second, first);
+    assert.equal(calls, AI_HTML_REPORT_SKILL_KEYS.length);
+    assert.doesNotMatch(JSON.stringify(first), /build-only-token/);
+    assert.deepEqual(
+      (await readdir(reportsDirectory)).sort(),
+      AI_HTML_REPORT_SKILL_KEYS.map((skillKey) => `${skillKey}.html`).sort(),
+    );
+    await Promise.all(AI_HTML_REPORT_SKILL_KEYS.map(async (skillKey) => {
+      assert.equal(
+        await readFile(join(reportsDirectory, `${skillKey}.html`), 'utf8'),
+        `<html>${skillKey}</html>`,
+      );
+    }));
+  } finally {
+    await rm(reportsDirectory, {recursive: true, force: true});
+  }
+});
+
+test('local HTML plugin embeds downloaded files without a fetch implementation', async () => {
+  const reportsDirectory = await mkdtemp(join(tmpdir(), 'ddi-html-files-'));
+  await writeFile(join(reportsDirectory, 'csi.html'), '<html>Local CSI</html>');
+
+  try {
+    const reports = await readHtmlReports({reportsDirectory, skillKeys: ['csi']});
+    const plugin = htmlReportFilesPlugin({reportsDirectory, skillKeys: ['csi']});
+    const tags = await plugin.transformIndexHtml.handler();
+
+    assert.deepEqual(reports, [{skillKey: 'csi', html: '<html>Local CSI</html>'}]);
+    assert.equal(
+      Buffer.from(tags[0].children, 'base64').toString('utf8'),
+      '<html>Local CSI</html>',
+    );
+  } finally {
+    await rm(reportsDirectory, {recursive: true, force: true});
+  }
+});
+
+test('local HTML loader fails clearly when a downloaded report is missing', async () => {
+  const reportsDirectory = await mkdtemp(join(tmpdir(), 'ddi-html-missing-'));
+
+  try {
+    await assert.rejects(
+      readHtmlReports({reportsDirectory, skillKeys: ['csi']}),
+      /Downloaded AI HTML report "csi" not found/,
+    );
+  } finally {
+    await rm(reportsDirectory, {recursive: true, force: true});
+  }
 });

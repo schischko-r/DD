@@ -6,6 +6,7 @@ import {viteSingleFile} from 'vite-plugin-singlefile';
 import {clickstreamDataPlugin} from './clickstreamDataPlugin.js';
 import {
   htmlReportApiPlugin,
+  htmlReportFilesPlugin,
   resolveHtmlReportApiConfig,
 } from './htmlReportApi.js';
 import {
@@ -14,6 +15,11 @@ import {
 } from './src/features/html-pages/htmlPageConfig.js';
 
 const REPOSITORY_ROOT = resolve(import.meta.dirname, '..');
+const DEFAULT_HTML_REPORTS_DIRECTORY = 'source-html-reports/downloaded';
+
+function enabledEnvironmentFlag(value) {
+  return /^(1|true|yes)$/i.test(String(value || '').trim());
+}
 
 function siblingHtmlPageFile(configuredUrl) {
   const relativePath = adjacentHtmlPagePath(configuredUrl);
@@ -92,16 +98,31 @@ export default defineConfig(({mode}) => {
   const environment = loadEnv(mode, REPOSITORY_ROOT, 'VITE_');
   const exampleEnvironment = loadEnv('example', REPOSITORY_ROOT, 'VITE_');
   const htmlApiEnvironment = loadEnv(mode, REPOSITORY_ROOT, 'AI_HTML_');
+  const buildFromHtml = enabledEnvironmentFlag(
+    process.env.AI_HTML_BUILD_FROM_FILES
+      ?? htmlApiEnvironment.AI_HTML_BUILD_FROM_FILES,
+  );
+  const configuredHtmlReportsDirectory = String(
+    process.env.AI_HTML_REPORTS_DIR
+      ?? htmlApiEnvironment.AI_HTML_REPORTS_DIR
+      ?? '',
+  ).trim();
+  const htmlReportsDirectory = resolve(
+    REPOSITORY_ROOT,
+    configuredHtmlReportsDirectory || DEFAULT_HTML_REPORTS_DIRECTORY,
+  );
   const htmlPageUrlsRaw = process.env.VITE_HTML_PAGE_URLS
     || environment.VITE_HTML_PAGE_URLS
     || exampleEnvironment.VITE_HTML_PAGE_URLS
     || '{}';
   const htmlPageConfig = parseHtmlPageConfig(htmlPageUrlsRaw, {strict: true});
-  const htmlReportApiConfig = resolveHtmlReportApiConfig({
-    AI_HTML_API_BASE_URL: process.env.AI_HTML_API_BASE_URL
-      ?? htmlApiEnvironment.AI_HTML_API_BASE_URL,
-    AI_HTML_TOKEN: process.env.AI_HTML_TOKEN ?? htmlApiEnvironment.AI_HTML_TOKEN,
-  });
+  const htmlReportApiConfig = buildFromHtml
+    ? null
+    : resolveHtmlReportApiConfig({
+      AI_HTML_API_BASE_URL: process.env.AI_HTML_API_BASE_URL
+        ?? htmlApiEnvironment.AI_HTML_API_BASE_URL,
+      AI_HTML_TOKEN: process.env.AI_HTML_TOKEN ?? htmlApiEnvironment.AI_HTML_TOKEN,
+    });
 
   return {
     envDir: REPOSITORY_ROOT,
@@ -115,9 +136,14 @@ export default defineConfig(({mode}) => {
       react(),
       clickstreamDataPlugin(),
       siblingHtmlPages(htmlPageConfig),
-      htmlReportApiConfig
-        ? htmlReportApiPlugin(htmlReportApiConfig)
-        : siblingHtmlPageManifest(htmlPageConfig),
+      buildFromHtml
+        ? htmlReportFilesPlugin({reportsDirectory: htmlReportsDirectory})
+        : htmlReportApiConfig
+          ? htmlReportApiPlugin({
+            ...htmlReportApiConfig,
+            reportsDirectory: htmlReportsDirectory,
+          })
+          : siblingHtmlPageManifest(htmlPageConfig),
       viteSingleFile(),
     ],
     build: {target: 'es2020'},

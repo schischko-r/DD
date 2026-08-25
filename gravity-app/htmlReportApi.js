@@ -1,4 +1,6 @@
 import {Buffer} from 'node:buffer';
+import {mkdir, readFile, writeFile} from 'node:fs/promises';
+import {resolve} from 'node:path';
 
 export const AI_HTML_REPORT_SKILL_KEYS = Object.freeze([
   'csi',
@@ -65,6 +67,32 @@ export async function fetchHtmlReports({
   }));
 }
 
+export async function readHtmlReports({
+  reportsDirectory,
+  skillKeys = AI_HTML_REPORT_SKILL_KEYS,
+}) {
+  return Promise.all(skillKeys.map(async (skillKey) => {
+    const filePath = resolve(reportsDirectory, `${skillKey}.html`);
+    try {
+      return {skillKey, html: await readFile(filePath, 'utf8')};
+    } catch (error) {
+      if (error?.code === 'ENOENT') {
+        throw new Error(
+          `Downloaded AI HTML report "${skillKey}" not found: ${filePath}`,
+        );
+      }
+      throw error;
+    }
+  }));
+}
+
+export async function writeHtmlReports(reports, reportsDirectory) {
+  await mkdir(reportsDirectory, {recursive: true});
+  await Promise.all(reports.map(({skillKey, html}) => (
+    writeFile(resolve(reportsDirectory, `${skillKey}.html`), html, 'utf8')
+  )));
+}
+
 export function embeddedHtmlReportTags(reports) {
   return reports.map(({skillKey, html}) => ({
     tag: 'script',
@@ -77,7 +105,7 @@ export function embeddedHtmlReportTags(reports) {
   }));
 }
 
-export function htmlReportApiPlugin({fetchImpl, ...config}) {
+export function htmlReportApiPlugin({fetchImpl, reportsDirectory, ...config}) {
   let reportsPromise;
 
   return {
@@ -85,7 +113,25 @@ export function htmlReportApiPlugin({fetchImpl, ...config}) {
     transformIndexHtml: {
       order: 'pre',
       async handler() {
-        reportsPromise ||= fetchHtmlReports({...config, fetchImpl});
+        reportsPromise ||= fetchHtmlReports({...config, fetchImpl}).then(async (reports) => {
+          if (reportsDirectory) await writeHtmlReports(reports, reportsDirectory);
+          return reports;
+        });
+        return embeddedHtmlReportTags(await reportsPromise);
+      },
+    },
+  };
+}
+
+export function htmlReportFilesPlugin(config) {
+  let reportsPromise;
+
+  return {
+    name: 'embed-downloaded-ai-html-reports',
+    transformIndexHtml: {
+      order: 'pre',
+      async handler() {
+        reportsPromise ||= readHtmlReports(config);
         return embeddedHtmlReportTags(await reportsPromise);
       },
     },

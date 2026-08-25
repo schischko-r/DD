@@ -35,6 +35,9 @@ fi
 if [ "${DOTENV_COMMAND+x}" = x ]; then
   printf "DOTENV_COMMAND:%s\\n" "$DOTENV_COMMAND" >> "$COMMAND_LOG"
 fi
+if [ "${AI_HTML_BUILD_FROM_FILES+x}" = x ]; then
+  printf "AI_HTML_BUILD_FROM_FILES:%s\\n" "$AI_HTML_BUILD_FROM_FILES" >> "$COMMAND_LOG"
+fi
 """,
                 encoding="utf-8",
             )
@@ -184,6 +187,15 @@ fi
         self.assertEqual(len(invocations), 1)
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("--with-backlog", invocations[0])
+
+    def test_build_from_html_uses_local_mode_without_forwarding_the_flag(self) -> None:
+        invocations, output = self.run_wrapper("--build-from-html", "--no-upload")
+
+        self.assertEqual(len(invocations), 2)
+        self.assertIn("build_gravity_report.py", invocations[0])
+        self.assertNotIn("--build-from-html", invocations[0])
+        self.assertEqual(invocations[1], "AI_HTML_BUILD_FROM_FILES:1")
+        self.assertIn("API requests are disabled", output)
 
     def test_dotenv_ignores_non_assignment_lines_without_executing_them(self) -> None:
         invocations, _ = self.run_wrapper(

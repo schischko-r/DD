@@ -65,6 +65,7 @@ DATA_ONLY=0
 UPLOAD_ENABLED=1
 UPDATE_PROD=0
 UPDATE_PROD_ONLY=0
+BUILD_FROM_HTML=0
 STANDALONE_OUTPUT="$REPOSITORY_DIR/gravity-standalone.html"
 STANDALONE_OUTPUT_SET=0
 FORWARD_ARGS=()
@@ -89,6 +90,10 @@ while (($# > 0)); do
       ;;
     --upd-prod-only)
       UPDATE_PROD_ONLY=1
+      shift
+      ;;
+    --build-from-html)
+      BUILD_FROM_HTML=1
       shift
       ;;
     --standalone-output)
@@ -119,6 +124,11 @@ if ((DATA_ONLY == 1)); then
 fi
 
 load_env
+
+if ((BUILD_FROM_HTML == 1)); then
+  export AI_HTML_BUILD_FROM_FILES=1
+  echo "Building from downloaded AI HTML reports; API requests are disabled."
+fi
 
 select_python() {
   if [[ -n "${PYTHON:-}" ]]; then
