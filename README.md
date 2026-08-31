@@ -67,6 +67,11 @@ npm run dev
 
 После запуска интерфейс доступен на `http://127.0.0.1:5173`.
 
+Полная standalone-сборка встраивает несколько крупных HTML-отчётов, поэтому
+`build_gravity_report.py` выделяет frontend-процессам Node heap 8192 МБ. Значение
+можно изменить через `HTML_BUILD_NODE_HEAP_MB`; явно заданный
+`--max-old-space-size` в `NODE_OPTIONS` имеет приоритет.
+
 ### Соседние HTML-инструменты
 
 При наличии `AI_HTML_API_BASE_URL` и `AI_HTML_TOKEN` Vite перед сборкой

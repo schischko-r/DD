@@ -69,6 +69,80 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             commands.index([report.NPM_COMMAND, "run", "build"]),
         )
 
+    def test_frontend_build_defaults_to_an_eight_gigabyte_node_heap(self) -> None:
+        args = report.parse_args([])
+
+        with patch.dict(report.os.environ, {}, clear=True), patch.object(report, "run") as run:
+            report.build(args)
+
+        npm_calls = [call for call in run.call_args_list if call.args[0][0] == report.NPM_COMMAND]
+        self.assertEqual(len(npm_calls), 2)
+        for call in npm_calls:
+            self.assertEqual(
+                call.kwargs["environment"]["NODE_OPTIONS"],
+                "--max-old-space-size=8192",
+            )
+
+    def test_frontend_build_preserves_an_explicit_node_heap(self) -> None:
+        args = report.parse_args([])
+        existing_options = "--trace-warnings --max-old-space-size=4096"
+
+        with patch.dict(
+            report.os.environ,
+            {"NODE_OPTIONS": existing_options},
+            clear=False,
+        ), patch.object(report, "run") as run:
+            report.build(args)
+
+        npm_calls = [call for call in run.call_args_list if call.args[0][0] == report.NPM_COMMAND]
+        for call in npm_calls:
+            self.assertEqual(call.kwargs["environment"]["NODE_OPTIONS"], existing_options)
+
+    def test_frontend_build_appends_a_configured_node_heap(self) -> None:
+        args = report.parse_args([])
+
+        with patch.dict(
+            report.os.environ,
+            {
+                "NODE_OPTIONS": "--trace-warnings",
+                "HTML_BUILD_NODE_HEAP_MB": "6144",
+            },
+            clear=False,
+        ), patch.object(report, "run") as run:
+            report.build(args)
+
+        npm_calls = [call for call in run.call_args_list if call.args[0][0] == report.NPM_COMMAND]
+        for call in npm_calls:
+            self.assertEqual(
+                call.kwargs["environment"]["NODE_OPTIONS"],
+                "--trace-warnings --max-old-space-size=6144",
+            )
+
+    def test_frontend_build_rejects_an_invalid_node_heap(self) -> None:
+        args = report.parse_args([])
+
+        with patch.dict(
+            report.os.environ,
+            {"NODE_OPTIONS": "", "HTML_BUILD_NODE_HEAP_MB": "zero"},
+            clear=False,
+        ), patch.object(report, "run"):
+            with self.assertRaisesRegex(ValueError, "must be a positive integer"):
+                report.build(args)
+
+    def test_data_only_does_not_validate_or_use_the_node_heap(self) -> None:
+        args = report.parse_args(["--data-only"])
+
+        with patch.dict(
+            report.os.environ,
+            {"NODE_OPTIONS": "", "HTML_BUILD_NODE_HEAP_MB": "invalid"},
+            clear=False,
+        ), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertEqual(len(commands), 2)
+        self.assertFalse(any(command[0] == report.NPM_COMMAND for command in commands))
+
     def test_legacy_builder_environment_defaults_are_supported(self) -> None:
         environment = {
             "INPUT_FILE": "custom-input.xlsx",

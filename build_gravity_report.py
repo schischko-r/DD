@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -21,6 +22,11 @@ DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlo
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
 DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
+DEFAULT_NODE_HEAP_MB = 8192
+NODE_HEAP_FLAG = re.compile(
+    r"(?:^|\s)--max[-_]old[-_]space[-_]size(?:=|\s)",
+    flags=re.IGNORECASE,
+)
 
 
 def configured_path(variable: str, default: Path) -> Path:
@@ -37,6 +43,30 @@ def run(
     environment: dict[str, str] | None = None,
 ) -> None:
     subprocess.run(command, cwd=cwd, check=True, env=environment)
+
+
+def frontend_environment() -> dict[str, str]:
+    environment = os.environ.copy()
+    node_options = environment.get("NODE_OPTIONS", "").strip()
+    if NODE_HEAP_FLAG.search(node_options):
+        return environment
+
+    configured_heap = environment.get(
+        "HTML_BUILD_NODE_HEAP_MB",
+        str(DEFAULT_NODE_HEAP_MB),
+    ).strip()
+    try:
+        heap_mb = int(configured_heap)
+    except ValueError as error:
+        raise ValueError("HTML_BUILD_NODE_HEAP_MB must be a positive integer") from error
+    if heap_mb <= 0:
+        raise ValueError("HTML_BUILD_NODE_HEAP_MB must be a positive integer")
+
+    heap_option = f"--max-old-space-size={heap_mb}"
+    environment["NODE_OPTIONS"] = (
+        f"{node_options} {heap_option}" if node_options else heap_option
+    )
+    return environment
 
 
 def build(args: argparse.Namespace) -> None:
@@ -77,10 +107,16 @@ def build(args: argparse.Namespace) -> None:
     if args.data_only:
         return
 
-    run([npm_command, "run", "build:clickstream"], cwd=ROOT / "gravity-app")
+    npm_environment = frontend_environment()
+    run(
+        [npm_command, "run", "build:clickstream"],
+        cwd=ROOT / "gravity-app",
+        environment=npm_environment,
+    )
     run(
         [npm_command, "run", "build"],
         cwd=ROOT / "gravity-app",
+        environment=npm_environment,
     )
     standalone_command = [
         sys.executable,
