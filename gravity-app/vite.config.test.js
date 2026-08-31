@@ -14,7 +14,7 @@ const CONTROLLED_ENVIRONMENT_KEYS = [
   'VITE_HTML_PAGE_URLS',
 ];
 
-test('Vite file build ignores API credentials and emits a nine-report disk manifest', async () => {
+test('Vite file build ignores API credentials and emits a seven-report disk manifest', async () => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), 'ddi-vite-html-files-'));
   const reportsDirectory = join(temporaryRoot, 'reports');
   const outputDirectory = join(temporaryRoot, 'dist');

@@ -16,9 +16,7 @@ test('HTML page config exposes every API-supported skill key', () => {
     'client_metrics',
     'pilots',
     'complaints',
-    'digital_index',
     'funnel',
-    'funnel_b2c',
     'clickstream_funnel',
   ]);
 });
@@ -41,12 +39,10 @@ test('embedded API pages extend local config without replacing its fallback meta
   assert.deepEqual(
     mergeEmbeddedHtmlPageConfig(
       {clickstream: localClickstream},
-      ['digital_index', 'funnel_b2c', 'clickstream_funnel', 'unknown'],
+      ['clickstream_funnel', 'unknown'],
     ),
     {
       clickstream: localClickstream,
-      digital_index: {url: '', title: '', icon: ''},
-      funnel_b2c: {url: '', title: '', icon: ''},
       clickstream_funnel: localClickstream,
     },
   );

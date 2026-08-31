@@ -23,16 +23,14 @@ const EXPECTED_SKILL_KEYS = [
   'client_metrics',
   'pilots',
   'complaints',
-  'digital_index',
   'funnel',
-  'funnel_b2c',
   'clickstream_funnel',
 ];
 
-test('build loader and browser catalog use the same nine exact skill keys', () => {
+test('build loader and browser catalog use the same seven exact skill keys', () => {
   assert.deepEqual(AI_HTML_REPORT_SKILL_KEYS, EXPECTED_SKILL_KEYS);
   assert.deepEqual(HTML_PAGE_API_SKILL_KEYS, EXPECTED_SKILL_KEYS);
-  assert.equal(new Set(EXPECTED_SKILL_KEYS).size, 9);
+  assert.equal(new Set(EXPECTED_SKILL_KEYS).size, 7);
 });
 
 test('API configuration is optional but rejects partial credentials', () => {

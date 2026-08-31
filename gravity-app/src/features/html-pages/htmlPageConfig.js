@@ -8,9 +8,7 @@ export const HTML_PAGE_API_SKILL_KEYS = Object.freeze([
   'client_metrics',
   'pilots',
   'complaints',
-  'digital_index',
   'funnel',
-  'funnel_b2c',
   'clickstream_funnel',
 ]);
 
