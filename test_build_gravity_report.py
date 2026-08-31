@@ -204,6 +204,56 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             ],
         )
 
+    def test_api_reports_are_streamed_from_the_download_directory_into_standalone(self) -> None:
+        args = report.parse_args([])
+
+        with patch.dict(
+            report.os.environ,
+            {
+                "AI_HTML_API_BASE_URL": "https://reports.example.test",
+                "AI_HTML_TOKEN": "external-key",
+            },
+            clear=False,
+        ), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        standalone_command = next(
+            command
+            for command in commands
+            if command[1] == str(report.ROOT / "build_gravity_standalone.py")
+        )
+        root_index = standalone_command.index("--html-page-root")
+        self.assertEqual(
+            standalone_command[root_index + 1],
+            str(report.DEFAULT_HTML_REPORTS_DIRECTORY),
+        )
+
+    def test_downloaded_report_directory_can_be_overridden(self) -> None:
+        args = report.parse_args([])
+
+        with patch.dict(
+            report.os.environ,
+            {
+                "AI_HTML_BUILD_FROM_FILES": "1",
+                "AI_HTML_REPORTS_DIR": "custom-reports",
+            },
+            clear=False,
+        ), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        standalone_command = next(
+            command
+            for command in commands
+            if command[1] == str(report.ROOT / "build_gravity_standalone.py")
+        )
+        root_index = standalone_command.index("--html-page-root")
+        self.assertEqual(
+            standalone_command[root_index + 1],
+            str(report.ROOT / "custom-reports"),
+        )
+
     def test_full_build_requires_backlog_source(self) -> None:
         args = report.parse_args([])
 

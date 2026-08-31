@@ -5,11 +5,13 @@ import {join} from 'node:path';
 import test from 'node:test';
 import {
   AI_HTML_REPORT_SKILL_KEYS,
+  downloadHtmlReports,
   embeddedHtmlReportTags,
   fetchHtmlReports,
   htmlReportApiPlugin,
   htmlReportFilesPlugin,
   htmlReportApiUrl,
+  htmlReportManifestTag,
   readHtmlReports,
   resolveHtmlReportApiConfig,
 } from './htmlReportApi.js';
@@ -118,6 +120,44 @@ test('report loader fetches reports sequentially', async () => {
   assert.deepEqual(reports.map(({skillKey}) => skillKey), ['csi', 'drafts', 'pilots']);
 });
 
+test('disk downloader writes each report before requesting the next one', async () => {
+  const reportsDirectory = await mkdtemp(join(tmpdir(), 'ddi-html-download-'));
+  const skillKeys = ['csi', 'drafts'];
+  let calls = 0;
+
+  try {
+    await downloadHtmlReports({
+      baseUrl: 'https://reports.example.test',
+      token: 'test-secret',
+      reportsDirectory,
+      skillKeys,
+      fetchImpl: async (url) => {
+        if (calls === 1) {
+          assert.equal(
+            await readFile(join(reportsDirectory, 'csi.html'), 'utf8'),
+            '<html>csi</html>',
+          );
+        }
+        calls += 1;
+        const skillKey = url.split('/').at(-1);
+        return {
+          ok: true,
+          status: 200,
+          text: async () => `<html>${skillKey}</html>`,
+        };
+      },
+    });
+
+    assert.equal(calls, 2);
+    assert.equal(
+      await readFile(join(reportsDirectory, 'drafts.html'), 'utf8'),
+      '<html>drafts</html>',
+    );
+  } finally {
+    await rm(reportsDirectory, {recursive: true, force: true});
+  }
+});
+
 test('report loader retries HTTP 5xx and temporary network failures', async () => {
   const calls = [];
   const delays = [];
@@ -205,6 +245,10 @@ test('report loader validates retry options before fetching', async () => {
     fetchHtmlReports({...baseOptions, sleepImpl: null}),
     /sleepImpl must be a function/,
   );
+  await assert.rejects(
+    fetchHtmlReports({...baseOptions, onReport: true}),
+    /onReport must be a function/,
+  );
 });
 
 test('report loader fails with a skill-specific status and never exposes the token', async () => {
@@ -252,6 +296,18 @@ test('HTML is base64-encoded in the established inert script markers', () => {
   });
 });
 
+test('report manifest keeps HTML payloads on disk during the Vite build', () => {
+  assert.deepEqual(htmlReportManifestTag(['csi', 'drafts']), {
+    tag: 'script',
+    attrs: {
+      id: 'ddi-html-page-manifest',
+      type: 'application/json',
+    },
+    children: '{"csi":"csi.html","drafts":"drafts.html"}',
+    injectTo: 'head-prepend',
+  });
+});
+
 test('Vite plugin caches mocked fetches and keeps credentials out of emitted tags', async () => {
   const reportsDirectory = await mkdtemp(join(tmpdir(), 'ddi-html-api-'));
   let calls = 0;
@@ -275,6 +331,7 @@ test('Vite plugin caches mocked fetches and keeps credentials out of emitted tag
     const second = await plugin.transformIndexHtml.handler();
 
     assert.deepEqual(second, first);
+    assert.deepEqual(first, [htmlReportManifestTag()]);
     assert.equal(calls, AI_HTML_REPORT_SKILL_KEYS.length);
     assert.doesNotMatch(JSON.stringify(first), /build-only-token/);
     assert.deepEqual(
@@ -292,7 +349,7 @@ test('Vite plugin caches mocked fetches and keeps credentials out of emitted tag
   }
 });
 
-test('local HTML plugin embeds downloaded files without a fetch implementation', async () => {
+test('local HTML plugin verifies downloaded files and emits only a manifest', async () => {
   const reportsDirectory = await mkdtemp(join(tmpdir(), 'ddi-html-files-'));
   await writeFile(join(reportsDirectory, 'csi.html'), '<html>Local CSI</html>');
 
@@ -302,10 +359,7 @@ test('local HTML plugin embeds downloaded files without a fetch implementation',
     const tags = await plugin.transformIndexHtml.handler();
 
     assert.deepEqual(reports, [{skillKey: 'csi', html: '<html>Local CSI</html>'}]);
-    assert.equal(
-      Buffer.from(tags[0].children, 'base64').toString('utf8'),
-      '<html>Local CSI</html>',
-    );
+    assert.deepEqual(tags, [htmlReportManifestTag(['csi'])]);
   } finally {
     await rm(reportsDirectory, {recursive: true, force: true});
   }

@@ -21,6 +21,7 @@ DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlog.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
 DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
+DEFAULT_HTML_REPORTS_DIRECTORY = ROOT / "source-html-reports" / "downloaded"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
 DEFAULT_NODE_HEAP_MB = 8192
 NODE_HEAP_FLAG = re.compile(
@@ -35,6 +36,19 @@ def configured_path(variable: str, default: Path) -> Path:
         return default
     path = Path(value).expanduser()
     return path if path.is_absolute() else ROOT / path
+
+
+def enabled_environment_flag(value: str) -> bool:
+    return value.strip().lower() in {"1", "true", "yes"}
+
+
+def downloaded_html_reports_enabled() -> bool:
+    if enabled_environment_flag(os.getenv("AI_HTML_BUILD_FROM_FILES", "")):
+        return True
+    return bool(
+        os.getenv("AI_HTML_API_BASE_URL", "").strip()
+        and os.getenv("AI_HTML_TOKEN", "").strip()
+    )
 
 
 def run(
@@ -126,6 +140,11 @@ def build(args: argparse.Namespace) -> None:
         "--output",
         str(args.standalone_output),
     ]
+    if downloaded_html_reports_enabled():
+        standalone_command.extend([
+            "--html-page-root",
+            str(configured_path("AI_HTML_REPORTS_DIR", DEFAULT_HTML_REPORTS_DIRECTORY)),
+        ])
     standalone_command.extend(["--backlog-data", str(args.backlog_data)])
     standalone_command.extend(["--initiatives-data", str(args.initiatives_data)])
     run(standalone_command)

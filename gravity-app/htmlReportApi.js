@@ -1,5 +1,5 @@
 import {Buffer} from 'node:buffer';
-import {mkdir, readFile, writeFile} from 'node:fs/promises';
+import {access, mkdir, readFile, writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 
 export const AI_HTML_REPORT_SKILL_KEYS = Object.freeze([
@@ -82,6 +82,8 @@ export async function fetchHtmlReports({
   maxAttempts = DEFAULT_FETCH_ATTEMPTS,
   retryDelayMs = DEFAULT_RETRY_DELAY_MS,
   sleepImpl = wait,
+  onReport,
+  retainReports = true,
 }) {
   if (typeof fetchImpl !== 'function') {
     throw new TypeError('A fetch implementation is required');
@@ -94,6 +96,9 @@ export async function fetchHtmlReports({
   }
   if (typeof sleepImpl !== 'function') {
     throw new TypeError('sleepImpl must be a function');
+  }
+  if (onReport !== undefined && typeof onReport !== 'function') {
+    throw new TypeError('onReport must be a function');
   }
 
   const reports = [];
@@ -150,9 +155,21 @@ export async function fetchHtmlReports({
       }
     }
 
-    reports.push(report);
+    if (onReport) await onReport(report);
+    if (retainReports) reports.push(report);
   }
   return reports;
+}
+
+export async function downloadHtmlReports({reportsDirectory, ...config}) {
+  await mkdir(reportsDirectory, {recursive: true});
+  await fetchHtmlReports({
+    ...config,
+    retainReports: false,
+    async onReport({skillKey, html}) {
+      await writeFile(resolve(reportsDirectory, `${skillKey}.html`), html, 'utf8');
+    },
+  });
 }
 
 export async function readHtmlReports({
@@ -193,34 +210,74 @@ export function embeddedHtmlReportTags(reports) {
   }));
 }
 
+export function htmlReportManifestTag(
+  skillKeys = AI_HTML_REPORT_SKILL_KEYS,
+) {
+  const manifest = Object.fromEntries(
+    skillKeys.map((skillKey) => [skillKey, `${skillKey}.html`]),
+  );
+  return {
+    tag: 'script',
+    attrs: {
+      id: 'ddi-html-page-manifest',
+      type: 'application/json',
+    },
+    children: JSON.stringify(manifest),
+    injectTo: 'head-prepend',
+  };
+}
+
+export async function verifyHtmlReportFiles({
+  reportsDirectory,
+  skillKeys = AI_HTML_REPORT_SKILL_KEYS,
+}) {
+  for (const skillKey of skillKeys) {
+    const filePath = resolve(reportsDirectory, `${skillKey}.html`);
+    try {
+      await access(filePath);
+    } catch (error) {
+      if (error?.code === 'ENOENT') {
+        throw new Error(
+          `Downloaded AI HTML report "${skillKey}" not found: ${filePath}`,
+        );
+      }
+      throw error;
+    }
+  }
+}
+
 export function htmlReportApiPlugin({fetchImpl, reportsDirectory, ...config}) {
-  let reportsPromise;
+  let tagsPromise;
 
   return {
     name: 'embed-ai-html-api-reports',
     transformIndexHtml: {
       order: 'pre',
       async handler() {
-        reportsPromise ||= fetchHtmlReports({...config, fetchImpl}).then(async (reports) => {
-          if (reportsDirectory) await writeHtmlReports(reports, reportsDirectory);
-          return reports;
-        });
-        return embeddedHtmlReportTags(await reportsPromise);
+        tagsPromise ||= reportsDirectory
+          ? downloadHtmlReports({
+            ...config,
+            fetchImpl,
+            reportsDirectory,
+          }).then(() => [htmlReportManifestTag(config.skillKeys)])
+          : fetchHtmlReports({...config, fetchImpl}).then(embeddedHtmlReportTags);
+        return tagsPromise;
       },
     },
   };
 }
 
 export function htmlReportFilesPlugin(config) {
-  let reportsPromise;
+  let tagsPromise;
 
   return {
     name: 'embed-downloaded-ai-html-reports',
     transformIndexHtml: {
       order: 'pre',
       async handler() {
-        reportsPromise ||= readHtmlReports(config);
-        return embeddedHtmlReportTags(await reportsPromise);
+        tagsPromise ||= verifyHtmlReportFiles(config)
+          .then(() => [htmlReportManifestTag(config.skillKeys)]);
+        return tagsPromise;
       },
     },
   };

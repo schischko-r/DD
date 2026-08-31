@@ -14,7 +14,7 @@ const CONTROLLED_ENVIRONMENT_KEYS = [
   'VITE_HTML_PAGE_URLS',
 ];
 
-test('Vite file build ignores API credentials and embeds exactly nine reports', async () => {
+test('Vite file build ignores API credentials and emits a nine-report disk manifest', async () => {
   const temporaryRoot = await mkdtemp(join(tmpdir(), 'ddi-vite-html-files-'));
   const reportsDirectory = join(temporaryRoot, 'reports');
   const outputDirectory = join(temporaryRoot, 'dist');
@@ -63,23 +63,24 @@ test('Vite file build ignores API credentials and embeds exactly nine reports', 
     const builtHtml = await readFile(join(outputDirectory, 'index.html'), 'utf8');
     assert.equal(fetchCalls, 0);
     assert.doesNotMatch(builtHtml, /must-not-be-used|reports\.example\.invalid/);
-    assert.equal(
-      [...builtHtml.matchAll(/data-ddi-html-page-id=/g)].length,
-      AI_HTML_REPORT_SKILL_KEYS.length,
+    assert.equal([...builtHtml.matchAll(/data-ddi-html-page-id=/g)].length, 0);
+    const manifestMatch = builtHtml.match(
+      /<script[^>]*id=["']ddi-html-page-manifest["'][^>]*>(.*?)<\/script>/,
+    );
+    assert.ok(manifestMatch, 'HTML report manifest is missing');
+    assert.deepEqual(
+      JSON.parse(manifestMatch[1]),
+      Object.fromEntries(
+        AI_HTML_REPORT_SKILL_KEYS.map((skillKey) => [skillKey, `${skillKey}.html`]),
+      ),
     );
     for (const skillKey of AI_HTML_REPORT_SKILL_KEYS) {
       assert.equal(
-        [...builtHtml.matchAll(new RegExp(
-          `data-ddi-html-page-id=["']${skillKey}["']`,
-          'g',
-        ))].length,
-        1,
-      );
-      assert.ok(
         builtHtml.includes(Buffer.from(
           `<html><title>fixture-${skillKey}</title></html>`,
           'utf8',
         ).toString('base64')),
+        false,
       );
     }
     assert.equal(

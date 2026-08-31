@@ -77,8 +77,11 @@ npm run dev
 При наличии `AI_HTML_API_BASE_URL` и `AI_HTML_TOKEN` Vite перед сборкой
 загружает готовые HTML-отчёты через
 `GET <base>/api/v1/reports/<skill_key>` с заголовком
-`Authorization: Bearer <AI_HTML_TOKEN>`. Полученный HTML кодируется и
-встраивается в итоговую страницу; токен в браузерный bundle не попадает.
+`Authorization: Bearer <AI_HTML_TOKEN>`. Каждый полученный HTML сразу
+сохраняется на диск. Vite кладёт в промежуточный bundle только компактный
+manifest, а `build_gravity_standalone.py` затем потоково кодирует файлы и
+встраивает их в итоговую страницу; все девять отчётов одновременно в памяти
+не удерживаются. Токен в браузерный bundle не попадает.
 Поддерживаются ключи `csi`, `drafts`, `client_metrics`, `pilots`,
 `complaints`, `digital_index`, `funnel`, `funnel_b2c` и
 `clickstream_funnel`.
