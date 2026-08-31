@@ -91,17 +91,141 @@ test('report loader uses Bearer auth for every supported report', async () => {
   });
 });
 
+test('report loader fetches reports sequentially', async () => {
+  let activeRequests = 0;
+  let maximumActiveRequests = 0;
+
+  const reports = await fetchHtmlReports({
+    baseUrl: 'https://reports.example.test',
+    token: 'test-secret',
+    skillKeys: ['csi', 'drafts', 'pilots'],
+    fetchImpl: async (url) => {
+      activeRequests += 1;
+      maximumActiveRequests = Math.max(maximumActiveRequests, activeRequests);
+      return {
+        ok: true,
+        status: 200,
+        text: async () => {
+          await new Promise((resolvePromise) => setImmediate(resolvePromise));
+          activeRequests -= 1;
+          return `<html>${url}</html>`;
+        },
+      };
+    },
+  });
+
+  assert.equal(maximumActiveRequests, 1);
+  assert.deepEqual(reports.map(({skillKey}) => skillKey), ['csi', 'drafts', 'pilots']);
+});
+
+test('report loader retries HTTP 5xx and temporary network failures', async () => {
+  const calls = [];
+  const delays = [];
+  const reports = await fetchHtmlReports({
+    baseUrl: 'https://reports.example.test',
+    token: 'test-secret',
+    skillKeys: ['csi'],
+    retryDelayMs: 25,
+    sleepImpl: async (milliseconds) => delays.push(milliseconds),
+    fetchImpl: async () => {
+      calls.push(calls.length + 1);
+      if (calls.length === 1) throw new TypeError('temporary socket failure');
+      if (calls.length === 2) {
+        return {
+          ok: false,
+          status: 500,
+          text: async () => JSON.stringify({error: 'temporary render failure'}),
+        };
+      }
+      return {ok: true, status: 200, text: async () => '<html>CSI</html>'};
+    },
+  });
+
+  assert.equal(calls.length, 3);
+  assert.deepEqual(delays, [25, 50]);
+  assert.deepEqual(reports, [{skillKey: 'csi', html: '<html>CSI</html>'}]);
+});
+
+test('report loader does not retry HTTP 401 or 404', async () => {
+  for (const [status, detail] of [
+    [401, 'invalid external key'],
+    [404, 'unsupported skill key'],
+  ]) {
+    let calls = 0;
+    await assert.rejects(
+      fetchHtmlReports({
+        baseUrl: 'https://reports.example.test',
+        token: 'test-secret',
+        skillKeys: ['csi'],
+        sleepImpl: async () => assert.fail('sleep must not be called'),
+        fetchImpl: async () => {
+          calls += 1;
+          return {
+            ok: false,
+            status,
+            text: async () => JSON.stringify({error: detail}),
+          };
+        },
+      }),
+      new RegExp(`HTTP ${status}: ${detail}`),
+    );
+    assert.equal(calls, 1);
+  }
+});
+
+test('report loader validates retry options before fetching', async () => {
+  const baseOptions = {
+    baseUrl: 'https://reports.example.test',
+    token: 'test-secret',
+    skillKeys: [],
+    fetchImpl: async () => assert.fail('fetch must not be called'),
+  };
+
+  await assert.rejects(
+    fetchHtmlReports({...baseOptions, fetchImpl: null}),
+    /fetch implementation is required/,
+  );
+  await assert.rejects(
+    fetchHtmlReports({...baseOptions, maxAttempts: 0}),
+    /maxAttempts must be a positive integer/,
+  );
+  await assert.rejects(
+    fetchHtmlReports({...baseOptions, maxAttempts: 1.5}),
+    /maxAttempts must be a positive integer/,
+  );
+  await assert.rejects(
+    fetchHtmlReports({...baseOptions, retryDelayMs: -1}),
+    /retryDelayMs must be a non-negative number/,
+  );
+  await assert.rejects(
+    fetchHtmlReports({...baseOptions, retryDelayMs: Number.POSITIVE_INFINITY}),
+    /retryDelayMs must be a non-negative number/,
+  );
+  await assert.rejects(
+    fetchHtmlReports({...baseOptions, sleepImpl: null}),
+    /sleepImpl must be a function/,
+  );
+});
+
 test('report loader fails with a skill-specific status and never exposes the token', async () => {
   await assert.rejects(
     fetchHtmlReports({
       baseUrl: 'https://reports.example.test',
       token: 'never-print-this',
       skillKeys: ['csi'],
-      fetchImpl: async () => ({ok: false, status: 503}),
+      maxAttempts: 1,
+      fetchImpl: async () => ({
+        ok: false,
+        status: 503,
+        text: async () => JSON.stringify({
+          error: 'render failed for never-print-this',
+        }),
+      }),
     }),
     (error) => {
       assert.match(error.message, /csi/);
       assert.match(error.message, /503/);
+      assert.match(error.message, /render failed for \[redacted\]/);
       assert.doesNotMatch(error.message, /never-print-this/);
       return true;
     },

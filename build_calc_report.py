@@ -388,7 +388,9 @@ def is_upload_informational_metric(value: Any) -> bool:
 
 
 def is_regularity_share_metric(metric_name: Any) -> bool:
-    return normalize_lookup_key(metric_name) in REGULARITY_METRIC_NAMES
+    normalized = normalize_lookup_key(metric_name)
+    short_name = normalized.rsplit(".", 1)[-1]
+    return short_name in REGULARITY_METRIC_NAMES
 
 
 def fill_auto_regularity_max_from_value(df: Any) -> None:

@@ -1131,7 +1131,7 @@ class SyntheticReportTest(unittest.TestCase):
         frame = report._PD.DataFrame(
             {
                 "metric_group": ["Воронка продаж"],
-                "metric_name_clean": ["Регулярность"],
+                "metric_name_clean": ["Использование.Регулярность (авто)"],
                 "value": report._PD.Series(["0.5"], dtype="string"),
                 "max_value_num": [float("nan")],
                 "max_value": report._PD.Series([report._PD.NA], dtype="string"),
