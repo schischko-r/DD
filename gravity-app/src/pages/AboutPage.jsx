@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ArrowLeft, BarsAscendingAlignLeft, ChartColumn, ChartMixed, CircleInfo, Persons} from '@gravity-ui/icons';
-import {Button, Card, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
+import {Button, Card, Disclosure, Icon, Label, SegmentedRadioGroup, Text} from '@gravity-ui/uikit';
 import questionMascot from '../assets/mascot/question.png';
 import thinkingMascot from '../assets/mascot/thinking.png';
+import {DD_FAQ} from '../data/ddFaq.js';
 import methodologyProfiles from '../data/methodologyCriteria.json';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import {groupMethodologySections, methodologyCriteria, methodologyScoreTheme} from './methodologyPresentation.js';
@@ -21,7 +22,7 @@ function MethodologyContent({body}) {
   </section>)}</div>;
 }
 
-export function AboutPage({onBack}) {
+export function AboutPage({initialSection = '', onBack}) {
   const [methodologyEntityType, setMethodologyEntityType] = useState('product');
   const [methodologyProfileKey, setMethodologyProfileKey] = useState('product');
   const [methodologyGroupTitle, setMethodologyGroupTitle] = useState('');
@@ -29,6 +30,13 @@ export function AboutPage({onBack}) {
   const activeProfile = availableProfiles.find((profile) => profile.key === methodologyProfileKey) || availableProfiles[0];
   const methodologyGroups = groupMethodologySections(activeProfile?.sections || []);
   const activeMethodologyGroup = methodologyGroups.find((group) => group.title === methodologyGroupTitle) || methodologyGroups[0];
+  useEffect(() => {
+    if (!initialSection) return undefined;
+    const frameId = window.requestAnimationFrame(() => {
+      document.getElementById(initialSection)?.scrollIntoView({block: 'start'});
+    });
+    return () => window.cancelAnimationFrame(frameId);
+  }, [initialSection]);
   const selectMethodologyEntityType = (entityType) => {
     setMethodologyEntityType(entityType);
     setMethodologyProfileKey(methodologyProfiles.find((profile) => profile.entityType === entityType)?.key || '');
@@ -126,6 +134,7 @@ export function AboutPage({onBack}) {
         <a href="#system">Принципы</a>
         <a href="#assessment">Формула и шкала</a>
         <a href="#practices">Критерии и баллы</a>
+        <a href="#faq">FAQ</a>
       </nav>
 
       <section className="about-section" id="system">
@@ -205,6 +214,33 @@ export function AboutPage({onBack}) {
             );
           })}</div></section>
         </div>}
+      </section>
+
+      <section className="about-section about-faq" id="faq" aria-labelledby="about-faq-title">
+        <div className="about-faq-heading">
+          <div>
+            <Text variant="caption-2" color="secondary">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</Text>
+            <h2 id="about-faq-title">FAQ по Data-Driven Index</h2>
+            <Text color="secondary">Короткие ответы о расчёте показателей, источниках оценки и отдельных критериях методологии.</Text>
+          </div>
+          <Label theme="info" size="s">{DD_FAQ.length} вопросов</Label>
+        </div>
+        <div className="about-faq-list">
+          {DD_FAQ.map((item, index) => <Disclosure
+            className="about-faq-item"
+            size="l"
+            arrowPosition="end"
+            defaultExpanded={index === 0}
+            summary={<span className="about-faq-question"><span>{String(index + 1).padStart(2, '0')}</span><b>{item.question}</b></span>}
+            key={item.question}
+          >
+            <div className="about-faq-answer">
+              {item.lead && <Text>{item.lead}</Text>}
+              {item.points && <ul>{item.points.map((point) => <li key={point}>{point}</li>)}</ul>}
+              <Text>{item.answer}</Text>
+            </div>
+          </Disclosure>)}
+        </div>
       </section>
 
       </div>

@@ -7,7 +7,8 @@ const profileSource = readFileSync(new URL('./TeamProfilePage.jsx', import.meta.
 const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'utf8');
 
 test('team profile index footer opens the Data Driven methodology page', () => {
-  assert.match(appSource, /<TeamProfilePage [\s\S]*?onAbout=\{\(\) => \{ setView\('about'\); window\.scrollTo\(0, 0\); \}\}[\s\S]*?\/>/);
+  assert.match(appSource, /const openAbout = \(section = ''\) => \{[\s\S]*?setView\('about'\);[\s\S]*?if \(!section\) window\.scrollTo\(0, 0\);[\s\S]*?\};/);
+  assert.match(appSource, /<TeamProfilePage [\s\S]*?onAbout=\{\(\) => openAbout\(\)\}[\s\S]*?\/>/);
   assert.match(profileSource, /Подробнее о подходе и критериях оценки, тут:/);
   assert.match(profileSource, /index-methodology-footer"><Text variant="body-1" color="secondary">/);
   assert.match(profileSource, /<Button view="flat-info" size="s" onClick=\{onAbout\}>Перейти/);

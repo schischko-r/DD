@@ -45,6 +45,7 @@ export function App() {
   const [backlogTeamKey, setBacklogTeamKey] = useState('');
   const [detailScore, setDetailScore] = useState(false);
   const [compact, setCompact] = useState(true);
+  const [aboutSection, setAboutSection] = useState('');
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
   const updateSummaryFilters = useCallback((patch) => {
     setSummaryFilters((current) => ({...current, ...patch}));
@@ -113,6 +114,11 @@ export function App() {
     setView(`html-page:${toolId}`);
     window.scrollTo(0, 0);
   };
+  const openAbout = (section = '') => {
+    setAboutSection(section);
+    setView('about');
+    if (!section) window.scrollTo(0, 0);
+  };
   const activeHtmlPageTool = HTML_PAGE_TOOLS.find(
     (tool) => view === `html-page:${tool.id}`,
   );
@@ -176,7 +182,7 @@ export function App() {
       icon: CircleQuestion,
       qa: 'dd-primary-navigation',
       current: view === 'about',
-      onItemClick: () => setView('about'),
+      onItemClick: () => openAbout(),
     },
     {
       id: 'initiatives',
@@ -213,14 +219,14 @@ export function App() {
     : activeHtmlPageTool
       ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
       : view === 'dashboard'
-        ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
+        ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={openAbout} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
         : view === 'about'
-          ? <AboutPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
+          ? <AboutPage initialSection={aboutSection} onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'initiatives'
             ? <InitiativesBacklogPage />
           : view === 'backlog' && BACKLOG_DECOMPOSITION_ENABLED
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
-            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => { setView('about'); window.scrollTo(0, 0); }} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} cjxplorerProduct={cjxplorerProduct} />;
+            : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => openAbout()} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} cjxplorerProduct={cjxplorerProduct} />;
   return (
     <AsideHeader
       compact={compact}

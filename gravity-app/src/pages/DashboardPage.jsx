@@ -5,11 +5,16 @@ import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, R
 import {antiTopBlockLabel, displayText} from '../domain/report.js';
 import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone} from '../features/catalog/Catalog.jsx';
 
-function DashboardActionCard({icon, title, description, action, onClick}) {
-  return <Card className="dashboard-about-card" type="action" aria-label={`${title}: ${action.toLocaleLowerCase('ru-RU')}`} onClick={onClick}>
-    <div className="dashboard-about-icon"><Icon data={icon} size={24} /></div>
-    <div className="dashboard-about-copy"><Text variant="subheader-2">{title}</Text><Text variant="body-1" color="secondary">{description}</Text></div>
-    <span className="dashboard-about-action">{action} <Icon data={ChevronRight} size={14} /></span>
+function DashboardActionCard({icon, title, description, action, onClick, secondaryAction}) {
+  return <Card className="dashboard-about-card" view="outlined" type="container">
+    <button className="dashboard-about-main" type="button" aria-label={`${title}: ${action.toLocaleLowerCase('ru-RU')}`} onClick={onClick}>
+      <span className="dashboard-about-icon"><Icon data={icon} size={24} /></span>
+      <span className="dashboard-about-copy"><Text variant="subheader-2">{title}</Text><Text variant="body-1" color="secondary">{description}</Text></span>
+    </button>
+    <div className="dashboard-about-actions">
+      <Button view="outlined-info" size="m" onClick={onClick}>{action}</Button>
+      {secondaryAction && <Button view="flat" size="m" onClick={secondaryAction.onClick}>{secondaryAction.label}</Button>}
+    </div>
   </Card>;
 }
 
@@ -152,7 +157,7 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
 
       <section className="dashboard-navigation-cards" aria-label="Дополнительные разделы">
         <DashboardActionCard icon={CircleTree} title="Развитие инструмента" description="Централизованные мероприятия по развитию практик и повышению Data-Driven Index." action="Перейти" onClick={onInitiatives} />
-        <DashboardActionCard icon={CircleInfo} title="О Data Driven" description="Формула индекса, критерии и баллы, правила применимости и шкала зрелости команд." action="Методология" onClick={onAbout} />
+        <DashboardActionCard icon={CircleInfo} title="О Data Driven" description="Формула индекса, критерии и баллы, правила применимости и шкала зрелости команд." action="Методология" onClick={() => onAbout()} secondaryAction={{label: 'FAQ', onClick: () => onAbout('faq')}} />
       </section>
     </main>
   );
