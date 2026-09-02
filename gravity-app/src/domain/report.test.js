@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayText, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayText, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, nextMaturityLevel, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -9,6 +9,15 @@ test('report selectors preserve score and group fallbacks', () => {
   assert.equal(groupFor(product, rows), 'Mature');
   assert.equal(scoreFor(product, []), 0);
   assert.equal(groupFor(product, []), 'Нет данных');
+});
+
+test('next maturity uplift uses the first whole percent of the next level', () => {
+  assert.deepEqual(nextMaturityLevel(39), {name: 'Развивающиеся', threshold: 40});
+  assert.deepEqual(nextMaturityLevel(40), {name: 'Зрелые', threshold: 61});
+  assert.deepEqual(nextMaturityLevel(60), {name: 'Зрелые', threshold: 61});
+  assert.deepEqual(nextMaturityLevel(61), {name: 'Лидеры Data Driven', threshold: 81});
+  assert.deepEqual(nextMaturityLevel(80), {name: 'Лидеры Data Driven', threshold: 81});
+  assert.equal(nextMaturityLevel(81), null);
 });
 
 test('report percentage helpers clamp and aggregate values', () => {

@@ -6,6 +6,15 @@ export function groupFor(product, rows) {
   return rows.find((row) => row.name === product.name && row.unit === product.unit)?.group || '\u041d\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0445';
 }
 
+export function nextMaturityLevel(value) {
+  const score = Number(value);
+  if (!Number.isFinite(score)) return null;
+  if (score < 40) return {name: 'Развивающиеся', threshold: 40};
+  if (score <= 60) return {name: 'Зрелые', threshold: 61};
+  if (score <= 80) return {name: 'Лидеры Data Driven', threshold: 81};
+  return null;
+}
+
 export function percent(value, max) {
   if (!max) return 0;
   return Math.max(0, Math.min(100, Math.round((Number(value) / Number(max)) * 100)));

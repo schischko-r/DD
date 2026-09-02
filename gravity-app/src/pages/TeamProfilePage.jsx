@@ -14,7 +14,7 @@ import {
 } from '../features/html-pages/htmlPageTools.js';
 import {metricAiActionRecommendations} from './teamProfileAiSkillNavigation.js';
 import {flattenRoadmapItems} from './teamProfileRoadmapGroups.js';
-import {displayText, formatRoadmapUplift, roadmapLevelChanged} from '../domain/report.js';
+import {displayText, formatRoadmapUplift, nextMaturityLevel, roadmapLevelChanged} from '../domain/report.js';
 import {CJXplorerDialog} from '../features/cjxplorer/CJXplorerDialog.jsx';
 import {CENTRALIZED_KKD_CDO_URL, INDUSTRIAL_DATA_RESOURCES} from './backlogScenarioRecommendations.js';
 
@@ -818,13 +818,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
   const applicableMetrics = (product.metrics || []).flatMap((block) => block.metrics || []).filter(isDdIndexMetric);
   const earnedPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
   const maxPoints = applicableMetrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
-  const nextLevel = score < 40
-    ? {name: 'Развивающиеся', threshold: 40}
-    : score < 60
-      ? {name: 'Зрелые', threshold: 60}
-      : score < 80
-        ? {name: 'Лидеры Data Driven', threshold: 80}
-        : null;
+  const nextLevel = nextMaturityLevel(score);
   const percentToNextLevel = nextLevel ? Math.max(0, nextLevel.threshold - score) : 0;
   const pointsToNextLevel = nextLevel ? Math.max(0.05, maxPoints * nextLevel.threshold / 100 - earnedPoints) : 0;
   const [detailMode, setDetailMode] = useState('compact');
