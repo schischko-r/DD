@@ -3,7 +3,28 @@ import {ChevronRight, CircleDollar, CircleInfo, CircleTree, NodesRight, Persons}
 import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {antiTopBlockLabel, displayText} from '../domain/report.js';
-import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone} from '../features/catalog/Catalog.jsx';
+import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone, useMediaQuery, wrapRadarLabel} from '../features/catalog/Catalog.jsx';
+
+function DashboardRadarTick({x, y, cx, cy, radius, payload, active, compact = false}) {
+  const lines = wrapRadarLabel(payload?.value, compact ? 9 : 13);
+  const anchor = x < cx - 4 ? 'end' : x > cx + 4 ? 'start' : 'middle';
+  const adjustedX = x + (anchor === 'start' ? 3 : anchor === 'end' ? -3 : 0);
+  const lineHeight = 10;
+  const dx = x - cx;
+  const dy = y - cy;
+  const distance = Math.hypot(dx, dy) || 1;
+  const spokeRadius = Number(radius) || distance * 0.78;
+  const endX = cx + dx * spokeRadius / distance;
+  const endY = cy + dy * spokeRadius / distance;
+  return (
+    <g>
+      {active && <line className="dashboard-radar-spoke-active" x1={cx} y1={cy} x2={endX} y2={endY} />}
+      <text x={adjustedX} y={y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={anchor} dominantBaseline="central">
+        {lines.map((line, index) => <tspan key={`${line}-${index}`} x={adjustedX} dy={index === 0 ? -((lines.length - 1) * lineHeight) / 2 : lineHeight}>{line}</tspan>)}
+      </text>
+    </g>
+  );
+}
 
 function DashboardActionCard({icon, title, description, action, onClick, secondaryAction}) {
   return <Card className="dashboard-about-card" view="outlined" type="container">
@@ -19,6 +40,7 @@ function DashboardActionCard({icon, title, description, action, onClick, seconda
 }
 
 export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout, onInitiatives}) {
+  const compactRadar = useMediaQuery('(max-width: 560px)');
   const [catalogType, setCatalogType] = useState('');
   const [catalogMaturity, setCatalogMaturity] = useState(null);
   const [teamContactOpen, setTeamContactOpen] = useState(false);
@@ -151,7 +173,7 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
       <CatalogDialogFiltered openType={catalogType} openMaturity={catalogMaturity} products={scopedProducts} rows={rows} onOpen={onOpen} onClose={() => { setCatalogType(''); setCatalogMaturity(null); }} />
 
       <section className="dashboard-analysis-grid">
-        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2></div><div className="dashboard-radar-score" aria-label={`Средний Data-Driven Index B2C: ${radarAverage === null ? 'нет данных' : `${radarAverage}%`}`}><div><strong>{radarAverage === null ? '—' : radarAverage}</strong>{radarAverage !== null && <span>%</span>}</div><small>Средний Data-Driven Index B2C</small></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius="62%"><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => { const active = props.payload.value === hoveredBlock; const dx = props.x - props.cx; const dy = props.y - props.cy; const distance = Math.hypot(dx, dy) || 1; const radius = Number(props.radius) || distance * 0.78; const endX = props.cx + dx * radius / distance; const endY = props.cy + dy * radius / distance; return <g>{active && <line className="dashboard-radar-spoke-active" x1={props.cx} y1={props.cy} x2={endX} y2={endY} />}<text x={props.x} y={props.y} className={active ? 'dashboard-radar-axis-active' : 'dashboard-radar-axis'} textAnchor={props.textAnchor} dominantBaseline="central">{props.payload.value}</text></g>; }} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-text-secondary)" dotRadius={2} />} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-base-info-heavy)" dotRadius={3} />} />}</RadarChart></ResponsiveContainer></div></Card>
+        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2></div><div className="dashboard-radar-score" aria-label={`Средний Data-Driven Index B2C: ${radarAverage === null ? 'нет данных' : `${radarAverage}%`}`}><div><strong>{radarAverage === null ? '—' : radarAverage}</strong>{radarAverage !== null && <span>%</span>}</div><small>Средний Data-Driven Index B2C</small></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius={compactRadar ? '38%' : '55%'}><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => <DashboardRadarTick {...props} compact={compactRadar} active={props.payload.value === hoveredBlock} />} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-text-secondary)" dotRadius={2} />} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-base-info-heavy)" dotRadius={3} />} />}</RadarChart></ResponsiveContainer></div></Card>
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{displayText(item.name)}</b><small className="dashboard-antitop-block" title={antiTopBlockLabel(item.block)}>{antiTopBlockLabel(item.block)}</small></div><div className="dashboard-antitop-result"><strong>{item.incompleteShare}%</strong><small>{item.incompleteTeams} из {item.teams} команд</small></div></div>)}</div></Card>
       </section>
 

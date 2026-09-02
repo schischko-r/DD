@@ -25,8 +25,21 @@ export function wrapRadarLabel(value, maxLength = 15) {
   }, []);
 }
 
-export function ProductRadarTick({x, y, cx, payload}) {
-  const lines = wrapRadarLabel(payload?.value);
+export function useMediaQuery(query) {
+  const getMatch = () => typeof window !== 'undefined' && window.matchMedia(query).matches;
+  const [matches, setMatches] = useState(getMatch);
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    const update = () => setMatches(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, [query]);
+  return matches;
+}
+
+export function ProductRadarTick({x, y, cx, payload, compact = false}) {
+  const lines = wrapRadarLabel(payload?.value, compact ? 9 : 13);
   const anchor = x < cx - 4 ? 'end' : x > cx + 4 ? 'start' : 'middle';
   const adjustedX = x + (anchor === 'start' ? 4 : anchor === 'end' ? -4 : 0);
   const lineHeight = 11;
