@@ -1629,6 +1629,20 @@ class SyntheticReportTest(unittest.TestCase):
 
         self.assertEqual(report.find_crosssell_item(index, decomposed, "уб")["name"], composed)
 
+    def test_crosssell_matching_maps_deposit_and_savings_profile_to_deposits(self) -> None:
+        deposits = {"name": "Вклады", "uid": "вклады", "unit": "CBP"}
+        index = report.crosssell_items_by_name([deposits])
+
+        self.assertIs(report.find_crosssell_item(index, "Вклады+НС", "CBP"), deposits)
+        self.assertIs(report.find_crosssell_item(index, "Вклады + НС", "CBP"), deposits)
+
+    def test_crosssell_exact_name_wins_over_deposit_alias(self) -> None:
+        deposits = {"name": "Вклады", "uid": "вклады", "unit": "CBP"}
+        combined = {"name": "Вклады+НС", "uid": "вклады-нс", "unit": "CBP"}
+        index = report.crosssell_items_by_name([deposits, combined])
+
+        self.assertIs(report.find_crosssell_item(index, "Вклады+НС", "CBP"), combined)
+
     def test_crosssell_absolute_deeplink_is_preserved(self) -> None:
         absolute = "https://product-lens.example/cross-sell#product=осаго"
         marker = {"cross_sell": {"deeplink": absolute}}

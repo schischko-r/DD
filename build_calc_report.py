@@ -974,6 +974,12 @@ def normalize_crosssell_key(value: Any) -> str:
     return re.sub(r"\s+", " ", normalized).strip()
 
 
+CROSSSELL_PRODUCT_NAME_ALIASES = {
+    "вклады+нс": "вклады",
+    "вклады + нс": "вклады",
+}
+
+
 def crosssell_items_by_name(items: list[dict[str, Any]]) -> dict[str, list[dict[str, Any]]]:
     result: dict[str, list[dict[str, Any]]] = {}
     for item in items:
@@ -990,7 +996,11 @@ def find_crosssell_item(
     name: Any,
     unit: Any,
 ) -> dict[str, Any] | None:
-    candidates = index.get(normalize_crosssell_key(name), [])
+    name_key = normalize_crosssell_key(name)
+    candidates = index.get(name_key, [])
+    if not candidates:
+        alias_key = CROSSSELL_PRODUCT_NAME_ALIASES.get(name_key, "")
+        candidates = index.get(alias_key, []) if alias_key else []
     if len(candidates) == 1:
         return candidates[0]
     unit_key = normalize_crosssell_key(unit)
