@@ -25,7 +25,7 @@ test('cross-sell preview shows the recommendation title and canonical LossHunter
   );
   assert.match(
     profileSource,
-    /<RecommendationBody item=\{[^}]*recommendation[^}]*\}/,
+    /<RecommendationBody item=\{[^}]*recommendation[^}]*\} hideRejectedCrossSellCandidates/,
   );
   assert.match(
     profileSource,

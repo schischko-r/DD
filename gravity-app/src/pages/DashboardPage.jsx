@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {ChevronRight, CircleDollar, CircleInfo, CircleTree, NodesRight, Persons} from '@gravity-ui/icons';
 import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {antiTopBlockLabel, displayText} from '../domain/report.js';
+import {antiTopBlockLabel, displayProductName, displayText} from '../domain/report.js';
 import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone, useMediaQuery, wrapRadarLabel} from '../features/catalog/Catalog.jsx';
 
 function DashboardRadarTick({x, y, cx, cy, radius, payload, active, compact = false}) {
@@ -34,7 +34,7 @@ function DashboardActionCard({icon, title, description, action, onClick, seconda
     </button>
     <div className="dashboard-about-actions">
       <Button view="outlined-info" size="m" onClick={onClick}>{action}</Button>
-      {secondaryAction && <Button view="flat" size="m" onClick={secondaryAction.onClick}>{secondaryAction.label}</Button>}
+      {secondaryAction && <Button view="outlined-info" size="m" onClick={secondaryAction.onClick}>{secondaryAction.label}</Button>}
     </div>
   </Card>;
 }
@@ -66,7 +66,7 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
   }, []);
   const teamMatches = useMemo(() => {
     const normalizedQuery = teamQuery.trim().toLowerCase();
-    return scopedProducts.filter((item) => [item.name, item.type, item.unit]
+    return scopedProducts.filter((item) => [displayProductName(item.name), item.name, item.type, item.unit]
       .filter(Boolean)
       .some((value) => !normalizedQuery || value.toLowerCase().includes(normalizedQuery)))
       .sort((a, b) => compareNames(a.name, b.name));
@@ -146,7 +146,7 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
             <TextInput value={teamQuery} onUpdate={setTeamQuery} placeholder={unit ? `Команды юнита ${unit}` : 'Все команды'} size="m" hasClear />
             {teamSearchOpen && <div className="dashboard-team-search-menu" role="listbox" aria-label={unit ? `Команды юнита ${unit}` : 'Все команды'}>
               <div className="dashboard-team-search-menu-meta">{unit ? `Юнит ${unit}` : 'Все юниты'} · {teamMatches.length} команд</div>
-              {teamMatches.length ? teamMatches.map((item) => <Button key={item.id} view="flat" width="max" role="option" onClick={() => { setTeamSearchOpen(false); setTeamQuery(''); onOpen(item); }}><span className="dashboard-team-search-result"><b>{item.name}</b><small>{item.type} · {item.unit}</small></span></Button>) : <Text color="secondary">Команда не найдена</Text>}
+              {teamMatches.length ? teamMatches.map((item) => <Button key={item.id} view="flat" width="max" role="option" onClick={() => { setTeamSearchOpen(false); setTeamQuery(''); onOpen(item); }}><span className="dashboard-team-search-result"><b>{displayProductName(item.name)}</b><small>{item.type} · {item.unit}</small></span></Button>) : <Text color="secondary">Команда не найдена</Text>}
             </div>}
           </div>
           <label className="dashboard-period"><span>Период</span><Select value={period ? [period] : []} onUpdate={(value) => onSummaryFiltersChange({period: value[0] || ''})} width={190}>{periods.map((item) => <Select.Option key={item} value={item}>{item}</Select.Option>)}</Select></label>

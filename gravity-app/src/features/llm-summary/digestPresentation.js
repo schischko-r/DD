@@ -52,12 +52,16 @@ export function hasManualValidationWarning(items) {
   return (items || []).some((item) => item.requires_manual_validation === true);
 }
 
-export function crossSellMarketPresentation(item) {
+export function crossSellMarketPresentation(item, {hideRejectedCandidates = false} = {}) {
   const market = item?.crosssell_market;
   if (!market || typeof market !== 'object' || Array.isArray(market)) return null;
   const candidatesNew = market.candidates_new == null ? null : Number(market.candidates_new);
   const candidates = (Array.isArray(item.crosssell_candidates) ? item.crosssell_candidates : [])
     .filter((candidate) => candidate && typeof candidate === 'object')
+    .filter((candidate) => !hideRejectedCandidates || (
+      String(candidate.status || '').trim().toLowerCase() !== 'rejected'
+      && String(candidate.status_label || '').trim() !== 'Решено · не будем предлагать'
+    ))
     .map((candidate) => ({
       key: String(candidate.key || '').trim(),
       from: String(candidate.from || '').trim(),

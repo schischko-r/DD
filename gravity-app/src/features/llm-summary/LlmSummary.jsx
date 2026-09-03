@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {ChevronDown, ChevronRight, TriangleExclamationFill} from '@gravity-ui/icons';
 import {Alert, Button, Card, Disclosure, Icon, Label, Link, SegmentedRadioGroup, Text, Tooltip} from '@gravity-ui/uikit';
-import {filterInapplicableMetricGroups} from '../../domain/report.js';
+import {displayProductName, filterInapplicableMetricGroups} from '../../domain/report.js';
 import {BUTTON_INTENT, SemanticButton} from '../../shared/ui/SemanticButton.jsx';
 import {crossSellMarketPresentation, crossSellWaitingDecisionCount, digestStatus, digestTheme, presentableRecommendations, readableDigestRule, recommendationSkillLink, worstDigestLight} from './digestPresentation.js';
 
@@ -91,9 +91,11 @@ function CrossSellMarket({presentation}) {
   </section>;
 }
 
-export function RecommendationBody({item, useText = false}) {
+export function RecommendationBody({item, useText = false, hideRejectedCrossSellCandidates = false}) {
   const hasCrossSellSummary = item.skill_key === 'cross_sell' && item.api_seen_around_n != null;
-  const marketPresentation = item.skill_key === 'cross_sell' ? crossSellMarketPresentation(item) : null;
+  const marketPresentation = item.skill_key === 'cross_sell'
+    ? crossSellMarketPresentation(item, {hideRejectedCandidates: hideRejectedCrossSellCandidates})
+    : null;
   const waitingDecisionCount = item.skill_key === 'cross_sell'
     ? crossSellWaitingDecisionCount(item, marketPresentation)
     : null;
@@ -163,7 +165,7 @@ export function ProductMetricRecommendations({product}) {
       {recommendations.length === 0 ? (
         <Card className="metric-recommendations-empty" view="outlined">
           <Text variant="subheader-1">Рекомендаций пока нет</Text>
-          <Text variant="body-1" color="secondary">Для {product.type.toLowerCase()} «{product.name}» пока нет доступных рекомендаций.</Text>
+          <Text variant="body-1" color="secondary">Для {product.type.toLowerCase()} «{displayProductName(product.name)}» пока нет доступных рекомендаций.</Text>
         </Card>
       ) : (
         <>

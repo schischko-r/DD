@@ -785,17 +785,21 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .about-faq-heading > div { min-width: 0; display: grid; gap: 7px; }
 .about-faq-heading h2 { margin: 0; }
 .about-faq-heading > div > .g-text:last-child { max-width: 680px; line-height: 1.5; }
-.about-faq-heading > .g-label { margin-top: 3px; flex: none; font-variant-numeric: tabular-nums; }
+.about-faq-heading > .g-label { margin-top: 3px; flex: none; background: var(--g-color-base-selection); box-shadow: inset 0 0 0 1px var(--g-color-line-brand); color: var(--g-color-text-brand-heavy); font-variant-numeric: tabular-nums; }
 .about-faq-list { width: 100%; margin-top: 24px; border: 1px solid var(--g-color-line-generic); border-radius: 8px; background: var(--g-color-base-background); overflow: hidden; }
 .about-faq-item { --about-faq-inline: 18px; --about-faq-number: 28px; --about-faq-gap: 12px; --about-faq-arrow-space: 24px; }
 .about-faq-item + .about-faq-item { border-top: 1px solid var(--g-color-line-generic); }
 .about-faq-item .g-disclosure__trigger { min-height: 64px; padding: 14px var(--about-faq-inline); transition: background-color .15s cubic-bezier(.23, 1, .32, 1); }
-.about-faq-item .g-disclosure__trigger:hover { background: var(--g-color-base-simple-hover); }
+.about-faq-item .g-disclosure__trigger:hover { background: var(--g-color-base-selection); }
+.about-faq-item .g-disclosure__trigger[aria-expanded="true"] { background: var(--g-color-base-selection); box-shadow: inset 3px 0 var(--g-color-line-brand); }
+.about-faq-item .g-disclosure__trigger[aria-expanded="true"]:hover { background: var(--g-color-base-selection-hover); }
+.about-faq-item .g-disclosure__trigger .g-arrow-toggle { color: var(--g-color-text-brand-heavy); }
 .about-faq-item .g-disclosure__content { padding: 0 calc(var(--about-faq-inline) + var(--about-faq-arrow-space)) 20px calc(var(--about-faq-inline) + var(--about-faq-number) + var(--about-faq-gap)); }
 .about-faq-question { min-width: 0; width: 100%; display: grid; grid-template-columns: var(--about-faq-number) minmax(0, 1fr); align-items: start; gap: var(--about-faq-gap); text-align: left; }
-.about-faq-question > span { padding-top: 2px; color: var(--g-color-text-secondary); font-size: 11px; font-weight: 500; line-height: 1.45; font-variant-numeric: tabular-nums; }
+.about-faq-question > span { padding-top: 2px; color: var(--g-color-text-brand-heavy); font-size: 11px; font-weight: 500; line-height: 1.45; font-variant-numeric: tabular-nums; }
 .about-faq-question > b { min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.45; overflow-wrap: anywhere; text-wrap: pretty; }
-.about-faq-answer { max-width: 760px; display: grid; gap: 10px; color: var(--g-color-text-secondary); }
+.about-faq-item .g-disclosure__trigger[aria-expanded="true"] .about-faq-question > b { color: var(--g-color-text-brand-heavy); }
+.about-faq-answer { width: 100%; max-width: none; display: grid; gap: 10px; color: var(--g-color-text-secondary); }
 .about-faq-answer .g-text { font-size: 13px; line-height: 1.6; }
 .about-faq-answer ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 13px; line-height: 1.55; }
 .about-summary-cta { min-height: 112px; margin-top: 64px; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid var(--g-color-line-generic); border-bottom: 1px solid var(--g-color-line-generic); background: var(--g-color-base-background); }
@@ -925,6 +929,8 @@ h3 { margin-bottom: 4px; font-size: 14px; }
   .index-card { border-right: 0; border-bottom: 1px solid var(--g-color-line-generic); }
   .index-profile-card, .top-recommendations { min-height: auto; }
   .metric-row { grid-template-columns: 1fr; }
+  .metric-row-status { grid-template-columns: minmax(0, 1fr) max-content; align-items: start; }
+  .metric-row-status .metric-value, .metric-row-status .metric-status-with-confirmation { width: auto; }
   .dashboard-header { padding-bottom: 18px; }
   .dashboard-header-actions { grid-template-areas: 'unit' 'search' 'period'; grid-template-columns: 1fr; }
   .dashboard-team-search, .dashboard-unit-filter, .dashboard-period { width: 100%; }

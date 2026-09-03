@@ -147,6 +147,26 @@ test('cross-sell market presentation keeps the snapshot and whole decision histo
   );
 });
 
+test('cross-sell preview presentation hides only rejected candidates when requested', () => {
+  const item = {
+    crosssell_market: {candidates_new: 3},
+    crosssell_candidates: [
+      {key: 'wait', status: 'wait', status_label: 'Ждёт решения'},
+      {key: 'rejected', status: 'rejected', status_label: 'Решено · не будем предлагать'},
+      {key: 'accepted', status: 'accepted', status_label: 'Решено · будем предлагать'},
+    ],
+  };
+
+  assert.deepEqual(
+    crossSellMarketPresentation(item, {hideRejectedCandidates: true}).candidates.map(({key}) => key),
+    ['wait', 'accepted'],
+  );
+  assert.deepEqual(
+    crossSellMarketPresentation(item).candidates.map(({key}) => key),
+    ['wait', 'rejected', 'accepted'],
+  );
+});
+
 test('cross-sell market presentation distinguishes missing research from a researched zero', () => {
   assert.equal(crossSellMarketPresentation({}), null);
   assert.equal(crossSellMarketPresentation({

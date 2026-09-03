@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {ArrowDown, ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Button, Dialog, Icon, Label, Progress, SegmentedRadioGroup, Text, TextInput} from '@gravity-ui/uikit';
 import {Dot, Polygon} from 'recharts';
-import {allocateIndexUplifts, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, metricSkillLinks, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from '../../domain/report.js';
+import {allocateIndexUplifts, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayProductName, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, metricSkillLinks, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from '../../domain/report.js';
 import {collectBlockLinks, linksForBlock} from './blockLinks.js';
 import {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS} from './keyMetricLinks.js';
 
@@ -175,7 +175,7 @@ export function CatalogDialog({openType, products, rows, onOpen, onClose}) {
     const tone = maturityTheme(item.group);
     return (
       <button type="button" className={`catalog-row catalog-item-row ${className} tone-${tone}`} key={key} onClick={() => openItem(item)}>
-        <span className="catalog-title"><span className={`type-label type-label-${typeTone(item.type)}`}>{item.type}</span><b title={item.name}>{item.name}</b></span>
+        <span className="catalog-title"><span className={`type-label type-label-${typeTone(item.type)}`}>{item.type}</span><b title={displayProductName(item.name)}>{displayProductName(item.name)}</b></span>
         <span>{item.type}</span>
         <strong>{item.score}%</strong>
         <Label theme={tone}>{item.group}</Label>
@@ -262,7 +262,8 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
       const unitMatches = normalizedQuery && unit.name.toLocaleLowerCase().includes(normalizedQuery);
       const items = !normalizedQuery || unitMatches
         ? unit.items
-        : unit.items.filter((item) => item.name.toLocaleLowerCase().includes(normalizedQuery));
+        : unit.items.filter((item) => [displayProductName(item.name), item.name]
+          .some((name) => name.toLocaleLowerCase().includes(normalizedQuery)));
       const sortedItems = [...items].sort((a, b) => sort === 'score'
         ? (b.score - a.score) || compareNames(a.name, b.name)
         : compareNames(a.name, b.name));
@@ -283,7 +284,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
     const tone = maturityTheme(item.group);
     return (
       <button type="button" className={`catalog-row catalog-item-row tone-${tone}`} key={key} onClick={() => { onClose(); onOpen(item); }}>
-        <span className="catalog-title"><b title={item.name}>{item.name}</b></span>
+        <span className="catalog-title"><b title={displayProductName(item.name)}>{displayProductName(item.name)}</b></span>
         {flat && <span>{item.unit}</span>}
         <strong>{item.score}%</strong>
         <Label theme={tone}>{item.group}</Label>

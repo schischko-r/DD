@@ -48,7 +48,28 @@ test('FAQ deep-link survives the view transition and stacks cleanly on mobile', 
   assert.match(aboutPageSource, /document\.getElementById\(initialSection\)\?\.scrollIntoView\(\{block: 'start'\}\)/);
   assert.match(stylesSource, /\.about-faq-list\s*\{[^}]*width:\s*100%/s);
   assert.doesNotMatch(stylesSource, /\.about-faq-list\s*\{[^}]*max-width:/s);
+  assert.match(stylesSource, /\.about-faq-answer\s*\{[^}]*width:\s*100%[^}]*max-width:\s*none/s);
+  assert.doesNotMatch(stylesSource, /\.about-faq-answer\s*\{[^}]*max-width:\s*760px/s);
   assert.match(stylesSource, /\.about-faq-item \.g-disclosure__trigger\s*\{[^}]*min-height:\s*64px/s);
   assert.match(stylesSource, /\.about-faq-item \.g-disclosure__content\s*\{[^}]*padding:\s*0 calc\(var\(--about-faq-inline\) \+ var\(--about-faq-arrow-space\)\) 20px calc\(var\(--about-faq-inline\) \+ var\(--about-faq-number\) \+ var\(--about-faq-gap\)\)/s);
   assert.match(stylesSource, /@media \(max-width:\s*760px\)[^\n]*\.about-faq-heading\s*\{[^}]*display:\s*grid[^\n]*\.about-faq-item\s*\{[^}]*--about-faq-inline:\s*10px[^\n]*\.about-faq-item \.g-disclosure__content\s*\{[^}]*padding-bottom:\s*18px/s);
+});
+
+test('FAQ reuses the methodology surface, borders, and brand interaction tokens', () => {
+  assert.match(aboutPageSource, /<Label theme="clear" size="s">\{DD_FAQ\.length\} вопросов<\/Label>/);
+  assert.doesNotMatch(aboutPageSource, /<Label theme="info" size="s">\{DD_FAQ\.length\} вопросов<\/Label>/);
+  assert.match(stylesSource, /\.about-faq-heading > \.g-label\s*\{[^}]*background:\s*var\(--g-color-base-selection\)[^}]*box-shadow:\s*inset 0 0 0 1px var\(--g-color-line-brand\)[^}]*color:\s*var\(--g-color-text-brand-heavy\)/s);
+  assert.match(stylesSource, /\.about-faq-list\s*\{[^}]*border:\s*1px solid var\(--g-color-line-generic\)[^}]*background:\s*var\(--g-color-base-background\)/s);
+  assert.match(stylesSource, /\.about-faq-item \.g-disclosure__trigger:hover\s*\{[^}]*background:\s*var\(--g-color-base-selection\)/s);
+  assert.match(stylesSource, /\.about-faq-item \.g-disclosure__trigger\[aria-expanded="true"\]\s*\{[^}]*background:\s*var\(--g-color-base-selection\)[^}]*box-shadow:\s*inset 3px 0 var\(--g-color-line-brand\)/s);
+  assert.match(stylesSource, /\.about-faq-item \.g-disclosure__trigger\[aria-expanded="true"\]:hover\s*\{[^}]*background:\s*var\(--g-color-base-selection-hover\)/s);
+  assert.match(stylesSource, /\.about-faq-item \.g-disclosure__trigger \.g-arrow-toggle\s*\{[^}]*color:\s*var\(--g-color-text-brand-heavy\)/s);
+  assert.match(stylesSource, /\.about-faq-question > span\s*\{[^}]*color:\s*var\(--g-color-text-brand-heavy\)/s);
+  assert.doesNotMatch(stylesSource, /\.about-faq-item \.g-disclosure__trigger:hover\s*\{[^}]*var\(--g-color-base-simple-hover\)/s);
+});
+
+test('Summary renders FAQ with the same button color as Methodology', () => {
+  const matchingButtons = dashboardSource.match(/<Button view="outlined-info" size="m" onClick=\{[^}]+\}>/g) || [];
+  assert.equal(matchingButtons.length, 2);
+  assert.doesNotMatch(dashboardSource, /secondaryAction && <Button view="flat"/);
 });

@@ -15,7 +15,7 @@ function methodologySection(profileKey, title, subgroup = '') {
 
 test('methodology sections with the same title are grouped into subsections', () => {
   const groups = groupMethodologySections([
-    {title: 'Воронка', subgroup: 'Отчетность'},
+    {title: 'Воронка', subgroup: 'Отчётность'},
     {title: 'Воронка', subgroup: 'Анализ'},
     {title: 'Алерты', subgroup: ''},
   ]);
@@ -90,10 +90,10 @@ test('product churn reporting uses its own exact scope while attraction stays un
   const attractionScope = 'источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный/когортный разрез, UX/UI';
   const popupAttractionScope = 'источники привлечения, пошаговая воронка, CR (% конверсии), объёмы, механики, сегментный или когортный разрез, UX/UI';
 
-  assert.ok(methodologySection('product', 'Воронка оттока', 'Отчетность').body.includes(churnScope));
+  assert.ok(methodologySection('product', 'Воронка оттока', 'Отчётность').body.includes(churnScope));
   assert.ok(aboutPageSource.includes(`Комплексный отчёт: ${churnScope}.`));
   assert.ok(teamProfilePageSource.includes(`reportScope: '${popupChurnScope}'`));
-  assert.ok(methodologySection('product', 'Воронка привлечения/оформления', 'Отчетность').body.includes(attractionScope));
+  assert.ok(methodologySection('product', 'Воронка привлечения/оформления', 'Отчётность').body.includes(attractionScope));
   assert.ok(teamProfilePageSource.includes(`reportScope: '${popupAttractionScope}'`));
 });
 
@@ -122,9 +122,48 @@ test('research and A/B half-score rows occur once in every profile and use warni
   }
 });
 
+test('methodology profiles keep corrected spelling in the audited criteria', () => {
+  const forbiddenForms = [
+    /отсутсвет|отсуствует|отсутсвует|отсутсвют|остутсвуют/iu,
+    /кварталл/iu,
+    /бизнес метрик/iu,
+    /как минимум 1 инициативы/iu,
+    /Отчетность/u,
+    /дешборд/iu,
+  ];
+
+  assert.equal(methodologyProfiles.length, 6);
+  for (const profile of methodologyProfiles) {
+    const profileText = JSON.stringify(profile);
+    for (const forbiddenForm of forbiddenForms) {
+      assert.doesNotMatch(profileText, forbiddenForm, `${profile.key}: ${forbiddenForm}`);
+    }
+    assert.match(methodologySection(profile.key, 'Алерты').body, /бизнес-метрикам/iu, profile.key);
+  }
+
+  const reportingSections = methodologyProfiles.flatMap(({sections}) => sections).filter(({subgroup}) => subgroup === 'Отчётность');
+  assert.equal(reportingSections.length, 9);
+
+  const methodologyText = JSON.stringify(methodologyProfiles);
+  assert.equal((methodologyText.match(/как минимум одной инициативы/g) || []).length, 4);
+  assert.match(methodologyText, /данные предыдущего квартала/);
+  assert.match(methodologySection('product', 'UX / CX Score').body, /На основе дашборда "CX Score"/);
+  assert.match(methodologySection('channel_digital', 'UX / CX Score').body, /0,5 балла \(50%\) — жёлтая зона UX Score/);
+  assert.ok(teamProfilePageSource.includes(`<b>0,5 балла (50%)</b> — жёлтая зона UX Score.`));
+});
+
+test('goals help limits assessment to the Navigator unit master dashboard and keeps the score scale', () => {
+  const assessmentScope = 'Для полного выполнения требования цели, факторный анализ (драйверы 1–2-го уровня) и прогнозы должны быть отражены именно в Мастер-дэше юнита в Навигаторе. Локальные и другие дашборды не заменяют Мастер-дэш и дают только частичную оценку по шкале ниже.';
+
+  assert.ok(teamProfilePageSource.includes(`<p>${assessmentScope}</p>`));
+  assert.ok(teamProfilePageSource.includes(`<b>1 балл (100%)</b> — мониторинг в Навигаторе`));
+  assert.ok(teamProfilePageSource.includes(`<b>0,5 балла (50%)</b> — мониторинг в локальной отчётности (не в Навигаторе).`));
+  assert.ok(teamProfilePageSource.includes(`<b>0 баллов (0%)</b> — мониторинг отсутствует.`));
+});
+
 test('product CX methodology and team popup share the CX Score dashboard source and yellow score', () => {
   const cxBody = methodologySection('product', 'UX / CX Score').body;
-  const source = 'На основе дешборда "CX Score"';
+  const source = 'На основе дашборда "CX Score"';
   const yellowScore = '0,5 балла (50%) — жёлтая зона CX Score';
 
   assert.ok(cxBody.includes(source));

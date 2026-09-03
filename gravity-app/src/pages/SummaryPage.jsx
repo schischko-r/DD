@@ -2,6 +2,7 @@ import React, {useMemo, useState} from 'react';
 import {ArrowDown} from '@gravity-ui/icons';
 import {Button, Icon, Label, Progress, SegmentedRadioGroup, Select} from '@gravity-ui/uikit';
 import {CatalogDialog, compareNames, groupFor, isUnitFilterOption, scoreFor, typeTone} from '../features/catalog/Catalog.jsx';
+import {displayProductName} from '../domain/report.js';
 
 export function SummaryPage({products, rows, initialType = '', unitFilter = '', onUnitFilterChange}) {
   const unit = unitFilter ? [unitFilter] : [];
@@ -56,7 +57,7 @@ export function SummaryPage({products, rows, initialType = '', unitFilter = '', 
           {group.items.map((row) => {
             const tone = maturityTheme(row.group);
             return <div className={`report-row tone-${tone}`} key={row.id}>
-              <div className="team-cell"><span className={`type-label type-label-${typeTone(row.type)}`}>{row.type}</span><b title={row.name}>{row.name}</b></div>
+              <div className="team-cell"><span className={`type-label type-label-${typeTone(row.type)}`}>{row.type}</span><b title={displayProductName(row.name)}>{displayProductName(row.name)}</b></div>
               <div className="score-cell"><strong>{row.score}%</strong><Progress value={row.score} theme={tone} size="xs" /></div>
               <div><Label theme={tone}>{row.group}</Label></div>
               <div><Button view="outlined-info" disabled>Перейти</Button></div>

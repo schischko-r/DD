@@ -92,7 +92,7 @@ export function AboutPage({initialSection = '', onBack}) {
       {section: 'Мониторинг', name: 'Есть метрики эффективности механик.', points: '0,25 балла'},
     ]},
     {title: 'Гипотезы и инициативы', text: 'Исследовательская загрузка аналитиков, качество исследований и инициативы сверх бизнес-плана.', criteria: [{name: 'Не менее 40% бэклога аналитиков приходится на исследования.', points: '1 балл'}, {name: 'Не менее 20% бэклога приходится на исследования.', points: '0,5 балла'}, {name: 'Средняя оценка исследований с начала года не ниже 7,5.', points: '1 балл'}, {name: 'Есть минимум одна доходная или расходная инициатива сверх БП.', points: '1 балл'}]},
-    {title: 'Клиентский опыт', text: 'На основе дешборда "CX Score".', criteria: [{name: 'Зелёная зона CX Score.', points: '1 балл (100%)'}, {name: 'Жёлтая зона CX Score.', points: '0,5 балла (50%)'}]},
+    {title: 'Клиентский опыт', text: 'На основе дашборда "CX Score".', criteria: [{name: 'Зелёная зона CX Score.', points: '1 балл (100%)'}, {name: 'Жёлтая зона CX Score.', points: '0,5 балла (50%)'}]},
   ];
   const levels = [
     {range: '<40%', title: 'Требуют внимания', note: 'Нет устойчивого фундамента', tone: 'attention'},
@@ -223,7 +223,7 @@ export function AboutPage({initialSection = '', onBack}) {
             <h2 id="about-faq-title">FAQ по Data-Driven Index</h2>
             <Text color="secondary">Короткие ответы о расчёте показателей, источниках оценки и отдельных критериях методологии.</Text>
           </div>
-          <Label theme="info" size="s">{DD_FAQ.length} вопросов</Label>
+          <Label theme="clear" size="s">{DD_FAQ.length} вопросов</Label>
         </div>
         <div className="about-faq-list">
           {DD_FAQ.map((item, index) => <Disclosure

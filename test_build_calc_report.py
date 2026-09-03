@@ -608,6 +608,20 @@ class SyntheticReportTest(unittest.TestCase):
             expected,
         )
 
+    def test_hypothesis_library_link_uses_the_mapp_library(self) -> None:
+        expected = "https://mapp.sberbank.ru/b2cda/page/52475"
+        self.assertEqual(report.HYP_LIBRARY_URL, expected)
+        self.assertEqual(
+            report._DD_FROM_EXCEL["COMMON_BUTTONS"]["hyp_library"]["link"],
+            expected,
+        )
+        self.assertEqual(
+            report._DD_FROM_EXCEL["metric_button_for_code"](
+                "hyp.datadriven_rating_7_5", {}
+            )["link"],
+            expected,
+        )
+
     def test_master_dash_notice_is_added_only_for_team_with_zero_coverage_fact(self) -> None:
         data = {
             "products": [

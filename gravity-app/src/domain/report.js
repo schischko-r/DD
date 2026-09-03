@@ -26,6 +26,17 @@ export function displayText(value) {
     .replace(/\bupsell\b/gi, 'up-sell');
 }
 
+const PRODUCT_DISPLAY_NAMES = {
+  'кредитные карты': 'Кредитная карта',
+  'дебетовые карты': 'Дебетовая карта',
+  'детские карты': 'Детская карта',
+};
+
+export function displayProductName(value) {
+  const name = String(value || '').trim();
+  return PRODUCT_DISPLAY_NAMES[name.toLocaleLowerCase('ru-RU')] || name;
+}
+
 export function formatRoadmapUplift(value) {
   if (value == null || String(value).trim() === '') return '';
   const uplift = Number(value);

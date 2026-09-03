@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayText, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, nextMaturityLevel, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
+import {allocateIndexUplifts, antiTopBlockLabel, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayProductName, displayText, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isReportMetricRelevant, isTbdMetric, metricDomId, metricSkillLinks, nextMaturityLevel, normalizeCrossSellAnalyticsLink, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from './report.js';
 
 test('report selectors preserve score and group fallbacks', () => {
   const product = {name: 'Team', unit: 'Unit'};
@@ -31,6 +31,13 @@ test('display copy uses the hyphenated up-sell spelling', () => {
   assert.equal(displayText('Допродажи (upsell)'), 'Допродажи (up-sell)');
   assert.equal(displayText('Работа с upsell-механикой'), 'Работа с up-sell-механикой');
   assert.equal(displayText('Использование.Регулярность (авто)'), 'Регулярность (авто)');
+});
+
+test('card product names are synchronized in the frontend only', () => {
+  assert.equal(displayProductName('Кредитные карты'), 'Кредитная карта');
+  assert.equal(displayProductName('Дебетовая карта'), 'Дебетовая карта');
+  assert.equal(displayProductName('Детская карта'), 'Детская карта');
+  assert.equal(displayProductName('Другой продукт'), 'Другой продукт');
 });
 
 test('recommendation uplifts add up to the remaining displayed index', () => {

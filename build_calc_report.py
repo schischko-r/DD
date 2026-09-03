@@ -69,6 +69,8 @@ _DD_FROM_EXCEL["COMMON_BUTTONS"]["attract_pilot_campaigns"]["link"] = PILOT_CAMP
 _DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["attract_pilots"]["link"] = PILOT_CAMPAIGNS_URL
 CSI_SKILL_URL = "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053756"
 _DD_FROM_EXCEL["AI_SKILL_BUTTONS"]["cx.csi"]["link"] = CSI_SKILL_URL
+HYP_LIBRARY_URL = "https://mapp.sberbank.ru/b2cda/page/52475"
+_DD_FROM_EXCEL["COMMON_BUTTONS"]["hyp_library"]["link"] = HYP_LIBRARY_URL
 MASTER_DASH_COVERAGE_VALUE = "В навигаторе (покрытие >90% целей)"
 MASTER_DASH_ENRICHMENT_NOTICE = "Для обогащения мастер-деша обратитесь в штаб Юнита"
 _DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")

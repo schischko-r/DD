@@ -75,6 +75,14 @@ test('team profile labels goals and CX blocks for their audience', () => {
   assert.match(profileSource, /name: teamProfileBlockTitle\(block\)/);
 });
 
+test('key metrics source help explains PO survey verification against dashboard data', () => {
+  assert.match(
+    profileSource,
+    /Расчёт на основании опроса PO с верификацией по цифровым следам: ответы продукта сверяются с данными дашборда по ключевым метрикам\./,
+  );
+  assert.doesNotMatch(profileSource, /На основании пройденной самооценки в Oprosso/);
+});
+
 test('funnel regularity is visually nested under reporting only in funnel blocks', () => {
   const {isFunnelReportingRegularity} = funnelRegularityContext.funnelRegularityApi;
   assert.equal(isFunnelReportingRegularity({code: 'attract'}, {name: 'Регулярность'}), true);
@@ -640,4 +648,15 @@ test('uplift is absent from the metric name and uses transparent green Label sty
   )?.[0] || '';
   assert.match(upliftHoverStyles, /box-shadow:\s*inset 0 0 0 2px var\(--g-color-line-positive\);/);
   assert.doesNotMatch(upliftHoverStyles, /--_--bg-color/);
+});
+
+test('compact metric status stays aligned with its copy on narrow screens', () => {
+  assert.match(
+    stylesSource,
+    /@media \(max-width: 820px\)[\s\S]*?\.metric-row-status\s*\{\s*grid-template-columns:\s*minmax\(0, 1fr\) max-content;\s*align-items:\s*start;\s*\}/,
+  );
+  assert.match(
+    stylesSource,
+    /\.metric-row-status \.metric-value, \.metric-row-status \.metric-status-with-confirmation\s*\{\s*width:\s*auto;\s*\}/,
+  );
 });
