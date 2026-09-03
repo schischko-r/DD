@@ -30,6 +30,7 @@ const PRODUCT_DISPLAY_NAMES = {
   'кредитные карты': 'Кредитная карта',
   'дебетовые карты': 'Дебетовая карта',
   'детские карты': 'Детская карта',
+  'sberpay вжух': 'Вжух',
 };
 
 export function displayProductName(value) {
