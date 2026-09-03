@@ -9,6 +9,8 @@ const GROUPING_OPTIONS = [
   {value: 'directions', content: 'Направления'},
   {value: 'scenarios', content: 'Сценарии'},
 ];
+const DEFAULT_DISCOVERY_DIRECTION = 'Аналитика';
+const DISCOVERY_TASK_TOOLTIP = 'Discovery задача';
 const DISCOVERY_TARGET = 40;
 const STORY_POINTS_TARGET = 90;
 const STORY_POINTS_GUIDE_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15525024800';
@@ -47,6 +49,21 @@ function itemKey(item) {
 
 function itemLabel(item) {
   return String(item?.label || item?.name || item?.code || item?.key || 'Без категории');
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+}
+
+function backlogLegendItemText(categoryName, grouping, discoveryDirectionLabel) {
+  const label = escapeHtml(categoryName);
+  if (grouping !== 'directions' || categoryName !== discoveryDirectionLabel) return label;
+  return `${label}<span class="backlog-discovery-marker" tabindex="0" role="img" aria-label="${DISCOVERY_TASK_TOOLTIP}" title="${DISCOVERY_TASK_TOOLTIP}" data-tooltip="${DISCOVERY_TASK_TOOLTIP}"><span aria-hidden="true">✓</span></span>`;
 }
 
 function metric(source, ...keys) {
@@ -324,7 +341,7 @@ export function buildBacklogCategoryFilterOptions(months = [], grouping = 'direc
   return [{value: '', content: 'Все'}, ...categories];
 }
 
-export function buildBacklogChartData(months = [], grouping = 'directions', scaleMonths = months, categoryFilter = '') {
+export function buildBacklogChartData(months = [], grouping = 'directions', scaleMonths = months, categoryFilter = '', discoveryDirectionLabel = DEFAULT_DISCOVERY_DIRECTION) {
   const categories = [];
   const categoryByKey = new Map();
 
@@ -355,7 +372,7 @@ export function buildBacklogChartData(months = [], grouping = 'directions', scal
 
   return {
     chart: {margin: {top: 8, right: 16, bottom: 4, left: 4}},
-    legend: {enabled: true, position: 'bottom', align: 'left', justifyContent: 'start', itemDistance: 12, margin: 12},
+    legend: {enabled: true, html: true, position: 'bottom', align: 'left', justifyContent: 'start', itemDistance: 12, margin: 12},
     tooltip: {
       enabled: true,
       sorting: {key: 'value', direction: 'desc'},
@@ -371,19 +388,23 @@ export function buildBacklogChartData(months = [], grouping = 'directions', scal
       grid: {enabled: true},
       plotLines: buildQuarterReferenceLine(scaleMax, referenceLabel),
     }],
-    series: {data: categories.map((category) => ({
-      type: 'bar-x',
-      name: category.name,
-      stacking: 'normal',
-      borderRadius: 1,
-      dataLabels: {enabled: false},
-      data: months.map((month, index) => {
-        const items = Array.isArray(month?.[grouping]) ? month[grouping] : [];
-        const item = items.find((candidate) => itemKey(candidate) === category.key);
-        const value = Number(item?.count);
-        return {x: index, y: Number.isFinite(value) ? value : 0};
-      }),
-    }))},
+    series: {data: categories.map((category) => {
+      const legendItemText = backlogLegendItemText(category.name, grouping, discoveryDirectionLabel);
+      return {
+        type: 'bar-x',
+        name: category.name,
+        legend: {itemText: legendItemText},
+        stacking: 'normal',
+        borderRadius: 1,
+        dataLabels: {enabled: false},
+        data: months.map((month, index) => {
+          const items = Array.isArray(month?.[grouping]) ? month[grouping] : [];
+          const item = items.find((candidate) => itemKey(candidate) === category.key);
+          const value = Number(item?.count);
+          return {x: index, y: Number.isFinite(value) ? value : 0};
+        }),
+      };
+    })},
   };
 }
 
@@ -784,11 +805,12 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const quarter = quarters.find((item) => quarterKey(item) === selectedQuarterKey) || defaultQuarter;
   const selectedMonths = useMemo(() => monthsForQuarter(months, quarter), [months, quarter]);
   const visibleMonths = useMemo(() => monthsThroughQuarter(months, quarter), [months, quarter]);
+  const discoveryDirectionLabel = String(team?.meta?.discoveryDefinition?.directionLabel || DEFAULT_DISCOVERY_DIRECTION);
   const categoryFilterOptions = useMemo(() => buildBacklogCategoryFilterOptions(visibleMonths, grouping), [grouping, visibleMonths]);
   useEffect(() => {
     if (!categoryFilterOptions.some((option) => option.value === categoryFilter)) setCategoryFilter('');
   }, [categoryFilter, categoryFilterOptions]);
-  const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths, categoryFilter), [categoryFilter, grouping, selectedMonths, visibleMonths]);
+  const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths, categoryFilter, discoveryDirectionLabel), [categoryFilter, discoveryDirectionLabel, grouping, selectedMonths, visibleMonths]);
   const dashboard = useMemo(() => buildDashboardInsights(quarter), [quarter]);
   const teamOptions = useMemo(() => teams.map((item) => ({value: String(item?.key), content: String(item?.label || item?.key)})), [teams]);
   const quarterOptions = useMemo(() => quarters.map((item) => ({value: quarterKey(item), content: quarterLabel(item)})), [quarters]);

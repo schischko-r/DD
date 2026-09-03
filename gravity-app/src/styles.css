@@ -571,6 +571,10 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .backlog-chart-card, .backlog-ranking-card { min-height: 386px; min-width: 0; }
 .backlog-controls { min-width: 0; }
 .backlog-chart { width: 100%; height: 306px; }
+.backlog-chart .gcharts-legend__item-text-html:has(.backlog-discovery-marker) { overflow: visible; }
+.backlog-discovery-marker { position: relative; width: 16px; height: 16px; margin-inline-start: 4px; display: inline-flex; align-items: center; justify-content: center; color: var(--g-color-text-positive); font-size: 14px; font-weight: 700; line-height: 1; vertical-align: -2px; cursor: help; }
+.backlog-discovery-marker:hover::after, .backlog-discovery-marker:focus-visible::after { position: absolute; z-index: 2; bottom: calc(100% + 6px); left: 50%; padding: 6px 8px; border-radius: 6px; background: var(--g-color-base-float-heavy); color: var(--g-color-text-light-primary); content: attr(data-tooltip); font-size: 12px; font-weight: 400; line-height: 16px; white-space: nowrap; transform: translateX(-50%); pointer-events: none; }
+.backlog-discovery-marker:focus-visible { outline: 2px solid var(--g-color-line-focus); outline-offset: 2px; }
 .backlog-ranking-chart { width: 100%; height: 292px; }
 .backlog-chart-empty { height: 296px; }
 .backlog-actions-grid { margin-top: 14px; display: grid; grid-template-columns: 1fr; gap: 12px; }

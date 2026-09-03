@@ -11,6 +11,7 @@ const backlogStylesEnd = stylesSource.indexOf('.dashboard-radar-card', backlogSt
 const backlogBaseStyles = stylesSource.slice(backlogStylesStart, backlogStylesEnd);
 const backlogResponsiveStyles = stylesSource.split('\n').filter((line) => line.includes('@media') && line.includes('.backlog')).join('\n');
 const backlogStyleRules = `${backlogBaseStyles}\n${backlogResponsiveStyles}`;
+const backlogChromeStyleRules = backlogStyleRules.split('\n').filter((line) => !line.includes('backlog-discovery-marker') && !line.includes('gcharts-legend__item-text-html')).join('\n');
 
 const helpersStart = pageSource.indexOf('const GROUPING_OPTIONS');
 const helpersEnd = pageSource.indexOf('function KpiCard');
@@ -634,8 +635,8 @@ test('backlog dashboard keeps component chrome strictly inside Gravity UI', () =
     assert.match(pageSource, new RegExp(`\\b${component}\\b`));
   }
   assert.doesNotMatch(pageSource, /popupClassName|backlog-select-popup/);
-  assert.doesNotMatch(backlogStyleRules, /\.g-|border(?:-radius|-color)?\s*:|background\s*:|box-shadow\s*:|color\s*:|font-(?:size|weight)\s*:/);
-  assert.doesNotMatch(backlogStyleRules, /::(?:before|after)|\.is-(?:warning|positive|danger|success|info)/);
+  assert.doesNotMatch(backlogChromeStyleRules, /\.g-|border(?:-radius|-color)?\s*:|background\s*:|box-shadow\s*:|color\s*:|font-(?:size|weight)\s*:/);
+  assert.doesNotMatch(backlogChromeStyleRules, /::(?:before|after)|\.is-(?:warning|positive|danger|success|info)/);
   assert.doesNotMatch(pageSource, /<i\b|backlog-ranking-track/);
 });
 
@@ -679,7 +680,7 @@ test('team selector switches complete datasets and preserves top-level fallback'
 });
 
 test('stacked Created chart shows history only through the selected quarter with a quarter stack reference line', () => {
-  assert.match(pageSource, /buildBacklogChartData\(visibleMonths, grouping, selectedMonths, categoryFilter\)/);
+  assert.match(pageSource, /buildBacklogChartData\(visibleMonths, grouping, selectedMonths, categoryFilter, discoveryDirectionLabel\)/);
   assert.doesNotMatch(pageSource, /buildBacklogChartData\(months, grouping, selectedMonths\)/);
   const history = [
     {key: '2024-01', label: 'Январь', directions: [
@@ -738,6 +739,44 @@ test('structure chart category filter offers contextual categories and filters a
   assert.deepEqual(chart.series.data[0].data.map((point) => point.y), [3, 4]);
   assert.equal(chart.yAxis[0].plotLines[0].value, 4);
   assert.match(pageSource, /setGrouping\(value\[0\] \|\| 'directions'\); setCategoryFilter\(''\);/);
+});
+
+test('structure chart marks only the Discovery direction with an accessible green check', () => {
+  const months = [{
+    key: '2024-01',
+    label: 'Январь',
+    directions: [
+      {key: 'research', label: 'Исследования', count: 3},
+      {key: 'ordinary', label: '<img src=x onerror="alert(1)">', count: 2},
+    ],
+    scenarios: [{key: 'ordinary-scenario', label: "<script>alert('x')</script>", count: 1}],
+  }];
+
+  const directionsChart = buildBacklogChartData(months, 'directions', months, '', 'Исследования');
+  const discoverySeries = directionsChart.series.data.find((series) => series.name === 'Исследования');
+  const regularSeries = directionsChart.series.data.find((series) => series.name.startsWith('<img'));
+  const scenarioSeries = buildBacklogChartData(months, 'scenarios', months, '', 'Исследования').series.data[0];
+  const fallbackDiscoverySeries = buildBacklogChartData([{
+    key: '2024-01',
+    directions: [{key: 'analytics', label: 'Аналитика', count: 1}],
+  }], 'directions').series.data[0];
+
+  assert.equal(directionsChart.legend.html, true);
+  assert.match(discoverySeries.legend.itemText, /backlog-discovery-marker/);
+  assert.match(discoverySeries.legend.itemText, /aria-label="Discovery задача"/);
+  assert.match(discoverySeries.legend.itemText, /data-tooltip="Discovery задача"/);
+  assert.match(discoverySeries.legend.itemText, />✓<\/span>/);
+  assert.equal(regularSeries.legend.itemText, '&lt;img src=x onerror=&quot;alert(1)&quot;&gt;');
+  assert.equal(scenarioSeries.legend.itemText, '&lt;script&gt;alert(&#039;x&#039;)&lt;/script&gt;');
+  assert.doesNotMatch(regularSeries.legend.itemText, /backlog-discovery-marker|<img/);
+  assert.doesNotMatch(scenarioSeries.legend.itemText, /backlog-discovery-marker|<script/);
+  assert.match(fallbackDiscoverySeries.legend.itemText, /backlog-discovery-marker/);
+  assert.match(stylesSource, /\.backlog-discovery-marker\s*\{[^}]*color:\s*var\(--g-color-text-positive\)/s);
+  assert.match(stylesSource, /\.backlog-discovery-marker:(?:hover|focus-visible)::after[^}]*content:\s*attr\(data-tooltip\)/s);
+
+  const methodSource = pageSource.slice(pageSource.indexOf('<Card className="backlog-method-note"'));
+  assert.doesNotMatch(methodSource, /Discovery задача|backlog-discovery-marker/);
+  assert.match(methodSource, /Discovery, рутина и автоматизация считаются внутри Created-когорты/);
 });
 
 test('Created semantics remain explicit alongside selected-quarter delivery quality KPIs', () => {
