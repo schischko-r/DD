@@ -103,7 +103,7 @@ test('data quality metric reuses the centralized KКД instruction from backlog 
 
 test('industrial data metric reuses FeatureStore and materials from backlog recommendations', () => {
   assert.match(profileSource, /\^dannye\\\.promyshlenye_dannye\$\/i/);
-  assert.match(profileSource, /title="Инструкции и материалы" subtitle="по опромышливанию данных" actions=\{INDUSTRIAL_DATA_RESOURCES\}/);
+  assert.match(profileSource, /title="Инструкции и материалы" subtitle="по опромышливанию данных" actions=\{industrialDataResourcesFor\(product\.name\)\}/);
   assert.match(profileSource, /function MetricInlineResources\(\{title, subtitle, actions\}\)/);
 });
 

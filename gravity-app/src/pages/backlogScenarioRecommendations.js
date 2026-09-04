@@ -1,5 +1,6 @@
 export const CENTRALIZED_KKD_CDO_URL = 'https://mapp.sberbank.ru/sberdataproducts/page/49403';
 export const FEATURE_STORE_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=21560591134';
+export const SBERID_ELK_DATA_MART_STANDARD_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=23607905608';
 export const FEATURE_STORE_RESOURCE = Object.freeze({label: 'FeatureStore', href: FEATURE_STORE_URL});
 export const DATA_MARTS_RESOURCES = Object.freeze([
   {label: 'Стандарт проектирования витрин', href: 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=23607905561'},
@@ -10,6 +11,14 @@ export const INDUSTRIAL_DATA_RESOURCES = Object.freeze([
   FEATURE_STORE_RESOURCE,
   ...DATA_MARTS_RESOURCES,
 ]);
+
+export function industrialDataResourcesFor(productName) {
+  const name = String(productName || '').trim().toLocaleLowerCase('ru-RU');
+  if (!['sberid', 'елк', 'единый личный кабинет (елк)'].includes(name)) return INDUSTRIAL_DATA_RESOURCES;
+  return INDUSTRIAL_DATA_RESOURCES.map((resource) => resource.label === 'Стандарт проектирования витрин'
+    ? {...resource, href: SBERID_ELK_DATA_MART_STANDARD_URL}
+    : resource);
+}
 
 export const DD_SCENARIO_RECOMMENDATIONS = [
   {

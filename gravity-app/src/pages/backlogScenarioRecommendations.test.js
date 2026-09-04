@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {CENTRALIZED_KKD_CDO_URL, DATA_MARTS_RESOURCES, DD_SCENARIO_RECOMMENDATIONS, FEATURE_STORE_URL, INDUSTRIAL_DATA_RESOURCES} from './backlogScenarioRecommendations.js';
+import {CENTRALIZED_KKD_CDO_URL, DATA_MARTS_RESOURCES, DD_SCENARIO_RECOMMENDATIONS, FEATURE_STORE_URL, INDUSTRIAL_DATA_RESOURCES, SBERID_ELK_DATA_MART_STANDARD_URL, industrialDataResourcesFor} from './backlogScenarioRecommendations.js';
 import {isMetricAbove} from './RecommendationCell.js';
 
 const pageSource = readFileSync(new URL('./BacklogDecompositionPage.jsx', import.meta.url), 'utf8');
@@ -101,6 +101,11 @@ test('scenario recommendation source preserves the approved rows and exact copy'
   const dataMarts = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === 'data_marts');
   assert.equal(dataMarts.resources, DATA_MARTS_RESOURCES);
   assert.deepEqual(INDUSTRIAL_DATA_RESOURCES.map((item) => item.label), ['FeatureStore', 'Стандарт проектирования витрин', 'Шаблон базовых витрин', 'Контакты CDO']);
+  for (const productName of ['SberID', 'ЕЛК', 'Единый личный кабинет (ЕЛК)']) {
+    const standard = industrialDataResourcesFor(productName).find((item) => item.label === 'Стандарт проектирования витрин');
+    assert.equal(standard.href, SBERID_ELK_DATA_MART_STANDARD_URL);
+  }
+  assert.equal(industrialDataResourcesFor('Другой продукт'), INDUSTRIAL_DATA_RESOURCES);
 
   for (const key of ['excel_reports', 'presentations']) {
     const exEl = DD_SCENARIO_RECOMMENDATIONS.find((item) => item.key === key);
