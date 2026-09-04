@@ -1108,6 +1108,26 @@
       "discoveryTarget": 40,
       "discoveryGap": -17.91,
       "discoveryConfirmed": false,
+      "discoveryScenarios": [
+        {
+          "key": "metrics_calculation",
+          "label": "Расчет метрик",
+          "count": 47,
+          "share": 65.28
+        },
+        {
+          "key": "customer_experience_analytics",
+          "label": "Аналитика клиентского опыта",
+          "count": 19,
+          "share": 26.39
+        },
+        {
+          "key": "methodology_dev",
+          "label": "Разработка методологии",
+          "count": 6,
+          "share": 8.33
+        }
+      ],
       "endBacklogMedianAgeDays": 36.0,
       "endBacklogAged30Count": 95,
       "unknownCount": 15,
@@ -1694,6 +1714,26 @@
       "discoveryTarget": 40,
       "discoveryGap": -21.12,
       "discoveryConfirmed": false,
+      "discoveryScenarios": [
+        {
+          "key": "customer_experience_analytics",
+          "label": "Аналитика клиентского опыта",
+          "count": 49,
+          "share": 52.13
+        },
+        {
+          "key": "metrics_calculation",
+          "label": "Расчет метрик",
+          "count": 43,
+          "share": 45.74
+        },
+        {
+          "key": "methodology_dev",
+          "label": "Разработка методологии",
+          "count": 2,
+          "share": 2.13
+        }
+      ],
       "endBacklogMedianAgeDays": 78.0,
       "endBacklogAged30Count": 290,
       "unknownCount": 41,
@@ -3655,6 +3695,26 @@
           "discoveryTarget": 40,
           "discoveryGap": -17.91,
           "discoveryConfirmed": false,
+          "discoveryScenarios": [
+            {
+              "key": "metrics_calculation",
+              "label": "Расчет метрик",
+              "count": 47,
+              "share": 65.28
+            },
+            {
+              "key": "customer_experience_analytics",
+              "label": "Аналитика клиентского опыта",
+              "count": 19,
+              "share": 26.39
+            },
+            {
+              "key": "methodology_dev",
+              "label": "Разработка методологии",
+              "count": 6,
+              "share": 8.33
+            }
+          ],
           "endBacklogMedianAgeDays": 36.0,
           "endBacklogAged30Count": 95,
           "unknownCount": 15,
@@ -4241,6 +4301,26 @@
           "discoveryTarget": 40,
           "discoveryGap": -21.12,
           "discoveryConfirmed": false,
+          "discoveryScenarios": [
+            {
+              "key": "customer_experience_analytics",
+              "label": "Аналитика клиентского опыта",
+              "count": 49,
+              "share": 52.13
+            },
+            {
+              "key": "metrics_calculation",
+              "label": "Расчет метрик",
+              "count": 43,
+              "share": 45.74
+            },
+            {
+              "key": "methodology_dev",
+              "label": "Разработка методологии",
+              "count": 2,
+              "share": 2.13
+            }
+          ],
           "endBacklogMedianAgeDays": 78.0,
           "endBacklogAged30Count": 290,
           "unknownCount": 41,

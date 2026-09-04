@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Chart} from '@gravity-ui/charts';
 import {ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo} from '@gravity-ui/icons';
-import {Box, Button, Card, Divider, Flex, Icon, Label, Link, Modal, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
+import {Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label, Link, Modal, Popover, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
 import {RecommendationCell} from './RecommendationCell.js';
 
@@ -12,6 +12,8 @@ const GROUPING_OPTIONS = [
 const DEFAULT_DISCOVERY_DIRECTION = 'Аналитика';
 const DISCOVERY_TASK_TOOLTIP = 'Discovery задача';
 const DISCOVERY_TARGET = 40;
+const DISCOVERY_SOURCE_NOTE = 'Рассчитано на основе цифровых следов пространства команды в SberTrack/Jira, указанного PO при прохождении опроса. Тикеты были размечены на направления при помощи RAG с LLM, предварительно обученной на обучающей выборке из 2.5k заранее промаркированных тикетов.';
+const DISCOVERY_BUCKET_LEAD = 'В бакет «Discovery» учитываются направления:';
 const STORY_POINTS_TARGET = 90;
 const STORY_POINTS_GUIDE_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15525024800';
 const QUARTER_REFERENCE_COLOR = 'var(--g-color-line-generic)';
@@ -554,6 +556,39 @@ export function buildDashboardInsights(quarter = {}) {
   return {insights: insights.slice(0, 5), recommendations, missingDiscovery, gap, confirmed: discoveryShare >= DISCOVERY_TARGET};
 }
 
+export function buildDiscoveryDirectionBreakdown(quarter = {}, discoveryDirectionLabel = DEFAULT_DISCOVERY_DIRECTION) {
+  const directions = Array.isArray(quarter?.directions) ? quarter.directions : [];
+  const counted = new Set(
+    (Array.isArray(discoveryDirectionLabel) ? discoveryDirectionLabel : [discoveryDirectionLabel])
+      .map((label) => String(label || '').trim())
+      .filter(Boolean),
+  );
+  const rows = directions
+    .map((direction) => {
+      const label = String(direction?.label || direction?.key || '').trim();
+      const count = Number(direction?.count) || 0;
+      return {label, count, counted: counted.has(label)};
+    })
+    .filter((row) => row.label)
+    .sort((a, b) => (Number(b.counted) - Number(a.counted)) || (b.count - a.count) || a.label.localeCompare(b.label, 'ru'));
+  const total = rows.reduce((sum, row) => sum + row.count, 0);
+  const countedTotal = rows.filter((row) => row.counted).reduce((sum, row) => sum + row.count, 0);
+  const scenarios = (Array.isArray(quarter?.discoveryScenarios) ? quarter.discoveryScenarios : [])
+    .map((scenario) => ({
+      label: String(scenario?.label || scenario?.key || '').trim(),
+      count: Number(scenario?.count) || 0,
+    }))
+    .filter((scenario) => scenario.label && scenario.count > 0);
+  return {
+    rows,
+    total,
+    countedTotal,
+    scenarios,
+    countedLabels: rows.filter((row) => row.counted).map((row) => row.label),
+    missingLabels: [...counted].filter((label) => !rows.some((row) => row.label === label)),
+  };
+}
+
 function KpiCard({value, label, note, chartData, chartUnit}) {
   const hasChart = chartData?.series?.data?.length > 0;
   const referenceMax = chartData?.yAxis?.[0]?.plotLines?.[0]?.value;
@@ -569,6 +604,54 @@ function KpiCard({value, label, note, chartData, chartUnit}) {
         {hasChart && <Box className="backlog-kpi-chart" spacing={{px: 2, py: 1}} role="img" aria-label={`Помесячная динамика: ${label}. Единица измерения: ${chartUnit}${referenceText}`}><Chart data={chartData} lang="ru" /></Box>}
       </Flex>
     </Card>
+  );
+}
+
+function DiscoveryDirectionsHint({breakdown}) {
+  const {rows, countedTotal, total, countedLabels, scenarios} = breakdown;
+  const content = (
+    <Flex className="backlog-discovery-hint" direction="column" gap="3" spacing={{p: 4}}>
+      <Flex direction="column" gap="2">
+        <Text variant="subheader-2">Что учитывается в Discovery</Text>
+        <Text variant="body-1" color="secondary">{DISCOVERY_SOURCE_NOTE}</Text>
+        <Text variant="body-1" color="secondary">
+          {countedLabels.length ? DISCOVERY_BUCKET_LEAD : 'Направления Discovery не заданы в источнике данных.'}
+        </Text>
+      </Flex>
+      <DefinitionList responsive>
+        {rows.map((row) => [
+          <DefinitionList.Item
+            key={row.label}
+            name={(
+              <Flex alignItems="center" gap="1">
+                <Box width={14}>{row.counted && <Text color="positive"><Icon data={Check} size={14} /></Text>}</Box>
+                <Text variant={row.counted ? 'subheader-1' : 'body-1'} color={row.counted ? 'primary' : 'secondary'}>{row.label}</Text>
+              </Flex>
+            )}
+          >
+            <Text variant={row.counted ? 'subheader-1' : 'body-1'} color={row.counted ? 'primary' : 'secondary'}>{formatNumber(row.count)}</Text>
+          </DefinitionList.Item>,
+          ...(row.counted ? scenarios.map((scenario) => (
+            <DefinitionList.Item
+              key={`${row.label}:${scenario.label}`}
+              name={<Box spacing={{pl: 8}}><Text variant="body-1" color="secondary">{scenario.label}</Text></Box>}
+            >
+              <Text variant="body-1" color="secondary">{formatNumber(scenario.count)}</Text>
+            </DefinitionList.Item>
+          )) : []),
+        ])}
+      </DefinitionList>
+      <Text variant="caption-2" color="secondary">
+        Учтено {formatNumber(countedTotal)} из {formatNumber(total)} задач квартала. Задача учитывается один раз — в квартале своей даты Created.
+      </Text>
+    </Flex>
+  );
+  return (
+    <Popover content={content} placement="bottom-start" trigger="click" hasArrow>
+      <Button view="flat-secondary" size="s" pin="circle-circle" aria-label="Какие направления учитываются в расчёте Discovery">
+        <Icon data={CircleInfo} size={16} />
+      </Button>
+    </Popover>
   );
 }
 
@@ -852,6 +935,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const hasSeries = chartData.series.data.length > 0;
   const freshness = formatFreshnessDate(team?.meta?.asOf || data?.meta?.asOf);
   const discoveryGoalProgress = Math.min(100, Math.max(0, discoveryShare / DISCOVERY_TARGET * 100));
+  const discoveryBreakdown = buildDiscoveryDirectionBreakdown(quarter, discoveryDirectionLabel);
   const scenarioFocusColumns = buildScenarioFocusColumns(scenarioFocus.periodLabel);
   const selectedPeriodLabel = shortQuarterLabel(quarter);
   const kpiMiniCharts = {
@@ -890,7 +974,10 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
         <Flex direction="column" gap="4">
           <Flex alignItems="flex-start" justifyContent="space-between" gap="4" wrap>
             <Flex direction="column" gap="1">
-              <Text as="h2" variant="subheader-3">Доля Discovery в созданных задачах квартала</Text>
+              <Flex alignItems="center" gap="2">
+                <Text as="h2" variant="subheader-3">Доля Discovery в созданных задачах квартала</Text>
+                <DiscoveryDirectionsHint breakdown={discoveryBreakdown} />
+              </Flex>
               <Text variant="body-1" color="secondary">Задачи с датой создания в выбранном квартале · цель ≥{DISCOVERY_TARGET}%</Text>
             </Flex>
             <Label size="m" theme={dashboard.confirmed ? 'normal' : 'danger'}>{dashboard.confirmed ? 'Цель подтверждена' : 'Цель не подтверждена'}</Label>

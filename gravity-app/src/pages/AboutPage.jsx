@@ -223,7 +223,6 @@ export function AboutPage({initialSection = '', onBack}) {
             <h2 id="about-faq-title">FAQ по Data-Driven Index</h2>
             <Text color="secondary">Короткие ответы о расчёте показателей, источниках оценки и отдельных критериях методологии.</Text>
           </div>
-          <Label theme="clear" size="s">{DD_FAQ.length} вопросов</Label>
         </div>
         <div className="about-faq-list">
           {DD_FAQ.map((item, index) => <Disclosure

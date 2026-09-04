@@ -888,6 +888,22 @@ def _build_team_aggregates(
             (data_through - ticket.created.date()).days + 1 for ticket in end_backlog
         ]
         discovery_share = _percentage(len(discovery_tickets), len(created_tickets))
+        discovery_scenarios: defaultdict[str, int] = defaultdict(int)
+        for ticket in discovery_tickets:
+            discovery_scenarios[ticket.scenario_key] += 1
+        discovery_scenario_categories = [
+            {
+                "key": key,
+                "label": scenario_totals[key]["label"],
+                "count": discovery_scenarios[key],
+                "share": _percentage(discovery_scenarios[key], len(discovery_tickets)),
+            }
+            for key in scenario_order
+            if discovery_scenarios[key]
+        ]
+        discovery_scenario_categories.sort(
+            key=lambda category: (-int(category["count"]), str(category["label"]))
+        )
         quarter_number = (quarter_cursor.month - 1) // 3
         quarters.append(
             {
@@ -915,6 +931,7 @@ def _build_team_aggregates(
                 "discoveryTarget": DISCOVERY_TARGET,
                 "discoveryGap": round(discovery_share - DISCOVERY_TARGET, 2),
                 "discoveryConfirmed": discovery_share >= DISCOVERY_TARGET,
+                "discoveryScenarios": discovery_scenario_categories,
                 "endBacklogMedianAgeDays": (
                     round(float(statistics.median(end_backlog_ages)), 1)
                     if end_backlog_ages

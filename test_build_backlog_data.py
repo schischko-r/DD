@@ -1240,6 +1240,76 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertEqual(quarter["discoveryGap"], 0)
         self.assertTrue(quarter["discoveryConfirmed"])
 
+    def test_discovery_scenarios_break_down_only_discovery_tickets(self) -> None:
+        payload = _build_payload(_discovery_goal_workbook(Path(self.temporary_directory.name)))
+        quarter = _quarter(payload, "2024-Q1")
+
+        self.assertEqual(
+            quarter["discoveryScenarios"],
+            [
+                {
+                    "key": "growth_factors_research",
+                    "label": "Поиск точек роста",
+                    "count": 2,
+                    "share": 100,
+                }
+            ],
+        )
+        self.assertEqual(
+            sum(int(category["count"]) for category in quarter["discoveryScenarios"]),
+            quarter["discoveryCount"],
+        )
+
+    def test_discovery_scenarios_rank_by_count_and_drop_empty_scenarios(self) -> None:
+        path = Path(self.temporary_directory.name) / "discovery_scenarios.xlsx"
+        scenarios = [
+            "metrics_calculation",
+            "metrics_calculation",
+            "metrics_calculation",
+            "root_cause_analysis",
+            "growth_factors_research",
+        ]
+        rows = [
+            {
+                "team": "СберЧаевые",
+                "Created": f"2024-01-0{index + 1}",
+                "Resolved": f"2024-01-0{index + 1}",
+                "Status": "Done",
+                "Issue key": f"DISCOVERY-{index + 1}",
+                "direction": "Аналитика",
+                "scenario": scenario,
+            }
+            for index, scenario in enumerate(scenarios)
+        ]
+        rows.append(
+            {
+                "team": "СберЧаевые",
+                "Created": "2024-01-06",
+                "Resolved": "2024-01-06",
+                "Status": "Done",
+                "Issue key": "OTHER-1",
+                "direction": "Поддержка",
+                "scenario": "presentations",
+            }
+        )
+        _write_minimal_xlsx(path, rows)
+        quarter = _quarter(_build_payload(path), "2024-Q1")
+
+        self.assertEqual(quarter["discoveryCount"], 5)
+        self.assertEqual(
+            [category["key"] for category in quarter["discoveryScenarios"]],
+            ["metrics_calculation", "root_cause_analysis", "growth_factors_research"],
+        )
+        self.assertEqual(
+            [category["count"] for category in quarter["discoveryScenarios"]],
+            [3, 1, 1],
+        )
+        self.assertEqual(quarter["discoveryScenarios"][0]["share"], 60)
+        self.assertNotIn(
+            "presentations",
+            [category["key"] for category in quarter["discoveryScenarios"]],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

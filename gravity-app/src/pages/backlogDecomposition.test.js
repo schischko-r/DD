@@ -16,8 +16,8 @@ const backlogChromeStyleRules = backlogStyleRules.split('\n').filter((line) => !
 const helpersStart = pageSource.indexOf('const GROUPING_OPTIONS');
 const helpersEnd = pageSource.indexOf('function KpiCard');
 const helpersSource = pageSource.slice(helpersStart, helpersEnd).replaceAll('export function', 'function');
-const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogCategoryFilterOptions, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate} = Function(
-  `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogCategoryFilterOptions, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate};`,
+const {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogCategoryFilterOptions, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate, buildDiscoveryDirectionBreakdown} = Function(
+  `${helpersSource}; return {selectQuarter, getTeamDatasets, selectTeamDataset, selectLatestMonth, monthsThroughQuarter, buildDashboardInsights, buildScenarioFocusRecommendations, buildBacklogCategoryFilterOptions, buildBacklogChartData, buildScenarioRankingChartData, buildKpiMiniChartData, formatFreshnessDate, buildDiscoveryDirectionBreakdown};`,
 )();
 
 test('backlog decomposition is a dedicated sidebar view with its own data source', () => {
@@ -51,7 +51,7 @@ test('backlog can return to the selected team profile with exact normalized name
   assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
 
   assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
-  assert.match(pageSource, /import \{Box, Button, Card, Divider/);
+  assert.match(pageSource, /import \{Box, Button, Card, DefinitionList, Divider/);
   assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
   assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
 });
@@ -414,7 +414,7 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
   assert.match(pageSource, /const DISCOVERY_TARGET = 40/);
   assert.match(stylesSource, /\.backlog-kpi-grid\s*\{[^}]*grid-template-columns:\s*repeat\(6, minmax\(0, 1fr\)\)/s);
   assert.match(stylesSource, /\.backlog-kpi-card--combined\s*\{[^}]*grid-column:\s*span 2/s);
-  assert.match(pageSource, /import \{Box, Button, Card, Divider, Flex, Icon, Label,[^}]*Progress/);
+  assert.match(pageSource, /import \{Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label,[^}]*Progress/);
   const goalCardSource = pageSource.slice(pageSource.indexOf('<Card className="backlog-goal-card"'), pageSource.indexOf('<section className="backlog-kpi-grid"'));
   for (const gravityComponent of ['Card', 'Flex', 'Text', 'Progress', 'Label']) {
     assert.match(goalCardSource, new RegExp(`<${gravityComponent}\\b`));
@@ -822,4 +822,80 @@ test('KPI charts use their declared Created or completed-task cohorts', () => {
   const structureBuilder = pageSource.slice(pageSource.indexOf('export function buildBacklogChartData'), pageSource.indexOf('export function buildScenarioRankingChartData'));
   assert.match(structureBuilder, /Number\(item\?\.count\)/);
   assert.doesNotMatch(structureBuilder, /resolvedCount|endBacklogCount/);
+});
+
+test('Discovery hint lists the directions counted in the calculation ahead of the rest', () => {
+  const quarter = {
+    directions: [
+      {label: 'Выгрузки', count: 49},
+      {label: 'Аналитика', count: 94},
+      {label: 'Разработка и поддержка BI', count: 142},
+      {label: '', count: 5},
+    ],
+  };
+  const breakdown = buildDiscoveryDirectionBreakdown(quarter, 'Аналитика');
+  assert.deepEqual(breakdown.rows.map((row) => row.label), ['Аналитика', 'Разработка и поддержка BI', 'Выгрузки']);
+  assert.deepEqual(breakdown.rows.map((row) => row.counted), [true, false, false]);
+  assert.deepEqual(breakdown.countedLabels, ['Аналитика']);
+  assert.equal(breakdown.countedTotal, 94);
+  assert.equal(breakdown.total, 285);
+  assert.deepEqual(breakdown.missingLabels, []);
+});
+
+test('Discovery hint lists the scenarios behind the counted direction', () => {
+  const quarter = {
+    directions: [{label: 'Аналитика', count: 94}, {label: 'Выгрузки', count: 49}],
+    discoveryScenarios: [
+      {key: 'customer_experience_analytics', label: 'Аналитика клиентского опыта', count: 49},
+      {key: 'metrics_calculation', label: 'Расчет метрик', count: 43},
+      {key: 'methodology_dev', label: 'Разработка методологии', count: 2},
+      {key: 'empty', label: 'Пустой сценарий', count: 0},
+    ],
+  };
+  const {scenarios} = buildDiscoveryDirectionBreakdown(quarter, 'Аналитика');
+  assert.deepEqual(scenarios.map((item) => item.label), ['Аналитика клиентского опыта', 'Расчет метрик', 'Разработка методологии']);
+  assert.deepEqual(scenarios.map((item) => item.count), [49, 43, 2]);
+  assert.deepEqual(buildDiscoveryDirectionBreakdown({directions: []}, 'Аналитика').scenarios, []);
+});
+
+test('Discovery hint nests scenarios under the counted direction only', () => {
+  const hintSource = pageSource.slice(pageSource.indexOf('function DiscoveryDirectionsHint'), pageSource.indexOf('function RoutineAutomationCard'));
+  assert.match(hintSource, /<DefinitionList responsive>/);
+  assert.match(hintSource, /\.\.\.\(row\.counted \? scenarios\.map\(\(scenario\) => \(/);
+  assert.match(hintSource, /name=\{<Box spacing=\{\{pl: 8\}\}>/);
+  assert.match(hintSource, /<Box width=\{14\}>\{row\.counted && <Text color="positive"><Icon data=\{Check\} size=\{14\} \/><\/Text>\}<\/Box>/);
+  assert.match(stylesSource, /\.backlog-discovery-hint \{[^}]*--g-definition-list-item-gap: 6px/);
+  assert.match(hintSource, /<Flex className="backlog-discovery-hint" direction="column" gap="3" spacing=\{\{p: 4\}\}>/);
+  assert.doesNotMatch(stylesSource, /backlog-discovery-hint-(?:label|mark|scenarios|row)/);
+});
+
+test('Discovery hint supports several counted directions and reports absent ones', () => {
+  const quarter = {directions: [{label: 'Аналитика', count: 10}, {label: 'Исследования', count: 4}, {label: 'AI', count: 3}]};
+  const breakdown = buildDiscoveryDirectionBreakdown(quarter, ['Аналитика', 'Исследования', 'Моделирование']);
+  assert.deepEqual(breakdown.countedLabels, ['Аналитика', 'Исследования']);
+  assert.equal(breakdown.countedTotal, 14);
+  assert.deepEqual(breakdown.missingLabels, ['Моделирование']);
+});
+
+test('Discovery hint tolerates a quarter without direction breakdown', () => {
+  const breakdown = buildDiscoveryDirectionBreakdown({}, 'Аналитика');
+  assert.deepEqual(breakdown.rows, []);
+  assert.equal(breakdown.total, 0);
+  assert.equal(breakdown.countedTotal, 0);
+  assert.deepEqual(breakdown.countedLabels, []);
+});
+
+test('Discovery goal card exposes a round info button opening a click popover', () => {
+  assert.match(pageSource, /import \{[^}]*Popover[^}]*\} from '@gravity-ui\/uikit'/);
+  assert.match(pageSource, /const discoveryBreakdown = buildDiscoveryDirectionBreakdown\(quarter, discoveryDirectionLabel\)/);
+  assert.match(pageSource, /<DiscoveryDirectionsHint breakdown=\{discoveryBreakdown\} \/>/);
+  assert.match(pageSource, /<Popover content=\{content\} placement="bottom-start" trigger="click" hasArrow>/);
+  assert.match(pageSource, /<Button view="flat-secondary" size="s" pin="circle-circle" aria-label="Какие направления учитываются в расчёте Discovery">/);
+  assert.match(pageSource, /<Icon data=\{CircleInfo\} size=\{16\} \/>\s*<\/Button>/);
+  assert.match(pageSource, /Что учитывается в Discovery/);
+  assert.ok(pageSource.includes("const DISCOVERY_SOURCE_NOTE = 'Рассчитано на основе цифровых следов пространства команды в SberTrack/Jira, указанного PO при прохождении опроса. Тикеты были размечены на направления при помощи RAG с LLM, предварительно обученной на обучающей выборке из 2.5k заранее промаркированных тикетов.';"), 'source note copy is exact');
+  assert.ok(pageSource.includes("const DISCOVERY_BUCKET_LEAD = 'В бакет «Discovery» учитываются направления:';"), 'bucket lead-in copy is exact');
+  const hintSource = pageSource.slice(pageSource.indexOf('function DiscoveryDirectionsHint'), pageSource.indexOf('function RoutineAutomationCard'));
+  assert.ok(hintSource.indexOf('{DISCOVERY_SOURCE_NOTE}') < hintSource.indexOf('DISCOVERY_BUCKET_LEAD'), 'source note precedes the bucket lead-in');
+  assert.ok(hintSource.indexOf('DISCOVERY_BUCKET_LEAD') < hintSource.indexOf('<DefinitionList responsive>'), 'lead-in precedes the direction list');
 });
