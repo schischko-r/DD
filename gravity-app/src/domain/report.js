@@ -6,6 +6,18 @@ export function groupFor(product, rows) {
   return rows.find((row) => row.name === product.name && row.unit === product.unit)?.group || '\u041d\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0445';
 }
 
+export const MATURITY_LEVELS = ['Требуют внимания', 'Развивающиеся', 'Зрелые', 'Лидеры Data Driven'];
+
+export function maturityLevelName(value) {
+  if (value === null || value === undefined || value === '') return '';
+  const score = Number(value);
+  if (!Number.isFinite(score)) return '';
+  if (score < 40) return MATURITY_LEVELS[0];
+  if (score <= 60) return MATURITY_LEVELS[1];
+  if (score <= 80) return MATURITY_LEVELS[2];
+  return MATURITY_LEVELS[3];
+}
+
 export function nextMaturityLevel(value) {
   const score = Number(value);
   if (!Number.isFinite(score)) return null;

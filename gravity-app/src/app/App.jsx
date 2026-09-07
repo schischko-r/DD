@@ -41,6 +41,7 @@ export function App() {
   const [cjxplorerCreditCard, setCjxplorerCreditCard] = useState(null);
   const [cjxplorerDetails, setCjxplorerDetails] = useState(null);
   const [backlog, setBacklog] = useState({status: 'loading', data: null});
+  const [maturity, setMaturity] = useState(null);
   const [view, setView] = useState('dashboard');
   const [selected, setSelected] = useState(null);
   const [htmlPageContext, setHtmlPageContext] = useState({});
@@ -62,6 +63,7 @@ export function App() {
       .then((response) => response.json())
       .then(setData);
   }, []);
+  useEffect(() => { fetch('./data-maturity.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setMaturity).catch(() => setMaturity(null)); }, []);
   useEffect(() => { fetch('./cjxplorer-summary.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorer).catch(() => setCjxplorer(null)); }, []);
   useEffect(() => { fetch('./cjxplorer-credit-card.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorerCreditCard).catch(() => setCjxplorerCreditCard(null)); }, []);
   useEffect(() => { fetch('./cjxplorer-product-details.json', {cache: 'no-store'}).then((response) => response.ok ? response.json() : null).then(setCjxplorerDetails).catch(() => setCjxplorerDetails(null)); }, []);
@@ -226,7 +228,7 @@ export function App() {
     : activeHtmlPageTool
       ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onStandAccessLink={setStandAccessHref} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
       : view === 'dashboard'
-        ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={openAbout} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
+        ? <DashboardPage products={data.products} rows={rows} maturity={maturity} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={openAbout} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
         : view === 'about'
           ? <AboutPage initialSection={aboutSection} onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'initiatives'

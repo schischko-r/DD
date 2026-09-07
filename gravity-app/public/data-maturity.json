@@ -1,0 +1,1717 @@
+{
+  "meta": {
+    "source": "Книга1.xlsx",
+    "period": "2Q2026",
+    "previousPeriod": "1Q2026",
+    "unitCount": 8,
+    "label": "Уровень зрелости данных",
+    "scoreDefinition": "Доля метрик юнита, выполняющих свой норматив, среди метрик с замером и нормативом",
+    "averageScore": 56
+  },
+  "units": [
+    {
+      "key": "Data",
+      "label": "Data",
+      "sourceUnit": "Data",
+      "metricCount": 9,
+      "measuredCount": 6,
+      "score": 80,
+      "metCount": 4,
+      "judgedCount": 5,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 1.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 0.94,
+              "previousValue": 0.9,
+              "delta": 0.04,
+              "trend": "positive",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 0.35,
+              "previousValue": 0.206,
+              "delta": 0.144,
+              "trend": "positive",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 0.96,
+              "delta": 0.04,
+              "trend": "positive",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 0.16,
+              "previousValue": 0.18,
+              "delta": -0.02,
+              "trend": "positive",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "CX",
+      "label": "CX",
+      "sourceUnit": "CX",
+      "metricCount": 9,
+      "measuredCount": 8,
+      "score": 71,
+      "metCount": 5,
+      "judgedCount": 7,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 1.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 0.96,
+              "previousValue": 0.92,
+              "delta": 0.04,
+              "trend": "positive",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 0.24,
+              "previousValue": 0.154,
+              "delta": 0.086,
+              "trend": "positive",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 0.69,
+              "delta": 0.31,
+              "trend": "positive",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 19.0,
+              "previousValue": 28.0,
+              "delta": -9.0,
+              "trend": "positive",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 32.0,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 0.07,
+              "previousValue": 0.05,
+              "delta": 0.02,
+              "trend": "negative",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "УБ",
+      "label": "УБ",
+      "sourceUnit": "УБ",
+      "metricCount": 9,
+      "measuredCount": 6,
+      "score": 80,
+      "metCount": 4,
+      "judgedCount": 5,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 1.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 0.93,
+              "previousValue": 0.9,
+              "delta": 0.03,
+              "trend": "positive",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 0.41,
+              "previousValue": 0.313,
+              "delta": 0.097,
+              "trend": "positive",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 1.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 0.12,
+              "previousValue": 0.1,
+              "delta": 0.02,
+              "trend": "negative",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "CBP",
+      "label": "Core Banking",
+      "sourceUnit": "Core",
+      "metricCount": 9,
+      "measuredCount": 7,
+      "score": 67,
+      "metCount": 4,
+      "judgedCount": 6,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 1.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": false,
+              "betterDirection": "up",
+              "value": 0.88,
+              "previousValue": 0.87,
+              "delta": 0.01,
+              "trend": "positive",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 0.29,
+              "previousValue": 0.357,
+              "delta": -0.067,
+              "trend": "negative",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 0.67,
+              "delta": 0.33,
+              "trend": "positive",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 15.0,
+              "previousValue": 21.0,
+              "delta": -6.0,
+              "trend": "positive",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 0.06,
+              "previousValue": 0.02,
+              "delta": 0.04,
+              "trend": "negative",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "DB",
+      "label": "Daily Banking",
+      "sourceUnit": "Daily",
+      "metricCount": 9,
+      "measuredCount": 8,
+      "score": 29,
+      "metCount": 2,
+      "judgedCount": 7,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 1.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": false,
+              "betterDirection": "up",
+              "value": 0.77,
+              "previousValue": 0.82,
+              "delta": -0.05,
+              "trend": "negative",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 0.3,
+              "previousValue": 0.325,
+              "delta": -0.025,
+              "trend": "negative",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": false,
+              "betterDirection": "up",
+              "value": 0.5,
+              "previousValue": 0.34,
+              "delta": 0.16,
+              "trend": "positive",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 62.0,
+              "previousValue": 35.0,
+              "delta": 27.0,
+              "trend": "negative",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 28.0,
+              "previousValue": 19.0,
+              "delta": 9.0,
+              "trend": "negative",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 0.66,
+              "previousValue": 0.05,
+              "delta": 0.61,
+              "trend": "negative",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "PC",
+      "label": "PH (CC)",
+      "sourceUnit": "СС",
+      "metricCount": 9,
+      "measuredCount": 6,
+      "score": 20,
+      "metCount": 1,
+      "judgedCount": 5,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": null,
+              "previousValue": 1.0,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": false,
+              "betterDirection": "up",
+              "value": 0.87,
+              "previousValue": 0.88,
+              "delta": -0.01,
+              "trend": "negative",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 0.857,
+              "delta": 0.143,
+              "trend": "positive",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": false,
+              "betterDirection": "up",
+              "value": 0.92,
+              "previousValue": 0.67,
+              "delta": 0.25,
+              "trend": "positive",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 18.0,
+              "previousValue": 17.0,
+              "delta": 1.0,
+              "trend": "negative",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 0.09,
+              "previousValue": 0.07,
+              "delta": 0.02,
+              "trend": "negative",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "DP",
+      "label": "Digital (DC)",
+      "sourceUnit": "Digital",
+      "metricCount": 9,
+      "measuredCount": 4,
+      "score": 67,
+      "metCount": 2,
+      "judgedCount": 3,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": true,
+              "betterDirection": "up",
+              "value": 1.0,
+              "previousValue": 1.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 0.08,
+              "previousValue": 0.072,
+              "delta": 0.008,
+              "trend": "positive",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 18.0,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ДомКлик",
+      "label": "ДомКлик",
+      "sourceUnit": "Домклик",
+      "metricCount": 9,
+      "measuredCount": 4,
+      "score": 33,
+      "metCount": 1,
+      "judgedCount": 3,
+      "categories": [
+        {
+          "key": "инструмент",
+          "label": "Инструмент",
+          "metrics": [
+            {
+              "label": "Новые витрины на B2C SQL",
+              "description": "Доля новых и мигрирующих на источники ЕПКАП витрин с использованием инструмента B2C",
+              "category": "Инструмент",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "b2c-sql-marts"
+            }
+          ]
+        },
+        {
+          "key": "потребление",
+          "label": "Потребление",
+          "metrics": [
+            {
+              "label": "Использование базовых витрин ЕПКАП",
+              "description": "Доля подписок на данные базовых витрин ЕПКАП, в общем количестве подписок юнита",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "0.9",
+              "planLabel": "90%",
+              "planValue": 0.9,
+              "planTarget": 0.9,
+              "planComparison": "min",
+              "meetsPlan": false,
+              "betterDirection": "up",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "epkap-marts-usage"
+            },
+            {
+              "label": "Доля данных АС, загруженных в Фабрику данных",
+              "description": "Доля функциональных подсистем АС с бизнес-значимостью, имеющих реплики в Фабрике данных (КАП)",
+              "category": "Потребление",
+              "measure": "%",
+              "plan": "- % Мониторинг",
+              "planLabel": "",
+              "planValue": null,
+              "planTarget": null,
+              "planComparison": "",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": 0.04,
+              "previousValue": 0.04,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "as-data-share"
+            }
+          ]
+        },
+        {
+          "key": "качество-данных",
+          "label": "Качество данных",
+          "metrics": [
+            {
+              "label": "Покрытие проверками качества данных критичных процессов",
+              "description": "Доля таблиц, покрытых проверками в СККД и Алмаз",
+              "category": "Качество данных",
+              "measure": "%",
+              "plan": "100% Мониторинг",
+              "planLabel": "100%",
+              "planValue": null,
+              "planTarget": 1.0,
+              "planComparison": "min",
+              "meetsPlan": null,
+              "betterDirection": "up",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "dq-coverage"
+            }
+          ]
+        },
+        {
+          "key": "скорость",
+          "label": "Скорость",
+          "metrics": [
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "Мониторинг New <40",
+              "planLabel": "New <40",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-new"
+            },
+            {
+              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "CR <15",
+              "planLabel": "CR <15",
+              "planValue": null,
+              "planTarget": 15.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "bank-delivery-speed-cr"
+            },
+            {
+              "label": "Скорость поставки внешних данных в Фабрику данных",
+              "description": "Время загрузки данных из ДЗО",
+              "category": "Скорость",
+              "measure": "раб.дни",
+              "plan": "40 раб. Дней",
+              "planLabel": "40 раб. Дней",
+              "planValue": null,
+              "planTarget": 40.0,
+              "planComparison": "max",
+              "meetsPlan": null,
+              "betterDirection": "down",
+              "value": null,
+              "previousValue": null,
+              "delta": null,
+              "trend": "unknown",
+              "note": "",
+              "key": "external-delivery-speed"
+            }
+          ]
+        },
+        {
+          "key": "надежность",
+          "label": "Надежность",
+          "metrics": [
+            {
+              "label": "Плотность инцидентов",
+              "description": "Количество инцидентов относительно количества потоков",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "<5%",
+              "planLabel": "<5%",
+              "planValue": null,
+              "planTarget": 0.05,
+              "planComparison": "max",
+              "meetsPlan": false,
+              "betterDirection": "down",
+              "value": 0.09,
+              "previousValue": 0.21,
+              "delta": -0.12,
+              "trend": "positive",
+              "note": "",
+              "key": "incident-density"
+            },
+            {
+              "label": "Доля ИОР в инцидентах",
+              "description": "Количество ИОР, причинами которых послужили технологические инциденты в тракте поставки, относительно общего количества инцидентов",
+              "category": "Надежность",
+              "measure": "%",
+              "plan": "0",
+              "planLabel": "0%",
+              "planValue": 0.0,
+              "planTarget": 0.0,
+              "planComparison": "max",
+              "meetsPlan": true,
+              "betterDirection": "down",
+              "value": 0.0,
+              "previousValue": 0.0,
+              "delta": 0.0,
+              "trend": "flat",
+              "note": "",
+              "key": "ior-share"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

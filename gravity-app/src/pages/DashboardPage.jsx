@@ -1,9 +1,11 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
-import {ChevronRight, CircleDollar, CircleInfo, CircleTree, NodesRight, Persons} from '@gravity-ui/icons';
-import {Button, Card, Dialog, Icon, Label, Select, Text, TextInput} from '@gravity-ui/uikit';
+import {ChevronDown, ChevronRight, CircleDollar, CircleInfo, CircleTree, NodesRight, Persons} from '@gravity-ui/icons';
+import {Button, Card, Dialog, Icon, Label, Progress, Select, Text, TextInput} from '@gravity-ui/uikit';
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
-import {antiTopBlockLabel, displayProductName, displayText} from '../domain/report.js';
-import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, radarBlockPercent, typeTone, useMediaQuery, wrapRadarLabel} from '../features/catalog/Catalog.jsx';
+import {MATURITY_LEVELS, antiTopBlockLabel, displayProductName, displayText, maturityLevelName, nextMaturityLevel} from '../domain/report.js';
+import {DashboardBlockCard, DataMaturityCard} from '../features/data-maturity/DataMaturityCard.jsx';
+import {findMaturityUnit} from '../features/data-maturity/dataMaturity.js';
+import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, progressTheme, radarBlockPercent, typeTone, useMediaQuery, wrapRadarLabel} from '../features/catalog/Catalog.jsx';
 
 function DashboardRadarTick({x, y, cx, cy, radius, payload, active, compact = false}) {
   const lines = wrapRadarLabel(payload?.value, compact ? 9 : 13);
@@ -26,6 +28,29 @@ function DashboardRadarTick({x, y, cx, cy, radius, payload, active, compact = fa
   );
 }
 
+const ANTITOP_PREVIEW_SIZE = 4;
+const ANTITOP_FULL_SIZE = 10;
+
+function AntiTopRow({item, position, onHover}) {
+  return (
+    <div
+      className="dashboard-antitop-row"
+      onMouseEnter={() => onHover?.(item.block)}
+      onMouseLeave={() => onHover?.('')}
+    >
+      <span>{position}</span>
+      <div>
+        <b>{displayText(item.name)}</b>
+        <small className="dashboard-antitop-block" title={antiTopBlockLabel(item.block)}>{antiTopBlockLabel(item.block)}</small>
+      </div>
+      <div className="dashboard-antitop-result">
+        <strong>{item.incompleteShare}%</strong>
+        <small>{item.incompleteTeams} из {item.teams} команд</small>
+      </div>
+    </div>
+  );
+}
+
 function DashboardActionCard({icon, title, description, action, onClick, secondaryAction}) {
   return <Card className="dashboard-about-card" view="outlined" type="container">
     <button className="dashboard-about-main" type="button" aria-label={`${title}: ${action.toLocaleLowerCase('ru-RU')}`} onClick={onClick}>
@@ -39,7 +64,7 @@ function DashboardActionCard({icon, title, description, action, onClick, seconda
   </Card>;
 }
 
-export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersChange, onOpen, onAbout, onInitiatives}) {
+export function DashboardPage({products, rows, maturity, summaryFilters, onSummaryFiltersChange, onOpen, onAbout, onInitiatives}) {
   const compactRadar = useMediaQuery('(max-width: 560px)');
   const [catalogType, setCatalogType] = useState('');
   const [catalogMaturity, setCatalogMaturity] = useState(null);
@@ -51,9 +76,12 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
   const period = summaryFilters?.period || periods[0] || '';
   const unit = summaryFilters?.unit || '';
   const [hoveredBlock, setHoveredBlock] = useState('');
+  const [maturityOpen, setMaturityOpen] = useState(false);
+  const [antiTopOpen, setAntiTopOpen] = useState(false);
   const units = useMemo(() => [...new Set(products.filter((item) => !period || item.period === period).map((item) => item.unit).filter((item) => item && isUnitFilterOption(item)))].sort(compareNames), [products, period]);
   const periodProducts = useMemo(() => products.filter((item) => !period || item.period === period), [products, period]);
   const scopedProducts = useMemo(() => periodProducts.filter((item) => !unit || item.unit === unit), [periodProducts, unit]);
+  const maturityUnit = useMemo(() => findMaturityUnit(maturity, unit), [maturity, unit]);
   useEffect(() => {
     if (unit && !units.includes(unit)) onSummaryFiltersChange({unit: ''});
   }, [onSummaryFiltersChange, unit, units]);
@@ -104,8 +132,16 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
         .filter((value) => value !== null);
       return values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : null;
     };
-    return {name: block.name, b2c: averageFor(periodProducts), unit: averageFor(scopedProducts)};
+    return {code: block.code, name: block.name, b2c: averageFor(periodProducts), unit: averageFor(scopedProducts)};
   });
+  const radarPoints = useMemo(() => (maturityUnit
+    ? [...radarData, {
+      code: 'data-maturity',
+      name: maturity?.meta?.label || 'Уровень зрелости данных',
+      b2c: maturity?.meta?.averageScore ?? null,
+      unit: maturityUnit.score,
+    }]
+    : radarData), [maturity, maturityUnit, radarData]);
   const radarScoreValues = periodProducts
     .map((product) => rowForProduct(product)?.score)
     .filter((score) => Number.isFinite(Number(score)))
@@ -113,6 +149,18 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
   const radarAverage = radarScoreValues.length
     ? Math.round(radarScoreValues.reduce((sum, score) => sum + score, 0) / radarScoreValues.length)
     : null;
+  const scopedScoreValues = scopedProducts
+    .map((product) => rowForProduct(product)?.score)
+    .filter((score) => Number.isFinite(Number(score)))
+    .map(Number);
+  const scopedAverage = scopedScoreValues.length
+    ? Math.round(scopedScoreValues.reduce((sum, score) => sum + score, 0) / scopedScoreValues.length)
+    : null;
+  const profileScore = unit ? scopedAverage : radarAverage;
+  const profileCaption = unit ? 'Среднее по командам юнита' : 'Среднее по B2C';
+  const profileLevel = maturityLevelName(profileScore);
+  const profileTone = maturityTheme(profileLevel);
+  const profileNextLevel = nextMaturityLevel(profileScore);
   const antiTop = useMemo(() => {
     const metricGroups = new Map();
     scopedProducts.forEach((product) => (product.metrics || []).forEach((block) => (block.metrics || []).forEach((metric) => {
@@ -129,7 +177,7 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
       teams: item.teams.size,
       incompleteTeams: item.incompleteTeams.size,
       incompleteShare: item.teams.size ? Math.round(item.incompleteTeams.size / item.teams.size * 100) : 0,
-    })).sort((a, b) => (b.incompleteTeams - a.incompleteTeams) || (b.incompleteShare - a.incompleteShare) || (b.teams - a.teams) || compareNames(a.name, b.name)).slice(0, 7);
+    })).sort((a, b) => (b.incompleteTeams - a.incompleteTeams) || (b.incompleteShare - a.incompleteShare) || (b.teams - a.teams) || compareNames(a.name, b.name)).slice(0, ANTITOP_FULL_SIZE);
   }, [scopedProducts]);
 
   return (
@@ -170,12 +218,27 @@ export function DashboardPage({products, rows, summaryFilters, onSummaryFiltersC
         </Card>)}
       </section>
 
+      <Dialog open={antiTopOpen} onClose={() => setAntiTopOpen(false)} hasCloseButton maxWidth="m" fullWidth>
+        <Dialog.Header caption="Ключевые западающие зоны" />
+        <Dialog.Body>
+          <div className="dashboard-antitop-list dashboard-antitop-list-full">{antiTop.map((item, index) => <AntiTopRow key={`${item.block}-${item.name}`} item={item} position={index + 1} />)}</div>
+        </Dialog.Body>
+      </Dialog>
+
       <CatalogDialogFiltered openType={catalogType} openMaturity={catalogMaturity} products={scopedProducts} rows={rows} onOpen={onOpen} onClose={() => { setCatalogType(''); setCatalogMaturity(null); }} />
 
       <section className="dashboard-analysis-grid">
-        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-card-title"><div><h2>Профиль B2C</h2></div><div className="dashboard-radar-score" aria-label={`Средний Data-Driven Index B2C: ${radarAverage === null ? 'нет данных' : `${radarAverage}%`}`}><div><strong>{radarAverage === null ? '—' : radarAverage}</strong>{radarAverage !== null && <span>%</span>}</div><small>Средний Data-Driven Index B2C</small></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius={compactRadar ? '38%' : '55%'}><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => <DashboardRadarTick {...props} compact={compactRadar} active={props.payload.value === hoveredBlock} />} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-text-secondary)" dotRadius={2} />} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-base-info-heavy)" dotRadius={3} />} />}</RadarChart></ResponsiveContainer></div></Card>
-        <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.map((item, index) => <div className="dashboard-antitop-row" key={`${item.block}-${item.name}`} onMouseEnter={() => setHoveredBlock(item.block)} onMouseLeave={() => setHoveredBlock('')}><span>{index + 1}</span><div><b>{displayText(item.name)}</b><small className="dashboard-antitop-block" title={antiTopBlockLabel(item.block)}>{antiTopBlockLabel(item.block)}</small></div><div className="dashboard-antitop-result"><strong>{item.incompleteShare}%</strong><small>{item.incompleteTeams} из {item.teams} команд</small></div></div>)}</div></Card>
+        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-radar-side"><div className="dashboard-card-title"><div><h2>{unit ? `Профиль юнита ${unit}` : 'Профиль B2C'}</h2>{unit && <span>Среднее по B2C — {radarAverage === null ? 'нет данных' : `${radarAverage}%`}</span>}</div></div><div className={`dashboard-index-summary index-card tone-${profileTone}`} aria-label={`${profileCaption}: ${profileScore === null ? 'нет данных' : `${profileScore}%`}`}><div className="index-card-title"><span>{profileCaption}</span></div><div className="index-score"><strong>{profileScore === null ? '—' : `${profileScore}%`}</strong><b>/ 100</b><em>{profileLevel || 'Нет данных'}</em></div><Progress value={profileScore || 0} theme={profileTone === 'default' ? 'default' : profileTone} size="s" /><div className="scale">{MATURITY_LEVELS.map((level) => <span key={level}>{level}</span>)}</div><div className="index-next-level"><Text variant="body-1" color={profileNextLevel ? 'primary' : 'positive'}>{profileScore === null ? 'Нет данных для расчёта' : profileNextLevel ? `До уровня «${profileNextLevel.name}» — ${Math.max(0, profileNextLevel.threshold - profileScore)}%` : 'Достигнут уровень Лидеры Data Driven'}</Text></div></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarPoints} outerRadius={compactRadar ? '38%' : '72%'}><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => <DashboardRadarTick {...props} compact={compactRadar} active={props.payload.value === hoveredBlock} />} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Legend /><Radar name="B2C" dataKey="b2c" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.08} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-text-secondary)" dotRadius={2} />} />{unit && <Radar name={unit} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-base-info-heavy)" dotRadius={3} />} />}</RadarChart></ResponsiveContainer></div></Card>
+        <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.slice(0, ANTITOP_PREVIEW_SIZE).map((item, index) => <AntiTopRow key={`${item.block}-${item.name}`} item={item} position={index + 1} onHover={setHoveredBlock} />)}</div>{antiTop.length > ANTITOP_PREVIEW_SIZE && <div className="dashboard-antitop-more"><Button view="flat" size="s" width="max" onClick={() => setAntiTopOpen(true)}>Показать ещё <Icon data={ChevronDown} size={13} /></Button></div>}</Card>
       </section>
+
+      {maturityUnit && <section className="metrics-section" aria-label="Блоки юнита и уровень зрелости данных">
+        <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2></div>
+        <div className="dashboard-data-maturity">
+        {radarData.map((block) => <DashboardBlockCard key={block.code} name={block.name} score={block.unit} reference={block.b2c} tone={block.unit === null ? 'default' : progressTheme(block.unit)} />)}
+        <DataMaturityCard unit={maturityUnit} meta={maturity?.meta} isOpen={maturityOpen} onToggle={() => setMaturityOpen((value) => !value)} />
+        </div>
+      </section>}
 
       <section className="dashboard-navigation-cards" aria-label="Дополнительные разделы">
         <DashboardActionCard icon={CircleTree} title="Развитие инструмента" description="Централизованные мероприятия по развитию практик и повышению Data-Driven Index." action="Перейти" onClick={onInitiatives} />
