@@ -122,6 +122,53 @@ class BuildGravityStandaloneTest(unittest.TestCase):
             )
             self.assertNotIn("</script>&>", result)
 
+    def test_embeds_maturity_data_when_the_bundle_fetches_it(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            maturity_data = root / "data-maturity.json"
+            output = root / "standalone.html"
+            template.write_text(
+                '<script>fetch("./report-data.json", {cache: "no-store"}).then(load);'
+                "fetch('./data-maturity.json', {cache: 'no-store'}).then(loadMaturity)</script>",
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            maturity_data.write_text(
+                json.dumps({
+                    "meta": {"period": "2Q2026", "averageScore": 56},
+                    "units": [{"key": "CBP", "label": "Core Banking", "score": 67}],
+                }),
+                encoding="utf-8",
+            )
+
+            build(template, data, output, maturity_data_path=maturity_data)
+
+            result = output.read_text(encoding="utf-8")
+            self.assertNotIn("fetch('./data-maturity.json'", result)
+            self.assertIn('"averageScore":56', result)
+            self.assertIn('"units":[{"key":"CBP","label":"Core Banking","score":67}]', result)
+
+    def test_a_bundle_without_the_maturity_marker_fails_the_build(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            template = root / "index.html"
+            data = root / "report-data.json"
+            maturity_data = root / "data-maturity.json"
+            output = root / "standalone.html"
+            template.write_text(
+                '<script>fetch("./report-data.json", {cache: "no-store"}).then(load)</script>',
+                encoding="utf-8",
+            )
+            data.write_text(json.dumps({"products": []}), encoding="utf-8")
+            maturity_data.write_text(json.dumps({"units": []}), encoding="utf-8")
+
+            with self.assertRaises(ValueError) as error:
+                build(template, data, output, maturity_data_path=maturity_data)
+
+        self.assertIn("data-maturity", str(error.exception))
+
     def test_embeds_initiatives_data_when_the_bundle_fetches_it(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

@@ -18,6 +18,7 @@ DEFAULT_LEGACY_OUTPUT = ROOT / "final_report_from_excel.html"
 DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_BACKLOG_INPUT = ROOT / "sbertrack_all_full_history_to_export.xlsx"
 DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
+DEFAULT_MATURITY_DATA = ROOT / "gravity-app" / "public" / "data-maturity.json"
 DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlog.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
 DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
@@ -146,6 +147,7 @@ def build(args: argparse.Namespace) -> None:
             str(configured_path("AI_HTML_REPORTS_DIR", DEFAULT_HTML_REPORTS_DIRECTORY)),
         ])
     standalone_command.extend(["--backlog-data", str(args.backlog_data)])
+    standalone_command.extend(["--maturity-data", str(args.maturity_data)])
     standalone_command.extend(["--initiatives-data", str(args.initiatives_data)])
     run(standalone_command)
 
@@ -173,6 +175,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument("--backlog-input", type=Path, default=DEFAULT_BACKLOG_INPUT)
     parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
+    parser.add_argument("--maturity-data", type=Path, default=DEFAULT_MATURITY_DATA)
     parser.add_argument("--initiatives-data", type=Path, default=DEFAULT_INITIATIVES_DATA)
     parser.add_argument(
         "--standalone-output",

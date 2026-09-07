@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_TEMPLATE = ROOT / "gravity-app" / "dist" / "index.html"
 DEFAULT_DATA = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
+DEFAULT_MATURITY_DATA = ROOT / "gravity-app" / "public" / "data-maturity.json"
 DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlog.json"
 DEFAULT_CJXPLORER_SUMMARY_DATA = ROOT / "gravity-app" / "public" / "cjxplorer-summary.json"
 DEFAULT_CJXPLORER_CREDIT_CARD_DATA = ROOT / "gravity-app" / "public" / "cjxplorer-credit-card.json"
@@ -121,6 +122,7 @@ def build(
     output_path: Path,
     html_page_root: Path = ROOT,
     backlog_data_path: Path | None = None,
+    maturity_data_path: Path | None = None,
     initiatives_data_path: Path | None = None,
     cjxplorer_summary_data_path: Path | None = None,
     cjxplorer_credit_card_data_path: Path | None = None,
@@ -131,6 +133,8 @@ def build(
 
     if backlog_data_path is not None:
         template = _embed_json_fetch(template, backlog_data_path, "backlog-data.json")
+    if maturity_data_path is not None:
+        template = _embed_json_fetch(template, maturity_data_path, "data-maturity.json")
     if initiatives_data_path is not None:
         template = _embed_json_fetch(
             template,
@@ -155,6 +159,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--template", type=Path, default=DEFAULT_TEMPLATE)
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA)
     parser.add_argument("--backlog-data", type=Path)
+    parser.add_argument("--maturity-data", type=Path, default=DEFAULT_MATURITY_DATA)
     parser.add_argument("--initiatives-data", type=Path, default=DEFAULT_INITIATIVES_DATA)
     parser.add_argument("--cjxplorer-summary-data", type=Path, default=DEFAULT_CJXPLORER_SUMMARY_DATA)
     parser.add_argument("--cjxplorer-credit-card-data", type=Path, default=DEFAULT_CJXPLORER_CREDIT_CARD_DATA)
@@ -172,6 +177,7 @@ def main() -> None:
         args.output,
         html_page_root=args.html_page_root,
         backlog_data_path=args.backlog_data,
+        maturity_data_path=args.maturity_data,
         initiatives_data_path=args.initiatives_data,
         cjxplorer_summary_data_path=args.cjxplorer_summary_data,
         cjxplorer_credit_card_data_path=args.cjxplorer_credit_card_data,

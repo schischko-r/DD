@@ -195,10 +195,12 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             if command[1] == str(report.ROOT / "build_gravity_standalone.py")
         )
         self.assertEqual(
-            standalone_command[-4:],
+            standalone_command[-6:],
             [
                 "--backlog-data",
                 str(report.DEFAULT_BACKLOG_DATA),
+                "--maturity-data",
+                str(report.DEFAULT_MATURITY_DATA),
                 "--initiatives-data",
                 str(report.DEFAULT_INITIATIVES_DATA),
             ],
