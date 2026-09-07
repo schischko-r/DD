@@ -984,12 +984,12 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
               </Flex>
               <Text variant="body-1" color="secondary">Задачи с датой создания в выбранном квартале · цель ≥{DISCOVERY_TARGET}%</Text>
             </Flex>
-            <Label size="m" theme={dashboard.confirmed ? 'normal' : 'danger'}>{dashboard.confirmed ? 'Цель подтверждена' : 'Цель не подтверждена'}</Label>
+            <Label size="m" theme={dashboard.confirmed ? 'success' : 'danger'}>{dashboard.confirmed ? 'Цель подтверждена' : 'Цель не подтверждена'}</Label>
           </Flex>
           <Flex alignItems="baseline" gap="3" wrap><Text variant="display-2">{formatPercentValue(discoveryShare)}</Text><Text variant="body-1" color="secondary">{formatNumber(discoveryCount)} из {formatNumber(created)} созданных задач</Text></Flex>
           <Box className="backlog-goal-progress-row">
             <Flex className="backlog-goal-scale" direction="column" gap="2">
-              <Box className="backlog-goal-progress"><Progress value={discoveryGoalProgress} theme={dashboard.confirmed ? 'default' : 'danger'} size="m" /></Box>
+              <Box className="backlog-goal-progress"><Progress value={discoveryGoalProgress} theme={dashboard.confirmed ? 'success' : 'danger'} size="m" /></Box>
               <Flex justifyContent="space-between"><Text variant="caption-2" color="secondary">Факт {formatPercentValue(discoveryShare)}</Text><Text variant="caption-2" color="secondary">Цель {DISCOVERY_TARGET}%</Text></Flex>
             </Flex>
             <Flex className="backlog-goal-metrics" gap="6" wrap>

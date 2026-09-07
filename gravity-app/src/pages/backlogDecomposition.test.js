@@ -421,7 +421,7 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
   }
   assert.match(goalCardSource, /view="outlined" size="l" spacing=\{\{p: 5\}\}/);
   assert.match(pageSource, /const discoveryGoalProgress = Math\.min\(100, Math\.max\(0, discoveryShare \/ DISCOVERY_TARGET \* 100\)\)/);
-  assert.match(goalCardSource, /<Box className="backlog-goal-progress-row">[\s\S]*?<Flex className="backlog-goal-scale"[\s\S]*?<Box className="backlog-goal-progress"><Progress value=\{discoveryGoalProgress\} theme=\{dashboard\.confirmed \? 'default' : 'danger'\} size="m" \/><\/Box>[\s\S]*?Факт \{formatPercentValue\(discoveryShare\)\}[\s\S]*?Цель \{DISCOVERY_TARGET\}%[\s\S]*?<Flex className="backlog-goal-metrics" gap="6" wrap>[\s\S]*?Разрыв до цели[\s\S]*?Задач до цели/);
+  assert.match(goalCardSource, /<Box className="backlog-goal-progress-row">[\s\S]*?<Flex className="backlog-goal-scale"[\s\S]*?<Box className="backlog-goal-progress"><Progress value=\{discoveryGoalProgress\} theme=\{dashboard\.confirmed \? 'success' : 'danger'\} size="m" \/><\/Box>[\s\S]*?Факт \{formatPercentValue\(discoveryShare\)\}[\s\S]*?Цель \{DISCOVERY_TARGET\}%[\s\S]*?<Flex className="backlog-goal-metrics" gap="6" wrap>[\s\S]*?Разрыв до цели[\s\S]*?Задач до цели/);
   assert.match(goalCardSource, /\{formatNumber\(discoveryCount\)\} из \{formatNumber\(created\)\} созданных задач/);
   assert.match(stylesSource, /\.backlog-goal-progress-row\s*\{[^}]*display:\s*grid;[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s+auto;[^}]*align-items:\s*end;/s);
   assert.match(stylesSource, /\.backlog-goal-scale\s*\{\s*min-width:\s*0;\s*\}/);
@@ -484,8 +484,7 @@ test('KPI and recommendations are composed from neutral Gravity UI primitives', 
   assert.match(pageSource, /resource\.placement === 'after'[\s\S]*?<Link href=\{resource\.href\} target="_blank" rel="noreferrer">\{resource\.label\}<\/Link>/);
   assert.match(pageSource, /<Card className="backlog-method-note" view="outlined"/);
   assert.match(pageSource, /Временные графики показывают историю по месяцу создания до выбранного квартала включительно/);
-  assert.match(pageSource, /<Label size="m" theme=\{dashboard\.confirmed \? 'normal' : 'danger'\}/);
-  assert.doesNotMatch(pageSource, /dashboard\.confirmed \? 'success'/);
+  assert.match(pageSource, /<Label size="m" theme=\{dashboard\.confirmed \? 'success' : 'danger'\}/);
   assert.doesNotMatch(pageSource, /backlog-insights-section|backlog-insight-grid|backlog-insight-card|>Инсайты</);
   assert.doesNotMatch(stylesSource, /\.backlog-insights-section|\.backlog-insight-grid|\.backlog-insight-card/);
   assert.doesNotMatch(pageSource, /className=\{`[^`]*is-\$\{/);
