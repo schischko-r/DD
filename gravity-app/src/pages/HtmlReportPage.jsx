@@ -7,9 +7,10 @@ import {
   prepareHtmlPageSource,
 } from '../features/html-pages/htmlPageContent.js';
 import {buildHtmlPageUrl} from '../features/html-pages/htmlPageTools.js';
+import {attachStandAccessInterceptor} from '../features/stand-access/standAccessLinks.js';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 
-export function HtmlReportPage({tool, context, onBack}) {
+export function HtmlReportPage({tool, context, onBack, onStandAccessLink}) {
   const frameRef = useRef(null);
   const bridgeTimerRef = useRef(null);
   const contentBase64 = tool.contentBase64;
@@ -20,6 +21,13 @@ export function HtmlReportPage({tool, context, onBack}) {
   ), [contentBase64, pageUrl]);
   const configureReport = useCallback(() => {
     window.clearTimeout(bridgeTimerRef.current);
+    if (onStandAccessLink) {
+      try {
+        attachStandAccessInterceptor(frameRef.current?.contentDocument, onStandAccessLink);
+      } catch {
+        // A cross-origin report frame cannot be instrumented; its links stay untouched.
+      }
+    }
     let attempt = 0;
     const applyBridge = () => {
       attempt += 1;
@@ -38,7 +46,7 @@ export function HtmlReportPage({tool, context, onBack}) {
       }
     };
     applyBridge();
-  }, [context, tool]);
+  }, [context, onStandAccessLink, tool]);
 
   useEffect(() => {
     configureReport();

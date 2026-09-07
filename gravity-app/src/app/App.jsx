@@ -11,6 +11,8 @@ import {SummaryPage} from '../pages/SummaryPage.jsx';
 import {TeamProfilePage} from '../pages/TeamProfilePage.jsx';
 import {isUnitFilterOption} from '../features/catalog/Catalog.jsx';
 import {HTML_PAGE_TOOLS} from '../features/html-pages/htmlPageTools.js';
+import {StandAccessDialog} from '../features/stand-access/StandAccessDialog.jsx';
+import {attachStandAccessInterceptor} from '../features/stand-access/standAccessLinks.js';
 import {htmlPageIcon} from '../features/html-pages/htmlPageIcons.js';
 import ocb2cLogo from '../assets/ocb2c.png';
 
@@ -47,6 +49,11 @@ export function App() {
   const [compact, setCompact] = useState(true);
   const [aboutSection, setAboutSection] = useState('');
   const [summaryFilters, setSummaryFilters] = useState({period: '', unit: ''});
+  const [standAccessHref, setStandAccessHref] = useState('');
+  useEffect(() => attachStandAccessInterceptor(
+    typeof document === 'undefined' ? null : document,
+    setStandAccessHref,
+  ), []);
   const updateSummaryFilters = useCallback((patch) => {
     setSummaryFilters((current) => ({...current, ...patch}));
   }, []);
@@ -217,7 +224,7 @@ export function App() {
   const content = view === 'summary'
     ? <SummaryPage products={data.products} rows={rows} unitFilter={summaryFilters.unit} onUnitFilterChange={(unit) => updateSummaryFilters({unit})} />
     : activeHtmlPageTool
-      ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
+      ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onStandAccessLink={setStandAccessHref} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
       : view === 'dashboard'
         ? <DashboardPage products={data.products} rows={rows} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={openAbout} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
         : view === 'about'
@@ -228,6 +235,7 @@ export function App() {
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
             : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => openAbout()} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} cjxplorerProduct={cjxplorerProduct} />;
   return (
+    <>
     <AsideHeader
       compact={compact}
       onChangeCompact={setCompact}
@@ -238,5 +246,7 @@ export function App() {
       menuItems={menuItems}
       renderContent={() => content}
     />
+    <StandAccessDialog href={standAccessHref} onClose={() => setStandAccessHref('')} />
+    </>
   );
 }

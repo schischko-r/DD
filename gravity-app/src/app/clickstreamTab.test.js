@@ -276,7 +276,7 @@ test('App opens a resolved html_page with mapped context and renders the generic
 test('generic HTML report sends query context and also applies the legacy DOM bridge', () => {
   assert.match(
     reportPageSource,
-    /export function HtmlReportPage\(\{tool,\s*context,\s*onBack\}\)/,
+    /export function HtmlReportPage\(\{tool,\s*context,\s*onBack,\s*onStandAccessLink\}\)/,
   );
   assert.match(reportPageSource, /const frameRef\s*=\s*useRef\(null\);/);
   assert.match(reportPageSource, /buildHtmlPageUrl\(tool,\s*context\)/);

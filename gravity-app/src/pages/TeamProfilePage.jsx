@@ -4,6 +4,7 @@ import {Alert, Button, Card, Dialog, Disclosure, HelpMark, Icon, Label, Link, Po
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {ApplicableRadarDot, ApplicableRadarShape, COMPLEX_REPORT_URL, HELP_POPOVER_PROPS, REPORT_ACCESS_REQUEST_URL, ProductRadarTick, allocateIndexUplifts, blockPercent, collectBlockLinks, compareNames, crossSellPreview, difficultyMeta, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isInformationalMetric, isTbdMetric, isUnitFilterOption, isVisibleMetric, linksForBlock, maturityTheme, metricDomId, metricGroup, metricSkillLinks, metricWord, percent, progressTheme, radarBlockPercent, radarSeries, scoreFor, summarizeRecommendationUplifts, teamHelpAudience, typeTone, useMediaQuery} from '../features/catalog/Catalog.jsx';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
+import {STAND_ACCESS_ALLOW_ATTRIBUTE} from '../features/stand-access/standAccessLinks.js';
 import {
   RecommendationBody,
   recommendationBlockCode,
@@ -1052,7 +1053,7 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
               <li><Text variant="body-1">В обосновании — «Для разработки и тестирования инструмента AI суммаризации»</Text></li>
             </ul>
             <Text variant="body-2">Для входа в систему используйте почтовый адрес сигма и первичный пароль. ФИО, кому направить первичный пароль, просьба направить на почту (Хазипова Мария Юрьевна).</Text>
-            <div className="report-access-actions"><SemanticButton intent={BUTTON_INTENT.secondary} href={REPORT_ACCESS_REQUEST_URL} target="_blank">Завести заявку на доступ</SemanticButton><SemanticButton intent={BUTTON_INTENT.primary} href={COMPLEX_REPORT_URL} target="_blank">Перейти</SemanticButton></div>
+            <div className="report-access-actions"><SemanticButton intent={BUTTON_INTENT.secondary} href={REPORT_ACCESS_REQUEST_URL} target="_blank">Завести заявку на доступ</SemanticButton><SemanticButton intent={BUTTON_INTENT.primary} href={COMPLEX_REPORT_URL} target="_blank" extraProps={{[STAND_ACCESS_ALLOW_ATTRIBUTE]: ''}}>Перейти</SemanticButton></div>
           </div>
         </Dialog.Body>
       </Dialog>

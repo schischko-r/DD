@@ -1811,6 +1811,103 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertIn(".block-note.tool-group > .note-copy", html)
         self.assertIn("Синтетическая рекомендация", html)
 
+    def test_links_to_the_development_stand_open_the_access_dialog(self) -> None:
+        data = {
+            "products": [
+                {
+                    "id": "synthetic-product",
+                    "name": "Синтетический продукт",
+                    "type": "Продукт",
+                    "unit": "Тестовый юнит",
+                    "metrics": [],
+                }
+            ],
+            "title": {
+                "rows": [
+                    {
+                        "id": "synthetic-product",
+                        "name": "Синтетический продукт",
+                        "unit": "Тестовый юнит",
+                        "type": "Продукт",
+                        "score": 0,
+                        "group": "Тест",
+                        "order": 0,
+                    }
+                ],
+                "units": ["Тестовый юнит"],
+                "types": ["Продукт"],
+                "avgScore": 0,
+            },
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir) / "synthetic-report.html"
+            report.write_html(data, output)
+            html = output.read_text(encoding="utf-8")
+
+        self.assertIn(
+            "if (url.host.toLowerCase() !== 'tvlds-mvp001760.cloud.delta.sbrf.ru:8014') return;",
+            html,
+        )
+        self.assertIn("if (!link || link.hasAttribute('data-stand-access-allow')) return;", html)
+        self.assertIn("const standTarget = $('reportAccessGo');", html)
+        self.assertIn("if (standTarget) standTarget.href = url.href;", html)
+        self.assertIn("setReportAccessModal(true);\n      }, true);", html)
+        self.assertIn(
+            '<a id="reportAccessGo" class="report-action-button primary"'
+            ' href="http://tvlds-mvp001760.cloud.delta.sbrf.ru:8014/complex-report"'
+            ' target="_blank" rel="noopener noreferrer" data-stand-access-allow>Перейти</a>',
+            html,
+        )
+
+    def test_stand_access_dialog_repeats_the_current_instructions(self) -> None:
+        data = {
+            "products": [
+                {
+                    "id": "synthetic-product",
+                    "name": "Синтетический продукт",
+                    "type": "Продукт",
+                    "unit": "Тестовый юнит",
+                    "metrics": [],
+                }
+            ],
+            "title": {
+                "rows": [
+                    {
+                        "id": "synthetic-product",
+                        "name": "Синтетический продукт",
+                        "unit": "Тестовый юнит",
+                        "type": "Продукт",
+                        "score": 0,
+                        "group": "Тест",
+                        "order": 0,
+                    }
+                ],
+                "units": ["Тестовый юнит"],
+                "types": ["Продукт"],
+                "avgScore": 0,
+            },
+        }
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir) / "synthetic-report.html"
+            report.write_html(data, output)
+            html = output.read_text(encoding="utf-8")
+
+        self.assertIn("<p>· Выбрать «Открыть доступ»</p>", html)
+        self.assertIn(
+            "<p>· В поле «Выберите автоматизированную систему или ИТ услугу»"
+            " указать «AI HUB B2C (CI06049712)»</p>",
+            html,
+        )
+        self.assertIn(
+            "<p>· В обосновании - «Для разработки и тестирования инструмента"
+            " AI суммаризации»</p>",
+            html,
+        )
+        self.assertIn("Хазипова Мария Юрьевна", html)
+        self.assertNotIn("ТС AI Навыки Штаба", html)
+
 
 if __name__ == "__main__":
     unittest.main()
