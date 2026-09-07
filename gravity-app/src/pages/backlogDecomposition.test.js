@@ -899,3 +899,9 @@ test('Discovery goal card exposes a round info button opening a click popover', 
   assert.ok(hintSource.indexOf('{DISCOVERY_SOURCE_NOTE}') < hintSource.indexOf('DISCOVERY_BUCKET_LEAD'), 'source note precedes the bucket lead-in');
   assert.ok(hintSource.indexOf('DISCOVERY_BUCKET_LEAD') < hintSource.indexOf('<DefinitionList responsive>'), 'lead-in precedes the direction list');
 });
+
+test('sub-hour cycle time renders as «< 1 часа» instead of a zero reading', () => {
+  assert.match(pageSource, /const SUB_HOUR_LABEL = '< 1 часа';/);
+  assert.match(pageSource, /const roundsToZero = Number\(number\.toFixed\(maximumFractionDigits\)\) === 0;/);
+  assert.match(pageSource, /if \(unit === 'ч' && number >= 0 && roundsToZero\) return SUB_HOUR_LABEL;/);
+});

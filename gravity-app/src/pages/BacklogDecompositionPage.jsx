@@ -26,10 +26,14 @@ const SCENARIO_RECOMMENDATION_EXCLUSIONS = new Set([
 const formatNumber = (value, maximumFractionDigits = 0) => Number.isFinite(Number(value))
   ? new Intl.NumberFormat('ru-RU', {maximumFractionDigits}).format(Number(value))
   : '—';
+const SUB_HOUR_LABEL = '< 1 часа';
 const formatOptionalMetric = (value, unit, maximumFractionDigits = 1) => {
   if (value === null || value === undefined || value === '') return '—';
   const number = Number(value);
-  return Number.isFinite(number) ? `${formatNumber(number, maximumFractionDigits)} ${unit}` : '—';
+  if (!Number.isFinite(number)) return '—';
+  const roundsToZero = Number(number.toFixed(maximumFractionDigits)) === 0;
+  if (unit === 'ч' && number >= 0 && roundsToZero) return SUB_HOUR_LABEL;
+  return `${formatNumber(number, maximumFractionDigits)} ${unit}`;
 };
 const formatPercentValue = (value, maximumFractionDigits = 1) => `${formatNumber(value, maximumFractionDigits)}%`;
 const formatPercent = ({value}) => formatPercentValue(value);
