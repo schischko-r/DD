@@ -1047,9 +1047,11 @@ export function TeamProfilePage({product, products, rows, detailScore, teamUnit,
             <Text variant="subheader-1">Доступ к системе</Text>
             <Text variant="body-2">Для доступа непосредственно к системе необходимо в АС Друг в поисковой строке ввести «Доступ к стендам разработки и тестирования», далее:</Text>
             <ul>
-              <li><Text variant="body-1">В поле стенд указать «ТС AI Навыки Штаба B2C (CI09261834) (DEV) (CI09933741)»</Text></li>
+              <li><Text variant="body-1">Выбрать «Открыть доступ»</Text></li>
+              <li><Text variant="body-1">В поле «Выберите автоматизированную систему или ИТ услугу» указать «AI HUB B2C (CI06049712)»</Text></li>
               <li><Text variant="body-1">В обосновании — «Для разработки и тестирования инструмента AI суммаризации»</Text></li>
             </ul>
+            <Text variant="body-2">Для входа в систему используйте почтовый адрес сигма и первичный пароль. ФИО, кому направить первичный пароль, просьба направить на почту (Хазипова Мария Юрьевна).</Text>
             <div className="report-access-actions"><SemanticButton intent={BUTTON_INTENT.secondary} href={REPORT_ACCESS_REQUEST_URL} target="_blank">Завести заявку на доступ</SemanticButton><SemanticButton intent={BUTTON_INTENT.primary} href={COMPLEX_REPORT_URL} target="_blank">Перейти</SemanticButton></div>
           </div>
         </Dialog.Body>
