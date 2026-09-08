@@ -51,6 +51,49 @@ function AntiTopRow({item, position, onHover}) {
   );
 }
 
+function CategorySummaryRow({category, onOpenLevel, onOpenAll}) {
+  const total = category.items.length;
+  return (
+    <div className="dashboard-category-row">
+      <div className="dashboard-category-row-head">
+        <span className="dashboard-category-icon"><Icon data={category.icon} size={16} /></span>
+        <button type="button" className="dashboard-category-row-title" onClick={onOpenAll}>
+          <b>{category.label}</b>
+          <small>{total} команд</small>
+        </button>
+      </div>
+      <div className="dashboard-category-row-split" role="group" aria-label={`${category.label}: распределение по уровню зрелости`}>
+        {[...category.maturityCounts].reverse().filter((level) => level.count).map((level) => (
+          <button
+            type="button"
+            key={level.theme}
+            className={`dashboard-category-segment tone-${level.theme}`}
+            style={{flexGrow: level.count}}
+            title={`${level.label}: ${level.count} из ${total}`}
+            aria-label={`${level.label}: ${level.count} из ${total}`}
+            onClick={() => onOpenLevel(level)}
+          >
+            <span>{level.count}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CategoryStripLegend({categories}) {
+  const present = new Set(categories.flatMap((category) => category.maturityCounts.filter((level) => level.count).map((level) => level.theme)));
+  const levels = [...(categories[0]?.maturityCounts || [])].reverse().filter((level) => present.has(level.theme));
+  if (!levels.length) return null;
+  return (
+    <div className="dashboard-category-strip-legend">
+      {levels.map((level) => (
+        <span key={level.theme} className={`dashboard-category-legend-item tone-${level.theme}`}>{level.label}</span>
+      ))}
+    </div>
+  );
+}
+
 function DashboardActionCard({icon, title, description, action, onClick, secondaryAction}) {
   return <Card className="dashboard-about-card" view="outlined" type="container">
     <button className="dashboard-about-main" type="button" aria-label={`${title}: ${action.toLocaleLowerCase('ru-RU')}`} onClick={onClick}>
@@ -123,6 +166,7 @@ export function DashboardPage({products, rows, maturity, summaryFilters, onSumma
     const maturityCounts = maturityLevels.map((level) => ({...level, count: items.filter((item) => item.maturity === level.theme).length}));
     return {...category, items, average, maturityCounts};
   });
+  const filledCategoryCards = categoryCards.filter((category) => category.items.length);
   const blockNames = scopedProducts[0]?.metrics?.map((block) => ({code: block.code, name: block.name})) || [];
   const radarData = blockNames.map((block) => {
     const averageFor = (source) => {
@@ -209,14 +253,22 @@ export function DashboardPage({products, rows, maturity, summaryFilters, onSumma
         </Dialog.Body>
       </Dialog>
 
-      <section className="dashboard-category-grid" aria-label="Сводка по типам команд">
+      {unit ? <Card className="dashboard-category-strip" view="outlined" aria-label="Сводка по типам команд">
+        {filledCategoryCards.map((category) => <CategorySummaryRow
+          key={category.key}
+          category={category}
+          onOpenAll={() => { setCatalogMaturity(null); setCatalogType(category.typeLabel); }}
+          onOpenLevel={(level) => { setCatalogMaturity(level); setCatalogType(category.typeLabel); }}
+        />)}
+        <CategoryStripLegend categories={filledCategoryCards} />
+      </Card> : <section className="dashboard-category-grid" aria-label="Сводка по типам команд">
         {categoryCards.map((category) => <Card key={category.key} className={`dashboard-category-card dashboard-category-${category.tone}${category.items.length ? '' : ' is-empty'}`} view="outlined">
           <div className="dashboard-category-head"><div className="dashboard-category-icon"><Icon data={category.icon} size={20} /></div><h2>{category.label}</h2></div>
           <div className="dashboard-category-score"><div>{category.average === null ? <Text variant="subheader-2" color="secondary">Нет данных</Text> : <><strong>{category.average}%</strong><span>/100</span></>}</div><span className="dashboard-category-caption">Средний Data-Driven Index B2C</span><small>Оценено команд: <b>{category.items.length}</b></small></div>
           <div className="dashboard-maturity"><span>По уровню зрелости</span><div className="dashboard-maturity-grid">{category.maturityCounts.map((level) => <button type="button" className="dashboard-maturity-counter" key={level.theme} disabled={!level.count} onClick={() => { setCatalogMaturity(level); setCatalogType(category.typeLabel); }}><span>{level.label}</span><strong>{level.count}</strong><Icon data={ChevronRight} size={13} /></button>)}</div></div>
           <Button className="dashboard-category-footer" view="flat-info" disabled={!category.items.length} onClick={() => { setCatalogMaturity(null); setCatalogType(category.typeLabel); }}>Все {category.label.toLowerCase()}</Button>
         </Card>)}
-      </section>
+      </section>}
 
       <Dialog open={antiTopOpen} onClose={() => setAntiTopOpen(false)} hasCloseButton maxWidth="m" fullWidth>
         <Dialog.Header caption="Ключевые западающие зоны" />
