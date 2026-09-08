@@ -85,7 +85,7 @@ test('one legend serves the whole strip, in the same order as the bar', () => {
 test('the strip is a fraction of the height the cards reserved', () => {
   assert.match(stylesSource, /\.dashboard-category-card \{[^}]*min-height: 194px;/, 'the card row cost 194px per card');
   assert.match(stylesSource, /\.dashboard-category-row \{ min-height: 52px;/);
-  assert.match(stylesSource, /\.dashboard-split-bar \{ min-width: 0; height: 16px;/, 'the bar is a thin rule, not a block');
+  assert.match(stylesSource, /\.dashboard-split-bar \{ min-width: 0; height: 18px;/, 'the bar is a thin rule, not a block');
   assert.match(stylesSource, /\.dashboard-category-strip \{ padding: 6px 18px;/);
   assert.match(
     stylesSource,
@@ -93,9 +93,24 @@ test('the strip is a fraction of the height the cards reserved', () => {
     'the strip takes the same white card ground as the rest of the dashboard',
   );
   for (const tone of ['success', 'info', 'warning', 'danger']) {
-    assert.match(stylesSource, new RegExp(`\\.dashboard-split-segment\\.tone-${tone} \\{ background: var\\(--g-color-base-`));
-    assert.match(stylesSource, new RegExp(`\\.dashboard-split-legend-item\\.tone-${tone}::before \\{ background: var\\(--g-color-base-`));
+    const token = tone === 'success' ? 'positive' : tone;
+    assert.match(
+      stylesSource,
+      new RegExp(`\\.dashboard-split-segment\\.tone-${tone} \\{ background: var\\(--g-color-base-${token}-light-hover\\); box-shadow: inset 0 0 0 1px var\\(--g-color-line-${token}\\); \\}`),
+      'one tier up the Gravity alpha scale, inside a toned border',
+    );
+    assert.match(stylesSource, new RegExp(`\\.dashboard-split-legend-item\\.tone-${tone}::before \\{ background: var\\(--g-color-base-${token}-light-hover\\);`));
   }
+  assert.doesNotMatch(
+    stylesSource,
+    /\.dashboard-split-segment\.tone-[a-z]+ \{ background: var\(--g-color-base-[a-z]+-heavy\)/,
+    'the heavy fill is gone',
+  );
+  assert.match(
+    stylesSource,
+    /\.dashboard-split-segment \{ color: var\(--g-color-text-primary\); \}/,
+    'the count stays neutral: heavy yellow on a yellow ground fell far below a readable contrast',
+  );
 });
 
 test('the strip classes cannot collide with the tone class a card gets', () => {
