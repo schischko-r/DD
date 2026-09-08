@@ -275,7 +275,7 @@ def build_payload(records: list[dict[str, Any]]) -> dict[str, Any]:
             "period": CURRENT_PERIOD,
             "previousPeriod": PREVIOUS_PERIOD,
             "unitCount": len(units),
-            "label": "Уровень зрелости данных",
+            "label": "Данные",
             "scoreDefinition": "Доля метрик юнита, выполняющих свой норматив, среди метрик с замером и нормативом",
             "averageScore": round(sum(scored) / len(scored)) if scored else None,
         },

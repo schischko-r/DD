@@ -52,7 +52,22 @@ test('the maturity split is one bar sized by the counts, with empty levels left 
   );
   assert.match(dashboardSource, /style=\{\{flexGrow: level\.count\}\}/, 'the segment width carries the share');
   assert.match(dashboardSource, /aria-label=\{`\$\{level\.label\}: \$\{level\.count\} из \$\{total\}`\}/);
-  assert.doesNotMatch(dashboardSource, /CategorySummaryRow[\s\S]{0,900}?Средний Data-Driven Index/, 'the average is not repeated above the unit profile');
+  assert.match(
+    dashboardSource,
+    /<div className="dashboard-category-row-score"[\s\S]{0,220}?<strong>\{category\.average\}%<\/strong>/,
+    'each category reports its own average, which the unit profile does not break down',
+  );
+  assert.match(dashboardSource, /\{category\.average === null \? <span>—<\/span>/, 'a category without scores shows no number');
+  assert.match(
+    stylesSource,
+    /\.dashboard-category-row \{[^}]*grid-template-columns: minmax\(150px, 210px\) minmax\(0, 1fr\) 74px;/,
+    'the score sits after the bar, not between the name and it',
+  );
+  const row = dashboardSource.slice(dashboardSource.indexOf('function CategorySummaryRow'), dashboardSource.indexOf('function CategoryStripLegend'));
+  assert.ok(
+    row.indexOf('dashboard-split-bar') < row.indexOf('dashboard-category-row-score'),
+    'the bar comes first in the row',
+  );
 });
 
 test('one legend serves the whole strip, in the same order as the bar', () => {
@@ -64,13 +79,13 @@ test('one legend serves the whole strip, in the same order as the bar', () => {
     'the legend lists only levels some category actually has',
   );
   assert.doesNotMatch(dashboardSource, /dashboard-category-row-legend/, 'the per-row legend is gone');
-  assert.match(stylesSource, /\.dashboard-category-strip-legend \{[^}]*border-top: 1px solid/);
+  assert.match(stylesSource, /\.dashboard-split-legend \{[^}]*border-top: 1px solid/);
 });
 
 test('the strip is a fraction of the height the cards reserved', () => {
   assert.match(stylesSource, /\.dashboard-category-card \{[^}]*min-height: 194px;/, 'the card row cost 194px per card');
   assert.match(stylesSource, /\.dashboard-category-row \{ min-height: 52px;/);
-  assert.match(stylesSource, /\.dashboard-category-row-split \{ min-width: 0; height: 16px;/, 'the bar is a thin rule, not a block');
+  assert.match(stylesSource, /\.dashboard-split-bar \{ min-width: 0; height: 16px;/, 'the bar is a thin rule, not a block');
   assert.match(stylesSource, /\.dashboard-category-strip \{ padding: 6px 18px;/);
   assert.match(
     stylesSource,
@@ -78,7 +93,31 @@ test('the strip is a fraction of the height the cards reserved', () => {
     'the strip takes the same white card ground as the rest of the dashboard',
   );
   for (const tone of ['success', 'info', 'warning', 'danger']) {
-    assert.match(stylesSource, new RegExp(`\\.dashboard-category-segment\\.tone-${tone} \\{ background: var\\(--g-color-base-`));
-    assert.match(stylesSource, new RegExp(`\\.dashboard-category-legend-item\\.tone-${tone}::before \\{ background: var\\(--g-color-base-`));
+    assert.match(stylesSource, new RegExp(`\\.dashboard-split-segment\\.tone-${tone} \\{ background: var\\(--g-color-base-`));
+    assert.match(stylesSource, new RegExp(`\\.dashboard-split-legend-item\\.tone-${tone}::before \\{ background: var\\(--g-color-base-`));
   }
+});
+
+test('the strip classes cannot collide with the tone class a card gets', () => {
+  const tones = [...dashboardSource.matchAll(/tone: '([a-z]+)'\}/g)].map((match) => match[1]);
+  assert.deepEqual(tones, ['product', 'segment', 'channel'], 'a card is classed dashboard-category-<tone>');
+
+  const stripClasses = [...stylesSource.matchAll(/\.(dashboard-split-[a-z-]+)/g)].map((match) => match[1]);
+  assert.ok(stripClasses.length > 0);
+  for (const tone of tones) {
+    assert.ok(
+      !stripClasses.includes(`dashboard-category-${tone}`),
+      `.dashboard-category-${tone} belongs to the card tone; the strip must not reuse it`,
+    );
+  }
+  assert.doesNotMatch(
+    dashboardSource,
+    /className=\{?`?dashboard-category-segment/,
+    'the segments card once lost its title to a strip rule of the same name',
+  );
+  assert.match(
+    stylesSource,
+    /\.dashboard-category-product, \.dashboard-category-segment, \.dashboard-category-channel \{ background: var\(--g-color-base-background\); \}/,
+    'the card tone rule still names all three tones',
+  );
 });

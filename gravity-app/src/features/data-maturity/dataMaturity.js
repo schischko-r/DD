@@ -14,24 +14,7 @@ export function planStatusLabel(status) {
   return PLAN_STATUS_LABELS[status] || PLAN_STATUS_LABELS.none;
 }
 
-export const TREND_LABELS = {
-  positive: 'Динамика к лучшему',
-  negative: 'Динамика к худшему',
-  flat: 'Без изменений',
-  unknown: 'Нет данных для сравнения',
-};
-
 const numberFormat = (value, maximumFractionDigits = 1) => new Intl.NumberFormat('ru-RU', {maximumFractionDigits}).format(value);
-
-export function trendLabel(trend) {
-  return TREND_LABELS[trend] || TREND_LABELS.unknown;
-}
-
-export function trendColor(trend) {
-  if (trend === 'positive') return 'positive';
-  if (trend === 'negative') return 'danger';
-  return 'secondary';
-}
 
 const WORKING_DAYS = 'раб.дни';
 
@@ -44,25 +27,12 @@ export function valueUnit(measure) {
   return isWorkingDays(measure) ? ' дн.' : '';
 }
 
-export function deltaUnit(measure) {
-  if (measure === '%') return ' п.п.';
-  return isWorkingDays(measure) ? ' дн.' : '';
-}
-
 export function formatMaturityValue(value, measure) {
   if (value === null || value === undefined) return '—';
   const number = Number(value);
   if (!Number.isFinite(number)) return '—';
   const scaled = measure === '%' ? number * 100 : number;
   return `${numberFormat(scaled)}${valueUnit(measure)}`;
-}
-
-export function formatMaturityDelta(delta, measure) {
-  if (delta === null || delta === undefined) return '—';
-  const number = Number(delta);
-  if (!Number.isFinite(number)) return '—';
-  const scaled = measure === '%' ? Math.abs(number) * 100 : Math.abs(number);
-  return `${number < 0 ? '−' : '+'}${numberFormat(scaled)}${deltaUnit(measure)}`;
 }
 
 export function findMaturityUnit(maturity, unitKey) {
@@ -90,8 +60,3 @@ export function planLabelTheme(status) {
   return PLAN_LABEL_THEMES[status] || PLAN_LABEL_THEMES.none;
 }
 
-export function deltaDirection(delta) {
-  const number = Number(delta);
-  if (delta === null || delta === undefined || !Number.isFinite(number) || number === 0) return 'flat';
-  return number > 0 ? 'up' : 'down';
-}

@@ -62,12 +62,12 @@ function CategorySummaryRow({category, onOpenLevel, onOpenAll}) {
           <small>{total} команд</small>
         </button>
       </div>
-      <div className="dashboard-category-row-split" role="group" aria-label={`${category.label}: распределение по уровню зрелости`}>
+      <div className="dashboard-split-bar" role="group" aria-label={`${category.label}: распределение по уровню зрелости`}>
         {[...category.maturityCounts].reverse().filter((level) => level.count).map((level) => (
           <button
             type="button"
             key={level.theme}
-            className={`dashboard-category-segment tone-${level.theme}`}
+            className={`dashboard-split-segment tone-${level.theme}`}
             style={{flexGrow: level.count}}
             title={`${level.label}: ${level.count} из ${total}`}
             aria-label={`${level.label}: ${level.count} из ${total}`}
@@ -76,6 +76,9 @@ function CategorySummaryRow({category, onOpenLevel, onOpenAll}) {
             <span>{level.count}</span>
           </button>
         ))}
+      </div>
+      <div className="dashboard-category-row-score" title={`Средний Data-Driven Index: ${category.label.toLowerCase()} юнита`}>
+        {category.average === null ? <span>—</span> : <><strong>{category.average}%</strong><small>средний DD</small></>}
       </div>
     </div>
   );
@@ -86,9 +89,9 @@ function CategoryStripLegend({categories}) {
   const levels = [...(categories[0]?.maturityCounts || [])].reverse().filter((level) => present.has(level.theme));
   if (!levels.length) return null;
   return (
-    <div className="dashboard-category-strip-legend">
+    <div className="dashboard-split-legend">
       {levels.map((level) => (
-        <span key={level.theme} className={`dashboard-category-legend-item tone-${level.theme}`}>{level.label}</span>
+        <span key={level.theme} className={`dashboard-split-legend-item tone-${level.theme}`}>{level.label}</span>
       ))}
     </div>
   );
@@ -181,7 +184,7 @@ export function DashboardPage({products, rows, maturity, summaryFilters, onSumma
   const radarPoints = useMemo(() => (maturityUnit
     ? [...radarData, {
       code: 'data-maturity',
-      name: maturity?.meta?.label || 'Уровень зрелости данных',
+      name: maturity?.meta?.label || 'Данные',
       b2c: maturity?.meta?.averageScore ?? null,
       unit: maturityUnit.score,
     }]
@@ -284,10 +287,10 @@ export function DashboardPage({products, rows, maturity, summaryFilters, onSumma
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.slice(0, ANTITOP_PREVIEW_SIZE).map((item, index) => <AntiTopRow key={`${item.block}-${item.name}`} item={item} position={index + 1} onHover={setHoveredBlock} />)}</div>{antiTop.length > ANTITOP_PREVIEW_SIZE && <div className="dashboard-antitop-more"><Button view="flat" size="s" width="max" onClick={() => setAntiTopOpen(true)}>Показать ещё <Icon data={ChevronDown} size={13} /></Button></div>}</Card>
       </section>
 
-      {maturityUnit && <section className="metrics-section" aria-label="Блоки юнита и уровень зрелости данных">
+      {maturityUnit && <section className="metrics-section" aria-label="Блоки юнита и данные">
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2></div>
         <div className="dashboard-data-maturity">
-        {radarData.map((block) => <DashboardBlockCard key={block.code} name={block.name} score={block.unit} reference={block.b2c} tone={block.unit === null ? 'default' : progressTheme(block.unit)} />)}
+        {radarData.map((block) => <DashboardBlockCard key={block.code} name={block.name} score={block.unit} tone={block.unit === null ? 'default' : progressTheme(block.unit)} />)}
         <DataMaturityCard unit={maturityUnit} meta={maturity?.meta} isOpen={maturityOpen} onToggle={() => setMaturityOpen((value) => !value)} />
         </div>
       </section>}

@@ -3,15 +3,11 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {
   findMaturityUnit,
-  formatMaturityDelta,
   formatMaturityValue,
-  deltaDirection,
   planLabelTheme,
   planStatus,
   planStatusLabel,
   planTone,
-  trendColor,
-  trendLabel,
   visibleMaturityCategories,
 } from './dataMaturity.js';
 
@@ -52,16 +48,6 @@ test('every reading carries the unit the workbook declares for it', () => {
   assert.equal(formatMaturityValue(undefined, '%'), '—');
 });
 
-test('a delta keeps its sign and its unit, zero included', () => {
-  assert.equal(formatMaturityDelta(0.04, '%'), '+4 п.п.');
-  assert.equal(formatMaturityDelta(-0.067, '%'), '−6,7 п.п.');
-  assert.equal(formatMaturityDelta(-6, 'раб.дни'), '−6 дн.');
-  assert.equal(formatMaturityDelta(1, 'раб.дни'), '+1 дн.');
-  assert.equal(formatMaturityDelta(0, '%'), '+0 п.п.', 'an unchanged share still says what it did not change by');
-  assert.equal(formatMaturityDelta(0, 'раб.дни'), '+0 дн.');
-  assert.equal(formatMaturityDelta(null, '%'), '—');
-});
-
 test('the traffic light follows the direction that improves each metric', () => {
   const speed = maturity.units
     .flatMap((unit) => unit.categories)
@@ -70,7 +56,6 @@ test('the traffic light follows the direction that improves each metric', () => 
   assert.ok(speed, 'Core Banking CR speed dropped from 21 to 15 days');
   assert.equal(speed.betterDirection, 'down');
   assert.equal(speed.trend, 'positive', 'fewer working days is an improvement');
-  assert.equal(trendColor('positive'), 'positive');
 
   const incidents = maturity.units
     .find((unit) => unit.key === 'CBP').categories
@@ -78,7 +63,6 @@ test('the traffic light follows the direction that improves each metric', () => 
     .find((metric) => metric.key === 'incident-density');
   assert.equal(incidents.betterDirection, 'down');
   assert.equal(incidents.trend, 'negative', 'a denser incident flow is a regression');
-  assert.equal(trendColor('negative'), 'danger');
 });
 
 test('a metric without both readings stays neutral instead of guessing', () => {
@@ -91,8 +75,6 @@ test('a metric without both readings stays neutral instead of guessing', () => {
     assert.ok(metric.value === null || metric.previousValue === null);
     assert.equal(metric.delta, null);
   }
-  assert.equal(trendColor('unknown'), 'secondary');
-  assert.equal(trendLabel('unknown'), 'Нет данных для сравнения');
 });
 
 test('the workbook spelling of one category is folded into a single group', () => {
@@ -130,7 +112,10 @@ test('the summary mounts the layer only for a selected unit and leaves the radar
 
 test('the radar blocks stand beside the layer as cards of the same half width', () => {
   const pageSource = readFileSync(new URL('../../pages/DashboardPage.jsx', import.meta.url), 'utf8');
-  assert.match(pageSource, /\{radarData\.map\(\(block\) => <DashboardBlockCard key=\{block\.code\} name=\{block\.name\} score=\{block\.unit\} reference=\{block\.b2c\}/);
+  assert.match(pageSource, /\{radarData\.map\(\(block\) => <DashboardBlockCard key=\{block\.code\} name=\{block\.name\} score=\{block\.unit\} tone=/);
+  const cardFile = readFileSync(new URL('./DataMaturityCard.jsx', import.meta.url), 'utf8');
+  const blockCard = cardFile.slice(cardFile.indexOf('export function DashboardBlockCard'), cardFile.indexOf('function MaturityMetricRow'));
+  assert.doesNotMatch(blockCard, /B2C/, 'the block cards carry the unit score alone; B2C is on the radar beside it');
   assert.match(pageSource, /return \{code: block\.code, name: block\.name, b2c: averageFor\(periodProducts\), unit: averageFor\(scopedProducts\)\};/);
 
   const cardSource = readFileSync(new URL('./DataMaturityCard.jsx', import.meta.url), 'utf8');
@@ -156,15 +141,21 @@ test('the layer reuses the metric block shell so it reads like the DD blocks', (
   assert.match(cardSource, /<Icon data=\{isOpen \? ChevronDown : ChevronRight\} size=\{14\} \/>/);
   assert.match(cardSource, /\{isOpen && \(\s*<div className="metric-list">/);
   assert.match(cardSource, /<div className="metric-group-title"><span>\{category\.label\}<\/span><\/div>/, 'categories reuse the block group header');
+  assert.match(cardSource, /<h3>Данные<\/h3>/);
+  assert.doesNotMatch(cardSource, /Уровень зрелости данных/, 'the block is named "Данные" everywhere it shows');
+  assert.equal(maturity.meta.label, 'Данные', 'the radar axis takes the same short name');
   assert.match(cardSource, /<div className="metric-row">\s*<div className="metric-copy">/, 'rows reuse the team metric row');
   assert.match(cardSource, /<div className="metric-name-line"><b>\{metric\.label\}<\/b><\/div>/);
   assert.match(cardSource, /<div className="metric-status-with-confirmation">\s*<div className="metric-value-group">/);
   assert.doesNotMatch(cardSource, /data-maturity-name|data-maturity-fact|data-maturity-result/, 'the bespoke row markup is gone');
   assert.match(
     cardSource,
-    /`B2C \$\{meta\.averageScore\}%`\} · не влияет на DD-рейтинг/,
+    /`B2C \$\{meta\.averageScore\}%`\} · не влияет на DD-индекс/,
     'the subtitle carries the B2C comparison and the disclaimer, nothing else',
   );
+  assert.match(cardSource, /<HelpMark aria-label="О блоке «Данные»" popoverProps=\{HELP_POPOVER_PROPS\}>/);
+  assert.match(cardSource, /Информационный блок, в 2026-м году, не влияет на расчет DD-индекса/);
+  assert.doesNotMatch(cardSource, /DD-рейтинг/, 'the wording settled on "DD-индекс"');
   assert.doesNotMatch(cardSource, /нормативов ·/, 'the norm tally left the subtitle');
 });
 
@@ -177,29 +168,21 @@ test('both summary navigation cards split the same way regardless of action coun
   );
 });
 
-test('the delta reads as an arrow and a number, and the norm sits under the fact', () => {
-  assert.equal(deltaDirection(0.04), 'up');
-  assert.equal(deltaDirection(-6), 'down');
-  assert.equal(deltaDirection(0), 'flat', 'an unchanged metric gets no arrow');
-  const cardCheck = readFileSync(new URL('./DataMaturityCard.jsx', import.meta.url), 'utf8');
-  assert.match(cardCheck, /data-maturity-delta-\$\{metric\.trend\}/, 'a flat delta stays on the secondary colour');
-  assert.equal(deltaDirection(null), 'flat');
-
+test('the row shows the fact against its norm, without the quarter-on-quarter move', () => {
   const cardSource = readFileSync(new URL('./DataMaturityCard.jsx', import.meta.url), 'utf8');
-  assert.match(cardSource, /<Icon data=\{direction === 'up' \? CaretUp : CaretDown\} size=\{14\} \/>/);
-  assert.match(cardSource, /\{direction !== 'flat' && <Icon/, 'no arrow when nothing moved');
-  assert.match(cardSource, /<span className=\{`data-maturity-delta data-maturity-delta-\$\{metric\.trend\}`\}>/);
-  assert.doesNotMatch(cardSource, /data-maturity-delta[^`]*`\} theme=/, 'the delta is no longer boxed in a Label');
   assert.match(
     cardSource,
-    /<\/div>\s*<span className="data-maturity-plan-note">\{metric\.planLabel \? `план \$\{metric\.planLabel\}` : 'план отсутствует'\}<\/span>/,
-    'the norm hangs under the fact, not under the description',
+    /<span className="data-maturity-plan-note">\{metric\.planLabel \? `план \$\{metric\.planLabel\}` : 'план отсутствует'\}<\/span>/,
+    'the norm hangs under the fact',
   );
+  assert.doesNotMatch(cardSource, /delta|Caret/i, 'the delta pill and its arrow are gone from the row');
 
-  const stylesSource = readFileSync(new URL('../../styles.css', import.meta.url), 'utf8');
-  assert.match(stylesSource, /\.data-maturity-delta \{ flex: 0 0 auto; display: inline-flex;[^}]*font-variant-numeric: tabular-nums;/);
-  assert.doesNotMatch(stylesSource, /\.data-maturity-delta \{[^}]*box-shadow/, 'no pill outline is left');
-  assert.match(stylesSource, /\.data-maturity-plan-note \{ margin-top: 3px;/);
+  const moduleSource = readFileSync(new URL('./dataMaturity.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(moduleSource, /formatMaturityDelta|deltaDirection|trendColor|TREND_LABELS/, 'their helpers went with them');
+  assert.ok(
+    maturity.units.flatMap((unit) => unit.categories).flatMap((category) => category.metrics).some((metric) => metric.delta !== null),
+    'the connector still publishes deltas, so bringing the column back is a render change',
+  );
 });
 
 test('a metric with no reading this quarter is not shown at all', () => {
@@ -330,8 +313,8 @@ test('the B2C profile card carries the same score scale as a team card', () => {
 
 test('the card keeps its markup in the stylesheet', () => {
   const cardSource = readFileSync(new URL('./DataMaturityCard.jsx', import.meta.url), 'utf8');
-  assert.match(cardSource, /import \{Card, Icon, Label\} from '@gravity-ui\/uikit';/);
-  assert.match(cardSource, /import \{CaretDown, CaretUp, ChevronDown, ChevronRight\} from '@gravity-ui\/icons';/);
+  assert.match(cardSource, /import \{Card, HelpMark, Icon, Label\} from '@gravity-ui\/uikit';/);
+  assert.match(cardSource, /import \{ChevronDown, ChevronRight\} from '@gravity-ui\/icons';/);
   assert.doesNotMatch(cardSource, /measuredCount/, 'the coverage counter is not shown on the card');
   assert.doesNotMatch(cardSource, /style=\{\{/, 'no inline styling outside the stylesheet');
 });
