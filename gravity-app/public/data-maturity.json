@@ -118,12 +118,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -137,12 +137,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",
@@ -331,12 +331,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -350,12 +350,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",
@@ -544,12 +544,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -563,12 +563,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",
@@ -757,12 +757,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -776,12 +776,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",
@@ -970,12 +970,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -989,12 +989,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",
@@ -1183,12 +1183,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -1202,12 +1202,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",
@@ -1396,12 +1396,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -1415,12 +1415,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",
@@ -1609,12 +1609,12 @@
           "label": "Скорость",
           "metrics": [
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (NEW)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "Мониторинг New <40",
-              "planLabel": "New <40",
+              "planLabel": "<40",
               "planValue": null,
               "planTarget": 40.0,
               "planComparison": "max",
@@ -1628,12 +1628,12 @@
               "key": "bank-delivery-speed-new"
             },
             {
-              "label": "Скорость поставки данных Банка в Фабрику данных (CR)",
+              "label": "Скорость поставки данных Банка в Фабрику данных",
               "description": "Время загрузки данных и публикации реплики (от начала подготовки АС к DFCi)",
               "category": "Скорость",
               "measure": "раб.дни",
               "plan": "CR <15",
-              "planLabel": "CR <15",
+              "planLabel": "<15",
               "planValue": null,
               "planTarget": 15.0,
               "planComparison": "max",

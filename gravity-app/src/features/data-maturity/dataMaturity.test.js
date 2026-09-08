@@ -141,6 +141,12 @@ test('the layer reuses the metric block shell so it reads like the DD blocks', (
   assert.match(cardSource, /<Icon data=\{isOpen \? ChevronDown : ChevronRight\} size=\{14\} \/>/);
   assert.match(cardSource, /\{isOpen && \(\s*<div className="metric-list">/);
   assert.match(cardSource, /<div className="metric-group-title"><span>\{category\.label\}<\/span><\/div>/, 'categories reuse the block group header');
+  const stylesSource = readFileSync(new URL('../../styles.css', import.meta.url), 'utf8');
+  assert.match(
+    stylesSource,
+    /\.detail-page \.metric-list > \.metric-group-title, \.metric-block-data-maturity \.metric-list > \.metric-group-title \{/,
+    'the blue header was scoped to .detail-page, so the summary card fell back to the grey base rule',
+  );
   assert.match(cardSource, /<h3>Данные<\/h3>/);
   assert.doesNotMatch(cardSource, /Уровень зрелости данных/, 'the block is named "Данные" everywhere it shows');
   assert.equal(maturity.meta.label, 'Данные', 'the radar axis takes the same short name');
@@ -183,6 +189,24 @@ test('the row shows the fact against its norm, without the quarter-on-quarter mo
     maturity.units.flatMap((unit) => unit.categories).flatMap((category) => category.metrics).some((metric) => metric.delta !== null),
     'the connector still publishes deltas, so bringing the column back is a render change',
   );
+});
+
+test('a norm reads as its threshold, and the two delivery rows share one name', () => {
+  const metrics = maturity.units.flatMap((unit) => unit.categories).flatMap((category) => category.metrics);
+  const byKey = (key) => metrics.find((metric) => metric.key === key);
+
+  assert.equal(byKey('b2c-sql-marts').planLabel, '90%');
+  assert.equal(byKey('dq-coverage').planLabel, '100%', 'the "Мониторинг" filler is dropped');
+  assert.equal(byKey('incident-density').planLabel, '<5%');
+  assert.equal(byKey('as-data-share').planLabel, '', 'a placeholder norm renders as no norm at all');
+
+  assert.equal(byKey('bank-delivery-speed-new').planLabel, '<40', 'New names the row, not the threshold');
+  assert.equal(byKey('bank-delivery-speed-cr').planLabel, '<15');
+  const speedLabels = new Set(metrics
+    .filter((metric) => metric.key.startsWith('bank-delivery-speed'))
+    .map((metric) => metric.label));
+  assert.equal(speedLabels.size, 1, 'both delivery rows carry the plain metric name');
+  assert.doesNotMatch([...speedLabels][0], /\((?:NEW|CR)\)/);
 });
 
 test('a metric with no reading this quarter is not shown at all', () => {

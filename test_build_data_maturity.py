@@ -93,8 +93,12 @@ class DataMaturityConnectorTest(unittest.TestCase):
         self.assertEqual(len(keys), len(set(keys)), "every metric key is unique within a unit")
 
         labels = {metric["key"]: metric["label"] for metric in self._metrics(payload, "CBP")}
-        self.assertTrue(labels["bank-delivery-speed-new"].endswith("(NEW)"))
-        self.assertTrue(labels["bank-delivery-speed-cr"].endswith("(CR)"))
+        self.assertEqual(labels["bank-delivery-speed-new"], labels["bank-delivery-speed-cr"])
+        self.assertNotIn("(", labels["bank-delivery-speed-new"])
+
+        norms = {metric["key"]: metric["planLabel"] for metric in self._metrics(payload, "CBP")}
+        self.assertEqual(norms["bank-delivery-speed-new"], "<40")
+        self.assertEqual(norms["bank-delivery-speed-cr"], "<15")
 
     def test_a_missing_reading_produces_no_delta_and_no_verdict(self) -> None:
         payload = self._build({("Core", 0): ("-", "0.9"), ("Core", 1): ("0.9", None)})

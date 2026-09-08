@@ -88,8 +88,9 @@ def plan_label(plan: str, plan_value: float | None, measure: str) -> str:
     """Render the norm the way the fact next to it is rendered."""
 
     if plan_value is None:
-        # "Мониторинг New <40" and friends already read as a norm; drop the noise word.
-        cleaned = re.sub(r"\bмониторинг\b", "", plan, flags=re.IGNORECASE)
+        # "Мониторинг New <40" and friends already read as a norm; drop the noise word and
+        # the New / CR marker, which names the row rather than the threshold.
+        cleaned = re.sub(r"\b(?:мониторинг|new|cr)\b", "", plan, flags=re.IGNORECASE)
         cleaned = re.sub(r"^[\s\-–—%]+|[\s\-–—]+$", "", cleaned)
         return re.sub(r"\s+", " ", cleaned).strip()
     if measure == "%":
@@ -203,7 +204,9 @@ def build_metric(record: dict[str, Any]) -> dict[str, Any]:
     plan_value = parse_number(norm)
     target, comparison = plan_target(norm, measure, lower_is_better)
     return {
-        "label": f"{name} ({marker})" if marker else name,
+        # The two delivery-speed norms keep separate keys, but the norm shown under the
+        # fact ("New <40" / "CR <15") already tells the rows apart on screen.
+        "label": name,
         "description": clean_text(record["Описание"]),
         "category": category,
         "measure": measure,
