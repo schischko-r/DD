@@ -202,11 +202,11 @@ test('a norm reads as its threshold, and the two delivery rows share one name', 
 
   assert.equal(byKey('bank-delivery-speed-new').planLabel, '<40', 'New names the row, not the threshold');
   assert.equal(byKey('bank-delivery-speed-cr').planLabel, '<15');
-  const speedLabels = new Set(metrics
-    .filter((metric) => metric.key.startsWith('bank-delivery-speed'))
-    .map((metric) => metric.label));
-  assert.equal(speedLabels.size, 1, 'both delivery rows carry the plain metric name');
-  assert.doesNotMatch([...speedLabels][0], /\((?:NEW|CR)\)/);
+  assert.match(byKey('bank-delivery-speed-new').label, /\(NEW\)$/, 'the marker stays on the name so the rows read apart');
+  assert.match(byKey('bank-delivery-speed-cr').label, /\(CR\)$/);
+  for (const metric of metrics) {
+    assert.doesNotMatch(metric.planLabel, /\b(?:NEW|CR)\b/i, 'a norm carries its threshold alone');
+  }
 });
 
 test('a metric with no reading this quarter is not shown at all', () => {

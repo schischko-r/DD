@@ -204,9 +204,9 @@ def build_metric(record: dict[str, Any]) -> dict[str, Any]:
     plan_value = parse_number(norm)
     target, comparison = plan_target(norm, measure, lower_is_better)
     return {
-        # The two delivery-speed norms keep separate keys, but the norm shown under the
-        # fact ("New <40" / "CR <15") already tells the rows apart on screen.
-        "label": name,
+        # The marker stays on the name so the two delivery rows read apart; the norm
+        # under the fact carries the threshold alone.
+        "label": f"{name} ({marker})" if marker else name,
         "description": clean_text(record["Описание"]),
         "category": category,
         "measure": measure,

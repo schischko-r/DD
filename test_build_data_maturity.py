@@ -93,8 +93,8 @@ class DataMaturityConnectorTest(unittest.TestCase):
         self.assertEqual(len(keys), len(set(keys)), "every metric key is unique within a unit")
 
         labels = {metric["key"]: metric["label"] for metric in self._metrics(payload, "CBP")}
-        self.assertEqual(labels["bank-delivery-speed-new"], labels["bank-delivery-speed-cr"])
-        self.assertNotIn("(", labels["bank-delivery-speed-new"])
+        self.assertTrue(labels["bank-delivery-speed-new"].endswith("(NEW)"))
+        self.assertTrue(labels["bank-delivery-speed-cr"].endswith("(CR)"))
 
         norms = {metric["key"]: metric["planLabel"] for metric in self._metrics(payload, "CBP")}
         self.assertEqual(norms["bank-delivery-speed-new"], "<40")
