@@ -161,15 +161,17 @@ def write_client_credentials(
 READ_BLOCK_SIZE = 1024 * 1024
 
 
-def _ensure_readable(html_path: Path) -> None:
-    """Read the report through before streaming it into the POST body.
+def _read_report(html_path: Path) -> bytes:
+    """Load the report up front instead of streaming it out of an open handle.
 
-    requests reads the body lazily, so a local read failure surfaces mid-request
-    as ConnectionError and reads as a network problem. Failing here instead says
-    what actually broke, and the pass also materializes a cloud-synced placeholder.
+    A file object makes requests send the body chunked and read it lazily, so the
+    server never learns the size and any local read failure surfaces mid-request
+    as ConnectionError. Reading here gives the POST a Content-Length and reports a
+    read failure as what it is.
     """
 
     expected = html_path.stat().st_size
+    blocks: list[bytes] = []
     read = 0
     try:
         with html_path.open("rb") as html_file:
@@ -177,6 +179,7 @@ def _ensure_readable(html_path: Path) -> None:
                 block = html_file.read(READ_BLOCK_SIZE)
                 if not block:
                     break
+                blocks.append(block)
                 read += len(block)
     except OSError as error:
         raise OSError(
@@ -188,6 +191,7 @@ def _ensure_readable(html_path: Path) -> None:
         raise OSError(
             f"{html_path} изменился во время чтения: прочитано {read} байт вместо {expected}."
         )
+    return b"".join(blocks)
 
 
 def upload_html(
@@ -209,7 +213,7 @@ def upload_html(
 ) -> int:
     if not html_path.is_file():
         raise FileNotFoundError(f"HTML file not found: {html_path}")
-    _ensure_readable(html_path)
+    payload = _read_report(html_path)
     if not insecure and ca_bundle is not None and not ca_bundle.is_file():
         raise FileNotFoundError(f"CA bundle not found: {ca_bundle}")
     if not certificate_path.is_file():
@@ -273,13 +277,12 @@ def upload_html(
                 "verify the configured Qlik access without exposing credentials."
             )
         for attempt in range(retries + 1):
-            with html_path.open("rb") as html_file:
-                response = session.post(
-                    url,
-                    headers=post_headers,
-                    data=html_file,
-                    timeout=timeout,
-                )
+            response = session.post(
+                url,
+                headers=post_headers,
+                data=payload,
+                timeout=timeout,
+            )
             if (
                 response.status_code not in RETRYABLE_UPLOAD_STATUS_CODES
                 or attempt == retries

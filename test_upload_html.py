@@ -63,7 +63,7 @@ class FakeSession:
         return self.bootstrap_response
 
     def post(self, url: str, **kwargs: Any) -> FakeResponse:
-        kwargs["body"] = kwargs["data"].read()
+        kwargs["body"] = kwargs["data"]
         self.calls.append(("POST", url, kwargs))
         return self.post_response
 
@@ -314,12 +314,12 @@ class UploadHtmlTest(unittest.TestCase):
                     ),
                 )
 
-    def test_upload_retries_temporary_gateway_failures_with_fresh_file_handles(self) -> None:
+    def test_upload_retries_temporary_gateway_failures_with_the_whole_report(self) -> None:
         session = FakeSession()
         responses = [TemporaryFailureResponse(), TemporaryFailureResponse(), FakeResponse()]
 
         def post(_url: str, **kwargs: Any) -> Any:
-            kwargs["body"] = kwargs["data"].read()
+            kwargs["body"] = kwargs["data"]
             session.calls.append(("POST", _url, kwargs))
             return responses.pop(0)
 
@@ -352,6 +352,10 @@ class UploadHtmlTest(unittest.TestCase):
         post_calls = [call for call in session.calls if call[0] == "POST"]
         self.assertEqual(len(post_calls), 3)
         self.assertTrue(all(call[2]["body"] == b"<html>report</html>" for call in post_calls))
+        self.assertTrue(
+            all(isinstance(call[2]["data"], bytes) for call in post_calls),
+            "bytes give the POST a Content-Length; a file handle would send it chunked",
+        )
 
     def test_upload_does_not_retry_non_temporary_failure(self) -> None:
         session = FakeSession(post_response=UnauthorizedResponse())
