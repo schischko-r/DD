@@ -1,5 +1,7 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Button, Card, Dialog, HelpMark, Label, Link, Spin, Text, TextInput} from '@gravity-ui/uikit';
+import {ArrowLeft, CircleInfo} from '@gravity-ui/icons';
+import {Button, Card, Dialog, HelpMark, Icon, Label, Link, Spin, Text, TextInput} from '@gravity-ui/uikit';
+import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import happyMascot from '../assets/mascot/happy.png';
 
 const HELP_POPOVER_PROPS = {trigger: 'all', openDelay: 0, closeDelay: 80, rest: 0};
@@ -71,7 +73,7 @@ function InitiativeInfo({item}) {
   </div></HelpMark>;
 }
 
-export function InitiativesBacklogPage() {
+export function InitiativesBacklogPage({onBack}) {
   const [data, setData] = useState(null);
   const [block, setBlock] = useState('Все блоки');
   const [query, setQuery] = useState('');
@@ -85,9 +87,9 @@ export function InitiativesBacklogPage() {
     else result.push({block: item.block, items: [item]});
     return result;
   }, []), [items]);
-  if (!data) return <main className="content initiatives-page"><Spin size="xl" /></main>;
-  return <main className="content initiatives-page"><div className="initiatives-document">
-    <section className="initiatives-hero"><div><Text variant="caption-2" color="secondary">DATA-DRIVEN B2C</Text><h1>Развитие инструмента</h1><Text variant="body-2" color="secondary">Централизованные мероприятия по развитию практик и повышению Data-Driven Index.</Text></div><img src={happyMascot} alt="" aria-hidden="true" /></section>
+  if (!data) return <main className="content initiatives-page"><div className="initiatives-document"><SemanticButton className="initiatives-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton><Spin size="xl" /></div></main>;
+  return <main className="content initiatives-page"><div className="initiatives-document"><SemanticButton className="initiatives-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton>
+    <section className="initiatives-hero"><div><div className="initiatives-eyebrow"><Icon data={CircleInfo} size={16} /><span>Data-Driven B2C</span></div><h1>Развитие инструмента</h1><Text variant="body-2" color="secondary">Централизованные мероприятия по развитию практик и повышению Data-Driven Index.</Text></div><img src={happyMascot} alt="" aria-hidden="true" /></section>
     <Card className="initiatives-controls" view="outlined" type="container" size="l"><div><Text variant="subheader-1">Бэклог мероприятий</Text><Text color="secondary">{items.length} из {data.length} направлений</Text></div><TextInput value={query} onUpdate={setQuery} placeholder="Поиск" hasClear /></Card>
     <div className="initiatives-filter" role="group" aria-label="Блок DD">{blocks.map((value) => <Button key={value} view="flat" size="m" selected={block === value} onClick={() => setBlock(value)}>{value}</Button>)}</div>
     <div className="initiatives-groups">

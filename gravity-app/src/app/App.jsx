@@ -232,7 +232,7 @@ export function App() {
         : view === 'about'
           ? <AboutPage initialSection={aboutSection} onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'initiatives'
-            ? <InitiativesBacklogPage />
+            ? <InitiativesBacklogPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'backlog' && BACKLOG_DECOMPOSITION_ENABLED
             ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
             : <TeamProfilePage product={product} products={data.products} rows={rows} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => openAbout()} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(productBacklogTeam.key) : undefined} cjxplorerProduct={cjxplorerProduct} />;

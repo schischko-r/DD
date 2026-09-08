@@ -171,13 +171,15 @@ test('flattened roadmap rows calculate the block, quarter, and due-date rowSpan 
   ]);
 });
 
-test('flattening preserves all 204 source item identities without loss or duplication', () => {
+test('flattening preserves every source item identity without loss or duplication', () => {
   const report = JSON.parse(readFileSync(new URL('../../public/report-data.json', import.meta.url), 'utf8'));
   const items = report.products.flatMap((product) => product.roadmap?.items || []);
   const flattenedItems = report.products.flatMap((product) => flattenRoadmapItems(product.roadmap?.items).map((row) => row.item));
 
-  assert.equal(items.length, 204);
-  assert.equal(flattenedItems.length, 204);
-  assert.equal(new Set(flattenedItems).size, 204);
+  // The count comes from the published roadmap, which changes whenever the workbook is refreshed;
+  // what must hold is that flattening neither drops nor duplicates a row.
+  assert.ok(items.length > 0, 'the report carries roadmap items to flatten');
+  assert.equal(flattenedItems.length, items.length);
+  assert.equal(new Set(flattenedItems).size, items.length);
   assert.ok(items.every((item) => flattenedItems.includes(item)));
 });

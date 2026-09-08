@@ -103,7 +103,7 @@ export function AboutPage({initialSection = '', onBack}) {
   return (
     <main className="content about-page">
       <div className="about-document">
-      <SemanticButton className="about-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К сводке</SemanticButton>
+      <SemanticButton className="about-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton>
       <section className="about-hero">
         <div className="about-hero-copy about-editorial-copy">
           <div className="about-hero-main">
