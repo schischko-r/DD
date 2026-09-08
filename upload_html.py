@@ -158,6 +158,38 @@ def write_client_credentials(
     return certificate_pem_path, key_path
 
 
+READ_BLOCK_SIZE = 1024 * 1024
+
+
+def _ensure_readable(html_path: Path) -> None:
+    """Read the report through before streaming it into the POST body.
+
+    requests reads the body lazily, so a local read failure surfaces mid-request
+    as ConnectionError and reads as a network problem. Failing here instead says
+    what actually broke, and the pass also materializes a cloud-synced placeholder.
+    """
+
+    expected = html_path.stat().st_size
+    read = 0
+    try:
+        with html_path.open("rb") as html_file:
+            while True:
+                block = html_file.read(READ_BLOCK_SIZE)
+                if not block:
+                    break
+                read += len(block)
+    except OSError as error:
+        raise OSError(
+            f"Не удалось прочитать {html_path} целиком (прочитано {read} из {expected} байт): "
+            f"{error}. Файл недоступен локально — проверьте синхронизацию каталога "
+            "(iCloud Drive выгружает файлы в облако), диск и антивирус."
+        ) from error
+    if read != expected:
+        raise OSError(
+            f"{html_path} изменился во время чтения: прочитано {read} байт вместо {expected}."
+        )
+
+
 def upload_html(
     html_path: Path,
     url: str,
@@ -177,6 +209,7 @@ def upload_html(
 ) -> int:
     if not html_path.is_file():
         raise FileNotFoundError(f"HTML file not found: {html_path}")
+    _ensure_readable(html_path)
     if not insecure and ca_bundle is not None and not ca_bundle.is_file():
         raise FileNotFoundError(f"CA bundle not found: {ca_bundle}")
     if not certificate_path.is_file():

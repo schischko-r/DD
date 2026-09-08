@@ -399,6 +399,72 @@ class UploadHtmlTest(unittest.TestCase):
                     ),
                 )
 
+    def test_a_report_that_cannot_be_read_fails_before_the_request(self) -> None:
+        real_open = Path.open
+
+        def failing_open(self, *args, **kwargs):
+            handle = real_open(self, *args, **kwargs)
+            if self.name.endswith(".html"):
+                def failing_read(*_args, **_kwargs):
+                    raise OSError(5, "Input/output error")
+
+                handle.read = failing_read
+            return handle
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            html = root / "gravity-standalone.html"
+            html.write_text("<html></html>", encoding="utf-8")
+            certificate = root / "cert.p12"
+            certificate.write_bytes(b"certificate")
+
+            def session_factory():
+                raise AssertionError("the request must not be attempted")
+
+            with patch.object(Path, "open", failing_open):
+                with self.assertRaises(OSError) as error:
+                    upload_html(
+                        html,
+                        "https://qlik.example.test/uploadfile?xrfkey=MuD1I2PlM8mAiG8E",
+                        certificate,
+                        "password",
+                        session_factory=session_factory,
+                    )
+
+        message = str(error.exception)
+        self.assertIn("Не удалось прочитать", message)
+        self.assertIn("Input/output error", message)
+        self.assertIn("iCloud Drive", message)
+
+    def test_a_readable_report_still_reaches_the_request(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            html = root / "gravity-standalone.html"
+            html.write_bytes(b"x" * (2 * 1024 * 1024 + 7))
+            certificate = root / "cert.p12"
+            certificate.write_bytes(b"certificate")
+
+            reached = []
+
+            def session_factory():
+                reached.append(True)
+                raise RuntimeError("stop after the readability check")
+
+            def credential_writer(_certificate, _password, temp_dir):
+                return temp_dir / "cert.pem", temp_dir / "key.pem"
+
+            with self.assertRaises(RuntimeError):
+                upload_html(
+                    html,
+                    "https://qlik.example.test/uploadfile?xrfkey=MuD1I2PlM8mAiG8E",
+                    certificate,
+                    "password",
+                    session_factory=session_factory,
+                    credential_writer=credential_writer,
+                )
+
+        self.assertEqual(reached, [True], "a file larger than one read block is not rejected")
+
     def test_main_forwards_bootstrap_environment(self) -> None:
         output = io.StringIO()
         with (
