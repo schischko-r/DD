@@ -73,6 +73,13 @@ HYP_LIBRARY_URL = "https://mapp.sberbank.ru/b2cda/page/52475"
 _DD_FROM_EXCEL["COMMON_BUTTONS"]["hyp_library"]["link"] = HYP_LIBRARY_URL
 MASTER_DASH_COVERAGE_VALUE = "В навигаторе (покрытие >90% целей)"
 MASTER_DASH_ENRICHMENT_NOTICE = "Для обогащения мастер-деша обратитесь в штаб Юнита"
+# Метрики, неприменимые конкретной команде: их убирают из расчета DD-индекса,
+# а блок без применимых метрик перестает показываться в отчете.
+TEAM_INAPPLICABLE_METRICS: dict[str, frozenset[str]] = {
+    # Дорожная карта: "Наличие бенчмарков - удалить из расчета в 3 кв., т.к. неприменимо".
+    # Бенчмарки остаются только в воронке привлечения.
+    "Выписки, справки": frozenset({"churn.benchmarks"}),
+}
 _DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")
 _DD_FROM_EXCEL["METRIC_CODES"][
     ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
@@ -2219,6 +2226,7 @@ def apply_flat_flg_exclusions(product: dict[str, Any], rows: Any) -> int:
         )
 
     excluded = 0
+    inapplicable_codes = TEAM_INAPPLICABLE_METRICS.get(clean_text(product.get("name")), frozenset())
     for block in product.get("metrics", []):
         block_code = clean_text(block.get("code"))
         for metric in block.get("metrics", []):
@@ -2226,6 +2234,8 @@ def apply_flat_flg_exclusions(product: dict[str, Any], rows: Any) -> int:
             if key not in inclusion:
                 continue
             included, display_name, value, max_value = inclusion[key]
+            if clean_text(metric.get("code")) in inapplicable_codes:
+                included, value, max_value = False, 0.0, 0.0
             applicable = max_value > 0
             metric["excluded_from_index"] = not included
             metric["dd_calculation_flg"] = 1 if included else 0

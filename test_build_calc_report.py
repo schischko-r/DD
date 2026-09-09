@@ -1024,6 +1024,53 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(title["rows"][0]["unit"], "CX")
         self.assertEqual(summary["flg_excluded_metrics"], 1)
 
+    def test_team_inapplicable_metric_leaves_the_index_and_empties_its_block(self) -> None:
+        frame = report._PD.DataFrame(
+            [
+                self.flat_row(
+                    product="Выписки, справки",
+                    metric_code=10,
+                    metric_name="Наличие бенчмарков",
+                    metric_group="Воронка привлечения",
+                    **{"макс балл": 0.5, "факт": 0.5},
+                ),
+                self.flat_row(
+                    product="Выписки, справки",
+                    metric_code=11,
+                    metric_name="Наличие бенчмарков",
+                    metric_group="Воронка оттока",
+                    **{"макс балл": 0.5, "факт": 0},
+                ),
+                self.flat_row(
+                    product="Другой продукт",
+                    metric_code=12,
+                    metric_name="Наличие бенчмарков",
+                    metric_group="Воронка оттока",
+                    **{"макс балл": 0.5, "факт": 0},
+                ),
+            ]
+        )
+
+        normalized = report.normalize_flat_table_frame(frame)
+        rows = report.normalize_flat_metric_rows(normalized)
+        data, _ = report.build_report_data_from_metric_rows(rows, "Тест")
+        blocks = {
+            product["name"]: {block["code"]: block["metrics"] for block in product["metrics"]}
+            for product in data["products"]
+        }
+
+        churn = blocks["Выписки, справки"]["churn"]
+        attract = blocks["Выписки, справки"]["attract"]
+        other_churn = blocks["Другой продукт"]["churn"]
+
+        self.assertEqual([metric["code"] for metric in churn], ["churn.benchmarks"])
+        self.assertFalse(any(metric["is_applicabble_flg"] for metric in churn))
+        self.assertEqual(churn[0]["max_value"], 0)
+        self.assertEqual(churn[0]["dd_calculation_flg"], 0)
+        self.assertTrue(attract[0]["is_applicabble_flg"])
+        self.assertEqual(attract[0]["max_value"], 0.5)
+        self.assertTrue(other_churn[0]["is_applicabble_flg"])
+
     def test_flat_table_keeps_duplicate_display_only_rows_separate(self) -> None:
         frame = report._PD.DataFrame(
             [
