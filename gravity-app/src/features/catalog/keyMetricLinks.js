@@ -1,3 +1,4 @@
+import {campaigningLinksForBlock} from './campaigningLinks.js';
 export const PRODUCT_KEY_METRIC_LINKS = [
   {label: 'Воронки активности продуктов', url: 'https://navigator.sigma.sbrf.ru/gdash/12215/1000034254'},
   {label: 'Продукты-спутники', url: 'https://navigator.sigma.sbrf.ru/gdash/12215/1000030917'},
@@ -103,6 +104,8 @@ export function isKeyMetricLinkVisibleForTeam(product, item) {
 }
 
 export function contextualBlockLinksForTeam(product, block) {
+  const campaigning = campaigningLinksForBlock(product, block);
+  if (campaigning.length) return campaigning;
   const name = String(product?.name || '').trim().toLowerCase();
   const code = String(block?.code || '').trim().toLowerCase();
   const blockName = String(block?.name || '').trim().toLowerCase();
