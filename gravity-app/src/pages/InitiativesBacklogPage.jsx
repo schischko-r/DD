@@ -1,10 +1,9 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {ArrowLeft, CircleInfo} from '@gravity-ui/icons';
-import {Button, Card, Dialog, HelpMark, Icon, Label, Link, Spin, Text, TextInput} from '@gravity-ui/uikit';
+import {ArrowLeft, ChevronDown, ChevronRight, CircleInfo} from '@gravity-ui/icons';
+import {Button, Card, Icon, Label, Link, Spin, Text, TextInput} from '@gravity-ui/uikit';
 import {BUTTON_INTENT, SemanticButton} from '../shared/ui/SemanticButton.jsx';
 import happyMascot from '../assets/mascot/happy.png';
 
-const HELP_POPOVER_PROPS = {trigger: 'all', openDelay: 0, closeDelay: 80, rest: 0};
 
 function RichText({value}) {
   const source = String(value || '');
@@ -46,39 +45,46 @@ function RichText({value}) {
 
 function formatDeadline(value) {
   const deadline = String(value || '').trim();
-  if (!deadline) return 'Срок не указан';
+  if (!deadline) return '';
   return deadline
     .replace(/^1\s*пг\s*(\d{4})\s*г?\.?$/iu, 'I полугодие $1')
     .replace(/^2\s*пг\s*(\d{4})\s*г?\.?$/iu, 'II полугодие $1');
 }
 
-function CompactText({value, onOpen}) {
-  const dashboardUrl = String(value || '').match(/дашборд[\s\S]*?(https?:\/\/[^\s<]+)/iu)?.[1]?.replace(/[.,;:!?)\]]+$/u, '');
-  return <div className="initiatives-cell-text"><RichText value={value} /><div className="initiatives-cell-actions">{dashboardUrl && <Link className="initiatives-dashboard-link" href={dashboardUrl} target="_blank" rel="noreferrer">Дашборд</Link>}<Button view="flat" size="s" onClick={onOpen}>Подробнее</Button></div></div>;
-}
-
-function PeopleList({value}) {
-  const people = String(value || 'Не указано')
-    .split(/[\n,/]+/u)
-    .map((item) => item.trim())
-    .filter(Boolean);
-  return <Text className="initiatives-people" variant="body-2">{people.map((person) => <span key={person}>{person}</span>)}</Text>;
-}
-
-function InitiativeInfo({item}) {
-  return <HelpMark className="initiatives-info-mark" aria-label={`Ответственные и ожидаемый эффект: ${item.metric}`} popoverProps={HELP_POPOVER_PROPS}><div className="initiatives-info-box">
-    <section><Text variant="caption-2" color="secondary">ПОДРАЗДЕЛЕНИЕ</Text><Text variant="body-2">{item.department || 'Не указано'}</Text></section>
-    <section><Text variant="caption-2" color="secondary">ФИО</Text><PeopleList value={item.owner} /></section>
-    {item.effect && <section><Text variant="caption-2" color="secondary">ОЖИДАЕМЫЙ ЭФФЕКТ</Text><RichText value={item.effect} /></section>}
-  </div></HelpMark>;
+function InitiativeRow({item}) {
+  const [open, setOpen] = useState(false);
+  const deadline = formatDeadline(item.deadline);
+  const meta = [item.department, item.owner].filter(Boolean).join(' · ');
+  return (
+    <div className={`metric-row initiatives-row${open ? ' initiatives-row_open' : ''}`}>
+      <button className="initiatives-row-main" type="button" onClick={() => setOpen((value) => !value)} aria-expanded={open}>
+        <Icon data={open ? ChevronDown : ChevronRight} size={13} />
+        <div className="initiatives-row-copy">
+          <b>{item.metric}</b>
+        </div>
+      </button>
+      {deadline && <Label className="initiatives-row-deadline" theme="normal">{deadline}</Label>}
+      {open && <div className="initiatives-row-detail">
+        {item.asIs && <section><Text variant="subheader-1">Реализовано AS IS</Text><RichText value={item.asIs} /></section>}
+        {item.toBe && <section><Text variant="subheader-1">Мероприятия TO BE</Text><RichText value={item.toBe} /></section>}
+        {meta && <p className="initiatives-row-meta">{meta}</p>}
+      </div>}
+    </div>
+  );
 }
 
 export function InitiativesBacklogPage({onBack}) {
   const [data, setData] = useState(null);
   const [block, setBlock] = useState('Все блоки');
   const [query, setQuery] = useState('');
-  const [selectedItem, setSelectedItem] = useState(null);
+  // Blocks start open: hiding rows behind a second click buried the content.
+  const [closedBlocks, setClosedBlocks] = useState(() => new Set());
   useEffect(() => { fetch('./initiatives-backlog.json', {cache: 'no-store'}).then((response) => response.json()).then(setData); }, []);
+  const toggleBlock = (value) => setClosedBlocks((current) => {
+    const next = new Set(current);
+    if (next.has(value)) next.delete(value); else next.add(value);
+    return next;
+  });
   const blocks = useMemo(() => ['Все блоки', ...new Set((data || []).map((item) => item.block))], [data]);
   const items = useMemo(() => (data || []).filter((item) => (block === 'Все блоки' || item.block === block) && `${item.metric} ${item.asIs} ${item.toBe} ${item.department} ${item.owner}`.toLocaleLowerCase('ru-RU').includes(query.toLocaleLowerCase('ru-RU'))), [data, block, query]);
   const groups = useMemo(() => items.reduce((result, item) => {
@@ -87,33 +93,33 @@ export function InitiativesBacklogPage({onBack}) {
     else result.push({block: item.block, items: [item]});
     return result;
   }, []), [items]);
+  // A narrowed list is already one block deep, so its rows stay open.
+  const filtered = block !== 'Все блоки' || Boolean(query.trim());
   if (!data) return <main className="content initiatives-page"><div className="initiatives-document"><SemanticButton className="initiatives-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton><Spin size="xl" /></div></main>;
   return <main className="content initiatives-page"><div className="initiatives-document"><SemanticButton className="initiatives-back" intent={BUTTON_INTENT.navigation} onClick={onBack}><Icon data={ArrowLeft} size={16} /> К Summary</SemanticButton>
     <section className="initiatives-hero"><div><div className="initiatives-eyebrow"><Icon data={CircleInfo} size={16} /><span>Data-Driven B2C</span></div><h1>Развитие инструмента</h1><Text variant="body-2" color="secondary">Централизованные мероприятия по развитию практик и повышению Data-Driven Index.</Text></div><img src={happyMascot} alt="" aria-hidden="true" /></section>
     <Card className="initiatives-controls" view="outlined" type="container" size="l"><div><Text variant="subheader-1">Бэклог мероприятий</Text><Text color="secondary">{items.length} из {data.length} направлений</Text></div><TextInput value={query} onUpdate={setQuery} placeholder="Поиск" hasClear /></Card>
     <div className="initiatives-filter" role="group" aria-label="Блок DD">{blocks.map((value) => <Button key={value} view="flat" size="m" selected={block === value} onClick={() => setBlock(value)}>{value}</Button>)}</div>
-    <div className="initiatives-groups">
-      {groups.map((group) => <Card className="initiatives-group" key={group.block} view="outlined" type="container">
-        <div className="initiatives-group-header"><div><Text variant="caption-2" color="secondary">КЛЮЧЕВОЙ БЛОК DD-РЕЙТИНГА</Text><Text variant="subheader-2">{group.block}</Text></div><Label theme="info">{group.items.length}</Label></div>
-        <div className="initiatives-group-list">{group.items.map((item) => <button className="initiatives-group-row" type="button" key={item.id} onClick={() => setSelectedItem(item)}>
-          <span className="initiatives-group-metric">{item.metric}</span><span className="initiatives-group-deadline">{formatDeadline(item.deadline)}</span><span className="initiatives-open-hint">Открыть →</span>
-        </button>)}</div>
-      </Card>)}
+    <div className="metrics-grid initiatives-grid">
+      {groups.map((group) => {
+        const isOpen = filtered || !closedBlocks.has(group.block);
+        return (
+          <Card className="metric-block initiatives-block" key={group.block} view="outlined">
+            <div className="dd-metric-block-head">
+              <button className="dd-metric-block-main" type="button" onClick={() => toggleBlock(group.block)} aria-expanded={isOpen} disabled={filtered}>
+                {!filtered && <Icon data={isOpen ? ChevronDown : ChevronRight} size={14} />}
+                <div><h3>{group.block}</h3></div>
+              </button>
+              <div className="dd-metric-block-help" />
+              <div className="dd-metric-block-score"><strong>{group.items.length}</strong></div>
+            </div>
+            {isOpen && <div className="metric-list">
+              {group.items.map((item) => <InitiativeRow key={item.id} item={item} />)}
+            </div>}
+          </Card>
+        );
+      })}
       {!groups.length && <Card className="initiatives-empty" view="outlined" type="container"><Text color="secondary">Ничего не найдено</Text></Card>}
     </div>
-    <Dialog className="initiatives-dialog" open={Boolean(selectedItem)} onClose={() => setSelectedItem(null)} hasCloseButton maxWidth="l" fullWidth contentOverflow="auto">
-      {selectedItem && <><Dialog.Header caption={selectedItem.metric} /><Dialog.Body><div className="initiatives-detail">
-        <div className={`initiatives-detail-columns${!(selectedItem.asIs && selectedItem.toBe) ? ' initiatives-detail-columns_single' : ''}`}>
-          {selectedItem.asIs && <section><Text variant="subheader-1">Реализовано AS IS</Text><RichText value={selectedItem.asIs} /></section>}
-          {selectedItem.toBe && <section><Text variant="subheader-1">Мероприятия TO BE</Text><RichText value={selectedItem.toBe} /></section>}
-        </div>
-        {selectedItem.effect && <section><Text variant="subheader-1">Ожидаемый эффект</Text><RichText value={selectedItem.effect} /></section>}
-        {(selectedItem.department || selectedItem.owner || selectedItem.deadline) && <div className="initiatives-detail-meta">
-          {selectedItem.department && <section><Text variant="caption-2" color="secondary">ПОДРАЗДЕЛЕНИЕ</Text><Text variant="body-2">{selectedItem.department}</Text></section>}
-          {selectedItem.owner && <section><Text variant="caption-2" color="secondary">ОТВЕТСТВЕННЫЕ</Text><PeopleList value={selectedItem.owner} /></section>}
-          {selectedItem.deadline && <section><Text variant="caption-2" color="secondary">СРОК</Text><Text variant="body-2">{formatDeadline(selectedItem.deadline)}</Text></section>}
-        </div>}
-      </div></Dialog.Body></>}
-    </Dialog>
   </div></main>;
 }

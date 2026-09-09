@@ -27,7 +27,7 @@
       "period": "Календарный квартал",
       "interval": "Тикет учитывается один раз — в периоде своей даты Created"
     },
-    "teamCount": 3
+    "teamCount": 4
   },
   "months": [
     {
@@ -1821,6 +1821,1270 @@
         {
           "key": "manual_data_quality_control",
           "label": "Ручной ККД",
+          "totalCount": 1
+        }
+      ]
+    },
+    {
+      "key": "investkopilka",
+      "label": "ИнвестКопилка",
+      "meta": {
+        "source": "sbertrack_all_full_history_to_export.xlsx",
+        "asOf": "2026-06-30",
+        "historyStart": "2026-02-01",
+        "historyEnd": "2026-06-30",
+        "totalTickets": 4507,
+        "includedTickets": 3716,
+        "excludedCancelled": 0,
+        "excludedMissingIssueKey": 0,
+        "excludedBeforeHistoryStart": 0,
+        "excludedAfterHistoryEnd": 791,
+        "terminalWithoutResolved": 0,
+        "storyPointsFilledCount": 0,
+        "storyPointsBaseCount": 3716,
+        "storyPointsFilledShare": 0.0,
+        "medianCycleTimeDays": 0.9,
+        "cycleTimeSampleCount": 99,
+        "monthCount": 3,
+        "quarterCount": 1,
+        "teamKey": "investkopilka",
+        "teamLabel": "ИнвестКопилка",
+        "discoveryDefinition": {
+          "directionLabel": "Аналитика",
+          "metric": "Доля созданных тикетов направления «Аналитика» среди всех созданных тикетов квартала",
+          "targetPercent": 40,
+          "period": "Календарный квартал",
+          "interval": "Тикет учитывается один раз — в периоде своей даты Created"
+        }
+      },
+      "months": [
+        {
+          "key": "2026-04",
+          "label": "Апрель 2026",
+          "dataThrough": "2026-04-30",
+          "isComplete": true,
+          "totalCount": 187,
+          "createdCount": 187,
+          "createdResolvedCount": 28,
+          "createdOpenCount": 159,
+          "resolvedCount": 0,
+          "endBacklogCount": 187,
+          "exportRoutineCount": 0,
+          "exportRoutineShare": 0.0,
+          "automationCount": 0,
+          "automationBaseCount": 187,
+          "automationShare": 0.0,
+          "storyPointsFilledCount": 0,
+          "storyPointsBaseCount": 187,
+          "storyPointsFilledShare": 0.0,
+          "medianCycleTimeDays": null,
+          "cycleTimeSampleCount": 0,
+          "directions": [
+            {
+              "key": "Разработка и поддержка BI",
+              "label": "Разработка и поддержка BI",
+              "count": 99
+            },
+            {
+              "key": "Данные и автоматизация",
+              "label": "Данные и автоматизация",
+              "count": 16
+            },
+            {
+              "key": "Аналитика",
+              "label": "Аналитика",
+              "count": 18
+            },
+            {
+              "key": "Неизвестно",
+              "label": "Неизвестно",
+              "count": 20
+            },
+            {
+              "key": "Организационное",
+              "label": "Организационное",
+              "count": 23
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 3
+            },
+            {
+              "key": "Исследования",
+              "label": "Исследования",
+              "count": 5
+            },
+            {
+              "key": "Выгрузки",
+              "label": "Выгрузки",
+              "count": 0
+            },
+            {
+              "key": "Отчеты вне BI",
+              "label": "Отчеты вне BI",
+              "count": 2
+            },
+            {
+              "key": "Моделирование",
+              "label": "Моделирование",
+              "count": 1
+            },
+            {
+              "key": "Выгрузки (регулятор)",
+              "label": "Выгрузки (регулятор)",
+              "count": 0
+            }
+          ],
+          "scenarios": [
+            {
+              "key": "BI_bugfix",
+              "label": "Фикс багов в BI",
+              "count": 47
+            },
+            {
+              "key": "dashboard_improvements",
+              "label": "Доработки дешбордов",
+              "count": 39
+            },
+            {
+              "key": "manual_data_quality_control",
+              "label": "Ручной ККД",
+              "count": 8
+            },
+            {
+              "key": "customer_experience_analytics",
+              "label": "Аналитика клиентского опыта",
+              "count": 5
+            },
+            {
+              "key": "unknown",
+              "label": "Невозможно разметить",
+              "count": 19
+            },
+            {
+              "key": "metrics_calculation",
+              "label": "Расчет метрик",
+              "count": 12
+            },
+            {
+              "key": "business_requirements_composing",
+              "label": "Формирование БТ/ТЗ",
+              "count": 13
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 3
+            },
+            {
+              "key": "root_cause_analysis",
+              "label": "Анализ корневых причин",
+              "count": 4
+            },
+            {
+              "key": "data_marts",
+              "label": "Данные и автоматизация",
+              "count": 8
+            },
+            {
+              "key": "methodology_dev",
+              "label": "Разработка методологии",
+              "count": 2
+            },
+            {
+              "key": "dashboard_manual_data_update",
+              "label": "Ручное обновление данных",
+              "count": 8
+            },
+            {
+              "key": "knowledge_base_maintenance",
+              "label": "Формирование базы знаний",
+              "count": 2
+            },
+            {
+              "key": "dashboard_migration",
+              "label": "Миграция дешбордов",
+              "count": 5
+            },
+            {
+              "key": "project_management",
+              "label": "Project Management",
+              "count": 4
+            },
+            {
+              "key": "exports_to_excel",
+              "label": "Выгрузки в Excel",
+              "count": 0
+            },
+            {
+              "key": "employee_trainings",
+              "label": "Обучение сотрудников",
+              "count": 3
+            },
+            {
+              "key": "presentations",
+              "label": "Презентации",
+              "count": 2
+            },
+            {
+              "key": "business_planning",
+              "label": "Бизнес-планирование",
+              "count": 1
+            },
+            {
+              "key": "growth_factors_research",
+              "label": "Поиск точек роста",
+              "count": 1
+            },
+            {
+              "key": "social_communications",
+              "label": "Встречи, коммуникации",
+              "count": 1
+            },
+            {
+              "key": "exports_to_excel_regulator",
+              "label": "Выгрузки для регулятора",
+              "count": 0
+            }
+          ]
+        },
+        {
+          "key": "2026-05",
+          "label": "Май 2026",
+          "dataThrough": "2026-05-31",
+          "isComplete": true,
+          "totalCount": 3335,
+          "createdCount": 3335,
+          "createdResolvedCount": 51,
+          "createdOpenCount": 3284,
+          "resolvedCount": 34,
+          "endBacklogCount": 3488,
+          "exportRoutineCount": 11,
+          "exportRoutineShare": 0.33,
+          "automationCount": 0,
+          "automationBaseCount": 3335,
+          "automationShare": 0.0,
+          "storyPointsFilledCount": 0,
+          "storyPointsBaseCount": 3335,
+          "storyPointsFilledShare": 0.0,
+          "medianCycleTimeDays": 0.0,
+          "cycleTimeSampleCount": 19,
+          "directions": [
+            {
+              "key": "Разработка и поддержка BI",
+              "label": "Разработка и поддержка BI",
+              "count": 1615
+            },
+            {
+              "key": "Данные и автоматизация",
+              "label": "Данные и автоматизация",
+              "count": 573
+            },
+            {
+              "key": "Аналитика",
+              "label": "Аналитика",
+              "count": 413
+            },
+            {
+              "key": "Неизвестно",
+              "label": "Неизвестно",
+              "count": 286
+            },
+            {
+              "key": "Организационное",
+              "label": "Организационное",
+              "count": 180
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 140
+            },
+            {
+              "key": "Исследования",
+              "label": "Исследования",
+              "count": 109
+            },
+            {
+              "key": "Выгрузки",
+              "label": "Выгрузки",
+              "count": 11
+            },
+            {
+              "key": "Отчеты вне BI",
+              "label": "Отчеты вне BI",
+              "count": 3
+            },
+            {
+              "key": "Моделирование",
+              "label": "Моделирование",
+              "count": 4
+            },
+            {
+              "key": "Выгрузки (регулятор)",
+              "label": "Выгрузки (регулятор)",
+              "count": 1
+            }
+          ],
+          "scenarios": [
+            {
+              "key": "BI_bugfix",
+              "label": "Фикс багов в BI",
+              "count": 888
+            },
+            {
+              "key": "dashboard_improvements",
+              "label": "Доработки дешбордов",
+              "count": 686
+            },
+            {
+              "key": "manual_data_quality_control",
+              "label": "Ручной ККД",
+              "count": 477
+            },
+            {
+              "key": "customer_experience_analytics",
+              "label": "Аналитика клиентского опыта",
+              "count": 280
+            },
+            {
+              "key": "unknown",
+              "label": "Невозможно разметить",
+              "count": 210
+            },
+            {
+              "key": "metrics_calculation",
+              "label": "Расчет метрик",
+              "count": 157
+            },
+            {
+              "key": "business_requirements_composing",
+              "label": "Формирование БТ/ТЗ",
+              "count": 137
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 140
+            },
+            {
+              "key": "root_cause_analysis",
+              "label": "Анализ корневых причин",
+              "count": 106
+            },
+            {
+              "key": "data_marts",
+              "label": "Данные и автоматизация",
+              "count": 96
+            },
+            {
+              "key": "methodology_dev",
+              "label": "Разработка методологии",
+              "count": 52
+            },
+            {
+              "key": "dashboard_manual_data_update",
+              "label": "Ручное обновление данных",
+              "count": 33
+            },
+            {
+              "key": "knowledge_base_maintenance",
+              "label": "Формирование базы знаний",
+              "count": 22
+            },
+            {
+              "key": "dashboard_migration",
+              "label": "Миграция дешбордов",
+              "count": 8
+            },
+            {
+              "key": "project_management",
+              "label": "Project Management",
+              "count": 10
+            },
+            {
+              "key": "exports_to_excel",
+              "label": "Выгрузки в Excel",
+              "count": 11
+            },
+            {
+              "key": "employee_trainings",
+              "label": "Обучение сотрудников",
+              "count": 9
+            },
+            {
+              "key": "presentations",
+              "label": "Презентации",
+              "count": 3
+            },
+            {
+              "key": "business_planning",
+              "label": "Бизнес-планирование",
+              "count": 4
+            },
+            {
+              "key": "growth_factors_research",
+              "label": "Поиск точек роста",
+              "count": 3
+            },
+            {
+              "key": "social_communications",
+              "label": "Встречи, коммуникации",
+              "count": 2
+            },
+            {
+              "key": "exports_to_excel_regulator",
+              "label": "Выгрузки для регулятора",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "key": "2026-06",
+          "label": "Июнь 2026",
+          "dataThrough": "2026-06-30",
+          "isComplete": true,
+          "totalCount": 194,
+          "createdCount": 194,
+          "createdResolvedCount": 44,
+          "createdOpenCount": 150,
+          "resolvedCount": 89,
+          "endBacklogCount": 3593,
+          "exportRoutineCount": 2,
+          "exportRoutineShare": 1.03,
+          "automationCount": 0,
+          "automationBaseCount": 194,
+          "automationShare": 0.0,
+          "storyPointsFilledCount": 0,
+          "storyPointsBaseCount": 194,
+          "storyPointsFilledShare": 0.0,
+          "medianCycleTimeDays": 1.1,
+          "cycleTimeSampleCount": 80,
+          "directions": [
+            {
+              "key": "Разработка и поддержка BI",
+              "label": "Разработка и поддержка BI",
+              "count": 119
+            },
+            {
+              "key": "Данные и автоматизация",
+              "label": "Данные и автоматизация",
+              "count": 10
+            },
+            {
+              "key": "Аналитика",
+              "label": "Аналитика",
+              "count": 34
+            },
+            {
+              "key": "Неизвестно",
+              "label": "Неизвестно",
+              "count": 6
+            },
+            {
+              "key": "Организационное",
+              "label": "Организационное",
+              "count": 11
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 7
+            },
+            {
+              "key": "Исследования",
+              "label": "Исследования",
+              "count": 4
+            },
+            {
+              "key": "Выгрузки",
+              "label": "Выгрузки",
+              "count": 2
+            },
+            {
+              "key": "Отчеты вне BI",
+              "label": "Отчеты вне BI",
+              "count": 1
+            },
+            {
+              "key": "Моделирование",
+              "label": "Моделирование",
+              "count": 0
+            },
+            {
+              "key": "Выгрузки (регулятор)",
+              "label": "Выгрузки (регулятор)",
+              "count": 0
+            }
+          ],
+          "scenarios": [
+            {
+              "key": "BI_bugfix",
+              "label": "Фикс багов в BI",
+              "count": 76
+            },
+            {
+              "key": "dashboard_improvements",
+              "label": "Доработки дешбордов",
+              "count": 39
+            },
+            {
+              "key": "manual_data_quality_control",
+              "label": "Ручной ККД",
+              "count": 4
+            },
+            {
+              "key": "customer_experience_analytics",
+              "label": "Аналитика клиентского опыта",
+              "count": 21
+            },
+            {
+              "key": "unknown",
+              "label": "Невозможно разметить",
+              "count": 4
+            },
+            {
+              "key": "metrics_calculation",
+              "label": "Расчет метрик",
+              "count": 10
+            },
+            {
+              "key": "business_requirements_composing",
+              "label": "Формирование БТ/ТЗ",
+              "count": 9
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 7
+            },
+            {
+              "key": "root_cause_analysis",
+              "label": "Анализ корневых причин",
+              "count": 4
+            },
+            {
+              "key": "data_marts",
+              "label": "Данные и автоматизация",
+              "count": 6
+            },
+            {
+              "key": "methodology_dev",
+              "label": "Разработка методологии",
+              "count": 5
+            },
+            {
+              "key": "dashboard_manual_data_update",
+              "label": "Ручное обновление данных",
+              "count": 1
+            },
+            {
+              "key": "knowledge_base_maintenance",
+              "label": "Формирование базы знаний",
+              "count": 1
+            },
+            {
+              "key": "dashboard_migration",
+              "label": "Миграция дешбордов",
+              "count": 3
+            },
+            {
+              "key": "project_management",
+              "label": "Project Management",
+              "count": 0
+            },
+            {
+              "key": "exports_to_excel",
+              "label": "Выгрузки в Excel",
+              "count": 2
+            },
+            {
+              "key": "employee_trainings",
+              "label": "Обучение сотрудников",
+              "count": 1
+            },
+            {
+              "key": "presentations",
+              "label": "Презентации",
+              "count": 1
+            },
+            {
+              "key": "business_planning",
+              "label": "Бизнес-планирование",
+              "count": 0
+            },
+            {
+              "key": "growth_factors_research",
+              "label": "Поиск точек роста",
+              "count": 0
+            },
+            {
+              "key": "social_communications",
+              "label": "Встречи, коммуникации",
+              "count": 0
+            },
+            {
+              "key": "exports_to_excel_regulator",
+              "label": "Выгрузки для регулятора",
+              "count": 0
+            }
+          ]
+        }
+      ],
+      "quarters": [
+        {
+          "key": "2026-Q2",
+          "label": "II кв. 2026",
+          "start": "2026-04-01",
+          "end": "2026-06-30",
+          "dataThrough": "2026-06-30",
+          "isComplete": true,
+          "totalActive": 3716,
+          "createdCount": 3716,
+          "createdResolvedCount": 123,
+          "createdOpenCount": 3593,
+          "resolvedCount": 123,
+          "startBacklogCount": 0,
+          "endBacklogCount": 3593,
+          "netFlow": 3593,
+          "throughputRate": 3.31,
+          "discoveryCount": 465,
+          "discoveryShare": 12.51,
+          "discoveryTarget": 40,
+          "discoveryGap": -27.49,
+          "discoveryConfirmed": false,
+          "discoveryScenarios": [
+            {
+              "key": "customer_experience_analytics",
+              "label": "Аналитика клиентского опыта",
+              "count": 306,
+              "share": 65.81
+            },
+            {
+              "key": "metrics_calculation",
+              "label": "Расчет метрик",
+              "count": 100,
+              "share": 21.51
+            },
+            {
+              "key": "methodology_dev",
+              "label": "Разработка методологии",
+              "count": 59,
+              "share": 12.69
+            }
+          ],
+          "endBacklogMedianAgeDays": 42.0,
+          "endBacklogAged30Count": 3451,
+          "unknownCount": 312,
+          "unknownShare": 8.4,
+          "directions": [
+            {
+              "key": "Разработка и поддержка BI",
+              "label": "Разработка и поддержка BI",
+              "count": 1833,
+              "share": 49.33
+            },
+            {
+              "key": "Данные и автоматизация",
+              "label": "Данные и автоматизация",
+              "count": 599,
+              "share": 16.12
+            },
+            {
+              "key": "Аналитика",
+              "label": "Аналитика",
+              "count": 465,
+              "share": 12.51
+            },
+            {
+              "key": "Неизвестно",
+              "label": "Неизвестно",
+              "count": 312,
+              "share": 8.4
+            },
+            {
+              "key": "Организационное",
+              "label": "Организационное",
+              "count": 214,
+              "share": 5.76
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 150,
+              "share": 4.04
+            },
+            {
+              "key": "Исследования",
+              "label": "Исследования",
+              "count": 118,
+              "share": 3.18
+            },
+            {
+              "key": "Выгрузки",
+              "label": "Выгрузки",
+              "count": 13,
+              "share": 0.35
+            },
+            {
+              "key": "Отчеты вне BI",
+              "label": "Отчеты вне BI",
+              "count": 6,
+              "share": 0.16
+            },
+            {
+              "key": "Моделирование",
+              "label": "Моделирование",
+              "count": 5,
+              "share": 0.13
+            },
+            {
+              "key": "Выгрузки (регулятор)",
+              "label": "Выгрузки (регулятор)",
+              "count": 1,
+              "share": 0.03
+            }
+          ],
+          "scenarios": [
+            {
+              "key": "BI_bugfix",
+              "label": "Фикс багов в BI",
+              "count": 1011,
+              "share": 27.21,
+              "continuous25thHours": 0.82,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 10,
+              "cycleTimeHours": [
+                0.01,
+                0.01,
+                0.08,
+                0.0,
+                261.94,
+                0.0,
+                145.07,
+                0.01,
+                0.01,
+                21.74
+              ],
+              "cycleTimeShare": 3.24
+            },
+            {
+              "key": "dashboard_improvements",
+              "label": "Доработки дешбордов",
+              "count": 764,
+              "share": 20.56,
+              "continuous25thHours": 1.86,
+              "medianCycleTimeHours": 20.1,
+              "cycleTimeSampleCount": 32,
+              "cycleTimeHours": [
+                0.52,
+                73.81,
+                73.75,
+                0.01,
+                1.15,
+                19.34,
+                0.41,
+                0.75,
+                20.81,
+                943.22,
+                0.0,
+                16.4,
+                0.01,
+                0.0,
+                505.03,
+                4.36,
+                187.32,
+                2.87,
+                957.4,
+                665.28,
+                0.0,
+                0.0,
+                0.0,
+                22.37,
+                312.18,
+                361.54,
+                290.74,
+                22.45,
+                1.25,
+                288.55,
+                131.87,
+                328.24
+              ],
+              "cycleTimeShare": 39.47
+            },
+            {
+              "key": "manual_data_quality_control",
+              "label": "Ручной ККД",
+              "count": 489,
+              "share": 13.16,
+              "continuous25thHours": 0.2,
+              "medianCycleTimeHours": 24.2,
+              "cycleTimeSampleCount": 7,
+              "cycleTimeHours": [
+                959.53,
+                5.15,
+                0.0,
+                120.7,
+                24.22,
+                0.01,
+                90.33
+              ],
+              "cycleTimeShare": 9.05
+            },
+            {
+              "key": "customer_experience_analytics",
+              "label": "Аналитика клиентского опыта",
+              "count": 306,
+              "share": 8.23,
+              "continuous25thHours": 4.28,
+              "medianCycleTimeHours": 136.1,
+              "cycleTimeSampleCount": 4,
+              "cycleTimeHours": [
+                307.86,
+                264.13,
+                8.04,
+                0.0
+              ],
+              "cycleTimeShare": 4.38
+            },
+            {
+              "key": "unknown",
+              "label": "Невозможно разметить",
+              "count": 233,
+              "share": 6.27,
+              "continuous25thHours": 0.03,
+              "medianCycleTimeHours": 195.3,
+              "cycleTimeSampleCount": 6,
+              "cycleTimeHours": [
+                197.43,
+                114.39,
+                502.77,
+                113.82,
+                193.07,
+                292.63
+              ],
+              "cycleTimeShare": 10.67
+            },
+            {
+              "key": "metrics_calculation",
+              "label": "Расчет метрик",
+              "count": 179,
+              "share": 4.82,
+              "continuous25thHours": 1.25,
+              "medianCycleTimeHours": 93.4,
+              "cycleTimeSampleCount": 5,
+              "cycleTimeHours": [
+                90.34,
+                452.82,
+                336.55,
+                93.37,
+                0.2
+              ],
+              "cycleTimeShare": 7.34
+            },
+            {
+              "key": "business_requirements_composing",
+              "label": "Формирование БТ/ТЗ",
+              "count": 159,
+              "share": 4.28,
+              "continuous25thHours": 2.1,
+              "medianCycleTimeHours": 156.4,
+              "cycleTimeSampleCount": 4,
+              "cycleTimeHours": [
+                50.08,
+                169.76,
+                142.94,
+                821.0
+              ],
+              "cycleTimeShare": 8.93
+            },
+            {
+              "key": "AI",
+              "label": "AI",
+              "count": 150,
+              "share": 4.04,
+              "continuous25thHours": 2.11,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 4,
+              "cycleTimeHours": [
+                0.0,
+                0.0,
+                0.03,
+                0.0
+              ],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "root_cause_analysis",
+              "label": "Анализ корневых причин",
+              "count": 114,
+              "share": 3.07,
+              "continuous25thHours": 3.01,
+              "medianCycleTimeHours": 145.0,
+              "cycleTimeSampleCount": 2,
+              "cycleTimeHours": [
+                24.27,
+                265.77
+              ],
+              "cycleTimeShare": 2.19
+            },
+            {
+              "key": "data_marts",
+              "label": "Данные и автоматизация",
+              "count": 110,
+              "share": 2.96,
+              "continuous25thHours": 0.62,
+              "medianCycleTimeHours": 97.1,
+              "cycleTimeSampleCount": 8,
+              "cycleTimeHours": [
+                0.01,
+                120.34,
+                73.83,
+                71.04,
+                125.82,
+                456.44,
+                624.6,
+                0.0
+              ],
+              "cycleTimeShare": 11.11
+            },
+            {
+              "key": "methodology_dev",
+              "label": "Разработка методологии",
+              "count": 59,
+              "share": 1.59,
+              "continuous25thHours": 1.0,
+              "medianCycleTimeHours": 27.5,
+              "cycleTimeSampleCount": 1,
+              "cycleTimeHours": [
+                27.52
+              ],
+              "cycleTimeShare": 0.21
+            },
+            {
+              "key": "dashboard_manual_data_update",
+              "label": "Ручное обновление данных",
+              "count": 42,
+              "share": 1.13,
+              "continuous25thHours": 1.9,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 4,
+              "cycleTimeHours": [
+                0.0,
+                0.0,
+                0.0,
+                0.97
+              ],
+              "cycleTimeShare": 0.01
+            },
+            {
+              "key": "knowledge_base_maintenance",
+              "label": "Формирование базы знаний",
+              "count": 25,
+              "share": 0.67,
+              "continuous25thHours": 2.11,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 3,
+              "cycleTimeHours": [
+                0.01,
+                0.0,
+                0.0
+              ],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "dashboard_migration",
+              "label": "Миграция дешбордов",
+              "count": 16,
+              "share": 0.43,
+              "continuous25thHours": 5.36,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 4,
+              "cycleTimeHours": [
+                0.01,
+                287.3,
+                0.01,
+                0.0
+              ],
+              "cycleTimeShare": 2.17
+            },
+            {
+              "key": "project_management",
+              "label": "Project Management",
+              "count": 14,
+              "share": 0.38,
+              "continuous25thHours": 4.54,
+              "medianCycleTimeHours": 82.5,
+              "cycleTimeSampleCount": 2,
+              "cycleTimeHours": [
+                0.0,
+                164.92
+              ],
+              "cycleTimeShare": 1.24
+            },
+            {
+              "key": "exports_to_excel",
+              "label": "Выгрузки в Excel",
+              "count": 13,
+              "share": 0.35,
+              "continuous25thHours": 1.68,
+              "medianCycleTimeHours": null,
+              "cycleTimeSampleCount": 0,
+              "cycleTimeHours": [],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "employee_trainings",
+              "label": "Обучение сотрудников",
+              "count": 13,
+              "share": 0.35,
+              "continuous25thHours": 0.02,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 1,
+              "cycleTimeHours": [
+                0.01
+              ],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "presentations",
+              "label": "Презентации",
+              "count": 6,
+              "share": 0.16,
+              "continuous25thHours": 3.88,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 1,
+              "cycleTimeHours": [
+                0.0
+              ],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "business_planning",
+              "label": "Бизнес-планирование",
+              "count": 5,
+              "share": 0.13,
+              "continuous25thHours": 4.4,
+              "medianCycleTimeHours": null,
+              "cycleTimeSampleCount": 0,
+              "cycleTimeHours": [],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "growth_factors_research",
+              "label": "Поиск точек роста",
+              "count": 4,
+              "share": 0.11,
+              "continuous25thHours": 5.9,
+              "medianCycleTimeHours": 0.0,
+              "cycleTimeSampleCount": 1,
+              "cycleTimeHours": [
+                0.0
+              ],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "social_communications",
+              "label": "Встречи, коммуникации",
+              "count": 3,
+              "share": 0.08,
+              "continuous25thHours": 0.29,
+              "medianCycleTimeHours": null,
+              "cycleTimeSampleCount": 0,
+              "cycleTimeHours": [],
+              "cycleTimeShare": 0.0
+            },
+            {
+              "key": "exports_to_excel_regulator",
+              "label": "Выгрузки для регулятора",
+              "count": 1,
+              "share": 0.03,
+              "continuous25thHours": 0.0,
+              "medianCycleTimeHours": null,
+              "cycleTimeSampleCount": 0,
+              "cycleTimeHours": [],
+              "cycleTimeShare": 0.0
+            }
+          ],
+          "automationCount": 0,
+          "automationBaseCount": 3716,
+          "automationShare": 0.0,
+          "storyPointsFilledCount": 0,
+          "storyPointsBaseCount": 3716,
+          "storyPointsFilledShare": 0.0,
+          "medianCycleTimeDays": 0.9,
+          "cycleTimeSampleCount": 99,
+          "exportRoutineCount": 13,
+          "exportRoutineShare": 0.35
+        }
+      ],
+      "directions": [
+        {
+          "key": "Разработка и поддержка BI",
+          "label": "Разработка и поддержка BI",
+          "totalCount": 1833
+        },
+        {
+          "key": "Данные и автоматизация",
+          "label": "Данные и автоматизация",
+          "totalCount": 599
+        },
+        {
+          "key": "Аналитика",
+          "label": "Аналитика",
+          "totalCount": 465
+        },
+        {
+          "key": "Неизвестно",
+          "label": "Неизвестно",
+          "totalCount": 312
+        },
+        {
+          "key": "Организационное",
+          "label": "Организационное",
+          "totalCount": 214
+        },
+        {
+          "key": "AI",
+          "label": "AI",
+          "totalCount": 150
+        },
+        {
+          "key": "Исследования",
+          "label": "Исследования",
+          "totalCount": 118
+        },
+        {
+          "key": "Выгрузки",
+          "label": "Выгрузки",
+          "totalCount": 13
+        },
+        {
+          "key": "Отчеты вне BI",
+          "label": "Отчеты вне BI",
+          "totalCount": 6
+        },
+        {
+          "key": "Моделирование",
+          "label": "Моделирование",
+          "totalCount": 5
+        },
+        {
+          "key": "Выгрузки (регулятор)",
+          "label": "Выгрузки (регулятор)",
+          "totalCount": 1
+        }
+      ],
+      "scenarios": [
+        {
+          "key": "BI_bugfix",
+          "label": "Фикс багов в BI",
+          "totalCount": 1011
+        },
+        {
+          "key": "dashboard_improvements",
+          "label": "Доработки дешбордов",
+          "totalCount": 764
+        },
+        {
+          "key": "manual_data_quality_control",
+          "label": "Ручной ККД",
+          "totalCount": 489
+        },
+        {
+          "key": "customer_experience_analytics",
+          "label": "Аналитика клиентского опыта",
+          "totalCount": 306
+        },
+        {
+          "key": "unknown",
+          "label": "Невозможно разметить",
+          "totalCount": 233
+        },
+        {
+          "key": "metrics_calculation",
+          "label": "Расчет метрик",
+          "totalCount": 179
+        },
+        {
+          "key": "business_requirements_composing",
+          "label": "Формирование БТ/ТЗ",
+          "totalCount": 159
+        },
+        {
+          "key": "AI",
+          "label": "AI",
+          "totalCount": 150
+        },
+        {
+          "key": "root_cause_analysis",
+          "label": "Анализ корневых причин",
+          "totalCount": 114
+        },
+        {
+          "key": "data_marts",
+          "label": "Данные и автоматизация",
+          "totalCount": 110
+        },
+        {
+          "key": "methodology_dev",
+          "label": "Разработка методологии",
+          "totalCount": 59
+        },
+        {
+          "key": "dashboard_manual_data_update",
+          "label": "Ручное обновление данных",
+          "totalCount": 42
+        },
+        {
+          "key": "knowledge_base_maintenance",
+          "label": "Формирование базы знаний",
+          "totalCount": 25
+        },
+        {
+          "key": "dashboard_migration",
+          "label": "Миграция дешбордов",
+          "totalCount": 16
+        },
+        {
+          "key": "project_management",
+          "label": "Project Management",
+          "totalCount": 14
+        },
+        {
+          "key": "exports_to_excel",
+          "label": "Выгрузки в Excel",
+          "totalCount": 13
+        },
+        {
+          "key": "employee_trainings",
+          "label": "Обучение сотрудников",
+          "totalCount": 13
+        },
+        {
+          "key": "presentations",
+          "label": "Презентации",
+          "totalCount": 6
+        },
+        {
+          "key": "business_planning",
+          "label": "Бизнес-планирование",
+          "totalCount": 5
+        },
+        {
+          "key": "growth_factors_research",
+          "label": "Поиск точек роста",
+          "totalCount": 4
+        },
+        {
+          "key": "social_communications",
+          "label": "Встречи, коммуникации",
+          "totalCount": 3
+        },
+        {
+          "key": "exports_to_excel_regulator",
+          "label": "Выгрузки для регулятора",
           "totalCount": 1
         }
       ]

@@ -66,31 +66,6 @@ function CrossSellFeedbackCount({count}) {
   return <p>Связок, ожидающих вашей обратной связи: {crossSellCount(count)}.</p>;
 }
 
-function CrossSellMarket({presentation}) {
-  if (!presentation) return null;
-  const {candidates, sources} = presentation;
-  return <section className="crosssell-market">
-    <div className="crosssell-market-head">
-      <strong>Рынок продукта</strong>
-    </div>
-    {candidates.length > 0 && <ul className="crosssell-market-candidates">
-      {candidates.map((candidate, index) => <li key={candidate.key || `${candidate.from}-${candidate.to}-${index}`}>
-        <div className="crosssell-market-candidate-head">
-          <strong>{candidate.from || '—'} → {candidate.to || '—'}</strong>
-          <Label theme={candidate.status === 'wait' ? 'success' : 'utility'} size="xs">{candidate.statusLabel || 'статус не указан'}</Label>
-        </div>
-        {candidate.why && <p>{candidate.why}</p>}
-      </li>)}
-    </ul>}
-    {sources.length > 0 && <div className="crosssell-market-sources">
-      <span>Источники снимка:</span>
-      {sources.map((source, index) => source.url
-        ? <Link href={source.url} target="_blank" rel="noreferrer" key={`${source.publisher || 'source'}-${source.url}`}>{source.publisher || source.url}</Link>
-        : <span key={`${source.publisher || 'source'}-${index}`}>{source.publisher || 'Источник не указан'}</span>)}
-    </div>}
-  </section>;
-}
-
 export function RecommendationBody({item, useText = false, hideRejectedCrossSellCandidates = false}) {
   const hasCrossSellSummary = item.skill_key === 'cross_sell' && item.api_seen_around_n != null;
   const marketPresentation = item.skill_key === 'cross_sell'
@@ -103,9 +78,7 @@ export function RecommendationBody({item, useText = false, hideRejectedCrossSell
     const recommendations = (item.recommendations || []).map((text, index) => useText
       ? <Text variant="body-1" key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</Text>
       : <span key={`${item.id}-${index}`}>{linkifyRecommendation(text)}</span>);
-    return item.skill_key === 'cross_sell'
-      ? <>{recommendations}<CrossSellMarket presentation={marketPresentation} /></>
-      : recommendations;
+    return recommendations;
   }
   const hasSeenOutValue = item.api_seen_out_n != null && Number.isFinite(Number(item.api_seen_out_n));
   const hasSeenInValue = item.api_seen_in_n != null && Number.isFinite(Number(item.api_seen_in_n));
@@ -113,7 +86,6 @@ export function RecommendationBody({item, useText = false, hideRejectedCrossSell
     return <div className="crosssell-summary">
       <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
       <CrossSellFeedbackCount count={waitingDecisionCount} />
-      <CrossSellMarket presentation={marketPresentation} />
       <CrossSellNextSteps />
     </div>;
   }
@@ -127,7 +99,6 @@ export function RecommendationBody({item, useText = false, hideRejectedCrossSell
     </ul></>}
     <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
     <CrossSellFeedbackCount count={waitingDecisionCount} />
-    <CrossSellMarket presentation={marketPresentation} />
     <CrossSellNextSteps />
   </div>;
 }

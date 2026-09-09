@@ -29,16 +29,6 @@ svg text { font-family: var(--dd-font-sans); }
 .initiatives-filter { margin-bottom: 16px; display: flex; gap: 4px; overflow-x: auto; }
 .initiatives-filter .g-button { flex: none; color: var(--g-color-text-secondary); }
 .initiatives-filter .g-button_selected { background: var(--g-color-base-info-light); color: var(--g-color-text-info-heavy); }
-.initiatives-groups { display: grid; gap: 14px; }
-.initiatives-group { overflow: hidden; border-radius: 10px; box-shadow: none; }
-.initiatives-group-header { padding: 16px 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--g-color-line-generic); background: var(--g-color-base-generic); }
-.initiatives-group-header > div { display: grid; gap: 4px; }
-.initiatives-group-list { display: grid; }
-.initiatives-group-row { width: 100%; min-height: 60px; padding: 14px 20px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(130px, 170px) auto; align-items: center; gap: 20px; border: 0; border-bottom: 1px solid var(--g-color-line-generic); background: transparent; color: var(--g-color-text-primary); font: inherit; text-align: left; cursor: pointer; transition: background-color .15s ease; }
-.initiatives-group-row:last-child { border-bottom: 0; }
-.initiatives-group-row:hover, .initiatives-group-row:focus-visible { background: var(--g-color-base-info-light); outline: none; }
-.initiatives-group-metric { min-width: 0; font-size: 14px; font-weight: 500; line-height: 1.4; }
-.initiatives-group-deadline { color: var(--g-color-text-secondary); font-size: 13px; line-height: 1.35; }
 .initiatives-empty { padding: 28px; text-align: center; }
 .initiatives-table { border: 1px solid var(--g-color-line-generic); border-radius: 8px; overflow: hidden; }
 .initiatives-table .g-table__table { width: 100%; table-layout: fixed; }
@@ -49,7 +39,6 @@ svg text { font-family: var(--dd-font-sans); }
 .initiatives-table_clickable .g-table__body .g-table__row:hover .g-table__cell { background: var(--g-color-base-info-light); }
 .initiatives-list-title { display: grid; gap: 4px; }
 .initiatives-list-title .g-text { font-size: 14px; line-height: 1.35; font-weight: 500; }
-.initiatives-open-hint { color: var(--g-color-text-info-heavy) !important; white-space: nowrap; }
 .initiatives-rich-text { display: grid; gap: 6px; color: var(--g-color-text-secondary); white-space: normal; line-height: 1.45; }
 .initiatives-rich-text > span { display: block; }
 .initiatives-rich-text > .initiatives-rich-text-heading { padding-top: 3px; color: var(--g-color-text-primary); font-size: 11px; font-weight: 600; letter-spacing: .02em; }
@@ -88,7 +77,7 @@ svg text { font-family: var(--dd-font-sans); }
 .initiatives-detail-meta > section { gap: 5px; }
 @media (max-width: 760px) { .initiatives-detail-columns, .initiatives-detail-meta { grid-template-columns: 1fr; } .initiatives-detail-columns > section + section { padding: 24px 0 0; border-top: 1px solid var(--g-color-line-generic); border-left: 0; } }
 @media (max-width: 1000px) { .content.initiatives-page { padding: 0 12px; } .initiatives-document { padding: 32px 12px 60px; } }
-@media (max-width: 760px) { .content.initiatives-page { padding: 0; } .initiatives-document { padding: 24px 14px 48px; } .initiatives-hero { min-height: 0; grid-template-columns: 1fr; padding: 30px 0; gap: 24px; } .initiatives-hero h1 { font-size: 34px; } .initiatives-hero img { width: min(58vw, 190px); justify-self: center; } .initiatives-controls { align-items: stretch; flex-direction: column; } .initiatives-controls .g-text-input { width: 100%; } .initiatives-group-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px 14px; } .initiatives-group-deadline { grid-column: 1; } .initiatives-open-hint { grid-column: 2; grid-row: 1 / span 2; } .initiatives-table { overflow-x: auto; } .initiatives-table .g-table { min-width: 1120px; } }
+@media (max-width: 760px) { .content.initiatives-page { padding: 0; } .initiatives-document { padding: 24px 14px 48px; } .initiatives-hero { min-height: 0; grid-template-columns: 1fr; padding: 30px 0; gap: 24px; } .initiatives-hero h1 { font-size: 34px; } .initiatives-hero img { width: min(58vw, 190px); justify-self: center; } .initiatives-controls { align-items: stretch; flex-direction: column; } .initiatives-controls .g-text-input { width: 100%; } .initiatives-row-detail { grid-template-columns: 1fr; padding-left: 0; } .initiatives-table { overflow-x: auto; } .initiatives-table .g-table { min-width: 1120px; } }
 h1, h2, h3, p { margin-top: 0; letter-spacing: 0; }
 h1 { margin-bottom: 8px; font-size: 34px; line-height: 1.15; font-weight: 600; }
 h2 { margin-bottom: 8px; font-size: 15px; line-height: 1.35; }
@@ -282,6 +271,19 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .metric-list .metric-row { padding-left: 28px; }
 .metric-list .metric-row-nested { position: relative; padding-left: 52px; }
 .metric-list .metric-row-nested::before { position: absolute; top: -1px; bottom: 50%; left: 34px; width: 10px; border-bottom: 1px solid var(--g-color-line-generic); border-left: 1px solid var(--g-color-line-generic); content: ''; }
+.initiatives-block .dd-metric-block-score > strong { font: 600 20px/1 var(--dd-font-sans); color: var(--g-color-text-secondary); font-variant-numeric: tabular-nums; }
+.initiatives-block .dd-metric-block-main:disabled { cursor: default; grid-template-columns: minmax(0, 1fr); }
+.metric-row.initiatives-row { grid-template-columns: minmax(0, 1fr) auto; align-items: start; row-gap: 12px; padding: 12px 16px; }
+.initiatives-row-main { min-width: 0; display: grid; grid-template-columns: 14px minmax(0, 1fr); align-items: start; gap: 9px; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.initiatives-row-main > svg { margin-top: 3px; color: var(--g-color-text-secondary); }
+.initiatives-row-copy { min-width: 0; display: grid; gap: 2px; }
+.initiatives-row-copy b { font-size: 13px; font-weight: 600; line-height: 1.35; }
+.initiatives-row-meta { grid-column: 1 / -1; margin: 0; padding-top: 10px; border-top: 1px solid var(--g-color-line-generic); color: var(--g-color-text-secondary); font-size: 11px; line-height: 1.4; }
+.initiatives-row-main:focus-visible { border-radius: 4px; outline: 2px solid var(--g-color-line-focus); outline-offset: 2px; }
+.initiatives-row-deadline { flex: 0 0 auto; align-self: start; white-space: nowrap; }
+.initiatives-row-detail { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; padding: 4px 0 2px 23px; }
+.initiatives-row-detail section { min-width: 0; display: grid; gap: 6px; align-content: start; }
+.initiatives-row_open { background: var(--g-color-base-generic-ultralight); }
 .metric-row-irrelevant,
 .metric-block.tone-default .metric-block-head {
   background-color: var(--g-color-base-generic-ultralight);
@@ -389,14 +391,6 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .crosssell-summary ol { margin: 0; padding-left: 20px; display: grid; gap: 4px; }
 .crosssell-summary em { font-weight: 500; }
 .crosssell-summary-steps { gap: 7px !important; }
-.crosssell-market { margin-top: 4px; padding: 12px; display: grid; gap: 10px; border: 1px solid var(--g-color-line-positive); border-radius: 8px; background: var(--g-color-base-positive-light); }
-.crosssell-market-head, .crosssell-market-candidate-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.crosssell-market-head > strong, .crosssell-market-candidate-head > strong { min-width: 0; }
-.crosssell-market-candidates { padding: 0 !important; gap: 0 !important; list-style: none; }
-.crosssell-market-candidates > li { padding: 9px 0; display: grid; gap: 4px; border-top: 1px solid var(--g-color-line-generic); }
-.crosssell-market-candidates > li:last-child { padding-bottom: 0; }
-.crosssell-market-candidates p { color: var(--g-color-text-secondary); }
-.crosssell-market-sources { display: flex; flex-wrap: wrap; gap: 5px 10px; color: var(--g-color-text-secondary); font-size: 12px; }
 .crosssell-preview-dialog { display: grid; gap: 20px; }
 .crosssell-preview-dialog > .crosssell-summary { margin-top: 0; }
 .crosssell-preview-actions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
