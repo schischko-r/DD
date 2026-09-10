@@ -41,7 +41,7 @@ export function HtmlReportPage({tool, context, onBack, onStandAccessLink}) {
       } catch {
         return;
       }
-      if (!result.showTriggered && attempt < 60) {
+      if (!result.showTriggered && !result.unresolved && attempt < 60) {
         bridgeTimerRef.current = window.setTimeout(applyBridge, 100);
       }
     };

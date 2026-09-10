@@ -234,6 +234,18 @@ function applyFieldValue(document, container, value) {
   return applyGravityValue(document, container, value);
 }
 
+// Команда из DD-отчета может отсутствовать во встроенном отчете: у «Жалоб», например,
+// свои 24 продукта против 83 команд индекса. Раньше мост в таком случае навсегда оставлял
+// свое значение в поле группы — подсказки прятались, продукт не выбирался, и отчет молчал
+// на любое действие пользователя, включая переключение месяца.
+export const FIELD_UNRESOLVED = 'unresolved';
+
+function resetGroupValue(document, groupContainer, groupControl) {
+  setNativeValue(groupControl, '', document);
+  delete groupContainer.__ddiBridgeGroupValue;
+  delete groupContainer.__ddiBridgeGroupPill;
+}
+
 function applyGroupedFieldValue(document, field, container, value) {
   const productControl = nativeControl(container);
   if (!productControl) return false;
@@ -264,7 +276,10 @@ function applyGroupedFieldValue(document, field, container, value) {
   }
 
   const pill = document.querySelector(field.groupPillSelector);
-  if (!pill) return false;
+  if (!pill) {
+    resetGroupValue(document, groupContainer, groupControl);
+    return FIELD_UNRESOLVED;
+  }
   if (!groupContainer.__ddiBridgeGroupPill) {
     pill.click();
     groupContainer.__ddiBridgeGroupPill = true;
@@ -320,6 +335,9 @@ export function applyHtmlPageBridge(document, bridge = {}, context = {}) {
     const applied = field.groupSelector
       ? applyGroupedFieldValue(document, field, container, value)
       : applyFieldValue(document, container, value);
+    if (applied === FIELD_UNRESOLVED) {
+      return {ready: false, showTriggered: false, unresolved: true};
+    }
     if (!applied) {
       return {ready: false, showTriggered: false};
     }

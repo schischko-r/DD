@@ -991,3 +991,73 @@ test('source Clickstream HTML is self-contained', () => {
     `Clickstream HTML depends on external resources: ${externalReferences.join(', ')}`,
   );
 });
+
+test('HTML report releases the product filter when the DDI team is unknown to the embedded page', () => {
+  const productControl = {
+    tagName: 'INPUT',
+    value: '',
+    getAttribute(name) { return name === 'list' ? 'products' : null; },
+    dispatchEvent() {},
+  };
+  const groupEvents = [];
+  const groupControl = {
+    tagName: 'INPUT',
+    value: '',
+    getAttribute() { return null; },
+    dispatchEvent(event) { groupEvents.push(`${event.type}:${this.value}`); },
+  };
+  const periodControl = {
+    tagName: 'SELECT',
+    value: '',
+    options: [{value: '2026-06', textContent: 'июнь 2026', disabled: false}],
+    dispatchEvent() {},
+  };
+  const showControl = {clicks: 0, click() { this.clicks += 1; }};
+  const productList = {
+    querySelectorAll: (selector) => (selector === 'option'
+      ? [{value: 'Вклады и счета', textContent: 'Вклады и счета'}]
+      : []),
+  };
+  const fakeDocument = {
+    defaultView: {Event},
+    getElementById: (id) => (id === 'products' ? productList : null),
+    querySelector(selector) {
+      if (selector === '#exp-product') return productControl;
+      if (selector === '#exp-filter-panel input.filter-select:not([list])') return groupControl;
+      if (selector === '#exp-filter-panel .group-pill') return null;
+      if (selector === '#exp-period') return periodControl;
+      if (selector === '#exp-show') return showControl;
+      return null;
+    },
+  };
+  const bridge = {
+    fields: [{
+      contextKey: 'product',
+      selector: '#exp-product',
+      required: true,
+      groupSelector: '#exp-filter-panel input.filter-select:not([list])',
+      groupPillSelector: '#exp-filter-panel .group-pill',
+    }],
+    latestPeriodSelector: '#exp-period',
+    showSelector: '#exp-show',
+  };
+
+  let result = {ready: false, showTriggered: false};
+  let attempts = 0;
+  while (attempts < 60 && !result.showTriggered && !result.unresolved) {
+    attempts += 1;
+    result = applyHtmlPageBridge(fakeDocument, bridge, {product: 'ИнвестКопилка'});
+  }
+
+  assert.deepEqual(result, {ready: false, showTriggered: false, unresolved: true});
+  assert.ok(attempts <= 3, `the retry loop gives up quickly, took ${attempts} attempts`);
+  assert.equal(groupControl.value, '', 'the group filter is left empty for a manual pick');
+  assert.equal(groupEvents.at(-1), 'change:', 'clearing the filter is announced to the page');
+  assert.equal(productControl.value, '');
+  assert.equal(showControl.clicks, 0, 'Show never runs without a product');
+  assert.match(
+    readFileSync(new URL('../pages/HtmlReportPage.jsx', import.meta.url), 'utf8'),
+    /if \(!result\.showTriggered && !result\.unresolved && attempt < 60\)/,
+    'the report page stops retrying once the product turns out to be unresolvable',
+  );
+});
