@@ -583,6 +583,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .backlog-filter-control { width: 214px; min-width: 0; }
 .backlog-team-control { width: 238px; }
 .backlog-page-state { min-height: 430px; }
+.backlog-team-notice { margin-bottom: 20px; }
 .backlog-goal-card { min-height: 178px; }
 .backlog-goal-progress-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 24px; }
 .backlog-goal-scale { min-width: 0; }

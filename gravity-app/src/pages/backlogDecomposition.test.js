@@ -51,7 +51,7 @@ test('backlog can return to the selected team profile with exact normalized name
   assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
 
   assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
-  assert.match(pageSource, /import \{Box, Button, Card, DefinitionList, Divider/);
+  assert.match(pageSource, /import \{[^}]*Box, Button, Card, DefinitionList, Divider/);
   assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
   assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
 });
@@ -414,7 +414,7 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
   assert.match(pageSource, /const DISCOVERY_TARGET = 40/);
   assert.match(stylesSource, /\.backlog-kpi-grid\s*\{[^}]*grid-template-columns:\s*repeat\(6, minmax\(0, 1fr\)\)/s);
   assert.match(stylesSource, /\.backlog-kpi-card--combined\s*\{[^}]*grid-column:\s*span 2/s);
-  assert.match(pageSource, /import \{Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label,[^}]*Progress/);
+  assert.match(pageSource, /import \{[^}]*Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label,[^}]*Progress/);
   const goalCardSource = pageSource.slice(pageSource.indexOf('<Card className="backlog-goal-card"'), pageSource.indexOf('<section className="backlog-kpi-grid"'));
   for (const gravityComponent of ['Card', 'Flex', 'Text', 'Progress', 'Label']) {
     assert.match(goalCardSource, new RegExp(`<${gravityComponent}\\b`));
@@ -903,4 +903,36 @@ test('sub-hour cycle time renders as «< 1 часа» instead of a zero reading'
   assert.match(pageSource, /const SUB_HOUR_LABEL = '< 1 часа';/);
   assert.match(pageSource, /const roundsToZero = Number\(number\.toFixed\(maximumFractionDigits\)\) === 0;/);
   assert.match(pageSource, /if \(unit === 'ч' && number >= 0 && roundsToZero\) return SUB_HOUR_LABEL;/);
+});
+
+test('ИнвестКопилка carries a data notice about the May spike, and no other team does', () => {
+  assert.match(pageSource, /import \{Alert,[^}]*\} from '@gravity-ui\/uikit'/);
+  assert.ok(pageSource.includes("    title: 'Аномальное количество задач в мае',"), 'notice title copy is exact');
+  assert.ok(
+    pageSource.includes("    message: 'Видим аномальное количество задач в мае, возможно дело в миграции или переносе с других предметных областей?',"),
+    'notice message copy is exact',
+  );
+
+  const noticeKeys = Object.keys(Function(
+    `${pageSource.slice(pageSource.indexOf('const TEAM_DATA_NOTICES'), pageSource.indexOf('const SCENARIO_RECOMMENDATION_EXCLUSIONS'))}; return TEAM_DATA_NOTICES;`,
+  )());
+  assert.deepEqual(noticeKeys, ['investkopilka'], 'only ИнвестКопилка is annotated');
+
+  assert.match(pageSource, /const teamDataNotice = TEAM_DATA_NOTICES\[String\(team\?\.key \|\| ''\)\];/);
+  assert.match(pageSource, /\{teamDataNotice && \(\s*<Alert[\s\S]*?title=\{teamDataNotice\.title\}[\s\S]*?message=\{teamDataNotice\.message\}/);
+  assert.ok(
+    pageSource.indexOf('teamDataNotice && (') < pageSource.indexOf('<Card className="backlog-goal-card"'),
+    'the notice sits above the Discovery goal card',
+  );
+  assert.match(stylesSource, /\.backlog-team-notice \{ margin-bottom: 20px; \}/);
+});
+
+test('the May spike the notice describes is real in the shipped backlog data', () => {
+  const data = JSON.parse(readFileSync(new URL('../../public/backlog-data.json', import.meta.url), 'utf8'));
+  const team = data.teams.find((item) => item.key === 'investkopilka');
+  const may = team.months.find((month) => month.key === '2026-05');
+  const others = team.months.filter((month) => month.key !== '2026-05');
+  const busiestOtherMonth = Math.max(...others.map((month) => month.createdCount));
+
+  assert.ok(may.createdCount > busiestOtherMonth * 10, `May (${may.createdCount}) dwarfs every other month (max ${busiestOtherMonth})`);
 });

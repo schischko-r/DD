@@ -1,7 +1,7 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {Chart} from '@gravity-ui/charts';
 import {ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo} from '@gravity-ui/icons';
-import {Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label, Link, Modal, Popover, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
+import {Alert, Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label, Link, Modal, Popover, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
 import {RecommendationCell} from './RecommendationCell.js';
 
@@ -17,6 +17,13 @@ const DISCOVERY_BUCKET_LEAD = 'В бакет «Discovery» учитываютс�
 const STORY_POINTS_TARGET = 90;
 const STORY_POINTS_GUIDE_URL = 'https://confluence.sberbank.ru/pages/viewpage.action?pageId=15525024800';
 const QUARTER_REFERENCE_COLOR = 'var(--g-color-line-generic)';
+const TEAM_DATA_NOTICES = {
+  investkopilka: {
+    title: 'Аномальное количество задач в мае',
+    message: 'Видим аномальное количество задач в мае, возможно дело в миграции или переносе с других предметных областей?',
+  },
+};
+
 const SCENARIO_RECOMMENDATION_EXCLUSIONS = new Set([
   'dashboard_manual_data_update',
   'bi_bugfix',
@@ -938,6 +945,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const rankingChartData = buildScenarioRankingChartData(rankedScenarios);
   const hasSeries = chartData.series.data.length > 0;
   const freshness = formatFreshnessDate(team?.meta?.asOf || data?.meta?.asOf);
+  const teamDataNotice = TEAM_DATA_NOTICES[String(team?.key || '')];
   const discoveryGoalProgress = Math.min(100, Math.max(0, discoveryShare / DISCOVERY_TARGET * 100));
   const discoveryBreakdown = buildDiscoveryDirectionBreakdown(quarter, discoveryDirectionLabel);
   const scenarioFocusColumns = buildScenarioFocusColumns(scenarioFocus.periodLabel);
@@ -973,6 +981,17 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
           </Flex>
         </Flex>
       </header>
+
+      {teamDataNotice && (
+        <Alert
+          className="backlog-team-notice"
+          theme="warning"
+          view="outlined"
+          size="m"
+          title={teamDataNotice.title}
+          message={teamDataNotice.message}
+        />
+      )}
 
       <Card className="backlog-goal-card" view="outlined" size="l" spacing={{p: 5}}>
         <Flex direction="column" gap="4">
