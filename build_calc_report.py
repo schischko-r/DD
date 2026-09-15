@@ -80,6 +80,13 @@ TEAM_INAPPLICABLE_METRICS: dict[str, frozenset[str]] = {
     # Бенчмарки остаются только в воронке привлечения.
     "Выписки, справки": frozenset({"churn.benchmarks"}),
 }
+# Метрики, которые команде показываем со своим баллом, но в индекс не берем -
+# так же, как одноименные строки у остальных команд.
+TEAM_INFORMATIONAL_METRICS: dict[str, frozenset[str]] = {
+    # "Регулярность" информационная в 151 строке отчета из 154. Здесь flg=1 выбивался
+    # из общего строя: метрика получала бейдж прироста индекса и попадала в рекомендации.
+    "Персональная рекомендация": frozenset({"analiz_effektivnostь.regulyarnostь"}),
+}
 _DD_FROM_EXCEL["TBD_METRIC_CODES"].discard("hyp.ab_tests")
 _DD_FROM_EXCEL["METRIC_CODES"][
     ("Знание ключевых метрик", "Знание об отчетности в Навигаторе")
@@ -2226,7 +2233,9 @@ def apply_flat_flg_exclusions(product: dict[str, Any], rows: Any) -> int:
         )
 
     excluded = 0
-    inapplicable_codes = TEAM_INAPPLICABLE_METRICS.get(clean_text(product.get("name")), frozenset())
+    product_name = clean_text(product.get("name"))
+    inapplicable_codes = TEAM_INAPPLICABLE_METRICS.get(product_name, frozenset())
+    informational_codes = TEAM_INFORMATIONAL_METRICS.get(product_name, frozenset())
     for block in product.get("metrics", []):
         block_code = clean_text(block.get("code"))
         for metric in block.get("metrics", []):
@@ -2234,8 +2243,11 @@ def apply_flat_flg_exclusions(product: dict[str, Any], rows: Any) -> int:
             if key not in inclusion:
                 continue
             included, display_name, value, max_value = inclusion[key]
-            if clean_text(metric.get("code")) in inapplicable_codes:
+            metric_code_text = clean_text(metric.get("code"))
+            if metric_code_text in inapplicable_codes:
                 included, value, max_value = False, 0.0, 0.0
+            elif metric_code_text in informational_codes:
+                included = False
             applicable = max_value > 0
             metric["excluded_from_index"] = not included
             metric["dd_calculation_flg"] = 1 if included else 0

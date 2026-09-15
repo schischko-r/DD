@@ -1071,6 +1071,55 @@ class SyntheticReportTest(unittest.TestCase):
         self.assertEqual(attract[0]["max_value"], 0.5)
         self.assertTrue(other_churn[0]["is_applicabble_flg"])
 
+    def test_team_informational_metric_keeps_its_score_but_leaves_the_index(self) -> None:
+        frame = report._PD.DataFrame(
+            [
+                self.flat_row(
+                    product="Персональная рекомендация",
+                    metric_code=20,
+                    metric_name="Регулярность",
+                    metric_group="Анализ, эффективность",
+                    **{"макс балл": 1, "факт": 0.5},
+                ),
+                self.flat_row(
+                    product="Персональная рекомендация",
+                    metric_code=21,
+                    metric_name="Настроена отчетность",
+                    metric_group="Анализ, эффективность",
+                    **{"макс балл": 4, "факт": 2},
+                ),
+                self.flat_row(
+                    product="Другой продукт",
+                    metric_code=22,
+                    metric_name="Регулярность",
+                    metric_group="Анализ, эффективность",
+                    **{"макс балл": 1, "факт": 0.5},
+                ),
+            ]
+        )
+
+        normalized = report.normalize_flat_table_frame(frame)
+        rows = report.normalize_flat_metric_rows(normalized)
+        data, _ = report.build_report_data_from_metric_rows(rows, "Тест")
+        metrics = {
+            product["name"]: {metric["name"]: metric
+                             for block in product["metrics"]
+                             for metric in block["metrics"]}
+            for product in data["products"]
+        }
+
+        regularity = metrics["Персональная рекомендация"]["Регулярность"]
+        other = metrics["Другой продукт"]["Регулярность"]
+
+        self.assertEqual(regularity["dd_calculation_flg"], 0)
+        self.assertTrue(regularity["excluded_from_index"])
+        self.assertTrue(regularity["is_applicabble_flg"], "метрика остается видимой со своим баллом")
+        self.assertEqual((regularity["value"], regularity["max_value"]), (0.5, 1))
+        self.assertEqual(other["dd_calculation_flg"], 1, "переопределение действует только на одну команду")
+
+        scores = {row["name"]: row["score"] for row in report.upload_title_from_products(data["products"])["rows"]}
+        self.assertEqual(scores["Персональная рекомендация"], 50)
+
     def test_flat_table_keeps_duplicate_display_only_rows_separate(self) -> None:
         frame = report._PD.DataFrame(
             [
