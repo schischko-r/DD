@@ -29,7 +29,7 @@ const normalizeUpliftBindingSource = profileSource.match(
   /function normalizeUpliftBinding[\s\S]*?(?=\nfunction metricUpliftRecommendation)/,
 )?.[0] || '';
 const funnelRegularitySource = profileSource.match(
-  /function isFunnelReportingRegularity[\s\S]*?(?=\nconst CROSS_SELL_UNCONFIRMED_MESSAGE)/,
+  /function isReportingRegularity[\s\S]*?(?=\nconst CROSS_SELL_UNCONFIRMED_MESSAGE)/,
   )?.[0] || '';
 
 const upliftRecommendationContext = Object.create(null);
@@ -41,7 +41,7 @@ globalThis.upliftRecommendationApi = {metricUpliftRecommendation};`,
 const {upliftRecommendationApi} = upliftRecommendationContext;
 const funnelRegularityContext = Object.create(null);
 runInNewContext(
-  `${funnelRegularitySource}\nglobalThis.funnelRegularityApi = {isFunnelReportingRegularity};`,
+  `${funnelRegularitySource}\nglobalThis.funnelRegularityApi = {isReportingRegularity};`,
   funnelRegularityContext,
 );
 const blockTitleContext = Object.create(null);
@@ -83,16 +83,31 @@ test('key metrics source help explains PO survey verification against dashboard 
   assert.doesNotMatch(profileSource, /На основании пройденной самооценки в Oprosso/);
 });
 
-test('funnel regularity is visually nested under reporting only in funnel blocks', () => {
-  const {isFunnelReportingRegularity} = funnelRegularityContext.funnelRegularityApi;
-  assert.equal(isFunnelReportingRegularity({code: 'attract'}, {name: 'Регулярность'}), true);
-  assert.equal(isFunnelReportingRegularity({code: 'churn'}, {name: 'Регулярность (авто)'}), true);
-  assert.equal(isFunnelReportingRegularity({code: 'voronka_ispolьzovaniya'}, {name: 'Использование.Регулярность (авто)'}), true);
-  assert.equal(isFunnelReportingRegularity({code: 'goals'}, {name: 'Регулярность'}), false);
-  assert.equal(isFunnelReportingRegularity({code: 'attract'}, {name: 'Полнота отчета'}), false);
-  assert.match(profileSource, /nested=\{isFunnelReportingRegularity\(block, metric\)\}/);
+test('regularity is nested under reporting in every block that groups it there', () => {
+  const {isReportingRegularity} = funnelRegularityContext.funnelRegularityApi;
+  const reporting = (name) => ({name, metric_subgroup: 'Отчетность'});
+  assert.equal(isReportingRegularity(reporting('Регулярность')), true);
+  assert.equal(isReportingRegularity(reporting('Регулярность (авто)')), true);
+  assert.equal(isReportingRegularity(reporting('Использование.Регулярность (авто)')), true);
+  assert.equal(isReportingRegularity({name: 'Регулярность', metric_subgroup: 'Отчётность'}), true, 'ё is spelled both ways');
+  assert.equal(isReportingRegularity({name: 'Регулярность', metric_subgroup: ''}), false);
+  assert.equal(isReportingRegularity({name: 'Регулярность', metric_subgroup: 'Анализ'}), false);
+  assert.equal(isReportingRegularity(reporting('Полнота отчета')), false);
+  assert.match(profileSource, /nested=\{isReportingRegularity\(metric\)\}/);
   assert.match(stylesSource, /\.metric-list \.metric-row-nested \{ position: relative; padding-left: 52px; \}/);
   assert.match(stylesSource, /\.metric-row-nested::before/);
+});
+
+test('every Регулярность in the shipped report is grouped so the indent reaches it', () => {
+  const {isReportingRegularity} = funnelRegularityContext.funnelRegularityApi;
+  const report = JSON.parse(readFileSync(new URL('../../public/report-data.json', import.meta.url), 'utf8'));
+  const rows = report.products.flatMap((product) => product.metrics.flatMap((block) => block.metrics
+    .filter((metric) => /регулярность/i.test(String(metric.name || '')))
+    .map((metric) => ({block: block.code, metric}))));
+
+  assert.ok(rows.length > 100, `expected the report to carry many regularity rows, saw ${rows.length}`);
+  const flat = rows.filter(({metric}) => !isReportingRegularity(metric));
+  assert.deepEqual(flat, [], 'no regularity row is left without its indent');
 });
 
 test('data quality metric reuses the centralized KКД instruction from backlog recommendations', () => {
