@@ -1,0 +1,1302 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Дерево оттоков</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>/*__CHARTS_CSS__*/</style>
+<script>/*__CHARTS_JS__*/</script>
+<style>
+/* Замеры сняты с работающего Data-Driven Index (gravity-standalone.html):
+   полотно #fafafa, содержимое — белые карточки 8px с рамкой rgba(0,0,0,.1) и padding 18. */
+:root {
+  --sans: 'Inter', Arial, sans-serif;
+  --canvas: #fafafa;
+  --surface: #ffffff;
+  --brand: #239ee2;
+  --info-light: rgba(35, 158, 226, .1);
+  --line: rgba(0, 0, 0, .1);
+  --line-hover: rgba(0, 0, 0, .15);
+  --ink: rgba(0, 0, 0, .85);
+  --ink-soft: rgba(0, 0, 0, .5);
+  --ink-hint: rgba(0, 0, 0, .3);
+  --link: #147fb9;
+  --positive: rgb(48, 170, 110);
+  --danger: rgb(233, 3, 58);
+  --warning: rgb(189, 142, 75);
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+
+.workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 372px;
+  height: 100vh;
+  background: var(--canvas);
+}
+
+/* ── страница ────────────────────────────────────────────────────────── */
+.content { overflow-y: auto; padding: 42px 48px 72px; }
+.content-inner { max-width: 940px; }
+
+.crumbs {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  min-height: 18px; color: var(--ink-hint); font-size: 12px;
+}
+.crumbs button { color: var(--ink-soft); }
+.crumbs button:hover { color: var(--link); }
+.crumbs i { font-style: normal; color: var(--ink-hint); }
+
+.page-title {
+  margin: 6px 0 0;
+  font-size: 34px; font-weight: 600; line-height: 1.15;
+  color: var(--ink);
+}
+.page-sub { margin: 6px 0 0; font-size: 13px; color: var(--ink-soft); }
+.page-sub b { color: var(--ink); font-weight: 600; }
+.page-divider { margin: 20px 0 0; height: 1px; background: var(--line); }
+
+
+/* ── перекосы ────────────────────────────────────────────────────────── */
+.section-title { margin: 36px 0 0; font-size: 20px; font-weight: 700; }
+.section-note { margin: 4px 0 0; font-size: 13px; color: var(--ink-soft); }
+.findings { margin-top: 16px; display: grid; gap: 16px; }
+.finding-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.finding-head h3 { margin: 0; font-size: 16px; font-weight: 700; }
+.finding-verdict { margin: 8px 0 0; font-size: 14px; line-height: 1.55; color: var(--ink); }
+.finding-verdict b { font-weight: 600; }
+.finding-lever { margin: 10px 0 0; font-size: 13px; color: var(--ink-soft); }
+.finding-lever b { color: var(--ink); font-weight: 600; }
+/* ── выводы ──────────────────────────────────────────────────────────── */
+.takeaways-card { margin-top: 24px; }
+.takeaways { margin: 0; padding: 0; list-style: none; counter-reset: takeaway; display: grid; gap: 14px; }
+.takeaways li {
+  counter-increment: takeaway;
+  display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 12px; align-items: start;
+  font-size: 14px; line-height: 1.55; color: var(--ink);
+}
+.takeaways li::before {
+  content: counter(takeaway);
+  display: grid; place-items: center;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--info-light); color: var(--link);
+  font-size: 12px; font-weight: 600;
+}
+.takeaways b { font-weight: 600; }
+.takeaways small { display: block; margin-top: 3px; font-size: 12px; color: var(--ink-hint); }
+
+/* ── иерархия покрытия ───────────────────────────────────────────────── */
+.hierarchy-card { margin-top: 24px; }
+.hero { padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.hero-label { font-size: 13px; color: var(--ink-soft); }
+.hero-value { margin-top: 4px; font-size: 44px; font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; }
+.hero-note { margin-top: 6px; font-size: 12px; color: var(--ink-hint); }
+
+.cov-tree { margin-top: 6px; }
+.cov-group + .cov-group { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); }
+.cov-branch.is-nested { padding-left: 22px; }
+.cov-button {
+  display: grid; grid-template-columns: 14px minmax(0, 1fr) 180px 64px;
+  align-items: center; gap: 12px;
+  width: 100%; padding: 11px 6px; border-radius: 6px; text-align: left;
+}
+.cov-button:hover { background: rgba(0, 0, 0, .03); }
+.cov-caret { color: var(--ink-hint); font-size: 10px; transition: transform .12s ease; }
+.cov-button[aria-expanded="true"] .cov-caret { transform: rotate(90deg); }
+.cov-label { min-width: 0; font-size: 13px; }
+.cov-branch:not(.is-nested) .cov-label { font-weight: 600; }
+.cov-progress { height: 8px; border-radius: 4px; background: rgba(0, 0, 0, .06); overflow: hidden; }
+.cov-progress i { display: block; height: 100%; border-radius: 4px; background: var(--brand); }
+.cov-progress i.is-danger { background: var(--danger); }
+.cov-progress.is-empty { background: transparent; border: 1px dashed var(--line); }
+.cov-value { font-size: 14px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+.cov-caption { margin: 0 0 8px 32px; font-size: 12px; color: var(--ink-hint); }
+.cov-caption.is-nested { margin-left: 28px; }
+
+.cov-wrap { margin: 4px 0 14px 32px; }
+.cov-table { border: 1px solid var(--line); border-radius: 6px; overflow: hidden; min-width: 520px; }
+.cov-head, .cov-row {
+  display: grid; grid-template-columns: 120px minmax(90px, 1fr) 92px 122px 92px 64px;
+  align-items: center; gap: 10px; padding: 8px 12px; font-size: 12px;
+}
+.cov-head { background: rgba(0, 0, 0, .03); color: var(--ink-soft); font-weight: 600; }
+.cov-row + .cov-row, .cov-head + .cov-row { border-top: 1px solid var(--line); }
+.cov-row.is-high { background: rgba(35, 158, 226, .05); }
+.cov-row strong { font-weight: 600; font-variant-numeric: tabular-nums; }
+.cov-row span { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.cov-row b { text-align: right; font-variant-numeric: tabular-nums; }
+.cov-track { display: flex; height: 6px; border-radius: 3px; overflow: hidden; }
+.cov-track i { background: var(--brand); }
+.cov-track em { background: rgba(0, 0, 0, .07); }
+.cov-note { margin: 8px 0 0; font-size: 12px; color: var(--ink-hint); }
+
+
+.toggle {
+  display: inline-flex; gap: 2px; padding: 2px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--surface);
+}
+.toggle button {
+  padding: 4px 10px; border-radius: 4px;
+  font-size: 12px; color: var(--ink-soft); white-space: nowrap;
+}
+.toggle button:hover { color: var(--ink); }
+.toggle button[aria-pressed="true"] { background: var(--info-light); color: var(--ink); font-weight: 600; }
+.finding-chart { margin-top: 14px; height: 300px; }
+/* ThemeProvider вставляет свой .g-root между контейнером и графиком —
+   без явной высоты цепочка height:100% рвётся и Chart не рисует SVG. */
+.finding-chart > .g-root, .finding-chart > .g-root > div { height: 100%; }
+.finding-caveat {
+  margin-top: 12px; padding: 9px 11px;
+  border: 1px solid rgba(255, 190, 92, .6); border-radius: 6px;
+  background: rgba(255, 190, 92, .16); font-size: 12px;
+}
+
+/* ── карточки Gravity ────────────────────────────────────────────────── */
+.card {
+  display: flex; flex-direction: column; min-height: 0;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+}
+.card-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin-bottom: 12px;
+}
+.card-head h2 { margin: 0; font-size: 16px; font-weight: 700; color: var(--ink); }
+.card-head .count { color: var(--ink-hint); font-size: 12px; }
+.card-head button { color: var(--link); font-size: 12px; }
+.card-head button:hover { text-decoration: underline; text-underline-offset: 3px; }
+.card-body { flex: 1 1 auto; min-height: 0; }
+
+/* ── правая колонка ──────────────────────────────────────────────────── */
+.shelf {
+  display: grid; grid-template-rows: 1fr 1fr; gap: 16px;
+  min-height: 0; padding: 24px 24px 24px 0;
+}
+.comms-body { overflow-y: auto; height: 100%; }
+
+.comm {
+  position: relative; display: block; width: 100%; text-align: left;
+  padding: 14px 16px;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--ink);
+}
+.comm + .comm { margin-top: 8px; }
+.comm:hover { border-color: var(--line-hover); }
+.comm[aria-current="true"] { border-color: var(--brand); background: var(--info-light); }
+.comm b { display: block; font-size: 13px; font-weight: 600; }
+.comm em { display: block; margin-top: 3px; font-style: normal; font-size: 12px; color: var(--ink-soft); }
+
+/* ── дерево ──────────────────────────────────────────────────────────── */
+.tree-card .card-body { overflow: hidden; }
+.tree { width: 100%; height: 100%; display: block; touch-action: none; }
+.tree .band-line { stroke: var(--line); stroke-dasharray: 3 4; }
+.tree .band-label, .tree .band-index { fill: var(--ink-hint); font-family: var(--sans); }
+.tree .band-index { font-weight: 600; }
+.tree .link { fill: none; stroke-linecap: round; }
+.tree .link-label {
+  font-family: var(--sans); fill: var(--ink-soft);
+  paint-order: stroke; stroke: #fff; stroke-linejoin: round; pointer-events: none;
+}
+.tree .node { cursor: pointer; }
+.tree .node-name, .tree .node-value, .tree .node-unit {
+  font-family: var(--sans); pointer-events: none; text-anchor: middle;
+}
+.tree .node-name { fill: var(--ink-soft); }
+.tree .node-value { fill: var(--ink); font-weight: 600; }
+.tree .node-unit { fill: var(--ink-hint); }
+
+@media (max-width: 1080px) {
+  .workbench { grid-template-columns: 1fr; height: auto; }
+  .content { padding: 24px 16px 48px; order: 2; min-height: 55vh; }
+  .shelf { order: 1; grid-template-rows: none; padding: 16px 16px 0; }
+  .comms-body { max-height: 30vh; }
+  .tree-card .card-body { height: 44vh; }
+}
+</style>
+</head>
+<body>
+
+<script type="application/json" id="cube-data">__CUBE_JSON__</script>
+
+<div class="workbench">
+  <main class="content">
+    <div class="content-inner" id="page"></div>
+  </main>
+
+  <aside class="shelf">
+    <section class="card comms-card">
+      <div class="card-head">
+        <h2>Коммуникации</h2>
+        <span class="count" id="commCount"></span>
+      </div>
+      <div class="card-body comms-body" id="commList"></div>
+    </section>
+    <section class="card tree-card">
+      <div class="card-head">
+        <h2>Дерево оттоков</h2>
+        <button type="button" id="treeReset">Показать целиком</button>
+      </div>
+      <div class="card-body">
+        <svg class="tree" id="tree" role="img" aria-label="Дерево оттоков"></svg>
+      </div>
+    </section>
+  </aside>
+</div>
+
+<script>
+// ── данные ────────────────────────────────────────────────────────────────
+const GRAPH = __GRAPH__;
+const NODES = GRAPH.nodes.filter((n) => n.kind !== 'campaign');
+const DRAWN = new Set(NODES.map((n) => n.id));
+const LINKS = GRAPH.links.filter((l) => DRAWN.has(l.source) && DRAWN.has(l.target));
+const BANDS = [
+  {short: 'Портфель', full: 'Портфель'},
+  {short: 'Контур движения', full: 'Контур движения'},
+  {short: 'Драйвер / исход', full: 'Драйвер / исход в дату окончания'},
+  {short: 'Результат 30 дней', full: 'Результат за 30 дней'},
+  {short: 'Детализация', full: 'Детализация результата'},
+  {short: 'Направление', full: 'Конечное направление'},
+];
+const COMMS = [
+  {
+    id: 'comm-prolongation',
+    title: 'Коммуникации по пролонгации',
+    note: 'Промо и сервис вокруг даты окончания вклада',
+  },
+];
+
+const TONE = {
+  positive: {color: 'rgb(48, 170, 110)'},
+  negative: {color: 'rgb(233, 3, 58)'},
+  neutral: {color: 'rgba(0, 0, 0, .5)'},
+};
+const KIND_STYLE = {
+  hero: {fill: 'rgba(35, 158, 226, .1)', stroke: '#239ee2'},
+  outflow: {fill: 'rgba(255, 0, 61, .12)', stroke: 'rgb(233, 3, 58)'},
+  inflow: {fill: 'rgba(50, 186, 118, .15)', stroke: 'rgb(48, 170, 110)'},
+  driver: {fill: 'rgba(0, 0, 0, .05)', stroke: 'rgba(0, 0, 0, .5)'},
+};
+const SYNTHETIC_STYLE = {fill: 'rgba(255, 190, 92, .3)', stroke: 'rgb(189, 142, 75)'};
+const BRAND = '#239ee2';
+const WEIGHT_CAP = 4000;
+
+const byId = new Map(NODES.map((n) => [n.id, n]));
+const parentOf = new Map();
+const childrenOf = new Map();
+LINKS.forEach((l) => {
+  if (!childrenOf.has(l.target)) childrenOf.set(l.target, []);
+  if (childrenOf.get(l.target).includes(l.source)) return;
+  childrenOf.get(l.target).push(l.source);
+  if (!parentOf.has(l.source)) parentOf.set(l.source, l.target);
+});
+
+function pathTo(id) {
+  const path = [];
+  let cursor = id;
+  const guard = new Set();
+  while (cursor && !guard.has(cursor)) { guard.add(cursor); path.unshift(cursor); cursor = parentOf.get(cursor); }
+  return path;
+}
+
+function radiusOf(node) {
+  if (node.kind === 'hero') return 62;
+  if (String(node.unit || '').includes('₽')) {
+    return 8 + Math.sqrt(Math.min(WEIGHT_CAP, Math.abs(Number(node.rawValue || 0))) / WEIGHT_CAP) * 48;
+  }
+  if (node.unit === 'клиентов') return 34;
+  return 27;
+}
+
+const styleOf = (node) => (node.synthetic ? SYNTHETIC_STYLE : (KIND_STYLE[node.kind] || KIND_STYLE.driver));
+
+// ── состояние ─────────────────────────────────────────────────────────────
+const state = {view: {type: 'node', id: 'portfolio'}, hover: null};
+const isCurrent = (type, id) => state.view.type === type && state.view.id === id;
+
+function select(type, id) {
+  state.view = {type, id};
+  renderPage();
+  renderComms();
+  if (type === 'node') zoomTo(id); else paintTree();
+}
+
+// ── страница ──────────────────────────────────────────────────────────────
+const el = (tag, className, text) => {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+};
+
+function renderPage() {
+  const page = document.getElementById('page');
+  page.innerHTML = '';
+  const isComm = state.view.type === 'comm';
+  const entity = isComm ? COMMS.find((c) => c.id === state.view.id) : byId.get(state.view.id);
+  if (!entity) return;
+
+  const crumbs = el('nav', 'crumbs');
+  crumbs.setAttribute('aria-label', 'Путь');
+  if (isComm) {
+    crumbs.append(el('span', null, 'Коммуникации'));
+  } else {
+    const steps = pathTo(entity.id);
+    steps.forEach((stepId, index) => {
+      if (index) crumbs.append(el('i', null, '/'));
+      if (index === steps.length - 1) {
+        crumbs.append(el('span', null, byId.get(stepId).label));
+      } else {
+        const link = el('button', null, byId.get(stepId).label);
+        link.type = 'button';
+        link.addEventListener('click', () => select('node', stepId));
+        crumbs.append(link);
+      }
+    });
+  }
+
+  const sub = el('p', 'page-sub');
+  if (isComm) {
+    sub.textContent = entity.note;
+  } else {
+    const band = BANDS[entity.level]?.full || '';
+    sub.append(document.createTextNode(band ? band + ' · ' : ''));
+    sub.append(el('b', null, `${entity.value} ${entity.unit || ''}`.trim()));
+  }
+
+  page.append(
+    crumbs,
+    el('h1', 'page-title', entity.label || entity.title),
+    sub,
+    el('div', 'page-divider'),
+  );
+  if (isComm) {
+    if (cube) {
+      renderTakeaways(page);
+      renderHierarchy(page);
+      renderFindings(page);
+    } else {
+      page.append(el('p', 'finding-lever', 'Данные коммуникаций не загрузились — проверьте ./prolongation-communications.json'));
+    }
+  }
+  document.querySelector('.content').scrollTop = 0;
+}
+
+const formatPercent = (value) => value.toFixed(2).replace('.', ',') + '%';
+
+function renderComms() {
+  const list = document.getElementById('commList');
+  list.innerHTML = '';
+  COMMS.forEach((comm) => {
+    const card = el('button', 'comm');
+    card.type = 'button';
+    card.setAttribute('aria-current', String(isCurrent('comm', comm.id)));
+    card.append(el('b', null, comm.title), el('em', null, comm.note));
+    card.addEventListener('click', () => select('comm', comm.id));
+    list.append(card);
+  });
+  document.getElementById('commCount').textContent = COMMS.length;
+}
+
+// ── куб сервисных коммуникаций ────────────────────────────────────────────
+// Всё ниже считается из prolongation-communications.json: и числа, и формулировки.
+// Хардкода выводов нет — если куб поменяется, поменяются и тексты.
+const BIN_ORDER = [
+  'lt_100', '100_700', '700_1000', '1000_1400',
+  '1400_3000', '3000_5000', '5000_10000', '10000_20000', 'gt_20000',
+];
+const SLOT = ['#239ee2', '#8b5cf6'];   // проверено validate_palette: CVD ΔE 9.8, normal 18.5
+
+let cube = null;
+// Какой базой меряем недопокрытие: людьми или деньгами.
+const findingState = {uncoveredBasis: 'amount'};
+
+const ru = (value, digits = 0) => new Intl.NumberFormat('ru-RU', {
+  minimumFractionDigits: digits, maximumFractionDigits: digits,
+}).format(value);
+const pct = (share, digits = 1) => ru(share * 100, digits) + '%';
+const pp = (value, digits = 1) => ru(value, digits) + ' п.п.';
+// Точка в «п.п.» служит и концом предложения — вторую не ставим.
+const ppEnd = (value, digits = 1) => pp(value, digits);
+function clients(count) {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'клиента';
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'клиента';
+  return 'клиентов';
+}
+
+function cell(template, channel, binKey) {
+  return cube.service.cells.find(
+    (c) => c.template === template && c.channel === channel && c.bin_key === binKey,
+  );
+}
+const binLabel = (key) => cell('ALL', 'ALL', key)?.bin_label || key;
+
+// Матрица по продуктовым категориям: бины по клиентам сходятся с базой,
+// поэтому разрезы по офферам берём из неё, а не из старого куба.
+const matrixCell = (category, binKey) => cube.matrix.cells.find(
+  (c) => c.category === category && c.bin_key === binKey,
+);
+const matrixRows = (category) => BIN_ORDER.map((key) => {
+  const c = matrixCell(category, key);
+  return c && {
+    label: c.bin_label, total: c.total_clnt, covered: c.covered_clnt, share: c.covered_clnt_share,
+  };
+}).filter(Boolean);
+const bins = () => BIN_ORDER.map((key) => cell('ALL', 'ALL', key)).filter(Boolean);
+
+// ── база для графиков ─────────────────────────────────────────────────────
+function chartBase(yTitle, {percent = false} = {}) {
+  const numberFormat = percent
+    ? {precision: 0, unit: 'auto'}
+    : {precision: 0, showRankDelimiter: true};
+  return {
+    chart: {margin: {top: 12, right: 16, bottom: 4, left: 4}},
+    tooltip: {enabled: true},
+    xAxis: {type: 'category', categories: bins().map((b) => b.bin_label), labels: {autoRotation: true}},
+    yAxis: [{
+      type: 'linear',
+      min: 0,
+      title: {text: yTitle},
+      labels: {numberFormat},
+      grid: {enabled: true},
+    }],
+  };
+}
+
+// ── перекос 1: недопокрытие по бакетам ───────────────────────────────────
+// Три режима одного и того же среза: две доли внутри бакета и абсолютный объём.
+// Доли меряем внутри бакета, а не от общего недопокрытия: бины по клиентам
+// пересекаются, и их сумма не сходится с итоговой строкой куба.
+const UNCOVERED_BASES = {
+  amount: {
+    label: 'Доля портфеля',
+    kind: 'share',
+    axis: 'Не покрыто, % бакета',
+    value: (b) => 1 - b.covered_amt_share,
+    absolute: (b) => b.total_amt - b.covered_amt,
+    reported: (t) => t.total_amt - t.covered_amt,
+    format: (v) => ru(v / 1e9, 1) + ' млрд ₽',
+  },
+  clients: {
+    label: 'Доля клиентов',
+    kind: 'share',
+    axis: 'Не покрыто, % бакета',
+    value: (b) => 1 - b.covered_clnt_share,
+    absolute: (b) => b.total_clnt - b.covered_clnt,
+    reported: (t) => t.total_clnt - t.covered_clnt,
+    format: (v) => ru(v) + ' ' + clients(v),
+  },
+  volume: {
+    label: 'Объём, ₽',
+    kind: 'absolute',
+    axis: 'Недопокрытый портфель, млрд ₽',
+    value: (b) => (b.total_amt - b.covered_amt) / 1e9,
+    absolute: (b) => b.total_amt - b.covered_amt,
+    reported: (t) => t.total_amt - t.covered_amt,
+    format: (v) => ru(v / 1e9, 1) + ' млрд ₽',
+  },
+};
+
+function findingUncovered() {
+  const basis = UNCOVERED_BASES[findingState.uncoveredBasis];
+  const list = bins();
+  const rows = list.map((b) => ({
+    bin: b,
+    value: basis.value(b),
+    absolute: basis.absolute(b),
+    money: b.total_amt - b.covered_amt,
+    people: b.total_clnt - b.covered_clnt,
+  }));
+  const ranked = [...rows].sort((a, b) => b.value - a.value);
+  const worst = ranked[0];
+  const best = ranked[ranked.length - 1];
+
+  const verdict = document.createElement('p');
+  verdict.className = 'finding-verdict';
+  const lever = document.createElement('p');
+  lever.className = 'finding-lever';
+
+  if (basis.kind === 'share') {
+    const other = basis === UNCOVERED_BASES.clients ? UNCOVERED_BASES.amount : UNCOVERED_BASES.clients;
+    const worstIndex = rows.indexOf(worst);
+    const above = rows.slice(worstIndex + 1).reduce((sum, r) => sum + r.absolute, 0);
+    verdict.innerHTML = `Внутри бакета «${worst.bin.bin_label}» без сервисной коммуникации остаётся `
+      + `<b>${pct(worst.value)}</b>, в «${best.bin.bin_label}» — <b>${pct(best.value)}</b>. `
+      + `Чем крупнее остаток, тем плотнее покрытие. `
+      + `В базе «${other.label.toLowerCase()}» тот же бакет недопокрыт на ${pct(other.value(worst.bin))}.`;
+    lever.innerHTML = `Потенциал: <b>${basis.format(worst.absolute)}</b> в бакете «${worst.bin.bin_label}» — `
+      + `${above > worst.absolute ? 'меньше' : 'больше'}, чем во всех бакетах выше вместе взятых (${basis.format(above)}).`;
+  } else {
+    // Абсолютный объём: сколько бакетов набирают половину денег и сколько там людей.
+    const totalMoney = rows.reduce((sum, r) => sum + r.money, 0);
+    const totalPeople = rows.reduce((sum, r) => sum + r.people, 0);
+    const perClient = [...rows].sort((a, b) => b.money / Math.max(b.people, 1) - a.money / Math.max(a.people, 1));
+    const densest = perClient[0];
+    const thinnest = perClient[perClient.length - 1];
+    const densePer = densest.money / Math.max(densest.people, 1);
+    const thinPer = thinnest.money / Math.max(thinnest.people, 1);
+    verdict.innerHTML = `Недопокрыто <b>${ru(totalMoney / 1e9, 1)} млрд ₽</b> на ${ru(totalPeople)} ${clients(totalPeople)}. `
+      + `В «${densest.bin.bin_label}» это <b>${ru(densest.money / 1e9, 1)} млрд ₽</b> всего на `
+      + `<b>${ru(densest.people)}</b> ${clients(densest.people)}, в «${thinnest.bin.bin_label}» — `
+      + `${ru(thinnest.money / 1e9, 1)} млрд ₽ на ${ru(thinnest.people)} ${clients(thinnest.people)}. `
+      + `Деньги и длина списка не связаны.`;
+    lever.innerHTML = `Потенциал: на одного неохваченного в «${densest.bin.bin_label}» приходится `
+      + `<b>${ru(densePer / 1e6, 1)} млн ₽</b> портфеля, в «${thinnest.bin.bin_label}» — `
+      + `${ru(thinPer / 1e3, 1)} тыс. ₽, разница в ${ru(densePer / Math.max(thinPer, 1), 0)} раз. `
+      + `Если цель — деньги, работа идёт по короткому списку, если охват — по длинному.`;
+  }
+
+  const data = {
+    ...chartBase(basis.axis, {percent: basis.kind === 'share'}),
+    series: {data: [{
+      type: 'bar-x',
+      name: basis.label,
+      color: SLOT[0],
+      borderRadius: 4,
+      dataLabels: {enabled: true, format: {type: 'number', precision: 1}},
+      data: rows.map((r) => ({
+        x: r.bin.bin_label,
+        y: +(basis.kind === 'share' ? r.value * 100 : r.value).toFixed(1),
+      })),
+    }]},
+  };
+
+  const toggle = el('div', 'toggle');
+  toggle.setAttribute('role', 'group');
+  toggle.setAttribute('aria-label', 'База расчёта');
+  Object.entries(UNCOVERED_BASES).forEach(([key, item]) => {
+    const button = el('button', null, item.label);
+    button.type = 'button';
+    button.setAttribute('aria-pressed', String(findingState.uncoveredBasis === key));
+    button.addEventListener('click', () => {
+      if (findingState.uncoveredBasis === key) return;
+      findingState.uncoveredBasis = key;
+      refreshFindings();
+    });
+    toggle.append(button);
+  });
+
+  return {
+    title: 'Какие остатки в портфеле не покрываются сервисными коммуникациями?',
+    verdict, lever, data, control: toggle,
+    chartLabel: `Недопокрытие по бакетам, ${basis.label.toLowerCase()}`,
+  };
+}
+
+// ── перекос 2: каналы ─────────────────────────────────────────────────────
+function findingChannels() {
+  const total = cube.service.totals;
+  const sms = cell('ALL', 'sms', 'all');
+  const push = cell('ALL', 'push', 'all');
+  const overlap = sms.covered_clnt + push.covered_clnt - total.covered_clnt;
+  const smsOnly = sms.covered_clnt - overlap;
+  const top = cell('ALL', 'ALL', 'gt_20000').bin_label;
+  const smsTop = cell('ALL', 'sms', 'gt_20000').covered_clnt_share;
+  const pushTop = cell('ALL', 'push', 'gt_20000').covered_clnt_share;
+  const smsLow = cell('ALL', 'sms', 'lt_100').covered_clnt_share;
+  const pushLow = cell('ALL', 'push', 'lt_100').covered_clnt_share;
+  const cheaper = 'push';
+
+  const verdict = document.createElement('p');
+  verdict.className = 'finding-verdict';
+  verdict.innerHTML = `Пересечение каналов минимально: оба канала получают <b>${ru(overlap)}</b> клиентов `
+    + `из ${ru(total.covered_clnt)} охваченных — ${pct(overlap / total.covered_clnt, 2)}. `
+    + `Охват SMS растёт с остатком: ${pct(smsLow)} в бине «${cell('ALL', 'ALL', 'lt_100').bin_label}» против `
+    + `<b>${pct(smsTop)}</b> в «${top}». У push обратная динамика — ${pct(pushLow)} и <b>${pct(pushTop)}</b>.`;
+
+  const lever = document.createElement('p');
+  lever.className = 'finding-lever';
+  lever.innerHTML = `Потенциал: <b>${ru(smsOnly)}</b> клиентов охвачены только SMS. `
+    + `На крупных остатках разрыв каналов <b>${pp((smsTop - pushTop) * 100)}</b>: охват обеспечивает более дорогой канал, ${cheaper} там почти не доходит.`;
+
+  const data = {
+    ...chartBase('Доля клиентов, %', {percent: true}),
+    legend: {enabled: true, position: 'bottom', align: 'left', itemDistance: 12, margin: 12},
+    series: {data: [
+      {type: 'line', name: 'SMS', color: SLOT[0], lineWidth: 2, marker: {enabled: true, states: {normal: {enabled: true, radius: 4}}},
+       data: bins().map((b) => ({x: b.bin_label, y: +(cell('ALL', 'sms', b.bin_key).covered_clnt_share * 100).toFixed(1)}))},
+      {type: 'line', name: 'Push', color: SLOT[1], lineWidth: 2, marker: {enabled: true, states: {normal: {enabled: true, radius: 4}}},
+       data: bins().map((b) => ({x: b.bin_label, y: +(cell('ALL', 'push', b.bin_key).covered_clnt_share * 100).toFixed(1)}))},
+    ]},
+  };
+  return {title: 'Каналы: SMS и push', verdict, lever, data, chartLabel: 'Покрытие клиентов каналом по остатку'};
+}
+
+// ── перекос 3: шаблон со ссылкой и без ────────────────────────────────────
+function findingTemplates() {
+  const total = cube.service.totals;
+  const plain = cell('date', 'ALL', 'all');
+  const linked = cell('date_link', 'ALL', 'all');
+  const both = plain.covered_clnt + linked.covered_clnt - total.covered_clnt;
+  const plainOnly = plain.covered_clnt - both;
+  const linkedOnly = linked.covered_clnt - both;
+  const leader = linked.covered_clnt >= plain.covered_clnt ? 'со ссылкой' : 'без ссылки';
+  const gapBin = bins().reduce((best, b) => {
+    const gap = cell('date_link', 'ALL', b.bin_key).covered_clnt_share - cell('date', 'ALL', b.bin_key).covered_clnt_share;
+    return gap > best.gap ? {gap, bin: b} : best;
+  }, {gap: -Infinity, bin: null});
+
+  const verdict = document.createElement('p');
+  verdict.className = 'finding-verdict';
+  verdict.innerHTML = `Шаблон <b>${leader}</b> охватывает больше клиентов: `
+    + `${ru(linked.covered_clnt)} со ссылкой против ${ru(plain.covered_clnt)} без неё. `
+    + `Только без ссылки — <b>${ru(plainOnly)}</b>, только со ссылкой — ${ru(linkedOnly)}, `
+    + `оба варианта — ${ru(both)}. Максимальный разрыв в бине «${gapBin.bin.bin_label}»: <b>${pp(gapBin.gap * 100)}</b> в пользу шаблона со ссылкой.`;
+
+  const lever = document.createElement('p');
+  lever.className = 'finding-lever';
+  lever.innerHTML = `Потенциал: <b>${ru(plainOnly)}</b> клиентов получают только шаблон без перехода. `
+    + `Это верхняя граница эффекта от добавления ссылки.`;
+
+  const caveat = document.createElement('div');
+  caveat.className = 'finding-caveat';
+  caveat.textContent = 'Куб содержит охват клиентов, а не количество отправок. Долю сообщений без ссылки по нему определить нельзя — требуется выгрузка по отправкам.';
+
+  const data = {
+    ...chartBase('Доля клиентов, %', {percent: true}),
+    legend: {enabled: true, position: 'bottom', align: 'left', itemDistance: 12, margin: 12},
+    series: {data: [
+      {type: 'bar-x', name: 'Со ссылкой', color: SLOT[0], borderRadius: 4,
+       data: bins().map((b) => ({x: b.bin_label, y: +(cell('date_link', 'ALL', b.bin_key).covered_clnt_share * 100).toFixed(1)}))},
+      {type: 'bar-x', name: 'Без ссылки', color: SLOT[1], borderRadius: 4,
+       data: bins().map((b) => ({x: b.bin_label, y: +(cell('date', 'ALL', b.bin_key).covered_clnt_share * 100).toFixed(1)}))},
+    ]},
+  };
+  return {title: 'Шаблон: со ссылкой и без', verdict, lever, data, caveat, chartLabel: 'Покрытие клиентов шаблоном по остатку'};
+}
+
+// ── перекос 4: деньги против людей ────────────────────────────────────────
+function findingMoneyVsPeople() {
+  const spread = bins()
+    .map((b) => ({bin: b, gap: b.covered_amt_share - b.covered_clnt_share}))
+    .sort((a, b) => Math.abs(b.gap) - Math.abs(a.gap));
+  const worst = spread[0];
+  const rest = spread.slice(1);
+  const restMax = Math.max(...rest.map((r) => Math.abs(r.gap)));
+
+  const verdict = document.createElement('p');
+  verdict.className = 'finding-verdict';
+  verdict.innerHTML = `В бине «${worst.bin.bin_label}» покрытие по сумме — <b>${pct(worst.bin.covered_amt_share)}</b>, `
+    + `по клиентам — <b>${pct(worst.bin.covered_clnt_share)}</b>, расхождение ${pp(Math.abs(worst.gap) * 100)}. `
+    + `Внутри бина охват смещён в сторону клиентов с большим остатком. `
+    + `В остальных бинах расхождение не превышает ${pp(restMax * 100)}.`;
+
+  const lever = document.createElement('p');
+  lever.className = 'finding-lever';
+  lever.innerHTML = 'Метрики расходятся в том же бине, где сосредоточена половина недопокрытия. '
+    + 'Доля портфеля показывает результат лучше, чем доля клиентов, — отчётность по клиентам требует отдельного контроля.';
+
+  const data = {
+    ...chartBase('Покрытие, %', {percent: true}),
+    legend: {enabled: true, position: 'bottom', align: 'left', itemDistance: 12, margin: 12},
+    series: {data: [
+      {type: 'line', name: 'Сумма портфеля', color: SLOT[0], lineWidth: 2, marker: {enabled: true, states: {normal: {enabled: true, radius: 4}}},
+       data: bins().map((b) => ({x: b.bin_label, y: +(b.covered_amt_share * 100).toFixed(1)}))},
+      {type: 'line', name: 'Клиенты', color: SLOT[1], lineWidth: 2, marker: {enabled: true, states: {normal: {enabled: true, radius: 4}}},
+       data: bins().map((b) => ({x: b.bin_label, y: +(b.covered_clnt_share * 100).toFixed(1)}))},
+    ]},
+  };
+  return {title: 'Покрытие по сумме и по клиентам', verdict, lever, data, chartLabel: 'Покрытие по сумме и по клиентам'};
+}
+
+// ── выводы ───────────────────────────────────────────────────────────────
+// Часть цифр считается из куба, часть передана напрямую — переданные помечены
+// подстрочником, чтобы их нельзя было спутать с расчётными.
+function takeaways() {
+  const totals = cube.service.totals;
+  const given = cube.provided;
+  const base = cube.meta.base.value;
+  const top = cell('ALL', 'ALL', 'gt_20000');
+  const low = cell('ALL', 'ALL', 'lt_100');
+  const smsLow = cell('ALL', 'sms', 'lt_100').covered_clnt_share;
+  const smsTop = cell('ALL', 'sms', 'gt_20000').covered_clnt_share;
+  const pushLow = cell('ALL', 'push', 'lt_100').covered_clnt_share;
+  const pushTop = cell('ALL', 'push', 'gt_20000').covered_clnt_share;
+
+  return [
+    {
+      text: `Из всей базы промо-коммуникации получает <b>${pct(given.promo_reach_share, 0)}</b> клиентов — `
+        + `около ${ru(Math.round(base * given.promo_reach_share))} ${clients(Math.round(base * given.promo_reach_share))} `
+        + `из ${ru(base)}. Треть базы промо не видит вовсе.`,
+      note: 'Цифра передана напрямую: объединение промо-офферов из куба не восстанавливается.',
+    },
+    {
+      text: `Коммуникации не получают <b>${pct(given.no_communication_share, 0)}</b> клиентов — `
+        + `${ru(Math.round(base * given.no_communication_share))} ${clients(Math.round(base * given.no_communication_share))}. `
+        + `Причина — ${given.no_communication_reason}, а не сбой рассылки.`,
+      note: 'Цифра передана напрямую: причин неотправки в кубе нет.',
+    },
+    {
+      text: `В бакете «${top.bin_label}» сервисные коммуникации не получает <b>${pct(1 - top.covered_amt_share)}</b> портфеля `
+        + `при <b>${pct(1 - top.covered_clnt_share)}</b> клиентов. `
+        + `Это ${ru((top.total_amt - top.covered_amt) / 1e9, 1)} млрд ₽ на ${ru(top.total_clnt - top.covered_clnt)} `
+        + `${clients(top.total_clnt - top.covered_clnt)} — самые дорогие пропуски в портфеле.`,
+      note: null,
+    },
+    {
+      // Сервис и промо идут в разные стороны по мере роста остатка — считаем обе крайности.
+      text: (() => {
+        const top = 'gt_20000';
+        const rich = ['promo.deposit', 'promo.invest', 'promo.saving']
+          .map((category) => ({
+            name: cube.matrix.categories[category],
+            all: matrixCell(category, 'all').covered_clnt_share,
+            top: matrixCell(category, top).covered_clnt_share,
+          }))
+          .sort((a, b) => (b.all - b.top) - (a.all - a.top));
+        const deposit = rich.find((r) => /депозит/i.test(r.name)) || rich[0];
+        const worst = rich[0];
+        const topLabel = matrixCell('ALL', top).bin_label;
+        const topClients = matrixCell('ALL', top).total_clnt;
+        return `Чем богаче клиент, тем меньше он видит промо. В бакете «${topLabel}» `
+          + `предложение о депозите получает <b>${pct(deposit.top)}</b> против ${pct(deposit.all)} по базе, `
+          + `накопительный счёт — <b>${pct(worst.top)}</b> против ${pct(worst.all)}. `
+          + `И это при том, что сервисные сообщения там доходят до ${pct(matrixCell('date', top).covered_clnt_share)}. `
+          + `Всего в бакете ${ru(topClients)} ${clients(topClients)} — список короткий, а предложения до них не доходят.`;
+      })(),
+      note: null,
+    },
+    {
+      text: `Охват SMS растёт с остатком: <b>${pct(smsLow)}</b> в бакете «${low.bin_label}» против `
+        + `<b>${pct(smsTop)}</b> в «${top.bin_label}». У push обратная динамика — ${pct(pushLow)} и <b>${pct(pushTop)}</b>. `
+        + `Чем крупнее клиент, тем сильнее охват держится на платном канале.`,
+      note: null,
+    },
+  ];
+}
+
+function renderTakeaways(container) {
+  const card = el('section', 'card takeaways-card');
+  const head = el('div', 'card-head');
+  head.append(el('h2', null, 'Выводы'));
+  head.append(el('span', 'count', `срез ${cube.meta.report_dt}`));
+  card.append(head);
+
+  const list = el('ol', 'takeaways');
+  takeaways().forEach((item) => {
+    const line = document.createElement('li');
+    const body = document.createElement('div');
+    body.innerHTML = item.text;
+    if (item.note) body.append(el('small', null, item.note));
+    line.append(body);
+    list.append(line);
+  });
+  card.append(list);
+  container.append(card);
+}
+
+// ── иерархия покрытия ─────────────────────────────────────────────────────
+// База сверху, под ней две программы, под каждой — её разбивка. Клик по любой
+// строке раскрывает таблицу по бакетам остатка, если разрез для неё есть.
+const expandedRows = new Set();
+
+function serviceBinRows(template) {
+  return bins().map((b) => {
+    const c = cell(template, 'ALL', b.bin_key);
+    return {
+      label: b.bin_label,
+      total: c.total_clnt,
+      covered: c.covered_clnt,
+      share: c.covered_clnt_share,
+    };
+  });
+}
+
+function coverageTable(rows, unitName) {
+  const table = el('div', 'cov-table');
+  const head = el('div', 'cov-head');
+  ['Остаток, тыс. ₽', 'Покрытие', 'Всего', 'С коммуникацией', 'Без', 'Доля'].forEach((title) => {
+    head.append(el('span', null, title));
+  });
+  table.append(head);
+
+  rows.forEach((row) => {
+    const line = el('div', 'cov-row' + (row.share >= 0.9 ? ' is-high' : ''));
+    line.append(el('span', null, row.label));
+
+    const track = el('div', 'cov-track');
+    track.title = `С коммуникацией ${pct(row.share, 2)}`;
+    const fill = el('i');
+    fill.style.width = `${Math.max(0, Math.min(100, row.share * 100))}%`;
+    const rest = el('em');
+    rest.style.width = `${Math.max(0, Math.min(100, 100 - row.share * 100))}%`;
+    track.append(fill, rest);
+    line.append(track);
+
+    line.append(el('strong', null, ru(row.total)));
+    line.append(el('span', null, ru(row.covered)));
+    line.append(el('span', null, ru(row.total - row.covered)));
+    line.append(el('b', null, pct(row.share, 2)));
+    table.append(line);
+  });
+
+  const note = el('p', 'cov-note', `Единица измерения — ${unitName}.`);
+  const wrap = el('div', 'cov-wrap');
+  wrap.append(table, note);
+  return wrap;
+}
+
+function coverageRow(node, depth) {
+  const row = el('div', 'cov-branch' + (depth ? ' is-nested' : ''));
+  const button = el('button', 'cov-button');
+  button.type = 'button';
+  const open = expandedRows.has(node.id);
+  button.setAttribute('aria-expanded', String(open));
+  button.setAttribute('aria-label', Number.isFinite(node.share) ? `${node.label}, ${pct(node.share, 2)}` : node.label);
+
+  const caret = el('span', 'cov-caret', node.rows ? '▸' : '');
+  caret.setAttribute('aria-hidden', 'true');
+  const label = el('span', 'cov-label', node.label);
+  // У программы без собственной доли полосу не рисуем — пустая шкала читалась бы как ноль.
+  const hasShare = Number.isFinite(node.share);
+  const value = el('span', 'cov-value', hasShare ? pct(node.share, 2) : '—');
+  const track = el('div', hasShare ? 'cov-progress' : 'cov-progress is-empty');
+  if (hasShare) {
+    const fill = el('i');
+    fill.style.width = `${Math.max(0, Math.min(100, node.share * 100))}%`;
+    if (node.tone) fill.classList.add(node.tone);
+    track.append(fill);
+  }
+
+  button.append(caret, label, track, value);
+  button.addEventListener('click', () => {
+    if (!node.rows) return;
+    expandedRows.has(node.id) ? expandedRows.delete(node.id) : expandedRows.add(node.id);
+    refreshHierarchy();
+  });
+  row.append(button);
+
+  if (node.caption) {
+    row.append(el('p', 'cov-caption' + (depth ? ' is-nested' : ''), node.caption));
+  }
+  if (open && node.rows) row.append(coverageTable(node.rows, node.unit));
+  return row;
+}
+
+function hierarchyNodes() {
+  const totals = cube.service.totals;
+  const names = cube.matrix.categories;
+  const branch = (category) => {
+    const all = matrixCell(category, 'all');
+    return {
+      id: `cat:${category}`,
+      label: names[category],
+      share: all.covered_clnt_share,
+      unit: 'клиенты',
+      rows: matrixRows(category),
+    };
+  };
+
+  const service = {
+    id: 'service',
+    label: 'Покрытие сервисными коммуникациями',
+    share: totals.covered_clnt_share,
+    unit: 'клиенты',
+    rows: serviceBinRows('ALL'),
+    caption: 'Объединение обоих шаблонов. Ниже — каждый шаблон отдельно, они пересекаются.',
+    children: ['date', 'date_link'].map(branch),
+  };
+
+  const linked = cube.promo.offers.find((o) => o.bins);
+  const promoNode = {
+    id: 'promo',
+    label: 'Покрытие промо-коммуникациями',
+    share: cube.provided.promo_reach_share,
+    unit: null,
+    rows: null,
+    caption: 'Цифра передана напрямую: объединение офферов из куба не восстанавливается — они пересекаются.',
+    children: [
+      {
+        id: 'promo:prolongation',
+        label: linked.label,
+        share: linked.covered_share,
+        unit: linked.basis,
+        rows: linked.bins.map((b) => ({
+          label: b.bin_label, total: b.total_assignments, covered: b.covered_assignments, share: b.covered_share,
+        })),
+        caption: linked.note,
+      },
+      ...['promo.deposit', 'promo.invest', 'promo.saving', 'promo.oms'].map(branch),
+    ],
+  };
+
+  // Те, до кого коммуникация не доходит вовсе, — отдельной красной строкой.
+  const silent = {
+    id: 'silent',
+    label: 'Не получают коммуникации',
+    share: cube.provided.no_communication_share,
+    tone: 'is-danger',
+    unit: null,
+    rows: null,
+    caption: `${cube.provided.no_communication_reason}. `
+      + `Это ${ru(Math.round(cube.meta.base.value * cube.provided.no_communication_share))} `
+      + `${clients(Math.round(cube.meta.base.value * cube.provided.no_communication_share))}. `
+      + 'Цифра передана напрямую — причин неотправки в кубе нет.',
+  };
+
+  return [service, promoNode, silent];
+}
+
+function renderHierarchy(container) {
+  const base = cube.meta.base;
+  const card = el('section', 'card hierarchy-card');
+
+  const hero = el('div', 'hero');
+  hero.append(el('div', 'hero-label', base.label));
+  hero.append(el('div', 'hero-value', ru(base.value)));
+  hero.append(el('div', 'hero-note', `Срез ${cube.meta.report_dt}. Проценты ниже считаются от этой базы.`));
+  card.append(hero);
+
+  const tree = el('div', 'cov-tree');
+  hierarchyNodes().forEach((node) => {
+    const group = el('div', 'cov-group');
+    group.append(coverageRow(node, 0));
+    (node.children || []).forEach((child) => group.append(coverageRow(child, 1)));
+    if (node.id === 'promo' && cube.promo.offers_note) {
+      group.append(el('p', 'cov-caption is-nested', cube.promo.offers_note));
+    }
+    tree.append(group);
+  });
+  card.append(tree);
+  container.append(card);
+}
+
+function refreshHierarchy() {
+  const current = document.querySelector('.hierarchy-card');
+  if (!current) return;
+  const holder = document.createElement('div');
+  renderHierarchy(holder);
+  current.replaceWith(holder.firstElementChild);
+}
+
+// ── отрисовка ─────────────────────────────────────────────────────────────
+function refreshFindings() {
+  const current = document.querySelector('.findings');
+  if (!current) return;
+  const holder = document.createElement('div');
+  renderFindingList(holder);
+  current.replaceWith(holder.firstElementChild);
+}
+
+function renderFindings(container) {
+  if (!cube) return;
+  container.append(el('h2', 'section-title', 'Ключевые перекосы'));
+  container.append(el('p', 'section-note',
+    `Срез ${cube.meta.report_dt}. Всё посчитано из куба: ${ru(cube.service.quality.cells)} ячеек по шаблонам, каналам и бинам остатка.`));
+
+  renderFindingList(container);
+}
+
+function renderFindingList(container) {
+  const list = el('div', 'findings');
+  [findingUncovered(), findingChannels(),
+   findingTemplates(), findingMoneyVsPeople()].forEach((finding, index) => {
+    const card = el('section', 'card');
+    const head = el('div', 'finding-head');
+    head.append(el('h3', null, finding.title));
+    head.append(finding.control || el('span', 'count', String(index + 1)));
+    card.append(head, finding.verdict, finding.lever);
+
+    const chart = el('div', 'finding-chart');
+    chart.setAttribute('role', 'img');
+    chart.setAttribute('aria-label', finding.chartLabel);
+    card.append(chart);
+    if (finding.caveat) card.append(finding.caveat);
+    list.append(card);
+
+    requestAnimationFrame(() => {
+      if (window.DDCharts?.renderChart) window.DDCharts.renderChart(chart, finding.data);
+      else chart.append(el('div', 'finding-lever', 'Библиотека графиков не загрузилась — проверьте ./charts-dist/dd-charts.js'));
+    });
+  });
+  container.append(list);
+}
+
+// Куб вшит в документ, чтобы страница открывалась одним файлом, без соседних
+// ресурсов и без сервера. Запрос к JSON остаётся запасным путём.
+async function loadCube() {
+  const embedded = document.getElementById('cube-data')?.textContent?.trim();
+  if (embedded) {
+    try {
+      cube = JSON.parse(embedded);
+      renderPage();
+      return;
+    } catch (error) {
+      cube = null;
+    }
+  }
+  try {
+    const response = await fetch('./prolongation-communications.json', {cache: 'no-store'});
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    cube = await response.json();
+  } catch (error) {
+    cube = null;
+  }
+  renderPage();
+}
+
+// ── дерево ────────────────────────────────────────────────────────────────
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const svg = document.getElementById('tree');
+const PAD = 46;
+
+const worldBounds = (() => {
+  const maxR = Math.max(...NODES.map(radiusOf));
+  const xs = NODES.map((n) => n.x);
+  const ys = NODES.map((n) => n.y);
+  return {
+    x: Math.min(...xs) - maxR - PAD,
+    y: Math.min(...ys) - maxR - PAD,
+    w: (Math.max(...xs) - Math.min(...xs)) + (maxR + PAD) * 2,
+    h: (Math.max(...ys) - Math.min(...ys)) + (maxR + PAD) * 2,
+  };
+})();
+
+let pane = {w: 300, h: 300};
+let camera = {...worldBounds};
+let animation = null;
+
+function aspectFit(box) {
+  const paneRatio = pane.w / pane.h;
+  const out = {...box};
+  if (box.w / box.h < paneRatio) {
+    const w = box.h * paneRatio;
+    out.x -= (w - box.w) / 2;
+    out.w = w;
+  } else {
+    const h = box.w / paneRatio;
+    out.y -= (h - box.h) / 2;
+    out.h = h;
+  }
+  return out;
+}
+
+function frameFor(id) {
+  const node = byId.get(id);
+  if (!node) return aspectFit(worldBounds);
+  const family = [node, ...(childrenOf.get(id) || []).map((k) => byId.get(k)).filter(Boolean)];
+  const parent = byId.get(parentOf.get(id));
+  if (parent) family.push(parent);
+  const xs = family.map((n) => n.x);
+  const ys = family.map((n) => n.y);
+  const margin = Math.max(...family.map(radiusOf)) + 120;
+  return aspectFit({
+    x: Math.min(...xs) - margin,
+    y: Math.min(...ys) - margin,
+    w: (Math.max(...xs) - Math.min(...xs)) + margin * 2,
+    h: (Math.max(...ys) - Math.min(...ys)) + margin * 2,
+  });
+}
+
+const easeInOut = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+
+function flyTo(box) {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { camera = box; paintTree(); return; }
+  const from = {...camera};
+  const started = performance.now();
+  if (animation) cancelAnimationFrame(animation);
+  const step = (now) => {
+    const t = Math.min(1, (now - started) / 420);
+    const e = easeInOut(t);
+    camera = {
+      x: from.x + (box.x - from.x) * e,
+      y: from.y + (box.y - from.y) * e,
+      w: from.w + (box.w - from.w) * e,
+      h: from.h + (box.h - from.h) * e,
+    };
+    paintTree();
+    if (t < 1) animation = requestAnimationFrame(step);
+  };
+  animation = requestAnimationFrame(step);
+}
+
+const zoomTo = (id) => flyTo(frameFor(id));
+const zoomOut = () => flyTo(aspectFit(worldBounds));
+
+function node(tag, attrs, text) {
+  const element = document.createElementNS(SVG_NS, tag);
+  Object.entries(attrs || {}).forEach(([k, v]) => element.setAttribute(k, v));
+  if (text != null) element.textContent = text;
+  return element;
+}
+
+function paintTree() {
+  if (!pane.w || !pane.h) return;
+  const scale = pane.w / camera.w;
+  const px = (value) => value / scale;
+  svg.setAttribute('viewBox', `${camera.x} ${camera.y} ${camera.w} ${camera.h}`);
+  svg.innerHTML = '';
+
+  const levelY = new Map();
+  NODES.forEach((n) => { if (!levelY.has(n.level)) levelY.set(n.level, n.y); });
+
+  const bandLayer = node('g', null);
+  [...levelY.entries()].sort((a, b) => a[0] - b[0]).forEach(([level, y]) => {
+    bandLayer.append(node('line', {
+      class: 'band-line', x1: camera.x, y1: y, x2: camera.x + camera.w, y2: y, 'stroke-width': px(1),
+    }));
+    const labelX = camera.x + px(14);
+    bandLayer.append(node('text', {class: 'band-index', x: labelX, y: y - px(9), 'font-size': px(9)},
+      String(level + 1).padStart(2, '0')));
+    const band = BANDS[level] || {short: '', full: ''};
+    const bandText = node('text', {class: 'band-label', x: labelX + px(20), y: y - px(9), 'font-size': px(9)},
+      scale > 0.55 ? band.full : band.short);
+    bandText.append(node('title', null, band.full));
+    bandLayer.append(bandText);
+  });
+  svg.append(bandLayer);
+
+  const lit = state.hover || (state.view.type === 'node' ? state.view.id : null);
+  const litEdges = new Set();
+  if (lit) LINKS.forEach((l, i) => { if (l.source === lit || l.target === lit) litEdges.add(i); });
+
+  const linkLayer = node('g', null);
+  const labelLayer = node('g', null);
+  LINKS.forEach((link, index) => {
+    const a = byId.get(link.source);
+    const b = byId.get(link.target);
+    if (!a || !b) return;
+    const tone = TONE[link.impact] || TONE.neutral;
+    const detail = link.relation === 'composition' || link.relation === 'intervention';
+    const width = detail ? px(1.2) : Math.min(px(7), Math.max(px(1.6), Math.sqrt(Math.max(a.weight || 0, 1)) / 12));
+    const dimmed = lit && !litEdges.has(index);
+
+    linkLayer.append(node('line', {
+      class: 'link', x1: a.x, y1: a.y, x2: b.x, y2: b.y,
+      stroke: tone.color, 'stroke-width': width,
+      'stroke-dasharray': detail ? `${px(4)} ${px(4)}` : 'none',
+      opacity: dimmed ? 0.14 : (detail ? 0.55 : 0.8),
+    }));
+
+    const crowdedLabel = link.relation === 'composition' && a.level >= 5 && link.source !== lit;
+    if (link.label && scale > 0.32 && !dimmed && !crowdedLabel) {
+      labelLayer.append(node('text', {
+        class: 'link-label', x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 - px(4),
+        'font-size': px(8.5), 'text-anchor': 'middle', 'stroke-width': px(3.5),
+      }, link.label));
+    }
+  });
+  svg.append(linkLayer);
+
+  const nodeLayer = node('g', null);
+  NODES.forEach((item) => {
+    const style = styleOf(item);
+    const radius = radiusOf(item);
+    const current = isCurrent('node', item.id);
+    const hovered = state.hover === item.id;
+    const related = lit && (item.id === lit || (childrenOf.get(lit) || []).includes(item.id) || parentOf.get(lit) === item.id);
+    const dimmed = lit && !related;
+
+    const group = node('g', {
+      class: 'node' + (current ? ' is-current' : ''),
+      tabindex: '0', role: 'button', 'aria-label': item.label,
+      opacity: dimmed ? 0.3 : 1,
+    });
+
+    group.append(node('circle', {
+      class: 'disc', cx: item.x, cy: item.y, r: radius,
+      fill: style.fill, stroke: current ? BRAND : style.stroke,
+      'stroke-width': current ? px(3) : px(1.5),
+    }));
+
+    if (scale > 0.42) {
+      group.append(node('text', {
+        class: 'node-value', x: item.x, y: item.y + px(3),
+        'font-size': px(Math.min(15, Math.max(9, radius / 3.6))),
+      }, item.value));
+      group.append(node('text', {class: 'node-unit', x: item.x, y: item.y + px(13), 'font-size': px(7.5)}, item.unit || ''));
+      const crowded = item.level >= 5 && scale < 0.9;
+      if ((radius >= 16 && !crowded) || current || hovered) {
+        group.append(node('text', {
+          class: 'node-name', x: item.x, y: item.y - radius - px(6), 'font-size': px(8.5),
+        }, item.label));
+      }
+    } else if (current || hovered) {
+      group.append(node('text', {
+        class: 'node-name', x: item.x, y: item.y - radius - px(6), 'font-size': px(9),
+      }, item.label));
+    }
+
+    group.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); select('node', item.id); }
+    });
+    nodeLayer.append(group);
+  });
+  svg.append(nodeLayer, labelLayer);
+}
+
+// Наведение и выбор ловим одним слушателем на самом SVG и попаданием по координатам.
+// Пообъектные pointerenter здесь работать не могут: перерисовка пересоздаёт кружок под
+// неподвижным курсором, браузер снова шлёт enter — и подсветка уходит в бесконечный цикл,
+// из-за которого ни один клик по узлу не доживал до обработчика.
+function nodeAt(event) {
+  const rect = svg.getBoundingClientRect();
+  if (!rect.width || !rect.height) return null;
+  const worldX = camera.x + ((event.clientX - rect.left) / rect.width) * camera.w;
+  const worldY = camera.y + ((event.clientY - rect.top) / rect.height) * camera.h;
+  const slack = Math.max(6, 10 / (pane.w / camera.w));
+  let best = null;
+  let bestDistance = Infinity;
+  NODES.forEach((item) => {
+    const distance = Math.hypot(item.x - worldX, item.y - worldY);
+    if (distance <= radiusOf(item) + slack && distance < bestDistance) {
+      bestDistance = distance;
+      best = item.id;
+    }
+  });
+  return best;
+}
+
+svg.addEventListener('pointermove', (event) => {
+  const id = nodeAt(event);
+  if (id !== state.hover) { state.hover = id; paintTree(); }
+});
+svg.addEventListener('pointerleave', () => {
+  if (state.hover) { state.hover = null; paintTree(); }
+});
+svg.addEventListener('pointerdown', (event) => {
+  const id = nodeAt(event);
+  if (id) select('node', id); else zoomOut();
+});
+document.getElementById('treeReset').addEventListener('click', zoomOut);
+
+function measure() {
+  const rect = svg.getBoundingClientRect();
+  pane = {w: Math.round(rect.width) || 300, h: Math.round(rect.height) || 300};
+}
+
+renderPage();
+renderComms();
+loadCube();
+measure();
+camera = aspectFit(worldBounds);
+paintTree();
+
+new ResizeObserver(() => {
+  measure();
+  camera = state.view.type === 'node' && state.view.id !== 'portfolio'
+    ? frameFor(state.view.id)
+    : aspectFit(worldBounds);
+  paintTree();
+}).observe(svg);
+</script>
+</body>
+</html>
