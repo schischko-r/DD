@@ -263,6 +263,7 @@ class Export:
         if not rows:
             raise SystemExit("Выгрузка пуста")
         self.cells: dict[tuple[str, str, str], dict] = {}
+        self.blank: set[tuple[str, str, str, str]] = set()
         self.groups: dict[str, str] = {}
         for row in rows:
             missing = [c for c in ("report_dt", "communication", "scenario_group", "scenario") if c not in row]
@@ -283,6 +284,10 @@ class Export:
         columns = [f"{metric}_{suffix}" for suffix in SUFFIX[measure]]
         column = next((c for c in columns if row is not None and c in row), columns[0])
         value = None if row is None else number(row.get(column))
+        # Пустая ячейка — это ноль: выгрузка оставляет пустым то, чего не было.
+        if value is None and row is not None and column in row:
+            self.blank.add((period, communication, scenario, column))
+            value = 0.0
         if value is None:
             if required:
                 raise SystemExit(self.explain(period, communication, scenario, column))
@@ -301,8 +306,7 @@ class Export:
             near = [c for c in row if c.split("_")[0] == column.split("_")[0]]
             return (f"Нет колонки {column} (строка {where}). Похожие колонки: "
                     f"{', '.join(near) or '—'}")
-        return (f"Пустая ячейка {column} в строке {where}. Если в Excel там формула — "
-                "откройте книгу в Excel и сохраните: без сохранения у формулы нет значения.")
+        return f"Нет значения {column} в строке {where}"
 
     def total_series(self, communication: str, metric: str, measure: str) -> dict[str, float]:
         return {p: self.value(p, communication, TOTAL, metric, measure) for p in self.periods}
@@ -518,6 +522,9 @@ def build(workbook: Path, tree_out: Path, page_out: Path, benchmark: Path) -> No
         "scenarios": scenarios,
         "benchmark": read_benchmark(book, benchmark),
     }
+
+    if export.blank:
+        print(f"  внимание: {len(export.blank)} пустых ячеек посчитаны нулём")
 
     for path, payload in [(tree_out, graph), (page_out, page)]:
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

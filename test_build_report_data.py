@@ -101,11 +101,11 @@ def test_keys_and_numbers_tolerate_excel_formats():
     assert export.value("2026-06", "900", "ALL", "tree_portfolio", "rur") == pytest.approx(1234.5 / 1e9)
 
 
-def test_missing_row_names_what_exists():
+def test_missing_row_fails_but_blank_cell_is_zero():
     row = {"report_dt": "30.06.2026", "communication": "promo", "scenario_group": "ALL", "scenario": "ALL",
            "outflow_rur": None}
     export = brd.Export([row])
     with pytest.raises(SystemExit, match="Нет строки 2026-06 / ALL / ALL.*promo"):
         export.value("2026-06", "ALL", "ALL", "outflow", "rur")
-    with pytest.raises(SystemExit, match="Пустая ячейка outflow_rur"):
-        export.value("2026-06", "promo", "ALL", "outflow", "rur")
+    assert export.value("2026-06", "promo", "ALL", "outflow", "rur") == 0.0
+    assert export.blank == {("2026-06", "promo", "ALL", "outflow_rur")}
