@@ -88,3 +88,24 @@ def test_real_export_without_help_sheet_is_not_synthetic(tmp_path):
     book.save(path)
     _, synthetic, _ = brd.read_export(path)
     assert synthetic is False
+
+
+def test_keys_and_numbers_tolerate_excel_formats():
+    columns = [c.upper() + " " if i == 0 else c for i, c in enumerate(synth.COLUMNS)]
+    head = [c.strip().lower() for c in columns]
+    values = ["1 234,5"] + [2] * (len(synth.COLUMNS) - 5)
+    rows = [dict(zip(head, [46203, 900.0, "all ", " All"] + values))]
+    export = brd.Export(rows)
+    assert export.periods == ["2026-06"]
+    assert export.communications == ["900"]
+    assert export.value("2026-06", "900", "ALL", "tree_portfolio", "rur") == pytest.approx(1234.5 / 1e9)
+
+
+def test_missing_row_names_what_exists():
+    row = {"report_dt": "30.06.2026", "communication": "promo", "scenario_group": "ALL", "scenario": "ALL",
+           "outflow_rur": None}
+    export = brd.Export([row])
+    with pytest.raises(SystemExit, match="Нет строки 2026-06 / ALL / ALL.*promo"):
+        export.value("2026-06", "ALL", "ALL", "outflow", "rur")
+    with pytest.raises(SystemExit, match="Пустая ячейка outflow_rur"):
+        export.value("2026-06", "promo", "ALL", "outflow", "rur")

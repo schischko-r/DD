@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 from openpyxl import load_workbook
@@ -44,8 +45,8 @@ MEASURES = [
     {"id": "rur", "label": "Деньги", "unit": "млрд ₽", "short": "₽"},
     {"id": "clnt", "label": "Клиенты", "unit": "клиентов", "short": "клиентов"},
 ]
-# Разрез страницы → суффикс колонки выгрузки.
-SUFFIX = {"rur": "rur", "clnt": "cnt"}
+# Разрез страницы → суффиксы колонки выгрузки, первый — основной.
+SUFFIX = {"rur": ("rur",), "clnt": ("cnt", "clnt")}
 
 
 # ── структура дерева ──────────────────────────────────────────────────────
@@ -174,7 +175,52 @@ COMMUNICATIONS = [
 
 
 def period_id(report_dt) -> str:
-    return str(report_dt)[:7]
+    """report_dt в любом виде Excel → «ГГГГ-ММ».
+
+    Бывает датой, текстом «2026-06-30» или «30.06.2026» и числом — серийным
+    номером дня Excel, если у колонки числовой формат.
+    """
+    if isinstance(report_dt, (datetime, date)):
+        return report_dt.strftime("%Y-%m")
+    if isinstance(report_dt, (int, float)):
+        return (date(1899, 12, 30) + timedelta(days=int(report_dt))).strftime("%Y-%m")
+    text = str(report_dt).strip()
+    for pattern in ("%Y-%m-%d", "%d.%m.%Y", "%Y-%m-%d %H:%M:%S", "%d.%m.%Y %H:%M:%S", "%Y-%m"):
+        try:
+            return datetime.strptime(text, pattern).strftime("%Y-%m")
+        except ValueError:
+            pass
+    raise SystemExit(f"Не разобрать report_dt: {report_dt!r}")
+
+
+def key_text(value) -> str:
+    """Ключ из ячейки: без пробелов по краям; 900.0 из числовой ячейки → «900».
+
+    ALL и no_outflow сравниваем без учёта регистра — приводим к одному виду.
+    """
+    if isinstance(value, float) and value.is_integer():
+        value = int(value)
+    text = str(value).strip()
+    if text.upper() == TOTAL:
+        return TOTAL
+    if text.lower() == NO_OUTFLOW:
+        return NO_OUTFLOW
+    return text
+
+
+def number(value) -> float | None:
+    """Число из ячейки; текст «1 234,5» тоже понимаем."""
+    if value is None:
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    text = str(value).replace("\u00a0", "").replace(" ", "").replace(",", ".").strip()
+    if not text:
+        return None
+    try:
+        return float(text)
+    except ValueError:
+        raise SystemExit(f"Не число в выгрузке: {value!r}") from None
 
 
 def period_label(report_dt: str) -> str:
@@ -188,7 +234,8 @@ def scale_of(measure: str) -> float:
 
 def sheet_rows(sheet) -> list[dict]:
     """Строки листа словарями по заголовку; хвостовые заметки отбрасываем."""
-    headers = [cell.value for cell in sheet[1]]
+    # Заголовки без пробелов по краям и в нижнем регистре: «Outflow_RUR » = outflow_rur.
+    headers = [str(cell.value).strip().lower() if cell.value is not None else None for cell in sheet[1]]
     rows = []
     for raw in sheet.iter_rows(min_row=2, values_only=True):
         if raw[0] is None or raw[1] is None:
@@ -218,24 +265,44 @@ class Export:
         self.cells: dict[tuple[str, str, str], dict] = {}
         self.groups: dict[str, str] = {}
         for row in rows:
-            key = (period_id(row["report_dt"]), str(row["communication"]), str(row["scenario"]))
+            missing = [c for c in ("report_dt", "communication", "scenario_group", "scenario") if c not in row]
+            if missing:
+                raise SystemExit(f"В выгрузке нет колонок: {', '.join(missing)}")
+            key = (period_id(row["report_dt"]), key_text(row["communication"]), key_text(row["scenario"]))
             if key in self.cells:
                 raise SystemExit(f"Дубль строки: {' / '.join(key)}")
             self.cells[key] = row
-            if str(row["scenario"]) != TOTAL:
-                self.groups[str(row["scenario"])] = str(row["scenario_group"])
+            if key[2] != TOTAL:
+                self.groups[key[2]] = key_text(row["scenario_group"])
         self.periods = sorted({key[0] for key in self.cells})
         self.communications = sorted({key[1] for key in self.cells})
 
     def value(self, period: str, communication: str, scenario: str, metric: str,
               measure: str, required: bool = True) -> float | None:
         row = self.cells.get((period, communication, scenario))
-        column = f"{metric}_{SUFFIX[measure]}"
-        if row is None or row.get(column) is None:
+        columns = [f"{metric}_{suffix}" for suffix in SUFFIX[measure]]
+        column = next((c for c in columns if row is not None and c in row), columns[0])
+        value = None if row is None else number(row.get(column))
+        if value is None:
             if required:
-                raise SystemExit(f"Нет значения {column}: {period} / {communication} / {scenario}")
+                raise SystemExit(self.explain(period, communication, scenario, column))
             return None
-        return float(row[column]) / scale_of(measure)
+        return value / scale_of(measure)
+
+    def explain(self, period: str, communication: str, scenario: str, column: str) -> str:
+        """Почему значения нет: нет строки, нет колонки или пустая ячейка."""
+        where = f"{period} / {communication} / {scenario}"
+        row = self.cells.get((period, communication, scenario))
+        if row is None:
+            same = sorted({k[1] for k in self.cells if k[0] == period and k[2] == scenario})
+            return (f"Нет строки {where}. Периоды в выгрузке: {', '.join(self.periods)}; "
+                    f"коммуникации со scenario = {scenario}: {', '.join(same) or '—'}")
+        if column not in row:
+            near = [c for c in row if c.split("_")[0] == column.split("_")[0]]
+            return (f"Нет колонки {column} (строка {where}). Похожие колонки: "
+                    f"{', '.join(near) or '—'}")
+        return (f"Пустая ячейка {column} в строке {where}. Если в Excel там формула — "
+                "откройте книгу в Excel и сохраните: без сохранения у формулы нет значения.")
 
     def total_series(self, communication: str, metric: str, measure: str) -> dict[str, float]:
         return {p: self.value(p, communication, TOTAL, metric, measure) for p in self.periods}
