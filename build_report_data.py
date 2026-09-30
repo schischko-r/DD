@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
 from datetime import date, datetime, timedelta
 from pathlib import Path
@@ -209,14 +210,30 @@ def key_text(value) -> str:
 
 
 def number(value) -> float | None:
-    """Число из ячейки; текст «1 234,5» тоже понимаем."""
-    if value is None:
+    """Число из ячейки: float, int или текст в любой локали.
+
+    Понимаем «1 234,5», «1234.5», «1.234,56», «219,480,011.22», узкие и
+    неразрывные пробелы, апостроф и «−» вместо минуса. Если в тексте есть и
+    точка, и запятая, дробная часть — после последнего из них; один и тот же
+    знак несколько раз подряд — разделитель тысяч.
+    """
+    if value is None or isinstance(value, bool):
         return None
     if isinstance(value, (int, float)):
         return float(value)
-    text = str(value).replace("\u00a0", "").replace(" ", "").replace(",", ".").strip()
-    if not text:
+    text = re.sub(r"[\s\u00a0\u202f\u2009']", "", str(value)).replace("\u2212", "-")
+    if not text or text in ("-", "—"):
         return None
+    if "," in text and "." in text:
+        decimal = "," if text.rfind(",") > text.rfind(".") else "."
+        thousands = "." if decimal == "," else ","
+        text = text.replace(thousands, "").replace(decimal, ".")
+    elif text.count(",") > 1:
+        text = text.replace(",", "")
+    elif text.count(".") > 1:
+        text = text.replace(".", "")
+    else:
+        text = text.replace(",", ".")
     try:
         return float(text)
     except ValueError:
@@ -240,7 +257,12 @@ def sheet_rows(sheet) -> list[dict]:
     for raw in sheet.iter_rows(min_row=2, values_only=True):
         if raw[0] is None or raw[1] is None:
             continue
-        rows.append({head: value for head, value in zip(headers, raw) if head})
+        row: dict = {}
+        for head, value in zip(headers, raw):
+            # Дубль заголовка: берём первую непустую ячейку, а не последнюю.
+            if head and (head not in row or row[head] in (None, "")):
+                row[head] = value
+        rows.append(row)
     return rows
 
 
@@ -264,6 +286,7 @@ class Export:
             raise SystemExit("Выгрузка пуста")
         self.cells: dict[tuple[str, str, str], dict] = {}
         self.blank: set[tuple[str, str, str, str]] = set()
+        self.filled: set[tuple[str, str, str]] = set()
         self.groups: dict[str, str] = {}
         for row in rows:
             missing = [c for c in ("report_dt", "communication", "scenario_group", "scenario") if c not in row]
@@ -284,7 +307,14 @@ class Export:
         columns = [f"{metric}_{suffix}" for suffix in SUFFIX[measure]]
         column = next((c for c in columns if row is not None and c in row), columns[0])
         value = None if row is None else number(row.get(column))
-        # Пустая ячейка — это ноль: выгрузка оставляет пустым то, чего не было.
+        # Пустой итог (scenario = ALL) собираем из сценариев: они не пересекаются.
+        if value is None and row is not None and scenario == TOTAL:
+            parts = [number(r.get(column)) for (p, c, s), r in self.cells.items()
+                     if p == period and c == communication and s != TOTAL]
+            if any(v is not None for v in parts):
+                self.filled.add((period, communication, column))
+                value = sum(v or 0.0 for v in parts)
+        # Остальные пустые ячейки — ноль: выгрузка оставляет пустым то, чего не было.
         if value is None and row is not None and column in row:
             self.blank.add((period, communication, scenario, column))
             value = 0.0
@@ -312,11 +342,29 @@ class Export:
         return {p: self.value(p, communication, TOTAL, metric, measure) for p in self.periods}
 
 
+def warn_unsaved_formulas(workbook: Path, sheet) -> None:
+    """Формула без сохранённого значения читается пустой — предупредить.
+
+    Так бывает, если книгу собрал скрипт, а Excel её не пересчитал и не
+    сохранил: в Excel цифра видна, а в файле её нет.
+    """
+    formulas = load_workbook(workbook, data_only=False)[sheet.title]
+    lost = 0
+    for with_values, with_formulas in zip(sheet.iter_rows(values_only=True),
+                                          formulas.iter_rows(values_only=True)):
+        lost += sum(1 for v, f in zip(with_values, with_formulas)
+                    if v is None and isinstance(f, str) and f.startswith("="))
+    if lost:
+        print(f"  ВНИМАНИЕ: {lost} формул без сохранённого значения — они прочитаются пустыми. "
+              "Откройте книгу в Excel, нажмите «Сохранить» и соберите заново.")
+
+
 def read_export(workbook: Path) -> tuple[Export, bool, object]:
     if not workbook.is_file():
         raise SystemExit(f"Не найдена выгрузка: {workbook}")
     book = load_workbook(workbook, data_only=True)
     sheet = book["prolong"] if "prolong" in book.sheetnames else book.worksheets[0]
+    warn_unsaved_formulas(workbook, sheet)
     synthetic = False
     if "Справка" in book.sheetnames:
         about = {row[0]: row[1] for row in book["Справка"].iter_rows(values_only=True) if row and row[0]}
@@ -523,8 +571,14 @@ def build(workbook: Path, tree_out: Path, page_out: Path, benchmark: Path) -> No
         "benchmark": read_benchmark(book, benchmark),
     }
 
+    if export.filled:
+        columns = sorted({column for _, _, column in export.filled})
+        print(f"  внимание: пустые итоги scenario = ALL ({len(export.filled)} шт.) собраны суммой "
+              f"сценариев; колонки: {', '.join(columns)}")
     if export.blank:
-        print(f"  внимание: {len(export.blank)} пустых ячеек посчитаны нулём")
+        columns = sorted({column for *_, column in export.blank})
+        print(f"  внимание: {len(export.blank)} пустых ячеек посчитаны нулём; "
+              f"колонки: {', '.join(columns)}")
 
     for path, payload in [(tree_out, graph), (page_out, page)]:
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

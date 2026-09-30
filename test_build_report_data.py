@@ -109,3 +109,45 @@ def test_missing_row_fails_but_blank_cell_is_zero():
         export.value("2026-06", "ALL", "ALL", "outflow", "rur")
     assert export.value("2026-06", "promo", "ALL", "outflow", "rur") == 0.0
     assert export.blank == {("2026-06", "promo", "ALL", "outflow_rur")}
+
+
+def test_blank_total_is_summed_from_scenarios():
+    base = {"report_dt": "2026-06-30", "communication": "ALL", "scenario_group": "PAYMENTS"}
+    rows = [
+        {**base, "scenario_group": "ALL", "scenario": "ALL", "outflow_rur": None},
+        {**base, "scenario": "pos", "outflow_rur": 3},
+        {**base, "scenario": "big_payments", "outflow_rur": 4},
+    ]
+    export = brd.Export(rows)
+    assert export.value("2026-06", "ALL", "ALL", "outflow", "rur") == pytest.approx(7 / 1e9)
+    assert export.filled == {("2026-06", "ALL", "outflow_rur")}
+
+
+def test_duplicate_header_keeps_filled_cell(tmp_path):
+    book = Workbook()
+    sheet = book.active
+    sheet.append(["report_dt", "communication", "scenario_group", "scenario", "outflow_rur", "outflow_rur"])
+    sheet.append(["2026-06-30", "ALL", "ALL", "ALL", 5, None])
+    assert brd.sheet_rows(sheet)[0]["outflow_rur"] == 5
+
+
+def test_unsaved_formula_is_reported(tmp_path, capsys):
+    book = Workbook()
+    sheet = book.active
+    sheet.append(["report_dt", "communication", "outflow_rur"])
+    sheet.append(["2026-06-30", "ALL", "=1+1"])
+    path = tmp_path / "f.xlsx"
+    book.save(path)
+    loaded = brd.load_workbook(path, data_only=True).active
+    brd.warn_unsaved_formulas(path, loaded)
+    assert "1 формул без сохранённого значения" in capsys.readouterr().out
+
+
+@pytest.mark.parametrize("raw, expected", [
+    (219.48, 219.48), (12, 12.0), ("219,48", 219.48), ("219.48", 219.48),
+    ("1 234,5", 1234.5), ("1 234,5", 1234.5), ("1 234,5", 1234.5),
+    ("1.234,56", 1234.56), ("219,480,011.22", 219480011.22), ("1.234.567", 1234567.0),
+    ("1,234,567", 1234567.0), ("−5,5", -5.5), ("2,1948E+11", 2.1948e11), ("", None), (None, None),
+])
+def test_number_reads_any_locale(raw, expected):
+    assert brd.number(raw) == (pytest.approx(expected) if expected is not None else None)
