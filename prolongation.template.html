@@ -1,0 +1,2204 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Воронка оттока</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./charts-dist/dd-charts.css">
+<script src="./charts-dist/dd-charts.js"></script>
+<style>
+/* Токены сняты с работающего Data-Driven Index (Gravity UI, светлая тема):
+   полотно #fafafa, содержимое — белые карточки 8px с рамкой rgba(0,0,0,.1). */
+:root {
+  --sans: 'Inter', Arial, sans-serif;
+  --canvas: #fafafa;
+  --surface: #ffffff;
+  --brand: #239ee2;
+  --info-light: rgba(35, 158, 226, .1);
+  --line: rgba(0, 0, 0, .1);
+  --line-hover: rgba(0, 0, 0, .15);
+  --ink: rgba(0, 0, 0, .85);
+  --ink-soft: rgba(0, 0, 0, .5);
+  --ink-hint: rgba(0, 0, 0, .3);
+  --link: #147fb9;
+  --leak: rgb(233, 3, 58);
+  --flow: rgba(0, 0, 0, .32);
+  /* Статусные цвета зарезервированы под светофор и дельты и больше нигде не
+     переиспользуются — иначе состояние перестанет читаться. */
+  --good: #1f9c53;
+  --warn: #e08800;
+  --bad: rgb(233, 3, 58);
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button, select, input { font: inherit; color: inherit; }
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+
+.content { padding: 28px 32px 56px; }
+.content-inner { max-width: 1160px; margin: 0 auto; }
+
+/* ── шапка и фильтры ─────────────────────────────────────────────────── */
+.page-head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start; gap: 24px;
+}
+.page-title { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.15; }
+.page-sub { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
+
+.filters { display: flex; gap: 12px; flex-wrap: wrap; }
+.filter {
+  min-width: 176px; padding: 8px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+}
+.filter-label { font-size: 11px; color: var(--ink-hint); letter-spacing: .04em; }
+.filter select {
+  width: 100%; margin-top: 4px; padding: 5px 7px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--surface);
+  font-size: 12px; cursor: pointer;
+}
+.filter select:hover { border-color: var(--line-hover); }
+.filter select:disabled { color: var(--ink); cursor: default; opacity: 1; background: rgba(0, 0, 0, .02); }
+
+/* ── карточки ────────────────────────────────────────────────────────── */
+.card {
+  margin-top: 16px; padding: 16px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+}
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.card-head h2 { margin: 0; font-size: 14px; font-weight: 700; }
+
+/* ── инфобокс с определением ─────────────────────────────────────────── */
+.definition { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: start; }
+.definition-icon {
+  width: 32px; height: 32px; display: grid; place-items: center;
+  border-radius: 8px; background: var(--info-light); color: var(--brand);
+}
+.definition h2 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+.definition p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--ink); }
+.definition p b { font-weight: 600; }
+.definition .terms { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.term {
+  padding: 4px 9px; border-radius: 6px;
+  background: rgba(0, 0, 0, .03); font-size: 11px; color: var(--ink-soft);
+}
+.term b { color: var(--ink); font-weight: 600; }
+
+/* ── воронка ─────────────────────────────────────────────────────────── */
+.funnel-card .card-head { margin-bottom: 10px; }
+/* Дисклеймер о разметке промо: полоской под шапкой карточки воронки. */
+.disclaimer {
+  margin: 0 0 14px; padding: 9px 12px;
+  display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 9px; align-items: start;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--info-light);
+  font-size: 12px; line-height: 1.45; color: var(--ink);
+}
+.disclaimer svg { color: var(--brand); margin-top: 1px; }
+.disclaimer b { font-weight: 600; }
+
+/* Пояснение по клику: «i» в круге и выпадашка под ней. */
+.hint { position: relative; display: inline-flex; flex: 0 0 auto; }
+.hint-button {
+  width: 16px; height: 16px; display: grid; place-items: center;
+  padding: 0; border: 0; border-radius: 50%; background: none;
+  color: var(--ink-hint); cursor: pointer;
+}
+.hint-button:hover, .hint-button[aria-expanded="true"] { color: var(--brand); }
+.hint-popup {
+  position: absolute; z-index: 10; top: calc(100% + 6px); left: -8px;
+  width: 260px; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+  font-size: 11px; line-height: 1.45; color: var(--ink-soft); font-weight: 400;
+}
+.hint-popup[hidden] { display: none; }
+.hint-popup b { color: var(--ink); font-weight: 600; }
+
+/* Три KPI-карточки в ряд над воронками. */
+.kpi { margin-top: 16px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi .tile { background: var(--surface); padding: 14px 16px 12px; }
+
+
+/* Две воронки рядом: когорты с промо и без сравнивают глазами, а не памятью. */
+/* Воронка — одна фигура: общий верх, развилка, две ветки. Рисуется вручную,
+   потому что готовая воронка умеет только один столбец. */
+.funnels { display: grid; gap: 0; min-width: 0; }
+.funnel-stage {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch; gap: 12px;
+}
+/* Полупрозрачная скобка «]»: рамка без левой стороны. */
+.funnel-bracket { display: flex; align-items: center; gap: 10px; }
+.funnel-bracket::before {
+  content: ''; align-self: stretch; width: 12px;
+  border: 1.5px solid rgba(0, 0, 0, .16); border-left: 0; border-radius: 0 8px 8px 0;
+}
+.funnel-bracket-body { display: grid; gap: 1px; max-width: 132px; }
+.funnel-bracket-body b { font-size: 20px; font-weight: 600; line-height: 1.1; }
+.funnel-bracket-body span { font-size: 11px; color: var(--ink-soft); line-height: 1.3; }
+.funnel-bracket-body em {
+  font-style: normal; font-size: 10px; color: var(--ink-hint); font-variant-numeric: tabular-nums;
+}
+.funnel-svg { display: block; width: 100%; }
+.funnel-link {
+  fill: none; stroke: var(--ink-hint); stroke-width: 1;
+  stroke-dasharray: 4 3; vector-effect: non-scaling-stroke;
+}
+.funnel-label {
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px;
+  stroke-linejoin: round; pointer-events: none;
+}
+.funnel-label.is-inside { stroke: none; }
+/* Число жирным, доля в скобках — обычным начертанием. */
+.funnel-label .share { font-weight: 400; }
+.funnel-num { white-space: nowrap; text-align: right; font-variant-numeric: tabular-nums; }
+.funnel-legend .funnel-num, .funnel-leak .funnel-num { color: var(--ink); }
+.funnel-num b { font-weight: 600; }
+.funnel-num .share { font-weight: 400; color: var(--ink-soft); }
+.funnel-label.is-light { fill: #fff; }
+.funnel-label.is-ink { fill: var(--ink); }
+.funnel-tip {
+  position: absolute; z-index: 5; transform: translate(-50%, 8px); pointer-events: none;
+  padding: 6px 9px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); box-shadow: 0 6px 18px rgba(0, 0, 0, .14);
+  font-size: 11px; line-height: 1.35; white-space: nowrap;
+}
+.funnel-tip[hidden] { display: none; }
+.funnel-tip i { display: block; font-style: normal; font-size: 10px; color: var(--ink-hint); }
+.funnel-tip b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.funnel-branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.funnel-notes { margin-top: 14px; display: grid; gap: 10px; }
+
+/* Дельта конверсии стоит в легенде рядом с долей — отдельной колонки нет. */
+.cr-delta { font-size: 11px; color: var(--ink-hint); font-variant-numeric: tabular-nums; }
+.cr-delta.is-good { color: var(--good); }
+.cr-delta.is-bad { color: var(--bad); }
+
+.funnel-leak {
+  margin: 7px 0 0; padding: 6px 10px;
+  border: 1px solid rgba(233, 3, 58, .25); border-radius: 6px; background: rgba(255, 0, 61, .05);
+  display: grid; grid-template-columns: 10px minmax(0, 1fr) auto auto;
+  align-items: baseline; gap: 9px; font-size: 12px;
+}
+.funnel-leak.is-gain {
+  border-color: rgba(50, 186, 118, .3); background: rgba(50, 186, 118, .08);
+}
+.funnel-leak span { color: var(--ink-soft); }
+.funnel-leak b { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.switches { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Переключатель воронок: сегменты в одной рамке, выбранный на белой подложке. */
+.switch {
+  display: inline-flex; gap: 2px; padding: 2px;
+  border: 1px solid var(--line); border-radius: 7px; background: rgba(0, 0, 0, .03);
+}
+.switch button {
+  padding: 4px 11px; border: 0; border-radius: 5px; background: none;
+  font-size: 12px; color: var(--ink-soft); cursor: pointer; white-space: nowrap;
+}
+.switch button:hover { color: var(--ink); }
+.switch button[aria-selected="true"] {
+  background: var(--surface); color: var(--ink); font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+}
+
+/* Уровни подписаны только внутри фигур, поэтому под воронкой — легенда:
+   она заодно занимает пустое место слева, пока справа идут стат-карточки. */
+.funnel-legend {
+  margin: 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 5px 20px;
+}
+/* Число в подсказке этапа воронки — жирным: его и ищут глазами. */
+.gcharts-tooltip__content-row-value-cell { font-weight: 700; }
+
+.funnel-legend li {
+  display: grid; grid-template-columns: 10px minmax(0, 1fr) auto auto;
+  align-items: baseline; gap: 9px; font-size: 12px;
+  padding: 0 11px; border: 1px solid transparent;
+}
+.funnel-legend b, .funnel-leak b { min-width: 54px; text-align: right; }
+.funnel-legend .cr-delta, .funnel-leak .cr-delta { min-width: 96px; text-align: left; }
+.funnel-legend i { width: 10px; height: 10px; border-radius: 3px; transform: translateY(1px); }
+.funnel-legend span { color: var(--ink-soft); }
+.funnel-legend b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.funnel-legend em { font-style: normal; color: var(--ink-hint); }
+
+.side { display: flex; flex-direction: column; gap: 10px; }
+.side > :last-child { margin-top: auto; }
+
+/* стат-карточка: подпись → значение → дельта → спарклайн 12 точек */
+.tile { padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 8px; }
+.tile-label { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-soft); }
+.tile-value { margin-top: 1px; font-size: 22px; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; }
+.tile-delta {
+  margin-top: 5px; display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; background: rgba(0, 0, 0, .04); color: var(--ink-soft);
+}
+.tile-delta.is-good { color: var(--good); background: rgba(31, 156, 83, .1); }
+.tile-delta.is-bad { color: var(--bad); background: rgba(233, 3, 58, .08); }
+.tile-delta i { font-style: normal; font-size: 11px; }
+.spark-wrap { position: relative; margin-top: 8px; }
+.tile-spark { display: block; width: 100%; height: auto; aspect-ratio: 232 / 40; touch-action: none; }
+.spark-tip {
+  position: absolute; z-index: 3; bottom: calc(100% + 5px);
+  transform: translateX(-50%); pointer-events: none; white-space: nowrap;
+  padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
+  font-size: 11px; line-height: 1.35;
+}
+.spark-tip[hidden] { display: none; }
+.spark-tip i { display: block; font-style: normal; font-size: 10px; color: var(--ink-hint); }
+.spark-tip b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.tile-foot {
+  margin-top: 3px; display: flex; justify-content: space-between; gap: 10px;
+  font-size: 10px; color: var(--ink-hint);
+}
+
+.side-card { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; }
+.side-card.is-leak { border-color: rgba(233, 3, 58, .25); background: rgba(255, 0, 61, .05); }
+.side-label { font-size: 11px; color: var(--ink-soft); }
+.side-value { margin-top: 2px; font-size: 18px; font-weight: 600; line-height: 1.1; }
+.side-hint { margin-top: 3px; font-size: 11px; color: var(--ink-hint); }
+
+/* ── плашка со статусом ─────────────────────────────────────────────── */
+/* Булет снят с виджета clickstream-traffic из Кликстрим_Месячный_все_воронки:
+   12px точка с пульсирующим кольцом, справа лейбл, под ним описание. */
+.status-card { padding: 16px; }
+.traffic {
+  display: grid; grid-template-columns: 12px minmax(0, 1fr);
+  align-items: start; column-gap: 14px; row-gap: 8px;
+}
+.traffic-mark {
+  width: 12px; height: 12px; align-self: center; justify-self: center;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, .07); --ring: rgba(0, 0, 0, .15);
+  animation: traffic-pulse 1.8s ease-out infinite;
+}
+.traffic-red .traffic-mark { background: rgb(233, 3, 58); --ring: rgba(255, 0, 61, .3); }
+.traffic-yellow .traffic-mark { background: rgb(255, 190, 92); --ring: rgba(255, 190, 92, .3); }
+.traffic-green .traffic-mark { background: rgb(47, 169, 108); --ring: rgba(50, 186, 118, .3); }
+@keyframes traffic-pulse {
+  0% { box-shadow: 0 0 0 0 var(--ring); }
+  65%, 100% { box-shadow: 0 0 0 8px transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .traffic-mark { animation: none; } }
+
+.traffic-title { display: flex; min-width: 0; min-height: 24px; align-items: center; gap: 6px; }
+.traffic-label {
+  display: inline-flex; align-items: center; flex: 0 0 auto;
+  height: 24px; padding: 0 10px; border-radius: 6px;
+  font-size: 12px; line-height: 1; white-space: nowrap;
+}
+.traffic-red .traffic-label { background: rgba(255, 0, 61, .15); color: rgb(89, 12, 31); }
+.traffic-yellow .traffic-label { background: rgba(255, 190, 92, .3); color: rgb(89, 69, 40); }
+.traffic-green .traffic-label { background: rgba(50, 186, 118, .15); color: rgb(28, 68, 48); }
+.traffic-none .traffic-label { background: rgba(0, 0, 0, .05); color: var(--ink-soft); }
+.traffic-info {
+  flex: 0 0 auto; width: 24px; height: 24px; display: grid; place-items: center;
+  padding: 0; border: 0; border-radius: 6px; background: none;
+  color: var(--ink-hint); cursor: help;
+}
+.traffic-info { cursor: pointer; }
+.traffic-info:hover, .traffic-info[aria-expanded="true"] { background: rgba(0, 0, 0, .04); color: var(--ink-soft); }
+.traffic-hint { position: relative; display: flex; flex: 0 0 auto; }
+.traffic-rule {
+  position: absolute; z-index: 10; top: calc(100% + 6px); left: 0;
+  width: 320px; padding: 12px 14px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+}
+.traffic-rule > b { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 600; }
+.traffic-rule ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+.traffic-rule li {
+  display: grid; grid-template-columns: 8px minmax(0, 1fr); gap: 9px;
+  align-items: baseline; font-size: 11px; line-height: 1.4; color: var(--ink-soft);
+}
+.traffic-rule li b { color: var(--ink); font-weight: 600; }
+.traffic-rule i { width: 8px; height: 8px; border-radius: 50%; transform: translateY(-1px); }
+.traffic-copy { display: grid; min-width: 0; grid-column: 2; gap: 4px; }
+.traffic-copy p { margin: 0; font-size: 12px; font-weight: 600; line-height: 1.45; }
+.traffic-copy > span { color: var(--ink-soft); font-size: 11px; line-height: 1.4; }
+
+.recs-title {
+  margin: 18px 0 8px; font-size: 10px; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--ink-hint);
+}
+.recs { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.rec {
+  display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 12px;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--canvas);
+}
+.rec-tag {
+  align-self: start; justify-self: start; padding: 2px 7px; border-radius: 6px;
+  font-size: 10px; font-weight: 600; white-space: nowrap;
+  background: var(--info-light); color: var(--link);
+}
+.rec h4 { margin: 0 0 3px; font-size: 13px; font-weight: 600; }
+.rec p { margin: 0; font-size: 12px; line-height: 1.55; color: var(--ink-soft); }
+.rec p b { color: var(--ink); font-weight: 600; }
+.rec p + p { margin-top: 6px; }
+.rec small { display: block; margin-top: 6px; font-size: 10px; color: var(--ink-hint); }
+.rec-links { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 11px; }
+
+/* метр: наша доля оттока против рыночной полосы */
+.meter { margin-top: 10px; }
+.meter-track {
+  position: relative; height: 16px; border-radius: 5px;
+  background: rgba(0, 0, 0, .04); overflow: hidden;
+}
+.meter-band { position: absolute; top: 0; bottom: 0; background: rgba(35, 158, 226, .18); }
+.meter-band::after {
+  content: ''; position: absolute; right: 0; top: 0; bottom: 0;
+  width: 2px; background: rgba(35, 158, 226, .55);
+}
+.meter-mark { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--bad); border-radius: 2px; }
+.meter-scale {
+  margin-top: 3px; position: relative; height: 12px;
+  font-size: 10px; color: var(--ink-hint); font-variant-numeric: tabular-nums;
+}
+.meter-scale span { position: absolute; transform: translateX(-50%); }
+.meter-legend { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: var(--ink-soft); }
+.meter-legend em { font-style: normal; display: inline-flex; align-items: center; gap: 6px; }
+.meter-legend b { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
+.page-note { margin: 12px 0 0; font-size: 10px; color: var(--ink-hint); }
+
+/* ── вшитый лист: дерево и коммуникации открываются поверх страницы ───── */
+.sheet {
+  position: fixed; inset: 0; z-index: 50;
+  display: grid; grid-template-rows: auto minmax(0, 1fr);
+  background: var(--canvas);
+}
+/* Класс перебивает браузерное [hidden] { display: none } — возвращаем его явно,
+   иначе закрытый лист остаётся лежать поверх страницы. */
+.sheet[hidden] { display: none; }
+.sheet-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 0 16px; height: 44px;
+  border-bottom: 1px solid var(--line); background: var(--surface);
+}
+.sheet-bar b { font-size: 13px; font-weight: 600; }
+.sheet-close {
+  padding: 4px 10px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); font-size: 12px; cursor: pointer;
+}
+.sheet-close:hover { border-color: var(--line-hover); }
+.sheet-frame { width: 100%; height: 100%; border: 0; display: block; }
+
+/* Ссылка-кнопка: лист открывается здесь же, отдельной страницы нет. */
+.rec-open {
+  padding: 0; border: 0; background: none;
+  color: var(--link); font-size: 11px; cursor: pointer;
+}
+.rec-open:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 1080px) {
+  .kpi { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .funnel-branches { grid-template-columns: 1fr; gap: 20px; }
+  .funnel-legend { margin-top: 0; }
+  .side { flex-direction: row; flex-wrap: wrap; }
+  .side > * { flex: 1 1 240px; }
+  .side > :last-child { margin-top: 0; }
+}
+@media (max-width: 900px) {
+  .content { padding: 20px 14px 40px; }
+  .page-head { grid-template-columns: 1fr; }
+  .filters { width: 100%; }
+  .filter { flex: 1 1 200px; min-width: 0; }
+  .rec { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+}
+/* ── внутренняя страница «Сценарии оттока» ────────────────────────────── */
+/* Блок под светофором в карточке статуса; классы с префиксом scn-,
+   чтобы не задеть отчёт. */
+.scn-view { --promo: #8b5cf6; --service: #239ee2; --other: #e08800; }
+.scn-synthetic {
+  display: inline-flex; margin-left: 8px; vertical-align: middle; letter-spacing: 0; text-transform: none; padding: 3px 9px; border-radius: 6px;
+  font-size: 11px; font-weight: 600; background: rgba(224, 136, 0, .12); color: #7a4a00;
+}
+.scn-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.scn-head .recs-title { margin-bottom: 0; }
+.scn-detail {
+  margin-top: 12px; padding: 14px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--canvas);
+}
+.scn-total { font-size: 12px; color: var(--ink-soft); }
+.scn-total b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.scn-bar {
+  margin-top: 14px; display: flex; height: 40px; gap: 2px;
+  border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, .04);
+}
+.scn-bar button {
+  min-width: 0; padding: 0 10px; border: 0; cursor: pointer;
+  display: flex; align-items: center;
+  font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden;
+  transition: opacity .15s, filter .15s;
+}
+.scn-bar button:hover { filter: brightness(1.05); }
+.scn-bar.has-pick button:not([aria-pressed="true"]) { opacity: .35; }
+.scn-bar button span { overflow: hidden; text-overflow: ellipsis; }
+
+.scn-legend {
+  margin: 12px 0 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 6px;
+}
+.scn-legend li { display: flex; }
+/* Кнопки тянутся на высоту ряда: длинное имя в две строки не должно делать
+   одну плашку выше соседних. */
+.scn-legend button {
+  width: 100%; height: 100%; min-height: 56px; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center; gap: 9px; padding: 7px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  text-align: left; cursor: pointer; font-size: 12px;
+}
+.scn-legend button:hover { border-color: var(--line-hover); }
+.scn-legend button[aria-pressed="true"] { border-color: var(--brand); background: var(--info-light); }
+.scn-legend i { width: 10px; height: 10px; border-radius: 3px; }
+.scn-legend b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-legend small { display: block; font-size: 11px; color: var(--ink-soft); }
+
+.scn-empty {
+  margin-top: 16px; padding: 28px 16px; text-align: center;
+  border: 1px dashed var(--line-hover); border-radius: 8px;
+  color: var(--ink-soft); font-size: 12px;
+}
+
+.scn-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.scn-title i { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
+.scn-title h3 { margin: 0; font-size: 16px; font-weight: 600; }
+.scn-title span { font-size: 12px; color: var(--ink-soft); }
+.scn-about { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
+
+.scn-grid { margin-top: 16px; display: grid; gap: 12px; align-items: start; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.scn-grid .scn-sankey { grid-column: 1 / -1; }
+.scn-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.scn-view[hidden], .scn-synthetic[hidden] { display: none; }
+/* Три колонки собраны одинаково: подпись капсом, под ней карточки в рамке —
+   верх первой карточки в каждой колонке на одной линии. */
+.scn-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.scn-col-title {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  height: 18px; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-hint);
+}
+.scn-col-title button {
+  padding: 0; border: 0; background: none; cursor: pointer;
+  font-size: 11px; letter-spacing: 0; text-transform: none; color: var(--promo); font-weight: 600;
+}
+.scn-col-title button:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* распределение оттока по дням: интервалы сверху вниз, длина — объём */
+.scn-rows { position: relative; display: grid; gap: 8px; margin-top: 10px; }
+/* подпись интервала | полоса | значение — значения стоят своей колонкой */
+.scn-row, .scn-axis { display: grid; grid-template-columns: 58px minmax(0, 1fr) 112px; align-items: center; gap: 10px; }
+.scn-row-label { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-row-label small { display: block; font-size: 10px; font-weight: 400; color: var(--ink-hint); }
+.scn-track { position: relative; height: 28px; }
+.scn-grid-lines { position: absolute; inset: 0; pointer-events: none; }
+.scn-grid-lines i { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(0, 0, 0, .06); }
+.scn-fill {
+  position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 5px 5px 0;
+  min-width: 2px;
+}
+.scn-fill-label { white-space: nowrap; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+.scn-fill-label b { color: var(--ink); font-weight: 600; }
+.scn-axis { margin-top: 4px; align-items: start; }
+.scn-axis div { position: relative; height: 14px; border-top: 1px solid rgba(0, 0, 0, .2); }
+.scn-axis span {
+  position: absolute; top: 2px; transform: translateX(-50%);
+  font-size: 10px; color: var(--ink-hint); font-variant-numeric: tabular-nums;
+}
+.scn-axis span:first-child { transform: none; }
+.scn-note { margin-top: 10px; font-size: 11px; color: var(--ink-hint); }
+
+.scn-tile {
+  padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); text-align: left; width: 100%;
+}
+button.scn-tile { cursor: pointer; }
+button.scn-tile:hover { border-color: var(--line-hover); }
+button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 0 0 0 1px var(--promo) inset; }
+.scn-tile-label { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12px; color: var(--ink-soft); }
+.scn-tile-label em { font-style: normal; color: var(--promo); font-weight: 600; white-space: nowrap; }
+.scn-tile-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 1px; }
+.scn-tile-value { font-size: 22px; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.scn-delta {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; background: rgba(0, 0, 0, .04); color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.scn-delta.is-good { color: var(--good); background: rgba(31, 156, 83, .1); }
+.scn-delta.is-bad { color: var(--bad); background: rgba(233, 3, 58, .08); }
+.scn-spark { display: block; width: 100%; height: 34px; margin-top: 8px; }
+.scn-tile-foot { margin-top: 3px; display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-hint); }
+
+.scn-sub { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+.scn-sub li { display: grid; gap: 5px; }
+/* строка как у крупной карточки: подпись, значение и дельта в одну линию */
+.scn-sub .row-head { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; font-size: 12px; }
+.scn-sub .row-head span { color: var(--ink-soft); }
+.scn-sub .row-head b { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-sub .row-head small { font-size: 11px; color: var(--ink-hint); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.scn-sub-first { margin-top: 0; }
+.scn-sub-pick { gap: 2px; }
+.scn-pick {
+  width: 100%; display: grid; gap: 5px; padding: 5px 6px; margin: 0 -6px;
+  box-sizing: content-box; border: 0; border-radius: 6px; background: none;
+  text-align: left; font: inherit; color: inherit; cursor: pointer;
+}
+.scn-pick:hover { background: rgba(0, 0, 0, .03); }
+.scn-pick[aria-pressed="true"] { background: var(--info-light); }
+.scn-sub .row-head .scn-go { color: var(--promo); font-weight: 700; font-size: 14px; line-height: 1; }
+.scn-sub-pick .row-head { grid-template-columns: minmax(0, 1fr) auto auto auto; }
+.scn-mini { height: 6px; border-radius: 3px; background: rgba(0, 0, 0, .05); overflow: hidden; }
+.scn-mini i { display: block; height: 100%; border-radius: 3px; }
+
+.scn-sankey { animation: scn-in .2s ease-out; }
+@keyframes scn-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .scn-sankey { animation: none; } }
+.scn-sankey svg { display: block; width: 100%; height: auto; }
+.scn-sankey svg text { font-family: var(--sans); }
+.scn-sankey-label {
+  font-size: 11px; fill: rgba(0, 0, 0, .8);
+  paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round;
+}
+.scn-sankey-sub { fill: rgba(0, 0, 0, .5); font-weight: 400; }
+.scn-sankey-note { margin-top: 8px; font-size: 11px; color: var(--ink-hint); }
+
+@media (max-width: 1080px) {
+}
+@media (max-width: 760px) {
+  .scn-grid, .scn-grid.is-open { grid-template-columns: minmax(0, 1fr); }
+  .scn-bar { height: 32px; }
+}
+</style>
+</head>
+<body>
+
+<main class="content">
+  <div class="content-inner">
+    <header class="page-head">
+      <div>
+        <h1 class="page-title">Воронка оттока</h1>
+        <p class="page-sub">Как клиенты уходят из продукта и на каком шаге их теряем</p>
+      </div>
+      <div class="filters">
+        <div class="filter">
+          <label class="filter-label" for="filter-product">Продукт</label>
+          <select id="filter-product">
+            <option value="deposits" selected>Вклады</option>
+          </select>
+        </div>
+        <div class="filter">
+          <label class="filter-label" for="filter-period">Период</label>
+          <select id="filter-period"></select>
+        </div>
+      </div>
+    </header>
+
+    <section class="kpi" id="kpi"></section>
+
+    <section class="card funnel-card">
+      <div class="card-head">
+        <h2 id="funnelTitle">Воронка</h2>
+        <div class="switches">
+          <div class="switch" id="measureSwitch" role="tablist" aria-label="Единица измерения"></div>
+        </div>
+      </div>
+      <p class="disclaimer">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
+        <span id="promoNote"></span>
+      </p>
+
+      <div class="funnels" id="funnels"></div>
+    </section>
+
+    <section class="card status-card">
+      <div id="status"></div>
+
+      <div class="scn-view" id="scenarios">
+        <div class="scn-head">
+          <div class="recs-title">Сценарии оттока <span class="scn-synthetic" id="scnSynthetic" hidden>Синтетические данные</span></div>
+          <span class="scn-total" id="scnTotal"></span>
+        </div>
+        <div class="scn-bar" id="scnBar" role="group" aria-label="Декомпозиция оттока по сценариям"></div>
+        <ul class="scn-legend" id="scnLegend"></ul>
+        <div id="scnDetail"></div>
+        <p class="scn-note" id="scnNote"></p>
+      </div>
+    </section>
+
+    <p class="page-note" id="pageNote"></p>
+
+  </div>
+</main>
+
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet-bar">
+    <b id="sheetTitle"></b>
+    <button type="button" class="sheet-close" id="sheetClose">Закрыть · Esc</button>
+  </div>
+  <iframe class="sheet-frame" id="sheetFrame" title="Дерево оттоков и коммуникации"></iframe>
+</div>
+
+<script type="application/json" id="report-data">__REPORT_DATA__</script>
+<script type="application/json" id="tree-page">__TREE_PAGE__</script>
+
+<script>
+
+// Все цифры приходят из книги метрик (outflow-report-metrics.xlsx) через
+// build_report_data.py. В странице нет ни одного зашитого значения: меняется
+// книга — меняется отчёт. Каждая метрика живёт в двух разрезах, клиенты и
+// деньги, поэтому здесь нет «воронки по клиентам» — есть воронка в разрезе.
+const DATA = JSON.parse(document.getElementById('report-data').textContent);
+const MEASURES = DATA.meta.measures;
+const PERIODS = DATA.meta.periods;                       // от свежего к старому
+const PERIODS_ASC = PERIODS.map((p) => p.id).slice().reverse();
+
+const state = {
+  measure: MEASURES.some((m) => m.id === 'clnt') ? 'clnt' : MEASURES[0].id,
+  period: PERIODS[0].id,
+};
+
+const activeMeasure = () => MEASURES.find((m) => m.id === state.measure) || MEASURES[0];
+const isMoney = () => activeMeasure().id === 'rur';
+
+// Тумблеры страницы. Подписи когорт заданы здесь, а не в книге: в книге
+// воронки называются «Отток с промо» и «Отток обычный».
+const MEASURE_LABEL = {clnt: 'Клиенты', rur: 'Объёмы (руб)'};
+
+// Одна формулировка на два места: полоска под шапкой воронки и выпадашка
+// у карточки покрытия. Дублировать текст в разметке нельзя — разъедется.
+const PROMO_NOTE = 'Промо-коммуникации учитываются по продуктам <b>Вклад</b> и '
+  + '<b>Накопительный счёт</b> согласно продуктовой разметке ЕВК.';
+const SERVICE_NOTE = 'Сервисные коммуникации вокруг даты окончания вклада (коммуникация 900 '
+  + 'выгрузки). Доля от ступени «Ожидается пролонгация» — та же база, что у промо.';
+const OUTFLOW_NOTE = 'Отток фиксируем, когда снижение суммарного остатка клиента на вкладах '
+  + 'и накопительных счетах за <b>30 дней</b> после пролонгации превышает <b>20%</b> суммы '
+  + 'закрытого вклада.';
+const INFO_ICON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>';
+// В книге разрезы идут деньгами вперёд, на тумблере клиенты первыми.
+const MEASURE_ORDER = ['clnt', 'rur'];
+const measureOptions = () => MEASURES.slice().sort(
+  (a, b) => MEASURE_ORDER.indexOf(a.id) - MEASURE_ORDER.indexOf(b.id));
+// Слева те, до кого коммуникация не дошла, справа те, кто её получил.
+const COHORT_TITLE = {
+  base: 'Не получили коммуникацию',
+  promo: 'Получили коммуникацию',
+};
+const SPLIT_ORDER = ['base', 'promo'];
+// Ступени, где рост конверсии — плохая новость. Для остальных выше — лучше.
+const BAD_WHEN_UP = new Set(['net_outflow', 'not_waited', 'left30']);
+// «Осело» в этот набор не входит: там рост — хорошая новость.
+
+// Цвет закреплён за смыслом ступени, а не за её номером: «Закрыли в окне
+// 30 дней» жёлтая в обеих ветках, «Чистый отток» розовый. Оттенки взяты из
+// дефолтной палитры @gravity-ui/charts, чтобы страница осталась одной гаммой.
+const STEP_COLOR = {
+  expected: '#84D1EE',        // голубой
+  prolonged: '#4DA2F1',       // синий
+  left30: '#FFC636',          // жёлтый
+  net_outflow: '#FFB9DD',     // розовый
+};
+// Голова ветки называется по признаку коммуникации, и цвет у неё свой.
+const BRANCH_COLOR = {base: '#FF3D64', promo: '#8AD554'};
+const FALLBACK_COLOR = '#BA74B3';
+
+// Светлая заливка требует тёмной подписи, иначе белый текст на жёлтом и
+// розовом не читается. Порог подобран по относительной яркости.
+function labelOnFill(hex) {
+  const value = parseInt(hex.slice(1), 16);
+  const channel = (shift) => {
+    const part = ((value >> shift) & 255) / 255;
+    return part <= 0.03928 ? part / 12.92 : Math.pow((part + 0.055) / 1.055, 2.4);
+  };
+  const luminance = 0.2126 * channel(16) + 0.7152 * channel(8) + 0.0722 * channel(0);
+  return luminance > 0.45 ? 'ink' : 'light';
+}
+
+const funnelById = (id) => DATA.funnels.find((f) => f.id === id);
+
+const el = (tag, className, text) => {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+};
+const ru = (value, digits = 0) => new Intl.NumberFormat('ru-RU', {
+  minimumFractionDigits: digits, maximumFractionDigits: digits,
+}).format(value);
+
+// Деньги приведены к млрд ₽, клиенты целые — разрядность зависит от разреза.
+const amount = (raw) => {
+  if (!isFinite(raw)) return '—';
+  const digits = isMoney() ? (Math.abs(raw) >= 1000 ? 0 : Math.abs(raw) >= 10 ? 1 : 2) : 0;
+  return new Intl.NumberFormat('ru-RU', {maximumFractionDigits: digits}).format(raw);
+};
+const amountText = (raw) => `${amount(raw)} ${activeMeasure().unit}`;
+const periodLabel = (id) => (PERIODS.find((p) => p.id === id) || {label: id}).label;
+
+// Дельта меньше половины последнего выводимого знака — это не движение,
+// а округление: показываем «без изменений», а не стрелку в случайную сторону.
+function deltaChip(value, digits, unit, goodWhenUp = true) {
+  if (value == null) return {up: null, tone: null, text: 'нет предыдущего месяца'};
+  if (Math.abs(value) < 0.5 / Math.pow(10, digits)) {
+    return {up: null, tone: null, text: 'без изменений'};
+  }
+  const good = goodWhenUp ? value > 0 : value < 0;
+  // Процент пишется вплотную к числу, «п.п.» — через пробел.
+  const gap = unit.startsWith('%') ? '' : ' ';
+  return {up: value > 0, tone: good ? 'good' : 'bad', text: `${ru(Math.abs(value), digits)}${gap}${unit}`};
+}
+
+// ── ряды ──────────────────────────────────────────────────────────────────
+// Портфель и отток считает загрузчик из тех же колонок, что кормят дерево:
+// одно определение оттока на весь отчёт, а не своё на каждом блоке.
+function portfolioSeries() {
+  const source = DATA.portfolio[state.measure];
+  return PERIODS_ASC.map((id) => {
+    const total = source.total[id];
+    const outflow = source.outflow[id];
+    if (!total || !outflow) return null;
+    return {
+      id,
+      total: total.rawValue,
+      totalDelta: total.deltaPct,
+      outflow: outflow.rawValue,
+      share: outflow.rawValue / total.rawValue * 100,
+    };
+  }).filter(Boolean);
+}
+
+// Покрытие промо: доля когорты с промо в ступени «ожидается пролонгация».
+// Знаменатель — воронка ALL, а не сумма когорт: по клиентам они пересекаются.
+function coverageSeries() {
+  const promo = funnelById('promo');
+  const all = funnelById('all');
+  if (!promo || !all) return [];
+  const level = promo.steps.find((step) => step.kind === 'level');
+  if (!level) return [];
+  return PERIODS_ASC.map((id) => {
+    const withPromo = ((promo.series[state.measure] || {})[id] || {})[level.id];
+    const total = ((all.series[state.measure] || {})[id] || {})[level.id];
+    if (!isFinite(withPromo) || !isFinite(total) || !total) return null;
+    return {id, promo: withPromo, total, share: withPromo / total * 100, stepName: level.name};
+  }).filter(Boolean);
+}
+
+// Ряд обрезаем по выбранному периоду: карточки и светофор должны говорить
+// про него, а не про последний месяц в книге.
+function upTo(series) {
+  const index = series.findIndex((row) => row.id === state.period);
+  return index < 0 ? series : series.slice(0, index + 1);
+}
+
+// Предыдущий месяц в ряду — для дельты конверсии. PERIODS идут от свежего
+// к старому, поэтому «предыдущий» лежит следующим по списку.
+function previousPeriod(id) {
+  const index = PERIODS.findIndex((p) => p.id === id);
+  return index >= 0 && index + 1 < PERIODS.length ? PERIODS[index + 1].id : null;
+}
+
+function funnelRows(funnel, kind) {
+  const measure = funnel.series[state.measure] || {};
+  const values = measure[state.period] || {};
+  const before = measure[previousPeriod(state.period)] || null;
+  return funnel.steps
+    .filter((step) => step.kind === kind)
+    .map((step) => ({...step, value: values[step.id], prev: before ? before[step.id] : undefined}))
+    .filter((step) => isFinite(step.value));
+}
+const funnelSteps = (funnel) => funnelRows(funnel, 'level');
+const funnelLeaks = (funnel) => funnelRows(funnel, 'leak');
+const funnelGains = (funnel) => funnelRows(funnel, 'gain');
+
+// ── фильтры ───────────────────────────────────────────────────────────────
+function fillSelect(id, list, selected, onChange) {
+  const select = document.getElementById(id);
+  select.innerHTML = '';
+  list.forEach((item) => {
+    const option = document.createElement('option');
+    option.value = item.id;
+    option.textContent = item.label;
+    if (item.id === selected) option.selected = true;
+    select.append(option);
+  });
+  select.disabled = list.length < 2;
+  select.addEventListener('change', () => onChange(select.value));
+}
+
+function renderFilters() {
+  fillSelect('filter-period', PERIODS, state.period, (id) => {
+    state.period = id;
+    render();
+  });
+}
+
+// Оба тумблера рисуются одним кодом: сегменты, aria-selected и перерисовка.
+function renderSwitch(hostId, options, current, onPick) {
+  const host = document.getElementById(hostId);
+  host.innerHTML = '';
+  options.forEach((option) => {
+    const button = el('button', null, option.label);
+    button.type = 'button';
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', String(option.id === current));
+    if (option.title) button.title = option.title;
+    button.addEventListener('click', () => {
+      if (option.id === current) return;
+      onPick(option.id);
+    });
+    host.append(button);
+  });
+}
+
+function renderSwitches() {
+  renderSwitch('measureSwitch', measureOptions().map((m) => ({
+    id: m.id, label: MEASURE_LABEL[m.id] || m.label, title: m.unit,
+  })), state.measure, (id) => {
+    state.measure = id;
+    render();
+  });
+}
+
+// ── пояснение по клику ────────────────────────────────────────────────────
+function infoHint(html) {
+  const wrap = el('span', 'hint');
+  const button = el('button', 'hint-button');
+  button.type = 'button';
+  button.setAttribute('aria-label', 'Пояснение');
+  button.setAttribute('aria-expanded', 'false');
+  button.innerHTML = INFO_ICON;
+
+  const popup = el('div', 'hint-popup');
+  popup.hidden = true;
+  popup.innerHTML = html;
+
+  const toggle = (open) => {
+    popup.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+  };
+  button.addEventListener('click', (event) => {
+    event.stopPropagation();
+    toggle(popup.hidden);
+  });
+  popup.addEventListener('click', (event) => event.stopPropagation());
+  document.addEventListener('click', () => toggle(false));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') toggle(false);
+  });
+
+  wrap.append(button, popup);
+  return wrap;
+}
+
+// ── спарклайн ─────────────────────────────────────────────────────────────
+// Точки ряда в приглушённом оттенке, выбранный период — точка в акценте.
+const SVG_NS = 'http://www.w3.org/2000/svg';
+
+function sparkline({points, accent, dim, fill}) {
+  if (points.length < 2) return null;
+  const wrap = el('div', 'spark-wrap');
+  const W = 232, H = 40, pad = 4;
+  const values = points.map((point) => point.raw);
+  const svg = document.createElementNS(SVG_NS, 'svg');
+  svg.setAttribute('class', 'tile-spark');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', points.map((p) => `${p.label}: ${p.text}`).join('; '));
+  wrap.append(svg);
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+  const span = max - min;
+  // Ряд из одинаковых значений отличается только в последних битах float.
+  // Без этой проверки нормировка по min..max растянула бы пыль на всю высоту
+  // и нарисовала бы уверенный тренд там, где движения нет.
+  const scale = Math.max(Math.abs(max), Math.abs(min), 1);
+  const flat = span <= scale * 1e-9;
+  const x = (i) => pad + i * (W - pad * 2) / (values.length - 1);
+  const y = (v) => (flat ? H / 2 : pad + (1 - (v - min) / span) * (H - pad * 2));
+  const path = values.map((v, i) => `${x(i)},${y(v)}`);
+
+  const area = document.createElementNS(SVG_NS, 'path');
+  area.setAttribute('d', `M${x(0)},${H} L${path.join(' L')} L${x(values.length - 1)},${H} Z`);
+  area.setAttribute('fill', fill);
+  svg.append(area);
+
+  const line = document.createElementNS(SVG_NS, 'polyline');
+  line.setAttribute('points', path.join(' '));
+  line.setAttribute('fill', 'none');
+  line.setAttribute('stroke', dim);
+  line.setAttribute('stroke-width', '2');
+  line.setAttribute('stroke-linejoin', 'round');
+  line.setAttribute('stroke-linecap', 'round');
+  line.setAttribute('vector-effect', 'non-scaling-stroke');
+  svg.append(line);
+
+  // Вертикаль под курсором и точка на ряду — появляются только при наведении.
+  const guide = document.createElementNS(SVG_NS, 'line');
+  guide.setAttribute('y1', 0);
+  guide.setAttribute('y2', H);
+  guide.setAttribute('stroke', 'rgba(0, 0, 0, .18)');
+  guide.setAttribute('stroke-width', '1');
+  guide.setAttribute('vector-effect', 'non-scaling-stroke');
+  guide.setAttribute('visibility', 'hidden');
+  svg.append(guide);
+
+  const last = values.length - 1;
+  const ring = document.createElementNS(SVG_NS, 'circle');
+  ring.setAttribute('r', '5');
+  ring.setAttribute('fill', 'var(--surface)');
+  const dot = document.createElementNS(SVG_NS, 'circle');
+  dot.setAttribute('r', '3.5');
+  dot.setAttribute('fill', accent);
+  const place = (index) => {
+    [ring, dot].forEach((node) => {
+      node.setAttribute('cx', x(index));
+      node.setAttribute('cy', y(values[index]));
+    });
+  };
+  place(last);
+  svg.append(ring, dot);
+
+  const tip = el('div', 'spark-tip');
+  tip.hidden = true;
+  wrap.append(tip);
+
+  const show = (index) => {
+    place(index);
+    guide.setAttribute('x1', x(index));
+    guide.setAttribute('x2', x(index));
+    guide.setAttribute('visibility', 'visible');
+    tip.innerHTML = '';
+    tip.append(el('i', null, points[index].label), el('b', null, points[index].text));
+    tip.style.left = `${x(index) / W * 100}%`;
+    tip.hidden = false;
+  };
+  const reset = () => {
+    place(last);
+    guide.setAttribute('visibility', 'hidden');
+    tip.hidden = true;
+  };
+
+  svg.addEventListener('pointermove', (event) => {
+    const rect = svg.getBoundingClientRect();
+    if (!rect.width) return;
+    // Ближайшая точка ряда к курсору, а не попадание в узкую полосу.
+    const ratio = (event.clientX - rect.left) / rect.width * W;
+    const index = Math.max(0, Math.min(last, Math.round((ratio - pad) / ((W - pad * 2) / last))));
+    show(index);
+  });
+  svg.addEventListener('pointerleave', reset);
+  svg.addEventListener('pointercancel', reset);
+
+  return wrap;
+}
+
+
+function tile({label, value, delta, foot, range, spark, hint}) {
+  const card = el('div', 'tile');
+  const caption = el('div', 'tile-label');
+  caption.append(el('span', null, label));
+  if (hint) caption.append(infoHint(hint));
+  card.append(caption);
+  card.append(el('div', 'tile-value', value));
+
+  const chip = el('div', 'tile-delta' + (delta.tone ? ` is-${delta.tone}` : ''));
+  chip.append(el('i', null, delta.up === true ? '↑' : delta.up === false ? '↓' : '→'));
+  chip.append(el('span', null, delta.text));
+  card.append(chip);
+  // На одной точке спарклайна нет — пустая рамка читалась бы как провал ряда.
+  if (spark) card.append(spark);
+
+  const footer = el('div', 'tile-foot');
+  footer.append(el('span', null, foot || ''));
+  footer.append(el('span', null, range));
+  card.append(footer);
+  return card;
+}
+
+function renderPromoNote() {
+  document.getElementById('promoNote').innerHTML = PROMO_NOTE;
+}
+
+function renderKpi() {
+  const host = document.getElementById('kpi');
+  host.innerHTML = '';
+  const series = upTo(portfolioSeries());
+  if (!series.length) return;
+
+  const last = series[series.length - 1];
+  const range = series.length > 1
+    ? `${periodLabel(series[0].id)} — ${periodLabel(last.id)}`
+    : periodLabel(last.id);
+  const prevShare = series.length > 1 ? series[series.length - 2].share : null;
+  const shareDelta = prevShare == null ? null : last.share - prevShare;
+
+  host.append(tile({
+    label: 'Общий портфель вкладов',
+    value: amount(last.total),
+    delta: deltaChip(last.totalDelta, 2, '% м/м'),
+    foot: activeMeasure().unit,
+    range,
+    spark: sparkline({
+      points: series.map((row) => ({
+        label: periodLabel(row.id), text: amountText(row.total), raw: row.total,
+      })),
+      accent: 'var(--brand)',
+      dim: 'rgba(35, 158, 226, .45)',
+      fill: 'rgba(35, 158, 226, .1)',
+    }),
+  }));
+
+  // Сервисное покрытие — строка 900 выгрузки, помесячно (byPeriod). Старый
+  // формат из куба держал один срез в values — его читаем как запасной.
+  const service = DATA.serviceCoverage;
+  const byPeriod = service && service.byPeriod;
+  const serviceValues = service && (byPeriod
+    ? (byPeriod[state.period] || {})[state.measure]
+    : service.values[state.measure]);
+  if (serviceValues && serviceValues.total) {
+    const sameMonth = byPeriod ? true : service.period === state.period;
+    host.append(tile({
+      label: 'Покрыто сервисными коммуникациями',
+      value: sameMonth ? `${ru(serviceValues.covered / serviceValues.total * 100, 1)}%` : '—',
+      delta: {up: null, tone: null, text: sameMonth ? 'срез без динамики' : 'нет данных за период'},
+      foot: '',
+      range: periodLabel(byPeriod ? state.period : service.period),
+      spark: null,
+      hint: `${SERVICE_NOTE} База — ${service.baseLabel.toLowerCase()}: `
+        + `${amount(serviceValues.covered)} из ${amount(serviceValues.total)}.`,
+    }));
+  }
+
+  const coverage = upTo(coverageSeries());
+  if (coverage.length) {
+    const lastCover = coverage[coverage.length - 1];
+    const coverDelta = coverage.length > 1
+      ? lastCover.share - coverage[coverage.length - 2].share : null;
+    host.append(tile({
+      label: 'Покрыто промо-коммуникациями',
+      hint: PROMO_NOTE,
+      value: `${ru(lastCover.share, 1)}%`,
+      // Рост покрытия — хорошо.
+      delta: deltaChip(coverDelta, 1, 'п.п. м/м'),
+      foot: '',
+      range,
+      spark: sparkline({
+        points: coverage.map((row) => ({
+          label: periodLabel(row.id), text: `${ru(row.share, 1)}%`, raw: row.share,
+        })),
+        accent: '#8b5cf6',
+        dim: 'rgba(139, 92, 246, .45)',
+        fill: 'rgba(139, 92, 246, .1)',
+      }),
+    }));
+  }
+
+  host.append(tile({
+    label: 'Доля оттока',
+    hint: OUTFLOW_NOTE,
+    value: `${ru(last.share, 2)}%`,
+    // Рост доли оттока — плохо, поэтому направление «хорошего» перевёрнуто.
+    delta: deltaChip(shareDelta, 2, 'п.п. м/м', false),
+    foot: '',
+    range,
+    spark: sparkline({
+      points: series.map((row) => ({
+        label: periodLabel(row.id), text: `${ru(row.share, 2)}%`, raw: row.share,
+      })),
+      accent: 'var(--leak)',
+      dim: 'rgba(233, 3, 58, .45)',
+      fill: 'rgba(233, 3, 58, .08)',
+    }),
+  }));
+}
+
+// ── воронка ───────────────────────────────────────────────────────────────
+function renderFunnelTitle() {
+  document.getElementById('funnelTitle').textContent =
+    isMoney() ? 'Воронка по деньгам' : 'Воронка по клиентам';
+}
+
+// Доля от первой ступени. Абсолют держим в подсказке: страница читается
+// в долях, цифры показываются по наведению.
+const shareText = (value, base) => (base ? `${ru(value / base * 100, 1)}%` : '—');
+
+
+// Доля ступени считается от предыдущей, а не от базы воронки: так видно
+// потерю именно на этом переходе. Ссылку на предыдущий шаг ступень несёт
+// в step.ref — её проставляет renderFunnels, когда собирает цепочку.
+const stepShare = (step) => (step.ref ? shareText(step.value, step.ref.value) : '100,0%');
+// Число для подписи: в деньгах с единицей, в клиентах — голое, единица в заголовке.
+const stepNumber = (step) => (isMoney() ? amountText(step.value) : amount(step.value));
+
+// «Число (доля)»: число жирным, доля в скобках обычным.
+function numShare(step) {
+  const wrap = el('span', 'funnel-num');
+  wrap.append(el('b', null, stepNumber(step)), el('span', 'share', ` (${stepShare(step)})`));
+  return wrap;
+}
+
+function legendFor(steps) {
+  const list = el('ul', 'funnel-legend');
+  steps.forEach((step) => {
+    const item = document.createElement('li');
+    item.title = `${step.name}: ${amountText(step.value)}`;
+    const swatch = el('i');
+    swatch.style.background = step.color || FALLBACK_COLOR;
+    item.append(swatch, el('span', null, step.name), numShare(step));
+    item.append(crDelta(step));
+    list.append(item);
+  });
+  return list;
+}
+
+// Дельта считается по конверсии, а не по абсолюту: объём мог вырасти,
+// а доходимость упасть, и на воронке важна вторая.
+function crDelta(step) {
+  if (!step.ref) return el('span', 'cr-delta', 'база воронки');
+  const base = step.ref.value;
+  const prevBase = step.ref.prev;
+  if (!isFinite(step.prev) || !isFinite(prevBase) || !prevBase || !base) {
+    return el('span', 'cr-delta', 'нет прошлого месяца');
+  }
+  const delta = step.value / base * 100 - step.prev / prevBase * 100;
+  if (Math.abs(delta) < 0.05) return el('span', 'cr-delta', 'без изменений');
+  const good = BAD_WHEN_UP.has(step.id) ? delta < 0 : delta > 0;
+  return el('span', 'cr-delta' + (good ? ' is-good' : ' is-bad'),
+    `${delta > 0 ? '+' : '−'}${ru(Math.abs(delta), 1)} п.п. м/м`);
+}
+
+// Плашки под воронкой: потери красные, удержанное зелёное. Считаются от
+// той же базы, что и ступени, — иначе доли на одном экране не сложатся.
+function platesFor(rows, ref) {
+  if (!rows.length) return null;
+  const box = document.createElement('div');
+  rows.forEach((row) => {
+    row.ref = ref;
+    const line = el('div', 'funnel-leak' + (row.kind === 'gain' ? ' is-gain' : ''));
+    line.title = `${row.name}: ${amountText(row.value)}`;
+    // Пустая ячейка вместо цветного квадрата: колонки должны совпасть с легендой.
+    line.append(el('i'));
+    line.append(el('span', null, row.name));
+    line.append(numShare(row));
+    line.append(crDelta(row));
+    box.append(line);
+  });
+  return box;
+}
+
+// База долей на всю страницу — первая ступень общей части.
+let pageBase = null;
+
+// ── воронка ───────────────────────────────────────────────────────────────
+// Рисуем сами, а не библиотекой: готовая воронка умеет только один столбец,
+// и развилка из двух её экземпляров разваливается — каждая сужается к своему
+// центру. Здесь одна фигура, один масштаб и общая база долей.
+const FUNNEL_W = 1000;
+const BAND = 46;          // высота ступени
+const TAPER = 8;          // просвет между ступенями
+const FORK = 8;           // просвет на развилке
+const GUTTER = 16;        // просвет между ветками
+
+function bandPath(x0, x1, y, height) {
+  return `M${x0},${y} L${x1},${y} L${x1},${y + height} L${x0},${y + height} Z`;
+}
+
+function drawSplitFunnel(host, {common, branches, base}) {
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const width = (value) => (base ? Math.max(2, value / base * FUNNEL_W) : 0);
+  const centred = (value) => {
+    const w = width(value);
+    return [(FUNNEL_W - w) / 2, (FUNNEL_W + w) / 2];
+  };
+
+  // Ветки в сумме занимают ровно ширину ступени, из которой выходят. По
+  // клиентам когорты пересекаются, и сырая сумма голов чуть больше родителя —
+  // без этой нормировки зелёный ряд вылезал бы за розовый. Подписи остаются
+  // настоящими долями, масштабируется только геометрия.
+  const parent = common[common.length - 1];
+  const raw = branches.map((branch) => width(branch.steps[0].value));
+  const rawTotal = raw.reduce((sum, w) => sum + w, 0) || 1;
+  const room = width(parent.value) - GUTTER * (branches.length - 1);
+  const laneScale = room / rawTotal;
+  const heads = raw.map((w) => w * laneScale);
+  const total = heads.reduce((sum, w) => sum + w, 0) + GUTTER * (branches.length - 1);
+  let cursor = (FUNNEL_W - total) / 2;
+  const lanes = branches.map((branch, index) => {
+    const span = [cursor, cursor + heads[index]];
+    cursor += heads[index] + GUTTER;
+    return {branch, span, center: (span[0] + span[1]) / 2};
+  });
+
+  const depth = Math.max(...branches.map((b) => b.steps.length));
+  const height = common.length * BAND + (common.length - 1) * TAPER
+    + FORK + depth * BAND + (depth - 1) * TAPER;
+
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('class', 'funnel-svg');
+  svg.setAttribute('viewBox', `0 0 ${FUNNEL_W} ${height}`);
+  svg.setAttribute('preserveAspectRatio', 'none');
+  // Высота в пикселях равна высоте вьюбокса: по вертикали масштаб 1:1,
+  // иначе заданные просветы растягивались бы вместе с фигурой.
+  svg.style.height = `${height}px`;
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'Воронка пролонгации с разделением по коммуникации');
+
+  const shapes = document.createElementNS(svgNS, 'g');
+  const links = document.createElementNS(svgNS, 'g');
+  const labels = document.createElementNS(svgNS, 'g');
+  const hits = document.createElementNS(svgNS, 'g');
+  const tip = el('div', 'funnel-tip');
+  tip.hidden = true;
+
+  // Переходы рисуются пунктиром по краям, а не заливкой.
+  const link = (from, to, y, height) => {
+    [[from[0], to[0]], [from[1], to[1]]].forEach(([x1, x2]) => {
+      const node = document.createElementNS(svgNS, 'line');
+      node.setAttribute('x1', x1);
+      node.setAttribute('y1', y);
+      node.setAttribute('x2', x2);
+      node.setAttribute('y2', y + height);
+      node.setAttribute('class', 'funnel-link');
+      links.append(node);
+    });
+  };
+
+  const paint = (d, fill, opacity) => {
+    const node = document.createElementNS(svgNS, 'path');
+    node.setAttribute('d', d);
+    node.setAttribute('fill', fill);
+    if (opacity) node.setAttribute('opacity', opacity);
+    shapes.append(node);
+  };
+
+  // Подпись внутри фигуры, если влезает; иначе рядом справа.
+  const label = (span, y, step, fill) => {
+    const node = document.createElementNS(svgNS, 'text');
+    const number = stepNumber(step);
+    const share = ` (${stepShare(step)})`;
+    // Ширина текста на глаз: ~7 px на знак при 12px Inter.
+    const wide = span[1] - span[0] >= (number.length + share.length) * 7 + 16;
+    node.setAttribute('x', wide ? (span[0] + span[1]) / 2 : span[1] + 8);
+    node.setAttribute('y', y + BAND / 2 + 4);
+    node.setAttribute('text-anchor', wide ? 'middle' : 'start');
+    const tone = wide ? ` is-inside is-${labelOnFill(fill)}` : '';
+    node.setAttribute('class', `funnel-label${tone}`);
+    const strong = document.createElementNS(svgNS, 'tspan');
+    strong.textContent = number;
+    const soft = document.createElementNS(svgNS, 'tspan');
+    soft.setAttribute('class', 'share');
+    soft.textContent = share;
+    node.append(strong, soft);
+    labels.append(node);
+  };
+
+  const hit = (span, y, step) => {
+    const node = document.createElementNS(svgNS, 'rect');
+    node.setAttribute('x', span[0]);
+    node.setAttribute('y', y);
+    node.setAttribute('width', Math.max(2, span[1] - span[0]));
+    node.setAttribute('height', BAND);
+    node.setAttribute('fill', 'transparent');
+    node.addEventListener('pointerenter', () => {
+      tip.innerHTML = '';
+      tip.append(el('i', null, step.name),
+        el('b', null, `${amountText(step.value)} · ${stepShare(step)} от предыдущего шага`));
+      tip.style.left = `${(span[0] + span[1]) / 2 / FUNNEL_W * 100}%`;
+      tip.style.top = `${(y + BAND) / height * 100}%`;
+      tip.hidden = false;
+    });
+    node.addEventListener('pointerleave', () => { tip.hidden = true; });
+    hits.append(node);
+  };
+
+  let y = 0;
+  let previous = null;
+  common.forEach((step, index) => {
+    const span = centred(step.value);
+    const color = step.color || FALLBACK_COLOR;
+    if (previous) link(previous.span, span, y - TAPER, TAPER);
+    paint(bandPath(span[0], span[1], y, BAND), color);
+    label(span, y, step, color);
+    hit(span, y, step);
+    previous = {span, color};
+    y += BAND + TAPER;
+  });
+
+  // Развилка: низ общей ступени делится пропорционально ширине веток, и от
+  // каждой доли пунктир уходит к своей ветке.
+  const forkTop = y - TAPER;
+  const source = previous.span;
+  const headsTotal = heads.reduce((sum, w) => sum + w, 0) || 1;
+  let taken = 0;
+  lanes.forEach((lane, index) => {
+    link([
+      source[0] + (source[1] - source[0]) * (taken / headsTotal),
+      source[0] + (source[1] - source[0]) * ((taken + heads[index]) / headsTotal),
+    ], lane.span, forkTop, FORK);
+    taken += heads[index];
+  });
+  y = forkTop + FORK;
+
+  lanes.forEach((lane) => { lane.previous = null; });
+  for (let level = 0; level < depth; level += 1) {
+    lanes.forEach((lane) => {
+      const step = lane.branch.steps[level];
+      if (!step) return;
+      // Тот же масштаб, что у головы ветки: внутри ветки пропорции сохраняются.
+      const w = width(step.value) * laneScale;
+      const span = [lane.center - w / 2, lane.center + w / 2];
+      const color = step.color || FALLBACK_COLOR;
+      if (lane.previous) link(lane.previous.span, span, y - TAPER, TAPER);
+      paint(bandPath(span[0], span[1], y, BAND), color);
+      label(span, y, step, color);
+      hit(span, y, step);
+      lane.previous = {span, color};
+    });
+    y += BAND + TAPER;
+  }
+
+  svg.append(links, shapes, labels, hits);
+  host.append(svg, tip);
+}
+
+// Скобка справа от воронки: весь отток к портфелю. Рисуется рамкой в HTML,
+// а не в SVG — фигура растянута по горизонтали, и текст в ней поехал бы.
+function outflowBracket(all) {
+  const values = (all.series[state.measure] || {})[state.period] || {};
+  const outflow = values.net_outflow;
+  const portfolio = (DATA.portfolio[state.measure].total[state.period] || {}).rawValue;
+  if (!isFinite(outflow) || !isFinite(portfolio) || !portfolio) return null;
+
+  const wrap = el('div', 'funnel-bracket');
+  const body = el('div', 'funnel-bracket-body');
+  body.append(el('b', null, `${ru(outflow / portfolio * 100, 2)}%`));
+  body.append(el('span', null, 'оттока от портфеля'));
+  body.append(el('em', null, `${amount(outflow)} из ${amount(portfolio)}`));
+  wrap.append(body);
+  return wrap;
+}
+
+function renderFunnels() {
+  const host = document.getElementById('funnels');
+  host.innerHTML = '';
+
+  const all = funnelById('all');
+  if (!all) return;
+  const common = funnelSteps(all).slice(0, 2);
+  if (!common.length) return;
+  const base = common[0].value;
+  const prevBase = common[0].prev;
+  pageBase = base;
+
+  common.forEach((step, index) => {
+    step.color = STEP_COLOR[step.id] || FALLBACK_COLOR;
+    step.ref = index ? common[index - 1] : null;
+  });
+
+  const branches = SPLIT_ORDER
+    .map((id) => ({id, funnel: funnelById(id)}))
+    .filter((item) => item.funnel)
+    .map((item) => ({...item, steps: funnelSteps(item.funnel).slice(1),
+      title: COHORT_TITLE[item.id] || item.funnel.name}));
+  if (!branches.length) return;
+  const forkFrom = common[common.length - 1];
+  branches.forEach((item) => item.steps.forEach((step, index) => {
+    // Голова ветки красится по когорте, остальные ступени — по смыслу.
+    step.color = index === 0
+      ? (BRANCH_COLOR[item.id] || FALLBACK_COLOR)
+      : (STEP_COLOR[step.id] || FALLBACK_COLOR);
+    // Голова ветки отсчитывается от ступени, из которой вышла развилка.
+    step.ref = index ? item.steps[index - 1] : forkFrom;
+  }));
+
+  const stage = el('div', 'funnel-stage');
+  drawSplitFunnel(stage, {common, branches, base});
+  const bracket = outflowBracket(all);
+  if (bracket) stage.append(bracket);
+  host.append(stage);
+
+  // Все подписи одним блоком под воронкой — между фигурами ничего нет.
+  const notes = el('div', 'funnel-notes');
+  notes.append(legendFor(common));
+  // Плашка «вывели до пролонгации» — доля от когорты, из которой вывели.
+  const commonPlates = platesFor(funnelLeaks(all), common[0]);
+  if (commonPlates) notes.append(commonPlates);
+
+  const columns = el('div', 'funnel-branches');
+  branches.forEach((item) => {
+    const column = el('div');
+    column.append(legendFor(item.steps));
+    // «Осело» считается от головы ветки: это её остаток, а не доля базы.
+    const plates = platesFor(funnelGains(item.funnel), item.steps[0]);
+    if (plates) column.append(plates);
+    columns.append(column);
+  });
+  notes.append(columns);
+  host.append(notes);
+}
+
+// ── светофор ──────────────────────────────────────────────────────────────
+// Правило общее с деревом: движение в хорошую сторону — зелёный, плохое один
+// месяц — жёлтый, плохое два месяца подряд и дольше — красный.
+function badStreak(series) {
+  let streak = 0;
+  for (let i = series.length - 1; i > 0; i -= 1) {
+    if (series[i].share <= series[i - 1].share) break;
+    streak += 1;
+  }
+  return streak;
+}
+
+function trafficLight(series) {
+  // Меньше двух месяцев — сравнивать не с чем. Зелёный здесь был бы враньём:
+  // «падение оттока» нельзя утверждать, не видя предыдущего месяца.
+  if (series.length < 2) return {state: 'none', title: 'Динамики пока нет', streak: 0};
+  const streak = badStreak(series);
+  if (streak >= 2) return {state: 'red', title: 'Рост оттока', streak};
+  if (streak === 1) return {state: 'yellow', title: 'Смешанная динамика', streak};
+  return {state: 'green', title: 'Падение оттока', streak};
+}
+
+const monthWord = (count) => {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'месяц';
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'месяца';
+  return 'месяцев';
+};
+
+const LIGHT_RULES = [
+  {state: 'green', title: 'Падение оттока', text: 'доля оттока снизилась за последний месяц'},
+  {state: 'yellow', title: 'Смешанная динамика', text: 'доля оттока выросла один месяц'},
+  {state: 'red', title: 'Рост оттока', text: 'доля оттока растёт два месяца подряд и дольше'},
+];
+const LAMP = {red: 'rgb(233, 3, 58)', yellow: 'rgb(255, 190, 92)', green: 'rgb(47, 169, 108)'};
+
+function statusWhy(light, series) {
+  if (!series.length) return 'Нет данных за выбранный период';
+  if (series.length < 2) {
+    return `В книге один месяц — ${periodLabel(series[0].id)}. Для светофора нужен второй`;
+  }
+  if (light.state === 'red') {
+    return `Доля оттока растёт ${light.streak} ${monthWord(light.streak)} подряд`;
+  }
+  if (light.state === 'yellow') return 'Доля оттока выросла за последний месяц';
+  return 'Доля оттока снизилась за последний месяц';
+}
+
+// Правила светофора открываются по клику на «i» — нативный title показывался
+// только по долгому наведению и на тач-экране был недоступен вовсе.
+function ruleHint() {
+  const wrap = el('div', 'traffic-hint');
+
+  const button = el('button', 'traffic-info');
+  button.type = 'button';
+  button.setAttribute('aria-label', 'Как определяется статус');
+  button.setAttribute('aria-expanded', 'false');
+  button.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">'
+    + '<path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>';
+
+  const popup = el('div', 'traffic-rule');
+  popup.hidden = true;
+  popup.append(el('b', null, 'Как определяется статус'));
+  const list = el('ul');
+  LIGHT_RULES.forEach((rule) => {
+    const item = document.createElement('li');
+    const lamp = el('i');
+    lamp.style.background = LAMP[rule.state];
+    const text = document.createElement('span');
+    text.append(el('b', null, rule.title), document.createTextNode(` — ${rule.text}`));
+    item.append(lamp, text);
+    list.append(item);
+  });
+  popup.append(list);
+
+  const toggle = (open) => {
+    popup.hidden = !open;
+    button.setAttribute('aria-expanded', String(open));
+  };
+  button.addEventListener('click', (event) => {
+    event.stopPropagation();
+    toggle(popup.hidden);
+  });
+  popup.addEventListener('click', (event) => event.stopPropagation());
+  document.addEventListener('click', () => toggle(false));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') toggle(false);
+  });
+
+  wrap.append(button, popup);
+  return wrap;
+}
+
+// ── метр: наша доля оттока против рыночной полосы ────────────────────────
+function benchmarkMeter(share, bandHigh) {
+  const scaleMax = Math.max(3, Math.ceil(Math.max(share, bandHigh) * 1.2));
+  const wrap = el('div', 'meter');
+
+  const track = el('div', 'meter-track');
+  const band = el('div', 'meter-band');
+  band.style.left = '0%';
+  band.style.width = `${bandHigh / scaleMax * 100}%`;
+  band.title = `Рынок: нетто-отток до ${ru(bandHigh, 2)}% портфеля в месяц`;
+  const mark = el('div', 'meter-mark');
+  mark.style.left = `calc(${Math.min(share, scaleMax) / scaleMax * 100}% - 1.5px)`;
+  mark.title = `Мы: ${ru(share, 2)}%`;
+  track.append(band, mark);
+  wrap.append(track);
+
+  const scale = el('div', 'meter-scale');
+  for (let tick = 0; tick <= scaleMax; tick += 1) {
+    const label = el('span', null, `${tick}%`);
+    label.style.left = `${tick / scaleMax * 100}%`;
+    scale.append(label);
+  }
+  wrap.append(scale);
+
+  const legend = el('div', 'meter-legend');
+  const marketItem = el('em');
+  const marketSwatch = el('b');
+  marketSwatch.style.background = 'rgba(35, 158, 226, .45)';
+  marketItem.append(marketSwatch, document.createTextNode(`Рынок — до ${ru(bandHigh, 2)}% в месяц`));
+  const ourItem = el('em');
+  const ourSwatch = el('b');
+  ourSwatch.style.background = 'var(--leak)';
+  ourItem.append(ourSwatch, document.createTextNode(`Мы — ${ru(share, 2)}%`));
+  legend.append(marketItem, ourItem);
+  wrap.append(legend);
+  return wrap;
+}
+
+// ── рекомендации ──────────────────────────────────────────────────────────
+function sheetLink(label, key) {
+  const links = el('div', 'rec-links');
+  const button = el('button', 'rec-open', label);
+  button.type = 'button';
+  button.addEventListener('click', () => openSheet(key));
+  links.append(button);
+  return links;
+}
+
+function benchmarkRec(series) {
+  const body = el('div');
+  body.append(el('h4', null, 'AI Benchmark: сверка с рынком'));
+
+  // Бенчмарк рынка считается в деньгах. Для клиентского разреза сопоставимой
+  // публичной цифры нет, и подставлять денежную под клиентов нельзя.
+  const points = DATA.benchmark.filter((p) => p.valuePct != null && p.measure === state.measure);
+  // Владельца бенчмарка называем только если он заявлен в том же разрезе;
+  // иначе ссылаемся на источник той точки, что задала границу полосы.
+  const owner = DATA.benchmark.find(
+    (p) => p.metric === 'benchmark_owner' && p.measure === state.measure);
+
+  if (!points.length || !series.length) {
+    const text = el('p');
+    text.textContent = `В книге нет рыночного ориентира для разреза «${activeMeasure().label}» — `
+      + 'сверка считается только по деньгам.';
+    body.append(text);
+    return {tag: 'AI Benchmark', body};
+  }
+
+  const top = points.reduce((best, point) => (point.valuePct > best.valuePct ? point : best));
+  const bandHigh = top.valuePct;
+  const source = owner ? `бенчмарка ${owner.source}` : `рыночного ориентира (${top.source})`;
+  const share = series[series.length - 1].share;
+  const above = share > bandHigh;
+  // Кратность всегда больше единицы: «ниже в 0,8 раза» — не по-русски.
+  const times = above ? share / bandHigh : bandHigh / share;
+  const band = points.length > 1 ? ' в худший месяц' : '';
+  const verdict = el('p');
+  verdict.innerHTML = `Относительно ${source} наше значение <b>${ru(share, 2)}%</b> — `
+    + `${above ? 'выше' : 'ниже'} рынка (<b>${ru(bandHigh, 2)}%</b>${band}) `
+    + `в ${ru(times, 1)} раза. Обратите внимание.`;
+  body.append(verdict);
+  body.append(benchmarkMeter(share, bandHigh));
+
+  const caveat = el('small');
+  caveat.textContent = isMoney()
+    ? 'Рынок меряет нетто-переток по системе, мы — отток портфеля: сравнение ориентировочное.'
+    : 'Рыночная цифра — опрос вкладчиков за год, пересчитанный в месяц; наша — факт по портфелю. '
+      + 'Прямой помесячной статистики по клиентам в открытом доступе нет.';
+  body.append(caveat);
+
+  const links = el('div', 'rec-links');
+  const seen = new Set();
+  DATA.benchmark.forEach((point) => {
+    if (!point.url || seen.has(point.source)) return;
+    seen.add(point.source);
+    const link = el('a', null, point.source);
+    link.href = point.url;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.title = point.note || point.source;
+    links.append(link);
+  });
+  body.append(links);
+  return {tag: 'AI Benchmark', body};
+}
+
+function treeRec() {
+  const body = el('div');
+  body.append(el('h4', null, 'Обратите внимание на Summary по дереву драйверов оттока'));
+  body.append(el('p', null, 'Какая ветка даёт прирост: вывели до пролонгации, ушли на пролонгации, '
+    + 'вывели за 30 дней после неё.'));
+  body.append(sheetLink('Перейти к дереву оттоков →', 'tree'));
+  return {tag: 'Дерево драйверов', body};
+}
+
+function mechanicsRec() {
+  const body = el('div');
+  body.append(el('h4', null, 'Обратите внимание на Summary по механикам работы с оттоком'));
+  body.append(el('p', null, 'Покрытие коммуникациями по бакетам остатка: где промо не доходит '
+    + 'и где пропускаем самых дорогих клиентов. Чем двигать отток без изменения ставки.'));
+  body.append(sheetLink('Перейти к механикам →', 'comms'));
+  return {tag: 'Механики', body};
+}
+
+function scenariosRec() {
+  const body = el('div');
+  body.append(el('h4', null, 'Обратите внимание на Summary по сценариям оттока'));
+  body.append(el('p', null, 'Куда уходят деньги: частичное закрытие, POS-оборот, погашение кредитов, '
+    + 'вывод в другие банки и в инвестиции. Когда уходят и чем покрыты коммуникациями.'));
+  body.append(sheetLink('Перейти к сценариям оттока →', 'scenarios'));
+  return {tag: 'Сценарии', body};
+}
+
+function renderStatus() {
+  const host = document.getElementById('status');
+  const series = upTo(portfolioSeries());
+  const light = trafficLight(series);
+  host.innerHTML = '';
+
+  const traffic = el('div', `traffic traffic-${light.state}`);
+  const mark = el('div', 'traffic-mark');
+  mark.setAttribute('aria-hidden', 'true');
+  traffic.append(mark);
+
+  const title = el('div', 'traffic-title');
+  title.append(el('span', 'traffic-label', light.title));
+  title.append(ruleHint());
+  traffic.append(title);
+
+  const copy = el('div', 'traffic-copy');
+  copy.append(el('p', null, statusWhy(light, series)));
+  traffic.append(copy);
+  host.append(traffic);
+
+  host.append(el('div', 'recs-title', 'Рекомендации'));
+  const list = el('ol', 'recs');
+  // Плашки дерева, механик и сценариев скрыты: сценарии выведены блоком ниже.
+  // treeRec/mechanicsRec/scenariosRec и вшитое дерево оставлены, чтобы
+  // вернуть их одной строкой.
+  [benchmarkRec(series)].forEach((rec) => {
+    const item = el('li', 'rec');
+    item.append(el('span', 'rec-tag', rec.tag));
+    item.append(rec.body);
+    list.append(item);
+  });
+  host.append(list);
+}
+
+function renderNote() {
+  const view = 'общий верх до пролонгации, ниже две ветки по коммуникации';
+  document.getElementById('pageNote').textContent =
+    `Срез: ${periodLabel(state.period)} · ${MEASURE_LABEL[state.measure] || activeMeasure().label} · `
+    + `${view}. Источник цифр — ${DATA.meta.source}. Отток портфеля: `
+    + `${DATA.meta.outflowDef}.`;
+}
+
+// ── вшитый лист: дерево и коммуникации открываются поверх страницы ───────
+// Страница дерева вшита целиком: лист открывается из этого же файла, а не
+// ссылкой на соседний. Вид при открытии подменяется в литерале INITIAL_VIEW.
+const TREE_PAGE = JSON.parse(document.getElementById('tree-page').textContent);
+const TREE_VIEW_MARK = '/*__INITIAL_VIEW__*/null';
+const SHEETS = {
+  comms: {title: 'Коммуникации по пролонгации', view: {type: 'comm', id: 'comm-prolongation', soloPage: true}},
+  tree: {title: 'Дерево оттоков', view: {fullscreen: true, soloTree: true}},
+};
+
+// Срез для блока сценариев: разрез и период страницы.
+function scenariosView() {
+  return {measure: state.measure, period: state.period, periodLabel: periodLabel(state.period)};
+}
+
+function renderScenarios() {
+  // Блок сценариев объявлен следующим скриптом; первый render идёт до него.
+  if (window.ScenariosPage) window.ScenariosPage.update(scenariosView());
+}
+
+// srcdoc, а не blob: страницу открывают с диска, и file:// под blob-ссылкой
+// в iframe работает не во всех браузерах.
+function openSheet(key) {
+  // Сценарии теперь блок на странице: ссылка просто прокручивает к нему.
+  if (key === 'scenarios') {
+    document.getElementById('scenarios').scrollIntoView({behavior: 'smooth', block: 'start'});
+    return;
+  }
+  const sheet = SHEETS[key];
+  if (!sheet) return;
+  // Лист наследует период и разрез страницы: две разные настройки на одном
+  // экране читались бы как расхождение данных.
+  const view = {...sheet.view, period: {id: state.period, label: periodLabel(state.period)},
+    measure: state.measure};
+  document.getElementById('sheetTitle').textContent = sheet.title;
+  document.getElementById('sheetFrame').srcdoc =
+    TREE_PAGE.replace(TREE_VIEW_MARK, JSON.stringify(view));
+  document.getElementById('sheet').hidden = false;
+  document.body.style.overflow = 'hidden';
+  document.getElementById('sheetClose').focus();
+}
+
+function closeSheet() {
+  document.getElementById('sheet').hidden = true;
+  // Пустой srcdoc глушит графики внутри листа, пока он закрыт.
+  document.getElementById('sheetFrame').srcdoc = '';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('sheetClose').addEventListener('click', closeSheet);
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && !document.getElementById('sheet').hidden) closeSheet();
+});
+
+// ── сборка страницы ───────────────────────────────────────────────────────
+function render() {
+  renderSwitches();
+  renderPromoNote();
+  renderFunnelTitle();
+  renderKpi();
+  renderFunnels();
+  renderStatus();
+  renderScenarios();
+  renderNote();
+}
+
+renderFilters();
+render();
+</script>
+<script>
+// ── блок «Сценарии оттока» под светофором ────────────────────────────────
+// Разрез и период берёт у страницы через update(). Всё обёрнуто в IIFE,
+// чтобы имена не пересеклись с кодом отчёта.
+window.ScenariosPage = (() => {
+  // Данные — блок scenarios из prolongation-data.json: отток (outflow) по
+  // коммуникациям × сценариям. Сценарии взаимоисключающие, поэтому группа —
+  // сумма своих сценариев. Коммуникации пересекаются: доли не складываются.
+  const SC = DATA.scenarios;
+  const TOTAL = 'ALL';
+  const SERVICE = '900';
+  const GROUP_COLORS = {
+    transfers_atm: ['#FF3D64', '#fff'],
+    PAYMENTS: ['#BA74B3', '#fff'],
+    saving: ['#8AD554', 'rgba(0,0,0,.8)'],
+    loans: ['#FFC636', 'rgba(0,0,0,.8)'],
+    loans_new: ['#4DA2F1', '#fff'],
+    other: ['#9AA3AD', '#fff'],
+  };
+  const COMM_COLORS = {
+    promo: 'var(--promo)', no_promo: '#9AA3AD', stop_list: '#E9033A',
+    'promo.deposit': '#4DA2F1', 'promo.deposit.prolongation': '#1F6FBF',
+    'promo.saving': '#8AD554', 'promo.invest': '#FFC636', 'promo.oms': '#BA74B3',
+  };
+
+  // sub — сценарий внутри группы: покрытие и санки считаются по нему.
+  const S = {measure: 'clnt', period: null, periodLabel: '', pick: null, sub: null};
+
+  // ── утилиты ─────────────────────────────────────────────────────────────
+  const NS = 'http://www.w3.org/2000/svg';
+  const $ = (id) => document.getElementById(id);
+  const mk = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  };
+  const svg = (tag, attrs = {}) => {
+    const node = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+    return node;
+  };
+  const fmt = (value, digits = 0) => new Intl.NumberFormat('ru-RU', {
+    minimumFractionDigits: digits, maximumFractionDigits: digits,
+  }).format(value);
+  const money = () => S.measure === 'rur';
+  const amount = (v) => (money()
+    ? `${fmt(v, v < 10 ? 2 : 1)} млрд ₽`
+    : v >= 1000 ? `${fmt(v / 1000, 1)} тыс.` : fmt(v));
+  const last = (list) => list[list.length - 1];
+  const colorOf = (g) => (GROUP_COLORS[g.id] || ['#9AA3AD', '#fff']);
+  const comm = (id) => SC.communications.find((c) => c.id === id);
+  const commColor = (c) => COMM_COLORS[c.id] || COMM_COLORS[c.parent] || '#9AA3AD';
+
+  // Отток группы в коммуникации за период; без периода — текущий.
+  const groupValue = (commId, groupId, period = S.period) => {
+    const block = ((SC.values[period] || {})[commId] || {}).groups || {};
+    return (block[groupId] || {})[S.measure] || 0;
+  };
+  const scenarioValue = (scenarioId) => {
+    const block = ((SC.values[S.period] || {})[TOTAL] || {}).scenarios || {};
+    return (block[scenarioId] || {})[S.measure] || 0;
+  };
+  const totalOutflow = () => SC.groups.reduce((sum, g) => sum + groupValue(TOTAL, g.id), 0);
+  const groupShare = (g) => {
+    const total = totalOutflow();
+    return total ? groupValue(TOTAL, g.id) / total * 100 : 0;
+  };
+  // Фокус детализации: вся группа или один её сценарий.
+  const focusOf = (g) => {
+    const s = S.sub && g.scenarios.find((x) => x.id === S.sub);
+    return s ? {kind: 'scenarios', id: s.id, name: s.name, of: 'сценария'}
+      : {kind: 'groups', id: g.id, name: g.name, of: 'группы'};
+  };
+  const focusValue = (commId, f, period = S.period) => {
+    const block = ((SC.values[period] || {})[commId] || {})[f.kind] || {};
+    return (block[f.id] || {})[S.measure] || 0;
+  };
+  const cover = (commId, f, period = S.period) => {
+    const base = focusValue(TOTAL, f, period);
+    return base ? focusValue(commId, f, period) / base * 100 : null;
+  };
+  // Ряд покрытия до выбранного периода — для дельты и микрографика.
+  const coverSeries = (commId, f) => {
+    const upto = PERIODS_ASC.indexOf(S.period);
+    return PERIODS_ASC.slice(0, upto + 1)
+      .map((p) => cover(commId, f, p))
+      .filter((v) => v != null);
+  };
+
+  function delta(series) {
+    const d = last(series) - series[series.length - 2];
+    const tone = d > 0.05 ? ' is-good' : d < -0.05 ? ' is-bad' : '';
+    const arrow = d > 0.05 ? '↑' : d < -0.05 ? '↓' : '→';
+    return mk('span', 'scn-delta' + tone, `${arrow} ${d > 0 ? '+' : ''}${fmt(d, 1)} п.п. м/м`);
+  }
+
+  function spark(series, color) {
+    const W = 232, H = 34, pad = 4;
+    const min = Math.min(...series), max = Math.max(...series), span = max - min || 1;
+    const x = (i) => pad + i * (W - pad * 2) / (series.length - 1);
+    const y = (v) => pad + (1 - (v - min) / span) * (H - pad * 2);
+    const pts = series.map((v, i) => `${x(i)},${y(v)}`);
+    const root = svg('svg', {class: 'scn-spark', viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none',
+      role: 'img', 'aria-label': series.map((v) => `${fmt(v, 1)}%`).join('; ')});
+    root.append(svg('path', {d: `M${x(0)},${H} L${pts.join(' L')} L${x(series.length - 1)},${H} Z`,
+      fill: color, 'fill-opacity': '.1'}));
+    root.append(svg('polyline', {points: pts.join(' '), fill: 'none', stroke: color, 'stroke-opacity': '.55',
+      'stroke-width': 2, 'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke'}));
+    root.append(svg('circle', {cx: x(series.length - 1), cy: y(last(series)), r: 3.5, fill: color}));
+    return root;
+  }
+
+  // «Прочее» всегда в конце, остальное — по убыванию.
+  const OTHER = 'other';
+  const byValue = (value) => (a, b) => (a.id === OTHER) - (b.id === OTHER) || value(b) - value(a);
+  const orderedGroups = () => SC.groups.filter((g) => groupShare(g) > 0).sort(byValue(groupShare));
+
+  // ── полоса 100% ─────────────────────────────────────────────────────────
+  function pick(id) {
+    // Одна группа раскрыта всегда: повторный клик ничего не сворачивает.
+    if (S.pick === id) return;
+    S.pick = id;
+    S.sub = null;
+    render();
+    if (S.pick) $('scnDetail').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+  }
+
+  function renderBar() {
+    const total = totalOutflow();
+    $('scnTotal').innerHTML = `Весь отток за ${S.periodLabel.toLowerCase()}: <b>${amount(total)}</b>`;
+    const bar = $('scnBar'), legend = $('scnLegend');
+    bar.innerHTML = '';
+    legend.innerHTML = '';
+    bar.classList.toggle('has-pick', !!S.pick);
+
+    orderedGroups().forEach((g) => {
+      const share = groupShare(g);
+      if (!share) return;
+      const [color, ink] = colorOf(g);
+      const label = `${fmt(share, share < 10 ? 1 : 0)}%`;
+      const seg = mk('button');
+      seg.type = 'button';
+      seg.style.flex = `${share} 1 0`;
+      seg.style.background = color;
+      seg.style.color = ink;
+      seg.title = `${g.name}: ${label} · ${amount(groupValue(TOTAL, g.id))}`;
+      seg.setAttribute('aria-label', seg.title);
+      seg.setAttribute('aria-pressed', String(S.pick === g.id));
+      // В узком сегменте только процент — имя есть в легенде.
+      seg.append(mk('span', null, share >= 14 ? `${g.name} · ${label}` : label));
+      seg.addEventListener('click', () => pick(g.id));
+      bar.append(seg);
+
+      const item = mk('button');
+      item.type = 'button';
+      item.setAttribute('aria-pressed', String(S.pick === g.id));
+      const dot = mk('i');
+      dot.style.background = color;
+      const name = mk('span', null, g.name);
+      name.append(mk('small', null, amount(groupValue(TOTAL, g.id))));
+      item.append(dot, name, mk('b', null, label));
+      item.addEventListener('click', () => pick(g.id));
+      const li = mk('li');
+      li.append(item);
+      legend.append(li);
+    });
+  }
+
+  // ── состав группы: сценарии с долей внутри группы ──────────────────────
+  function colTitle(text, action) {
+    const head = mk('div', 'scn-col-title');
+    head.append(mk('span', null, text));
+    if (action) head.append(action);
+    return head;
+  }
+
+  function barRow(label, share, value, color, deltaNode) {
+    const li = mk('li');
+    const head = mk('div', 'row-head');
+    head.append(mk('span', null, label), mk('b', null, `${fmt(share, 1)}%`));
+    if (deltaNode) head.append(deltaNode);
+    else head.append(mk('small', null, value));
+    const track = mk('div', 'scn-mini');
+    const fill = mk('i');
+    fill.style.width = `${Math.min(100, share)}%`;
+    fill.style.background = color;
+    track.append(fill);
+    li.append(head, track);
+    return li;
+  }
+
+  function pickSub(id) {
+    S.sub = S.sub === id ? null : id;
+    renderDetail();
+  }
+
+  function composition(g) {
+    const col = mk('div', 'scn-col');
+    col.append(colTitle('Из чего состоит'));
+    const box = mk('div', 'scn-tile');
+    const rows = mk('ul', 'scn-sub scn-sub-first scn-sub-pick');
+    const total = groupValue(TOTAL, g.id);
+    g.scenarios
+      .map((s) => ({...s, value: scenarioValue(s.id)}))
+      .filter((s) => s.value)
+      .sort(byValue((s) => s.value))
+      .forEach((s) => {
+        const row = barRow(s.name, total ? s.value / total * 100 : 0, amount(s.value), colorOf(g)[0]);
+        const button = mk('button', 'scn-pick');
+        button.type = 'button';
+        button.setAttribute('aria-pressed', String(S.sub === s.id));
+        button.title = S.sub === s.id ? 'Вернуться ко всей группе' : 'Посмотреть покрытие сценария';
+        button.append(...row.childNodes);
+        button.querySelector('.row-head').append(mk('span', 'scn-go', '→'));
+        button.addEventListener('click', () => pickSub(s.id));
+        row.append(button);
+        rows.append(row);
+      });
+    box.append(rows, mk('div', 'scn-note', 'Доля сценария в оттоке группы. Сценарии не пересекаются: '
+      + 'комбинации вроде «POS + крупные платежи» — отдельная корзина.'));
+    col.append(box);
+    return col;
+  }
+
+  // ── покрытие коммуникациями ─────────────────────────────────────────────
+  function tile(c, f) {
+    const series = coverSeries(c.id, f);
+    const card = mk('div', 'scn-tile');
+    const head = mk('div', 'scn-tile-label');
+    head.append(mk('span', null, c.name));
+    const row = mk('div', 'scn-tile-row');
+    row.append(mk('span', 'scn-tile-value', series.length ? `${fmt(last(series), 1)}%` : '—'));
+    if (series.length > 1) row.append(delta(series));
+    card.append(head, row);
+    if (series.length > 1) card.append(spark(series, commColor(c)));
+    card.append(mk('div', 'scn-tile-foot',
+      `${amount(focusValue(c.id, f))} из ${amount(focusValue(TOTAL, f))}`));
+    return card;
+  }
+
+  function coverage(g) {
+    const f = focusOf(g);
+    const col = mk('div', 'scn-col');
+    col.append(colTitle(f.kind === 'scenarios' ? `Покрытие коммуникациями · ${f.name}` : 'Покрытие коммуникациями'));
+    const tiles = mk('div', 'scn-tiles');
+    SC.communications.filter((c) => !c.parent).forEach((c) => tiles.append(tile(c, f)));
+    col.append(tiles);
+
+    const products = SC.communications.filter((c) => c.parent === 'promo');
+    if (products.length) {
+      const box = mk('div', 'scn-tile');
+      box.append(mk('div', 'scn-tile-label', 'Промо по продуктам'));
+      const rows = mk('ul', 'scn-sub');
+      products.forEach((c) => {
+        const series = coverSeries(c.id, f);
+        if (!series.length) return;
+        rows.append(barRow(c.name, last(series), amount(focusValue(c.id, f)), commColor(c),
+          series.length > 1 ? delta(series) : null));
+      });
+      box.append(rows);
+      col.append(box);
+    }
+    return col;
+  }
+
+  // ── санки: отток группы → промо / без промо / стоп-лист → продукт → черновик
+  // Ветки пересекаются, поэтому сумма узлов в колонке может быть больше
+  // родителя: исходящие ленты родителя ужимаются пропорционально, а узлы
+  // получателей рисуются в полный размер — их высота и есть покрытие.
+  function sankey(g) {
+    const f = focusOf(g);
+    const col = mk('div', 'scn-col scn-sankey');
+    col.append(colTitle('Промо: что предлагаем'));
+    const box = mk('div', 'scn-tile');
+    col.append(box);
+
+    const [groupColor] = colorOf(g);
+    const node = (c) => ({id: c.id, label: c.name, parent: c.parent || 'root',
+      value: cover(c.id, f) || 0, color: commColor(c), kind: c.kind});
+    const inSankey = SC.communications.filter((c) => c.kind !== 'service');
+    const columns = [
+      [{id: 'root', label: f.name, value: 100, color: groupColor, parent: null}],
+      inSankey.filter((c) => !c.parent).map(node),
+      inSankey.filter((c) => c.parent === 'promo').map(node),
+      inSankey.filter((c) => c.kind === 'draft').map(node),
+    ].map((list) => list.filter((n) => n.value > 0));
+
+    const W = 900, nw = 10, top = 8, gap = 10, k = 2.1, slot = 30;
+    const xs = [4, 250, 500, 730];
+    const byId = {};
+    let H = 0;
+    columns.forEach((list, ci) => {
+      let y = top;
+      list.forEach((n) => {
+        n.x = xs[ci];
+        n.h = Math.max(n.value * k, 2);
+        // Черновик встаёт напротив своего продукта, чтобы ленты не перекрещивались.
+        if (ci === 3 && byId[n.parent]) y = Math.max(y, byId[n.parent].y);
+        n.y = y;
+        y += Math.max(n.h, slot) + gap;
+        byId[n.id] = n;
+      });
+      H = Math.max(H, y - gap + top);
+    });
+
+    const root = svg('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+      'aria-label': columns.flat().slice(1).map((n) => `${n.label} ${fmt(n.value, 1)}%`).join('; ')});
+    const links = svg('g'), nodes = svg('g'), labels = svg('g');
+    root.append(links, nodes, labels);
+
+    // Ленты: у родителя — пропорциональный срез, у ребёнка — во всю высоту.
+    columns.slice(1).flat().forEach((n) => {
+      const p = byId[n.parent];
+      if (!p) return;
+      const siblings = columns.flat().filter((s) => s.parent === n.parent);
+      const sum = siblings.reduce((acc, s) => acc + s.h, 0);
+      const squeeze = sum > p.h ? p.h / sum : 1;
+      const before = siblings.slice(0, siblings.indexOf(n)).reduce((acc, s) => acc + s.h * squeeze, 0);
+      const ya = p.y + before, ha = n.h * squeeze;
+      const xa = p.x + nw, xb = n.x, mx = (xa + xb) / 2;
+      links.append(svg('path', {
+        d: `M${xa},${ya} C${mx},${ya} ${mx},${n.y} ${xb},${n.y} L${xb},${n.y + n.h} `
+          + `C${mx},${n.y + n.h} ${mx},${ya + ha} ${xa},${ya + ha} Z`,
+        fill: n.color, 'fill-opacity': n.kind === 'draft' ? .35 : .22,
+      }));
+    });
+
+    columns.flat().forEach((n) => {
+      nodes.append(svg('rect', {x: n.x, y: n.y, width: nw, height: n.h, rx: 2, fill: n.color,
+        'fill-opacity': n.kind === 'draft' ? .6 : 1}));
+      const t = svg('text', {x: n.x + nw + 6, y: n.y + Math.min(n.h, slot) / 2 - 2, class: 'scn-sankey-label'});
+      const a = svg('tspan', {'font-weight': 600});
+      a.textContent = n.label;
+      const b = svg('tspan', {x: n.x + nw + 6, dy: 13, class: 'scn-sankey-sub'});
+      b.textContent = n.id === 'root' ? amount(focusValue(TOTAL, f)) : `${fmt(n.value, 1)}% оттока ${f.of}`;
+      t.append(a, b);
+      labels.append(t);
+    });
+    box.append(root, mk('div', 'scn-sankey-note',
+      `Доли — от оттока ${f.of}. Ветки пересекаются: клиент мог получить несколько предложений, `
+      + 'поэтому сумма узлов в колонке бывает больше 100%. Черновик — следующий шаг после промо своего '
+      + `продукта. Сервисные коммуникации в санки не входят.`));
+    return col;
+  }
+
+  // ── детализация ─────────────────────────────────────────────────────────
+  function renderDetail() {
+    const host = $('scnDetail');
+    host.innerHTML = '';
+    const g = SC.groups.find((x) => x.id === S.pick);
+    if (!g) {
+      host.append(mk('div', 'scn-empty',
+        'Нажмите на группу в полосе или легенде — покажем, из чего она состоит и чем её покрываем'));
+      return;
+    }
+    const card = mk('div', 'scn-detail');
+    const title = mk('div', 'scn-title');
+    const dot = mk('i');
+    dot.style.background = colorOf(g)[0];
+    title.append(dot, mk('h3', null, g.name),
+      mk('span', null, `${fmt(groupShare(g), 1)}% оттока · ${amount(groupValue(TOTAL, g.id))}`));
+    card.append(title);
+
+    const grid = mk('div', 'scn-grid');
+    grid.append(composition(g), coverage(g));
+    grid.append(sankey(g));
+    card.append(grid);
+    host.append(card);
+  }
+
+  function render() {
+    // По умолчанию раскрыта первая группа полосы.
+    const groups = orderedGroups();
+    if (!groups.some((g) => g.id === S.pick)) {
+      S.pick = groups.length ? groups[0].id : null;
+      S.sub = null;
+    }
+    renderBar();
+    renderDetail();
+    $('scnSynthetic').hidden = !SC.synthetic;
+    $('scnNote').textContent = (SC.synthetic
+      ? 'Разбивка по сценариям и коммуникациям — синтетика; итоги ALL / промо / без промо — факт. '
+      : '')
+      + 'Отток — колонка outflow выгрузки, no_outflow в полосу не входит. '
+      + 'Покрытие — доля оттока группы, до которой дошла коммуникация.';
+  }
+
+  // Выбранная группа переживает смену разреза и периода.
+  function update(view = {}) {
+    if (!SC || !SC.values[view.period]) {
+      $('scenarios').hidden = true;
+      return;
+    }
+    $('scenarios').hidden = false;
+    if (view.measure) S.measure = view.measure;
+    S.period = view.period;
+    S.periodLabel = view.periodLabel || view.period;
+    render();
+  }
+
+  return {update};
+})();
+
+ScenariosPage.update(scenariosView());
+</script>
+</body>
+</html>

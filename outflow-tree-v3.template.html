@@ -181,6 +181,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .card-head h2 { margin: 0; font-size: 16px; font-weight: 700; color: var(--ink); }
 .card-head .count { color: var(--ink-hint); font-size: 12px; }
 .card-head button { color: var(--link); font-size: 12px; }
+.head-actions { display: flex; align-items: center; gap: 14px; }
 .card-head button:hover { text-decoration: underline; text-underline-offset: 3px; }
 .card-body { flex: 1 1 auto; min-height: 0; }
 
@@ -204,7 +205,98 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .comm em { display: block; margin-top: 3px; font-style: normal; font-size: 12px; color: var(--ink-soft); }
 
 /* ── дерево ──────────────────────────────────────────────────────────── */
-.tree-card .card-body { overflow: hidden; }
+/* На весь экран: левая колонка и список коммуникаций убираются, карточка
+   дерева занимает всё окно. Пересчёт камеры делает ResizeObserver на svg. */
+/* Лист без правой колонки: страница открыта из воронки, где навигация по
+   коммуникациям и дереву не нужна — вызывающая сторона просит soloPage. */
+body.is-page-only .workbench { grid-template-columns: minmax(0, 1fr); }
+body.is-page-only .shelf { display: none; }
+body.is-page-only .content-inner { margin: 0 auto; }
+
+body.is-tree-full .workbench { grid-template-columns: minmax(0, 1fr); }
+body.is-tree-full .content,
+body.is-tree-full .comms-card { display: none; }
+body.is-tree-full .shelf { grid-template-rows: minmax(0, 1fr); padding: 16px; }
+
+/* Фильтры и перекосы: только в полноэкранном дереве. */
+.tree-filters { display: none; }
+.tree-filters.is-inline {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 16px;
+}
+body.is-tree-full .tree-filters {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-bottom: 12px;
+}
+.tree-filter { display: flex; align-items: center; gap: 8px; }
+.tree-filter > span { font-size: 13px; color: var(--ink-soft); }
+
+/* Замеры сняты с Gravity UI: контрол 28px, радиус 6px, рамка line-generic,
+   отступ 12px. Шеврон — фоновой картинкой, иначе нативная стрелка ломает вид. */
+.tree-filter select {
+  height: 28px; padding: 0 30px 0 12px;
+  border: 1px solid var(--line); border-radius: 6px;
+  background-color: var(--surface);
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='rgba(0,0,0,0.5)'%3E%3Cpath d='M4.47 6.47a.75.75 0 0 1 1.06 0L8 8.94l2.47-2.47a.75.75 0 1 1 1.06 1.06l-3 3a.75.75 0 0 1-1.06 0l-3-3a.75.75 0 0 1 0-1.06Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+  -webkit-appearance: none; appearance: none;
+  font: inherit; font-size: 13px; color: var(--ink); cursor: pointer;
+}
+.tree-filter select:hover { border-color: var(--line-hover); }
+.tree-filter select:disabled { cursor: default; opacity: 1; }
+
+/* Ключевые перекосы: только в полноэкранном дереве — в узкой полке для них нет места. */
+.tree-skews { display: none; }
+body.is-tree-full .tree-skews {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(212px, 1fr));
+  gap: 10px; margin-bottom: 12px;
+}
+.skew {
+  display: block; width: 100%; text-align: left;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+}
+.skew:hover { border-color: var(--line-hover); }
+.skew-head { display: flex; align-items: center; gap: 7px; }
+.skew-head i { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; background: rgba(0, 0, 0, .15); }
+.skew-head i.is-green { background: rgb(47, 169, 108); }
+.skew-head i.is-yellow { background: rgb(255, 190, 92); }
+.skew-head i.is-red { background: rgb(233, 3, 58); }
+.skew-head span {
+  font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-hint);
+}
+.skew-value { margin-top: 5px; font-size: 19px; font-weight: 600; line-height: 1.1; }
+.skew-label { margin-top: 2px; font-size: 12px; font-weight: 600; }
+.skew-note { margin-top: 3px; font-size: 11px; line-height: 1.4; color: var(--ink-soft); }
+
+/* Дерево открыто из воронки: заголовок и кнопки не нужны — закрывает лист. */
+body.is-tree-only .tree-card .card-head { display: none; }
+body.is-tree-only .tree-card { padding: 12px; }
+
+.tree-card .card-body { position: relative; overflow: hidden; }
+
+/* Плашка по наведению: булет-светофор по дельте, абсолют и обе доли. */
+.tree-tip {
+  position: absolute; z-index: 4; pointer-events: none;
+  width: 250px; padding: 10px 12px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .14);
+}
+.tip-head { display: flex; align-items: center; gap: 8px; }
+.tip-head b { font-size: 12px; font-weight: 600; line-height: 1.3; }
+.tip-dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; background: rgba(0, 0, 0, .15); }
+/* Цвета светофора общие с карточкой на странице воронки. */
+.tip-dot.is-green { background: rgb(47, 169, 108); }
+.tip-dot.is-yellow { background: rgb(255, 190, 92); }
+.tip-dot.is-red { background: rgb(233, 3, 58); }
+.tip-value { margin-top: 6px; font-size: 18px; font-weight: 600; line-height: 1.15; }
+.tip-row {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  margin-top: 5px; font-size: 11px; color: var(--ink-soft);
+}
+/* Значение не переносим: иначе «п.п.» уезжает на свою строку и колонка едет. */
+.tip-row b {
+  color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.tip-row.is-first { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); }
 .tree { width: 100%; height: 100%; display: block; touch-action: none; }
 .tree .band-line { stroke: var(--line); stroke-dasharray: 3 4; }
 .tree .band-label, .tree .band-index { fill: var(--ink-hint); font-family: var(--sans); }
@@ -224,6 +316,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 @media (max-width: 1080px) {
   .workbench { grid-template-columns: 1fr; height: auto; }
+  body.is-tree-full .workbench { height: 100vh; }
+  body.is-tree-full .shelf { grid-template-rows: minmax(0, 1fr); }
+  body.is-tree-full .tree-card .card-body { height: auto; }
   .content { padding: 24px 16px 48px; order: 2; min-height: 55vh; }
   .shelf { order: 1; grid-template-rows: none; padding: 16px 16px 0; }
   .comms-body { max-height: 30vh; }
@@ -251,10 +346,16 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
     <section class="card tree-card">
       <div class="card-head">
         <h2>Дерево оттоков</h2>
-        <button type="button" id="treeReset">Показать целиком</button>
+        <span class="head-actions">
+          <button type="button" id="treeReset">Показать целиком</button>
+          <button type="button" id="treeFull" aria-pressed="false">На весь экран</button>
+        </span>
       </div>
+      <div class="tree-filters" id="treeFilters"></div>
+      <div class="tree-skews" id="treeSkews"></div>
       <div class="card-body">
         <svg class="tree" id="tree" role="img" aria-label="Дерево оттоков"></svg>
+        <div class="tree-tip" id="treeTip" hidden></div>
       </div>
     </section>
   </aside>
@@ -266,14 +367,8 @@ const GRAPH = __GRAPH__;
 const NODES = GRAPH.nodes.filter((n) => n.kind !== 'campaign');
 const DRAWN = new Set(NODES.map((n) => n.id));
 const LINKS = GRAPH.links.filter((l) => DRAWN.has(l.source) && DRAWN.has(l.target));
-const BANDS = [
-  {short: 'Портфель', full: 'Портфель'},
-  {short: 'Контур движения', full: 'Контур движения'},
-  {short: 'Драйвер / исход', full: 'Драйвер / исход в дату окончания'},
-  {short: 'Результат 30 дней', full: 'Результат за 30 дней'},
-  {short: 'Детализация', full: 'Детализация результата'},
-  {short: 'Направление', full: 'Конечное направление'},
-];
+// Полосы описывает сам граф — их число зависит от глубины дерева.
+const BANDS = (GRAPH.meta && GRAPH.meta.bands) || [];
 const COMMS = [
   {
     id: 'comm-prolongation',
@@ -295,7 +390,25 @@ const KIND_STYLE = {
 };
 const SYNTHETIC_STYLE = {fill: 'rgba(255, 190, 92, .3)', stroke: 'rgb(189, 142, 75)'};
 const BRAND = '#239ee2';
-const WEIGHT_CAP = 4000;
+// Шкала радиусов своя в каждом разрезе: рубли и клиенты живут в разных
+// порядках, и общий потолок сплющил бы один из них в точку.
+const radiusCap = {};
+function weightCap() {
+  const id = measureState.id;
+  if (!radiusCap[id]) {
+    let cap = 1;
+    NODES.forEach((node) => {
+      if (node.kind === 'hero') return;
+      const series = (node.series && node.series[id]) || {};
+      Object.keys(series).forEach((key) => {
+        const raw = Math.abs(Number(series[key].rawValue));
+        if (isFinite(raw) && raw > cap) cap = raw;
+      });
+    });
+    radiusCap[id] = cap;
+  }
+  return radiusCap[id];
+}
 
 const byId = new Map(NODES.map((n) => [n.id, n]));
 const parentOf = new Map();
@@ -317,14 +430,136 @@ function pathTo(id) {
 
 function radiusOf(node) {
   if (node.kind === 'hero') return 62;
-  if (String(node.unit || '').includes('₽')) {
-    return 8 + Math.sqrt(Math.min(WEIGHT_CAP, Math.abs(Number(node.rawValue || 0))) / WEIGHT_CAP) * 48;
-  }
-  if (node.unit === 'клиентов') return 34;
-  return 27;
+  const cap = weightCap();
+  const raw = Math.abs(rawOf(node));
+  if (!isFinite(raw)) return 27;
+  return 8 + Math.sqrt(Math.min(cap, raw) / cap) * 48;
 }
 
 const styleOf = (node) => (node.synthetic ? SYNTHETIC_STYLE : (KIND_STYLE[node.kind] || KIND_STYLE.driver));
+
+// ── доли ──────────────────────────────────────────────────────────────────
+// sharePct из данных считается от когорты уровня 1, а не от прямого родителя,
+// поэтому долю «от уровня выше» считаем сами — одно определение на всё дерево.
+// rawValue у денежных узлов везде в млрд ₽, так что делить их можно напрямую;
+// узлы в клиентах с денежным родителем доли не имеют.
+const ROOT_ID = 'portfolio';
+// Разрез: все метрики узла лежат в series[<разрез>][<период>].
+const MEASURES = (GRAPH.meta && GRAPH.meta.measures) || [{id: 'rur', label: 'Деньги', unit: 'млрд ₽'}];
+const measureState = {id: MEASURES[0].id};
+// Не measure() — так уже называется замер холста ниже.
+const activeMeasure = () => MEASURES.find((m) => m.id === measureState.id) || MEASURES[0];
+const isMoney = () => activeMeasure().id === 'rur';
+
+// ── период ────────────────────────────────────────────────────────────────
+// Метрики узла берутся из среза за выбранный период: node.periods[<id>].
+// Геометрия (радиус, координаты) остаётся базовой — иначе дерево
+// перестраивалось бы при каждом переключении и читать его стало бы нельзя.
+const periodState = {id: null};
+const commPeriod = {id: null};
+
+function slice(item, id) {
+  const series = item && item.series && item.series[measureState.id];
+  return (series && series[id || periodState.id]) || null;
+}
+const rawOf = (item) => {
+  const found = slice(item);
+  return found ? Number(found.rawValue) : NaN;
+};
+const deltaOf = (item) => {
+  const found = slice(item);
+  return found && found.deltaPct != null ? Number(found.deltaPct) : NaN;
+};
+
+function shareOf(item, base) {
+  if (!item || !base) return null;
+  const a = rawOf(item);
+  const b = rawOf(base);
+  if (!isFinite(a) || !isFinite(b) || !b) return null;
+  return a / b * 100;
+}
+
+const parentOfNode = (item) => byId.get(parentOf.get(item.id));
+const shareAbove = (item) => (item.id === ROOT_ID ? 100 : shareOf(item, parentOfNode(item)));
+const shareTop = (item) => (item.id === ROOT_ID ? 100 : shareOf(item, byId.get(ROOT_ID)));
+
+// Значение месяцем раньше восстанавливаем из deltaPct — отдельного ряда нет.
+function prevRaw(item) {
+  if (!item) return null;
+  const delta = deltaOf(item);
+  const raw = rawOf(item);
+  if (!isFinite(delta) || !isFinite(raw) || delta <= -100) return null;
+  return raw / (1 + delta / 100);
+}
+
+function shareAboveDeltaPp(item) {
+  const now = shareAbove(item);
+  if (now == null || item.id === ROOT_ID) return null;
+  const a = prevRaw(item);
+  const b = prevRaw(parentOfNode(item));
+  if (a == null || b == null || !b) return null;
+  return now - a / b * 100;
+}
+
+// Правило общее с карточкой на странице воронки: движение в хорошую сторону —
+// зелёный, плохое один месяц — жёлтый, плохое два месяца подряд и дольше —
+// красный. Серию считаем по помесячному ряду узла; если ряда нет, остаётся
+// одиночная дельта и красный не выпадает.
+const PERIOD_ORDER = ((GRAPH.meta && GRAPH.meta.periods) || [])
+  .map((period) => period.id).slice().sort();
+
+function isBadAt(item, id) {
+  const found = slice(item, id);
+  const delta = found && found.deltaPct != null ? Number(found.deltaPct) : NaN;
+  if (!isFinite(delta) || Math.abs(delta) < 0.005) return null;
+  return (item.goodWhen === 'down' ? delta < 0 : delta > 0) ? false : true;
+}
+
+function deltaState(item) {
+  const index = PERIOD_ORDER.indexOf(periodState.id);
+  const now = index >= 0 ? isBadAt(item, PERIOD_ORDER[index]) : null;
+  if (now === null) {
+    const delta = deltaOf(item);
+    if (!isFinite(delta) || Math.abs(delta) < 0.005) return 'flat';
+    return (item.goodWhen === 'down' ? delta < 0 : delta > 0) ? 'green' : 'yellow';
+  }
+  if (!now) return 'green';
+  return index > 0 && isBadAt(item, PERIOD_ORDER[index - 1]) ? 'red' : 'yellow';
+}
+
+// В данных соседствуют трлн, млрд и млн — на дереве приводим всё к млрд,
+// благо rawValue у денежных узлов уже в этой размерности.
+// Деньги приведены к млрд ₽, клиенты — целые. Формат зависит от разреза,
+// поэтому единица берётся из meta, а не зашита в код.
+const valueNumber = (raw) => {
+  if (!isFinite(raw)) return '—';
+  const digits = isMoney()
+    ? (Math.abs(raw) >= 1000 ? 0 : Math.abs(raw) >= 10 ? 1 : 2)
+    : 0;
+  return new Intl.NumberFormat('ru-RU', {maximumFractionDigits: digits}).format(raw);
+};
+const valueText = (raw) => (isFinite(raw) ? `${valueNumber(raw)} ${activeMeasure().unit}` : '—');
+
+// Подписи связей в JSON записаны в своих единицах — пересобираем из источника,
+// сохранив знак. Проценты и пункты не трогаем: они не про объём.
+function linkText(link, source) {
+  const label = link.label || '';
+  const raw = rawOf(source);
+  if (!isFinite(raw)) return label;
+  const sign = link.impact === 'negative' ? '−' : link.impact === 'positive' ? '+' : '';
+  return sign + valueText(Math.abs(raw));
+}
+
+function nodeText(item) {
+  const share = shareAbove(item);
+  if (share != null) {
+    return {main: pctText(share), sub: valueText(rawOf(item))};
+  }
+  return {main: valueNumber(rawOf(item)), sub: activeMeasure().unit};
+}
+
+const pctText = (value) => ru(value, Math.abs(value) >= 10 ? 1 : 2) + '%';
+const signed = (value, digits = 2) => (value > 0 ? '+' : value < 0 ? '−' : '') + ru(Math.abs(value), digits);
 
 // ── состояние ─────────────────────────────────────────────────────────────
 const state = {view: {type: 'node', id: 'portfolio'}, hover: null};
@@ -377,7 +612,7 @@ function renderPage() {
   } else {
     const band = BANDS[entity.level]?.full || '';
     sub.append(document.createTextNode(band ? band + ' · ' : ''));
-    sub.append(el('b', null, `${entity.value} ${entity.unit || ''}`.trim()));
+    sub.append(el('b', null, valueText(rawOf(entity))));
   }
 
   page.append(
@@ -386,6 +621,12 @@ function renderPage() {
     sub,
     el('div', 'page-divider'),
   );
+  if (isComm) {
+    const list = periodList(cube && cube.meta && cube.meta.periods,
+      cube && periodFromDate(cube.meta.report_dt));
+    if (!commPeriod.id || !list.some((p) => p.id === commPeriod.id)) commPeriod.id = list[0].id;
+    page.append(periodControl(list, commPeriod.id, (id) => { commPeriod.id = id; renderPage(); }));
+  }
   if (isComm) {
     if (cube) {
       renderTakeaways(page);
@@ -1176,7 +1417,9 @@ function paintTree() {
     if (!a || !b) return;
     const tone = TONE[link.impact] || TONE.neutral;
     const detail = link.relation === 'composition' || link.relation === 'intervention';
-    const width = detail ? px(1.2) : Math.min(px(7), Math.max(px(1.6), Math.sqrt(Math.max(a.weight || 0, 1)) / 12));
+    // Толщина связи — корень от объёма источника в шкале разреза.
+    const weight = Math.sqrt(Math.max(Math.abs(rawOf(a)) || 0, 1) / weightCap()) * px(7);
+    const width = detail ? px(1.2) : Math.min(px(7), Math.max(px(1.6), weight));
     const dimmed = lit && !litEdges.has(index);
 
     linkLayer.append(node('line', {
@@ -1191,7 +1434,7 @@ function paintTree() {
       labelLayer.append(node('text', {
         class: 'link-label', x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 - px(4),
         'font-size': px(8.5), 'text-anchor': 'middle', 'stroke-width': px(3.5),
-      }, link.label));
+      }, linkText(link, a)));
     }
   });
   svg.append(linkLayer);
@@ -1212,17 +1455,21 @@ function paintTree() {
     });
 
     group.append(node('circle', {
+      cx: item.x, cy: item.y, r: radius, fill: 'var(--surface)',
+    }));
+    group.append(node('circle', {
       class: 'disc', cx: item.x, cy: item.y, r: radius,
       fill: style.fill, stroke: current ? BRAND : style.stroke,
       'stroke-width': current ? px(3) : px(1.5),
     }));
 
     if (scale > 0.42) {
+      const text = nodeText(item);
       group.append(node('text', {
         class: 'node-value', x: item.x, y: item.y + px(3),
         'font-size': px(Math.min(15, Math.max(9, radius / 3.6))),
-      }, item.value));
-      group.append(node('text', {class: 'node-unit', x: item.x, y: item.y + px(13), 'font-size': px(7.5)}, item.unit || ''));
+      }, text.main));
+      group.append(node('text', {class: 'node-unit', x: item.x, y: item.y + px(13), 'font-size': px(7.5)}, text.sub));
       const crowded = item.level >= 5 && scale < 0.9;
       if ((radius >= 16 && !crowded) || current || hovered) {
         group.append(node('text', {
@@ -1240,7 +1487,231 @@ function paintTree() {
     });
     nodeLayer.append(group);
   });
-  svg.append(nodeLayer, labelLayer);
+  svg.append(labelLayer, nodeLayer);
+  paintTip();
+}
+
+// ── плашка по наведению ───────────────────────────────────────────────────
+const tip = document.getElementById('treeTip');
+
+function tipRow(label, value, first) {
+  const row = el('div', 'tip-row' + (first ? ' is-first' : ''));
+  row.append(el('span', null, label), el('b', null, value));
+  return row;
+}
+
+function paintTip() {
+  const item = state.hover ? byId.get(state.hover) : null;
+  if (!item) { tip.hidden = true; return; }
+
+  const above = shareAbove(item);
+  const top = shareTop(item);
+  const deltaPp = shareAboveDeltaPp(item);
+  const delta = deltaOf(item);
+
+  tip.innerHTML = '';
+  const head = el('div', 'tip-head');
+  head.append(el('i', `tip-dot is-${deltaState(item)}`), el('b', null, item.label));
+  tip.append(head);
+  tip.append(el('div', 'tip-value',
+    valueText(rawOf(item))));
+  tip.append(tipRow('Доля от уровня выше', above == null ? '—' : pctText(above), true));
+  tip.append(tipRow('Доля от портфеля', top == null ? '—' : pctText(top)));
+  tip.append(tipRow('Δ объёма м/м', isFinite(delta) ? signed(delta) + '%' : '—'));
+  tip.append(tipRow('Δ доли м/м', deltaPp == null ? '—' : signed(deltaPp) + ' п.п.'));
+
+  // Позиция считается от камеры: SVG перерисовывается целиком, привязаться не к чему.
+  const rect = svg.getBoundingClientRect();
+  if (!rect.width || !rect.height) { tip.hidden = true; return; }
+  const kx = rect.width / camera.w;
+  const ky = rect.height / camera.h;
+  const x = (item.x - camera.x) * kx;
+  const y = (item.y - camera.y) * ky;
+  const gap = radiusOf(item) * kx + 12;
+
+  tip.hidden = false;
+  const w = tip.offsetWidth;
+  const h = tip.offsetHeight;
+  const left = x + gap + w > rect.width - 8 ? x - gap - w : x + gap;
+  tip.style.left = `${Math.max(8, Math.min(left, rect.width - w - 8))}px`;
+  tip.style.top = `${Math.max(8, Math.min(y - h / 2, rect.height - h - 8))}px`;
+}
+
+// ── ключевые перекосы ─────────────────────────────────────────────────────
+// Считаются из самого дерева, а не из куба коммуникаций. Транзитные узлы
+// (доля от родителя ≈ 100%) из выборки выкинуты: они дублируют родителя и
+// перекосом не являются. Один узел не занимает две карточки.
+const TRANSIT_SHARE = 99.5;
+const branchWord = (count) => {
+  const mod10 = count % 10;
+  const mod100 = count % 100;
+  if (mod10 === 1 && mod100 !== 11) return 'ветка';
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return 'ветки';
+  return 'веток';
+};
+const hasChildren = (item) => (childrenOf.get(item.id) || []).length > 0;
+const moneyOutflows = () => NODES.filter(
+  (n) => n.kind === 'outflow' && rawOf(n) > 0,
+);
+const isTransit = (item) => {
+  const share = shareAbove(item);
+  return share != null && share >= TRANSIT_SHARE;
+};
+
+function treeSkews() {
+  const used = new Set();
+  const pick = (list, score) => {
+    let best = null;
+    let bestScore = -Infinity;
+    list.forEach((item) => {
+      if (used.has(item.id)) return;
+      const value = score(item);
+      if (value == null || !isFinite(value) || value <= bestScore) return;
+      best = item;
+      bestScore = value;
+    });
+    if (best) used.add(best.id);
+    return best;
+  };
+
+  const branches = moneyOutflows().filter((n) => !isTransit(n));
+  const cards = [];
+
+  const biggest = pick(branches, (n) => rawOf(n));
+  if (biggest) cards.push({
+    node: biggest,
+    tag: 'Объём оттока',
+    value: valueText(rawOf(biggest)),
+    note: `Самая крупная ветка оттока — ${pctText(shareTop(biggest))} портфеля`,
+  });
+
+  // Ветки с продолжением информативнее, но в плоском дереве их нет — тогда
+  // берём любые оставшиеся.
+  const withChildren = branches.filter(hasChildren);
+  const greedy = pick(withChildren.length ? withChildren : branches, (n) => shareAbove(n));
+  if (greedy) {
+    const parent = parentOfNode(greedy);
+    cards.push({
+      node: greedy,
+      tag: 'Доля от уровня выше',
+      value: pctText(shareAbove(greedy)),
+      note: `Забирает больше всех от уровня «${parent ? parent.label : '—'}»`,
+    });
+  }
+
+  // Конечные направления: узлы оттока, дальше которых дерево не идёт.
+  const leaves = moneyOutflows().filter((n) => !hasChildren(n));
+  const leafSum = leaves.reduce((sum, n) => sum + rawOf(n), 0);
+  const root = byId.get(ROOT_ID);
+  if (leafSum > 0) {
+    const top = [...leaves].sort((a, b) => rawOf(b) - rawOf(a))[0];
+    cards.push({
+      node: top,
+      tag: 'Суммарный отток',
+      label: `Крупнейшая ветка: ${top.label}`,
+      value: valueText(leafSum),
+      note: `${root ? pctText(leafSum / rawOf(root) * 100) + ' портфеля · ' : ''}`
+        + `${leaves.length} ${branchWord(leaves.length)} оттока, крупнейшая даёт `
+        + `${pctText(rawOf(top) / leafSum * 100)}`,
+    });
+  }
+
+  const movers = NODES.filter((n) => Math.abs(deltaOf(n) || 0) >= 0.005);
+  const worst = movers.filter((n) => deltaState(n) === 'yellow');
+  const mover = (worst.length ? worst : movers)
+    .sort((a, b) => Math.abs(deltaOf(b)) - Math.abs(deltaOf(a)))[0];
+  if (mover) cards.push({
+    node: mover,
+    tag: 'Динамика м/м',
+    value: signed(deltaOf(mover)) + '%',
+    note: worst.length
+      ? 'Сильнее всех движется в плохую сторону'
+      : `Сильнее всех движется в хорошую сторону; динамика есть у ${movers.length} узлов из ${NODES.length}`,
+  });
+
+  return cards;
+}
+
+// ── фильтр периода ────────────────────────────────────────────────────────
+// Список берём из данных. Своего ряда периодов ни в графе, ни в кубе пока нет,
+// поэтому в списке один пункт — тот, на который отфильтрована вызывающая
+// страница, иначе срез из данных.
+const MONTHS_RU = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+  'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+
+function periodFromDate(date) {
+  const match = /^(\d{4})-(\d{2})/.exec(String(date || ''));
+  if (!match) return null;
+  return {id: `${match[1]}-${match[2]}`, label: `${MONTHS_RU[Number(match[2]) - 1]} ${match[1]}`};
+}
+
+function periodList(declared, fallback) {
+  if (Array.isArray(declared) && declared.length) return declared;
+  if (INITIAL_VIEW && INITIAL_VIEW.period) return [INITIAL_VIEW.period];
+  return fallback ? [fallback] : [{id: 'current', label: 'Текущий срез'}];
+}
+
+// Контрол один на обе страницы: и над деревом, и на листе коммуникаций.
+function selectField(title, list, selectedId, onChange) {
+  const field = el('label', 'tree-filter');
+  field.append(el('span', null, title));
+
+  const select = document.createElement('select');
+  list.forEach((period) => {
+    const option = document.createElement('option');
+    option.value = period.id;
+    option.textContent = period.label;
+    if (period.id === selectedId) option.selected = true;
+    select.append(option);
+  });
+  select.disabled = list.length < 2;
+  select.addEventListener('change', () => onChange(select.value));
+  field.append(select);
+  return field;
+}
+
+function periodControl(list, selectedId, onChange) {
+  const wrap = el('div', 'tree-filters is-inline');
+  wrap.append(selectField('Период', list, selectedId, onChange));
+  return wrap;
+}
+
+function renderTreeFilters() {
+  const host = document.getElementById('treeFilters');
+  const list = periodList(GRAPH.meta && GRAPH.meta.periods);
+  if (!periodState.id || !list.some((p) => p.id === periodState.id)) periodState.id = list[0].id;
+  host.innerHTML = '';
+  host.append(selectField('Разрез', MEASURES, measureState.id, (id) => {
+    measureState.id = id;
+    renderPage();
+    renderSkews();
+    paintTree();
+  }));
+  host.append(selectField('Период', list, periodState.id, (id) => {
+    periodState.id = id;
+    renderPage();
+    renderSkews();
+    paintTree();
+  }));
+}
+
+function renderSkews() {
+  const host = document.getElementById('treeSkews');
+  host.innerHTML = '';
+  treeSkews().forEach((card) => {
+    const button = el('button', 'skew');
+    button.type = 'button';
+
+    const head = el('div', 'skew-head');
+    head.append(el('i', `is-${deltaState(card.node)}`), el('span', null, card.tag));
+    button.append(head);
+    button.append(el('div', 'skew-value', card.value));
+    button.append(el('div', 'skew-label', card.label || card.node.label));
+    button.append(el('div', 'skew-note', card.note));
+
+    button.addEventListener('click', () => select('node', card.node.id));
+    host.append(button);
+  });
 }
 
 // Наведение и выбор ловим одним слушателем на самом SVG и попаданием по координатам.
@@ -1278,6 +1749,52 @@ svg.addEventListener('pointerdown', (event) => {
 });
 document.getElementById('treeReset').addEventListener('click', zoomOut);
 
+// ── полноэкранный режим дерева ────────────────────────────────────────────
+const treeFullButton = document.getElementById('treeFull');
+function setTreeFullscreen(on) {
+  document.body.classList.toggle('is-tree-full', on);
+  treeFullButton.textContent = on ? 'Свернуть' : 'На весь экран';
+  treeFullButton.setAttribute('aria-pressed', String(on));
+  requestAnimationFrame(() => {
+    measure();
+    camera = aspectFit(worldBounds);
+    paintTree();
+  });
+}
+treeFullButton.addEventListener('click', () => {
+  setTreeFullscreen(!document.body.classList.contains('is-tree-full'));
+});
+
+// ── вид при открытии ──────────────────────────────────────────────────────
+// Встраивающая страница подменяет литерал ниже на нужный вид. Автономная
+// страница открывается по хэшу: #comm-prolongation — лист коммуникаций,
+// #tree — дерево на весь экран, #<id узла> — узел дерева.
+const INITIAL_VIEW = /*__INITIAL_VIEW__*/null;
+
+function startupView() {
+  if (INITIAL_VIEW) return INITIAL_VIEW;
+  const hash = decodeURIComponent(location.hash.slice(1));
+  if (!hash) return null;
+  if (hash === 'tree') return {fullscreen: true};
+  if (COMMS.some((c) => c.id === hash)) return {type: 'comm', id: hash};
+  if (byId.has(hash)) return {type: 'node', id: hash};
+  return null;
+}
+
+const startup = startupView();
+if (startup && startup.type) state.view = {type: startup.type, id: startup.id};
+// Разрез и период лист наследует от страницы воронки.
+if (startup && startup.measure && MEASURES.some((m) => m.id === startup.measure)) {
+  measureState.id = startup.measure;
+}
+if (startup && startup.period && startup.period.id) {
+  const known = (GRAPH.meta && GRAPH.meta.periods) || [];
+  if (known.some((p) => p.id === startup.period.id)) periodState.id = startup.period.id;
+}
+if (startup && startup.soloPage) document.body.classList.add('is-page-only');
+if (startup && startup.soloTree) document.body.classList.add('is-tree-only');
+if (startup && startup.fullscreen) setTreeFullscreen(true);
+
 function measure() {
   const rect = svg.getBoundingClientRect();
   pane = {w: Math.round(rect.width) || 300, h: Math.round(rect.height) || 300};
@@ -1285,6 +1802,8 @@ function measure() {
 
 renderPage();
 renderComms();
+renderTreeFilters();
+renderSkews();
 loadCube();
 measure();
 camera = aspectFit(worldBounds);

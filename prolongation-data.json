@@ -1,0 +1,2080 @@
+{
+  "meta": {
+    "source": "prolong.xlsx",
+    "periods": [
+      {
+        "id": "2026-06",
+        "label": "Июнь 2026"
+      }
+    ],
+    "measures": [
+      {
+        "id": "rur",
+        "label": "Деньги",
+        "unit": "млрд ₽",
+        "short": "₽"
+      },
+      {
+        "id": "clnt",
+        "label": "Клиенты",
+        "unit": "клиентов",
+        "short": "клиентов"
+      }
+    ],
+    "outflowDef": "колонка outflow выгрузки: клиент потерял ≥20% баланса за месяц"
+  },
+  "portfolio": {
+    "rur": {
+      "total": {
+        "2026-06": {
+          "rawValue": 18423.1680462625,
+          "deltaPct": null
+        }
+      },
+      "outflow": {
+        "2026-06": {
+          "rawValue": 219.48001173922,
+          "deltaPct": null
+        }
+      }
+    },
+    "clnt": {
+      "total": {
+        "2026-06": {
+          "rawValue": 14099066.0,
+          "deltaPct": null
+        }
+      },
+      "outflow": {
+        "2026-06": {
+          "rawValue": 299379.0,
+          "deltaPct": null
+        }
+      }
+    }
+  },
+  "serviceCoverage": {
+    "period": "2026-06",
+    "source": "prolong.xlsx, communication = 900",
+    "basis": "сумма портфеля и уникальные клиенты",
+    "baseLabel": "Клиенты с пролонгацией в месяце",
+    "note": "",
+    "values": {
+      "rur": {
+        "covered": 4082.20245552419,
+        "total": 4432.391391659849
+      },
+      "clnt": {
+        "covered": 4163361.0,
+        "total": 4762489.0
+      }
+    },
+    "byPeriod": {
+      "2026-06": {
+        "rur": {
+          "covered": 4082.20245552419,
+          "total": 4432.391391659849
+        },
+        "clnt": {
+          "covered": 4163361.0,
+          "total": 4762489.0
+        }
+      }
+    }
+  },
+  "funnels": [
+    {
+      "id": "all",
+      "name": "Отток общий",
+      "note": "Вся база",
+      "steps": [
+        {
+          "no": 2,
+          "id": "expected",
+          "name": "Ожидается пролонгация",
+          "kind": "level"
+        },
+        {
+          "no": 3,
+          "id": "prolonged",
+          "name": "Пролонгация прошла",
+          "kind": "level"
+        },
+        {
+          "no": 4,
+          "id": "left30",
+          "name": "Закрыли в окне 30 дней",
+          "kind": "level"
+        },
+        {
+          "no": 5,
+          "id": "net_outflow",
+          "name": "Чистый отток",
+          "kind": "level"
+        },
+        {
+          "no": 6,
+          "id": "not_waited",
+          "name": "Вывели до пролонгации",
+          "kind": "leak"
+        },
+        {
+          "no": 7,
+          "id": "settled",
+          "name": "Осело через 30 дней",
+          "kind": "gain"
+        }
+      ],
+      "series": {
+        "rur": {
+          "2026-06": {
+            "expected": 4432.391391659849,
+            "prolonged": 4400.55453205856,
+            "left30": 626.9691789726601,
+            "net_outflow": 219.48001173922,
+            "not_waited": 31.83411494104,
+            "settled": 3744.63040820748
+          }
+        },
+        "clnt": {
+          "2026-06": {
+            "expected": 4762489.0,
+            "prolonged": 4599527.0,
+            "left30": 686879.0,
+            "net_outflow": 299379.0,
+            "not_waited": 39510.0,
+            "settled": 3998884.0
+          }
+        }
+      }
+    },
+    {
+      "id": "promo",
+      "name": "Отток с промо",
+      "note": "Когорта с промо-коммуникацией",
+      "steps": [
+        {
+          "no": 2,
+          "id": "expected",
+          "name": "Ожидается пролонгация",
+          "kind": "level"
+        },
+        {
+          "no": 3,
+          "id": "prolonged",
+          "name": "Получили Промо-коммуникацию",
+          "kind": "level"
+        },
+        {
+          "no": 4,
+          "id": "left30",
+          "name": "Закрыли в окне 30 дней",
+          "kind": "level"
+        },
+        {
+          "no": 5,
+          "id": "net_outflow",
+          "name": "Чистый отток",
+          "kind": "level"
+        },
+        {
+          "no": 6,
+          "id": "not_waited",
+          "name": "Вывели до пролонгации",
+          "kind": "leak"
+        },
+        {
+          "no": 7,
+          "id": "settled",
+          "name": "Осело через 30 дней",
+          "kind": "gain"
+        }
+      ],
+      "series": {
+        "rur": {
+          "2026-06": {
+            "expected": 3619.9485359159103,
+            "prolonged": 3592.6190768834304,
+            "left30": 510.8261941857,
+            "net_outflow": 182.92948611607,
+            "not_waited": 27.32832209394,
+            "settled": 3060.07831313877
+          }
+        },
+        "clnt": {
+          "2026-06": {
+            "expected": 3835601.0,
+            "prolonged": 3694986.0,
+            "left30": 559910.0,
+            "net_outflow": 249668.0,
+            "not_waited": 34242.0,
+            "settled": 3208462.0
+          }
+        }
+      }
+    },
+    {
+      "id": "base",
+      "name": "Отток обычный",
+      "note": "Когорта без промо-коммуникации",
+      "steps": [
+        {
+          "no": 2,
+          "id": "expected",
+          "name": "Ожидается пролонгация",
+          "kind": "level"
+        },
+        {
+          "no": 3,
+          "id": "prolonged",
+          "name": "Не получили Промо-коммуникацию",
+          "kind": "level"
+        },
+        {
+          "no": 4,
+          "id": "left30",
+          "name": "Закрыли в окне 30 дней",
+          "kind": "level"
+        },
+        {
+          "no": 5,
+          "id": "net_outflow",
+          "name": "Чистый отток",
+          "kind": "level"
+        },
+        {
+          "no": 6,
+          "id": "not_waited",
+          "name": "Вывели до пролонгации",
+          "kind": "leak"
+        },
+        {
+          "no": 7,
+          "id": "settled",
+          "name": "Осело через 30 дней",
+          "kind": "gain"
+        }
+      ],
+      "series": {
+        "rur": {
+          "2026-06": {
+            "expected": 812.44285574394,
+            "prolonged": 807.93545517513,
+            "left30": 116.14298478696,
+            "net_outflow": 36.97659902097,
+            "not_waited": 4.5057928471,
+            "settled": 684.55209506871
+          }
+        },
+        "clnt": {
+          "2026-06": {
+            "expected": 957542.0,
+            "prolonged": 932564.0,
+            "left30": 128753.0,
+            "net_outflow": 50539.0,
+            "not_waited": 5290.0,
+            "settled": 811720.0
+          }
+        }
+      }
+    }
+  ],
+  "scenarios": {
+    "metric": "outflow",
+    "synthetic": true,
+    "groups": [
+      {
+        "id": "PAYMENTS",
+        "name": "Оборот",
+        "scenarios": [
+          {
+            "id": "big_payments",
+            "name": "Крупные платежи"
+          },
+          {
+            "id": "pos",
+            "name": "POS-оборот"
+          },
+          {
+            "id": "pos_big_payments",
+            "name": "POS + крупные платежи"
+          }
+        ]
+      },
+      {
+        "id": "loans",
+        "name": "Гашение кредитов",
+        "scenarios": [
+          {
+            "id": "auto_loan",
+            "name": "Автокредит"
+          },
+          {
+            "id": "housing_loan",
+            "name": "Ипотека"
+          },
+          {
+            "id": "pl_loan",
+            "name": "Потребкредит"
+          }
+        ]
+      },
+      {
+        "id": "loans_new",
+        "name": "Открытие кредитов",
+        "scenarios": [
+          {
+            "id": "auto_loan_new",
+            "name": "Новый автокредит"
+          },
+          {
+            "id": "housing_loan_new",
+            "name": "Новая ипотека"
+          },
+          {
+            "id": "pl_loan_new",
+            "name": "Новый потребкредит"
+          }
+        ]
+      },
+      {
+        "id": "other",
+        "name": "Прочее",
+        "scenarios": [
+          {
+            "id": "external",
+            "name": "Внешние операции"
+          },
+          {
+            "id": "other",
+            "name": "Прочее"
+          }
+        ]
+      },
+      {
+        "id": "saving",
+        "name": "Перевод на ОМС / инвестиции",
+        "scenarios": [
+          {
+            "id": "invest",
+            "name": "Инвестиции"
+          },
+          {
+            "id": "invest_oms",
+            "name": "Инвестиции + ОМС"
+          },
+          {
+            "id": "oms",
+            "name": "ОМС"
+          }
+        ]
+      },
+      {
+        "id": "transfers_atm",
+        "name": "Снятия и переводы",
+        "scenarios": [
+          {
+            "id": "atm",
+            "name": "Снятие в банкомате"
+          },
+          {
+            "id": "m2m",
+            "name": "M2M в другие банки"
+          },
+          {
+            "id": "m2m_p2p_external",
+            "name": "M2M + P2P вовне"
+          },
+          {
+            "id": "m2m_p2p_external_atm",
+            "name": "M2M + P2P вовне + банкомат"
+          },
+          {
+            "id": "p2p",
+            "name": "P2P-переводы"
+          }
+        ]
+      }
+    ],
+    "communications": [
+      {
+        "id": "900",
+        "name": "Сервисные",
+        "kind": "service",
+        "parent": null
+      },
+      {
+        "id": "promo",
+        "name": "Промо",
+        "kind": "promo",
+        "parent": null
+      },
+      {
+        "id": "no_promo",
+        "name": "Без промо",
+        "kind": "none",
+        "parent": null
+      },
+      {
+        "id": "stop_list",
+        "name": "Стоп-лист",
+        "kind": "stop",
+        "parent": null
+      },
+      {
+        "id": "promo.deposit",
+        "name": "Вклад",
+        "kind": "promo",
+        "parent": "promo"
+      },
+      {
+        "id": "promo.deposit.prolongation",
+        "name": "Вклад · пролонгация",
+        "kind": "promo",
+        "parent": "promo"
+      },
+      {
+        "id": "promo.saving",
+        "name": "НС",
+        "kind": "promo",
+        "parent": "promo"
+      },
+      {
+        "id": "promo.invest",
+        "name": "Инвестиции",
+        "kind": "promo",
+        "parent": "promo"
+      },
+      {
+        "id": "promo.oms",
+        "name": "ОМС",
+        "kind": "promo",
+        "parent": "promo"
+      },
+      {
+        "id": "promo.deposit.draft",
+        "name": "Черновик вклада",
+        "kind": "draft",
+        "parent": "promo.deposit"
+      },
+      {
+        "id": "promo.saving.draft",
+        "name": "Черновик НС",
+        "kind": "draft",
+        "parent": "promo.saving"
+      },
+      {
+        "id": "promo.invest.draft",
+        "name": "Черновик инвестиций",
+        "kind": "draft",
+        "parent": "promo.invest"
+      },
+      {
+        "id": "promo.oms.draft",
+        "name": "Черновик ОМС",
+        "kind": "draft",
+        "parent": "promo.oms"
+      }
+    ],
+    "values": {
+      "2026-06": {
+        "ALL": {
+          "total": {
+            "rur": 219.48001173922,
+            "clnt": 299379.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 32.05887811922,
+              "clnt": 72376.0
+            },
+            "loans": {
+              "rur": 34.52494566685,
+              "clnt": 46058.0
+            },
+            "loans_new": {
+              "rur": 14.796405285790001,
+              "clnt": 19740.0
+            },
+            "other": {
+              "rur": 14.796405285799999,
+              "clnt": 19740.0
+            },
+            "saving": {
+              "rur": 36.991013214489996,
+              "clnt": 32899.0
+            },
+            "transfers_atm": {
+              "rur": 86.31236416706999,
+              "clnt": 108566.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 14.796405285790001,
+              "clnt": 13160.0
+            },
+            "pos": {
+              "rur": 9.86427019053,
+              "clnt": 42767.0
+            },
+            "pos_big_payments": {
+              "rur": 7.398202642899999,
+              "clnt": 16449.0
+            },
+            "auto_loan": {
+              "rur": 7.398202642899999,
+              "clnt": 9870.0
+            },
+            "housing_loan": {
+              "rur": 19.72854038105,
+              "clnt": 16449.0
+            },
+            "pl_loan": {
+              "rur": 7.398202642899999,
+              "clnt": 19739.0
+            },
+            "auto_loan_new": {
+              "rur": 2.4660675476300002,
+              "clnt": 3290.0
+            },
+            "housing_loan_new": {
+              "rur": 9.86427019053,
+              "clnt": 6580.0
+            },
+            "pl_loan_new": {
+              "rur": 2.4660675476300002,
+              "clnt": 9870.0
+            },
+            "external": {
+              "rur": 7.398202642899999,
+              "clnt": 6580.0
+            },
+            "other": {
+              "rur": 7.398202642899999,
+              "clnt": 13160.0
+            },
+            "invest": {
+              "rur": 22.194607928689997,
+              "clnt": 16449.0
+            },
+            "invest_oms": {
+              "rur": 7.398202642899999,
+              "clnt": 6580.0
+            },
+            "oms": {
+              "rur": 7.398202642899999,
+              "clnt": 9870.0
+            },
+            "atm": {
+              "rur": 7.398202642899999,
+              "clnt": 19739.0
+            },
+            "m2m": {
+              "rur": 34.52494566679,
+              "clnt": 26319.0
+            },
+            "m2m_p2p_external": {
+              "rur": 22.194607928689997,
+              "clnt": 19739.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 9.86427019053,
+              "clnt": 13160.0
+            },
+            "p2p": {
+              "rur": 12.330337738159999,
+              "clnt": 29609.0
+            }
+          }
+        },
+        "900": {
+          "total": {
+            "rur": 202.13960449120998,
+            "clnt": 261715.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 28.24295572893,
+              "clnt": 61475.0
+            },
+            "loans": {
+              "rur": 28.08804132983,
+              "clnt": 41836.0
+            },
+            "loans_new": {
+              "rur": 13.180698049730001,
+              "clnt": 18893.0
+            },
+            "other": {
+              "rur": 12.859801606240001,
+              "clnt": 17728.0
+            },
+            "saving": {
+              "rur": 34.49509467029,
+              "clnt": 27201.0
+            },
+            "transfers_atm": {
+              "rur": 85.27301310619,
+              "clnt": 94582.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 13.45126344262,
+              "clnt": 11002.0
+            },
+            "pos": {
+              "rur": 8.557351371220001,
+              "clnt": 35880.0
+            },
+            "pos_big_payments": {
+              "rur": 6.23434091509,
+              "clnt": 14593.0
+            },
+            "auto_loan": {
+              "rur": 6.01596010177,
+              "clnt": 8591.0
+            },
+            "housing_loan": {
+              "rur": 15.88837305989,
+              "clnt": 15315.0
+            },
+            "pl_loan": {
+              "rur": 6.18370816817,
+              "clnt": 17930.0
+            },
+            "auto_loan_new": {
+              "rur": 2.1714255309499997,
+              "clnt": 3015.0
+            },
+            "housing_loan_new": {
+              "rur": 8.695885319370001,
+              "clnt": 6359.0
+            },
+            "pl_loan_new": {
+              "rur": 2.3133871994099997,
+              "clnt": 9519.0
+            },
+            "external": {
+              "rur": 6.4113982292700005,
+              "clnt": 5792.0
+            },
+            "other": {
+              "rur": 6.44840337697,
+              "clnt": 11936.0
+            },
+            "invest": {
+              "rur": 21.05452674007,
+              "clnt": 13759.0
+            },
+            "invest_oms": {
+              "rur": 6.63692627121,
+              "clnt": 5373.0
+            },
+            "oms": {
+              "rur": 6.80364165901,
+              "clnt": 8069.0
+            },
+            "atm": {
+              "rur": 7.32422061647,
+              "clnt": 18034.0
+            },
+            "m2m": {
+              "rur": 34.17969621018,
+              "clnt": 22336.0
+            },
+            "m2m_p2p_external": {
+              "rur": 21.9726618494,
+              "clnt": 17262.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 9.742378360010001,
+              "clnt": 11515.0
+            },
+            "p2p": {
+              "rur": 12.054056070129999,
+              "clnt": 25435.0
+            }
+          }
+        },
+        "promo": {
+          "total": {
+            "rur": 182.92948611607,
+            "clnt": 249668.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 30.829442168609997,
+              "clnt": 54066.0
+            },
+            "loans": {
+              "rur": 29.90753869901,
+              "clnt": 39694.0
+            },
+            "loans_new": {
+              "rur": 12.729544605559997,
+              "clnt": 17756.0
+            },
+            "other": {
+              "rur": 12.87688256898,
+              "clnt": 16410.0
+            },
+            "saving": {
+              "rur": 30.18549327246,
+              "clnt": 26575.0
+            },
+            "transfers_atm": {
+              "rur": 66.40058480145001,
+              "clnt": 95167.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 14.42495301566,
+              "clnt": 9895.0
+            },
+            "pos": {
+              "rur": 9.259262127629999,
+              "clnt": 31942.0
+            },
+            "pos_big_payments": {
+              "rur": 7.14522702532,
+              "clnt": 12229.0
+            },
+            "auto_loan": {
+              "rur": 6.8167335718999995,
+              "clnt": 8706.0
+            },
+            "housing_loan": {
+              "rur": 16.58322916527,
+              "clnt": 14046.0
+            },
+            "pl_loan": {
+              "rur": 6.50757596184,
+              "clnt": 16942.0
+            },
+            "auto_loan_new": {
+              "rur": 2.0823526600699998,
+              "clnt": 3069.0
+            },
+            "housing_loan_new": {
+              "rur": 8.523557260479999,
+              "clnt": 5871.0
+            },
+            "pl_loan_new": {
+              "rur": 2.12363468501,
+              "clnt": 8816.0
+            },
+            "external": {
+              "rur": 6.565927268279999,
+              "clnt": 5471.0
+            },
+            "other": {
+              "rur": 6.3109553007,
+              "clnt": 10939.0
+            },
+            "invest": {
+              "rur": 18.33491830562,
+              "clnt": 13267.0
+            },
+            "invest_oms": {
+              "rur": 6.0427244588999995,
+              "clnt": 5340.0
+            },
+            "oms": {
+              "rur": 5.80785050794,
+              "clnt": 7968.0
+            },
+            "atm": {
+              "rur": 5.905909416399999,
+              "clnt": 18228.0
+            },
+            "m2m": {
+              "rur": 26.0171326145,
+              "clnt": 22820.0
+            },
+            "m2m_p2p_external": {
+              "rur": 16.58134164235,
+              "clnt": 16600.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 7.91233911755,
+              "clnt": 11827.0
+            },
+            "p2p": {
+              "rur": 9.98386201065,
+              "clnt": 25692.0
+            }
+          }
+        },
+        "no_promo": {
+          "total": {
+            "rur": 36.97659902097,
+            "clnt": 50539.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 5.5183692754,
+              "clnt": 13935.0
+            },
+            "loans": {
+              "rur": 6.344415818510001,
+              "clnt": 7720.0
+            },
+            "loans_new": {
+              "rur": 2.30975174206,
+              "clnt": 2912.0
+            },
+            "other": {
+              "rur": 2.3409219622400004,
+              "clnt": 3598.0
+            },
+            "saving": {
+              "rur": 5.89023263366,
+              "clnt": 5631.0
+            },
+            "transfers_atm": {
+              "rur": 14.572907589100002,
+              "clnt": 16743.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 2.5084365120500003,
+              "clnt": 2466.0
+            },
+            "pos": {
+              "rur": 1.73148819132,
+              "clnt": 8360.0
+            },
+            "pos_big_payments": {
+              "rur": 1.27844457203,
+              "clnt": 3109.0
+            },
+            "auto_loan": {
+              "rur": 1.36621931262,
+              "clnt": 1615.0
+            },
+            "housing_loan": {
+              "rur": 3.6609653358400003,
+              "clnt": 2848.0
+            },
+            "pl_loan": {
+              "rur": 1.31723117005,
+              "clnt": 3257.0
+            },
+            "auto_loan_new": {
+              "rur": 0.37555643175,
+              "clnt": 485.0
+            },
+            "housing_loan_new": {
+              "rur": 1.54363013149,
+              "clnt": 954.0
+            },
+            "pl_loan_new": {
+              "rur": 0.39056517881999997,
+              "clnt": 1473.0
+            },
+            "external": {
+              "rur": 1.1608692179000002,
+              "clnt": 1180.0
+            },
+            "other": {
+              "rur": 1.18005274434,
+              "clnt": 2418.0
+            },
+            "invest": {
+              "rur": 3.54026181688,
+              "clnt": 2847.0
+            },
+            "invest_oms": {
+              "rur": 1.16001010238,
+              "clnt": 1140.0
+            },
+            "oms": {
+              "rur": 1.1899607144000002,
+              "clnt": 1644.0
+            },
+            "atm": {
+              "rur": 1.1898568249200001,
+              "clnt": 2936.0
+            },
+            "m2m": {
+              "rur": 5.699853844180001,
+              "clnt": 4230.0
+            },
+            "m2m_p2p_external": {
+              "rur": 3.8577840392,
+              "clnt": 2964.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 1.65566077442,
+              "clnt": 2114.0
+            },
+            "p2p": {
+              "rur": 2.1697521063800003,
+              "clnt": 4499.0
+            }
+          }
+        },
+        "stop_list": {
+          "total": {
+            "rur": 10.32625848715,
+            "clnt": 14931.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 1.45505425607,
+              "clnt": 3974.0
+            },
+            "loans": {
+              "rur": 1.49165275544,
+              "clnt": 2575.0
+            },
+            "loans_new": {
+              "rur": 0.7646717086,
+              "clnt": 866.0
+            },
+            "other": {
+              "rur": 0.84560082207,
+              "clnt": 998.0
+            },
+            "saving": {
+              "rur": 1.88770312105,
+              "clnt": 1696.0
+            },
+            "transfers_atm": {
+              "rur": 3.88157582392,
+              "clnt": 4822.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 0.67773657033,
+              "clnt": 721.0
+            },
+            "pos": {
+              "rur": 0.44431040086,
+              "clnt": 2364.0
+            },
+            "pos_big_payments": {
+              "rur": 0.33300728488,
+              "clnt": 889.0
+            },
+            "auto_loan": {
+              "rur": 0.33485484066000004,
+              "clnt": 533.0
+            },
+            "housing_loan": {
+              "rur": 0.8427517305700001,
+              "clnt": 897.0
+            },
+            "pl_loan": {
+              "rur": 0.31404618420999997,
+              "clnt": 1145.0
+            },
+            "auto_loan_new": {
+              "rur": 0.12859450492,
+              "clnt": 149.0
+            },
+            "housing_loan_new": {
+              "rur": 0.51554623694,
+              "clnt": 287.0
+            },
+            "pl_loan_new": {
+              "rur": 0.12053096674,
+              "clnt": 430.0
+            },
+            "external": {
+              "rur": 0.41954891425,
+              "clnt": 320.0
+            },
+            "other": {
+              "rur": 0.42605190782,
+              "clnt": 678.0
+            },
+            "invest": {
+              "rur": 1.1193571526,
+              "clnt": 843.0
+            },
+            "invest_oms": {
+              "rur": 0.38156778224,
+              "clnt": 347.0
+            },
+            "oms": {
+              "rur": 0.38677818621,
+              "clnt": 506.0
+            },
+            "atm": {
+              "rur": 0.31811752166,
+              "clnt": 883.0
+            },
+            "m2m": {
+              "rur": 1.58977689778,
+              "clnt": 1207.0
+            },
+            "m2m_p2p_external": {
+              "rur": 0.9636830492799999,
+              "clnt": 873.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 0.44013375427999996,
+              "clnt": 557.0
+            },
+            "p2p": {
+              "rur": 0.5698646009199999,
+              "clnt": 1302.0
+            }
+          }
+        },
+        "promo.deposit": {
+          "total": {
+            "rur": 114.78574240526,
+            "clnt": 149972.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 20.95423882886,
+              "clnt": 36209.0
+            },
+            "loans": {
+              "rur": 19.127086598680002,
+              "clnt": 22027.0
+            },
+            "loans_new": {
+              "rur": 7.34485817662,
+              "clnt": 11611.0
+            },
+            "other": {
+              "rur": 7.91981298643,
+              "clnt": 11245.0
+            },
+            "saving": {
+              "rur": 17.058278506809998,
+              "clnt": 15964.0
+            },
+            "transfers_atm": {
+              "rur": 42.38146730786001,
+              "clnt": 52916.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 9.60595750498,
+              "clnt": 6824.0
+            },
+            "pos": {
+              "rur": 6.54864119568,
+              "clnt": 21474.0
+            },
+            "pos_big_payments": {
+              "rur": 4.7996401282,
+              "clnt": 7911.0
+            },
+            "auto_loan": {
+              "rur": 4.29575964758,
+              "clnt": 4852.0
+            },
+            "housing_loan": {
+              "rur": 10.56759339703,
+              "clnt": 7881.0
+            },
+            "pl_loan": {
+              "rur": 4.26373355407,
+              "clnt": 9294.0
+            },
+            "auto_loan_new": {
+              "rur": 1.27717428076,
+              "clnt": 2072.0
+            },
+            "housing_loan_new": {
+              "rur": 4.83839952917,
+              "clnt": 3746.0
+            },
+            "pl_loan_new": {
+              "rur": 1.22928436669,
+              "clnt": 5793.0
+            },
+            "external": {
+              "rur": 4.09471051667,
+              "clnt": 3683.0
+            },
+            "other": {
+              "rur": 3.82510246976,
+              "clnt": 7562.0
+            },
+            "invest": {
+              "rur": 10.13327794921,
+              "clnt": 7765.0
+            },
+            "invest_oms": {
+              "rur": 3.5044089561100003,
+              "clnt": 3309.0
+            },
+            "oms": {
+              "rur": 3.42059160149,
+              "clnt": 4890.0
+            },
+            "atm": {
+              "rur": 3.9290243443,
+              "clnt": 10464.0
+            },
+            "m2m": {
+              "rur": 16.80654352515,
+              "clnt": 12737.0
+            },
+            "m2m_p2p_external": {
+              "rur": 10.44270226425,
+              "clnt": 8722.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 4.94085705418,
+              "clnt": 6424.0
+            },
+            "p2p": {
+              "rur": 6.262340119979999,
+              "clnt": 14569.0
+            }
+          }
+        },
+        "promo.deposit.prolongation": {
+          "total": {
+            "rur": 87.64620122163001,
+            "clnt": 111042.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 13.93939634667,
+              "clnt": 25415.0
+            },
+            "loans": {
+              "rur": 12.20601759758,
+              "clnt": 18578.0
+            },
+            "loans_new": {
+              "rur": 5.735640351619999,
+              "clnt": 7734.0
+            },
+            "other": {
+              "rur": 6.29020850669,
+              "clnt": 7245.0
+            },
+            "saving": {
+              "rur": 15.258707089140001,
+              "clnt": 11689.0
+            },
+            "transfers_atm": {
+              "rur": 34.21623132993,
+              "clnt": 40381.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 6.52097148833,
+              "clnt": 4551.0
+            },
+            "pos": {
+              "rur": 4.10771559096,
+              "clnt": 14974.0
+            },
+            "pos_big_payments": {
+              "rur": 3.31070926738,
+              "clnt": 5890.0
+            },
+            "auto_loan": {
+              "rur": 2.8570885175900003,
+              "clnt": 3941.0
+            },
+            "housing_loan": {
+              "rur": 6.58512186843,
+              "clnt": 6491.0
+            },
+            "pl_loan": {
+              "rur": 2.76380721156,
+              "clnt": 8146.0
+            },
+            "auto_loan_new": {
+              "rur": 0.9445352084199999,
+              "clnt": 1397.0
+            },
+            "housing_loan_new": {
+              "rur": 3.81961104054,
+              "clnt": 2522.0
+            },
+            "pl_loan_new": {
+              "rur": 0.9714941026599999,
+              "clnt": 3815.0
+            },
+            "external": {
+              "rur": 3.21177699769,
+              "clnt": 2401.0
+            },
+            "other": {
+              "rur": 3.078431509,
+              "clnt": 4844.0
+            },
+            "invest": {
+              "rur": 9.171241730110001,
+              "clnt": 5997.0
+            },
+            "invest_oms": {
+              "rur": 3.1022844643000003,
+              "clnt": 2318.0
+            },
+            "oms": {
+              "rur": 2.98518089473,
+              "clnt": 3374.0
+            },
+            "atm": {
+              "rur": 2.98867083147,
+              "clnt": 7424.0
+            },
+            "m2m": {
+              "rur": 13.4188052001,
+              "clnt": 10010.0
+            },
+            "m2m_p2p_external": {
+              "rur": 8.72898241262,
+              "clnt": 6824.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 4.13982268581,
+              "clnt": 4913.0
+            },
+            "p2p": {
+              "rur": 4.93995019993,
+              "clnt": 11210.0
+            }
+          }
+        },
+        "promo.saving": {
+          "total": {
+            "rur": 57.357071320660005,
+            "clnt": 85045.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 10.17903509568,
+              "clnt": 16126.0
+            },
+            "loans": {
+              "rur": 8.97079492564,
+              "clnt": 13127.0
+            },
+            "loans_new": {
+              "rur": 3.88683667551,
+              "clnt": 5479.0
+            },
+            "other": {
+              "rur": 4.25523139294,
+              "clnt": 4869.0
+            },
+            "saving": {
+              "rur": 8.99794894965,
+              "clnt": 9257.0
+            },
+            "transfers_atm": {
+              "rur": 21.06722428124,
+              "clnt": 36187.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 4.84550491754,
+              "clnt": 3031.0
+            },
+            "pos": {
+              "rur": 3.0427602518400003,
+              "clnt": 9325.0
+            },
+            "pos_big_payments": {
+              "rur": 2.2907699263000003,
+              "clnt": 3770.0
+            },
+            "auto_loan": {
+              "rur": 1.94662949375,
+              "clnt": 2826.0
+            },
+            "housing_loan": {
+              "rur": 4.98862251085,
+              "clnt": 4596.0
+            },
+            "pl_loan": {
+              "rur": 2.03554292104,
+              "clnt": 5705.0
+            },
+            "auto_loan_new": {
+              "rur": 0.66245020248,
+              "clnt": 912.0
+            },
+            "housing_loan_new": {
+              "rur": 2.57602617606,
+              "clnt": 1761.0
+            },
+            "pl_loan_new": {
+              "rur": 0.6483602969700001,
+              "clnt": 2806.0
+            },
+            "external": {
+              "rur": 2.20069808379,
+              "clnt": 1566.0
+            },
+            "other": {
+              "rur": 2.05453330915,
+              "clnt": 3303.0
+            },
+            "invest": {
+              "rur": 5.503973326970001,
+              "clnt": 4633.0
+            },
+            "invest_oms": {
+              "rur": 1.84532485109,
+              "clnt": 1863.0
+            },
+            "oms": {
+              "rur": 1.6486507715899998,
+              "clnt": 2761.0
+            },
+            "atm": {
+              "rur": 1.85603524365,
+              "clnt": 6690.0
+            },
+            "m2m": {
+              "rur": 8.4188855654,
+              "clnt": 8962.0
+            },
+            "m2m_p2p_external": {
+              "rur": 5.1761780242799995,
+              "clnt": 6543.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 2.35228309219,
+              "clnt": 4305.0
+            },
+            "p2p": {
+              "rur": 3.2638423557199996,
+              "clnt": 9687.0
+            }
+          }
+        },
+        "promo.invest": {
+          "total": {
+            "rur": 26.69732788672,
+            "clnt": 34452.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 4.77101312512,
+              "clnt": 7579.0
+            },
+            "loans": {
+              "rur": 4.606051615949999,
+              "clnt": 5146.0
+            },
+            "loans_new": {
+              "rur": 1.6325926064899998,
+              "clnt": 2147.0
+            },
+            "other": {
+              "rur": 1.72393681957,
+              "clnt": 2433.0
+            },
+            "saving": {
+              "rur": 4.53058554725,
+              "clnt": 3571.0
+            },
+            "transfers_atm": {
+              "rur": 9.433148172340001,
+              "clnt": 13576.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 2.2732860739499996,
+              "clnt": 1389.0
+            },
+            "pos": {
+              "rur": 1.43854669029,
+              "clnt": 4516.0
+            },
+            "pos_big_payments": {
+              "rur": 1.05918036088,
+              "clnt": 1674.0
+            },
+            "auto_loan": {
+              "rur": 1.03239838166,
+              "clnt": 1087.0
+            },
+            "housing_loan": {
+              "rur": 2.60461174286,
+              "clnt": 1807.0
+            },
+            "pl_loan": {
+              "rur": 0.96904149143,
+              "clnt": 2252.0
+            },
+            "auto_loan_new": {
+              "rur": 0.26738991587,
+              "clnt": 364.0
+            },
+            "housing_loan_new": {
+              "rur": 1.09953594547,
+              "clnt": 721.0
+            },
+            "pl_loan_new": {
+              "rur": 0.26566674515,
+              "clnt": 1062.0
+            },
+            "external": {
+              "rur": 0.85963327109,
+              "clnt": 845.0
+            },
+            "other": {
+              "rur": 0.86430354848,
+              "clnt": 1588.0
+            },
+            "invest": {
+              "rur": 2.67335870722,
+              "clnt": 1803.0
+            },
+            "invest_oms": {
+              "rur": 0.9556591422799999,
+              "clnt": 730.0
+            },
+            "oms": {
+              "rur": 0.90156769775,
+              "clnt": 1038.0
+            },
+            "atm": {
+              "rur": 0.8142594692899999,
+              "clnt": 2578.0
+            },
+            "m2m": {
+              "rur": 3.7295078950300002,
+              "clnt": 3348.0
+            },
+            "m2m_p2p_external": {
+              "rur": 2.3016980554,
+              "clnt": 2385.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 1.15642825399,
+              "clnt": 1660.0
+            },
+            "p2p": {
+              "rur": 1.4312544986300002,
+              "clnt": 3605.0
+            }
+          }
+        },
+        "promo.oms": {
+          "total": {
+            "rur": 12.90098955653,
+            "clnt": 17277.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 2.28717055814,
+              "clnt": 4097.0
+            },
+            "loans": {
+              "rur": 2.28764382788,
+              "clnt": 2541.0
+            },
+            "loans_new": {
+              "rur": 0.8139878388700001,
+              "clnt": 1304.0
+            },
+            "other": {
+              "rur": 0.8994022643299999,
+              "clnt": 1121.0
+            },
+            "saving": {
+              "rur": 2.00268493045,
+              "clnt": 1865.0
+            },
+            "transfers_atm": {
+              "rur": 4.610100136860001,
+              "clnt": 6349.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 1.0653661516900002,
+              "clnt": 722.0
+            },
+            "pos": {
+              "rur": 0.6883816910399999,
+              "clnt": 2473.0
+            },
+            "pos_big_payments": {
+              "rur": 0.5334227154100001,
+              "clnt": 902.0
+            },
+            "auto_loan": {
+              "rur": 0.51456626648,
+              "clnt": 561.0
+            },
+            "housing_loan": {
+              "rur": 1.27296541996,
+              "clnt": 883.0
+            },
+            "pl_loan": {
+              "rur": 0.50011214144,
+              "clnt": 1097.0
+            },
+            "auto_loan_new": {
+              "rur": 0.13780931391,
+              "clnt": 233.0
+            },
+            "housing_loan_new": {
+              "rur": 0.54405753976,
+              "clnt": 426.0
+            },
+            "pl_loan_new": {
+              "rur": 0.1321209852,
+              "clnt": 645.0
+            },
+            "external": {
+              "rur": 0.45899326602999996,
+              "clnt": 382.0
+            },
+            "other": {
+              "rur": 0.4404089983,
+              "clnt": 739.0
+            },
+            "invest": {
+              "rur": 1.2166589358900002,
+              "clnt": 905.0
+            },
+            "invest_oms": {
+              "rur": 0.4114901977,
+              "clnt": 388.0
+            },
+            "oms": {
+              "rur": 0.37453579686,
+              "clnt": 572.0
+            },
+            "atm": {
+              "rur": 0.38459093308,
+              "clnt": 1287.0
+            },
+            "m2m": {
+              "rur": 1.84284796661,
+              "clnt": 1467.0
+            },
+            "m2m_p2p_external": {
+              "rur": 1.17234255324,
+              "clnt": 1118.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 0.51865740873,
+              "clnt": 799.0
+            },
+            "p2p": {
+              "rur": 0.6916612752000001,
+              "clnt": 1678.0
+            }
+          }
+        },
+        "promo.deposit.draft": {
+          "total": {
+            "rur": 28.42725146141,
+            "clnt": 36401.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 5.24322545792,
+              "clnt": 9368.0
+            },
+            "loans": {
+              "rur": 4.75046383707,
+              "clnt": 5119.0
+            },
+            "loans_new": {
+              "rur": 1.8967165666299999,
+              "clnt": 2650.0
+            },
+            "other": {
+              "rur": 1.68792958766,
+              "clnt": 2595.0
+            },
+            "saving": {
+              "rur": 3.96010996243,
+              "clnt": 4119.0
+            },
+            "transfers_atm": {
+              "rur": 10.8888060497,
+              "clnt": 12550.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 2.40200918585,
+              "clnt": 1737.0
+            },
+            "pos": {
+              "rur": 1.67050971195,
+              "clnt": 5652.0
+            },
+            "pos_big_payments": {
+              "rur": 1.17070656012,
+              "clnt": 1979.0
+            },
+            "auto_loan": {
+              "rur": 1.10388238593,
+              "clnt": 1144.0
+            },
+            "housing_loan": {
+              "rur": 2.61092015477,
+              "clnt": 1742.0
+            },
+            "pl_loan": {
+              "rur": 1.03566129637,
+              "clnt": 2233.0
+            },
+            "auto_loan_new": {
+              "rur": 0.33156513383999997,
+              "clnt": 484.0
+            },
+            "housing_loan_new": {
+              "rur": 1.24687008168,
+              "clnt": 851.0
+            },
+            "pl_loan_new": {
+              "rur": 0.31828135111,
+              "clnt": 1315.0
+            },
+            "external": {
+              "rur": 0.88766192654,
+              "clnt": 852.0
+            },
+            "other": {
+              "rur": 0.80026766112,
+              "clnt": 1743.0
+            },
+            "invest": {
+              "rur": 2.3585711061,
+              "clnt": 1975.0
+            },
+            "invest_oms": {
+              "rur": 0.8405410835499999,
+              "clnt": 891.0
+            },
+            "oms": {
+              "rur": 0.76099777278,
+              "clnt": 1253.0
+            },
+            "atm": {
+              "rur": 1.03581240145,
+              "clnt": 2505.0
+            },
+            "m2m": {
+              "rur": 4.20538409344,
+              "clnt": 2984.0
+            },
+            "m2m_p2p_external": {
+              "rur": 2.8224062440599997,
+              "clnt": 1956.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 1.24018388236,
+              "clnt": 1576.0
+            },
+            "p2p": {
+              "rur": 1.58501942839,
+              "clnt": 3529.0
+            }
+          }
+        },
+        "promo.saving.draft": {
+          "total": {
+            "rur": 10.99278260666,
+            "clnt": 15008.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 2.07241407219,
+              "clnt": 3047.0
+            },
+            "loans": {
+              "rur": 1.66263559015,
+              "clnt": 2031.0
+            },
+            "loans_new": {
+              "rur": 0.66803561,
+              "clnt": 1085.0
+            },
+            "other": {
+              "rur": 0.85149097761,
+              "clnt": 911.0
+            },
+            "saving": {
+              "rur": 1.7374317115200002,
+              "clnt": 1473.0
+            },
+            "transfers_atm": {
+              "rur": 4.00077464519,
+              "clnt": 6461.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 1.01379248997,
+              "clnt": 584.0
+            },
+            "pos": {
+              "rur": 0.59601607576,
+              "clnt": 1792.0
+            },
+            "pos_big_payments": {
+              "rur": 0.46260550646,
+              "clnt": 671.0
+            },
+            "auto_loan": {
+              "rur": 0.37561381962,
+              "clnt": 422.0
+            },
+            "housing_loan": {
+              "rur": 0.89825733664,
+              "clnt": 696.0
+            },
+            "pl_loan": {
+              "rur": 0.38876443389,
+              "clnt": 913.0
+            },
+            "auto_loan_new": {
+              "rur": 0.12030828416,
+              "clnt": 184.0
+            },
+            "housing_loan_new": {
+              "rur": 0.4310540551,
+              "clnt": 345.0
+            },
+            "pl_loan_new": {
+              "rur": 0.11667327074,
+              "clnt": 556.0
+            },
+            "external": {
+              "rur": 0.43049038082,
+              "clnt": 310.0
+            },
+            "other": {
+              "rur": 0.42100059679,
+              "clnt": 601.0
+            },
+            "invest": {
+              "rur": 1.04779116599,
+              "clnt": 743.0
+            },
+            "invest_oms": {
+              "rur": 0.36866350839,
+              "clnt": 298.0
+            },
+            "oms": {
+              "rur": 0.32097703714,
+              "clnt": 432.0
+            },
+            "atm": {
+              "rur": 0.3572701123,
+              "clnt": 1208.0
+            },
+            "m2m": {
+              "rur": 1.6327188018099998,
+              "clnt": 1585.0
+            },
+            "m2m_p2p_external": {
+              "rur": 0.9641869227100001,
+              "clnt": 1110.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 0.43411161508999996,
+              "clnt": 758.0
+            },
+            "p2p": {
+              "rur": 0.61248719328,
+              "clnt": 1800.0
+            }
+          }
+        },
+        "promo.invest.draft": {
+          "total": {
+            "rur": 4.03664392437,
+            "clnt": 5083.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 0.7024324428200001,
+              "clnt": 1028.0
+            },
+            "loans": {
+              "rur": 0.71268368436,
+              "clnt": 796.0
+            },
+            "loans_new": {
+              "rur": 0.21452977352,
+              "clnt": 346.0
+            },
+            "other": {
+              "rur": 0.23984116163,
+              "clnt": 336.0
+            },
+            "saving": {
+              "rur": 0.71151899239,
+              "clnt": 506.0
+            },
+            "transfers_atm": {
+              "rur": 1.4556378696499999,
+              "clnt": 2071.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 0.33706904049,
+              "clnt": 177.0
+            },
+            "pos": {
+              "rur": 0.21245665836000002,
+              "clnt": 626.0
+            },
+            "pos_big_payments": {
+              "rur": 0.15290674397,
+              "clnt": 225.0
+            },
+            "auto_loan": {
+              "rur": 0.15575974409999999,
+              "clnt": 163.0
+            },
+            "housing_loan": {
+              "rur": 0.40430869442,
+              "clnt": 273.0
+            },
+            "pl_loan": {
+              "rur": 0.15261524584,
+              "clnt": 360.0
+            },
+            "auto_loan_new": {
+              "rur": 0.03367285579,
+              "clnt": 63.0
+            },
+            "housing_loan_new": {
+              "rur": 0.14820997695,
+              "clnt": 115.0
+            },
+            "pl_loan_new": {
+              "rur": 0.03264694078,
+              "clnt": 168.0
+            },
+            "external": {
+              "rur": 0.12427034314,
+              "clnt": 117.0
+            },
+            "other": {
+              "rur": 0.11557081848999999,
+              "clnt": 219.0
+            },
+            "invest": {
+              "rur": 0.41399645595,
+              "clnt": 252.0
+            },
+            "invest_oms": {
+              "rur": 0.15220003408000002,
+              "clnt": 104.0
+            },
+            "oms": {
+              "rur": 0.14532250236000002,
+              "clnt": 150.0
+            },
+            "atm": {
+              "rur": 0.1254857691,
+              "clnt": 410.0
+            },
+            "m2m": {
+              "rur": 0.5700116199299999,
+              "clnt": 497.0
+            },
+            "m2m_p2p_external": {
+              "rur": 0.35482746471,
+              "clnt": 349.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 0.18498074693,
+              "clnt": 265.0
+            },
+            "p2p": {
+              "rur": 0.22033226898,
+              "clnt": 550.0
+            }
+          }
+        },
+        "promo.oms.draft": {
+          "total": {
+            "rur": 1.56480554774,
+            "clnt": 2012.0
+          },
+          "groups": {
+            "PAYMENTS": {
+              "rur": 0.25313860936,
+              "clnt": 441.0
+            },
+            "loans": {
+              "rur": 0.28477487102000004,
+              "clnt": 282.0
+            },
+            "loans_new": {
+              "rur": 0.08402121662,
+              "clnt": 172.0
+            },
+            "other": {
+              "rur": 0.11827823891,
+              "clnt": 122.0
+            },
+            "saving": {
+              "rur": 0.23171192900999998,
+              "clnt": 218.0
+            },
+            "transfers_atm": {
+              "rur": 0.5928806828200001,
+              "clnt": 777.0
+            }
+          },
+          "scenarios": {
+            "big_payments": {
+              "rur": 0.11567292799,
+              "clnt": 74.0
+            },
+            "pos": {
+              "rur": 0.07783956598,
+              "clnt": 273.0
+            },
+            "pos_big_payments": {
+              "rur": 0.05962611539,
+              "clnt": 94.0
+            },
+            "auto_loan": {
+              "rur": 0.06192527244,
+              "clnt": 59.0
+            },
+            "housing_loan": {
+              "rur": 0.16012306106000002,
+              "clnt": 100.0
+            },
+            "pl_loan": {
+              "rur": 0.06272653752,
+              "clnt": 123.0
+            },
+            "auto_loan_new": {
+              "rur": 0.014453078449999998,
+              "clnt": 31.0
+            },
+            "housing_loan_new": {
+              "rur": 0.05575872855,
+              "clnt": 57.0
+            },
+            "pl_loan_new": {
+              "rur": 0.01380940962,
+              "clnt": 84.0
+            },
+            "external": {
+              "rur": 0.06258163977,
+              "clnt": 44.0
+            },
+            "other": {
+              "rur": 0.055696599140000004,
+              "clnt": 78.0
+            },
+            "invest": {
+              "rur": 0.1418097099,
+              "clnt": 104.0
+            },
+            "invest_oms": {
+              "rur": 0.04644436448,
+              "clnt": 47.0
+            },
+            "oms": {
+              "rur": 0.04345785463,
+              "clnt": 67.0
+            },
+            "atm": {
+              "rur": 0.04862488486,
+              "clnt": 155.0
+            },
+            "m2m": {
+              "rur": 0.24100463189,
+              "clnt": 182.0
+            },
+            "m2m_p2p_external": {
+              "rur": 0.15406534179,
+              "clnt": 135.0
+            },
+            "m2m_p2p_external_atm": {
+              "rur": 0.06631074934,
+              "clnt": 95.0
+            },
+            "p2p": {
+              "rur": 0.08287507494,
+              "clnt": 210.0
+            }
+          }
+        }
+      }
+    }
+  },
+  "benchmark": [
+    {
+      "period": "2026-03",
+      "measure": "rur",
+      "metric": "net_outflow_share",
+      "valuePct": 0.6,
+      "source": "Forbes",
+      "url": "https://www.forbes.ru/finansy/563868-v-rossii-zafiksirovali-rekordnyj-v-2026-godu-ottok-deneg-so-srocnyh-depozitov-grazdan",
+      "note": "−288,1 млрд ₽ со срочных вкладов, первый чистый отток с октября 2022"
+    },
+    {
+      "period": "2026-05",
+      "measure": "rur",
+      "metric": "net_outflow_share",
+      "valuePct": 0.9400000000000001,
+      "source": "Brobank",
+      "url": "https://brobank.ru/majskij-ottok-vkladov-2026-goda/",
+      "note": "−627,1 млрд ₽, портфель 66,7 → 66,07 трлн ₽"
+    },
+    {
+      "period": "2026-07",
+      "measure": "rur",
+      "metric": "net_outflow_share",
+      "valuePct": 0.0,
+      "source": "KuCoin / ЦБ РФ",
+      "url": "https://www.cbr.ru/statistics/avgprocstav/",
+      "note": "+234 млрд ₽ (+0,3%) по остаткам физлиц, но 152 банка в минусе по срочным"
+    },
+    {
+      "period": "2026",
+      "measure": "rur",
+      "metric": "benchmark_owner",
+      "valuePct": null,
+      "source": "Frank RG",
+      "url": "https://frankrg.com/research/vklady-i-nakopitelnye-scheta-v-rossii-2026",
+      "note": "Бенчмарк «Вклады и накопительные счета в России 2026» — оседаемость и пролонгация"
+    },
+    {
+      "period": "2026-09",
+      "measure": "clnt",
+      "metric": "net_outflow_share",
+      "valuePct": 2.8000000000000003,
+      "source": "Выберу.ру / Еврокредит.ру",
+      "url": "https://news.mail.ru/economics/72204274/",
+      "note": "Каждый третий вкладчик внепланово снимал средства со срочного вклада за год (опрос 3000 человек, сентябрь 2026). 33% за год — это около 2,8% в месяц при равномерном распределении. Прямой помесячной статистики по клиентам в открытом доступе нет."
+    },
+    {
+      "period": "2026-07",
+      "measure": "clnt",
+      "metric": "regulation",
+      "valuePct": null,
+      "source": "Закон о пролонгации с 01.07.2026",
+      "url": "https://bank.yuga.ru/newsfeed/amp/6775/",
+      "note": "С 1 июля 2026 банк обязан получить прямое согласие вкладчика на пролонгацию, иначе закрывает вклад и переводит деньги на текущий счёт. Структурно поднимает клиентский отток сразу после даты окончания."
+    }
+  ]
+}
