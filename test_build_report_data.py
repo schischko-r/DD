@@ -111,6 +111,24 @@ def test_missing_row_fails_but_blank_cell_is_zero():
     assert export.blank == {("2026-06", "promo", "ALL", "outflow_rur")}
 
 
+def test_balance_decrease_prefers_dedicated_excel_columns():
+    row = {
+        "report_dt": "2026-06-30",
+        "communication": "ALL",
+        "scenario_group": "ALL",
+        "scenario": "ALL",
+        "balance_decrease_cnt": 362631,
+        "balance_decrease_rur": 223578157626,
+        "tree_portfolio_prolong_erosion_cnt": 39510,
+        "tree_portfolio_prolong_erosion_rur": 31834114941.04,
+    }
+    export = brd.Export([row])
+    assert export.value("2026-06", "ALL", "ALL", "balance_decrease", "clnt") == 362631
+    assert export.value("2026-06", "ALL", "ALL", "balance_decrease", "rur") == pytest.approx(
+        223578157626 / 1e9
+    )
+
+
 def test_blank_total_is_summed_from_scenarios():
     base = {"report_dt": "2026-06-30", "communication": "ALL", "scenario_group": "PAYMENTS"}
     rows = [

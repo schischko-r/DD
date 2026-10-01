@@ -49,6 +49,13 @@ MEASURES = [
 # Разрез страницы → суффиксы колонки выгрузки, первый — основной.
 SUFFIX = {"rur": ("rur",), "clnt": ("cnt", "clnt")}
 
+# В новых выгрузках снижение остатка хранится отдельной метрикой. Старое
+# имя оставляем запасным вариантом, чтобы уже сохранённые книги продолжали
+# собираться до обновления Excel-файла.
+METRIC_ALIASES = {
+    "balance_decrease": ("balance_decrease", "tree_portfolio_prolong_erosion"),
+}
+
 
 # ── структура дерева ──────────────────────────────────────────────────────
 # Книга хранит цифры, а форму дерева — этот список: кто чей родитель, в какой
@@ -102,9 +109,10 @@ FUNNEL_STEPS = [
     (2, "expected", "tree_portfolio_prolong", "level"),
     (3, "prolonged", "tree_portfolio_prolong_passed", "level"),
     (4, "left30", "tree_portfolio_prolong_left_after_30d", "level"),
-    (5, "net_outflow", "outflow", "level"),
-    (6, "not_waited", "tree_portfolio_prolong_erosion", "leak"),
-    (7, "settled", "tree_portfolio_prolong_settlement", "gain"),
+    (5, "erosion30", "balance_decrease", "level"),
+    (6, "net_outflow", "outflow", "level"),
+    (7, "not_waited", "tree_portfolio_prolong_erosion", "leak"),
+    (8, "settled", "tree_portfolio_prolong_settlement", "gain"),
 ]
 FUNNELS = [
     {"id": "all", "communication": "ALL", "name": "Отток общий", "note": "Вся база",
@@ -119,6 +127,7 @@ FUNNELS = [
 STEP_NAMES = {
     "expected": "Ожидается пролонгация",
     "left30": "Закрыли в окне 30 дней",
+    "erosion30": "Снижение остатка",
     "net_outflow": "Чистый отток",
     "not_waited": "Вывели до пролонгации",
     "settled": "Осело через 30 дней",
@@ -304,7 +313,8 @@ class Export:
     def value(self, period: str, communication: str, scenario: str, metric: str,
               measure: str, required: bool = True) -> float | None:
         row = self.cells.get((period, communication, scenario))
-        columns = [f"{metric}_{suffix}" for suffix in SUFFIX[measure]]
+        metric_names = METRIC_ALIASES.get(metric, (metric,))
+        columns = [f"{name}_{suffix}" for name in metric_names for suffix in SUFFIX[measure]]
         column = next((c for c in columns if row is not None and c in row), columns[0])
         value = None if row is None else number(row.get(column))
         # Пустой итог (scenario = ALL) собираем из сценариев: они не пересекаются.

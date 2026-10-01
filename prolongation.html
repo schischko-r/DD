@@ -851,29 +851,10 @@ function funnelRows(funnel, kind) {
   const measure = funnel.series[state.measure] || {};
   const values = measure[state.period] || {};
   const before = measure[previousPeriod(state.period)] || null;
-  const rows = funnel.steps
+  return funnel.steps
     .filter((step) => step.kind === kind)
     .map((step) => ({...step, value: values[step.id], prev: before ? before[step.id] : undefined}))
     .filter((step) => isFinite(step.value));
-  if (kind === 'level' && (funnel.id === 'promo' || funnel.id === 'base')) {
-    const all = funnelById('all');
-    const allExpected = all && (((all.series[state.measure] || {})[state.period] || {}).expected);
-    const branchExpected = values.expected;
-    const total = state.measure === 'clnt' ? 362631 : 223578157626;
-    const erosion = isFinite(allExpected) && allExpected
-      ? total * branchExpected / allExpected
-      : null;
-    const index = rows.findIndex((step) => step.id === 'net_outflow');
-    if (index >= 0 && isFinite(erosion)) rows.splice(index, 0, {
-      no: rows[index].no,
-      id: 'erosion30',
-      name: 'Снижение остатка',
-      kind: 'level',
-      value: erosion,
-      prev: undefined,
-    });
-  }
-  return rows;
 }
 const funnelSteps = (funnel) => funnelRows(funnel, 'level');
 const funnelLeaks = (funnel) => funnelRows(funnel, 'leak');
