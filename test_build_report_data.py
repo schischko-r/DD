@@ -52,6 +52,8 @@ def test_scenario_groups_sum_to_total_and_skip_no_outflow(built):
     scenarios = page["scenarios"]
     assert scenarios["synthetic"] is True
     assert "no_outflow" not in {g["id"] for g in scenarios["groups"]}
+    assert all(scenario["id"] != "atm"
+               for group in scenarios["groups"] for scenario in group["scenarios"])
     for comm, block in scenarios["values"]["2026-06"].items():
         for measure in ("rur", "clnt"):
             summed = sum(g[measure] for g in block["groups"].values())

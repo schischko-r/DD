@@ -158,12 +158,14 @@ SCENARIO_NAMES = {
     "pl_loan_new": "Новый потребкредит",
     "m2m": "M2M в другие банки",
     "p2p": "P2P-переводы",
-    "atm": "Снятие в банкомате",
     "m2m_p2p_external": "M2M + P2P вовне",
     "m2m_p2p_external_atm": "M2M + P2P вовне + банкомат",
     "other": "Прочее",
     "external": "Внешние операции",
 }
+# Сценарий остаётся в исходной выгрузке для совместимости, но отдельной
+# сущностью на странице не показывается.
+HIDDEN_SCENARIOS = {"atm"}
 # Коммуникации: parent задаёт уровень в санки. Сервисные (900) в санки не
 # идут — у них своя карточка. Ветки промо пересекаются: клиент может
 # получить несколько предложений, сумма детей больше родителя.
@@ -490,7 +492,11 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
     Сценарии взаимоисключающие, поэтому группа = сумма своих сценариев, а
     сумма всех сценариев должна сойтись со строкой scenario = ALL.
     """
-    scenario_ids = sorted(export.groups, key=lambda s: (export.groups[s], s))
+    all_scenario_ids = sorted(export.groups, key=lambda s: (export.groups[s], s))
+    scenario_ids = sorted(
+        (scenario for scenario in export.groups if scenario not in HIDDEN_SCENARIOS),
+        key=lambda s: (export.groups[s], s),
+    )
     group_ids = []
     for scenario in scenario_ids:
         group = export.groups[scenario]
@@ -514,12 +520,13 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
                 total = export.value(period, comm, TOTAL, OUTFLOW_METRIC, mid)
                 block["total"][mid] = total
                 summed = 0.0
-                for scenario in scenario_ids:
+                for scenario in all_scenario_ids:
                     group = export.groups[scenario]
                     if group == NO_OUTFLOW:
                         continue
                     value = export.value(period, comm, scenario, OUTFLOW_METRIC, mid, required=False) or 0.0
-                    block["scenarios"].setdefault(scenario, {})[mid] = value
+                    if scenario not in HIDDEN_SCENARIOS:
+                        block["scenarios"].setdefault(scenario, {})[mid] = value
                     block["groups"].setdefault(group, {mid: 0.0 for mid in SUFFIX})[mid] += value
                     summed += value
                 if total and abs(summed - total) / total > 0.005:

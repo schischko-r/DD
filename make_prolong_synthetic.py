@@ -52,7 +52,7 @@ COLUMNS = ["report_dt", "communication", "scenario_group", "scenario"] + [
 # Сценарии оттока: группа → сценарии и их вес в оттоке (рубли, клиенты).
 SCENARIOS = {
     "transfers_atm": {
-        "m2m": (14, 8), "p2p": (5, 9), "atm": (3, 6),
+        "m2m": (14, 8), "p2p": (5, 9),
         "m2m_p2p_external": (9, 6), "m2m_p2p_external_atm": (4, 4),
     },
     "PAYMENTS": {"pos": (4, 13), "big_payments": (6, 4), "pos_big_payments": (3, 5)},
