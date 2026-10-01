@@ -97,6 +97,21 @@ a { color: var(--link); }
 }
 .term b { color: var(--ink); font-weight: 600; }
 
+/* Главное определение метрики — читается до карточек и задаёт рамку всему отчёту. */
+.outflow-definition {
+  margin-top: 20px; padding: 20px 24px;
+  display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; align-items: start;
+  border: 1px solid rgba(233, 3, 58, .2); border-radius: 10px;
+  background: linear-gradient(135deg, rgba(233, 3, 58, .07), rgba(255, 255, 255, .92) 62%);
+}
+.outflow-definition-icon {
+  width: 40px; height: 40px; display: grid; place-items: center;
+  border-radius: 10px; background: rgba(233, 3, 58, .1); color: var(--bad);
+}
+.outflow-definition h2 { margin: 0 0 5px; font-size: 13px; font-weight: 700; color: var(--bad); }
+.outflow-definition p { max-width: 880px; margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: -.01em; }
+.outflow-definition p b { font-weight: 700; }
+
 /* ── воронка ─────────────────────────────────────────────────────────── */
 .funnel-card .card-head { margin-bottom: 10px; }
 /* Дисклеймер о разметке промо: полоской под шапкой карточки воронки. */
@@ -158,13 +173,17 @@ a { color: var(--link); }
   stroke-dasharray: 4 3; vector-effect: non-scaling-stroke;
 }
 .funnel-label {
-  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  font-family: var(--sans); font-size: 16px; font-weight: 600;
   fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px;
   stroke-linejoin: round; pointer-events: none;
 }
 .funnel-label.is-inside { stroke: none; }
 /* Число жирным, доля в скобках — обычным начертанием. */
 .funnel-label .share { font-weight: 400; }
+.funnel-stage-name {
+  font-family: var(--sans); font-size: 16px; font-weight: 400;
+  fill: var(--ink-soft); dominant-baseline: middle; pointer-events: none;
+}
 .funnel-num { white-space: nowrap; text-align: right; font-variant-numeric: tabular-nums; }
 .funnel-legend .funnel-num, .funnel-leak .funnel-num { color: var(--ink); }
 .funnel-num b { font-weight: 600; }
@@ -611,6 +630,16 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
       </div>
     </header>
 
+    <section class="outflow-definition" aria-labelledby="outflowDefinitionTitle">
+      <div class="outflow-definition-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
+      </div>
+      <div>
+        <h2 id="outflowDefinitionTitle">Как считаем отток</h2>
+        <p id="outflowDefinitionText"></p>
+      </div>
+    </section>
+
     <section class="kpi" id="kpi"></section>
 
     <section class="card funnel-card">
@@ -689,7 +718,7 @@ const PROMO_NOTE = 'Промо-коммуникации учитываются �
 const SERVICE_NOTE = 'Сервисные коммуникации вокруг даты окончания вклада (коммуникация 900 '
   + 'выгрузки). Доля от ступени «Ожидается пролонгация» — та же база, что у промо.';
 const OUTFLOW_NOTE = 'Отток фиксируем, когда снижение суммарного остатка клиента на вкладах '
-  + 'и накопительных счетах за <b>30 дней</b> после пролонгации превышает <b>20%</b> суммы '
+  + 'и накопительных счетах за <b>30 дней</b> после пролонгации превышает <b>30%</b> суммы '
   + 'закрытого вклада.';
 const INFO_ICON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>';
 // В книге разрезы идут деньгами вперёд, на тумблере клиенты первыми.
@@ -703,7 +732,7 @@ const COHORT_TITLE = {
 };
 const SPLIT_ORDER = ['base', 'promo'];
 // Ступени, где рост конверсии — плохая новость. Для остальных выше — лучше.
-const BAD_WHEN_UP = new Set(['net_outflow', 'not_waited', 'left30']);
+const BAD_WHEN_UP = new Set(['net_outflow', 'not_waited', 'left30', 'erosion30']);
 // «Осело» в этот набор не входит: там рост — хорошая новость.
 
 // Цвет закреплён за смыслом ступени, а не за её номером: «Закрыли в окне
@@ -713,6 +742,7 @@ const STEP_COLOR = {
   expected: '#84D1EE',        // голубой
   prolonged: '#4DA2F1',       // синий
   left30: '#FFC636',          // жёлтый
+  erosion30: '#F3A847',       // оранжевый: снижение остатка до финального оттока
   net_outflow: '#FFB9DD',     // розовый
 };
 // Голова ветки называется по признаку коммуникации, и цвет у неё свой.
@@ -766,20 +796,23 @@ function deltaChip(value, digits, unit, goodWhenUp = true) {
 }
 
 // ── ряды ──────────────────────────────────────────────────────────────────
-// Портфель и отток считает загрузчик из тех же колонок, что кормят дерево:
-// одно определение оттока на весь отчёт, а не своё на каждом блоке.
+// Отток и его долю считаем из тех же данных, что кормят воронку:
+// знаменатель — объём ожидаемых пролонгаций, а не весь портфель.
 function portfolioSeries() {
   const source = DATA.portfolio[state.measure];
+  const all = funnelById('all');
   return PERIODS_ASC.map((id) => {
     const total = source.total[id];
     const outflow = source.outflow[id];
-    if (!total || !outflow) return null;
+    const expected = all && ((all.series[state.measure] || {})[id] || {}).expected;
+    if (!total || !outflow || !isFinite(expected) || !expected) return null;
     return {
       id,
       total: total.rawValue,
       totalDelta: total.deltaPct,
       outflow: outflow.rawValue,
-      share: outflow.rawValue / total.rawValue * 100,
+      expected,
+      share: outflow.rawValue / expected * 100,
     };
   }).filter(Boolean);
 }
@@ -818,10 +851,29 @@ function funnelRows(funnel, kind) {
   const measure = funnel.series[state.measure] || {};
   const values = measure[state.period] || {};
   const before = measure[previousPeriod(state.period)] || null;
-  return funnel.steps
+  const rows = funnel.steps
     .filter((step) => step.kind === kind)
     .map((step) => ({...step, value: values[step.id], prev: before ? before[step.id] : undefined}))
     .filter((step) => isFinite(step.value));
+  if (kind === 'level' && (funnel.id === 'promo' || funnel.id === 'base')) {
+    const all = funnelById('all');
+    const allExpected = all && (((all.series[state.measure] || {})[state.period] || {}).expected);
+    const branchExpected = values.expected;
+    const total = state.measure === 'clnt' ? 362631 : 223578157626;
+    const erosion = isFinite(allExpected) && allExpected
+      ? total * branchExpected / allExpected
+      : null;
+    const index = rows.findIndex((step) => step.id === 'net_outflow');
+    if (index >= 0 && isFinite(erosion)) rows.splice(index, 0, {
+      no: rows[index].no,
+      id: 'erosion30',
+      name: 'Снижение остатка',
+      kind: 'level',
+      value: erosion,
+      prev: undefined,
+    });
+  }
+  return rows;
 }
 const funnelSteps = (funnel) => funnelRows(funnel, 'level');
 const funnelLeaks = (funnel) => funnelRows(funnel, 'leak');
@@ -1037,6 +1089,10 @@ function renderPromoNote() {
   document.getElementById('promoNote').innerHTML = PROMO_NOTE;
 }
 
+function renderOutflowDefinition() {
+  document.getElementById('outflowDefinitionText').innerHTML = OUTFLOW_NOTE;
+}
+
 function renderKpi() {
   const host = document.getElementById('kpi');
   host.innerHTML = '';
@@ -1155,14 +1211,27 @@ function numShare(step) {
   return wrap;
 }
 
+function legendLabel(step) {
+  if (step.id === 'expected') return 'Ожидается пролонгация';
+  if (step.id === 'prolonged' && step.name === 'Получили Промо-коммуникацию') {
+    return 'Покрытие Промо-коммуникациями';
+  }
+  if (step.id === 'prolonged') return 'Пролонгация прошла';
+  if (step.id === 'left30') return 'Закрытие в окне 30 дней';
+  if (step.id === 'erosion30') return 'Снижение остатка';
+  if (step.id === 'net_outflow') return 'Снижение остатка >30%';
+  return step.name;
+}
+
 function legendFor(steps) {
   const list = el('ul', 'funnel-legend');
   steps.forEach((step) => {
     const item = document.createElement('li');
-    item.title = `${step.name}: ${amountText(step.value)}`;
+    const label = legendLabel(step);
+    item.title = `${label}: ${amountText(step.value)}`;
     const swatch = el('i');
     swatch.style.background = step.color || FALLBACK_COLOR;
-    item.append(swatch, el('span', null, step.name), numShare(step));
+    item.append(swatch, el('span', null, label), numShare(step));
     item.append(crDelta(step));
     list.append(item);
   });
@@ -1253,17 +1322,19 @@ function drawSplitFunnel(host, {common, branches, base}) {
 
   const svg = document.createElementNS(svgNS, 'svg');
   svg.setAttribute('class', 'funnel-svg');
-  svg.setAttribute('viewBox', `0 0 ${FUNNEL_W} ${height}`);
-  svg.setAttribute('preserveAspectRatio', 'none');
-  // Высота в пикселях равна высоте вьюбокса: по вертикали масштаб 1:1,
-  // иначе заданные просветы растягивались бы вместе с фигурой.
-  svg.style.height = `${height}px`;
+  const LABEL_GUTTER = 250;
+  svg.setAttribute('viewBox', `-${LABEL_GUTTER} 0 ${FUNNEL_W + LABEL_GUTTER} ${height}`);
+  svg.setAttribute('preserveAspectRatio', 'xMidYMin meet');
+  // Высота следует пропорциям расширенного viewBox, включая левую колонку.
+  // Фиксированная высота оставляла справа лишнее вертикальное пространство.
+  svg.style.height = 'auto';
   svg.setAttribute('role', 'img');
   svg.setAttribute('aria-label', 'Воронка пролонгации с разделением по коммуникации');
 
   const shapes = document.createElementNS(svgNS, 'g');
   const links = document.createElementNS(svgNS, 'g');
   const labels = document.createElementNS(svgNS, 'g');
+  const stageNames = document.createElementNS(svgNS, 'g');
   const hits = document.createElementNS(svgNS, 'g');
   const tip = el('div', 'funnel-tip');
   tip.hidden = true;
@@ -1308,6 +1379,24 @@ function drawSplitFunnel(host, {common, branches, base}) {
     soft.textContent = share;
     node.append(strong, soft);
     labels.append(node);
+  };
+
+  const stageName = (name, y, secondLine = '') => {
+    const node = document.createElementNS(svgNS, 'text');
+    node.setAttribute('x', -230);
+    node.setAttribute('y', y + BAND / 2 - (secondLine ? 6 : 0));
+    node.setAttribute('class', 'funnel-stage-name');
+    const first = document.createElementNS(svgNS, 'tspan');
+    first.textContent = name;
+    node.append(first);
+    if (secondLine) {
+      const second = document.createElementNS(svgNS, 'tspan');
+      second.setAttribute('x', -230);
+      second.setAttribute('dy', 14);
+      second.textContent = secondLine;
+      node.append(second);
+    }
+    stageNames.append(node);
   };
 
   const hit = (span, y, step) => {
@@ -1356,6 +1445,7 @@ function drawSplitFunnel(host, {common, branches, base}) {
     taken += heads[index];
   });
   y = forkTop + FORK;
+  const branchStartY = y;
 
   lanes.forEach((lane) => { lane.previous = null; });
   for (let level = 0; level < depth; level += 1) {
@@ -1375,23 +1465,29 @@ function drawSplitFunnel(host, {common, branches, base}) {
     y += BAND + TAPER;
   }
 
-  svg.append(links, shapes, labels, hits);
+  stageName('Ожидается пролонгация', 0);
+  stageName('Пролонгация прошла', BAND + TAPER);
+  stageName('Покрытие Промо-', branchStartY, 'коммуникациями');
+  stageName('Закрытие в окне 30 дней', branchStartY + BAND + TAPER);
+  stageName('Снижение остатка', branchStartY + 2 * (BAND + TAPER));
+  stageName('Снижение остатка >30%', branchStartY + 3 * (BAND + TAPER));
+  svg.append(links, shapes, labels, stageNames, hits);
   host.append(svg, tip);
 }
 
-// Скобка справа от воронки: весь отток к портфелю. Рисуется рамкой в HTML,
+// Скобка справа от воронки: весь отток к ожидаемым пролонгациям. Рисуется рамкой в HTML,
 // а не в SVG — фигура растянута по горизонтали, и текст в ней поехал бы.
 function outflowBracket(all) {
   const values = (all.series[state.measure] || {})[state.period] || {};
   const outflow = values.net_outflow;
-  const portfolio = (DATA.portfolio[state.measure].total[state.period] || {}).rawValue;
-  if (!isFinite(outflow) || !isFinite(portfolio) || !portfolio) return null;
+  const expected = values.expected;
+  if (!isFinite(outflow) || !isFinite(expected) || !expected) return null;
 
   const wrap = el('div', 'funnel-bracket');
   const body = el('div', 'funnel-bracket-body');
-  body.append(el('b', null, `${ru(outflow / portfolio * 100, 2)}%`));
-  body.append(el('span', null, 'оттока от портфеля'));
-  body.append(el('em', null, `${amount(outflow)} из ${amount(portfolio)}`));
+  body.append(el('b', null, `${ru(outflow / expected * 100, 2)}%`));
+  body.append(el('span', null, 'оттока от ожидаемых пролонгаций'));
+  body.append(el('em', null, `${amount(outflow)} из ${amount(expected)}`));
   wrap.append(body);
   return wrap;
 }
@@ -1437,18 +1533,25 @@ function renderFunnels() {
 
   // Все подписи одним блоком под воронкой — между фигурами ничего нет.
   const notes = el('div', 'funnel-notes');
-  notes.append(legendFor(common));
   // Плашка «вывели до пролонгации» — доля от когорты, из которой вывели.
   const commonPlates = platesFor(funnelLeaks(all), common[0]);
   if (commonPlates) notes.append(commonPlates);
 
+  const gainColumns = el('div', 'funnel-branches');
+  branches.forEach((item) => {
+    const column = el('div');
+    // «Осело» считается от головы ветки: это её остаток, а не доля базы.
+    const plates = platesFor(funnelGains(item.funnel), item.steps[0]);
+    if (plates) column.append(plates);
+    gainColumns.append(column);
+  });
+  notes.append(gainColumns);
+
+  notes.append(legendFor(common));
   const columns = el('div', 'funnel-branches');
   branches.forEach((item) => {
     const column = el('div');
     column.append(legendFor(item.steps));
-    // «Осело» считается от головы ветки: это её остаток, а не доля базы.
-    const plates = platesFor(funnelGains(item.funnel), item.steps[0]);
-    if (plates) column.append(plates);
     columns.append(column);
   });
   notes.append(columns);
@@ -1703,26 +1806,25 @@ function renderStatus() {
   traffic.append(copy);
   host.append(traffic);
 
-  host.append(el('div', 'recs-title', 'Рекомендации'));
-  const list = el('ol', 'recs');
-  // Плашки дерева, механик и сценариев скрыты: сценарии выведены блоком ниже.
-  // treeRec/mechanicsRec/scenariosRec и вшитое дерево оставлены, чтобы
-  // вернуть их одной строкой.
-  [benchmarkRec(series)].forEach((rec) => {
+  // Рыночный benchmark сопоставим только с денежным разрезом.
+  if (isMoney()) {
+    host.append(el('div', 'recs-title', 'Рекомендации'));
+    const list = el('ol', 'recs');
+    const rec = benchmarkRec(series);
     const item = el('li', 'rec');
     item.append(el('span', 'rec-tag', rec.tag));
     item.append(rec.body);
     list.append(item);
-  });
-  host.append(list);
+    host.append(list);
+  }
 }
 
 function renderNote() {
   const view = 'общий верх до пролонгации, ниже две ветки по коммуникации';
   document.getElementById('pageNote').textContent =
     `Срез: ${periodLabel(state.period)} · ${MEASURE_LABEL[state.measure] || activeMeasure().label} · `
-    + `${view}. Источник цифр — ${DATA.meta.source}. Отток портфеля: `
-    + `${DATA.meta.outflowDef}.`;
+    + `${view}. Источник цифр — ${DATA.meta.source}. Отток: снижение `
+    + `остатка клиента более чем на 30% за месяц.`;
 }
 
 // ── вшитый лист: дерево и коммуникации открываются поверх страницы ───────
@@ -1783,6 +1885,7 @@ document.addEventListener('keydown', (event) => {
 function render() {
   renderSwitches();
   renderPromoNote();
+  renderOutflowDefinition();
   renderFunnelTitle();
   renderKpi();
   renderFunnels();

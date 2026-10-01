@@ -87,7 +87,7 @@ BANDS = [
 ]
 
 # Отток портфеля приходит готовой колонкой: это своя метрика витрины —
-# клиент, потерявший ≥20% баланса за месяц. Сумме веток дерева она не равна
+# клиент, потерявший ≥30% баланса за месяц. Сумме веток дерева она не равна
 # (ветки считаются по когорте пролонгации), поэтому складывать их нельзя.
 OUTFLOW_METRIC = "outflow"
 
@@ -562,7 +562,7 @@ def build(workbook: Path, tree_out: Path, page_out: Path, benchmark: Path) -> No
             "source": workbook.name,
             "periods": graph["meta"]["periods"],
             "measures": MEASURES,
-            "outflowDef": "колонка outflow выгрузки: клиент потерял ≥20% баланса за месяц",
+            "outflowDef": "колонка outflow выгрузки: клиент потерял ≥30% баланса за месяц",
         },
         "portfolio": build_portfolio(export),
         "serviceCoverage": build_service(export),
