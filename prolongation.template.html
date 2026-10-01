@@ -505,7 +505,7 @@ a { color: var(--link); }
 .scn-about { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
 
 .scn-grid { margin-top: 16px; display: grid; gap: 12px; align-items: start; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-.scn-grid .scn-sankey { grid-column: 1 / -1; }
+.scn-grid .scn-sankey { grid-column: auto; }
 .scn-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .scn-view[hidden], .scn-synthetic[hidden] { display: none; }
 /* Три колонки собраны одинаково: подпись капсом, под ней карточки в рамке —
@@ -592,12 +592,30 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
 @media (prefers-reduced-motion: reduce) { .scn-sankey { animation: none; } }
 .scn-sankey svg { display: block; width: 100%; height: auto; }
 .scn-sankey svg text { font-family: var(--sans); }
-.scn-sankey-label {
-  font-size: 11px; fill: rgba(0, 0, 0, .8);
-  paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round;
+.scn-sankey .scn-tile { position: relative; }
+.scn-sankey-tip {
+  position: absolute; top: 10px; right: 12px; z-index: 2; max-width: 210px;
+  padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); color: var(--ink-soft); font-size: 11px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, .08); pointer-events: none;
 }
-.scn-sankey-sub { fill: rgba(0, 0, 0, .5); font-weight: 400; }
+.scn-sankey-tip[hidden] { display: none; }
+.scn-sankey-label {
+  font-size: 19px; fill: rgba(0, 0, 0, .8);
+  paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round;
+}
+.scn-sankey-sub { fill: rgba(0, 0, 0, .5); font-size: 15px; font-weight: 400; }
 .scn-sankey-note { margin-top: 8px; font-size: 11px; color: var(--ink-hint); }
+.scn-histogram { margin-top: 0; }
+.scn-histogram svg { margin-top: 10px; }
+.scn-histogram-grid { stroke: rgba(0, 0, 0, .08); stroke-width: 1; }
+.scn-histogram-axis { stroke: rgba(0, 0, 0, .22); stroke-width: 1; }
+.scn-histogram-tick { fill: var(--ink-hint); font-size: 16px; font-variant-numeric: tabular-nums; }
+.scn-histogram-value { fill: var(--ink); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-histogram-legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; margin-top: 4px; }
+.scn-histogram-legend-item { display: flex; align-items: center; gap: 6px; min-width: 0; color: var(--ink-soft); font-size: 11px; }
+.scn-histogram-legend-item i { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 2px; }
+.scn-histogram-legend-item b { margin-left: auto; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 
 @media (max-width: 1080px) {
 }
@@ -2148,23 +2166,40 @@ window.ScenariosPage = (() => {
   // Ветки пересекаются, поэтому сумма узлов в колонке может быть больше
   // родителя: исходящие ленты родителя ужимаются пропорционально, а узлы
   // получателей рисуются в полный размер — их высота и есть покрытие.
-  function sankey(g) {
+  function sankey(g, afterClosure = false) {
     const f = focusOf(g);
     const col = mk('div', 'scn-col scn-sankey');
-    col.append(colTitle('Промо: что предлагаем'));
+    col.append(colTitle(afterClosure ? 'Промо после закрытия вклада' : 'Промо до пролонгации'));
     const box = mk('div', 'scn-tile');
+    const tip = mk('div', 'scn-sankey-tip');
+    tip.hidden = true;
+    box.append(tip);
     col.append(box);
 
     const [groupColor] = colorOf(g);
     const node = (c) => ({id: c.id, label: c.name, parent: c.parent || 'root',
       value: cover(c.id, f) || 0, color: commColor(c), kind: c.kind});
     const inSankey = SC.communications.filter((c) => c.kind !== 'service');
-    const columns = [
+    const product = (id, label, value, parent, color, kind = 'promo') =>
+      ({id, label, value, parent, color, kind});
+    const columns = (afterClosure ? [
+      [{id: 'root', label: 'Отток после закрытия вклада', value: 100, color: '#6C7580', parent: null}],
+      [product('after_promo', 'Промо', 81.4, 'root', 'var(--promo)'),
+        product('after_no_promo', 'Без промо', 18.6, 'root', '#9AA3AD', 'none')],
+      [product('after_deposit', 'Вклад', 64.8, 'after_promo', '#4DA2F1'),
+        product('after_invest', 'Инвест', 37.4, 'after_promo', '#FFC636'),
+        product('after_oms', 'ОМС', 9.83, 'after_promo', '#BA74B3'),
+        product('after_saving', 'Накопительный счёт', 48.2, 'after_promo', '#8AD554')],
+      [product('after_deposit_draft', 'Вклад · черновики', 1.1, 'after_deposit', '#4DA2F1', 'draft'),
+        product('after_invest_draft', 'Инвест · черновики', 0.1, 'after_invest', '#FFC636', 'draft'),
+        product('after_oms_draft', 'ОМС · черновики', 0.06, 'after_oms', '#BA74B3', 'draft'),
+        product('after_saving_draft', 'НС · черновики', 0.08, 'after_saving', '#8AD554', 'draft')],
+    ] : [
       [{id: 'root', label: f.name, value: 100, color: groupColor, parent: null}],
       inSankey.filter((c) => !c.parent).map(node),
       inSankey.filter((c) => c.parent === 'promo').map(node),
       inSankey.filter((c) => c.kind === 'draft').map(node),
-    ].map((list) => list.filter((n) => n.value > 0));
+    ]).map((list) => list.filter((n) => n.value > 0));
 
     const W = 900, nw = 10, top = 8, gap = 10, k = 2.1, slot = 30;
     const xs = [4, 250, 500, 730];
@@ -2207,21 +2242,90 @@ window.ScenariosPage = (() => {
     });
 
     columns.flat().forEach((n) => {
-      nodes.append(svg('rect', {x: n.x, y: n.y, width: nw, height: n.h, rx: 2, fill: n.color,
-        'fill-opacity': n.kind === 'draft' ? .6 : 1}));
+      const rect = svg('rect', {x: n.x, y: n.y, width: nw, height: n.h, rx: 2, fill: n.color,
+        'fill-opacity': n.kind === 'draft' ? .6 : 1, tabindex: 0, role: 'button',
+        'aria-label': `${n.label}: ${fmt(n.value, 2)}%`});
+      const showTip = () => {
+        tip.textContent = `${n.label}: ${n.id === 'root' ? '100' : fmt(n.value, 2)}% оттока`;
+        tip.hidden = false;
+      };
+      rect.addEventListener('pointerenter', showTip);
+      rect.addEventListener('focus', showTip);
+      rect.addEventListener('pointerleave', () => { tip.hidden = true; });
+      rect.addEventListener('blur', () => { tip.hidden = true; });
+      nodes.append(rect);
       const t = svg('text', {x: n.x + nw + 6, y: n.y + Math.min(n.h, slot) / 2 - 2, class: 'scn-sankey-label'});
       const a = svg('tspan', {'font-weight': 600});
       a.textContent = n.label;
       const b = svg('tspan', {x: n.x + nw + 6, dy: 13, class: 'scn-sankey-sub'});
-      b.textContent = n.id === 'root' ? amount(focusValue(TOTAL, f)) : `${fmt(n.value, 1)}% оттока ${f.of}`;
+      b.textContent = n.id === 'root'
+        ? (afterClosure ? '100% оттока' : amount(focusValue(TOTAL, f)))
+        : `${fmt(n.value, 1)}% оттока${afterClosure ? '' : ` ${f.of}`}`;
       t.append(a, b);
       labels.append(t);
     });
-    box.append(root, mk('div', 'scn-sankey-note',
-      `Доли — от оттока ${f.of}. Ветки пересекаются: клиент мог получить несколько предложений, `
-      + 'поэтому сумма узлов в колонке бывает больше 100%. Черновик — следующий шаг после промо своего '
-      + `продукта. Сервисные коммуникации в санки не входят.`));
+    box.append(root, mk('div', 'scn-sankey-note', afterClosure
+      ? 'Доли — от общего оттока после закрытия вклада. Промо покрывает 81,4%, без промо — 18,6%. '
+        + 'Продуктовые ветки пересекаются, поэтому их сумма может быть больше 81,4%; черновики — отдельный шаг.'
+      : `Доли — от оттока ${f.of}. Ветки пересекаются: клиент мог получить несколько предложений, `
+        + 'поэтому сумма узлов в колонке бывает больше 100%. Черновик — следующий шаг после промо своего '
+        + 'продукта. Сервисные коммуникации в санки не входят.'));
+    if (afterClosure) col.append(followupHistogram());
     return col;
+  }
+
+  function followupHistogram() {
+    const card = mk('div', 'scn-tile scn-histogram');
+    card.append(mk('div', 'scn-tile-label', 'Догоняем клиента через X дней после закрытия'));
+    const bins = [
+      {label: 'Тот же день', from: 0, to: 1, value: 71, color: '#4DA2F1'},
+      {label: '1–3 дня', from: 1, to: 4, value: 11.54, color: '#8AD554'},
+      {label: '4–7 дней', from: 4, to: 8, value: 9.11, color: '#FFC636'},
+      {label: '8–14 дней', from: 8, to: 14, value: 7.62, color: '#BA74B3'},
+    ];
+    const W = 900, H = 190, left = 28, right = 12, top = 18, bottom = 28;
+    const plotW = W - left - right, plotH = H - top - bottom, max = 75;
+    const x = (day) => left + day / 14 * plotW;
+    const pct = (value) => fmt(value, Number.isInteger(value) ? 0 : 2);
+    const chart = svg('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+      'aria-label': bins.map((b) => `${b.label}: ${pct(b.value)}%`).join('; ')});
+    [0, 25, 50, 75].forEach((value) => {
+      const y = top + plotH - value / max * plotH;
+      chart.append(svg('line', {x1: left, y1: y, x2: W - right, y2: y, class: 'scn-histogram-grid'}));
+      const label = svg('text', {x: left - 7, y: y + 3, 'text-anchor': 'end', class: 'scn-histogram-tick'});
+      label.textContent = `${value}%`;
+      chart.append(label);
+    });
+    chart.append(svg('line', {x1: left, y1: top + plotH, x2: W - right, y2: top + plotH, class: 'scn-histogram-axis'}));
+    bins.forEach((bin) => {
+      const barX = x(bin.from) + 2;
+      const barW = Math.max(4, x(bin.to) - x(bin.from) - 4);
+      const barH = bin.value / max * plotH;
+      const barY = top + plotH - barH;
+      chart.append(svg('rect', {x: barX, y: barY, width: barW, height: barH, rx: 3,
+        fill: bin.color, 'fill-opacity': .9}));
+      const value = svg('text', {x: barX + barW / 2, y: Math.max(12, barY - 5),
+        'text-anchor': 'middle', class: 'scn-histogram-value'});
+      value.textContent = `${pct(bin.value)}%`;
+      chart.append(value);
+    });
+    [0, 1, 4, 8, 14].forEach((day) => {
+      const tick = svg('text', {x: x(day), y: H - 7, 'text-anchor': day === 0 ? 'start' : day === 14 ? 'end' : 'middle',
+        class: 'scn-histogram-tick'});
+      tick.textContent = String(day);
+      chart.append(tick);
+    });
+    card.append(chart);
+    const legend = mk('div', 'scn-histogram-legend');
+    bins.forEach((bin) => {
+      const item = mk('div', 'scn-histogram-legend-item');
+      const swatch = mk('i');
+      swatch.style.background = bin.color;
+      item.append(swatch, mk('span', null, bin.label), mk('b', null, `${pct(bin.value)}%`));
+      legend.append(item);
+    });
+    card.append(legend, mk('div', 'scn-sankey-note', 'Ширина столбца показывает диапазон дней, высота — долю клиентов.'));
+    return card;
   }
 
   // ── детализация ─────────────────────────────────────────────────────────
@@ -2245,6 +2349,7 @@ window.ScenariosPage = (() => {
     const grid = mk('div', 'scn-grid');
     grid.append(composition(g), coverage(g));
     grid.append(sankey(g));
+    grid.append(sankey(g, true));
     card.append(grid);
     host.append(card);
   }
