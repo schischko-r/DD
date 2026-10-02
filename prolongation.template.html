@@ -665,6 +665,8 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
       <div class="card-head">
         <h2 id="funnelTitle">Воронка</h2>
         <div class="switches">
+          <div class="switch" id="productSwitch" role="tablist" aria-label="Продукт"></div>
+          <div class="switch" id="periodSwitch" role="tablist" aria-label="Период"></div>
           <div class="switch" id="measureSwitch" role="tablist" aria-label="Единица измерения"></div>
         </div>
       </div>
@@ -920,6 +922,12 @@ function fillSelect(id, list, selected, onChange) {
 }
 
 function renderFilters() {
+  if (!PRODUCT_FILTERS.some((product) => product.id === state.product)) {
+    state.product = PRODUCT_FILTERS[0].id;
+  }
+  if (!PERIODS.some((period) => period.id === state.period)) {
+    state.period = PERIODS[0].id;
+  }
   fillSelect('filter-product', PRODUCT_FILTERS, state.product, (id) => {
     state.product = id;
     render();
@@ -949,6 +957,14 @@ function renderSwitch(hostId, options, current, onPick) {
 }
 
 function renderSwitches() {
+  renderSwitch('productSwitch', PRODUCT_FILTERS, state.product, (id) => {
+    state.product = id;
+    render();
+  });
+  renderSwitch('periodSwitch', PERIODS, state.period, (id) => {
+    state.period = id;
+    render();
+  });
   renderSwitch('measureSwitch', measureOptions().map((m) => ({
     id: m.id, label: MEASURE_LABEL[m.id] || m.label, title: m.unit,
   })), state.measure, (id) => {
@@ -1138,7 +1154,7 @@ function renderKpi() {
   const shareDelta = prevShare == null ? null : last.share - prevShare;
 
   host.append(tile({
-    label: product && product.values ? `Общий портфель ${product.label}` : 'Общий портфель вкладов',
+    label: isPolicyProduct() ? `Общий портфель ${product.label}` : 'Общий портфель вкладов',
     value: amount(last.total),
     delta: deltaChip(last.totalDelta, 2, '% м/м'),
     foot: activeMeasure().unit,
@@ -1153,7 +1169,7 @@ function renderKpi() {
     }),
   }));
 
-  if (product && product.values) {
+  if (isPolicyProduct()) {
     host.append(tile({
       label: 'Отток от ожидаемых пролонгаций',
       value: `${ru(last.share, 2)}%`,
@@ -1233,7 +1249,7 @@ function renderKpi() {
 // ── воронка ───────────────────────────────────────────────────────────────
 function renderFunnelTitle() {
   const product = activeProduct();
-  document.getElementById('funnelTitle').textContent = product && product.values
+  document.getElementById('funnelTitle').textContent = isPolicyProduct()
     ? `Воронка по продукту ${product.label} · ${isMoney() ? 'деньги' : 'клиенты'}`
     : (isMoney() ? 'Воронка по деньгам' : 'Воронка по клиентам');
 }
@@ -1547,21 +1563,22 @@ function outflowBracket(all) {
 function renderProductFunnel(host, product) {
   const row = ((product.values || {})[state.period] || {})[state.measure];
   if (!row) return;
+  const before = ((product.values || {})[previousPeriod(state.period)] || {})[state.measure] || null;
   const common = [{
     no: 1, id: 'portfolio', name: 'Все полисы', kind: 'level',
-    value: row.total, prev: undefined, color: STEP_COLOR.expected, ref: null,
+    value: row.total, prev: before ? before.total : undefined, color: STEP_COLOR.expected, ref: null,
   }, {
     no: 2, id: 'expected', name: 'С пролонгацией в периоде', kind: 'level',
-    value: row.expected, prev: undefined, color: STEP_COLOR.prolonged, ref: null,
+    value: row.expected, prev: before ? before.expected : undefined, color: STEP_COLOR.prolonged, ref: null,
   }];
   common[1].ref = common[0];
   const passed = {
     no: 3, id: 'passed', name: 'Оседаемость', kind: 'level',
-    value: row.prolonged, prev: undefined, color: '#8AD554', ref: common[1],
+    value: row.prolonged, prev: before ? before.prolonged : undefined, color: '#8AD554', ref: common[1],
   };
   const outflow = {
     no: 4, id: 'outflow', name: 'Отток', kind: 'level',
-    value: row.outflow, prev: undefined, color: '#FF3D64', ref: common[1],
+    value: row.outflow, prev: before ? before.outflow : undefined, color: '#FF3D64', ref: common[1],
   };
   const stage = el('div', 'funnel-stage');
   drawSplitFunnel(stage, {
@@ -1584,7 +1601,8 @@ function renderProductFunnel(host, product) {
 
   const notes = el('div', 'funnel-notes');
   const settled = platesFor([{
-    name: 'Оседаемость', kind: 'gain', value: row.prolonged, prev: undefined,
+    name: 'Оседаемость', kind: 'gain', value: row.prolonged,
+    prev: before ? before.prolonged : undefined,
   }], common[1]);
   if (settled) notes.append(settled);
   host.append(notes);
@@ -1595,7 +1613,7 @@ function renderFunnels() {
   host.innerHTML = '';
 
   const product = activeProduct();
-  if (product && product.values) {
+  if (isPolicyProduct()) {
     renderProductFunnel(host, product);
     return;
   }

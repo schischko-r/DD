@@ -323,7 +323,10 @@ class Export:
             if key in self.cells:
                 raise SystemExit(f"Дубль строки: {' / '.join(key)}")
             self.cells[key] = row
-            if key[1] == DEPOSIT_PRODUCT and key[2] != TOTAL:
+            # Строка scenario = ALL — итог коммуникации, а не сценарий
+            # оттока. Её нельзя включать в разрез сценариев: иначе она
+            # дублирует весь отток и ломает сумму веток.
+            if key[1] == DEPOSIT_PRODUCT and key[2] != TOTAL and key[3] != TOTAL:
                 self.groups[key[3]] = key_text(row["scenario_group"])
         self.periods = sorted({key[0] for key in self.cells})
         self.products = sorted({key[1] for key in self.cells})
@@ -583,11 +586,20 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
         for comm in [TOTAL] + [c["id"] for c in COMMUNICATIONS]:
             if comm not in deposit_communications:
                 continue
+            has_total = (period, DEPOSIT_PRODUCT, comm, TOTAL) in export.cells
+            has_scenarios = any(
+                p == period and product == DEPOSIT_PRODUCT and communication == comm and scenario != TOTAL
+                for p, product, communication, scenario in export.cells
+            )
+            # Коммуникация может быть заведена только в части периодов
+            # (например, 900). Если в конкретном месяце её нет, не создаём
+            # пустой разрез и не требуем строку «... / <коммуникация> / ALL».
+            if not has_total and not has_scenarios:
+                continue
             block = {"total": {}, "groups": {}, "scenarios": {}}
             for measure in MEASURES:
                 mid = measure["id"]
-                total = export.value(period, comm, TOTAL, OUTFLOW_METRIC, mid)
-                block["total"][mid] = total
+                total = export.value(period, comm, TOTAL, OUTFLOW_METRIC, mid, required=False)
                 summed = 0.0
                 for scenario in all_scenario_ids:
                     group = export.groups[scenario]
@@ -598,7 +610,11 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
                         block["scenarios"].setdefault(scenario, {})[mid] = value
                     block["groups"].setdefault(group, {mid: 0.0 for mid in SUFFIX})[mid] += value
                     summed += value
-                if total and abs(summed - total) / total > 0.005:
+                # Если строка scenario = ALL не передана, итог берём из
+                # взаимоисключающих сценариев. Для коммуникационных разрезов
+                # эта строка не обязательна.
+                block["total"][mid] = summed if total is None else total
+                if total and has_scenarios and abs(summed - total) / total > 0.005:
                     print(f"  внимание: {period} / {comm} / {mid}: сумма сценариев {summed:,.2f} "
                           f"не сходится с ALL {total:,.2f}")
             values[period][comm] = block
