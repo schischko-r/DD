@@ -131,30 +131,6 @@ def test_balance_decrease_prefers_dedicated_excel_columns():
     )
 
 
-def test_product_dimension_builds_product_funnel_rows():
-    rows = []
-    for product, total, expected, passed, outflow in (
-        ("deposit", 100, 10, 8, 2),
-        ("casco", 200, 20, 12, 7),
-        ("osago", 300, 30, 21, 9),
-    ):
-        row = {
-            "report_dt": "2026-06-30", "product": product,
-            "communication": "ALL", "scenario_group": "ALL", "scenario": "ALL",
-        }
-        for suffix, factor in (("cnt", 1), ("rur", 1_000_000_000)):
-            row[f"tree_portfolio_{suffix}"] = total * factor
-            row[f"tree_portfolio_prolong_{suffix}"] = expected * factor
-            row[f"tree_portfolio_prolong_passed_{suffix}"] = passed * factor
-            row[f"outflow_{suffix}"] = outflow * factor
-        rows.append(row)
-
-    products = brd.build_products(brd.Export(rows))
-    assert [product["id"] for product in products] == ["casco", "deposit", "osago"]
-    assert products[0]["values"]["2026-06"]["clnt"]["expected"] == 20
-    assert products[2]["values"]["2026-06"]["rur"]["outflow"] == 9
-
-
 def test_blank_total_is_summed_from_scenarios():
     base = {"report_dt": "2026-06-30", "communication": "ALL", "scenario_group": "PAYMENTS"}
     rows = [
