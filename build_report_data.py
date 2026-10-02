@@ -323,11 +323,14 @@ class Export:
             if key in self.cells:
                 raise SystemExit(f"Дубль строки: {' / '.join(key)}")
             self.cells[key] = row
-            if key[2] != TOTAL:
+            if key[1] == DEPOSIT_PRODUCT and key[2] != TOTAL:
                 self.groups[key[3]] = key_text(row["scenario_group"])
         self.periods = sorted({key[0] for key in self.cells})
         self.products = sorted({key[1] for key in self.cells})
         self.communications = sorted({key[2] for key in self.cells})
+
+    def communications_for_product(self, product: str = DEPOSIT_PRODUCT) -> list[str]:
+        return sorted({key[2] for key in self.cells if key[1] == product})
 
     def value(self, period: str, communication: str, scenario: str, metric: str,
               measure: str, required: bool = True, product: str = DEPOSIT_PRODUCT) -> float | None:
@@ -489,8 +492,9 @@ def build_products(export: Export) -> list[dict]:
 
 def build_funnels(export: Export) -> list[dict]:
     funnels = []
+    deposit_communications = export.communications_for_product(DEPOSIT_PRODUCT)
     for spec in FUNNELS:
-        if spec["communication"] not in export.communications:
+        if spec["communication"] not in deposit_communications:
             print(f"  внимание: в выгрузке нет коммуникации {spec['communication']}, "
                   f"воронки «{spec['name']}» не будет")
             continue
@@ -511,19 +515,34 @@ def build_funnels(export: Export) -> list[dict]:
 
 def build_service(export: Export) -> dict | None:
     """Покрытие базы пролонгации сервисными коммуникациями (900) по месяцам."""
-    if SERVICE not in export.communications:
+    if SERVICE not in export.communications_for_product(DEPOSIT_PRODUCT):
         print(f"  внимание: в выгрузке нет коммуникации {SERVICE}, карточки сервисного покрытия не будет")
         return None
     by_period = {}
     for period in export.periods:
+        # Коммуникация 900 относится только к депозитам. В продуктовых
+        # строках КАСКО/ОСАГО такой записи может не быть — это не ошибка
+        # выгрузки и не должно останавливать сборку.
+        covered = export.value(period, SERVICE, TOTAL, "tree_portfolio_prolong", "rur",
+                                required=False, product=DEPOSIT_PRODUCT)
+        total = export.value(period, TOTAL, TOTAL, "tree_portfolio_prolong", "rur",
+                             required=False, product=DEPOSIT_PRODUCT)
+        if covered is None or total is None:
+            continue
         by_period[period] = {
             m["id"]: {
-                "covered": export.value(period, SERVICE, TOTAL, "tree_portfolio_prolong", m["id"]),
-                "total": export.value(period, TOTAL, TOTAL, "tree_portfolio_prolong", m["id"]),
+                "covered": export.value(period, SERVICE, TOTAL, "tree_portfolio_prolong", m["id"],
+                                         required=False, product=DEPOSIT_PRODUCT),
+                "total": export.value(period, TOTAL, TOTAL, "tree_portfolio_prolong", m["id"],
+                                       required=False, product=DEPOSIT_PRODUCT),
             }
             for m in MEASURES
         }
+    if not by_period:
+        return None
     latest = export.periods[-1]
+    if latest not in by_period:
+        latest = sorted(by_period)[-1]
     return {
         "period": latest,
         "source": "prolong.xlsx, communication = 900",
@@ -552,8 +571,9 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
         if group != NO_OUTFLOW and group not in group_ids:
             group_ids.append(group)
 
+    deposit_communications = export.communications_for_product(DEPOSIT_PRODUCT)
     known = {c["id"] for c in COMMUNICATIONS}
-    extra = [c for c in export.communications if c not in known and c != TOTAL]
+    extra = [c for c in deposit_communications if c not in known and c != TOTAL]
     if extra:
         print(f"  внимание: коммуникации без описания, в сценарии не попали: {', '.join(extra)}")
 
@@ -561,7 +581,7 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
     for period in export.periods:
         values[period] = {}
         for comm in [TOTAL] + [c["id"] for c in COMMUNICATIONS]:
-            if comm not in export.communications:
+            if comm not in deposit_communications:
                 continue
             block = {"total": {}, "groups": {}, "scenarios": {}}
             for measure in MEASURES:
@@ -590,7 +610,7 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
                     "scenarios": [{"id": s, "name": SCENARIO_NAMES.get(s, s)}
                                   for s in scenario_ids if export.groups[s] == g]}
                    for g in group_ids],
-        "communications": [c for c in COMMUNICATIONS if c["id"] in export.communications],
+        "communications": [c for c in COMMUNICATIONS if c["id"] in deposit_communications],
         "values": values,
     }
 
