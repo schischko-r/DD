@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """Прочитать выгрузку prolong.xlsx и разложить её в JSON для страниц отчёта.
 
-Выгрузка — единственный источник цифр. Строка = report_dt × communication ×
-scenario_group × scenario, в колонках метрики дерева и отток в двух разрезах:
+Выгрузка — единственный источник цифр. Строка = report_dt × product ×
+communication × scenario_group × scenario, в колонках метрики дерева и отток в двух разрезах:
 _rur (рубли) и _cnt (клиенты). Скрипт не считает бизнес-логику: переносит
 значения, достраивает дельты м/м, суммирует сценарии в группы и описывает
 структуру дерева, воронок и коммуникаций — в выгрузке лежат только цифры.
 
 Какие строки куда идут:
-  communication = ALL, scenario = ALL   → дерево и портфель;
+  product = deposit/casco/osago, communication = ALL, scenario = ALL
+                                          → продуктовая воронка;
+  product = deposit, communication = ALL, scenario = ALL
+                                          → дерево и портфель;
   ALL / promo / no_promo, scenario = ALL → три воронки;
   900, scenario = ALL                    → покрытие сервисными коммуникациями;
   все коммуникации × сценарии, outflow   → блок «Сценарии оттока».
@@ -48,6 +51,8 @@ MEASURES = [
 ]
 # Разрез страницы → суффиксы колонки выгрузки, первый — основной.
 SUFFIX = {"rur": ("rur",), "clnt": ("cnt", "clnt")}
+DEPOSIT_PRODUCT = "deposit"
+PRODUCT_LABELS = {"deposit": "Вклады", "casco": "КАСКО", "osago": "ОСАГО"}
 
 # В новых выгрузках снижение остатка хранится отдельной метрикой. Старое
 # имя оставляем запасным вариантом, чтобы уже сохранённые книги продолжали
@@ -220,6 +225,15 @@ def key_text(value) -> str:
     return text
 
 
+def product_key(value) -> str:
+    """Нормализовать product, сохранив старые книги без этой колонки."""
+    if value is None or str(value).strip() == "":
+        return DEPOSIT_PRODUCT
+    text = key_text(value).lower()
+    return {"deposits": DEPOSIT_PRODUCT, "вклад": DEPOSIT_PRODUCT,
+            "вклады": DEPOSIT_PRODUCT}.get(text, text)
+
+
 def number(value) -> float | None:
     """Число из ячейки: float, int или текст в любой локали.
 
@@ -290,12 +304,13 @@ def with_deltas(values: dict[str, float]) -> dict[str, dict]:
 
 
 class Export:
-    """Выгрузка, проиндексированная по (период, коммуникация, сценарий)."""
+    """Выгрузка, проиндексированная по (период, продукт, коммуникация, сценарий)."""
 
     def __init__(self, rows: list[dict]):
         if not rows:
             raise SystemExit("Выгрузка пуста")
-        self.cells: dict[tuple[str, str, str], dict] = {}
+        self.has_product = any("product" in row for row in rows)
+        self.cells: dict[tuple[str, str, str, str], dict] = {}
         self.blank: set[tuple[str, str, str, str]] = set()
         self.filled: set[tuple[str, str, str]] = set()
         self.groups: dict[str, str] = {}
@@ -303,26 +318,28 @@ class Export:
             missing = [c for c in ("report_dt", "communication", "scenario_group", "scenario") if c not in row]
             if missing:
                 raise SystemExit(f"В выгрузке нет колонок: {', '.join(missing)}")
-            key = (period_id(row["report_dt"]), key_text(row["communication"]), key_text(row["scenario"]))
+            key = (period_id(row["report_dt"]), product_key(row.get("product")),
+                   key_text(row["communication"]), key_text(row["scenario"]))
             if key in self.cells:
                 raise SystemExit(f"Дубль строки: {' / '.join(key)}")
             self.cells[key] = row
             if key[2] != TOTAL:
-                self.groups[key[2]] = key_text(row["scenario_group"])
+                self.groups[key[3]] = key_text(row["scenario_group"])
         self.periods = sorted({key[0] for key in self.cells})
-        self.communications = sorted({key[1] for key in self.cells})
+        self.products = sorted({key[1] for key in self.cells})
+        self.communications = sorted({key[2] for key in self.cells})
 
     def value(self, period: str, communication: str, scenario: str, metric: str,
-              measure: str, required: bool = True) -> float | None:
-        row = self.cells.get((period, communication, scenario))
+              measure: str, required: bool = True, product: str = DEPOSIT_PRODUCT) -> float | None:
+        row = self.cells.get((period, product, communication, scenario))
         metric_names = METRIC_ALIASES.get(metric, (metric,))
         columns = [f"{name}_{suffix}" for name in metric_names for suffix in SUFFIX[measure]]
         column = next((c for c in columns if row is not None and c in row), columns[0])
         value = None if row is None else number(row.get(column))
         # Пустой итог (scenario = ALL) собираем из сценариев: они не пересекаются.
         if value is None and row is not None and scenario == TOTAL:
-            parts = [number(r.get(column)) for (p, c, s), r in self.cells.items()
-                     if p == period and c == communication and s != TOTAL]
+            parts = [number(r.get(column)) for (p, pr, c, s), r in self.cells.items()
+                     if p == period and pr == product and c == communication and s != TOTAL]
             if any(v is not None for v in parts):
                 self.filled.add((period, communication, column))
                 value = sum(v or 0.0 for v in parts)
@@ -332,16 +349,18 @@ class Export:
             value = 0.0
         if value is None:
             if required:
-                raise SystemExit(self.explain(period, communication, scenario, column))
+                raise SystemExit(self.explain(period, communication, scenario, column, product))
             return None
         return value / scale_of(measure)
 
-    def explain(self, period: str, communication: str, scenario: str, column: str) -> str:
+    def explain(self, period: str, communication: str, scenario: str, column: str,
+                product: str = DEPOSIT_PRODUCT) -> str:
         """Почему значения нет: нет строки, нет колонки или пустая ячейка."""
-        where = f"{period} / {communication} / {scenario}"
-        row = self.cells.get((period, communication, scenario))
+        where = (f"{period} / {communication} / {scenario}" if product == DEPOSIT_PRODUCT
+                 else f"{period} / {product} / {communication} / {scenario}")
+        row = self.cells.get((period, product, communication, scenario))
         if row is None:
-            same = sorted({k[1] for k in self.cells if k[0] == period and k[2] == scenario})
+            same = sorted({k[2] for k in self.cells if k[0] == period and k[1] == product and k[3] == scenario})
             return (f"Нет строки {where}. Периоды в выгрузке: {', '.join(self.periods)}; "
                     f"коммуникации со scenario = {scenario}: {', '.join(same) or '—'}")
         if column not in row:
@@ -350,8 +369,10 @@ class Export:
                     f"{', '.join(near) or '—'}")
         return f"Нет значения {column} в строке {where}"
 
-    def total_series(self, communication: str, metric: str, measure: str) -> dict[str, float]:
-        return {p: self.value(p, communication, TOTAL, metric, measure) for p in self.periods}
+    def total_series(self, communication: str, metric: str, measure: str,
+                    product: str = DEPOSIT_PRODUCT) -> dict[str, float]:
+        return {p: self.value(p, communication, TOTAL, metric, measure, product=product)
+                for p in self.periods}
 
 
 def warn_unsaved_formulas(workbook: Path, sheet) -> None:
@@ -436,6 +457,34 @@ def build_portfolio(export: Export) -> dict:
         }
         for m in MEASURES
     }
+
+
+def build_products(export: Export) -> list[dict]:
+    """Продуктовые ряды из communication = ALL, scenario = ALL."""
+    products = []
+    for product in export.products:
+        values = {}
+        for period in export.periods:
+            values[period] = {
+                measure["id"]: {
+                    "total": export.value(period, TOTAL, TOTAL, "tree_portfolio", measure["id"],
+                                           product=product),
+                    "expected": export.value(period, TOTAL, TOTAL, "tree_portfolio_prolong", measure["id"],
+                                              product=product),
+                    "prolonged": export.value(period, TOTAL, TOTAL, "tree_portfolio_prolong_passed", measure["id"],
+                                               product=product),
+                    "outflow": export.value(period, TOTAL, TOTAL, OUTFLOW_METRIC, measure["id"],
+                                             product=product),
+                }
+                for measure in MEASURES
+            }
+        products.append({
+            "id": product,
+            "label": PRODUCT_LABELS.get(product, product),
+            "values": values,
+            "communication": TOTAL,
+        })
+    return products
 
 
 def build_funnels(export: Export) -> list[dict]:
@@ -579,9 +628,11 @@ def build(workbook: Path, tree_out: Path, page_out: Path, benchmark: Path) -> No
             "source": workbook.name,
             "periods": graph["meta"]["periods"],
             "measures": MEASURES,
+            "productDimension": export.has_product,
             "outflowDef": "колонка outflow выгрузки: клиент потерял ≥50% баланса за месяц",
         },
         "portfolio": build_portfolio(export),
+        "products": build_products(export),
         "serviceCoverage": build_service(export),
         "funnels": funnels,
         "scenarios": scenarios,

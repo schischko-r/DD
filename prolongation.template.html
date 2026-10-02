@@ -721,28 +721,21 @@ const PERIODS_ASC = PERIODS.map((p) => p.id).slice().reverse();
 const state = {
   measure: MEASURES.some((m) => m.id === 'clnt') ? 'clnt' : MEASURES[0].id,
   period: PERIODS[0].id,
-  product: 'deposits',
+  product: 'deposit',
 };
 
-// Продуктовый срез из выгрузки пользователя. Деньги храним в млрд ₽ — в той
-// же шкале, что и остальные денежные ряды страницы.
-const PRODUCT_FILTERS = [
-  {id: 'deposits', label: 'Вклады'},
-  {id: 'casco', label: 'КАСКО', values: {
-    '2026-06': {
-      clnt: {total: 17472, expected: 1258, prolonged: 614, outflow: 611},
-      rur: {total: 55.513284001, expected: 4.454412022, prolonged: 2.571153734, outflow: 1.894486377},
-    },
-  }},
-  {id: 'osago', label: 'ОСАГО', values: {
-    '2026-06': {
-      clnt: {total: 458652, expected: 38748, prolonged: 15335, outflow: 22541},
-      rur: {total: 190.514, expected: 16.4588, prolonged: 6.5824, outflow: 9.5504},
-    },
-  }},
-];
+// Продуктовые ряды приходят из prolongation-data.json, собранного из Excel.
+// Деньги уже приведены сборкой к млрд ₽ — в той же шкале, что и остальные
+// денежные ряды страницы.
+const PRODUCT_FILTERS = Array.isArray(DATA.products) && DATA.products.length
+  ? DATA.products
+  : [{id: 'deposit', label: 'Вклады'}];
 const productById = (id) => PRODUCT_FILTERS.find((product) => product.id === id);
 const activeProduct = () => productById(state.product);
+const isPolicyProduct = () => {
+  const product = activeProduct();
+  return Boolean(product && product.values && product.id !== 'deposit');
+};
 
 const activeMeasure = () => MEASURES.find((m) => m.id === state.measure) || MEASURES[0];
 const isMoney = () => activeMeasure().id === 'rur';
@@ -1127,7 +1120,7 @@ function renderPromoNote() {
 
 function renderOutflowDefinition() {
   document.getElementById('outflowDefinitionText').innerHTML =
-    activeProduct() && activeProduct().values ? PRODUCT_OUTFLOW_NOTE : OUTFLOW_NOTE;
+    isPolicyProduct() ? PRODUCT_OUTFLOW_NOTE : OUTFLOW_NOTE;
 }
 
 function renderKpi() {
@@ -1920,7 +1913,7 @@ function renderStatus() {
   // Рыночный benchmark применим только к вкладам; для КАСКО и ОСАГО
   // сопоставимого ориентира в данных нет.
   const product = activeProduct();
-  if (isMoney() && (!product || !product.values)) {
+  if (isMoney() && (!product || product.id === 'deposit')) {
     host.append(el('div', 'recs-title', 'Рекомендации'));
     const list = el('ol', 'recs');
     const rec = benchmarkRec(series);
@@ -1934,7 +1927,7 @@ function renderStatus() {
 
 function renderNote() {
   const view = 'общий верх до пролонгации, ниже две ветки по коммуникации';
-  const methodology = activeProduct() && activeProduct().values
+  const methodology = isPolicyProduct()
     ? 'Оттекшим считаем клиента, не продлившего полис в окне 30 дней после даты пролонгации. '
       + 'Отток по объёмам рассчитываем как сумму падения AUM по клиентам.'
     : 'Отток: снижение остатка клиента более чем на 50% за месяц.';
@@ -1960,7 +1953,7 @@ function scenariosView() {
 
 function renderScenarios() {
   // Блок сценариев объявлен следующим скриптом; первый render идёт до него.
-  if (activeProduct() && activeProduct().values) {
+  if (isPolicyProduct()) {
     document.getElementById('scenarios').hidden = true;
     return;
   }
@@ -2494,7 +2487,7 @@ window.ScenariosPage = (() => {
 
   // Выбранная группа переживает смену разреза и периода.
   function update(view = {}) {
-    if ((activeProduct && activeProduct().values) || !SC || !SC.values[view.period]) {
+    if (isPolicyProduct() || !SC || !SC.values[view.period]) {
       $('scenarios').hidden = true;
       return;
     }
