@@ -504,8 +504,9 @@ a { color: var(--link); }
 .scn-title span { font-size: 12px; color: var(--ink-soft); }
 .scn-about { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
 
-.scn-grid { margin-top: 16px; display: grid; gap: 12px; align-items: start; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
-.scn-grid .scn-sankey { grid-column: auto; }
+.scn-grid { margin-top: 16px; display: grid; gap: 12px; align-items: start; grid-template-columns: minmax(0, 1fr); }
+.scn-grid > * { width: 100%; min-width: 0; }
+.scn-grid .scn-sankey { grid-column: 1; min-width: 0; }
 .scn-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .scn-view[hidden], .scn-synthetic[hidden] { display: none; }
 /* Три колонки собраны одинаково: подпись капсом, под ней карточки в рамке —
@@ -601,17 +602,17 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
 }
 .scn-sankey-tip[hidden] { display: none; }
 .scn-sankey-label {
-  font-size: 19px; fill: rgba(0, 0, 0, .8);
-  paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round;
+  font-size: 10px; fill: rgba(0, 0, 0, .8);
+  paint-order: stroke; stroke: var(--surface); stroke-width: 1.5px; stroke-linejoin: round;
 }
-.scn-sankey-sub { fill: rgba(0, 0, 0, .5); font-size: 15px; font-weight: 400; }
+.scn-sankey-sub { fill: rgba(0, 0, 0, .5); font-size: 8px; font-weight: 400; }
 .scn-sankey-note { margin-top: 8px; font-size: 11px; color: var(--ink-hint); }
 .scn-histogram { margin-top: 0; }
 .scn-histogram svg { margin-top: 10px; }
 .scn-histogram-grid { stroke: rgba(0, 0, 0, .08); stroke-width: 1; }
 .scn-histogram-axis { stroke: rgba(0, 0, 0, .22); stroke-width: 1; }
-.scn-histogram-tick { fill: var(--ink-hint); font-size: 16px; font-variant-numeric: tabular-nums; }
-.scn-histogram-value { fill: var(--ink); font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-histogram-tick { fill: var(--ink-hint); font-size: 10px; font-variant-numeric: tabular-nums; }
+.scn-histogram-value { fill: var(--ink); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
 .scn-histogram-legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; margin-top: 4px; }
 .scn-histogram-legend-item { display: flex; align-items: center; gap: 6px; min-width: 0; color: var(--ink-soft); font-size: 11px; }
 .scn-histogram-legend-item i { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 2px; }
@@ -720,7 +721,28 @@ const PERIODS_ASC = PERIODS.map((p) => p.id).slice().reverse();
 const state = {
   measure: MEASURES.some((m) => m.id === 'clnt') ? 'clnt' : MEASURES[0].id,
   period: PERIODS[0].id,
+  product: 'deposits',
 };
+
+// Продуктовый срез из выгрузки пользователя. Деньги храним в млрд ₽ — в той
+// же шкале, что и остальные денежные ряды страницы.
+const PRODUCT_FILTERS = [
+  {id: 'deposits', label: 'Вклады'},
+  {id: 'casco', label: 'КАСКО', values: {
+    '2026-06': {
+      clnt: {total: 17472, expected: 1258, prolonged: 614, outflow: 611},
+      rur: {total: 55.513284001, expected: 4.454412022, prolonged: 2.571153734, outflow: 1.894486377},
+    },
+  }},
+  {id: 'osago', label: 'ОСАГО', values: {
+    '2026-06': {
+      clnt: {total: 458652, expected: 38748, prolonged: 15335, outflow: 22541},
+      rur: {total: 190.514, expected: 16.4588, prolonged: 6.5824, outflow: 9.5504},
+    },
+  }},
+];
+const productById = (id) => PRODUCT_FILTERS.find((product) => product.id === id);
+const activeProduct = () => productById(state.product);
 
 const activeMeasure = () => MEASURES.find((m) => m.id === state.measure) || MEASURES[0];
 const isMoney = () => activeMeasure().id === 'rur';
@@ -736,8 +758,11 @@ const PROMO_NOTE = 'Промо-коммуникации учитываются �
 const SERVICE_NOTE = 'Сервисные коммуникации вокруг даты окончания вклада (коммуникация 900 '
   + 'выгрузки). Доля от ступени «Ожидается пролонгация» — та же база, что у промо.';
 const OUTFLOW_NOTE = 'Отток фиксируем, когда снижение суммарного остатка клиента на вкладах '
-  + 'и накопительных счетах за <b>30 дней</b> после пролонгации превышает <b>30%</b> суммы '
+  + 'и накопительных счетах за <b>30 дней</b> после пролонгации превышает <b>50%</b> суммы '
   + 'закрытого вклада.';
+const PRODUCT_OUTFLOW_NOTE = 'Оттекшим считаем клиента, не продлившего полис в окне '
+  + '<b>30 дней</b> после даты пролонгации. Отток по объёмам рассчитываем как сумму падения '
+  + '<b>AUM</b> по клиентам.';
 const INFO_ICON = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>';
 // В книге разрезы идут деньгами вперёд, на тумблере клиенты первыми.
 const MEASURE_ORDER = ['clnt', 'rur'];
@@ -817,6 +842,14 @@ function deltaChip(value, digits, unit, goodWhenUp = true) {
 // Отток и его долю считаем из тех же данных, что кормят воронку:
 // знаменатель — объём ожидаемых пролонгаций, а не весь портфель.
 function portfolioSeries() {
+  const product = activeProduct();
+  if (product && product.values) {
+    return PERIODS_ASC.map((id) => {
+      const row = (product.values[id] || {})[state.measure];
+      if (!row) return null;
+      return {...row, id, totalDelta: null, share: row.outflow / row.expected * 100};
+    }).filter(Boolean);
+  }
   const source = DATA.portfolio[state.measure];
   const all = funnelById('all');
   return PERIODS_ASC.map((id) => {
@@ -894,6 +927,10 @@ function fillSelect(id, list, selected, onChange) {
 }
 
 function renderFilters() {
+  fillSelect('filter-product', PRODUCT_FILTERS, state.product, (id) => {
+    state.product = id;
+    render();
+  });
   fillSelect('filter-period', PERIODS, state.period, (id) => {
     state.period = id;
     render();
@@ -1089,12 +1126,14 @@ function renderPromoNote() {
 }
 
 function renderOutflowDefinition() {
-  document.getElementById('outflowDefinitionText').innerHTML = OUTFLOW_NOTE;
+  document.getElementById('outflowDefinitionText').innerHTML =
+    activeProduct() && activeProduct().values ? PRODUCT_OUTFLOW_NOTE : OUTFLOW_NOTE;
 }
 
 function renderKpi() {
   const host = document.getElementById('kpi');
   host.innerHTML = '';
+  const product = activeProduct();
   const series = upTo(portfolioSeries());
   if (!series.length) return;
 
@@ -1106,7 +1145,7 @@ function renderKpi() {
   const shareDelta = prevShare == null ? null : last.share - prevShare;
 
   host.append(tile({
-    label: 'Общий портфель вкладов',
+    label: product && product.values ? `Общий портфель ${product.label}` : 'Общий портфель вкладов',
     value: amount(last.total),
     delta: deltaChip(last.totalDelta, 2, '% м/м'),
     foot: activeMeasure().unit,
@@ -1120,6 +1159,19 @@ function renderKpi() {
       fill: 'rgba(35, 158, 226, .1)',
     }),
   }));
+
+  if (product && product.values) {
+    host.append(tile({
+      label: 'Отток от ожидаемых пролонгаций',
+      value: `${ru(last.share, 2)}%`,
+      delta: {up: null, tone: null, text: 'срез без динамики'},
+      foot: `${amount(last.outflow)} из ${amount(last.expected)} ${activeMeasure().unit}`,
+      range,
+      spark: null,
+      hint: PRODUCT_OUTFLOW_NOTE,
+    }));
+    return;
+  }
 
   // Сервисное покрытие — строка 900 выгрузки, помесячно (byPeriod). Старый
   // формат из куба держал один срез в values — его читаем как запасной.
@@ -1187,8 +1239,10 @@ function renderKpi() {
 
 // ── воронка ───────────────────────────────────────────────────────────────
 function renderFunnelTitle() {
-  document.getElementById('funnelTitle').textContent =
-    isMoney() ? 'Воронка по деньгам' : 'Воронка по клиентам';
+  const product = activeProduct();
+  document.getElementById('funnelTitle').textContent = product && product.values
+    ? `Воронка по продукту ${product.label} · ${isMoney() ? 'деньги' : 'клиенты'}`
+    : (isMoney() ? 'Воронка по деньгам' : 'Воронка по клиентам');
 }
 
 // Доля от первой ступени. Абсолют держим в подсказке: страница читается
@@ -1218,7 +1272,7 @@ function legendLabel(step) {
   if (step.id === 'prolonged') return 'Пролонгация прошла';
   if (step.id === 'left30') return 'Закрытие в окне 30 дней';
   if (step.id === 'erosion30') return 'Снижение остатка';
-  if (step.id === 'net_outflow') return 'Снижение остатка >30%';
+  if (step.id === 'net_outflow') return 'Снижение остатка >50%';
   return step.name;
 }
 
@@ -1289,7 +1343,7 @@ function bandPath(x0, x1, y, height) {
   return `M${x0},${y} L${x1},${y} L${x1},${y + height} L${x0},${y + height} Z`;
 }
 
-function drawSplitFunnel(host, {common, branches, base}) {
+function drawSplitFunnel(host, {common, branches, base, stageLabels = null}) {
   const svgNS = 'http://www.w3.org/2000/svg';
   const width = (value) => (base ? Math.max(2, value / base * FUNNEL_W) : 0);
   const centred = (value) => {
@@ -1305,7 +1359,11 @@ function drawSplitFunnel(host, {common, branches, base}) {
   const raw = branches.map((branch) => width(branch.steps[0].value));
   const rawTotal = raw.reduce((sum, w) => sum + w, 0) || 1;
   const room = width(parent.value) - GUTTER * (branches.length - 1);
-  const laneScale = room / rawTotal;
+  // Единственная ветка должна сохранить реальную долю от общей базы. Иначе
+  // нормировка растягивает, например, отток до всей ширины ступени ожидания.
+  // Растягиваем только настоящую развилку, где несколько веток должны занять
+  // ширину родительской ступени.
+  const laneScale = branches.length > 1 ? room / rawTotal : 1;
   const heads = raw.map((w) => w * laneScale);
   const total = heads.reduce((sum, w) => sum + w, 0) + GUTTER * (branches.length - 1);
   let cursor = (FUNNEL_W - total) / 2;
@@ -1464,12 +1522,14 @@ function drawSplitFunnel(host, {common, branches, base}) {
     y += BAND + TAPER;
   }
 
-  stageName('Ожидается пролонгация', 0);
-  stageName('Пролонгация прошла', BAND + TAPER);
-  stageName('Покрытие Промо-', branchStartY, 'коммуникациями');
-  stageName('Закрытие в окне 30 дней', branchStartY + BAND + TAPER);
-  stageName('Снижение остатка', branchStartY + 2 * (BAND + TAPER));
-  stageName('Снижение остатка >30%', branchStartY + 3 * (BAND + TAPER));
+  (stageLabels || [
+    {name: 'Ожидается пролонгация', y: 0},
+    {name: 'Пролонгация прошла', y: BAND + TAPER},
+    {name: 'Покрытие Промо-', y: branchStartY, secondLine: 'коммуникациями'},
+    {name: 'Закрытие в окне 30 дней', y: branchStartY + BAND + TAPER},
+    {name: 'Снижение остатка', y: branchStartY + 2 * (BAND + TAPER)},
+    {name: 'Снижение остатка >50%', y: branchStartY + 3 * (BAND + TAPER)},
+  ]).forEach((item) => stageName(item.name, item.y, item.secondLine || ''));
   svg.append(links, shapes, labels, stageNames, hits);
   host.append(svg, tip);
 }
@@ -1491,9 +1551,61 @@ function outflowBracket(all) {
   return wrap;
 }
 
+function renderProductFunnel(host, product) {
+  const row = ((product.values || {})[state.period] || {})[state.measure];
+  if (!row) return;
+  const common = [{
+    no: 1, id: 'portfolio', name: 'Все полисы', kind: 'level',
+    value: row.total, prev: undefined, color: STEP_COLOR.expected, ref: null,
+  }, {
+    no: 2, id: 'expected', name: 'С пролонгацией в периоде', kind: 'level',
+    value: row.expected, prev: undefined, color: STEP_COLOR.prolonged, ref: null,
+  }];
+  common[1].ref = common[0];
+  const passed = {
+    no: 3, id: 'passed', name: 'Оседаемость', kind: 'level',
+    value: row.prolonged, prev: undefined, color: '#8AD554', ref: common[1],
+  };
+  const outflow = {
+    no: 4, id: 'outflow', name: 'Отток', kind: 'level',
+    value: row.outflow, prev: undefined, color: '#FF3D64', ref: common[1],
+  };
+  const stage = el('div', 'funnel-stage');
+  drawSplitFunnel(stage, {
+    common,
+    branches: [
+      {id: 'outflow', funnel: {id: product.id}, steps: [outflow]},
+    ],
+    base: row.total,
+    stageLabels: [
+      {name: 'Все полисы', y: 0},
+      {name: 'С пролонгацией в периоде', y: BAND + TAPER},
+      {name: 'Отток', y: 2 * (BAND + TAPER) + FORK},
+    ],
+  });
+  const bracket = outflowBracket({series: {[state.measure]: {[state.period]: {
+    expected: row.expected, net_outflow: row.outflow,
+  }}}});
+  if (bracket) stage.append(bracket);
+  host.append(stage);
+
+  const notes = el('div', 'funnel-notes');
+  const settled = platesFor([{
+    name: 'Оседаемость', kind: 'gain', value: row.prolonged, prev: undefined,
+  }], common[1]);
+  if (settled) notes.append(settled);
+  host.append(notes);
+}
+
 function renderFunnels() {
   const host = document.getElementById('funnels');
   host.innerHTML = '';
+
+  const product = activeProduct();
+  if (product && product.values) {
+    renderProductFunnel(host, product);
+    return;
+  }
 
   const all = funnelById('all');
   if (!all) return;
@@ -1805,8 +1917,10 @@ function renderStatus() {
   traffic.append(copy);
   host.append(traffic);
 
-  // Рыночный benchmark сопоставим только с денежным разрезом.
-  if (isMoney()) {
+  // Рыночный benchmark применим только к вкладам; для КАСКО и ОСАГО
+  // сопоставимого ориентира в данных нет.
+  const product = activeProduct();
+  if (isMoney() && (!product || !product.values)) {
     host.append(el('div', 'recs-title', 'Рекомендации'));
     const list = el('ol', 'recs');
     const rec = benchmarkRec(series);
@@ -1820,10 +1934,13 @@ function renderStatus() {
 
 function renderNote() {
   const view = 'общий верх до пролонгации, ниже две ветки по коммуникации';
+  const methodology = activeProduct() && activeProduct().values
+    ? 'Оттекшим считаем клиента, не продлившего полис в окне 30 дней после даты пролонгации. '
+      + 'Отток по объёмам рассчитываем как сумму падения AUM по клиентам.'
+    : 'Отток: снижение остатка клиента более чем на 50% за месяц.';
   document.getElementById('pageNote').textContent =
     `Срез: ${periodLabel(state.period)} · ${MEASURE_LABEL[state.measure] || activeMeasure().label} · `
-    + `${view}. Источник цифр — ${DATA.meta.source}. Отток: снижение `
-    + `остатка клиента более чем на 30% за месяц.`;
+    + `${view}. Источник цифр — ${DATA.meta.source}. ${methodology}`;
 }
 
 // ── вшитый лист: дерево и коммуникации открываются поверх страницы ───────
@@ -1843,6 +1960,10 @@ function scenariosView() {
 
 function renderScenarios() {
   // Блок сценариев объявлен следующим скриптом; первый render идёт до него.
+  if (activeProduct() && activeProduct().values) {
+    document.getElementById('scenarios').hidden = true;
+    return;
+  }
   if (window.ScenariosPage) window.ScenariosPage.update(scenariosView());
 }
 
@@ -2257,7 +2378,7 @@ window.ScenariosPage = (() => {
       const t = svg('text', {x: n.x + nw + 6, y: n.y + Math.min(n.h, slot) / 2 - 2, class: 'scn-sankey-label'});
       const a = svg('tspan', {'font-weight': 600});
       a.textContent = n.label;
-      const b = svg('tspan', {x: n.x + nw + 6, dy: 13, class: 'scn-sankey-sub'});
+      const b = svg('tspan', {x: n.x + nw + 6, dy: 10, class: 'scn-sankey-sub'});
       b.textContent = n.id === 'root'
         ? (afterClosure ? '100% оттока' : amount(focusValue(TOTAL, f)))
         : `${fmt(n.value, 1)}% оттока${afterClosure ? '' : ` ${f.of}`}`;
@@ -2373,7 +2494,7 @@ window.ScenariosPage = (() => {
 
   // Выбранная группа переживает смену разреза и периода.
   function update(view = {}) {
-    if (!SC || !SC.values[view.period]) {
+    if ((activeProduct && activeProduct().values) || !SC || !SC.values[view.period]) {
       $('scenarios').hidden = true;
       return;
     }
