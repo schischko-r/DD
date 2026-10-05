@@ -116,7 +116,7 @@ FUNNEL_STEPS = [
     (4, "left30", "tree_portfolio_prolong_left_after_30d", "level"),
     (5, "erosion30", "balance_decrease", "level"),
     (6, "net_outflow", "outflow", "level"),
-    (7, "not_waited", "tree_portfolio_prolong_erosion", "leak"),
+    (7, "not_waited", "tree_portfolio_not_prolong_erosion", "leak"),
     (8, "settled", "tree_portfolio_prolong_settlement", "gain"),
 ]
 FUNNELS = [
@@ -132,8 +132,8 @@ FUNNELS = [
 STEP_NAMES = {
     "expected": "Ожидается пролонгация",
     "left30": "Закрыли в окне 30 дней",
-    "erosion30": "Снижение остатка",
-    "net_outflow": "Чистый отток",
+    "erosion30": "Вывели со сбережений",
+    "net_outflow": "Вывели со сбережений >50%",
     "not_waited": "Вывели до пролонгации",
     "settled": "Осело через 30 дней",
 }

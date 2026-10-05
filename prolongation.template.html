@@ -72,6 +72,7 @@ a { color: var(--link); }
 }
 .filter select:hover { border-color: var(--line-hover); }
 .filter select:disabled { color: var(--ink); cursor: default; opacity: 1; background: rgba(0, 0, 0, .02); }
+.filter-measure .filter-label { display: block; }
 .filter-measure .switch { margin-top: 4px; }
 
 /* ── карточки ────────────────────────────────────────────────────────── */
@@ -753,8 +754,9 @@ const PROMO_NOTE = 'Промо-коммуникации учитываются �
 const SERVICE_NOTE = 'Сервисные коммуникации вокруг даты окончания вклада (коммуникация 900 '
   + 'выгрузки). Доля от ступени «Ожидается пролонгация» — та же база, что у промо.';
 const OUTFLOW_NOTE = 'Отток фиксируем, когда снижение суммарного остатка клиента на вкладах '
-  + 'и накопительных счетах за <b>30 дней</b> после пролонгации.<br>'
-  + 'Фокусным считаем снижение остатка на балансе <b>более 50%</b> от остатка на счете.';
+  + 'и накопительных счетах за <b>30 дней</b> после пролонгации.'
+  + '<span style="display:block;margin-top:4px">Фокусным считаем снижение остатка на балансе '
+  + '<b>более 50%</b> от остатка на счете.</span>';
 const PRODUCT_OUTFLOW_NOTE = 'Оттекшим считаем клиента, не продлившего полис в окне '
   + '<b>30 дней</b> после даты пролонгации. Отток по объёмам рассчитываем как сумму падения '
   + '<b>AUM</b> по клиентам.';
@@ -1288,8 +1290,8 @@ function legendLabel(step) {
   }
   if (step.id === 'prolonged') return 'Пролонгация прошла';
   if (step.id === 'left30') return 'Закрытие в окне 30 дней';
-  if (step.id === 'erosion30') return 'Снижение остатка';
-  if (step.id === 'net_outflow') return 'Снижение остатка >50%';
+  if (step.id === 'erosion30') return 'Вывели со сбережений';
+  if (step.id === 'net_outflow') return 'Вывели со сбережений >50%';
   return step.name;
 }
 
@@ -1544,8 +1546,8 @@ function drawSplitFunnel(host, {common, branches, base, stageLabels = null}) {
     {name: 'Пролонгация прошла', y: BAND + TAPER},
     {name: 'Покрытие Промо-', y: branchStartY, secondLine: 'коммуникациями'},
     {name: 'Закрытие в окне 30 дней', y: branchStartY + BAND + TAPER},
-    {name: 'Снижение остатка', y: branchStartY + 2 * (BAND + TAPER)},
-    {name: 'Снижение остатка >50%', y: branchStartY + 3 * (BAND + TAPER)},
+    {name: 'Вывели со сбережений', y: branchStartY + 2 * (BAND + TAPER)},
+    {name: 'Вывели со сбережений >50%', y: branchStartY + 3 * (BAND + TAPER)},
   ]).forEach((item) => stageName(item.name, item.y, item.secondLine || ''));
   svg.append(links, shapes, labels, stageNames, hits);
   host.append(svg, tip);
