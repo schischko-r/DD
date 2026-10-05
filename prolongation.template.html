@@ -753,8 +753,8 @@ const PROMO_NOTE = 'Промо-коммуникации учитываются �
 const SERVICE_NOTE = 'Сервисные коммуникации вокруг даты окончания вклада (коммуникация 900 '
   + 'выгрузки). Доля от ступени «Ожидается пролонгация» — та же база, что у промо.';
 const OUTFLOW_NOTE = 'Отток фиксируем, когда снижение суммарного остатка клиента на вкладах '
-  + 'и накопительных счетах за <b>30 дней</b> после пролонгации превышает <b>50%</b> суммы '
-  + 'закрытого вклада.';
+  + 'и накопительных счетах за <b>30 дней</b> после пролонгации.<br>'
+  + 'Фокусным считаем снижение остатка на балансе <b>более 50%</b> от остатка на счете.';
 const PRODUCT_OUTFLOW_NOTE = 'Оттекшим считаем клиента, не продлившего полис в окне '
   + '<b>30 дней</b> после даты пролонгации. Отток по объёмам рассчитываем как сумму падения '
   + '<b>AUM</b> по клиентам.';
@@ -1183,13 +1183,29 @@ function renderKpi() {
     : service.values[state.measure]);
   if (serviceValues && serviceValues.total) {
     const sameMonth = byPeriod ? true : service.period === state.period;
+    const serviceSeries = byPeriod ? upTo(PERIODS_ASC.map((id) => {
+      const row = (byPeriod[id] || {})[state.measure];
+      if (!row || !Number.isFinite(row.covered) || !Number.isFinite(row.total) || !row.total) return null;
+      return {id, share: row.covered / row.total * 100};
+    }).filter(Boolean)) : [];
+    const serviceDelta = serviceSeries.length > 1
+      ? serviceSeries[serviceSeries.length - 1].share - serviceSeries[serviceSeries.length - 2].share
+      : null;
     host.append(tile({
       label: 'Покрыто сервисными коммуникациями',
       value: sameMonth ? `${ru(serviceValues.covered / serviceValues.total * 100, 1)}%` : '—',
-      delta: {up: null, tone: null, text: sameMonth ? 'срез без динамики' : 'нет данных за период'},
+      delta: sameMonth ? deltaChip(serviceDelta, 1, 'п.п. м/м')
+        : {up: null, tone: null, text: 'нет данных за период'},
       foot: '',
       range: periodLabel(byPeriod ? state.period : service.period),
-      spark: null,
+      spark: serviceSeries.length ? sparkline({
+        points: serviceSeries.map((row) => ({
+          label: periodLabel(row.id), text: `${ru(row.share, 1)}%`, raw: row.share,
+        })),
+        accent: '#23a4df',
+        dim: 'rgba(35, 164, 223, .45)',
+        fill: 'rgba(35, 164, 223, .1)',
+      }) : null,
       hint: `${SERVICE_NOTE} База — ${service.baseLabel.toLowerCase()}: `
         + `${amount(serviceValues.covered)} из ${amount(serviceValues.total)}.`,
     }));
