@@ -147,8 +147,19 @@ SCENARIO_GROUPS = {
     "saving": "Перевод в накопления",
     "PAYMENTS": "Платежи",
     "bal_dc": "Оставили на ДК",
-    "other": "прочее",
+    "other": "Прочее",
 }
+
+
+def scenario_group(group: str, scenario: str) -> str:
+    """Разделяет старую общую группу переводов на актуальные группы."""
+    if group != "transfers_atm":
+        return group
+    if scenario == "m2m":
+        return "transfers_m2m"
+    if scenario == "p2p" or ("p2p" in scenario and "atm" not in scenario):
+        return "transfers_p2p"
+    return group
 SCENARIO_NAMES = {
     "payments": "Платежи",
     "pos": "POS-оборот",
@@ -333,7 +344,9 @@ class Export:
             # оттока. Её нельзя включать в разрез сценариев: иначе она
             # дублирует весь отток и ломает сумму веток.
             if key[1] == DEPOSIT_PRODUCT and key[2] != TOTAL and key[3] != TOTAL:
-                self.groups[key[3]] = key_text(row["scenario_group"])
+                self.groups[key[3]] = scenario_group(
+                    key_text(row["scenario_group"]), key[3]
+                )
         self.periods = sorted({key[0] for key in self.cells})
         self.products = sorted({key[1] for key in self.cells})
         self.communications = sorted({key[2] for key in self.cells})
