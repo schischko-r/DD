@@ -72,6 +72,7 @@ a { color: var(--link); }
 }
 .filter select:hover { border-color: var(--line-hover); }
 .filter select:disabled { color: var(--ink); cursor: default; opacity: 1; background: rgba(0, 0, 0, .02); }
+.filter-measure .switch { margin-top: 4px; }
 
 /* ── карточки ────────────────────────────────────────────────────────── */
 .card {
@@ -646,6 +647,10 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
           <label class="filter-label" for="filter-period">Период</label>
           <select id="filter-period"></select>
         </div>
+        <div class="filter filter-measure">
+          <span class="filter-label">Разрез</span>
+          <div class="switch" id="measureSwitch" role="tablist" aria-label="Единица измерения"></div>
+        </div>
       </div>
     </header>
 
@@ -664,11 +669,6 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
     <section class="card funnel-card">
       <div class="card-head">
         <h2 id="funnelTitle">Воронка</h2>
-        <div class="switches">
-          <div class="switch" id="productSwitch" role="tablist" aria-label="Продукт"></div>
-          <div class="switch" id="periodSwitch" role="tablist" aria-label="Период"></div>
-          <div class="switch" id="measureSwitch" role="tablist" aria-label="Единица измерения"></div>
-        </div>
       </div>
       <p class="disclaimer">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
@@ -957,14 +957,6 @@ function renderSwitch(hostId, options, current, onPick) {
 }
 
 function renderSwitches() {
-  renderSwitch('productSwitch', PRODUCT_FILTERS, state.product, (id) => {
-    state.product = id;
-    render();
-  });
-  renderSwitch('periodSwitch', PERIODS, state.period, (id) => {
-    state.period = id;
-    render();
-  });
   renderSwitch('measureSwitch', measureOptions().map((m) => ({
     id: m.id, label: MEASURE_LABEL[m.id] || m.label, title: m.unit,
   })), state.measure, (id) => {
