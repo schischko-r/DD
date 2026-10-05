@@ -1,0 +1,112 @@
+:root {
+  font-family: var(--g-font-family-sans);
+  color: var(--g-color-text-primary);
+  background: var(--g-color-base-background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { min-height: 100%; margin: 0; }
+body { min-width: 320px; background: var(--g-color-base-generic-ultralight); }
+
+.questionnaire-page {
+  --questionnaire-canvas: var(--g-color-base-generic-ultralight);
+  --questionnaire-line: var(--g-color-line-generic);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  background: var(--questionnaire-canvas);
+}
+
+.questionnaire-header {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  background: var(--g-color-base-background);
+}
+
+.questionnaire-brand { display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.questionnaire-brand span {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 10px;
+  color: var(--g-color-text-brand-contrast);
+  background: var(--g-color-base-brand);
+  font-weight: 700;
+  letter-spacing: -.03em;
+}
+.questionnaire-step { color: var(--g-color-text-secondary); font-size: 13px; font-variant-numeric: tabular-nums; }
+.questionnaire-progress { width: 100%; border-radius: 0; }
+
+.questionnaire-form {
+  width: min(100%, 880px);
+  min-height: 0;
+  margin: 0 auto;
+  padding: clamp(48px, 8vh, 88px) 40px 32px;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: 56px;
+}
+
+.questionnaire-question { align-self: center; width: min(100%, 720px); }
+.questionnaire-route { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; color: var(--g-color-text-secondary); }
+.questionnaire-route span { color: var(--g-color-text-brand); font-size: 13px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.questionnaire-route i { width: 56px; height: 1px; background: var(--questionnaire-line); }
+.questionnaire-route small { overflow: hidden; max-width: 360px; text-overflow: ellipsis; white-space: nowrap; }
+.questionnaire-eyebrow { margin: 0 0 12px; color: var(--g-color-text-brand); font-size: 13px; font-weight: 600; letter-spacing: .025em; }
+.questionnaire-question h1, .questionnaire-state h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: clamp(30px, 5vw, 46px);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.questionnaire-hint { max-width: 620px; margin: 16px 0 0; color: var(--g-color-text-secondary); font-size: 16px; line-height: 1.5; text-wrap: pretty; }
+.questionnaire-control { width: min(100%, 620px); margin-top: 36px; }
+.questionnaire-control .g-text-area { width: 100%; }
+.questionnaire-validation { min-height: 20px; margin-top: 8px; color: var(--g-color-text-danger); font-size: 13px; }
+
+.questionnaire-actions { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; border-top: 1px solid var(--questionnaire-line); }
+.questionnaire-continue { display: flex; align-items: center; gap: 16px; }
+.questionnaire-continue > span { color: var(--g-color-text-hint); font-size: 12px; }
+
+.questionnaire-state {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding: 32px;
+  text-align: center;
+  background: var(--g-color-base-generic-ultralight);
+}
+.questionnaire-state > p { max-width: 560px; color: var(--g-color-text-secondary); font-size: 16px; line-height: 1.5; }
+.questionnaire-complete > svg { margin-bottom: 24px; color: var(--g-color-text-positive); }
+.questionnaire-complete .questionnaire-eyebrow { margin-bottom: 12px; }
+.questionnaire-complete .g-button { margin-top: 16px; }
+
+@media (max-width: 640px) {
+  .questionnaire-header { min-height: 64px; padding: 0 20px; }
+  .questionnaire-brand b { display: none; }
+  .questionnaire-form { padding: 40px 20px 20px; gap: 36px; }
+  .questionnaire-route { margin-bottom: 28px; }
+  .questionnaire-route i { width: 32px; }
+  .questionnaire-control { margin-top: 28px; }
+  .questionnaire-actions { align-items: stretch; gap: 12px; }
+  .questionnaire-continue { flex: 1; }
+  .questionnaire-continue > span { display: none; }
+  .questionnaire-continue .g-button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}
