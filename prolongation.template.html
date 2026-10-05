@@ -114,8 +114,20 @@ a { color: var(--link); }
 .outflow-definition p { max-width: 880px; margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: -.01em; }
 .outflow-definition p b { font-weight: 700; }
 
+.recommendation {
+  margin-top: 20px; padding: 14px 16px;
+  border: 1px solid rgba(35, 158, 226, .2); border-radius: 8px;
+  background: var(--info-light); color: var(--ink); font-size: 13px; line-height: 1.5;
+}
+.recommendation h2 { margin: 0 0 7px; font-size: 13px; font-weight: 700; color: var(--brand); }
+.recommendation ol { margin: 0; padding-left: 20px; }
+.recommendation li + li { margin-top: 4px; }
+.recommendation b { font-weight: 700; }
+.recommendation[hidden] { display: none; }
+
 /* ── воронка ─────────────────────────────────────────────────────────── */
 .funnel-card .card-head { margin-bottom: 10px; }
+.funnel-card .card-head .switch { margin-left: auto; }
 /* Дисклеймер о разметке промо: полоской под шапкой карточки воронки. */
 .disclaimer {
   margin: 0 0 14px; padding: 9px 12px;
@@ -228,6 +240,7 @@ a { color: var(--link); }
   display: inline-flex; gap: 2px; padding: 2px;
   border: 1px solid var(--line); border-radius: 7px; background: rgba(0, 0, 0, .03);
 }
+.switch[hidden] { display: none; }
 .switch button {
   padding: 4px 11px; border: 0; border-radius: 5px; background: none;
   font-size: 12px; color: var(--ink-soft); cursor: pointer; white-space: nowrap;
@@ -655,6 +668,8 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
       </div>
     </header>
 
+    <section class="recommendation" id="recommendation" hidden></section>
+
     <section class="outflow-definition" aria-labelledby="outflowDefinitionTitle">
       <div class="outflow-definition-icon" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
@@ -670,6 +685,7 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
     <section class="card funnel-card">
       <div class="card-head">
         <h2 id="funnelTitle">Воронка</h2>
+        <div class="switch" id="funnelSwitch" role="tablist" aria-label="Когорта воронки"></div>
       </div>
       <p class="disclaimer">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
@@ -725,6 +741,7 @@ const state = {
   measure: MEASURES.some((m) => m.id === 'clnt') ? 'clnt' : MEASURES[0].id,
   period: PERIODS[0].id,
   product: 'deposit',
+  funnel: 'all',
 };
 
 // Продуктовые ряды приходят из prolongation-data.json, собранного из Excel.
@@ -753,8 +770,8 @@ const PROMO_NOTE = 'Промо-коммуникации учитываются �
   + '<b>Накопительный счёт</b> согласно продуктовой разметке ЕВК.';
 const SERVICE_NOTE = 'Сервисные коммуникации вокруг даты окончания вклада (коммуникация 900 '
   + 'выгрузки). Доля от ступени «Ожидается пролонгация» — та же база, что у промо.';
-const OUTFLOW_NOTE = 'Отток фиксируем, когда снижение суммарного остатка клиента на вкладах '
-  + 'и накопительных счетах за <b>30 дней</b> после пролонгации.'
+const OUTFLOW_NOTE = 'Отток фиксируем, как снижение суммарного остатка клиента на вкладах '
+  + 'и накопительных счетах в окне <b>30 дней</b>.'
   + '<span style="display:block;margin-top:4px">Фокусным считаем снижение остатка на балансе '
   + '<b>более 50%</b> от остатка на счете.</span>';
 const PRODUCT_OUTFLOW_NOTE = 'Оттекшим считаем клиента, не продлившего полис в окне '
@@ -771,6 +788,11 @@ const COHORT_TITLE = {
   promo: 'Получили коммуникацию',
 };
 const SPLIT_ORDER = ['base', 'promo'];
+const FUNNEL_OPTIONS = [
+  {id: 'all', label: 'Общая'},
+  {id: 'promo', label: 'Покрытые промо-коммуникациями'},
+  {id: 'base', label: 'Не получили промо-коммуникации'},
+];
 // Ступени, где рост конверсии — плохая новость. Для остальных выше — лучше.
 const BAD_WHEN_UP = new Set(['net_outflow', 'not_waited', 'left30', 'erosion30']);
 // «Осело» в этот набор не входит: там рост — хорошая новость.
@@ -965,6 +987,14 @@ function renderSwitches() {
     state.measure = id;
     render();
   });
+  const funnelSwitch = document.getElementById('funnelSwitch');
+  funnelSwitch.hidden = isPolicyProduct();
+  if (!isPolicyProduct()) {
+    renderSwitch('funnelSwitch', FUNNEL_OPTIONS, state.funnel, (id) => {
+      state.funnel = id;
+      render();
+    });
+  }
 }
 
 // ── пояснение по клику ────────────────────────────────────────────────────
@@ -1128,6 +1158,44 @@ function renderPromoNote() {
   document.getElementById('promoNote').innerHTML = PROMO_NOTE;
 }
 
+function renderRecommendation() {
+  const host = document.getElementById('recommendation');
+  host.hidden = true;
+  host.innerHTML = '';
+  if (isPolicyProduct()) return;
+  const all = funnelById('all');
+  const base = funnelById('base');
+  const currentAll = all && ((all.series.clnt || {})[state.period] || {}).expected;
+  const currentBase = base && ((base.series.clnt || {})[state.period] || {}).expected;
+  if (!currentAll || !Number.isFinite(currentBase)) return;
+  const share = currentBase / currentAll * 100;
+  let promoText = `Из <b>${ru(currentAll)}</b> клиентов <b>${ru(currentBase)}</b> не получает `
+    + `промо-коммуникации (<b>${ru(share, 1)}%</b>).`;
+  const beforeId = previousPeriod(state.period);
+  const beforeAll = beforeId && ((all.series.clnt || {})[beforeId] || {}).expected;
+  const beforeBase = beforeId && ((base.series.clnt || {})[beforeId] || {}).expected;
+  if (beforeAll && Number.isFinite(beforeBase)) {
+    const delta = share - beforeBase / beforeAll * 100;
+    if (delta > 0.05) promoText += ` Доля таких клиентов растёт м/м на <b>${ru(delta, 1)} п.п.</b>`;
+  }
+  const scenarioBlock = (((DATA.scenarios || {}).values || {})[state.period] || {}).ALL || {};
+  const scenarioTotal = ((scenarioBlock.total || {}).clnt) || 0;
+  const scenarioGroups = scenarioBlock.groups || {};
+  const groupClients = (id) => ((scenarioGroups[id] || {}).clnt) || 0;
+  const groupShare = (value) => scenarioTotal ? value / scenarioTotal * 100 : 0;
+  const transfersShare = groupShare(groupClients('transfers_m2m') + groupClients('transfers_p2p'));
+  const atmShare = groupShare(groupClients('transfers_atm'));
+  host.innerHTML = '<h2>AI-Рекомендации:</h2><ol>'
+    + `<li>${promoText}</li>`
+    + `<li>M2M &amp; P2P переводы суммарно занимают <b>${ru(transfersShare, 1)}%</b> от оттока — `
+    + 'рекомендуем настроить контекстуальные баннеры в сценарии перевода на этапе подтверждения.</li>'
+    + `<li>Снятие в банкомате занимает <b>${ru(atmShare, 1)}%</b> — рекомендуем настроить баннер `
+    + 'с рекламой УС перед подтверждением операции при выдаче большой суммы.</li>'
+    + '<li>После перевода денег вне банка рекомендуем Win-back сценарий: push → баннер в приложении '
+    + '→ персональный оффер → повторная коммуникация через несколько дней.</li></ol>';
+  host.hidden = false;
+}
+
 function renderOutflowDefinition() {
   document.getElementById('outflowDefinitionText').innerHTML =
     isPolicyProduct() ? PRODUCT_OUTFLOW_NOTE : OUTFLOW_NOTE;
@@ -1269,9 +1337,7 @@ function renderFunnelTitle() {
 const shareText = (value, base) => (base ? `${ru(value / base * 100, 1)}%` : '—');
 
 
-// Доля ступени считается от предыдущей, а не от базы воронки: так видно
-// потерю именно на этом переходе. Ссылку на предыдущий шаг ступень несёт
-// в step.ref — её проставляет renderFunnels, когда собирает цепочку.
+// Все доли считаются от верхней ступени выбранной воронки.
 const stepShare = (step) => (step.ref ? shareText(step.value, step.ref.value) : '100,0%');
 // Число для подписи: в деньгах с единицей, в клиентах — голое, единица в заголовке.
 const stepNumber = (step) => (isMoney() ? amountText(step.value) : amount(step.value));
@@ -1485,7 +1551,7 @@ function drawSplitFunnel(host, {common, branches, base, stageLabels = null}) {
     node.addEventListener('pointerenter', () => {
       tip.innerHTML = '';
       tip.append(el('i', null, step.name),
-        el('b', null, `${amountText(step.value)} · ${stepShare(step)} от предыдущего шага`));
+        el('b', null, `${amountText(step.value)} · ${stepShare(step)} от верха воронки`));
       tip.style.left = `${(span[0] + span[1]) / 2 / FUNNEL_W * 100}%`;
       tip.style.top = `${(y + BAND) / height * 100}%`;
       tip.hidden = false;
@@ -1628,65 +1694,43 @@ function renderFunnels() {
     return;
   }
 
-  const all = funnelById('all');
-  if (!all) return;
-  const common = funnelSteps(all).slice(0, 2);
-  if (!common.length) return;
-  const base = common[0].value;
-  const prevBase = common[0].prev;
+  const selected = funnelById(state.funnel) || funnelById('all');
+  if (!selected) return;
+  const steps = funnelSteps(selected);
+  if (!steps.length) return;
+  const baseStep = steps[0];
+  const base = baseStep.value;
   pageBase = base;
-
-  common.forEach((step, index) => {
+  steps.forEach((step, index) => {
     step.color = STEP_COLOR[step.id] || FALLBACK_COLOR;
-    step.ref = index ? common[index - 1] : null;
+    step.ref = index ? baseStep : null;
   });
-
-  const branches = SPLIT_ORDER
-    .map((id) => ({id, funnel: funnelById(id)}))
-    .filter((item) => item.funnel)
-    .map((item) => ({...item, steps: funnelSteps(item.funnel).slice(1),
-      title: COHORT_TITLE[item.id] || item.funnel.name}));
-  if (!branches.length) return;
-  const forkFrom = common[common.length - 1];
-  branches.forEach((item) => item.steps.forEach((step, index) => {
-    // Голова ветки красится по когорте, остальные ступени — по смыслу.
-    step.color = index === 0
-      ? (BRANCH_COLOR[item.id] || FALLBACK_COLOR)
-      : (STEP_COLOR[step.id] || FALLBACK_COLOR);
-    // Голова ветки отсчитывается от ступени, из которой вышла развилка.
-    step.ref = index ? item.steps[index - 1] : forkFrom;
-  }));
+  const common = [baseStep];
+  const branches = [{
+    id: state.funnel,
+    funnel: selected,
+    steps: steps.slice(1),
+    title: FUNNEL_OPTIONS.find((item) => item.id === state.funnel)?.label || selected.name,
+  }];
+  if (!branches[0].steps.length) return;
 
   const stage = el('div', 'funnel-stage');
-  drawSplitFunnel(stage, {common, branches, base});
-  const bracket = outflowBracket(all);
+  drawSplitFunnel(stage, {
+    common, branches, base,
+    stageLabels: steps.map((step, index) => ({
+      name: legendLabel(step), y: index * (BAND + TAPER),
+    })),
+  });
+  const bracket = outflowBracket(selected);
   if (bracket) stage.append(bracket);
   host.append(stage);
 
-  // Все подписи одним блоком под воронкой — между фигурами ничего нет.
+  // Под графиком остаются только итоговые плашки, без дублирующей таблицы этапов.
   const notes = el('div', 'funnel-notes');
-  // Плашка «вывели до пролонгации» — доля от когорты, из которой вывели.
-  const commonPlates = platesFor(funnelLeaks(all), common[0]);
+  const commonPlates = platesFor(funnelLeaks(selected), baseStep);
   if (commonPlates) notes.append(commonPlates);
-
-  const gainColumns = el('div', 'funnel-branches');
-  branches.forEach((item) => {
-    const column = el('div');
-    // «Осело» считается от головы ветки: это её остаток, а не доля базы.
-    const plates = platesFor(funnelGains(item.funnel), item.steps[0]);
-    if (plates) column.append(plates);
-    gainColumns.append(column);
-  });
-  notes.append(gainColumns);
-
-  notes.append(legendFor(common));
-  const columns = el('div', 'funnel-branches');
-  branches.forEach((item) => {
-    const column = el('div');
-    column.append(legendFor(item.steps));
-    columns.append(column);
-  });
-  notes.append(columns);
+  const gains = platesFor(funnelGains(selected), baseStep);
+  if (gains) notes.append(gains);
   host.append(notes);
 }
 
@@ -2026,6 +2070,7 @@ document.addEventListener('keydown', (event) => {
 function render() {
   renderSwitches();
   renderPromoNote();
+  renderRecommendation();
   renderOutflowDefinition();
   renderFunnelTitle();
   renderKpi();

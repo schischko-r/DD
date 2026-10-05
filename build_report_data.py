@@ -525,11 +525,17 @@ def build_funnels(export: Export) -> list[dict]:
         steps.sort(key=lambda step: (step["kind"] != "level", step["no"]))
         series = {}
         for measure in MEASURES:
-            series[measure["id"]] = {
-                period: {step: export.value(period, spec["communication"], TOTAL, metric, measure["id"])
-                         for _, step, metric, _ in FUNNEL_STEPS}
-                for period in export.periods
-            }
+            by_period = {}
+            for period in export.periods:
+                values = {
+                    step: export.value(period, spec["communication"], TOTAL, metric, measure["id"])
+                    for _, step, metric, _ in FUNNEL_STEPS
+                }
+                # «Вывели до пролонгации» — разница первых двух ступеней,
+                # а не отдельная erosion-метрика выгрузки.
+                values["not_waited"] = max(values["expected"] - values["prolonged"], 0)
+                by_period[period] = values
+            series[measure["id"]] = by_period
         funnels.append({"id": spec["id"], "name": spec["name"], "note": spec["note"],
                         "steps": steps, "series": series})
     return funnels
