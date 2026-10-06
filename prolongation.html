@@ -111,7 +111,7 @@ a { color: var(--link); }
   border-radius: 10px; background: rgba(233, 3, 58, .1); color: var(--bad);
 }
 .outflow-definition h2 { margin: 0 0 5px; font-size: 13px; font-weight: 700; color: var(--bad); }
-.outflow-definition p { max-width: 880px; margin: 0; font-size: 16px; line-height: 1.45; letter-spacing: -.01em; }
+.outflow-definition p { max-width: 880px; margin: 0; font-size: 13px; line-height: 1.5; }
 .outflow-definition p b { font-weight: 700; }
 
 .recommendation {
@@ -128,6 +128,41 @@ a { color: var(--link); }
 /* ── воронка ─────────────────────────────────────────────────────────── */
 .funnel-card .card-head { margin-bottom: 10px; }
 .funnel-card .card-head .switch { margin-left: auto; }
+.communication-layer .card-head { margin-bottom: 12px; }
+.communication-layer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.communication-cohort { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 8px; }
+.communication-cohort h3 { margin: 0; font-size: 13px; font-weight: 700; }
+.communication-coverage { margin-top: 9px; font-size: 30px; line-height: 1.1; font-weight: 700; font-variant-numeric: tabular-nums; }
+.communication-count { margin-top: 4px; font-size: 11px; color: var(--ink-soft); }
+.communication-bars { display: grid; gap: 12px; margin-top: 18px; }
+.communication-bar-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 4px; font-size: 12px; }
+.communication-bar-head b { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.communication-track { height: 7px; overflow: hidden; border-radius: 4px; background: rgba(0, 0, 0, .06); }
+.communication-track i { display: block; height: 100%; border-radius: inherit; background: var(--brand); }
+.communication-bar:nth-child(2) .communication-track i { background: #FFC636; }
+.communication-bar:nth-child(3) .communication-track i { background: #F3A847; }
+.communication-bar:nth-child(4) .communication-track i { background: #FFB9DD; }
+.communication-bar-detail { margin-top: 3px; color: var(--ink-hint); font-size: 11px; font-variant-numeric: tabular-nums; }
+.client-journey .card-head { margin-bottom: 14px; }
+.journey-label { margin: 0 0 8px; font-size: 12px; font-weight: 700; }
+.journey-stats, .journey-assessment { display: grid; gap: 12px; }
+.journey-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.journey-stat, .journey-assessment section { min-width: 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; }
+.journey-stat.good, .journey-assessment .good { border-color: rgba(31, 156, 83, .25); background: rgba(31, 156, 83, .07); }
+.journey-stat.bad, .journey-assessment .bad { border-color: rgba(233, 3, 58, .2); background: rgba(233, 3, 58, .05); }
+.journey-stat-title { display: block; font-size: 12px; font-weight: 600; }
+.journey-stat-value { display: block; margin-top: 5px; font-size: 26px; line-height: 1.15; font-weight: 700; font-variant-numeric: tabular-nums; }
+.journey-stat-value small { font-size: 13px; font-weight: 500; }
+.journey-stat-note { display: block; margin-top: 3px; font-size: 11px; color: var(--ink-soft); }
+.journey-assessment { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 12px; }
+.journey-assessment h3, .journey-actions h3 { margin: 0 0 8px; font-size: 13px; }
+.journey-assessment .good h3 { color: var(--good); }
+.journey-assessment .bad h3 { color: var(--bad); }
+.journey-assessment ul, .journey-actions ol { margin: 0; padding-left: 19px; }
+.journey-assessment li + li, .journey-actions li + li { margin-top: 6px; }
+.journey-actions { margin-top: 16px; }
+.journey-footer { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-soft); }
+.journey-footer a { font-weight: 600; }
 /* Дисклеймер о разметке промо: полоской под шапкой карточки воронки. */
 .disclaimer {
   margin: 0 0 14px; padding: 9px 12px;
@@ -457,188 +492,68 @@ a { color: var(--link); }
   .filter { flex: 1 1 200px; min-width: 0; }
   .rec { grid-template-columns: minmax(0, 1fr); gap: 8px; }
 }
+@media (max-width: 680px) {
+  .communication-layer-grid, .journey-assessment { grid-template-columns: minmax(0, 1fr); }
+  .journey-stats { grid-template-columns: minmax(0, 1fr); }
+}
 /* ── внутренняя страница «Сценарии оттока» ────────────────────────────── */
 /* Блок под светофором в карточке статуса; классы с префиксом scn-,
    чтобы не задеть отчёт. */
-.scn-view { --promo: #8b5cf6; --service: #239ee2; --other: #e08800; }
+/* Сценарии после закрытия: группы раскрываются независимо. */
+.scn-view { --promo: #8b5cf6; --service: #239ee2; margin-top: 24px; }
+.scn-view[hidden], .scn-synthetic[hidden] { display: none; }
 .scn-synthetic {
-  display: inline-flex; margin-left: 8px; vertical-align: middle; letter-spacing: 0; text-transform: none; padding: 3px 9px; border-radius: 6px;
-  font-size: 11px; font-weight: 600; background: rgba(224, 136, 0, .12); color: #7a4a00;
+  display: inline-flex; margin-left: 8px; vertical-align: middle; padding: 3px 9px;
+  border-radius: 6px; background: rgba(224,136,0,.12); color: #7a4a00;
+  font-size: 11px; font-weight: 600;
 }
 .scn-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .scn-head .recs-title { margin-bottom: 0; }
-.scn-detail {
-  margin-top: 12px; padding: 14px;
-  border: 1px solid var(--line); border-radius: 8px; background: var(--canvas);
-}
 .scn-total { font-size: 12px; color: var(--ink-soft); }
 .scn-total b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
-
-.scn-bar {
-  margin-top: 14px; display: flex; height: 40px; gap: 2px;
-  border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, .04);
+.scn-accordion { display: grid; gap: 8px; margin-top: 16px; }
+.scn-group { border: 1px solid var(--line); border-radius: 8px; background: var(--surface); overflow: hidden; }
+.scn-group[open] { border-color: rgba(35,158,226,.35); }
+.scn-group-summary {
+  display: grid; grid-template-columns: minmax(0,1fr) 72px minmax(120px,220px) 16px;
+  align-items: center; gap: 14px; padding: 15px 18px; cursor: pointer; list-style: none;
 }
-.scn-bar button {
-  min-width: 0; padding: 0 10px; border: 0; cursor: pointer;
-  display: flex; align-items: center;
-  font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden;
-  transition: opacity .15s, filter .15s;
-}
-.scn-bar button:hover { filter: brightness(1.05); }
-.scn-bar.has-pick button:not([aria-pressed="true"]) { opacity: .35; }
-.scn-bar button span { overflow: hidden; text-overflow: ellipsis; }
-
-.scn-legend {
-  margin: 12px 0 0; padding: 0; list-style: none;
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 6px;
-}
-.scn-legend li { display: flex; }
-/* Кнопки тянутся на высоту ряда: длинное имя в две строки не должно делать
-   одну плашку выше соседних. */
-.scn-legend button {
-  width: 100%; height: 100%; min-height: 56px; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto;
-  align-items: center; gap: 9px; padding: 7px 10px;
-  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
-  text-align: left; cursor: pointer; font-size: 12px;
-}
-.scn-legend button:hover { border-color: var(--line-hover); }
-.scn-legend button[aria-pressed="true"] { border-color: var(--brand); background: var(--info-light); }
-.scn-legend i { width: 10px; height: 10px; border-radius: 3px; }
-.scn-legend b { font-weight: 600; font-variant-numeric: tabular-nums; }
-.scn-legend small { display: block; font-size: 11px; color: var(--ink-soft); }
-
-.scn-empty {
-  margin-top: 16px; padding: 28px 16px; text-align: center;
-  border: 1px dashed var(--line-hover); border-radius: 8px;
-  color: var(--ink-soft); font-size: 12px;
-}
-
-.scn-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.scn-title i { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
-.scn-title h3 { margin: 0; font-size: 16px; font-weight: 600; }
-.scn-title span { font-size: 12px; color: var(--ink-soft); }
-.scn-about { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
-
-.scn-grid { margin-top: 16px; display: grid; gap: 12px; align-items: start; grid-template-columns: minmax(0, 1fr); }
-.scn-grid > * { width: 100%; min-width: 0; }
-.scn-grid .scn-sankey { grid-column: 1; min-width: 0; }
-.scn-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.scn-view[hidden], .scn-synthetic[hidden] { display: none; }
-/* Три колонки собраны одинаково: подпись капсом, под ней карточки в рамке —
-   верх первой карточки в каждой колонке на одной линии. */
-.scn-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
-.scn-col-title {
-  display: flex; align-items: center; justify-content: space-between; gap: 8px;
-  height: 18px; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-hint);
-}
-.scn-col-title button {
-  padding: 0; border: 0; background: none; cursor: pointer;
-  font-size: 11px; letter-spacing: 0; text-transform: none; color: var(--promo); font-weight: 600;
-}
-.scn-col-title button:hover { text-decoration: underline; text-underline-offset: 3px; }
-
-/* распределение оттока по дням: интервалы сверху вниз, длина — объём */
-.scn-rows { position: relative; display: grid; gap: 8px; margin-top: 10px; }
-/* подпись интервала | полоса | значение — значения стоят своей колонкой */
-.scn-row, .scn-axis { display: grid; grid-template-columns: 58px minmax(0, 1fr) 112px; align-items: center; gap: 10px; }
-.scn-row-label { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.scn-row-label small { display: block; font-size: 10px; font-weight: 400; color: var(--ink-hint); }
-.scn-track { position: relative; height: 28px; }
-.scn-grid-lines { position: absolute; inset: 0; pointer-events: none; }
-.scn-grid-lines i { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(0, 0, 0, .06); }
-.scn-fill {
-  position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 5px 5px 0;
-  min-width: 2px;
-}
-.scn-fill-label { white-space: nowrap; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink-soft); }
-.scn-fill-label b { color: var(--ink); font-weight: 600; }
-.scn-axis { margin-top: 4px; align-items: start; }
-.scn-axis div { position: relative; height: 14px; border-top: 1px solid rgba(0, 0, 0, .2); }
-.scn-axis span {
-  position: absolute; top: 2px; transform: translateX(-50%);
-  font-size: 10px; color: var(--ink-hint); font-variant-numeric: tabular-nums;
-}
-.scn-axis span:first-child { transform: none; }
-.scn-note { margin-top: 10px; font-size: 11px; color: var(--ink-hint); }
-
-.scn-tile {
-  padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 8px;
-  background: var(--surface); text-align: left; width: 100%;
-}
-button.scn-tile { cursor: pointer; }
-button.scn-tile:hover { border-color: var(--line-hover); }
-button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 0 0 0 1px var(--promo) inset; }
-.scn-tile-label { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 12px; color: var(--ink-soft); }
-.scn-tile-label em { font-style: normal; color: var(--promo); font-weight: 600; white-space: nowrap; }
-.scn-tile-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 1px; }
-.scn-tile-value { font-size: 22px; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
-.scn-delta {
-  display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 999px;
-  font-size: 11px; font-weight: 600; background: rgba(0, 0, 0, .04); color: var(--ink-soft);
-  font-variant-numeric: tabular-nums;
-}
-.scn-delta.is-good { color: var(--good); background: rgba(31, 156, 83, .1); }
-.scn-delta.is-bad { color: var(--bad); background: rgba(233, 3, 58, .08); }
-.scn-spark { display: block; width: 100%; height: 34px; margin-top: 8px; }
-.scn-tile-foot { margin-top: 3px; display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-hint); }
-
-.scn-sub { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
-.scn-sub li { display: grid; gap: 5px; }
-/* строка как у крупной карточки: подпись, значение и дельта в одну линию */
-.scn-sub .row-head { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 8px; font-size: 12px; }
-.scn-sub .row-head span { color: var(--ink-soft); }
-.scn-sub .row-head b { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.scn-sub .row-head small { font-size: 11px; color: var(--ink-hint); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.scn-sub-first { margin-top: 0; }
-.scn-sub-pick { gap: 2px; }
-.scn-pick {
-  width: 100%; display: grid; gap: 5px; padding: 5px 6px; margin: 0 -6px;
-  box-sizing: content-box; border: 0; border-radius: 6px; background: none;
-  text-align: left; font: inherit; color: inherit; cursor: pointer;
-}
-.scn-pick:hover { background: rgba(0, 0, 0, .03); }
-.scn-pick[aria-pressed="true"] { background: var(--info-light); }
-.scn-sub .row-head .scn-go { color: var(--promo); font-weight: 700; font-size: 14px; line-height: 1; }
-.scn-sub-pick .row-head { grid-template-columns: minmax(0, 1fr) auto auto auto; }
-.scn-mini { height: 6px; border-radius: 3px; background: rgba(0, 0, 0, .05); overflow: hidden; }
-.scn-mini i { display: block; height: 100%; border-radius: 3px; }
-
-.scn-sankey { animation: scn-in .2s ease-out; }
-@keyframes scn-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .scn-sankey { animation: none; } }
-.scn-sankey svg { display: block; width: 100%; height: auto; }
-.scn-sankey svg text { font-family: var(--sans); }
-.scn-sankey .scn-tile { position: relative; }
-.scn-sankey-tip {
-  position: absolute; top: 10px; right: 12px; z-index: 2; max-width: 210px;
-  padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px;
-  background: var(--surface); color: var(--ink-soft); font-size: 11px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, .08); pointer-events: none;
-}
-.scn-sankey-tip[hidden] { display: none; }
-.scn-sankey-label {
-  font-size: 10px; fill: rgba(0, 0, 0, .8);
-  paint-order: stroke; stroke: var(--surface); stroke-width: 1.5px; stroke-linejoin: round;
-}
-.scn-sankey-sub { fill: rgba(0, 0, 0, .5); font-size: 8px; font-weight: 400; }
-.scn-sankey-note { margin-top: 8px; font-size: 11px; color: var(--ink-hint); }
-.scn-histogram { margin-top: 0; }
-.scn-histogram svg { margin-top: 10px; }
-.scn-histogram-grid { stroke: rgba(0, 0, 0, .08); stroke-width: 1; }
-.scn-histogram-axis { stroke: rgba(0, 0, 0, .22); stroke-width: 1; }
-.scn-histogram-tick { fill: var(--ink-hint); font-size: 10px; font-variant-numeric: tabular-nums; }
-.scn-histogram-value { fill: var(--ink); font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.scn-histogram-legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; margin-top: 4px; }
-.scn-histogram-legend-item { display: flex; align-items: center; gap: 6px; min-width: 0; color: var(--ink-soft); font-size: 11px; }
-.scn-histogram-legend-item i { width: 8px; height: 8px; flex: 0 0 auto; border-radius: 2px; }
-.scn-histogram-legend-item b { margin-left: auto; color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
-
-@media (max-width: 1080px) {
-}
+.scn-group-summary::-webkit-details-marker { display: none; }
+.scn-group-summary:hover { background: rgba(35,158,226,.035); }
+.scn-group-summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; }
+.scn-group-name { display: flex; align-items: center; gap: 10px; min-width: 0; font-weight: 700; font-size: 13px; }
+.scn-group-name i { width: 9px; height: 9px; border-radius: 2px; flex: 0 0 auto; }
+.scn-group-share { text-align: right; font-weight: 700; font-size: 15px; font-variant-numeric: tabular-nums; }
+.scn-chevron { width: 8px; height: 8px; border: solid var(--ink-soft); border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); transition: transform .15s; }
+.scn-group[open] .scn-chevron { transform: rotate(225deg); }
+.scn-progress { display: block; height: 7px; border-radius: 4px; background: rgba(0,0,0,.07); overflow: hidden; }
+.scn-progress i { display: block; height: 100%; border-radius: inherit; }
+.scn-group-body { padding: 18px; border-top: 1px solid var(--line); display: grid; gap: 20px; }
+.scn-block h4 { margin: 0 0 10px; font-size: 12px; font-weight: 700; }
+.scn-rows { display: grid; gap: 10px; }
+.scn-row { display: grid; grid-template-columns: minmax(150px, 230px) minmax(90px,1fr) 58px 115px; gap: 12px; align-items: center; }
+.scn-row-name { color: var(--ink-soft); }
+.scn-row-share { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.scn-row-value { text-align: right; color: var(--ink-hint); font-size: 11px; font-variant-numeric: tabular-nums; }
+.scn-cover-cards { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+.scn-cover-card { border: 1px solid var(--line); border-radius: 8px; padding: 15px 16px; text-align: center; }
+.scn-block > .scn-block { margin-top: 18px; }
+.scn-cover-card h5 { margin: 0; font-size: 12px; font-weight: 600; color: var(--ink-soft); }
+.scn-cover-value { margin-top: 3px; font-size: 29px; line-height: 1.15; font-weight: 700; font-variant-numeric: tabular-nums; }
+.scn-cover-delta { margin-left: 8px; font-size: 11px; font-weight: 600; color: var(--ink-soft); white-space: nowrap; }
+.scn-cover-foot { margin-top: 5px; font-size: 11px; color: var(--ink-hint); }
+.scn-note { margin: 13px 0 0; font-size: 11px; color: var(--ink-hint); }
+.scn-empty { color: var(--ink-hint); font-size: 12px; }
 @media (max-width: 760px) {
-  .scn-grid, .scn-grid.is-open { grid-template-columns: minmax(0, 1fr); }
-  .scn-bar { height: 32px; }
+  .scn-group-summary { grid-template-columns: minmax(0,1fr) 70px 16px; gap: 10px; }
+  .scn-group-summary .scn-progress { grid-column: 1 / -1; grid-row: 2; }
+  .scn-cover-cards { grid-template-columns: minmax(0,1fr); }
+  .scn-row { grid-template-columns: minmax(0,1fr) 58px 100px; gap: 5px 8px; }
+  .scn-row .scn-progress { grid-column: 1 / -1; grid-row: 2; }
+  .scn-row-value { grid-column: 3; grid-row: 1; }
+  .scn-row-share { grid-column: 2; grid-row: 1; }
 }
+@media (prefers-reduced-motion: reduce) { .scn-chevron { transition: none; } }
 </style>
 </head>
 <body>
@@ -695,17 +610,49 @@ button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 
       <div class="funnels" id="funnels"></div>
     </section>
 
+    <section class="card communication-layer" id="communicationLayer" aria-labelledby="communicationLayerTitle">
+      <div class="card-head"><h2 id="communicationLayerTitle">Слой коммуникаций</h2></div>
+      <div class="communication-layer-grid" id="communicationLayerGrid"></div>
+    </section>
+
+    <section class="card client-journey" id="clientJourney" aria-labelledby="clientJourneyTitle">
+      <div class="card-head"><h2 id="clientJourneyTitle">Клиентский путь</h2></div>
+      <h3 class="journey-label">Ключевое</h3>
+      <div class="journey-stats">
+        <div class="journey-stat good"><span class="journey-stat-title">Закрытие вклада</span><strong class="journey-stat-value">10 <small>экранов</small></strong><span class="journey-stat-note">короче открытия</span></div>
+        <div class="journey-stat"><span class="journey-stat-title">Открытие вклада</span><strong class="journey-stat-value">17 <small>экранов</small></strong><span class="journey-stat-note">один успешный путь</span></div>
+        <div class="journey-stat bad"><span class="journey-stat-title">Тёмные паттерны</span><strong class="journey-stat-value">Есть</strong><span class="journey-stat-note">согласие отмечено заранее</span></div>
+      </div>
+      <div class="journey-assessment">
+        <section class="good"><h3>Что уже хорошо</h3><ul>
+          <li>Закрытие доступно в приложении.</li>
+          <li>Последствия досрочного закрытия показаны до подтверждения.</li>
+          <li>Финальный экран подтверждает зачисление и предлагает «Новый вклад».</li>
+        </ul></section>
+        <section class="bad"><h3>Что стоит улучшить</h3><ul>
+          <li>Убрать заранее отмеченное согласие на подтверждении закрытия.</li>
+          <li>Добавить необязательный перевод на накопительный счёт при закрытии.</li>
+          <li>Упростить выбор счёта зачисления и дать переход к нему после закрытия.</li>
+        </ul></section>
+      </div>
+      <div class="journey-actions"><h3>Рекомендации</h3><ol>
+        <li>Снять отметку согласия по умолчанию: клиент должен выбрать её сам.</li>
+        <li>Объяснять потерю процентов один раз, без повторного давления.</li>
+        <li>Проверить необязательный перевод на накопительный счёт прямо при подтверждении; показать условия и сохранить прямое закрытие.</li>
+        <li>Упростить выбор счёта зачисления и добавить переход к нему на финальном экране; сравнить долю переводов, закрытий и жалоб.</li>
+      </ol></div>
+      <p class="journey-footer">Полная аналитика пути закрытия по ссылке: <a href="./losshunter-закрытие-продуктов.html">LossHunter · закрытие продуктов</a></p>
+    </section>
+
     <section class="card status-card">
       <div id="status"></div>
 
       <div class="scn-view" id="scenarios">
         <div class="scn-head">
-          <div class="recs-title">Сценарии оттока <span class="scn-synthetic" id="scnSynthetic" hidden>Синтетические данные</span></div>
+          <div class="recs-title">Куда уходят средства после закрытия <span class="scn-synthetic" id="scnSynthetic" hidden>Синтетические данные</span></div>
           <span class="scn-total" id="scnTotal"></span>
         </div>
-        <div class="scn-bar" id="scnBar" role="group" aria-label="Декомпозиция оттока по сценариям"></div>
-        <ul class="scn-legend" id="scnLegend"></ul>
-        <div id="scnDetail"></div>
+        <div class="scn-accordion" id="scnAccordion"></div>
         <p class="scn-note" id="scnNote"></p>
       </div>
     </section>
@@ -887,18 +834,27 @@ function portfolioSeries() {
   }).filter(Boolean);
 }
 
-// Покрытие промо: доля когорты с промо в ступени «ожидается пролонгация».
-// Знаменатель — воронка ALL, а не сумма когорт: по клиентам они пересекаются.
+function communicationExpectedBase(period, measure = state.measure) {
+  const expected = ['promo', 'base'].map((id) => {
+    const funnel = funnelById(id);
+    const values = funnel && ((funnel.series[measure] || {})[period] || {});
+    return values && values.expected;
+  });
+  return expected.every((value) => Number.isFinite(value) && value >= 0)
+    ? expected[0] + expected[1] : null;
+}
+
+// Покрытие промо: доля когорты с промо среди двух групп,
+// ожидающих пролонгацию.
 function coverageSeries() {
   const promo = funnelById('promo');
-  const all = funnelById('all');
-  if (!promo || !all) return [];
+  if (!promo) return [];
   const level = promo.steps.find((step) => step.kind === 'level');
   if (!level) return [];
   return PERIODS_ASC.map((id) => {
     const withPromo = ((promo.series[state.measure] || {})[id] || {})[level.id];
-    const total = ((all.series[state.measure] || {})[id] || {})[level.id];
-    if (!isFinite(withPromo) || !isFinite(total) || !total) return null;
+    const total = communicationExpectedBase(id);
+    if (!Number.isFinite(withPromo) || !Number.isFinite(total) || !total) return null;
     return {id, promo: withPromo, total, share: withPromo / total * 100, stepName: level.name};
   }).filter(Boolean);
 }
@@ -1163,20 +1119,19 @@ function renderRecommendation() {
   host.hidden = true;
   host.innerHTML = '';
   if (isPolicyProduct()) return;
-  const all = funnelById('all');
   const base = funnelById('base');
-  const currentAll = all && ((all.series.clnt || {})[state.period] || {}).expected;
+  const currentAll = communicationExpectedBase(state.period, 'clnt');
   const currentBase = base && ((base.series.clnt || {})[state.period] || {}).expected;
   if (!currentAll || !Number.isFinite(currentBase)) return;
   const share = currentBase / currentAll * 100;
-  let promoText = `Из <b>${ru(currentAll)}</b> клиентов <b>${ru(currentBase)}</b> не получает `
-    + `промо-коммуникации (<b>${ru(share, 1)}%</b>).`;
+  let promoText = `Среди <b>${ru(currentAll)}</b> записей двух групп <b>${ru(currentBase)}</b> — `
+    + `без промо-коммуникации (<b>${ru(share, 1)}%</b>).`;
   const beforeId = previousPeriod(state.period);
-  const beforeAll = beforeId && ((all.series.clnt || {})[beforeId] || {}).expected;
+  const beforeAll = beforeId && communicationExpectedBase(beforeId, 'clnt');
   const beforeBase = beforeId && ((base.series.clnt || {})[beforeId] || {}).expected;
   if (beforeAll && Number.isFinite(beforeBase)) {
     const delta = share - beforeBase / beforeAll * 100;
-    if (delta > 0.05) promoText += ` Доля таких клиентов растёт м/м на <b>${ru(delta, 1)} п.п.</b>`;
+    if (delta > 0.05) promoText += ` Доля записей без промо растёт м/м на <b>${ru(delta, 1)} п.п.</b>`;
   }
   const scenarioBlock = (((DATA.scenarios || {}).values || {})[state.period] || {}).ALL || {};
   const scenarioTotal = ((scenarioBlock.total || {}).clnt) || 0;
@@ -1734,6 +1689,64 @@ function renderFunnels() {
   host.append(notes);
 }
 
+function renderCommunicationLayer() {
+  const section = document.getElementById('communicationLayer');
+  section.hidden = isPolicyProduct();
+  if (section.hidden) return;
+
+  const grid = document.getElementById('communicationLayerGrid');
+  grid.replaceChildren();
+  const expectedBase = communicationExpectedBase(state.period);
+  const hasExpectedBase = Number.isFinite(expectedBase) && expectedBase > 0;
+
+  [
+    {id: 'promo', title: 'Получили промо до пролонгации'},
+    {id: 'base', title: 'Не получили промо'},
+  ].forEach(({id, title}) => {
+    const card = el('article', 'communication-cohort');
+    card.append(el('h3', null, title));
+    const funnel = funnelById(id);
+    const values = funnel && ((funnel.series[state.measure] || {})[state.period] || {});
+    const clients = funnel && ((funnel.series.clnt || {})[state.period] || {});
+    const expected = values && values.expected;
+    const clientCount = clients && clients.expected;
+    const hasCohortExpected = Number.isFinite(expected) && expected > 0;
+    const coverage = hasExpectedBase && Number.isFinite(expected) && expected >= 0
+      ? expected / expectedBase * 100 : null;
+    card.append(el('div', 'communication-coverage', coverage == null ? '—' : `${ru(coverage, 1)}%`));
+    card.append(el('div', 'communication-count', Number.isFinite(clientCount)
+      ? `${ru(clientCount)} клиентов в когорте` : 'Число клиентов недоступно'));
+
+    const bars = el('div', 'communication-bars');
+    [
+      {id: 'prolonged', label: 'Пролонгация'},
+      {id: 'left30', label: 'Закрытие договора'},
+      {id: 'erosion30', label: 'Вывели с остатка'},
+      {id: 'net_outflow', label: 'Вывели >50%'},
+    ].forEach((step) => {
+      const value = values && values[step.id];
+      const share = hasCohortExpected && Number.isFinite(value) && value >= 0
+        ? value / expected * 100 : null;
+      const row = el('div', 'communication-bar');
+      const head = el('div', 'communication-bar-head');
+      head.append(el('span', null, step.label),
+        el('b', null, share == null ? '—' : `${ru(share, 1)}%`));
+      const track = el('div', 'communication-track');
+      const fill = el('i');
+      fill.style.width = `${Math.max(0, Math.min(share ?? 0, 100))}%`;
+      track.append(fill);
+      row.append(head, track, el('div', 'communication-bar-detail',
+        Number.isFinite(value) && hasCohortExpected
+          ? `${amount(value)} из ${amount(expected)} ${activeMeasure().unit}`
+          : 'Нет данных для расчёта'));
+      bars.append(row);
+    });
+    card.append(bars);
+    grid.append(card);
+  });
+
+}
+
 // ── светофор ──────────────────────────────────────────────────────────────
 // Правило общее с деревом: движение в хорошую сторону — зелёный, плохое один
 // месяц — жёлтый, плохое два месяца подряд и дольше — красный.
@@ -2075,6 +2088,8 @@ function render() {
   renderFunnelTitle();
   renderKpi();
   renderFunnels();
+  renderCommunicationLayer();
+  document.getElementById('clientJourney').hidden = isPolicyProduct();
   renderStatus();
   renderScenarios();
   renderNote();
@@ -2088,34 +2103,23 @@ render();
 // Разрез и период берёт у страницы через update(). Всё обёрнуто в IIFE,
 // чтобы имена не пересеклись с кодом отчёта.
 window.ScenariosPage = (() => {
-  // Данные — блок scenarios из prolongation-data.json: отток (outflow) по
-  // коммуникациям × сценариям. Сценарии взаимоисключающие, поэтому группа —
-  // сумма своих сценариев. Коммуникации пересекаются: доли не складываются.
   const SC = DATA.scenarios;
   const TOTAL = 'ALL';
-  const SERVICE = '900';
+  const S = {measure: 'clnt', period: null, periodLabel: '', expanded: null};
   const GROUP_COLORS = {
-    transfers_atm: ['#FF3D64', '#fff'],
-    transfers_m2m: ['#4DA2F1', '#fff'],
-    transfers_p2p: ['#1F6FBF', '#fff'],
-    PAYMENTS: ['#BA74B3', '#fff'],
-    saving: ['#8AD554', 'rgba(0,0,0,.8)'],
-    loans: ['#FFC636', 'rgba(0,0,0,.8)'],
-    loans_new: ['#4DA2F1', '#fff'],
-    bal_dc: ['#7B61FF', '#fff'],
-    other: ['#9AA3AD', '#fff'],
+    transfers_atm: '#FF3D64', transfers_m2m: '#4DA2F1', transfers_p2p: '#1F6FBF',
+    PAYMENTS: '#BA74B3', saving: '#8AD554', loans: '#FFC636',
+    loans_new: '#4DA2F1', bal_dc: '#7B61FF', other: '#9AA3AD',
   };
   const COMM_COLORS = {
-    promo: 'var(--promo)', no_promo: '#9AA3AD', stop_list: '#E9033A',
     'promo.deposit': '#4DA2F1', 'promo.deposit.prolongation': '#1F6FBF',
     'promo.saving': '#8AD554', 'promo.invest': '#FFC636', 'promo.oms': '#BA74B3',
   };
-
-  // sub — сценарий внутри группы: покрытие и санки считаются по нему.
-  const S = {measure: 'clnt', period: null, periodLabel: '', pick: null, sub: null};
-
-  // ── утилиты ─────────────────────────────────────────────────────────────
-  const NS = 'http://www.w3.org/2000/svg';
+  const GROUP_NAMES = {loans: 'Кредиты', loans_new: 'Новые кредиты'};
+  const PRODUCT_NAMES = {
+    'promo.deposit': 'Вклады',
+    'promo.deposit.prolongation': 'Вклады-пролонгация',
+  };
   const $ = (id) => document.getElementById(id);
   const mk = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -2123,445 +2127,147 @@ window.ScenariosPage = (() => {
     if (text != null) node.textContent = text;
     return node;
   };
-  const svg = (tag, attrs = {}) => {
-    const node = document.createElementNS(NS, tag);
-    Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
-    return node;
-  };
   const fmt = (value, digits = 0) => new Intl.NumberFormat('ru-RU', {
     minimumFractionDigits: digits, maximumFractionDigits: digits,
   }).format(value);
-  const money = () => S.measure === 'rur';
-  const amount = (v) => (money()
-    ? `${fmt(v, v < 10 ? 2 : 1)} млрд ₽`
-    : v >= 1000 ? `${fmt(v / 1000, 1)} тыс.` : fmt(v));
-  const last = (list) => list[list.length - 1];
-  const colorOf = (g) => (GROUP_COLORS[g.id] || ['#9AA3AD', '#fff']);
-  const comm = (id) => SC.communications.find((c) => c.id === id);
-  const commColor = (c) => COMM_COLORS[c.id] || COMM_COLORS[c.parent] || '#9AA3AD';
-
-  // Отток группы в коммуникации за период; без периода — текущий.
-  const groupValue = (commId, groupId, period = S.period) => {
-    const block = ((SC.values[period] || {})[commId] || {}).groups || {};
-    return (block[groupId] || {})[S.measure] || 0;
+  const amount = (value) => !Number.isFinite(value) ? '—' : S.measure === 'rur'
+    ? `${fmt(value, value < 10 ? 2 : 1)} млрд ₽`
+    : value >= 1000 ? `${fmt(value / 1000, 1)} тыс.` : fmt(value);
+  const pct = (value) => value == null ? '—' : `${fmt(value, 1)}%`;
+  const block = (period, commId) => ((SC.values[period] || {})[commId] || {});
+  const valueOf = (period, commId, kind, id) => {
+    const value = (((block(period, commId)[kind] || {})[id] || {})[S.measure]);
+    return Number.isFinite(value) ? value : null;
   };
-  const scenarioValue = (scenarioId) => {
-    const block = ((SC.values[S.period] || {})[TOTAL] || {}).scenarios || {};
-    return (block[scenarioId] || {})[S.measure] || 0;
-  };
-  const totalOutflow = () => SC.groups.reduce((sum, g) => sum + groupValue(TOTAL, g.id), 0);
-  const groupShare = (g) => {
+  const groupValue = (commId, id, period = S.period) => valueOf(period, commId, 'groups', id);
+  const scenarioValue = (id) => valueOf(S.period, TOTAL, 'scenarios', id);
+  const totalOutflow = () => SC.groups.reduce((sum, group) => sum + (groupValue(TOTAL, group.id) || 0), 0);
+  const groupShare = (group) => {
     const total = totalOutflow();
-    return total ? groupValue(TOTAL, g.id) / total * 100 : 0;
+    const value = groupValue(TOTAL, group.id);
+    return total > 0 && value != null ? value / total * 100 : null;
   };
-  // Фокус детализации: вся группа или один её сценарий.
-  const focusOf = (g) => {
-    const s = S.sub && g.scenarios.find((x) => x.id === S.sub);
-    return s ? {kind: 'scenarios', id: s.id, name: s.name, of: 'сценария'}
-      : {kind: 'groups', id: g.id, name: g.name, of: 'группы'};
+  const coverage = (commId, groupId, period = S.period) => {
+    const base = groupValue(TOTAL, groupId, period);
+    const value = groupValue(commId, groupId, period);
+    return base > 0 && value != null ? value / base * 100 : null;
   };
-  const focusValue = (commId, f, period = S.period) => {
-    const block = ((SC.values[period] || {})[commId] || {})[f.kind] || {};
-    return (block[f.id] || {})[S.measure] || 0;
+  const previousPeriod = () => {
+    const index = PERIODS_ASC.indexOf(S.period);
+    return index > 0 ? PERIODS_ASC[index - 1] : null;
   };
-  const cover = (commId, f, period = S.period) => {
-    const base = focusValue(TOTAL, f, period);
-    return base ? focusValue(commId, f, period) / base * 100 : null;
-  };
-  // Ряд покрытия до выбранного периода — для дельты и микрографика.
-  const coverSeries = (commId, f) => {
-    const upto = PERIODS_ASC.indexOf(S.period);
-    return PERIODS_ASC.slice(0, upto + 1)
-      .map((p) => cover(commId, f, p))
-      .filter((v) => v != null);
-  };
+  const groups = () => [...SC.groups].sort((a, b) => groupShare(b) - groupShare(a));
 
-  function delta(series) {
-    const d = last(series) - series[series.length - 2];
-    const tone = d > 0.05 ? ' is-good' : d < -0.05 ? ' is-bad' : '';
-    const arrow = d > 0.05 ? '↑' : d < -0.05 ? '↓' : '→';
-    return mk('span', 'scn-delta' + tone, `${arrow} ${d > 0 ? '+' : ''}${fmt(d, 1)} п.п. м/м`);
-  }
-
-  function spark(series, color) {
-    const W = 232, H = 34, pad = 4;
-    const min = Math.min(...series), max = Math.max(...series), span = max - min || 1;
-    const x = (i) => pad + i * (W - pad * 2) / (series.length - 1);
-    const y = (v) => pad + (1 - (v - min) / span) * (H - pad * 2);
-    const pts = series.map((v, i) => `${x(i)},${y(v)}`);
-    const root = svg('svg', {class: 'scn-spark', viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none',
-      role: 'img', 'aria-label': series.map((v) => `${fmt(v, 1)}%`).join('; ')});
-    root.append(svg('path', {d: `M${x(0)},${H} L${pts.join(' L')} L${x(series.length - 1)},${H} Z`,
-      fill: color, 'fill-opacity': '.1'}));
-    root.append(svg('polyline', {points: pts.join(' '), fill: 'none', stroke: color, 'stroke-opacity': '.55',
-      'stroke-width': 2, 'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke'}));
-    root.append(svg('circle', {cx: x(series.length - 1), cy: y(last(series)), r: 3.5, fill: color}));
-    return root;
-  }
-
-  // «Прочее» всегда в конце, остальное — по убыванию.
-  const OTHER = 'other';
-  const byValue = (value) => (a, b) => (a.id === OTHER) - (b.id === OTHER) || value(b) - value(a);
-  const orderedGroups = () => SC.groups.filter((g) => groupShare(g) > 0).sort(byValue(groupShare));
-
-  // ── полоса 100% ─────────────────────────────────────────────────────────
-  function pick(id) {
-    // Одна группа раскрыта всегда: повторный клик ничего не сворачивает.
-    if (S.pick === id) return;
-    S.pick = id;
-    S.sub = null;
-    render();
-    if (S.pick) $('scnDetail').scrollIntoView({behavior: 'smooth', block: 'nearest'});
-  }
-
-  function renderBar() {
-    const total = totalOutflow();
-    $('scnTotal').innerHTML = `Весь отток за ${S.periodLabel.toLowerCase()}: <b>${amount(total)}</b>`;
-    const bar = $('scnBar'), legend = $('scnLegend');
-    bar.innerHTML = '';
-    legend.innerHTML = '';
-    bar.classList.toggle('has-pick', !!S.pick);
-
-    orderedGroups().forEach((g) => {
-      const share = groupShare(g);
-      if (!share) return;
-      const [color, ink] = colorOf(g);
-      const label = `${fmt(share, share < 10 ? 1 : 0)}%`;
-      const seg = mk('button');
-      seg.type = 'button';
-      seg.style.flex = `${share} 1 0`;
-      seg.style.background = color;
-      seg.style.color = ink;
-      seg.title = `${g.name}: ${label} · ${amount(groupValue(TOTAL, g.id))}`;
-      seg.setAttribute('aria-label', seg.title);
-      seg.setAttribute('aria-pressed', String(S.pick === g.id));
-      // В узком сегменте только процент — имя есть в легенде.
-      seg.append(mk('span', null, share >= 14 ? `${g.name} · ${label}` : label));
-      seg.addEventListener('click', () => pick(g.id));
-      bar.append(seg);
-
-      const item = mk('button');
-      item.type = 'button';
-      item.setAttribute('aria-pressed', String(S.pick === g.id));
-      const dot = mk('i');
-      dot.style.background = color;
-      const name = mk('span', null, g.name);
-      name.append(mk('small', null, amount(groupValue(TOTAL, g.id))));
-      item.append(dot, name, mk('b', null, label));
-      item.addEventListener('click', () => pick(g.id));
-      const li = mk('li');
-      li.append(item);
-      legend.append(li);
-    });
-  }
-
-  // ── состав группы: сценарии с долей внутри группы ──────────────────────
-  function colTitle(text, action) {
-    const head = mk('div', 'scn-col-title');
-    head.append(mk('span', null, text));
-    if (action) head.append(action);
-    return head;
-  }
-
-  function barRow(label, share, value, color, deltaNode) {
-    const li = mk('li');
-    const head = mk('div', 'row-head');
-    head.append(mk('span', null, label), mk('b', null, `${fmt(share, 1)}%`));
-    if (deltaNode) head.append(deltaNode);
-    else head.append(mk('small', null, value));
-    const track = mk('div', 'scn-mini');
+  function progress(value, color) {
+    const track = mk('span', 'scn-progress');
     const fill = mk('i');
-    fill.style.width = `${Math.min(100, share)}%`;
+    fill.style.width = `${Math.max(0, Math.min(value || 0, 100))}%`;
     fill.style.background = color;
     track.append(fill);
-    li.append(head, track);
-    return li;
+    return track;
   }
 
-  function pickSub(id) {
-    S.sub = S.sub === id ? null : id;
-    renderDetail();
+  function metricRow(name, share, value, color) {
+    const row = mk('div', 'scn-row');
+    row.append(mk('span', 'scn-row-name', name), progress(share, color),
+      mk('span', 'scn-row-share', pct(share)),
+      mk('span', 'scn-row-value', amount(value)));
+    return row;
   }
 
-  function composition(g) {
-    const col = mk('div', 'scn-col');
-    col.append(colTitle('Из чего состоит'));
-    const box = mk('div', 'scn-tile');
-    const rows = mk('ul', 'scn-sub scn-sub-first scn-sub-pick');
-    const total = groupValue(TOTAL, g.id);
-    g.scenarios
-      .map((s) => ({...s, value: scenarioValue(s.id)}))
-      .filter((s) => s.value)
-      .sort(byValue((s) => s.value))
-      .forEach((s) => {
-        const row = barRow(s.name, total ? s.value / total * 100 : 0, amount(s.value), colorOf(g)[0]);
-        const button = mk('button', 'scn-pick');
-        button.type = 'button';
-        button.setAttribute('aria-pressed', String(S.sub === s.id));
-        button.title = S.sub === s.id ? 'Вернуться ко всей группе' : 'Посмотреть покрытие сценария';
-        button.append(...row.childNodes);
-        button.querySelector('.row-head').append(mk('span', 'scn-go', '→'));
-        button.addEventListener('click', () => pickSub(s.id));
-        row.append(button);
-        rows.append(row);
-      });
-    box.append(rows, mk('div', 'scn-note', 'Доля сценария в оттоке группы. Сценарии не пересекаются: '
-      + 'комбинации вроде «POS + крупные платежи» — отдельная корзина.'));
-    col.append(box);
-    return col;
+  function composition(group) {
+    const section = mk('section', 'scn-block');
+    section.append(mk('h4', null, 'Состав оттока'));
+    const rows = mk('div', 'scn-rows');
+    const base = groupValue(TOTAL, group.id);
+    group.scenarios
+      .map((scenario) => ({...scenario, value: scenarioValue(scenario.id)}))
+      .sort((a, b) => (b.value || 0) - (a.value || 0))
+      .forEach((scenario) => rows.append(metricRow(scenario.name,
+        base > 0 && scenario.value != null ? scenario.value / base * 100 : null, scenario.value,
+        GROUP_COLORS[group.id] || '#9AA3AD')));
+    if (!group.scenarios.length) rows.append(mk('div', 'scn-empty', 'Нет сценариев'));
+    section.append(rows);
+    return section;
   }
 
-  // ── покрытие коммуникациями ─────────────────────────────────────────────
-  function tile(c, f) {
-    const series = coverSeries(c.id, f);
-    const card = mk('div', 'scn-tile');
-    const head = mk('div', 'scn-tile-label');
-    head.append(mk('span', null, c.name));
-    const row = mk('div', 'scn-tile-row');
-    row.append(mk('span', 'scn-tile-value', series.length ? `${fmt(last(series), 1)}%` : '—'));
-    if (series.length > 1) row.append(delta(series));
-    card.append(head, row);
-    if (series.length > 1) card.append(spark(series, commColor(c)));
-    card.append(mk('div', 'scn-tile-foot',
-      `${amount(focusValue(c.id, f))} из ${amount(focusValue(TOTAL, f))}`));
+  function coverageCard(commId, title, group) {
+    const card = mk('div', 'scn-cover-card');
+    card.append(mk('h5', null, title));
+    const current = coverage(commId, group.id);
+    const main = mk('div', 'scn-cover-value', pct(current));
+    const prior = previousPeriod();
+    const before = prior ? coverage(commId, group.id, prior) : null;
+    if (current != null && before != null) {
+      const change = current - before;
+      main.append(mk('span', 'scn-cover-delta',
+        `${change > 0 ? '+' : ''}${fmt(change, 1)} п.п. м/м`));
+    } else {
+      const delta = mk('span', 'scn-cover-delta', '— п.п. м/м');
+      delta.title = current == null ? 'Нет данных за выбранный месяц' : 'Нет данных за прошлый месяц';
+      main.append(delta);
+    }
+    card.append(main, mk('div', 'scn-cover-foot', current == null ? 'Нет данных'
+      : `${amount(groupValue(commId, group.id))} из ${amount(groupValue(TOTAL, group.id))}`));
     return card;
   }
 
-  function coverage(g) {
-    const f = focusOf(g);
-    const col = mk('div', 'scn-col');
-    col.append(colTitle(f.kind === 'scenarios' ? `Покрытие коммуникациями · ${f.name}` : 'Покрытие коммуникациями'));
-    const tiles = mk('div', 'scn-tiles');
-    SC.communications.filter((c) => !c.parent).forEach((c) => tiles.append(tile(c, f)));
-    col.append(tiles);
+  function communications(group) {
+    const section = mk('section', 'scn-block');
+    section.append(mk('h4', null, 'Покрытие коммуникациями'));
+    const cards = mk('div', 'scn-cover-cards');
+    cards.append(coverageCard('900', 'Сервисные · 900', group),
+      coverageCard('promo', 'Промо', group));
+    section.append(cards);
 
-    const products = SC.communications.filter((c) => c.parent === 'promo');
+    const products = SC.communications.filter((comm) => comm.parent === 'promo');
     if (products.length) {
-      const box = mk('div', 'scn-tile');
-      box.append(mk('div', 'scn-tile-label', 'Промо по продуктам'));
-      const rows = mk('ul', 'scn-sub');
-      products.forEach((c) => {
-        const series = coverSeries(c.id, f);
-        if (!series.length) return;
-        rows.append(barRow(c.name, last(series), amount(focusValue(c.id, f)), commColor(c),
-          series.length > 1 ? delta(series) : null));
-      });
-      box.append(rows);
-      col.append(box);
+      const block = mk('div', 'scn-block');
+      block.append(mk('h4', null, 'Промо по продуктам'));
+      const rows = mk('div', 'scn-rows');
+      products.forEach((product) => rows.append(metricRow(
+        PRODUCT_NAMES[product.id] || product.name,
+        coverage(product.id, group.id), groupValue(product.id, group.id),
+        COMM_COLORS[product.id] || '#9AA3AD')));
+      block.append(rows);
+      section.append(block);
     }
-    return col;
+    return section;
   }
 
-  // ── санки: отток группы → промо / без промо / стоп-лист → продукт → черновик
-  // Ветки пересекаются, поэтому сумма узлов в колонке может быть больше
-  // родителя: исходящие ленты родителя ужимаются пропорционально, а узлы
-  // получателей рисуются в полный размер — их высота и есть покрытие.
-  function sankey(g, afterClosure = false) {
-    const f = focusOf(g);
-    const col = mk('div', 'scn-col scn-sankey');
-    col.append(colTitle(afterClosure ? 'Промо после закрытия вклада' : 'Промо до пролонгации'));
-    const box = mk('div', 'scn-tile');
-    const tip = mk('div', 'scn-sankey-tip');
-    tip.hidden = true;
-    box.append(tip);
-    col.append(box);
-
-    const [groupColor] = colorOf(g);
-    const node = (c) => ({id: c.id, label: c.name, parent: c.parent || 'root',
-      value: cover(c.id, f) || 0, color: commColor(c), kind: c.kind});
-    const inSankey = SC.communications.filter((c) => c.kind !== 'service');
-    const product = (id, label, value, parent, color, kind = 'promo') =>
-      ({id, label, value, parent, color, kind});
-    const columns = (afterClosure ? [
-      [{id: 'root', label: 'Отток после закрытия вклада', value: 100, color: '#6C7580', parent: null}],
-      [product('after_promo', 'Промо', 81.4, 'root', 'var(--promo)'),
-        product('after_no_promo', 'Без промо', 18.6, 'root', '#9AA3AD', 'none')],
-      [product('after_deposit', 'Вклад', 64.8, 'after_promo', '#4DA2F1'),
-        product('after_invest', 'Инвест', 37.4, 'after_promo', '#FFC636'),
-        product('after_oms', 'ОМС', 9.83, 'after_promo', '#BA74B3'),
-        product('after_saving', 'Накопительный счёт', 48.2, 'after_promo', '#8AD554')],
-      [product('after_deposit_draft', 'Вклад · черновики', 1.1, 'after_deposit', '#4DA2F1', 'draft'),
-        product('after_invest_draft', 'Инвест · черновики', 0.1, 'after_invest', '#FFC636', 'draft'),
-        product('after_oms_draft', 'ОМС · черновики', 0.06, 'after_oms', '#BA74B3', 'draft'),
-        product('after_saving_draft', 'НС · черновики', 0.08, 'after_saving', '#8AD554', 'draft')],
-    ] : [
-      [{id: 'root', label: f.name, value: 100, color: groupColor, parent: null}],
-      inSankey.filter((c) => !c.parent).map(node),
-      inSankey.filter((c) => c.parent === 'promo').map(node),
-      inSankey.filter((c) => c.kind === 'draft').map(node),
-    ]).map((list) => list.filter((n) => n.value > 0));
-
-    const W = 900, nw = 10, top = 8, gap = 10, k = 2.1, slot = 30;
-    const xs = [4, 250, 500, 730];
-    const byId = {};
-    let H = 0;
-    columns.forEach((list, ci) => {
-      let y = top;
-      list.forEach((n) => {
-        n.x = xs[ci];
-        n.h = Math.max(n.value * k, 2);
-        // Черновик встаёт напротив своего продукта, чтобы ленты не перекрещивались.
-        if (ci === 3 && byId[n.parent]) y = Math.max(y, byId[n.parent].y);
-        n.y = y;
-        y += Math.max(n.h, slot) + gap;
-        byId[n.id] = n;
-      });
-      H = Math.max(H, y - gap + top);
+  function renderGroup(group) {
+    const details = mk('details', 'scn-group');
+    details.open = S.expanded.has(group.id);
+    const summary = mk('summary', 'scn-group-summary');
+    const name = mk('span', 'scn-group-name');
+    const swatch = mk('i');
+    swatch.style.background = GROUP_COLORS[group.id] || '#9AA3AD';
+    name.append(swatch, mk('span', null, GROUP_NAMES[group.id] || group.name));
+    const share = groupShare(group);
+    summary.append(name, mk('span', 'scn-group-share', pct(share)),
+      progress(share, GROUP_COLORS[group.id] || '#9AA3AD'), mk('i', 'scn-chevron'));
+    const body = mk('div', 'scn-group-body');
+    body.append(composition(group), communications(group));
+    details.append(summary, body);
+    details.addEventListener('toggle', () => {
+      if (details.open) S.expanded.add(group.id);
+      else S.expanded.delete(group.id);
     });
-
-    const root = svg('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-      'aria-label': columns.flat().slice(1).map((n) => `${n.label} ${fmt(n.value, 1)}%`).join('; ')});
-    const links = svg('g'), nodes = svg('g'), labels = svg('g');
-    root.append(links, nodes, labels);
-
-    // Ленты: у родителя — пропорциональный срез, у ребёнка — во всю высоту.
-    columns.slice(1).flat().forEach((n) => {
-      const p = byId[n.parent];
-      if (!p) return;
-      const siblings = columns.flat().filter((s) => s.parent === n.parent);
-      const sum = siblings.reduce((acc, s) => acc + s.h, 0);
-      const squeeze = sum > p.h ? p.h / sum : 1;
-      const before = siblings.slice(0, siblings.indexOf(n)).reduce((acc, s) => acc + s.h * squeeze, 0);
-      const ya = p.y + before, ha = n.h * squeeze;
-      const xa = p.x + nw, xb = n.x, mx = (xa + xb) / 2;
-      links.append(svg('path', {
-        d: `M${xa},${ya} C${mx},${ya} ${mx},${n.y} ${xb},${n.y} L${xb},${n.y + n.h} `
-          + `C${mx},${n.y + n.h} ${mx},${ya + ha} ${xa},${ya + ha} Z`,
-        fill: n.color, 'fill-opacity': n.kind === 'draft' ? .35 : .22,
-      }));
-    });
-
-    columns.flat().forEach((n) => {
-      const rect = svg('rect', {x: n.x, y: n.y, width: nw, height: n.h, rx: 2, fill: n.color,
-        'fill-opacity': n.kind === 'draft' ? .6 : 1, tabindex: 0, role: 'button',
-        'aria-label': `${n.label}: ${fmt(n.value, 2)}%`});
-      const showTip = () => {
-        tip.textContent = `${n.label}: ${n.id === 'root' ? '100' : fmt(n.value, 2)}% оттока`;
-        tip.hidden = false;
-      };
-      rect.addEventListener('pointerenter', showTip);
-      rect.addEventListener('focus', showTip);
-      rect.addEventListener('pointerleave', () => { tip.hidden = true; });
-      rect.addEventListener('blur', () => { tip.hidden = true; });
-      nodes.append(rect);
-      const t = svg('text', {x: n.x + nw + 6, y: n.y + Math.min(n.h, slot) / 2 - 2, class: 'scn-sankey-label'});
-      const a = svg('tspan', {'font-weight': 600});
-      a.textContent = n.label;
-      const b = svg('tspan', {x: n.x + nw + 6, dy: 10, class: 'scn-sankey-sub'});
-      b.textContent = n.id === 'root'
-        ? (afterClosure ? '100% оттока' : amount(focusValue(TOTAL, f)))
-        : `${fmt(n.value, 1)}% оттока${afterClosure ? '' : ` ${f.of}`}`;
-      t.append(a, b);
-      labels.append(t);
-    });
-    box.append(root, mk('div', 'scn-sankey-note', afterClosure
-      ? 'Доли — от общего оттока после закрытия вклада. Промо покрывает 81,4%, без промо — 18,6%. '
-        + 'Продуктовые ветки пересекаются, поэтому их сумма может быть больше 81,4%; черновики — отдельный шаг.'
-      : `Доли — от оттока ${f.of}. Ветки пересекаются: клиент мог получить несколько предложений, `
-        + 'поэтому сумма узлов в колонке бывает больше 100%. Черновик — следующий шаг после промо своего '
-        + 'продукта. Сервисные коммуникации в санки не входят.'));
-    if (afterClosure) col.append(followupHistogram());
-    return col;
-  }
-
-  function followupHistogram() {
-    const card = mk('div', 'scn-tile scn-histogram');
-    card.append(mk('div', 'scn-tile-label', 'Догоняем клиента через X дней после закрытия'));
-    const bins = [
-      {label: 'Тот же день', from: 0, to: 1, value: 71, color: '#4DA2F1'},
-      {label: '1–3 дня', from: 1, to: 4, value: 11.54, color: '#8AD554'},
-      {label: '4–7 дней', from: 4, to: 8, value: 9.11, color: '#FFC636'},
-      {label: '8–14 дней', from: 8, to: 14, value: 7.62, color: '#BA74B3'},
-    ];
-    const W = 900, H = 190, left = 28, right = 12, top = 18, bottom = 28;
-    const plotW = W - left - right, plotH = H - top - bottom, max = 75;
-    const x = (day) => left + day / 14 * plotW;
-    const pct = (value) => fmt(value, Number.isInteger(value) ? 0 : 2);
-    const chart = svg('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
-      'aria-label': bins.map((b) => `${b.label}: ${pct(b.value)}%`).join('; ')});
-    [0, 25, 50, 75].forEach((value) => {
-      const y = top + plotH - value / max * plotH;
-      chart.append(svg('line', {x1: left, y1: y, x2: W - right, y2: y, class: 'scn-histogram-grid'}));
-      const label = svg('text', {x: left - 7, y: y + 3, 'text-anchor': 'end', class: 'scn-histogram-tick'});
-      label.textContent = `${value}%`;
-      chart.append(label);
-    });
-    chart.append(svg('line', {x1: left, y1: top + plotH, x2: W - right, y2: top + plotH, class: 'scn-histogram-axis'}));
-    bins.forEach((bin) => {
-      const barX = x(bin.from) + 2;
-      const barW = Math.max(4, x(bin.to) - x(bin.from) - 4);
-      const barH = bin.value / max * plotH;
-      const barY = top + plotH - barH;
-      chart.append(svg('rect', {x: barX, y: barY, width: barW, height: barH, rx: 3,
-        fill: bin.color, 'fill-opacity': .9}));
-      const value = svg('text', {x: barX + barW / 2, y: Math.max(12, barY - 5),
-        'text-anchor': 'middle', class: 'scn-histogram-value'});
-      value.textContent = `${pct(bin.value)}%`;
-      chart.append(value);
-    });
-    [0, 1, 4, 8, 14].forEach((day) => {
-      const tick = svg('text', {x: x(day), y: H - 7, 'text-anchor': day === 0 ? 'start' : day === 14 ? 'end' : 'middle',
-        class: 'scn-histogram-tick'});
-      tick.textContent = String(day);
-      chart.append(tick);
-    });
-    card.append(chart);
-    const legend = mk('div', 'scn-histogram-legend');
-    bins.forEach((bin) => {
-      const item = mk('div', 'scn-histogram-legend-item');
-      const swatch = mk('i');
-      swatch.style.background = bin.color;
-      item.append(swatch, mk('span', null, bin.label), mk('b', null, `${pct(bin.value)}%`));
-      legend.append(item);
-    });
-    card.append(legend, mk('div', 'scn-sankey-note', 'Ширина столбца показывает диапазон дней, высота — долю клиентов.'));
-    return card;
-  }
-
-  // ── детализация ─────────────────────────────────────────────────────────
-  function renderDetail() {
-    const host = $('scnDetail');
-    host.innerHTML = '';
-    const g = SC.groups.find((x) => x.id === S.pick);
-    if (!g) {
-      host.append(mk('div', 'scn-empty',
-        'Нажмите на группу в полосе или легенде — покажем, из чего она состоит и чем её покрываем'));
-      return;
-    }
-    const card = mk('div', 'scn-detail');
-    const title = mk('div', 'scn-title');
-    const dot = mk('i');
-    dot.style.background = colorOf(g)[0];
-    title.append(dot, mk('h3', null, g.name),
-      mk('span', null, `${fmt(groupShare(g), 1)}% оттока · ${amount(groupValue(TOTAL, g.id))}`));
-    card.append(title);
-
-    const grid = mk('div', 'scn-grid');
-    grid.append(composition(g), coverage(g));
-    grid.append(sankey(g));
-    grid.append(sankey(g, true));
-    card.append(grid);
-    host.append(card);
+    return details;
   }
 
   function render() {
-    // По умолчанию раскрыта первая группа полосы.
-    const groups = orderedGroups();
-    if (!groups.some((g) => g.id === S.pick)) {
-      S.pick = groups.length ? groups[0].id : null;
-      S.sub = null;
-    }
-    renderBar();
-    renderDetail();
+    const ordered = groups();
+    if (S.expanded === null) S.expanded = new Set(ordered.length ? [ordered[0].id] : []);
     $('scnSynthetic').hidden = !SC.synthetic;
-    $('scnNote').textContent = (SC.synthetic
-      ? 'Разбивка по сценариям и коммуникациям — синтетика; итоги ALL / промо / без промо — факт. '
-      : '')
-      + 'Отток — колонка outflow выгрузки, no_outflow в полосу не входит. '
-      + 'Покрытие — доля оттока группы, до которой дошла коммуникация.';
+    $('scnTotal').innerHTML = `Отток за ${S.periodLabel.toLowerCase()}: <b>${amount(totalOutflow())}</b>`;
+    const host = $('scnAccordion');
+    host.replaceChildren(...ordered.map(renderGroup));
+    $('scnNote').textContent = SC.synthetic
+      ? 'Разбивка синтетическая. Коммуникации могут пересекаться: доли покрытия не складываются.'
+      : 'Коммуникации могут пересекаться: доли покрытия не складываются.';
   }
 
-  // Выбранная группа переживает смену разреза и периода.
   function update(view = {}) {
     if (isPolicyProduct() || !SC || !SC.values[view.period]) {
       $('scenarios').hidden = true;
