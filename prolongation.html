@@ -1221,10 +1221,17 @@ function renderKpi() {
     host.append(tile({
       label: 'Отток от ожидаемых пролонгаций',
       value: `${ru(last.share, 2)}%`,
-      delta: {up: null, tone: null, text: 'срез без динамики'},
+      delta: deltaChip(shareDelta, 2, 'п.п. м/м', false),
       foot: `${amount(last.outflow)} из ${amount(last.expected)} ${activeMeasure().unit}`,
       range,
-      spark: null,
+      spark: sparkline({
+        points: series.map((row) => ({
+          label: periodLabel(row.id), text: `${ru(row.share, 2)}%`, raw: row.share,
+        })),
+        accent: 'var(--leak)',
+        dim: 'rgba(233, 3, 58, .45)',
+        fill: 'rgba(233, 3, 58, .08)',
+      }),
       hint: PRODUCT_OUTFLOW_NOTE,
     }));
     return;
