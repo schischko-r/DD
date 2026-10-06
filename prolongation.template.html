@@ -1740,8 +1740,12 @@ function renderCommunicationLayer() {
     const product = activeProduct();
     const byCommunication = (product.communicationValues || {})[state.period] || {};
     const available = [
-      {id: 'promo', title: 'Получили промо'},
+      {id: 'promo', title: 'Промо'},
+      {id: 'other', title: 'Прочее'},
       {id: 'no_promo', title: 'Не получили промо'},
+      {id: 'interception', title: 'Коммуникации перехвата'},
+      {id: 'drafts', title: 'Черновики'},
+      {id: 'prolongation', title: 'Пролонгация'},
     ].filter(({id}) => byCommunication[id] && byCommunication[id][state.measure]);
     section.hidden = !available.length;
     if (section.hidden) return;
@@ -1752,7 +1756,6 @@ function renderCommunicationLayer() {
       const values = byCommunication[id][state.measure];
       const clients = byCommunication[id].clnt || {};
       const expected = values.expected;
-      const hasExpected = Number.isFinite(expected) && expected > 0;
       const coverage = Number.isFinite(expectedBase) && expectedBase > 0
         && Number.isFinite(expected) && expected >= 0
         ? expected / expectedBase * 100 : null;
@@ -1767,8 +1770,9 @@ function renderCommunicationLayer() {
         {id: 'outflow', label: 'Отток'},
       ].forEach((step) => {
         const value = values[step.id];
-        const share = hasExpected && Number.isFinite(value) && value >= 0
-          ? value / expected * 100 : null;
+        const share = Number.isFinite(expectedBase) && expectedBase > 0
+          && Number.isFinite(value) && value >= 0
+          ? value / expectedBase * 100 : null;
         const row = el('div', 'communication-bar');
         const head = el('div', 'communication-bar-head');
         head.append(el('span', null, step.label),
@@ -1779,7 +1783,7 @@ function renderCommunicationLayer() {
         track.append(fill);
         row.append(head, track, el('div', 'communication-bar-detail',
           share == null ? 'Нет данных для расчёта'
-            : `${amount(value)} из ${amount(expected)} ${activeMeasure().unit}`));
+            : `${amount(value)} из ${amount(expectedBase)} ${activeMeasure().unit}`));
         bars.append(row);
       });
       card.append(bars);
