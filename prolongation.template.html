@@ -172,6 +172,7 @@ a { color: var(--link); }
   border: 1px solid var(--line); border-radius: 8px; background: var(--info-light);
   font-size: 12px; line-height: 1.45; color: var(--ink);
 }
+.disclaimer[hidden] { display: none; }
 .disclaimer svg { color: var(--brand); margin-top: 1px; }
 .disclaimer b { font-weight: 600; }
 
@@ -1138,7 +1139,9 @@ function tile({label, value, delta, foot, range, spark, hint}) {
 }
 
 function renderPromoNote() {
-  document.getElementById('promoNote').innerHTML = PROMO_NOTE;
+  const note = document.getElementById('promoNote');
+  note.closest('.disclaimer').hidden = isPolicyProduct();
+  if (!isPolicyProduct()) note.innerHTML = PROMO_NOTE;
 }
 
 function renderRecommendation() {
