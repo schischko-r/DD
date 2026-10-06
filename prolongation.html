@@ -128,6 +128,7 @@ a { color: var(--link); }
 /* ── воронка ─────────────────────────────────────────────────────────── */
 .funnel-card .card-head { margin-bottom: 10px; }
 .funnel-card .card-head .switch { margin-left: auto; }
+.funnel-empty { margin: 16px 0 0; color: var(--ink-soft); }
 .communication-layer .card-head { margin-bottom: 12px; }
 .communication-layer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .communication-cohort { min-width: 0; padding: 16px; border: 1px solid var(--line); border-radius: 8px; }
@@ -142,6 +143,7 @@ a { color: var(--link); }
 .communication-bar:nth-child(2) .communication-track i { background: #FFC636; }
 .communication-bar:nth-child(3) .communication-track i { background: #F3A847; }
 .communication-bar:nth-child(4) .communication-track i { background: #FFB9DD; }
+.communication-layer.is-policy .communication-bar:nth-child(2) .communication-track i { background: #FFB9DD; }
 .communication-bar-detail { margin-top: 3px; color: var(--ink-hint); font-size: 11px; font-variant-numeric: tabular-nums; }
 .client-journey .card-head { margin-bottom: 14px; }
 .journey-label { margin: 0 0 8px; font-size: 12px; font-weight: 700; }
@@ -686,7 +688,7 @@ const PERIODS_ASC = PERIODS.map((p) => p.id).slice().reverse();
 
 const state = {
   measure: MEASURES.some((m) => m.id === 'clnt') ? 'clnt' : MEASURES[0].id,
-  period: PERIODS[0].id,
+  period: PERIODS[0]?.id || null,
   product: 'deposit',
   funnel: 'all',
 };
@@ -699,6 +701,11 @@ const PRODUCT_FILTERS = Array.isArray(DATA.products) && DATA.products.length
   : [{id: 'deposit', label: 'Вклады'}];
 const productById = (id) => PRODUCT_FILTERS.find((product) => product.id === id);
 const activeProduct = () => productById(state.product);
+const productPeriods = () => {
+  const values = activeProduct()?.values;
+  return values ? PERIODS.filter((period) =>
+    Object.prototype.hasOwnProperty.call(values, period.id)) : PERIODS;
+};
 const isPolicyProduct = () => {
   const product = activeProduct();
   return Boolean(product && product.values && product.id !== 'deposit');
@@ -789,7 +796,8 @@ const amount = (raw) => {
   return new Intl.NumberFormat('ru-RU', {maximumFractionDigits: digits}).format(raw);
 };
 const amountText = (raw) => `${amount(raw)} ${activeMeasure().unit}`;
-const periodLabel = (id) => (PERIODS.find((p) => p.id === id) || {label: id}).label;
+const periodLabel = (id) => id == null ? 'нет периода'
+  : (PERIODS.find((p) => p.id === id) || {label: id}).label;
 
 // Дельта меньше половины последнего выводимого знака — это не движение,
 // а округление: показываем «без изменений», а не стрелку в случайную сторону.
@@ -863,7 +871,7 @@ function coverageSeries() {
 // про него, а не про последний месяц в книге.
 function upTo(series) {
   const index = series.findIndex((row) => row.id === state.period);
-  return index < 0 ? series : series.slice(0, index + 1);
+  return index < 0 ? [] : series.slice(0, index + 1);
 }
 
 // Предыдущий месяц в ряду — для дельты конверсии. PERIODS идут от свежего
@@ -880,7 +888,7 @@ function funnelRows(funnel, kind) {
   return funnel.steps
     .filter((step) => step.kind === kind)
     .map((step) => ({...step, value: values[step.id], prev: before ? before[step.id] : undefined}))
-    .filter((step) => isFinite(step.value));
+    .filter((step) => Number.isFinite(step.value));
 }
 const funnelSteps = (funnel) => funnelRows(funnel, 'level');
 const funnelLeaks = (funnel) => funnelRows(funnel, 'leak');
@@ -890,6 +898,11 @@ const funnelGains = (funnel) => funnelRows(funnel, 'gain');
 function fillSelect(id, list, selected, onChange) {
   const select = document.getElementById(id);
   select.innerHTML = '';
+  if (!list.length) {
+    const option = document.createElement('option');
+    option.textContent = 'Нет данных';
+    select.append(option);
+  }
   list.forEach((item) => {
     const option = document.createElement('option');
     option.value = item.id;
@@ -898,24 +911,30 @@ function fillSelect(id, list, selected, onChange) {
     select.append(option);
   });
   select.disabled = list.length < 2;
-  select.addEventListener('change', () => onChange(select.value));
+  select.onchange = () => onChange(select.value);
+}
+
+function renderPeriodFilter() {
+  const options = productPeriods();
+  if (!options.some((period) => period.id === state.period)) {
+    state.period = options[0]?.id || null;
+  }
+  fillSelect('filter-period', options, state.period, (id) => {
+    state.period = id;
+    render();
+  });
 }
 
 function renderFilters() {
   if (!PRODUCT_FILTERS.some((product) => product.id === state.product)) {
     state.product = PRODUCT_FILTERS[0].id;
   }
-  if (!PERIODS.some((period) => period.id === state.period)) {
-    state.period = PERIODS[0].id;
-  }
   fillSelect('filter-product', PRODUCT_FILTERS, state.product, (id) => {
     state.product = id;
+    renderPeriodFilter();
     render();
   });
-  fillSelect('filter-period', PERIODS, state.period, (id) => {
-    state.period = id;
-    render();
-  });
+  renderPeriodFilter();
 }
 
 // Оба тумблера рисуются одним кодом: сегменты, aria-selected и перерисовка.
@@ -946,7 +965,15 @@ function renderSwitches() {
   const funnelSwitch = document.getElementById('funnelSwitch');
   funnelSwitch.hidden = isPolicyProduct();
   if (!isPolicyProduct()) {
-    renderSwitch('funnelSwitch', FUNNEL_OPTIONS, state.funnel, (id) => {
+    const options = FUNNEL_OPTIONS.filter((option) => {
+      const funnel = funnelById(option.id);
+      return funnel && Object.prototype.hasOwnProperty.call(
+        funnel.series[state.measure] || {}, state.period);
+    });
+    if (!options.some((option) => option.id === state.funnel)) {
+      state.funnel = options[0]?.id || null;
+    }
+    renderSwitch('funnelSwitch', options, state.funnel, (id) => {
       state.funnel = id;
       render();
     });
@@ -1167,7 +1194,8 @@ function renderKpi() {
   const range = series.length > 1
     ? `${periodLabel(series[0].id)} — ${periodLabel(last.id)}`
     : periodLabel(last.id);
-  const prevShare = series.length > 1 ? series[series.length - 2].share : null;
+  const previous = series.find((row) => row.id === previousPeriod(state.period));
+  const prevShare = previous ? previous.share : null;
   const shareDelta = prevShare == null ? null : last.share - prevShare;
 
   host.append(tile({
@@ -1213,9 +1241,9 @@ function renderKpi() {
       if (!row || !Number.isFinite(row.covered) || !Number.isFinite(row.total) || !row.total) return null;
       return {id, share: row.covered / row.total * 100};
     }).filter(Boolean)) : [];
-    const serviceDelta = serviceSeries.length > 1
-      ? serviceSeries[serviceSeries.length - 1].share - serviceSeries[serviceSeries.length - 2].share
-      : null;
+    const serviceBefore = serviceSeries.find((row) => row.id === previousPeriod(state.period));
+    const serviceDelta = serviceBefore && serviceSeries.length
+      ? serviceSeries[serviceSeries.length - 1].share - serviceBefore.share : null;
     host.append(tile({
       label: 'Покрыто сервисными коммуникациями',
       value: sameMonth ? `${ru(serviceValues.covered / serviceValues.total * 100, 1)}%` : '—',
@@ -1239,8 +1267,8 @@ function renderKpi() {
   const coverage = upTo(coverageSeries());
   if (coverage.length) {
     const lastCover = coverage[coverage.length - 1];
-    const coverDelta = coverage.length > 1
-      ? lastCover.share - coverage[coverage.length - 2].share : null;
+    const coverBefore = coverage.find((row) => row.id === previousPeriod(state.period));
+    const coverDelta = coverBefore ? lastCover.share - coverBefore.share : null;
     host.append(tile({
       label: 'Покрыто промо-коммуникациями',
       hint: PROMO_NOTE,
@@ -1593,7 +1621,10 @@ function outflowBracket(all) {
 
 function renderProductFunnel(host, product) {
   const row = ((product.values || {})[state.period] || {})[state.measure];
-  if (!row) return;
+  if (!row || !Number.isFinite(row.total) || row.total <= 0) {
+    host.append(el('p', 'funnel-empty', 'Нет данных за период'));
+    return;
+  }
   const before = ((product.values || {})[previousPeriod(state.period)] || {})[state.measure] || null;
   const common = [{
     no: 1, id: 'portfolio', name: 'Все полисы', kind: 'level',
@@ -1649,10 +1680,17 @@ function renderFunnels() {
     return;
   }
 
-  const selected = funnelById(state.funnel) || funnelById('all');
-  if (!selected) return;
+  const selected = funnelById(state.funnel);
+  if (!selected || !Object.prototype.hasOwnProperty.call(
+    selected.series[state.measure] || {}, state.period)) {
+    host.append(el('p', 'funnel-empty', 'Нет данных за период'));
+    return;
+  }
   const steps = funnelSteps(selected);
-  if (!steps.length) return;
+  if (steps.length < 2 || steps[0].value <= 0) {
+    host.append(el('p', 'funnel-empty', 'Нет данных за период'));
+    return;
+  }
   const baseStep = steps[0];
   const base = baseStep.value;
   pageBase = base;
@@ -1691,11 +1729,63 @@ function renderFunnels() {
 
 function renderCommunicationLayer() {
   const section = document.getElementById('communicationLayer');
-  section.hidden = isPolicyProduct();
-  if (section.hidden) return;
-
   const grid = document.getElementById('communicationLayerGrid');
   grid.replaceChildren();
+  section.classList.toggle('is-policy', isPolicyProduct());
+
+  if (isPolicyProduct()) {
+    const product = activeProduct();
+    const byCommunication = (product.communicationValues || {})[state.period] || {};
+    const available = [
+      {id: 'promo', title: 'Получили промо'},
+      {id: 'no_promo', title: 'Не получили промо'},
+    ].filter(({id}) => byCommunication[id] && byCommunication[id][state.measure]);
+    section.hidden = !available.length;
+    if (section.hidden) return;
+
+    const all = ((product.values || {})[state.period] || {})[state.measure];
+    const expectedBase = all && all.expected;
+    available.forEach(({id, title}) => {
+      const values = byCommunication[id][state.measure];
+      const clients = byCommunication[id].clnt || {};
+      const expected = values.expected;
+      const hasExpected = Number.isFinite(expected) && expected > 0;
+      const coverage = Number.isFinite(expectedBase) && expectedBase > 0
+        && Number.isFinite(expected) && expected >= 0
+        ? expected / expectedBase * 100 : null;
+      const card = el('article', 'communication-cohort');
+      card.append(el('h3', null, title),
+        el('div', 'communication-coverage', coverage == null ? '—' : `${ru(coverage, 1)}%`),
+        el('div', 'communication-count', Number.isFinite(clients.expected)
+          ? `${ru(clients.expected)} клиентов в группе` : 'Число клиентов недоступно'));
+      const bars = el('div', 'communication-bars');
+      [
+        {id: 'prolonged', label: 'Пролонгация'},
+        {id: 'outflow', label: 'Отток'},
+      ].forEach((step) => {
+        const value = values[step.id];
+        const share = hasExpected && Number.isFinite(value) && value >= 0
+          ? value / expected * 100 : null;
+        const row = el('div', 'communication-bar');
+        const head = el('div', 'communication-bar-head');
+        head.append(el('span', null, step.label),
+          el('b', null, share == null ? '—' : `${ru(share, 1)}%`));
+        const track = el('div', 'communication-track');
+        const fill = el('i');
+        fill.style.width = `${Math.max(0, Math.min(share ?? 0, 100))}%`;
+        track.append(fill);
+        row.append(head, track, el('div', 'communication-bar-detail',
+          share == null ? 'Нет данных для расчёта'
+            : `${amount(value)} из ${amount(expected)} ${activeMeasure().unit}`));
+        bars.append(row);
+      });
+      card.append(bars);
+      grid.append(card);
+    });
+    return;
+  }
+
+  section.hidden = false;
   const expectedBase = communicationExpectedBase(state.period);
   const hasExpectedBase = Number.isFinite(expectedBase) && expectedBase > 0;
 
@@ -1753,6 +1843,7 @@ function renderCommunicationLayer() {
 function badStreak(series) {
   let streak = 0;
   for (let i = series.length - 1; i > 0; i -= 1) {
+    if (previousPeriod(series[i].id) !== series[i - 1].id) break;
     if (series[i].share <= series[i - 1].share) break;
     streak += 1;
   }
@@ -1763,6 +1854,9 @@ function trafficLight(series) {
   // Меньше двух месяцев — сравнивать не с чем. Зелёный здесь был бы враньём:
   // «падение оттока» нельзя утверждать, не видя предыдущего месяца.
   if (series.length < 2) return {state: 'none', title: 'Динамики пока нет', streak: 0};
+  if (previousPeriod(series[series.length - 1].id) !== series[series.length - 2].id) {
+    return {state: 'none', title: 'Динамики пока нет', streak: 0};
+  }
   const streak = badStreak(series);
   if (streak >= 2) return {state: 'red', title: 'Рост оттока', streak};
   if (streak === 1) return {state: 'yellow', title: 'Смешанная динамика', streak};
@@ -1789,6 +1883,7 @@ function statusWhy(light, series) {
   if (series.length < 2) {
     return `В книге один месяц — ${periodLabel(series[0].id)}. Для светофора нужен второй`;
   }
+  if (light.state === 'none') return 'Нет данных за предыдущий месяц';
   if (light.state === 'red') {
     return `Доля оттока растёт ${light.streak} ${monthWord(light.streak)} подряд`;
   }

@@ -354,6 +354,10 @@ class Export:
     def communications_for_product(self, product: str = DEPOSIT_PRODUCT) -> list[str]:
         return sorted({key[2] for key in self.cells if key[1] == product})
 
+    def periods_for(self, product: str = DEPOSIT_PRODUCT, communication: str = TOTAL) -> list[str]:
+        """Периоды с явным итогом среза; пересекающиеся коммуникации не образуют ALL."""
+        return sorted(p for p in self.periods if (p, product, communication, TOTAL) in self.cells)
+
     def value(self, period: str, communication: str, scenario: str, metric: str,
               measure: str, required: bool = True, product: str = DEPOSIT_PRODUCT) -> float | None:
         row = self.cells.get((period, product, communication, scenario))
@@ -397,7 +401,7 @@ class Export:
     def total_series(self, communication: str, metric: str, measure: str,
                     product: str = DEPOSIT_PRODUCT) -> dict[str, float]:
         return {p: self.value(p, communication, TOTAL, metric, measure, product=product)
-                for p in self.periods}
+                for p in self.periods_for(product, communication)}
 
 
 def warn_unsaved_formulas(workbook: Path, sheet) -> None:
@@ -485,28 +489,33 @@ def build_portfolio(export: Export) -> dict:
 
 
 def build_products(export: Export) -> list[dict]:
-    """Продуктовые ряды из communication = ALL, scenario = ALL."""
+    """Продуктовые итоги и явные коммуникационные срезы из scenario = ALL."""
     products = []
     for product in export.products:
-        values = {}
-        for period in export.periods:
-            values[period] = {
+        def metrics(period: str, communication: str) -> dict:
+            return {
                 measure["id"]: {
-                    "total": export.value(period, TOTAL, TOTAL, "tree_portfolio", measure["id"],
+                    "total": export.value(period, communication, TOTAL, "tree_portfolio", measure["id"],
                                            product=product),
-                    "expected": export.value(period, TOTAL, TOTAL, "tree_portfolio_prolong", measure["id"],
+                    "expected": export.value(period, communication, TOTAL, "tree_portfolio_prolong", measure["id"],
                                               product=product),
-                    "prolonged": export.value(period, TOTAL, TOTAL, "tree_portfolio_prolong_passed", measure["id"],
+                    "prolonged": export.value(period, communication, TOTAL, "tree_portfolio_prolong_passed", measure["id"],
                                                product=product),
-                    "outflow": export.value(period, TOTAL, TOTAL, OUTFLOW_METRIC, measure["id"],
+                    "outflow": export.value(period, communication, TOTAL, OUTFLOW_METRIC, measure["id"],
                                              product=product),
                 }
                 for measure in MEASURES
             }
+        values = {period: metrics(period, TOTAL) for period in export.periods_for(product)}
+        communication_values = {}
+        for communication in export.communications_for_product(product):
+            for period in export.periods_for(product, communication):
+                communication_values.setdefault(period, {})[communication] = metrics(period, communication)
         products.append({
             "id": product,
             "label": PRODUCT_LABELS.get(product, product),
             "values": values,
+            "communicationValues": communication_values,
             "communication": TOTAL,
         })
     return products
@@ -514,10 +523,10 @@ def build_products(export: Export) -> list[dict]:
 
 def build_funnels(export: Export) -> list[dict]:
     funnels = []
-    deposit_communications = export.communications_for_product(DEPOSIT_PRODUCT)
     for spec in FUNNELS:
-        if spec["communication"] not in deposit_communications:
-            print(f"  внимание: в выгрузке нет коммуникации {spec['communication']}, "
+        periods = export.periods_for(DEPOSIT_PRODUCT, spec["communication"])
+        if not periods:
+            print(f"  внимание: в выгрузке нет итоговой строки коммуникации {spec['communication']}, "
                   f"воронки «{spec['name']}» не будет")
             continue
         steps = [{"no": no, "id": step, "name": spec["names"].get(step, STEP_NAMES.get(step, step)),
@@ -526,7 +535,7 @@ def build_funnels(export: Export) -> list[dict]:
         series = {}
         for measure in MEASURES:
             by_period = {}
-            for period in export.periods:
+            for period in periods:
                 values = {
                     step: export.value(period, spec["communication"], TOTAL, metric, measure["id"])
                     for _, step, metric, _ in FUNNEL_STEPS
