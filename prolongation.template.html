@@ -143,7 +143,6 @@ a { color: var(--link); }
 .communication-bar:nth-child(2) .communication-track i { background: #FFC636; }
 .communication-bar:nth-child(3) .communication-track i { background: #F3A847; }
 .communication-bar:nth-child(4) .communication-track i { background: #FFB9DD; }
-.communication-layer.is-policy .communication-bar:nth-child(2) .communication-track i { background: #FFB9DD; }
 .communication-bar-detail { margin-top: 3px; color: var(--ink-hint); font-size: 11px; font-variant-numeric: tabular-nums; }
 .client-journey .card-head { margin-bottom: 14px; }
 .journey-label { margin: 0 0 8px; font-size: 12px; font-weight: 700; }
@@ -1771,29 +1770,6 @@ function renderCommunicationLayer() {
         el('div', 'communication-coverage', coverage == null ? '—' : `${ru(coverage, 1)}%`),
         el('div', 'communication-count', Number.isFinite(clients.expected)
           ? `${ru(clients.expected)} клиентов в группе` : 'Число клиентов недоступно'));
-      const bars = el('div', 'communication-bars');
-      [
-        {id: 'prolonged', label: 'Пролонгация'},
-        {id: 'outflow', label: 'Отток'},
-      ].forEach((step) => {
-        const value = values[step.id];
-        const share = Number.isFinite(expectedBase) && expectedBase > 0
-          && Number.isFinite(value) && value >= 0
-          ? value / expectedBase * 100 : null;
-        const row = el('div', 'communication-bar');
-        const head = el('div', 'communication-bar-head');
-        head.append(el('span', null, step.label),
-          el('b', null, share == null ? '—' : `${ru(share, 1)}%`));
-        const track = el('div', 'communication-track');
-        const fill = el('i');
-        fill.style.width = `${Math.max(0, Math.min(share ?? 0, 100))}%`;
-        track.append(fill);
-        row.append(head, track, el('div', 'communication-bar-detail',
-          share == null ? 'Нет данных для расчёта'
-            : `${amount(value)} из ${amount(expectedBase)} ${activeMeasure().unit}`));
-        bars.append(row);
-      });
-      card.append(bars);
       grid.append(card);
     });
     return;
