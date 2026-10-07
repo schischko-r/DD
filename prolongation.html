@@ -200,17 +200,6 @@ a { color: var(--link); }
 .journey-actions { margin-top: 16px; }
 .journey-footer { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-soft); }
 .journey-footer a { font-weight: 600; }
-/* Дисклеймер о разметке промо: полоской под шапкой карточки воронки. */
-.disclaimer {
-  margin: 0 0 14px; padding: 9px 12px;
-  display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 9px; align-items: start;
-  border: 1px solid var(--line); border-radius: 8px; background: var(--info-light);
-  font-size: 12px; line-height: 1.45; color: var(--ink);
-}
-.disclaimer[hidden] { display: none; }
-.disclaimer svg { color: var(--brand); margin-top: 1px; }
-.disclaimer b { font-weight: 600; }
-
 /* Пояснение по клику: «i» в круге и выпадашка под ней. */
 .hint { position: relative; display: inline-flex; flex: 0 0 auto; }
 .hint-button {
@@ -531,7 +520,7 @@ a { color: var(--link); }
   font-size: 11px; font-weight: 600;
 }
 .scn-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.scn-head .recs-title { margin-bottom: 0; }
+.scn-head h2 { margin: 0; font-size: 14px; font-weight: 700; }
 .scn-total { font-size: 12px; color: var(--ink-soft); }
 .scn-total b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 .scn-accordion { display: grid; gap: 8px; margin-top: 16px; }
@@ -632,10 +621,6 @@ a { color: var(--link); }
         <div class="card-head">
           <h2 id="funnelTitle">Воронка</h2>
         </div>
-        <p class="disclaimer">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
-          <span id="promoNote"></span>
-        </p>
         <div class="funnels" id="funnels"></div>
       </section>
       <section class="card status-card">
@@ -693,7 +678,7 @@ a { color: var(--link); }
 
     <section class="card scn-view" id="scenarios">
       <div class="scn-head">
-        <div class="recs-title">Куда уходят средства после закрытия <span class="scn-synthetic" id="scnSynthetic" hidden>Синтетические данные</span></div>
+        <h2>Куда уходят средства после закрытия <span class="scn-synthetic" id="scnSynthetic" hidden>Синтетические данные</span></h2>
         <span class="scn-total" id="scnTotal"></span>
       </div>
       <div class="scn-accordion" id="scnAccordion"></div>
@@ -763,13 +748,10 @@ const MEASURE_LABEL = {clnt: 'Клиенты', rur: 'Объёмы (руб)'};
 // у карточки покрытия. Дублировать текст в разметке нельзя — разъедется.
 const PROMO_NOTE = 'Промо-коммуникации учитываются по продуктам <b>Вклад</b>, '
   + '<b>НС</b>, <b>ОМС</b> и <b>Инвестиции</b> согласно продуктовой разметке ЕВК.';
-const SERVICE_NOTE = 'Сервисные коммуникации берём из витрины «Уведомления @900». '
-  + 'Учитываем уведомления, в тексте которых одновременно встречаются фрагменты '
-  + '«пролонгац» и «вклад» (маски <b>%пролонгац%</b> и <b>%вклад%</b>).';
-const OUTFLOW_NOTE = 'Отток фиксируем, как снижение суммарного остатка клиента на вкладах '
-  + 'и накопительных счетах в окне <b>30 дней</b>.'
-  + '<span style="display:block;margin-top:4px">Фокусным считаем снижение остатка на балансе '
-  + '<b>более 50%</b> от остатка на счете.</span>';
+const SERVICE_NOTE = 'Сервисные коммуникации берём из витрины «Уведомления @900»: '
+  + 'сообщения о пролонгации вклада.';
+const OUTFLOW_NOTE = 'Отток — клиенты, которые вывели более половины средств, '
+  + 'находившихся на вкладах и НС.';
 const PRODUCT_OUTFLOW_NOTE = 'Оттекшим считаем клиента, не продлившего полис в окне '
   + '<b>30 дней</b> после даты пролонгации. Отток по объёмам рассчитываем как сумму падения '
   + '<b>AUM</b> по клиентам.';
@@ -788,22 +770,19 @@ const SPLIT_ORDER = ['base', 'promo'];
 const BAD_WHEN_UP = new Set(['net_outflow', 'not_waited', 'left30', 'erosion30']);
 // «Осело» в этот набор не входит: там рост — хорошая новость.
 
-// Цвет закреплён за смыслом ступени, а не за её номером: «Закрыли в окне
-// 30 дней» жёлтая в обеих ветках, «Чистый отток» розовый. Оттенки взяты из
-// дефолтной палитры @gravity-ui/charts, чтобы страница осталась одной гаммой.
+// Спокойные синие ступени ведут к результату; конечный отток выделен красным.
 const STEP_COLOR = {
-  expected: '#84D1EE',        // голубой
-  prolonged: '#4DA2F1',       // синий
-  left30: '#FFC636',          // жёлтый
-  erosion30: '#F3A847',       // оранжевый: снижение остатка до финального оттока
-  net_outflow: '#FFB9DD',     // розовый
+  expected: '#9CCFE5',
+  prolonged: '#5AA6DE',
+  left30: '#AFC6D7',
+  erosion30: '#91B0C7',
+  net_outflow: '#E9033A',
 };
 // Голова ветки называется по признаку коммуникации, и цвет у неё свой.
 const BRANCH_COLOR = {base: '#FF3D64', promo: '#8AD554'};
 const FALLBACK_COLOR = '#BA74B3';
 
-// Светлая заливка требует тёмной подписи, иначе белый текст на жёлтом и
-// розовом не читается. Порог подобран по относительной яркости.
+// Светлая заливка требует тёмной подписи; порог подобран по яркости цвета.
 function labelOnFill(hex) {
   const value = parseInt(hex.slice(1), 16);
   const channel = (shift) => {
@@ -1046,12 +1025,6 @@ function tile({label, value, delta, foot, hint}) {
   card.append(chip);
   if (foot) card.append(el('div', 'tile-foot', foot));
   return card;
-}
-
-function renderPromoNote() {
-  const note = document.getElementById('promoNote');
-  note.closest('.disclaimer').hidden = isPolicyProduct();
-  if (!isPolicyProduct()) note.innerHTML = PROMO_NOTE;
 }
 
 function renderRecommendation() {
@@ -1527,7 +1500,8 @@ function renderProductFunnel(host, product) {
   };
   const outflow = {
     no: 4, id: 'outflow', name: 'Отток', kind: 'level',
-    value: row.outflow, prev: before ? before.outflow : undefined, color: '#FF3D64', ref: common[1],
+    value: row.outflow, prev: before ? before.outflow : undefined,
+    color: STEP_COLOR.net_outflow, ref: common[1],
   };
   const stage = el('div', 'funnel-stage');
   drawSplitFunnel(stage, {
@@ -2080,7 +2054,6 @@ analysisTabs.forEach((tab) => {
 
 function render() {
   renderSwitches();
-  renderPromoNote();
   renderRecommendation();
   renderOutflowDefinition();
   renderFunnelTitle();
