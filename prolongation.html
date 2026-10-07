@@ -98,6 +98,8 @@ a { color: var(--link); }
 }
 .analysis-tabs [role="tab"][hidden], .analysis-panel[hidden] { display: none; }
 .analysis-panel { margin-top: 16px; }
+.funnel-panel { display: flow-root; }
+.funnel-panel > .card:first-child { margin-top: 0; }
 
 /* ── инфобокс с определением ─────────────────────────────────────────── */
 .definition { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: start; }
@@ -626,16 +628,20 @@ a { color: var(--link); }
       <button type="button" role="tab" id="journeyTab" data-panel="clientJourney" aria-controls="clientJourney">Клиентский путь</button>
     </nav>
 
-    <section class="card funnel-card analysis-panel" id="funnelPanel" role="tabpanel" aria-labelledby="funnelTab">
-      <div class="card-head">
-        <h2 id="funnelTitle">Воронка</h2>
-      </div>
-      <p class="disclaimer">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
-        <span id="promoNote"></span>
-      </p>
-
-      <div class="funnels" id="funnels"></div>
+    <section class="analysis-panel funnel-panel" id="funnelPanel" role="tabpanel" aria-labelledby="funnelTab">
+      <section class="card funnel-card">
+        <div class="card-head">
+          <h2 id="funnelTitle">Воронка</h2>
+        </div>
+        <p class="disclaimer">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
+          <span id="promoNote"></span>
+        </p>
+        <div class="funnels" id="funnels"></div>
+      </section>
+      <section class="card status-card">
+        <div id="status"></div>
+      </section>
     </section>
 
     <section class="card communication-layer analysis-panel" id="communicationLayer" role="tabpanel" aria-labelledby="communicationTab">
@@ -693,10 +699,6 @@ a { color: var(--link); }
       </div>
       <div class="scn-accordion" id="scnAccordion"></div>
       <p class="scn-note" id="scnNote"></p>
-    </section>
-
-    <section class="card status-card">
-      <div id="status"></div>
     </section>
 
     <p class="page-note" id="pageNote"></p>
