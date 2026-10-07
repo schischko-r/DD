@@ -83,17 +83,18 @@ a { color: var(--link); }
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .card-head h2 { margin: 0; font-size: 14px; font-weight: 700; }
 .analysis-tabs {
-  display: flex; gap: 24px; margin-top: 20px;
+  display: flex; gap: 0; margin-top: 24px;
   border-bottom: 1px solid var(--line); overflow-x: auto;
 }
 .analysis-tabs [role="tab"] {
-  flex: 0 0 auto; padding: 0 2px 11px; border: 0;
-  border-bottom: 2px solid transparent; background: none;
-  color: var(--ink-soft); font-size: 13px; font-weight: 600; cursor: pointer;
+  flex: 1 0 190px; min-height: 56px; padding: 12px 20px;
+  border: 0; border-bottom: 3px solid transparent; background: none;
+  color: var(--ink-soft); font-size: 17px; font-weight: 600;
+  text-align: center; cursor: pointer;
 }
-.analysis-tabs [role="tab"]:hover { color: var(--ink); }
+.analysis-tabs [role="tab"]:hover { color: var(--brand); background: var(--info-light); }
 .analysis-tabs [role="tab"][aria-selected="true"] {
-  border-bottom-color: var(--brand); color: var(--ink);
+  border-bottom-color: var(--brand); color: var(--brand); font-weight: 700;
 }
 .analysis-tabs [role="tab"][hidden], .analysis-panel[hidden] { display: none; }
 .analysis-panel { margin-top: 16px; }
