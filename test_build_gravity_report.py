@@ -340,6 +340,14 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             with self.assertRaisesRegex(FileNotFoundError, "Backlog source not found"):
                 report.build(args)
 
+    def test_full_build_requires_outflow_workbook_before_running_builders(self) -> None:
+        args = report.parse_args([])
+
+        with patch.object(report.Path, "is_file", side_effect=[True, False]), patch.object(report, "run") as run:
+            with self.assertRaisesRegex(FileNotFoundError, "Outflow source not found"):
+                report.build(args)
+        run.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

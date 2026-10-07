@@ -149,13 +149,18 @@ if ((BUILD_FROM_HTML == 1)); then
   export AI_HTML_BUILD_FROM_FILES=1
   echo "Building from downloaded AI HTML reports; API requests are disabled."
 fi
-if ((OUTFLOW_FROM_EXCEL == 1)); then
-  if ((BUILD_FROM_HTML == 1)); then
-    echo "--outflow-from-excel requires API downloads; omit --build-from-html." >&2
-    exit 2
-  fi
+if ((OUTFLOW_FROM_EXCEL == 1 && BUILD_FROM_HTML == 1)); then
+  echo "--outflow-from-excel requires API downloads; omit --build-from-html." >&2
+  exit 2
+fi
+if ((DATA_ONLY == 0 && HTML_ONLY == 0 && UPDATE_PROD_ONLY == 0 && BUILD_FROM_HTML == 0)) &&
+   [[ "${AI_HTML_BUILD_FROM_FILES:-}" =~ ^(1|[Tt][Rr][Uu][Ee]|[Yy][Ee][Ss])$ ]]; then
+  echo "Full build requires fresh API HTML; unset AI_HTML_BUILD_FROM_FILES or pass --build-from-html explicitly." >&2
+  exit 1
+fi
+if ((DATA_ONLY == 0 && HTML_ONLY == 0 && UPDATE_PROD_ONLY == 0 && BUILD_FROM_HTML == 0)); then
   if [[ -z "${AI_HTML_API_BASE_URL:-}" || -z "${AI_HTML_TOKEN:-}" ]]; then
-    echo "--outflow-from-excel requires AI_HTML_API_BASE_URL and AI_HTML_TOKEN to download fresh HTML." >&2
+    echo "Full build requires AI_HTML_API_BASE_URL and AI_HTML_TOKEN to download fresh HTML." >&2
     exit 1
   fi
 fi

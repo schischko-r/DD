@@ -21,6 +21,7 @@ class BuildGravityReportShellTest(unittest.TestCase):
         frontend_installed: bool = True,
         upload_path_overrides: bool = False,
         python3_available: bool = False,
+        api_credentials: bool = True,
     ) -> tuple[list[str], str]:
         with tempfile.TemporaryDirectory() as temp_dir:
             directory = Path(temp_dir)
@@ -61,6 +62,11 @@ fi
                 "PATH": f"{directory}:/usr/bin:/bin",
                 "COMMAND_LOG": str(log_path),
             }
+            if api_credentials:
+                environment.update({
+                    "AI_HTML_API_BASE_URL": "https://reports.example.test",
+                    "AI_HTML_TOKEN": "test-token",
+                })
             if not (extra_environment or {}).get("WITHOUT_PYTHON"):
                 environment["PYTHON"] = str(python_stub)
             if not frontend_installed:
@@ -110,6 +116,17 @@ fi
         self.assertEqual(len(invocations), 1)
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
+
+    def test_default_full_build_requires_api_credentials(self) -> None:
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.run_wrapper("--no-upload", dotenv="", api_credentials=False)
+
+    def test_default_full_build_rejects_implicit_local_html_mode(self) -> None:
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.run_wrapper(
+                "--no-upload",
+                extra_environment={"AI_HTML_BUILD_FROM_FILES": "1"},
+            )
 
     def test_default_upload_omits_paths_for_uploader_auto_discovery(self) -> None:
         invocations, _ = self.run_wrapper(upload=True)

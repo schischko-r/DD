@@ -101,6 +101,8 @@ def build(args: argparse.Namespace) -> None:
     if full_data_build:
         if not args.backlog_input.is_file():
             raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
+        if not args.data_only and not DEFAULT_PROLONGATION_WORKBOOK.is_file():
+            raise FileNotFoundError(f"Outflow source not found: {DEFAULT_PROLONGATION_WORKBOOK}")
         report_command = [
             sys.executable,
             str(ROOT / "build_calc_report.py"),
@@ -137,7 +139,7 @@ def build(args: argparse.Namespace) -> None:
 
     if args.outflow_from_excel and not DEFAULT_PROLONGATION_WORKBOOK.is_file():
         raise FileNotFoundError(f"Outflow source not found: {DEFAULT_PROLONGATION_WORKBOOK}")
-    if (full_data_build or args.outflow_from_excel) and DEFAULT_PROLONGATION_WORKBOOK.is_file():
+    if full_data_build or args.outflow_from_excel:
         run([
             sys.executable,
             str(ROOT / "build_report_data.py"),

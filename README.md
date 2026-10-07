@@ -14,7 +14,8 @@
 
 ## Быстрый Запуск
 
-Полная локальная сборка Gravity UI из единого `flat_table.xlsx`, включая JSON, Vite bundle и standalone HTML:
+Полная локальная сборка Gravity UI из `flat_table.xlsx` и `prolong.xlsx`, включая
+JSON, свежие HTML-отчёты с настроенного API, Vite bundle и standalone HTML:
 
 ```bash
 ./build_gravity_report.sh
