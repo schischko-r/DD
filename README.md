@@ -20,6 +20,13 @@
 ./build_gravity_report.sh
 ```
 
+Чтобы пересобрать только HTML из уже подготовленных JSON и страниц, без чтения
+Excel, обновления данных и загрузки в Qlik:
+
+```bash
+./build_gravity_report.sh --html-only
+```
+
 Скрипт использует корневой `.env`, а при его отсутствии также проверяет
 `$HOME/Documents/Codex/DD-dev/.env`. Другой env-файл можно передать через
 `DD_ENV_FILE=/path/to/.env`. Все аргументы передаются в Python-сборщик, например
@@ -210,7 +217,7 @@ excludedAfterHistoryEnd` для каждой команды и проверки
 слоем на дашборд.
 
 ```bash
-python build_data_maturity.py \
+python archive/builders/build_data_maturity.py \
   --input "Книга1.xlsx" \
   --output "gravity-app/public/data-maturity.json"
 ```
@@ -245,13 +252,18 @@ Discovery считается подтверждённой, когда задач
 Только титульная витрина из отдельного плоского списка:
 
 ```bash
-python build_title_from_excel.py \
+python archive/builders/build_title_from_excel.py \
   --input "Расчет_список.xlsx" \
   --sheet "Лист1" \
   --output "final_title_from_excel.html"
 ```
 
 ## Архитектура
+
+Основная сборка запускается через `./build_gravity_report.sh`; все нужные ей
+Python-скрипты остаются в корне. Разовые сборки анкеты, зрелости данных и
+отдельного титульника перенесены в `archive/builders/` и сохраняют возможность
+ручного запуска.
 
 ```mermaid
 flowchart TD
@@ -484,7 +496,7 @@ round(sum(value) / sum(max_value) * 100)
 
 ## Отдельный Титульник
 
-`build_title_from_excel.py` генерирует только титульную витрину.
+`archive/builders/build_title_from_excel.py` генерирует только титульную витрину.
 
 Обязательные колонки:
 
@@ -497,7 +509,7 @@ round(sum(value) / sum(max_value) * 100)
 Запуск:
 
 ```bash
-python build_title_from_excel.py \
+python archive/builders/build_title_from_excel.py \
   --input "Расчет_список.xlsx" \
   --sheet "Лист1" \
   --output "final_title_from_excel.html"

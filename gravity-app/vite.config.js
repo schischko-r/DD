@@ -16,6 +16,11 @@ import {
 
 const REPOSITORY_ROOT = resolve(import.meta.dirname, '..');
 const DEFAULT_HTML_REPORTS_DIRECTORY = 'source-html-reports/downloaded';
+const PROLONGATION_PAGE = Object.freeze({
+  url: 'prolongation.html',
+  title: 'Воронка оттока',
+  icon: 'Funnel',
+});
 
 function enabledEnvironmentFlag(value) {
   return /^(1|true|yes)$/i.test(String(value || '').trim());
@@ -111,11 +116,19 @@ export default defineConfig(({mode}) => {
     REPOSITORY_ROOT,
     configuredHtmlReportsDirectory || DEFAULT_HTML_REPORTS_DIRECTORY,
   );
-  const htmlPageUrlsRaw = process.env.VITE_HTML_PAGE_URLS
+  const configuredHtmlPageUrlsRaw = process.env.VITE_HTML_PAGE_URLS
     || environment.VITE_HTML_PAGE_URLS
     || exampleEnvironment.VITE_HTML_PAGE_URLS
     || '{}';
-  const htmlPageConfig = parseHtmlPageConfig(htmlPageUrlsRaw, {strict: true});
+  const configuredHtmlPageConfig = parseHtmlPageConfig(
+    configuredHtmlPageUrlsRaw, {strict: true},
+  );
+  const {prolongation: configuredProlongation, ...otherHtmlPages} = configuredHtmlPageConfig;
+  const htmlPageConfig = {
+    prolongation: {...PROLONGATION_PAGE, ...configuredProlongation, title: PROLONGATION_PAGE.title},
+    ...otherHtmlPages,
+  };
+  const htmlPageUrlsRaw = JSON.stringify(htmlPageConfig);
   const htmlReportApiConfig = buildFromHtml
     ? null
     : resolveHtmlReportApiConfig({

@@ -181,6 +181,13 @@ fi
         self.assertNotIn("--upd-prod", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
+    def test_html_only_uses_existing_data_and_does_not_upload_by_default(self) -> None:
+        invocations, _ = self.run_wrapper("--html-only")
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("build_gravity_report.py --html-only", invocations[0])
+        self.assertNotIn("upload_html.py", invocations[0])
+
     def test_default_build_does_not_require_a_backlog_feature_flag(self) -> None:
         invocations, _ = self.run_wrapper("--no-upload")
 

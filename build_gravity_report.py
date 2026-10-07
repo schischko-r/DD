@@ -21,6 +21,8 @@ DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_MATURITY_DATA = ROOT / "gravity-app" / "public" / "data-maturity.json"
 DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlog.json"
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
+DEFAULT_PROLONGATION_WORKBOOK = ROOT / "prolong.xlsx"
+DEFAULT_PROLONGATION_PAGE = ROOT / "prolongation.html"
 DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
 DEFAULT_HTML_REPORTS_DIRECTORY = ROOT / "source-html-reports" / "downloaded"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
@@ -86,48 +88,63 @@ def frontend_environment() -> dict[str, str]:
 
 def build(args: argparse.Namespace) -> None:
     npm_command = os.getenv("NPM", "").strip() or NPM_COMMAND
-    if not args.backlog_input.is_file():
-        raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
-    report_command = [
-        sys.executable,
-        str(ROOT / "build_calc_report.py"),
-        "--input",
-        str(args.input),
-        "--period",
-        args.period,
-        "--output",
-        str(args.legacy_output),
-        "--json-output",
-        str(args.data_output),
-        "--crosssell-json",
-        str(args.crosssell_json),
-    ]
-    if args.no_ai_skills:
-        report_command.append("--no-ai-skills")
-    report_command.append("--crosssell")
-    if args.no_update_crosssell:
-        report_command.append("--no-update-crosssell")
+    if args.html_only and args.data_only:
+        raise ValueError("--html-only and --data-only cannot be used together")
 
-    run(report_command)
-    run(
-        [
+    if not args.html_only:
+        if not args.backlog_input.is_file():
+            raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
+        report_command = [
             sys.executable,
-            str(ROOT / "build_backlog_data.py"),
+            str(ROOT / "build_calc_report.py"),
             "--input",
-            str(args.backlog_input),
+            str(args.input),
+            "--period",
+            args.period,
             "--output",
-            str(args.backlog_data),
+            str(args.legacy_output),
+            "--json-output",
+            str(args.data_output),
+            "--crosssell-json",
+            str(args.crosssell_json),
         ]
-    )
-    if args.data_only:
-        return
+        if args.no_ai_skills:
+            report_command.append("--no-ai-skills")
+        report_command.append("--crosssell")
+        if args.no_update_crosssell:
+            report_command.append("--no-update-crosssell")
+
+        run(report_command)
+        run(
+            [
+                sys.executable,
+                str(ROOT / "build_backlog_data.py"),
+                "--input",
+                str(args.backlog_input),
+                "--output",
+                str(args.backlog_data),
+            ]
+        )
+        if args.data_only:
+            return
+
+    if not args.html_only and DEFAULT_PROLONGATION_WORKBOOK.is_file():
+        run([
+            sys.executable,
+            str(ROOT / "build_report_data.py"),
+            "--workbook",
+            str(DEFAULT_PROLONGATION_WORKBOOK),
+        ])
+    run([sys.executable, str(ROOT / "build_outflow_v3.py")])
+    run([sys.executable, str(ROOT / "build_prolongation.py")])
 
     npm_environment = frontend_environment()
-    run(
-        [npm_command, "run", "build:clickstream"],
-        cwd=ROOT / "gravity-app",
-        environment=npm_environment,
-    )
+    if not args.html_only:
+        run(
+            [npm_command, "run", "build:clickstream"],
+            cwd=ROOT / "gravity-app",
+            environment=npm_environment,
+        )
     run(
         [npm_command, "run", "build"],
         cwd=ROOT / "gravity-app",
@@ -140,6 +157,8 @@ def build(args: argparse.Namespace) -> None:
         str(args.data_output),
         "--output",
         str(args.standalone_output),
+        "--prolongation-page",
+        str(DEFAULT_PROLONGATION_PAGE),
     ]
     if downloaded_html_reports_enabled():
         standalone_command.extend([
@@ -197,6 +216,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--data-only",
         action="store_true",
         help="Generate report HTML and JSON without rebuilding the Gravity UI bundle",
+    )
+    parser.add_argument(
+        "--html-only",
+        action="store_true",
+        help="Rebuild HTML from existing JSON without refreshing source data",
     )
     return parser.parse_args(argv)
 

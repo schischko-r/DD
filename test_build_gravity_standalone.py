@@ -317,6 +317,32 @@ class BuildGravityStandaloneTest(unittest.TestCase):
             self.assertNotIn('data-ddi-html-page-id="missing"', result)
             self.assertIn('src="./missing-report.html"', result)
 
+    def test_embeds_local_prolongation_alongside_downloaded_html_pages(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            downloaded = root / "downloaded"
+            downloaded.mkdir()
+            template = root / "index.html"
+            data = root / "report-data.json"
+            output = root / "gravity-standalone.html"
+            prolongation = root / "prolongation.html"
+            template.write_text(
+                '<script id="ddi-html-page-manifest" type="application/json">'
+                '{"remote":"remote.html"}</script>'
+                '<script>fetch("./report-data.json").then(load)</script>',
+                encoding="utf-8",
+            )
+            data.write_text('{"products":[]}', encoding="utf-8")
+            (downloaded / "remote.html").write_text("<html>remote</html>", encoding="utf-8")
+            prolongation.write_text("<html>prolongation</html>", encoding="utf-8")
+
+            build(template, data, output, downloaded, prolongation_page_path=prolongation)
+
+            result = output.read_text(encoding="utf-8")
+            self.assertIn('data-ddi-html-page-id="remote"', result)
+            self.assertIn('data-ddi-html-page-id="prolongation"', result)
+            self.assertIn(base64.b64encode(prolongation.read_bytes()).decode("ascii"), result)
+
     def test_rejects_nested_paths_in_html_page_manifest(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

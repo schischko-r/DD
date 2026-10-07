@@ -74,6 +74,206 @@
           }
         }
       },
+      "communicationValues": {
+        "2026-06": {
+          "900": {
+            "rur": {
+              "total": 16967.6130087474,
+              "expected": 4082.20245552419,
+              "prolonged": 4052.88092343092,
+              "outflow": 202.13960449120998
+            },
+            "clnt": {
+              "total": 12325387.0,
+              "expected": 4163361.0,
+              "prolonged": 4020899.0,
+              "outflow": 261715.0
+            }
+          },
+          "ALL": {
+            "rur": {
+              "total": 18423.1680462625,
+              "expected": 4432.391391659849,
+              "prolonged": 4400.55453205856,
+              "outflow": 219.48001173922
+            },
+            "clnt": {
+              "total": 14099066.0,
+              "expected": 4762489.0,
+              "prolonged": 4599527.0,
+              "outflow": 299379.0
+            }
+          },
+          "no_promo": {
+            "rur": {
+              "total": 9132.57729989025,
+              "expected": 812.44285574394,
+              "prolonged": 807.93545517513,
+              "outflow": 36.97659902097
+            },
+            "clnt": {
+              "total": 7944977.0,
+              "expected": 957542.0,
+              "prolonged": 932564.0,
+              "outflow": 50539.0
+            }
+          },
+          "promo": {
+            "rur": {
+              "total": 9290.590746372289,
+              "expected": 3619.9485359159103,
+              "prolonged": 3592.6190768834304,
+              "outflow": 182.92948611607
+            },
+            "clnt": {
+              "total": 7796343.0,
+              "expected": 3835601.0,
+              "prolonged": 3694986.0,
+              "outflow": 249668.0
+            }
+          },
+          "promo.deposit": {
+            "rur": {
+              "total": 5468.06780099441,
+              "expected": 2116.41807132267,
+              "prolonged": 2162.44872794646,
+              "outflow": 114.78574240526
+            },
+            "clnt": {
+              "total": 5303597.0,
+              "expected": 2537156.0,
+              "prolonged": 2409836.0,
+              "outflow": 149972.0
+            }
+          },
+          "promo.deposit.draft": {
+            "rur": {
+              "total": 1325.14606947134,
+              "expected": 475.20871767896995,
+              "prolonged": 474.42273579979997,
+              "outflow": 28.42725146141
+            },
+            "clnt": {
+              "total": 1285518.0,
+              "expected": 688245.0,
+              "prolonged": 582874.0,
+              "outflow": 36401.0
+            }
+          },
+          "promo.deposit.prolongation": {
+            "rur": {
+              "total": 4881.85566631268,
+              "expected": 1654.46803282313,
+              "prolonged": 1798.41234225805,
+              "outflow": 87.64620122163001
+            },
+            "clnt": {
+              "total": 4177879.0,
+              "expected": 1754558.0,
+              "prolonged": 1514551.0,
+              "outflow": 111042.0
+            }
+          },
+          "promo.invest": {
+            "rur": {
+              "total": 1261.10968301293,
+              "expected": 498.17690496563,
+              "prolonged": 541.39701815184,
+              "outflow": 26.69732788672
+            },
+            "clnt": {
+              "total": 1116058.0,
+              "expected": 566907.0,
+              "prolonged": 570397.0,
+              "outflow": 34452.0
+            }
+          },
+          "promo.invest.draft": {
+            "rur": {
+              "total": 171.1427763552,
+              "expected": 84.96924768010001,
+              "prolonged": 82.96731851751,
+              "outflow": 4.03664392437
+            },
+            "clnt": {
+              "total": 176389.0,
+              "expected": 86764.0,
+              "prolonged": 87987.0,
+              "outflow": 5083.0
+            }
+          },
+          "promo.oms": {
+            "rur": {
+              "total": 683.86980657641,
+              "expected": 263.15968959743,
+              "prolonged": 232.46138550754,
+              "outflow": 12.90098955653
+            },
+            "clnt": {
+              "total": 541279.0,
+              "expected": 239289.0,
+              "prolonged": 248673.0,
+              "outflow": 17277.0
+            }
+          },
+          "promo.oms.draft": {
+            "rur": {
+              "total": 81.66154281272999,
+              "expected": 30.46839940981,
+              "prolonged": 26.46899744068,
+              "outflow": 1.56480554774
+            },
+            "clnt": {
+              "total": 57078.0,
+              "expected": 26914.0,
+              "prolonged": 33993.0,
+              "outflow": 2012.0
+            }
+          },
+          "promo.saving": {
+            "rur": {
+              "total": 2830.04370537592,
+              "expected": 1136.1393719089099,
+              "prolonged": 1169.24215210083,
+              "outflow": 57.357071320660005
+            },
+            "clnt": {
+              "total": 2900346.0,
+              "expected": 1393951.0,
+              "prolonged": 1337689.0,
+              "outflow": 85045.0
+            }
+          },
+          "promo.saving.draft": {
+            "rur": {
+              "total": 547.88135917546,
+              "expected": 194.79591233153,
+              "prolonged": 208.89961688023,
+              "outflow": 10.99278260666
+            },
+            "clnt": {
+              "total": 524011.0,
+              "expected": 215662.0,
+              "prolonged": 255774.0,
+              "outflow": 15008.0
+            }
+          },
+          "stop_list": {
+            "rur": {
+              "total": 891.62322781098,
+              "expected": 214.43121968051,
+              "prolonged": 198.80923491719,
+              "outflow": 10.32625848715
+            },
+            "clnt": {
+              "total": 672792.0,
+              "expected": 233977.0,
+              "prolonged": 213967.0,
+              "outflow": 14931.0
+            }
+          }
+        }
+      },
       "communication": "ALL"
     }
   ],

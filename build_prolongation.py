@@ -9,7 +9,9 @@ JSON и подставляются в iframe. Сборка мирроит build_
 from __future__ import annotations
 
 import argparse
+import base64
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -21,6 +23,10 @@ DEFAULT_TREE = ROOT / "outflow-tree-v3.html"
 PLACEHOLDER = "__TREE_PAGE__"
 DATA_PLACEHOLDER = "__REPORT_DATA__"
 DEFAULT_DATA = ROOT / "prolongation-data.json"
+CHART_STYLESHEET = ROOT / "charts-dist" / "dd-charts.css"
+CHART_SCRIPT = ROOT / "charts-dist" / "dd-charts.js"
+JOURNEY_ANALYSIS = ROOT / "losshunter-закрытие-продуктов.html"
+JOURNEY_LINK = 'href="./losshunter-закрытие-продуктов.html"'
 # Литерал, который встраивающая страница подменяет на нужный вид дерева.
 VIEW_MARK = "/*__INITIAL_VIEW__*/null"
 
@@ -46,12 +52,54 @@ def inline_json(text: str) -> str:
     return json.dumps(payload, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
 
 
+def inline_assets(page: str) -> str:
+    """Keep the generated report usable inside a standalone srcdoc iframe."""
+    assets = (
+        ('<link rel="stylesheet" href="./charts-dist/dd-charts.css">',
+         CHART_STYLESHEET, "style"),
+        ('<script src="./charts-dist/dd-charts.js"></script>',
+         CHART_SCRIPT, "script"),
+    )
+    for marker, path, tag in assets:
+        if marker not in page:
+            raise SystemExit(f"В шаблоне нет подключения {path.name}")
+        content = read_text(path, path.name)
+        content = "\n".join(line.rstrip() for line in content.split("\n"))
+        content = re.sub(rf"</{tag}", rf"<\\/{tag}", content, flags=re.IGNORECASE)
+        page = page.replace(marker, f"<{tag}>{content}</{tag}>", 1)
+    return page
+
+
+def inline_journey_analysis(page: str) -> str:
+    """Make the visible full-analysis link work from a single HTML file."""
+    if JOURNEY_LINK not in page:
+        raise SystemExit("В шаблоне нет ссылки на полную аналитику пути")
+    analysis = read_text(JOURNEY_ANALYSIS, "полная аналитика пути")
+    analysis = analysis.replace("<head>", '<head><base href="https://losshunter.ru/">', 1)
+    encoded = base64.b64encode(analysis.encode("utf-8")).decode("ascii")
+    script = (
+        '<script type="application/octet-stream" id="journey-analysis-html">'
+        f"{encoded}</script>\n"
+        "<script>(function(){"
+        "const link=document.querySelector('.journey-footer a');"
+        "const source=document.getElementById('journey-analysis-html');"
+        "if(!link||!source)return;"
+        "const bytes=Uint8Array.from(atob(source.textContent),c=>c.charCodeAt(0));"
+        "link.href=URL.createObjectURL(new Blob([bytes],{type:'text/html;charset=utf-8'}));"
+        "link.target='_blank';link.rel='noopener';"
+        "})();</script>"
+    )
+    return page.replace("</body>", f"{script}\n</body>", 1)
+
+
 def build(template: Path, output: Path, tree: Path, data: Path) -> int:
     page = read_text(template, "шаблон")
     for name in (PLACEHOLDER, DATA_PLACEHOLDER):
         if name not in page:
             raise SystemExit(f"В шаблоне нет плейсхолдера {name}")
 
+    page = inline_assets(page)
+    page = inline_journey_analysis(page)
     page = page.replace(DATA_PLACEHOLDER, inline_json(read_text(data, "данные отчёта")), 1)
 
     tree_html = read_text(tree, "страница дерева")

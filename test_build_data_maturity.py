@@ -5,7 +5,7 @@ from pathlib import Path
 
 from openpyxl import Workbook
 
-import build_data_maturity as maturity
+from archive.builders import build_data_maturity as maturity
 
 
 HEADER = [

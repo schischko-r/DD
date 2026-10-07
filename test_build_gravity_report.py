@@ -69,6 +69,31 @@ class GravityBuildCrosssellTest(unittest.TestCase):
             commands.index([report.NPM_COMMAND, "run", "build"]),
         )
 
+    def test_full_build_includes_fresh_prolongation_report_in_standalone(self) -> None:
+        args = report.parse_args([])
+
+        with patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        data_command = [
+            report.sys.executable,
+            str(report.ROOT / "build_report_data.py"),
+            "--workbook",
+            str(report.DEFAULT_PROLONGATION_WORKBOOK),
+        ]
+        tree_command = [report.sys.executable, str(report.ROOT / "build_outflow_v3.py")]
+        page_command = [report.sys.executable, str(report.ROOT / "build_prolongation.py")]
+        self.assertLess(commands.index(data_command), commands.index(tree_command))
+        self.assertLess(commands.index(tree_command), commands.index(page_command))
+        self.assertLess(commands.index(page_command), commands.index([report.NPM_COMMAND, "run", "build"]))
+        standalone_command = next(
+            command for command in commands
+            if command[1] == str(report.ROOT / "build_gravity_standalone.py")
+        )
+        page_index = standalone_command.index("--prolongation-page")
+        self.assertEqual(standalone_command[page_index + 1], str(report.DEFAULT_PROLONGATION_PAGE))
+
     def test_frontend_build_defaults_to_an_eight_gigabyte_node_heap(self) -> None:
         args = report.parse_args([])
 
@@ -142,6 +167,24 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         commands = [call.args[0] for call in run.call_args_list]
         self.assertEqual(len(commands), 2)
         self.assertFalse(any(command[0] == report.NPM_COMMAND for command in commands))
+
+    def test_html_only_rebuilds_pages_without_refreshing_data(self) -> None:
+        args = report.parse_args(["--html-only"])
+
+        with patch.object(report.Path, "is_file", return_value=False), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertEqual(
+            [command[1] for command in commands if command[0] == report.sys.executable],
+            [
+                str(report.ROOT / "build_outflow_v3.py"),
+                str(report.ROOT / "build_prolongation.py"),
+                str(report.ROOT / "build_gravity_standalone.py"),
+            ],
+        )
+        self.assertIn([report.NPM_COMMAND, "run", "build"], commands)
+        self.assertNotIn([report.NPM_COMMAND, "run", "build:clickstream"], commands)
 
     def test_legacy_builder_environment_defaults_are_supported(self) -> None:
         environment = {

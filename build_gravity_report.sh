@@ -62,7 +62,9 @@ load_env() {
 }
 
 DATA_ONLY=0
+HTML_ONLY=0
 UPLOAD_ENABLED=1
+UPLOAD_REQUESTED=0
 UPDATE_PROD=0
 UPDATE_PROD_ONLY=0
 BUILD_FROM_HTML=0
@@ -76,12 +78,18 @@ while (($# > 0)); do
       FORWARD_ARGS+=("$1")
       shift
       ;;
+    --html-only)
+      HTML_ONLY=1
+      FORWARD_ARGS+=("$1")
+      shift
+      ;;
     --no-upload)
       UPLOAD_ENABLED=0
       shift
       ;;
     --upload)
       UPLOAD_ENABLED=1
+      UPLOAD_REQUESTED=1
       shift
       ;;
     --upd-prod)
@@ -120,6 +128,9 @@ while (($# > 0)); do
 done
 
 if ((DATA_ONLY == 1)); then
+  UPLOAD_ENABLED=0
+fi
+if ((HTML_ONLY == 1 && UPLOAD_REQUESTED == 0)); then
   UPLOAD_ENABLED=0
 fi
 

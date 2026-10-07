@@ -4,7 +4,7 @@ from pathlib import Path
 
 import openpyxl
 
-from build_questionnaire_data import build_payload
+from archive.builders.build_questionnaire_data import build_payload
 
 
 class QuestionnaireDataTest(unittest.TestCase):

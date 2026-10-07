@@ -155,6 +155,13 @@ const TOOL_DEFINITIONS = [
     title: 'Воронка B2C',
     iframeTitle: 'Воронка B2C',
   }),
+  Object.freeze({
+    id: 'prolongation',
+    title: 'Воронка оттока',
+    iframeTitle: 'Воронка оттока',
+    navigation: Object.freeze({mode: 'static'}),
+    bridge: Object.freeze({autoSubmitOnChange: true}),
+  }),
 ];
 
 const DEFINED_API_SKILL_KEYS = new Set(

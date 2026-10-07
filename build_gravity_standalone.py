@@ -48,39 +48,51 @@ def _write_base64(source_path: Path, output) -> None:
             output.write(base64.b64encode(chunk))
 
 
+def _write_html_page(output, page_id: str, source_path: Path) -> None:
+    escaped_id = html.escape(page_id, quote=True)
+    output.write(
+        (
+            '<script type="application/octet-stream" '
+            f'data-ddi-html-page-id="{escaped_id}">'
+        ).encode("utf-8")
+    )
+    _write_base64(source_path, output)
+    output.write(b"</script>")
+
+
 def _embed_html_pages_incrementally(
     template: str,
     output_path: Path,
     html_page_root: Path,
+    local_html_pages: dict[str, Path] | None = None,
 ) -> None:
+    local_html_pages = local_html_pages or {}
     manifest_match = HTML_PAGE_MANIFEST_PATTERN.search(template)
-    if not manifest_match:
-        output_path.write_text(template, encoding="utf-8")
-        return
-
-    manifest = json.loads(manifest_match.group("manifest"))
+    manifest = json.loads(manifest_match.group("manifest")) if manifest_match else {}
     if not isinstance(manifest, dict):
         raise ValueError("The HTML page manifest must be a JSON object")
+    if manifest_match:
+        prefix = template[: manifest_match.start()]
+        suffix = template[manifest_match.end() :]
+    else:
+        body_end = re.search(r"</body\s*>", template, re.IGNORECASE)
+        insert_at = body_end.start() if body_end else len(template)
+        prefix, suffix = template[:insert_at], template[insert_at:]
 
     with output_path.open("wb") as output:
-        output.write(template[: manifest_match.start()].encode("utf-8"))
+        output.write(prefix.encode("utf-8"))
         for page_id, configured_path in manifest.items():
             relative_path = _adjacent_html_page_path(configured_path)
             if not isinstance(page_id, str) or relative_path is None:
                 raise ValueError("The HTML page manifest contains an invalid entry")
-            source_path = html_page_root / relative_path
+            source_path = local_html_pages.get(page_id, html_page_root / relative_path)
             if not source_path.is_file():
                 continue
-            escaped_id = html.escape(page_id, quote=True)
-            output.write(
-                (
-                    '<script type="application/octet-stream" '
-                    f'data-ddi-html-page-id="{escaped_id}">'
-                ).encode("utf-8")
-            )
-            _write_base64(source_path, output)
-            output.write(b"</script>")
-        output.write(template[manifest_match.end() :].encode("utf-8"))
+            _write_html_page(output, page_id, source_path)
+        for page_id, source_path in local_html_pages.items():
+            if page_id not in manifest:
+                _write_html_page(output, page_id, source_path)
+        output.write(suffix.encode("utf-8"))
 
 
 def _load_json(path: Path) -> str:
@@ -127,6 +139,7 @@ def build(
     cjxplorer_summary_data_path: Path | None = None,
     cjxplorer_credit_card_data_path: Path | None = None,
     cjxplorer_product_details_data_path: Path | None = None,
+    prolongation_page_path: Path | None = None,
 ) -> None:
     template = template_path.read_text(encoding="utf-8")
     template = _embed_json_fetch(template, data_path, "report-data.json")
@@ -150,8 +163,16 @@ def build(
         if data_path is not None:
             template = _embed_json_fetch(template, data_path, filename)
 
+    local_html_pages = {}
+    if prolongation_page_path is not None:
+        if not prolongation_page_path.is_file():
+            raise FileNotFoundError(f"Prolongation report not found: {prolongation_page_path}")
+        local_html_pages["prolongation"] = prolongation_page_path
+
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    _embed_html_pages_incrementally(template, output_path, html_page_root)
+    _embed_html_pages_incrementally(
+        template, output_path, html_page_root, local_html_pages,
+    )
 
 
 def parse_args() -> argparse.Namespace:
@@ -166,6 +187,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--cjxplorer-product-details-data", type=Path, default=DEFAULT_CJXPLORER_PRODUCT_DETAILS_DATA)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--html-page-root", type=Path, default=ROOT)
+    parser.add_argument("--prolongation-page", type=Path)
     return parser.parse_args()
 
 
@@ -182,6 +204,7 @@ def main() -> None:
         cjxplorer_summary_data_path=args.cjxplorer_summary_data,
         cjxplorer_credit_card_data_path=args.cjxplorer_credit_card_data,
         cjxplorer_product_details_data_path=args.cjxplorer_product_details_data,
+        prolongation_page_path=args.prolongation_page,
     )
     print(args.output)
 
