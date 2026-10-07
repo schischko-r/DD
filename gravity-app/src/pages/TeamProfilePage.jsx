@@ -14,6 +14,7 @@ import {
   findHtmlPageToolForRecommendation,
 } from '../features/html-pages/htmlPageTools.js';
 import {metricAiActionRecommendations} from './teamProfileAiSkillNavigation.js';
+import {researchActionForMetric} from './teamProfileResearchLinks.js';
 import {flattenRoadmapItems} from './teamProfileRoadmapGroups.js';
 import {displayProductName, displayText, formatRoadmapUplift, isDepositOutflowAnalysis, nextMaturityLevel, roadmapLevelChanged} from '../domain/report.js';
 import {CJXplorerDialog} from '../features/cjxplorer/CJXplorerDialog.jsx';
@@ -305,9 +306,9 @@ function metricAiInsight(subject, onClick) {
   };
 }
 
-function MetricActionGroup({title, actions, icon = ChartLinePoints}) {
+function MetricActionGroup({title, actions, icon = ChartLinePoints, stacked = false}) {
   if (!actions.length) return null;
-  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={icon} size={15} /><strong>{title}</strong></span><div className="metric-ai-actions-buttons">{actions.map((action) => action.href ? <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a> : <button type="button" onClick={action.onClick} key={action.title}>{action.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
+  return <div className="metric-ai-actions"><span className="metric-ai-actions-title"><Icon data={icon} size={15} /><strong>{title}</strong></span><div className={`metric-ai-actions-buttons${stacked ? ' is-stacked' : ''}`}>{actions.map((action) => action.href ? <a href={action.href} target="_blank" rel="noreferrer" key={`${action.label}-${action.href}`}>{action.label}<Icon data={ChevronRight} size={13} /></a> : <button type="button" onClick={action.onClick} key={action.title}>{action.label}<Icon data={ChevronRight} size={13} /></button>)}</div></div>;
 }
 
 function CrossSellPreviewDialog({preview, onClose}) {
@@ -681,8 +682,10 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
   const outflowInsight = outflowTool && onOpenHtmlPageTool
     ? metricAiInsight('воронке оттока', () => onOpenHtmlPageTool(outflowTool.id))
     : null;
+  const researchAction = researchActionForMetric(metric);
   const insights = [
     ...(aiMetricInsight ? [aiMetricInsight] : []),
+    ...(researchAction ? [researchAction] : []),
     ...aiMetricInsights,
     ...(outflowInsight && !aiMetricInsights.some((action) => action.label === outflowInsight.label)
       ? [outflowInsight]
@@ -726,7 +729,7 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
       {zeroAction && <MetricInlineAction title="Запустить" subtitle="первый пилот в Self-Service" href={zeroAction.link || zeroAction.url} />}
       {/^dannye\.promyshlenye_dannye$/i.test(String(metric.code || '')) && <MetricInlineResources title="Инструкции и материалы" subtitle="по опромышливанию данных" actions={industrialDataResourcesFor(product.name)} />}
       {/^dannye\.kontrol.*kkd$/i.test(String(metric.code || '')) && <MetricInlineAction title="Инструкция" subtitle="Централизованный сервис ККД" href={CENTRALIZED_KKD_CDO_URL} />}
-      <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={[...insights, ...skillActions]} />
+      <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={[...insights, ...skillActions]} stacked={Boolean(researchAction && aiMetricInsight && /^general\.mau_produkta$/i.test(metric.code))} />
     </div>
   );
 }
