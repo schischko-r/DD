@@ -858,7 +858,10 @@ function portfolioSeries() {
     return PERIODS_ASC.map((id) => {
       const row = (product.values[id] || {})[state.measure];
       if (!row) return null;
-      return {...row, id, totalDelta: null, share: row.outflow / row.expected * 100};
+      const before = (product.values[previousPeriod(id)] || {})[state.measure];
+      const totalDelta = before && Number.isFinite(before.total) && before.total !== 0
+        && Number.isFinite(row.total) ? (row.total / before.total - 1) * 100 : null;
+      return {...row, id, totalDelta, share: row.outflow / row.expected * 100};
     }).filter(Boolean);
   }
   const source = DATA.portfolio[state.measure];
@@ -906,11 +909,13 @@ function upTo(series) {
   return index < 0 ? [] : series.slice(0, index + 1);
 }
 
-// Предыдущий месяц в ряду — для дельты конверсии. PERIODS идут от свежего
-// к старому, поэтому «предыдущий» лежит следующим по списку.
+// Для динамики м/м нужен именно календарный предыдущий месяц, а не просто
+// ближайший доступный период: в разреженной выгрузке могут быть пропуски.
 function previousPeriod(id) {
-  const index = PERIODS.findIndex((p) => p.id === id);
-  return index >= 0 && index + 1 < PERIODS.length ? PERIODS[index + 1].id : null;
+  if (!id) return null;
+  const [year, month] = id.split('-').map(Number);
+  const prior = month === 1 ? `${year - 1}-12` : `${year}-${String(month - 1).padStart(2, '0')}`;
+  return PERIODS.some((period) => period.id === prior) ? prior : null;
 }
 
 function funnelRows(funnel, kind) {
