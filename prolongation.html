@@ -843,17 +843,12 @@ function portfolioSeries() {
 }
 
 function communicationExpectedBase(period, measure = state.measure) {
-  const expected = ['promo', 'base'].map((id) => {
-    const funnel = funnelById(id);
-    const values = funnel && ((funnel.series[measure] || {})[period] || {});
-    return values && values.expected;
-  });
-  return expected.every((value) => Number.isFinite(value) && value >= 0)
-    ? expected[0] + expected[1] : null;
+  const all = funnelById('all');
+  const expected = all && ((all.series[measure] || {})[period] || {}).expected;
+  return Number.isFinite(expected) && expected >= 0 ? expected : null;
 }
 
-// Покрытие промо: доля когорты с промо среди двух групп,
-// ожидающих пролонгацию.
+// Покрытие промо: tree_portfolio_prolong строки promo / строки ALL.
 function coverageSeries() {
   const promo = funnelById('promo');
   if (!promo) return [];
@@ -1153,7 +1148,7 @@ function renderRecommendation() {
   const currentBase = base && ((base.series.clnt || {})[state.period] || {}).expected;
   if (!currentAll || !Number.isFinite(currentBase)) return;
   const share = currentBase / currentAll * 100;
-  let promoText = `Среди <b>${ru(currentAll)}</b> записей двух групп <b>${ru(currentBase)}</b> — `
+  let promoText = `Среди <b>${ru(currentAll)}</b> ожидающих пролонгацию <b>${ru(currentBase)}</b> — `
     + `без промо-коммуникации (<b>${ru(share, 1)}%</b>).`;
   const beforeId = previousPeriod(state.period);
   const beforeAll = beforeId && communicationExpectedBase(beforeId, 'clnt');
