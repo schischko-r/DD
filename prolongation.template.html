@@ -100,50 +100,36 @@ a { color: var(--link); }
 .term b { color: var(--ink); font-weight: 600; }
 
 .outflow-definition {
-  margin-top: 20px; border-radius: 10px;
-  background: #173453; color: #fff; overflow: hidden;
+  margin-top: 16px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); color: var(--ink); overflow: hidden;
 }
+.outflow-definition[open] { border-color: rgba(35, 158, 226, .35); }
 .outflow-definition summary {
   display: flex; align-items: center; gap: 12px;
-  padding: 15px 20px; cursor: pointer; list-style: none;
+  padding: 14px 16px; cursor: pointer; list-style: none;
 }
 .outflow-definition summary::-webkit-details-marker { display: none; }
-.outflow-definition summary:hover { background: rgba(255, 255, 255, .05); }
-.outflow-definition summary:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
-.outflow-definition-title { font-size: 13px; font-weight: 700; }
+.outflow-definition summary:hover { background: rgba(35, 158, 226, .035); }
+.outflow-definition summary:focus-visible { outline: 2px solid var(--brand); outline-offset: -3px; }
+.outflow-definition-icon {
+  width: 28px; height: 28px; flex: 0 0 28px; display: grid; place-items: center;
+  border-radius: 7px; background: var(--info-light); color: var(--brand);
+}
+.outflow-definition-title { font-size: 14px; font-weight: 700; }
 .outflow-definition-chevron {
   width: 8px; height: 8px; margin: 0 4px 0 auto;
-  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
-  transform: rotate(45deg); transition: transform .2s cubic-bezier(.23, 1, .32, 1);
+  border: solid var(--ink-soft); border-width: 0 1.5px 1.5px 0;
+  transform: rotate(45deg); transition: transform .15s;
 }
 .outflow-definition[open] .outflow-definition-chevron { transform: rotate(225deg); }
-.outflow-definition-content { padding: 0 20px 18px 58px; }
-.outflow-definition[open] .outflow-definition-content {
-  animation: methodology-reveal .2s cubic-bezier(.23, 1, .32, 1);
-}
-@keyframes methodology-reveal {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.outflow-definition-content::before {
-  content: ''; display: block; border-top: 1px solid rgba(255, 255, 255, .2); margin-bottom: 14px;
-}
-.outflow-definition-content dl { margin: 0; display: grid; gap: 3px 12px; grid-template-columns: max-content minmax(0, 1fr); }
-.outflow-definition-content dt { font-weight: 700; }
-.outflow-definition-content dd { margin: 0; color: rgba(255, 255, 255, .82); }
-.outflow-definition-content p { margin: 0; max-width: 880px; color: rgba(255, 255, 255, .82); }
-@media (max-width: 680px) {
-  .outflow-definition-content { padding: 0 16px 16px; }
-  .outflow-definition-content dl { grid-template-columns: 1fr; gap: 2px; }
-  .outflow-definition-content dd + dt { margin-top: 10px; }
-}
+.outflow-definition-content { padding: 14px 16px 16px; border-top: 1px solid var(--line); }
+.outflow-definition-content dl { margin: 0; display: grid; gap: 2px; }
+.outflow-definition-content dt { font-size: 12px; font-weight: 600; }
+.outflow-definition-content dd { margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-soft); }
+.outflow-definition-content dd + dt { margin-top: 12px; }
+.outflow-definition-content p { margin: 0; font-size: 12px; line-height: 1.5; color: var(--ink-soft); }
 @media (prefers-reduced-motion: reduce) {
   .outflow-definition-chevron { transition: none; }
-  .outflow-definition[open] .outflow-definition-content { animation: none; }
-}
-.outflow-definition-icon {
-  width: 26px; height: 26px; flex: 0 0 26px; display: grid; place-items: center;
-  border-radius: 7px; background: rgba(255, 255, 255, .12);
 }
 
 .recommendation {
