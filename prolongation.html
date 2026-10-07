@@ -390,12 +390,11 @@ a { color: var(--link); }
 .journey-stat-detail { display: block; margin-top: 3px; font-size: 12px; font-weight: 600; }
 .journey-stat-note { display: block; margin-top: 3px; font-size: 11px; color: var(--ink-soft); }
 .journey-assessment { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 12px; }
-.journey-assessment h3, .journey-actions h3 { margin: 0 0 8px; font-size: 13px; }
+.journey-assessment h3 { margin: 0 0 8px; font-size: 13px; }
 .journey-assessment .good h3 { color: var(--good); }
 .journey-assessment .bad h3 { color: var(--bad); }
-.journey-assessment ul, .journey-actions ol { margin: 0; padding-left: 19px; }
-.journey-assessment li + li, .journey-actions li + li { margin-top: 6px; }
-.journey-actions { margin-top: 16px; }
+.journey-assessment ul, .journey-assessment ol { margin: 0; padding-left: 19px; }
+.journey-assessment li + li { margin-top: 6px; }
 .journey-footer { margin: 16px 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--ink-soft); }
 .journey-footer a { font-weight: 600; }
 /* Пояснение по клику: «i» в круге и выпадашка под ней. */
@@ -817,41 +816,36 @@ a { color: var(--link); }
       <h3 class="journey-label">Ключевое</h3>
       <div class="journey-stats">
         <div class="journey-stat good">
-          <span class="journey-stat-title">Экраны клиентского пути</span>
+          <span class="journey-stat-title">Экраны в пути</span>
           <strong class="journey-stat-value">10<span class="divider">/</span>17</strong>
           <span class="journey-stat-detail">закрытие / открытие</span>
-          <span class="journey-stat-note">Закрытие короче открытия</span>
+          <span class="journey-stat-note">закрытие короче открытия</span>
         </div>
         <div class="journey-stat good">
           <span class="journey-stat-title">Механика удержания</span>
-          <strong class="journey-stat-value">Есть</strong>
+          <strong class="journey-stat-value">есть ✓</strong>
           <span class="journey-stat-detail">«Новый вклад»</span>
-          <span class="journey-stat-note">Предложение вернуться на финальном экране</span>
+          <span class="journey-stat-note">предложение вернуться на финальном экране</span>
         </div>
         <div class="journey-stat bad">
           <span class="journey-stat-title">Тёмные паттерны</span>
-          <strong class="journey-stat-value">Есть</strong>
-          <span class="journey-stat-note">Согласие отмечено заранее</span>
+          <strong class="journey-stat-value">есть ✗</strong>
+          <span class="journey-stat-detail">согласие по умолчанию</span>
+          <span class="journey-stat-note">риск потери в момент подтверждения</span>
         </div>
       </div>
       <div class="journey-assessment">
-        <section class="good"><h3>Что уже хорошо</h3><ul>
+        <section class="good"><h3>Уже хорошо работает</h3><ul>
           <li>Закрытие доступно в приложении.</li>
-          <li>Последствия досрочного закрытия показаны до подтверждения.</li>
-          <li>Финальный экран подтверждает зачисление и предлагает «Новый вклад».</li>
+          <li>До подтверждения показаны последствия досрочного закрытия.</li>
+          <li>Финальный экран подтверждает зачисление денег и предлагает новый вклад.</li>
         </ul></section>
-        <section class="bad"><h3>Что стоит улучшить</h3><ul>
-          <li>Убрать заранее отмеченное согласие на подтверждении закрытия.</li>
-          <li>Добавить необязательный перевод на накопительный счёт при закрытии.</li>
-          <li>Упростить выбор счёта зачисления и дать переход к нему после закрытия.</li>
-        </ul></section>
+        <section class="bad"><h3>Стоит улучшить / взять в анализ</h3><ol>
+          <li>Проверить необязательный перевод на накопительный счёт внутри банка прямо при подтверждении. Такой вариант описан у Газпромбанка. Показать условия рядом и сохранить доступное закрытие. Сравнить долю переводов, закрытий и жалоб. Эффект пока не измерен.</li>
+          <li>Убрать заранее отмеченное согласие. Потерю объяснять один раз, без давления на клиента.</li>
+          <li>Затем упростить выбор счёта зачисления, сохранив возможность выбрать другой счёт.</li>
+        </ol></section>
       </div>
-      <div class="journey-actions"><h3>Рекомендации</h3><ol>
-        <li>Снять отметку согласия по умолчанию: клиент должен выбрать её сам.</li>
-        <li>Объяснять потерю процентов один раз, без повторного давления.</li>
-        <li>Проверить необязательный перевод на накопительный счёт прямо при подтверждении; показать условия и сохранить прямое закрытие.</li>
-        <li>Упростить выбор счёта зачисления и добавить переход к нему на финальном экране; сравнить долю переводов, закрытий и жалоб.</li>
-      </ol></div>
       <p class="journey-footer">Полная аналитика пути закрытия по ссылке: <a href="./losshunter-закрытие-продуктов.html">LossHunter · закрытие продуктов</a></p>
     </section>
 
@@ -1225,20 +1219,6 @@ function renderRecommendation() {
   host.hidden = true;
   host.innerHTML = '';
   if (isPolicyProduct()) return;
-  const base = funnelById('base');
-  const currentAll = communicationExpectedBase(state.period, 'clnt');
-  const currentBase = base && ((base.series.clnt || {})[state.period] || {}).expected;
-  if (!currentAll || !Number.isFinite(currentBase)) return;
-  const share = currentBase / currentAll * 100;
-  let promoText = `Среди <b>${ru(currentAll)}</b> ожидающих пролонгацию <b>${ru(currentBase)}</b> — `
-    + `без промо-коммуникации (<b>${ru(share, 1)}%</b>).`;
-  const beforeId = previousPeriod(state.period);
-  const beforeAll = beforeId && communicationExpectedBase(beforeId, 'clnt');
-  const beforeBase = beforeId && ((base.series.clnt || {})[beforeId] || {}).expected;
-  if (beforeAll && Number.isFinite(beforeBase)) {
-    const delta = share - beforeBase / beforeAll * 100;
-    if (delta > 0.05) promoText += ` Доля записей без промо растёт м/м на <b>${ru(delta, 1)} п.п.</b>`;
-  }
   const scenarioBlock = (((DATA.scenarios || {}).values || {})[state.period] || {}).ALL || {};
   const scenarioTotal = ((scenarioBlock.total || {}).clnt) || 0;
   const scenarioGroups = scenarioBlock.groups || {};
@@ -1247,7 +1227,6 @@ function renderRecommendation() {
   const transfersShare = groupShare(groupClients('transfers_m2m') + groupClients('transfers_p2p'));
   const atmShare = groupShare(groupClients('transfers_atm'));
   host.innerHTML = '<h2>AI-Рекомендации:</h2><ol>'
-    + `<li>${promoText}</li>`
     + `<li>M2M &amp; P2P переводы суммарно занимают <b>${ru(transfersShare, 1)}%</b> от оттока — `
     + 'рекомендуем настроить контекстуальные баннеры в сценарии перевода на этапе подтверждения.</li>'
     + `<li>Снятие в банкомате занимает <b>${ru(atmShare, 1)}%</b> — рекомендуем настроить баннер `
