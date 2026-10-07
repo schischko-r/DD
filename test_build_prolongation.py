@@ -1,5 +1,3 @@
-import base64
-import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -8,7 +6,7 @@ from build_prolongation import DEFAULT_DATA, DEFAULT_TEMPLATE, DEFAULT_TREE, bui
 
 
 class BuildProlongationTest(unittest.TestCase):
-    def test_generated_page_contains_its_assets_and_linked_analysis(self) -> None:
+    def test_generated_page_contains_its_assets_and_external_analysis_link(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "prolongation.html"
             build(DEFAULT_TEMPLATE, output, DEFAULT_TREE, DEFAULT_DATA)
@@ -16,11 +14,11 @@ class BuildProlongationTest(unittest.TestCase):
 
         self.assertNotIn('src="./charts-dist/dd-charts.js"', page)
         self.assertNotIn('href="./charts-dist/dd-charts.css"', page)
-        self.assertIn("URL.createObjectURL", page)
-        match = re.search(r'id="journey-analysis-html">(.*?)</script>', page, re.DOTALL)
-        self.assertIsNotNone(match)
-        analysis = base64.b64decode(match.group(1)).decode("utf-8")
-        self.assertIn("LossHunter", analysis)
+        self.assertIn(
+            'href="https://losshunter.ru/platform/product-closing?q=%D0%BE%D1%81%D0%B0%D0%B3%D0%BE"',
+            page,
+        )
+        self.assertNotIn('id="journey-analysis-html"', page)
 
 
 if __name__ == "__main__":
