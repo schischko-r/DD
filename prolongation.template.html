@@ -329,7 +329,7 @@ a { color: var(--link); }
 .side { display: flex; flex-direction: column; gap: 10px; }
 .side > :last-child { margin-top: auto; }
 
-/* стат-карточка: подпись → значение → дельта → спарклайн 12 точек */
+/* стат-карточка: подпись, значение и дельта */
 .tile { padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 8px; }
 .tile-label { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-soft); }
 .tile-value { margin-top: 1px; font-size: 22px; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; }
@@ -341,18 +341,6 @@ a { color: var(--link); }
 .tile-delta.is-good { color: var(--good); background: rgba(31, 156, 83, .1); }
 .tile-delta.is-bad { color: var(--bad); background: rgba(233, 3, 58, .08); }
 .tile-delta i { font-style: normal; font-size: 11px; }
-.spark-wrap { position: relative; margin-top: 8px; }
-.tile-spark { display: block; width: 100%; height: auto; aspect-ratio: 232 / 40; touch-action: none; }
-.spark-tip {
-  position: absolute; z-index: 3; bottom: calc(100% + 5px);
-  transform: translateX(-50%); pointer-events: none; white-space: nowrap;
-  padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px;
-  background: var(--surface); box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
-  font-size: 11px; line-height: 1.35;
-}
-.spark-tip[hidden] { display: none; }
-.spark-tip i { display: block; font-style: normal; font-size: 10px; color: var(--ink-hint); }
-.spark-tip b { font-weight: 600; font-variant-numeric: tabular-nums; }
 .tile-foot {
   margin-top: 3px; display: flex; justify-content: space-between; gap: 10px;
   font-size: 10px; color: var(--ink-hint);
@@ -1001,111 +989,7 @@ function infoHint(html) {
   return wrap;
 }
 
-// ── спарклайн ─────────────────────────────────────────────────────────────
-// Точки ряда в приглушённом оттенке, выбранный период — точка в акценте.
-const SVG_NS = 'http://www.w3.org/2000/svg';
-
-function sparkline({points, accent, dim, fill}) {
-  if (points.length < 2) return null;
-  const wrap = el('div', 'spark-wrap');
-  const W = 232, H = 40, pad = 4;
-  const values = points.map((point) => point.raw);
-  const svg = document.createElementNS(SVG_NS, 'svg');
-  svg.setAttribute('class', 'tile-spark');
-  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-  svg.setAttribute('role', 'img');
-  svg.setAttribute('aria-label', points.map((p) => `${p.label}: ${p.text}`).join('; '));
-  wrap.append(svg);
-
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-  const span = max - min;
-  // Ряд из одинаковых значений отличается только в последних битах float.
-  // Без этой проверки нормировка по min..max растянула бы пыль на всю высоту
-  // и нарисовала бы уверенный тренд там, где движения нет.
-  const scale = Math.max(Math.abs(max), Math.abs(min), 1);
-  const flat = span <= scale * 1e-9;
-  const x = (i) => pad + i * (W - pad * 2) / (values.length - 1);
-  const y = (v) => (flat ? H / 2 : pad + (1 - (v - min) / span) * (H - pad * 2));
-  const path = values.map((v, i) => `${x(i)},${y(v)}`);
-
-  const area = document.createElementNS(SVG_NS, 'path');
-  area.setAttribute('d', `M${x(0)},${H} L${path.join(' L')} L${x(values.length - 1)},${H} Z`);
-  area.setAttribute('fill', fill);
-  svg.append(area);
-
-  const line = document.createElementNS(SVG_NS, 'polyline');
-  line.setAttribute('points', path.join(' '));
-  line.setAttribute('fill', 'none');
-  line.setAttribute('stroke', dim);
-  line.setAttribute('stroke-width', '2');
-  line.setAttribute('stroke-linejoin', 'round');
-  line.setAttribute('stroke-linecap', 'round');
-  line.setAttribute('vector-effect', 'non-scaling-stroke');
-  svg.append(line);
-
-  // Вертикаль под курсором и точка на ряду — появляются только при наведении.
-  const guide = document.createElementNS(SVG_NS, 'line');
-  guide.setAttribute('y1', 0);
-  guide.setAttribute('y2', H);
-  guide.setAttribute('stroke', 'rgba(0, 0, 0, .18)');
-  guide.setAttribute('stroke-width', '1');
-  guide.setAttribute('vector-effect', 'non-scaling-stroke');
-  guide.setAttribute('visibility', 'hidden');
-  svg.append(guide);
-
-  const last = values.length - 1;
-  const ring = document.createElementNS(SVG_NS, 'circle');
-  ring.setAttribute('r', '5');
-  ring.setAttribute('fill', 'var(--surface)');
-  const dot = document.createElementNS(SVG_NS, 'circle');
-  dot.setAttribute('r', '3.5');
-  dot.setAttribute('fill', accent);
-  const place = (index) => {
-    [ring, dot].forEach((node) => {
-      node.setAttribute('cx', x(index));
-      node.setAttribute('cy', y(values[index]));
-    });
-  };
-  place(last);
-  svg.append(ring, dot);
-
-  const tip = el('div', 'spark-tip');
-  tip.hidden = true;
-  wrap.append(tip);
-
-  const show = (index) => {
-    place(index);
-    guide.setAttribute('x1', x(index));
-    guide.setAttribute('x2', x(index));
-    guide.setAttribute('visibility', 'visible');
-    tip.innerHTML = '';
-    tip.append(el('i', null, points[index].label), el('b', null, points[index].text));
-    tip.style.left = `${x(index) / W * 100}%`;
-    tip.hidden = false;
-  };
-  const reset = () => {
-    place(last);
-    guide.setAttribute('visibility', 'hidden');
-    tip.hidden = true;
-  };
-
-  svg.addEventListener('pointermove', (event) => {
-    const rect = svg.getBoundingClientRect();
-    if (!rect.width) return;
-    // Ближайшая точка ряда к курсору, а не попадание в узкую полосу.
-    const ratio = (event.clientX - rect.left) / rect.width * W;
-    const index = Math.max(0, Math.min(last, Math.round((ratio - pad) / ((W - pad * 2) / last))));
-    show(index);
-  });
-  svg.addEventListener('pointerleave', reset);
-  svg.addEventListener('pointercancel', reset);
-
-  return wrap;
-}
-
-
-function tile({label, value, delta, foot, range, spark, hint}) {
+function tile({label, value, delta, foot, range, hint}) {
   const card = el('div', 'tile');
   const caption = el('div', 'tile-label');
   caption.append(el('span', null, label));
@@ -1117,9 +1001,6 @@ function tile({label, value, delta, foot, range, spark, hint}) {
   chip.append(el('i', null, delta.up === true ? '↑' : delta.up === false ? '↓' : '→'));
   chip.append(el('span', null, delta.text));
   card.append(chip);
-  // На одной точке спарклайна нет — пустая рамка читалась бы как провал ряда.
-  if (spark) card.append(spark);
-
   const footer = el('div', 'tile-foot');
   footer.append(el('span', null, foot || ''));
   footer.append(el('span', null, range));
@@ -1212,14 +1093,6 @@ function renderKpi() {
     delta: deltaChip(last.totalDelta, 2, '% м/м'),
     foot: activeMeasure().unit,
     range,
-    spark: sparkline({
-      points: series.map((row) => ({
-        label: periodLabel(row.id), text: amountText(row.total), raw: row.total,
-      })),
-      accent: 'var(--brand)',
-      dim: 'rgba(35, 158, 226, .45)',
-      fill: 'rgba(35, 158, 226, .1)',
-    }),
   }));
 
   if (isPolicyProduct()) {
@@ -1229,14 +1102,6 @@ function renderKpi() {
       delta: deltaChip(shareDelta, 2, 'п.п. м/м', false),
       foot: `${amount(last.outflow)} из ${amount(last.expected)} ${activeMeasure().unit}`,
       range,
-      spark: sparkline({
-        points: series.map((row) => ({
-          label: periodLabel(row.id), text: `${ru(row.share, 2)}%`, raw: row.share,
-        })),
-        accent: 'var(--leak)',
-        dim: 'rgba(233, 3, 58, .45)',
-        fill: 'rgba(233, 3, 58, .08)',
-      }),
       hint: PRODUCT_OUTFLOW_NOTE,
     }));
     return;
@@ -1266,14 +1131,6 @@ function renderKpi() {
         : {up: null, tone: null, text: 'нет данных за период'},
       foot: '',
       range: periodLabel(byPeriod ? state.period : service.period),
-      spark: serviceSeries.length ? sparkline({
-        points: serviceSeries.map((row) => ({
-          label: periodLabel(row.id), text: `${ru(row.share, 1)}%`, raw: row.share,
-        })),
-        accent: '#23a4df',
-        dim: 'rgba(35, 164, 223, .45)',
-        fill: 'rgba(35, 164, 223, .1)',
-      }) : null,
       hint: `${SERVICE_NOTE} База — ${service.baseLabel.toLowerCase()}: `
         + `${amount(serviceValues.covered)} из ${amount(serviceValues.total)}.`,
     }));
@@ -1292,14 +1149,6 @@ function renderKpi() {
       delta: deltaChip(coverDelta, 1, 'п.п. м/м'),
       foot: '',
       range,
-      spark: sparkline({
-        points: coverage.map((row) => ({
-          label: periodLabel(row.id), text: `${ru(row.share, 1)}%`, raw: row.share,
-        })),
-        accent: '#8b5cf6',
-        dim: 'rgba(139, 92, 246, .45)',
-        fill: 'rgba(139, 92, 246, .1)',
-      }),
     }));
   }
 
@@ -1311,14 +1160,6 @@ function renderKpi() {
     delta: deltaChip(shareDelta, 2, 'п.п. м/м', false),
     foot: '',
     range,
-    spark: sparkline({
-      points: series.map((row) => ({
-        label: periodLabel(row.id), text: `${ru(row.share, 2)}%`, raw: row.share,
-      })),
-      accent: 'var(--leak)',
-      dim: 'rgba(233, 3, 58, .45)',
-      fill: 'rgba(233, 3, 58, .08)',
-    }),
   }));
 }
 
