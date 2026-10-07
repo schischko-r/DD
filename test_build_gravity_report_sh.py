@@ -188,6 +188,19 @@ fi
         self.assertIn("build_gravity_report.py --html-only", invocations[0])
         self.assertNotIn("upload_html.py", invocations[0])
 
+    def test_outflow_from_excel_does_not_upload_by_default(self) -> None:
+        invocations, _ = self.run_wrapper(
+            "--outflow-from-excel",
+            extra_environment={
+                "AI_HTML_API_BASE_URL": "https://reports.example.test",
+                "AI_HTML_TOKEN": "test-token",
+            },
+        )
+
+        self.assertEqual(len(invocations), 1)
+        self.assertIn("build_gravity_report.py --outflow-from-excel", invocations[0])
+        self.assertNotIn("upload_html.py", invocations[0])
+
     def test_default_build_does_not_require_a_backlog_feature_flag(self) -> None:
         invocations, _ = self.run_wrapper("--no-upload")
 

@@ -63,6 +63,7 @@ load_env() {
 
 DATA_ONLY=0
 HTML_ONLY=0
+OUTFLOW_FROM_EXCEL=0
 UPLOAD_ENABLED=1
 UPLOAD_REQUESTED=0
 UPDATE_PROD=0
@@ -80,6 +81,11 @@ while (($# > 0)); do
       ;;
     --html-only)
       HTML_ONLY=1
+      FORWARD_ARGS+=("$1")
+      shift
+      ;;
+    --outflow-from-excel)
+      OUTFLOW_FROM_EXCEL=1
       FORWARD_ARGS+=("$1")
       shift
       ;;
@@ -133,12 +139,25 @@ fi
 if ((HTML_ONLY == 1 && UPLOAD_REQUESTED == 0)); then
   UPLOAD_ENABLED=0
 fi
+if ((OUTFLOW_FROM_EXCEL == 1 && UPLOAD_REQUESTED == 0)); then
+  UPLOAD_ENABLED=0
+fi
 
 load_env
 
 if ((BUILD_FROM_HTML == 1)); then
   export AI_HTML_BUILD_FROM_FILES=1
   echo "Building from downloaded AI HTML reports; API requests are disabled."
+fi
+if ((OUTFLOW_FROM_EXCEL == 1)); then
+  if ((BUILD_FROM_HTML == 1)); then
+    echo "--outflow-from-excel requires API downloads; omit --build-from-html." >&2
+    exit 2
+  fi
+  if [[ -z "${AI_HTML_API_BASE_URL:-}" || -z "${AI_HTML_TOKEN:-}" ]]; then
+    echo "--outflow-from-excel requires AI_HTML_API_BASE_URL and AI_HTML_TOKEN to download fresh HTML." >&2
+    exit 1
+  fi
 fi
 
 select_python() {

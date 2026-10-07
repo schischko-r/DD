@@ -88,10 +88,17 @@ def frontend_environment() -> dict[str, str]:
 
 def build(args: argparse.Namespace) -> None:
     npm_command = os.getenv("NPM", "").strip() or NPM_COMMAND
-    if args.html_only and args.data_only:
-        raise ValueError("--html-only and --data-only cannot be used together")
+    if sum((args.html_only, args.outflow_from_excel, args.data_only)) > 1:
+        raise ValueError("--html-only, --outflow-from-excel and --data-only cannot be used together")
+    if args.outflow_from_excel and (
+        enabled_environment_flag(os.getenv("AI_HTML_BUILD_FROM_FILES", ""))
+        or not os.getenv("AI_HTML_API_BASE_URL", "").strip()
+        or not os.getenv("AI_HTML_TOKEN", "").strip()
+    ):
+        raise ValueError("--outflow-from-excel requires AI_HTML_API_BASE_URL and AI_HTML_TOKEN")
 
-    if not args.html_only:
+    full_data_build = not (args.html_only or args.outflow_from_excel)
+    if full_data_build:
         if not args.backlog_input.is_file():
             raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
         report_command = [
@@ -128,7 +135,9 @@ def build(args: argparse.Namespace) -> None:
         if args.data_only:
             return
 
-    if not args.html_only and DEFAULT_PROLONGATION_WORKBOOK.is_file():
+    if args.outflow_from_excel and not DEFAULT_PROLONGATION_WORKBOOK.is_file():
+        raise FileNotFoundError(f"Outflow source not found: {DEFAULT_PROLONGATION_WORKBOOK}")
+    if (full_data_build or args.outflow_from_excel) and DEFAULT_PROLONGATION_WORKBOOK.is_file():
         run([
             sys.executable,
             str(ROOT / "build_report_data.py"),
@@ -139,7 +148,7 @@ def build(args: argparse.Namespace) -> None:
     run([sys.executable, str(ROOT / "build_prolongation.py")])
 
     npm_environment = frontend_environment()
-    if not args.html_only:
+    if full_data_build:
         run(
             [npm_command, "run", "build:clickstream"],
             cwd=ROOT / "gravity-app",
@@ -221,6 +230,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--html-only",
         action="store_true",
         help="Rebuild HTML from existing JSON without refreshing source data",
+    )
+    parser.add_argument(
+        "--outflow-from-excel",
+        action="store_true",
+        help="Refresh the outflow funnel from prolong.xlsx and rebuild HTML without other data pipelines",
     )
     return parser.parse_args(argv)
 

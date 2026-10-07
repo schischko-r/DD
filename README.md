@@ -27,6 +27,13 @@ Excel, обновления данных и загрузки в Qlik:
 ./build_gravity_report.sh --html-only
 ```
 
+Чтобы обновить только воронку оттока из `prolong.xlsx`, скачать свежие HTML с
+настроенного API и собрать финальный файл локально без загрузки в Qlik:
+
+```bash
+./build_gravity_report.sh --outflow-from-excel
+```
+
 Скрипт использует корневой `.env`, а при его отсутствии также проверяет
 `$HOME/Documents/Codex/DD-dev/.env`. Другой env-файл можно передать через
 `DD_ENV_FILE=/path/to/.env`. Все аргументы передаются в Python-сборщик, например

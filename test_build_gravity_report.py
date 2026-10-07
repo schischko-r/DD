@@ -186,6 +186,40 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertIn([report.NPM_COMMAND, "run", "build"], commands)
         self.assertNotIn([report.NPM_COMMAND, "run", "build:clickstream"], commands)
 
+    def test_outflow_from_excel_refreshes_only_its_data_and_pages(self) -> None:
+        args = report.parse_args(["--outflow-from-excel"])
+
+        with patch.dict(report.os.environ, {
+            "AI_HTML_API_BASE_URL": "https://reports.example.test",
+            "AI_HTML_TOKEN": "test-token",
+            "AI_HTML_BUILD_FROM_FILES": "0",
+        }), patch.object(report, "run") as run:
+            report.build(args)
+
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertEqual(
+            [command[1] for command in commands if command[0] == report.sys.executable],
+            [
+                str(report.ROOT / "build_report_data.py"),
+                str(report.ROOT / "build_outflow_v3.py"),
+                str(report.ROOT / "build_prolongation.py"),
+                str(report.ROOT / "build_gravity_standalone.py"),
+            ],
+        )
+        self.assertIn([report.NPM_COMMAND, "run", "build"], commands)
+        self.assertNotIn([report.NPM_COMMAND, "run", "build:clickstream"], commands)
+
+    def test_outflow_from_excel_requires_api_credentials(self) -> None:
+        args = report.parse_args(["--outflow-from-excel"])
+        with patch.dict(report.os.environ, {
+            "AI_HTML_API_BASE_URL": "",
+            "AI_HTML_TOKEN": "",
+            "AI_HTML_BUILD_FROM_FILES": "0",
+        }), patch.object(report, "run") as run:
+            with self.assertRaisesRegex(ValueError, "requires AI_HTML_API_BASE_URL"):
+                report.build(args)
+        run.assert_not_called()
+
     def test_legacy_builder_environment_defaults_are_supported(self) -> None:
         environment = {
             "INPUT_FILE": "custom-input.xlsx",
