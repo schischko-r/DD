@@ -152,17 +152,16 @@ fi
         self.assertNotIn("--cert-path", invocations[1])
         self.assertNotIn("--ca-bundle", invocations[1])
 
-    def test_update_prod_uploads_test_then_prod_without_forwarding_flag(self) -> None:
+    def test_update_prod_builds_then_uploads_only_prod_without_forwarding_flag(self) -> None:
         invocations, _ = self.run_wrapper("--upd-prod", upload=True)
 
-        self.assertEqual(len(invocations), 3)
+        self.assertEqual(len(invocations), 2)
         self.assertIn("build_gravity_report.py", invocations[0])
         self.assertNotIn("--upd-prod", invocations[0])
         self.assertIn("upload_html.py", invocations[1])
-        self.assertIn("45678_3_test_", invocations[1])
-        self.assertIn("upload_html.py", invocations[2])
-        self.assertIn("extension/45678_2/uploadfile", invocations[2])
-        self.assertIn("externalpath=45678_2.html", invocations[2])
+        self.assertIn("extension/45678_2/uploadfile", invocations[1])
+        self.assertIn("externalpath=45678_2.html", invocations[1])
+        self.assertNotIn("45678_3_test_", "\n".join(invocations))
 
     def test_update_prod_only_skips_build_and_test_upload(self) -> None:
         invocations, _ = self.run_wrapper("--upd-prod-only", upload=True)

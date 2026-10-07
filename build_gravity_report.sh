@@ -266,9 +266,10 @@ if ((UPDATE_PROD_ONLY == 1)); then
 else
   run_builder
   if ((UPLOAD_ENABLED == 1)); then
-    run_uploader "$UPLOAD_URL"
     if ((UPDATE_PROD == 1)); then
       run_uploader "$PROD_UPLOAD_URL"
+    else
+      run_uploader "$UPLOAD_URL"
     fi
   fi
 fi
