@@ -361,8 +361,7 @@ a { color: var(--link); }
 .tile-delta.is-bad { color: var(--bad); background: rgba(233, 3, 58, .08); }
 .tile-delta i { font-style: normal; font-size: 11px; }
 .tile-foot {
-  margin-top: 3px; display: flex; justify-content: space-between; gap: 10px;
-  font-size: 10px; color: var(--ink-hint);
+  margin-top: 3px; font-size: 10px; color: var(--ink-hint);
 }
 
 .side-card { padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; }
@@ -1032,7 +1031,7 @@ function infoHint(html) {
   return wrap;
 }
 
-function tile({label, value, delta, foot, range, hint}) {
+function tile({label, value, delta, foot, hint}) {
   const card = el('div', 'tile');
   const caption = el('div', 'tile-label');
   caption.append(el('span', null, label));
@@ -1044,10 +1043,7 @@ function tile({label, value, delta, foot, range, hint}) {
   chip.append(el('i', null, delta.up === true ? '↑' : delta.up === false ? '↓' : '→'));
   chip.append(el('span', null, delta.text));
   card.append(chip);
-  const footer = el('div', 'tile-foot');
-  footer.append(el('span', null, foot || ''));
-  footer.append(el('span', null, range));
-  card.append(footer);
+  if (foot) card.append(el('div', 'tile-foot', foot));
   return card;
 }
 
@@ -1123,9 +1119,6 @@ function renderKpi() {
   if (!series.length) return;
 
   const last = series[series.length - 1];
-  const range = series.length > 1
-    ? `${periodLabel(series[0].id)} — ${periodLabel(last.id)}`
-    : periodLabel(last.id);
   const previous = series.find((row) => row.id === previousPeriod(state.period));
   const prevShare = previous ? previous.share : null;
   const shareDelta = prevShare == null ? null : last.share - prevShare;
@@ -1135,7 +1128,6 @@ function renderKpi() {
     value: amount(last.total),
     delta: deltaChip(last.totalDelta, 2, '% м/м'),
     foot: activeMeasure().unit,
-    range,
   }));
 
   if (isPolicyProduct()) {
@@ -1144,7 +1136,6 @@ function renderKpi() {
       value: `${ru(last.share, 2)}%`,
       delta: deltaChip(shareDelta, 2, 'п.п. м/м', false),
       foot: `${amount(last.outflow)} из ${amount(last.expected)} ${activeMeasure().unit}`,
-      range,
       hint: PRODUCT_OUTFLOW_NOTE,
     }));
     return;
@@ -1173,7 +1164,6 @@ function renderKpi() {
       delta: sameMonth ? deltaChip(serviceDelta, 1, 'п.п. м/м')
         : {up: null, tone: null, text: 'нет данных за период'},
       foot: '',
-      range: periodLabel(byPeriod ? state.period : service.period),
       hint: `${SERVICE_NOTE} База — ${service.baseLabel.toLowerCase()}: `
         + `${amount(serviceValues.covered)} из ${amount(serviceValues.total)}.`,
     }));
@@ -1191,7 +1181,6 @@ function renderKpi() {
       // Рост покрытия — хорошо.
       delta: deltaChip(coverDelta, 1, 'п.п. м/м'),
       foot: '',
-      range,
     }));
   }
 
@@ -1202,7 +1191,6 @@ function renderKpi() {
     // Рост доли оттока — плохо, поэтому направление «хорошего» перевёрнуто.
     delta: deltaChip(shareDelta, 2, 'п.п. м/м', false),
     foot: '',
-    range,
   }));
 }
 
