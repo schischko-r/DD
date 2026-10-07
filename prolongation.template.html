@@ -770,19 +770,19 @@ const SPLIT_ORDER = ['base', 'promo'];
 const BAD_WHEN_UP = new Set(['net_outflow', 'not_waited', 'left30', 'erosion30']);
 // «Осело» в этот набор не входит: там рост — хорошая новость.
 
-// Спокойные синие ступени ведут к результату; конечный отток выделен красным.
+// Светлые синие ступени ведут к результату; конечный отток выделен мягким красным.
 const STEP_COLOR = {
-  expected: '#9CCFE5',
-  prolonged: '#5AA6DE',
-  left30: '#AFC6D7',
-  erosion30: '#91B0C7',
-  net_outflow: '#E9033A',
+  expected: '#8FD3EE',
+  prolonged: '#55A9EF',
+  left30: '#9FC9EA',
+  erosion30: '#BDE5F0',
+  net_outflow: '#EF6A7A',
 };
 // Голова ветки называется по признаку коммуникации, и цвет у неё свой.
 const BRANCH_COLOR = {base: '#FF3D64', promo: '#8AD554'};
 const FALLBACK_COLOR = '#BA74B3';
 
-// Светлая заливка требует тёмной подписи; порог подобран по яркости цвета.
+// Выбираем подпись с лучшим контрастом: для светлой заливки — тёмную.
 function labelOnFill(hex) {
   const value = parseInt(hex.slice(1), 16);
   const channel = (shift) => {
@@ -790,7 +790,7 @@ function labelOnFill(hex) {
     return part <= 0.03928 ? part / 12.92 : Math.pow((part + 0.055) / 1.055, 2.4);
   };
   const luminance = 0.2126 * channel(16) + 0.7152 * channel(8) + 0.0722 * channel(0);
-  return luminance > 0.45 ? 'ink' : 'light';
+  return luminance > 0.18 ? 'ink' : 'light';
 }
 
 const funnelById = (id) => DATA.funnels.find((f) => f.id === id);
