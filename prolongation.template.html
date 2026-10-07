@@ -164,13 +164,14 @@ a { color: var(--link); }
 .client-journey .card-head { margin-bottom: 14px; }
 .journey-label { margin: 0 0 8px; font-size: 12px; font-weight: 700; }
 .journey-stats, .journey-assessment { display: grid; gap: 12px; }
-.journey-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.journey-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .journey-stat, .journey-assessment section { min-width: 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; }
 .journey-stat.good, .journey-assessment .good { border-color: rgba(31, 156, 83, .25); background: rgba(31, 156, 83, .07); }
-.journey-stat.bad, .journey-assessment .bad { border-color: rgba(233, 3, 58, .2); background: rgba(233, 3, 58, .05); }
+.journey-assessment .bad { border-color: rgba(233, 3, 58, .2); background: rgba(233, 3, 58, .05); }
 .journey-stat-title { display: block; font-size: 12px; font-weight: 600; }
 .journey-stat-value { display: block; margin-top: 5px; font-size: 26px; line-height: 1.15; font-weight: 700; font-variant-numeric: tabular-nums; }
-.journey-stat-value small { font-size: 13px; font-weight: 500; }
+.journey-stat-value .divider { padding: 0 5px; color: var(--ink-hint); font-weight: 400; }
+.journey-stat-detail { display: block; margin-top: 3px; font-size: 12px; font-weight: 600; }
 .journey-stat-note { display: block; margin-top: 3px; font-size: 11px; color: var(--ink-soft); }
 .journey-assessment { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 12px; }
 .journey-assessment h3, .journey-actions h3 { margin: 0 0 8px; font-size: 13px; }
@@ -626,9 +627,18 @@ a { color: var(--link); }
       <div class="card-head"><h2 id="clientJourneyTitle">Клиентский путь</h2></div>
       <h3 class="journey-label">Ключевое</h3>
       <div class="journey-stats">
-        <div class="journey-stat good"><span class="journey-stat-title">Закрытие вклада</span><strong class="journey-stat-value">10 <small>экранов</small></strong><span class="journey-stat-note">короче открытия</span></div>
-        <div class="journey-stat"><span class="journey-stat-title">Открытие вклада</span><strong class="journey-stat-value">17 <small>экранов</small></strong><span class="journey-stat-note">один успешный путь</span></div>
-        <div class="journey-stat bad"><span class="journey-stat-title">Тёмные паттерны</span><strong class="journey-stat-value">Есть</strong><span class="journey-stat-note">согласие отмечено заранее</span></div>
+        <div class="journey-stat good">
+          <span class="journey-stat-title">Экраны клиентского пути</span>
+          <strong class="journey-stat-value">10<span class="divider">/</span>17</strong>
+          <span class="journey-stat-detail">закрытие / открытие</span>
+          <span class="journey-stat-note">Закрытие короче открытия</span>
+        </div>
+        <div class="journey-stat good">
+          <span class="journey-stat-title">Механика удержания</span>
+          <strong class="journey-stat-value">Есть</strong>
+          <span class="journey-stat-detail">«Новый вклад»</span>
+          <span class="journey-stat-note">Предложение вернуться на финальном экране</span>
+        </div>
       </div>
       <div class="journey-assessment">
         <section class="good"><h3>Что уже хорошо</h3><ul>
