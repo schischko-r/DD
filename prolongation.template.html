@@ -180,10 +180,10 @@ a { color: var(--link); }
 .client-journey .card-head { margin-bottom: 14px; }
 .journey-label { margin: 0 0 8px; font-size: 12px; font-weight: 700; }
 .journey-stats, .journey-assessment { display: grid; gap: 12px; }
-.journey-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.journey-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .journey-stat, .journey-assessment section { min-width: 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; }
 .journey-stat.good, .journey-assessment .good { border-color: rgba(31, 156, 83, .25); background: rgba(31, 156, 83, .07); }
-.journey-assessment .bad { border-color: rgba(233, 3, 58, .2); background: rgba(233, 3, 58, .05); }
+.journey-stat.bad, .journey-assessment .bad { border-color: rgba(233, 3, 58, .2); background: rgba(233, 3, 58, .05); }
 .journey-stat-title { display: block; font-size: 12px; font-weight: 600; }
 .journey-stat-value { display: block; margin-top: 5px; font-size: 26px; line-height: 1.15; font-weight: 700; font-variant-numeric: tabular-nums; }
 .journey-stat-value .divider { padding: 0 5px; color: var(--ink-hint); font-weight: 400; }
@@ -658,6 +658,11 @@ a { color: var(--link); }
           <strong class="journey-stat-value">Есть</strong>
           <span class="journey-stat-detail">«Новый вклад»</span>
           <span class="journey-stat-note">Предложение вернуться на финальном экране</span>
+        </div>
+        <div class="journey-stat bad">
+          <span class="journey-stat-title">Тёмные паттерны</span>
+          <strong class="journey-stat-value">Есть</strong>
+          <span class="journey-stat-note">Согласие отмечено заранее</span>
         </div>
       </div>
       <div class="journey-assessment">
