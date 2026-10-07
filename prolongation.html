@@ -270,11 +270,13 @@ a { color: var(--link); }
   position: absolute; z-index: 5; transform: translate(-50%, 8px); pointer-events: none;
   padding: 6px 9px; border: 1px solid var(--line); border-radius: 6px;
   background: var(--surface); box-shadow: 0 6px 18px rgba(0, 0, 0, .14);
-  font-size: 11px; line-height: 1.35; white-space: nowrap;
+  width: 250px; max-width: calc(100vw - 32px);
+  font-size: 11px; line-height: 1.35;
 }
 .funnel-tip[hidden] { display: none; }
 .funnel-tip i { display: block; font-style: normal; font-size: 10px; color: var(--ink-hint); }
 .funnel-tip b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.funnel-tip-note { display: block; margin-top: 5px; color: var(--ink-soft); }
 .funnel-branches { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .funnel-notes { margin-top: 14px; display: grid; gap: 10px; }
 
@@ -778,6 +780,19 @@ const STEP_COLOR = {
   left30: '#F7DA5E',
   erosion30: '#F4A45B',
   net_outflow: '#EF6A7A',
+};
+const FUNNEL_STEP_NOTE = {
+  expected: 'Вклады с ожидаемой датой пролонгации в выбранном месяце.',
+  prolonged: 'Пролонгация договора прошла успешно.',
+  left30: 'Договор закрыт в течение 30 дней после даты пролонгации.',
+  erosion30: 'Суммарный остаток на вкладах и НС снизился.',
+  net_outflow: 'Суммарный остаток на вкладах и НС снизился более чем наполовину.',
+};
+const POLICY_STEP_NOTE = {
+  portfolio: 'Все полисы выбранного продукта.',
+  expected: 'Полисы с ожидаемой датой продления в выбранном месяце.',
+  passed: 'Полисы, продлённые в выбранном периоде.',
+  outflow: 'Полисы, не продлённые в течение 30 дней после даты пролонгации.',
 };
 // Голова ветки называется по признаку коммуникации, и цвет у неё свой.
 const BRANCH_COLOR = {base: '#FF3D64', promo: '#8AD554'};
@@ -1395,7 +1410,8 @@ function drawSplitFunnel(host, {common, branches, base, stageLabels = null}) {
     node.addEventListener('pointerenter', () => {
       tip.innerHTML = '';
       tip.append(el('i', null, step.name),
-        el('b', null, `${amountText(step.value)} · ${stepShare(step)} от верха воронки`));
+        el('b', null, `${amountText(step.value)} · ${stepShare(step)} от верха воронки`),
+        el('span', 'funnel-tip-note', step.description || FUNNEL_STEP_NOTE[step.id] || ''));
       tip.style.left = `${(span[0] + span[1]) / 2 / FUNNEL_W * 100}%`;
       tip.style.top = `${(y + BAND) / height * 100}%`;
       tip.hidden = false;
@@ -1489,20 +1505,23 @@ function renderProductFunnel(host, product) {
   const before = ((product.values || {})[previousPeriod(state.period)] || {})[state.measure] || null;
   const common = [{
     no: 1, id: 'portfolio', name: 'Все полисы', kind: 'level',
-    value: row.total, prev: before ? before.total : undefined, color: STEP_COLOR.expected, ref: null,
+    value: row.total, prev: before ? before.total : undefined, color: STEP_COLOR.expected,
+    description: POLICY_STEP_NOTE.portfolio, ref: null,
   }, {
     no: 2, id: 'expected', name: 'С пролонгацией в периоде', kind: 'level',
-    value: row.expected, prev: before ? before.expected : undefined, color: STEP_COLOR.prolonged, ref: null,
+    value: row.expected, prev: before ? before.expected : undefined, color: STEP_COLOR.prolonged,
+    description: POLICY_STEP_NOTE.expected, ref: null,
   }];
   common[1].ref = common[0];
   const passed = {
     no: 3, id: 'passed', name: 'Оседаемость', kind: 'level',
-    value: row.prolonged, prev: before ? before.prolonged : undefined, color: '#8AD554', ref: common[1],
+    value: row.prolonged, prev: before ? before.prolonged : undefined, color: '#8AD554',
+    description: POLICY_STEP_NOTE.passed, ref: common[1],
   };
   const outflow = {
     no: 4, id: 'outflow', name: 'Отток', kind: 'level',
     value: row.outflow, prev: before ? before.outflow : undefined,
-    color: STEP_COLOR.net_outflow, ref: common[1],
+    color: STEP_COLOR.net_outflow, description: POLICY_STEP_NOTE.outflow, ref: common[1],
   };
   const stage = el('div', 'funnel-stage');
   drawSplitFunnel(stage, {
