@@ -99,20 +99,52 @@ a { color: var(--link); }
 }
 .term b { color: var(--ink); font-weight: 600; }
 
-/* Главное определение метрики — читается до карточек и задаёт рамку всему отчёту. */
 .outflow-definition {
-  margin-top: 20px; padding: 20px 24px;
-  display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px; align-items: start;
-  border: 1px solid rgba(233, 3, 58, .2); border-radius: 10px;
-  background: linear-gradient(135deg, rgba(233, 3, 58, .07), rgba(255, 255, 255, .92) 62%);
+  margin-top: 20px; border-radius: 10px;
+  background: #173453; color: #fff; overflow: hidden;
+}
+.outflow-definition summary {
+  display: flex; align-items: center; gap: 12px;
+  padding: 15px 20px; cursor: pointer; list-style: none;
+}
+.outflow-definition summary::-webkit-details-marker { display: none; }
+.outflow-definition summary:hover { background: rgba(255, 255, 255, .05); }
+.outflow-definition summary:focus-visible { outline: 2px solid #fff; outline-offset: -4px; }
+.outflow-definition-title { font-size: 13px; font-weight: 700; }
+.outflow-definition-chevron {
+  width: 8px; height: 8px; margin: 0 4px 0 auto;
+  border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(45deg); transition: transform .2s cubic-bezier(.23, 1, .32, 1);
+}
+.outflow-definition[open] .outflow-definition-chevron { transform: rotate(225deg); }
+.outflow-definition-content { padding: 0 20px 18px 58px; }
+.outflow-definition[open] .outflow-definition-content {
+  animation: methodology-reveal .2s cubic-bezier(.23, 1, .32, 1);
+}
+@keyframes methodology-reveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.outflow-definition-content::before {
+  content: ''; display: block; border-top: 1px solid rgba(255, 255, 255, .2); margin-bottom: 14px;
+}
+.outflow-definition-content dl { margin: 0; display: grid; gap: 3px 12px; grid-template-columns: max-content minmax(0, 1fr); }
+.outflow-definition-content dt { font-weight: 700; }
+.outflow-definition-content dd { margin: 0; color: rgba(255, 255, 255, .82); }
+.outflow-definition-content p { margin: 0; max-width: 880px; color: rgba(255, 255, 255, .82); }
+@media (max-width: 680px) {
+  .outflow-definition-content { padding: 0 16px 16px; }
+  .outflow-definition-content dl { grid-template-columns: 1fr; gap: 2px; }
+  .outflow-definition-content dd + dt { margin-top: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .outflow-definition-chevron { transition: none; }
+  .outflow-definition[open] .outflow-definition-content { animation: none; }
 }
 .outflow-definition-icon {
-  width: 40px; height: 40px; display: grid; place-items: center;
-  border-radius: 10px; background: rgba(233, 3, 58, .1); color: var(--bad);
+  width: 26px; height: 26px; flex: 0 0 26px; display: grid; place-items: center;
+  border-radius: 7px; background: rgba(255, 255, 255, .12);
 }
-.outflow-definition h2 { margin: 0 0 5px; font-size: 13px; font-weight: 700; color: var(--bad); }
-.outflow-definition p { max-width: 880px; margin: 0; font-size: 13px; line-height: 1.5; }
-.outflow-definition p b { font-weight: 700; }
 
 .recommendation {
   margin-top: 20px; padding: 14px 16px;
@@ -587,15 +619,16 @@ a { color: var(--link); }
 
     <section class="recommendation" id="recommendation" hidden></section>
 
-    <section class="outflow-definition" aria-labelledby="outflowDefinitionTitle">
-      <div class="outflow-definition-icon" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
-      </div>
-      <div>
-        <h2 id="outflowDefinitionTitle">Как считаем отток</h2>
-        <p id="outflowDefinitionText"></p>
-      </div>
-    </section>
+    <details class="outflow-definition">
+      <summary>
+        <span class="outflow-definition-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
+        </span>
+        <span class="outflow-definition-title">Методология</span>
+        <span class="outflow-definition-chevron" aria-hidden="true"></span>
+      </summary>
+      <div class="outflow-definition-content" id="outflowDefinitionText"></div>
+    </details>
 
     <section class="kpi" id="kpi"></section>
 
@@ -1176,8 +1209,22 @@ function renderRecommendation() {
 }
 
 function renderOutflowDefinition() {
-  document.getElementById('outflowDefinitionText').innerHTML =
-    isPolicyProduct() ? PRODUCT_OUTFLOW_NOTE : OUTFLOW_NOTE;
+  const host = document.getElementById('outflowDefinitionText');
+  if (isPolicyProduct()) {
+    host.innerHTML = `<p>${PRODUCT_OUTFLOW_NOTE}</p>`;
+    return;
+  }
+  const terms = [
+    ['Снижение остатка', 'Клиент вывел часть или всю сумму сбережений после закрытия вклада.'],
+    ['Снижение остатка >50%', 'Клиент вывел более половины средств — ядро оттока.'],
+    ['Оседаемость (осело через 30 дней)',
+      'Средства клиентов остались в банке на вкладах и накопительных счетах.'],
+  ];
+  const list = el('dl');
+  terms.forEach(([name, description]) => {
+    list.append(el('dt', null, name), el('dd', null, description));
+  });
+  host.replaceChildren(list);
 }
 
 function renderKpi() {
