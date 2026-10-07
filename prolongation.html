@@ -82,6 +82,21 @@ a { color: var(--link); }
 }
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .card-head h2 { margin: 0; font-size: 14px; font-weight: 700; }
+.analysis-tabs {
+  display: flex; gap: 24px; margin-top: 20px;
+  border-bottom: 1px solid var(--line); overflow-x: auto;
+}
+.analysis-tabs [role="tab"] {
+  flex: 0 0 auto; padding: 0 2px 11px; border: 0;
+  border-bottom: 2px solid transparent; background: none;
+  color: var(--ink-soft); font-size: 13px; font-weight: 600; cursor: pointer;
+}
+.analysis-tabs [role="tab"]:hover { color: var(--ink); }
+.analysis-tabs [role="tab"][aria-selected="true"] {
+  border-bottom-color: var(--brand); color: var(--ink);
+}
+.analysis-tabs [role="tab"][hidden], .analysis-panel[hidden] { display: none; }
+.analysis-panel { margin-top: 16px; }
 
 /* ── инфобокс с определением ─────────────────────────────────────────── */
 .definition { display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 14px; align-items: start; }
@@ -505,10 +520,8 @@ a { color: var(--link); }
   .journey-stats { grid-template-columns: minmax(0, 1fr); }
 }
 /* ── внутренняя страница «Сценарии оттока» ────────────────────────────── */
-/* Блок под светофором в карточке статуса; классы с префиксом scn-,
-   чтобы не задеть отчёт. */
 /* Сценарии после закрытия: группы раскрываются независимо. */
-.scn-view { --promo: #8b5cf6; --service: #239ee2; margin-top: 24px; }
+.scn-view { --promo: #8b5cf6; --service: #239ee2; margin-top: 16px; }
 .scn-view[hidden], .scn-synthetic[hidden] { display: none; }
 .scn-synthetic {
   display: inline-flex; margin-left: 8px; vertical-align: middle; padding: 3px 9px;
@@ -606,7 +619,13 @@ a { color: var(--link); }
 
     <section class="kpi" id="kpi"></section>
 
-    <section class="card funnel-card">
+    <nav class="analysis-tabs" id="analysisTabs" role="tablist" aria-label="Раздел анализа">
+      <button type="button" role="tab" id="funnelTab" data-panel="funnelPanel" aria-controls="funnelPanel">Воронка оттока</button>
+      <button type="button" role="tab" id="communicationTab" data-panel="communicationLayer" aria-controls="communicationLayer">Слой коммуникаций</button>
+      <button type="button" role="tab" id="journeyTab" data-panel="clientJourney" aria-controls="clientJourney">Клиентский путь</button>
+    </nav>
+
+    <section class="card funnel-card analysis-panel" id="funnelPanel" role="tabpanel" aria-labelledby="funnelTab">
       <div class="card-head">
         <h2 id="funnelTitle">Воронка</h2>
       </div>
@@ -618,12 +637,12 @@ a { color: var(--link); }
       <div class="funnels" id="funnels"></div>
     </section>
 
-    <section class="card communication-layer" id="communicationLayer" aria-labelledby="communicationLayerTitle">
+    <section class="card communication-layer analysis-panel" id="communicationLayer" role="tabpanel" aria-labelledby="communicationTab">
       <div class="card-head"><h2 id="communicationLayerTitle">Слой коммуникаций</h2></div>
       <div class="communication-layer-grid" id="communicationLayerGrid"></div>
     </section>
 
-    <section class="card client-journey" id="clientJourney" aria-labelledby="clientJourneyTitle">
+    <section class="card client-journey analysis-panel" id="clientJourney" role="tabpanel" aria-labelledby="journeyTab">
       <div class="card-head"><h2 id="clientJourneyTitle">Клиентский путь</h2></div>
       <h3 class="journey-label">Ключевое</h3>
       <div class="journey-stats">
@@ -661,17 +680,17 @@ a { color: var(--link); }
       <p class="journey-footer">Полная аналитика пути закрытия по ссылке: <a href="./losshunter-закрытие-продуктов.html">LossHunter · закрытие продуктов</a></p>
     </section>
 
+    <section class="card scn-view" id="scenarios">
+      <div class="scn-head">
+        <div class="recs-title">Куда уходят средства после закрытия <span class="scn-synthetic" id="scnSynthetic" hidden>Синтетические данные</span></div>
+        <span class="scn-total" id="scnTotal"></span>
+      </div>
+      <div class="scn-accordion" id="scnAccordion"></div>
+      <p class="scn-note" id="scnNote"></p>
+    </section>
+
     <section class="card status-card">
       <div id="status"></div>
-
-      <div class="scn-view" id="scenarios">
-        <div class="scn-head">
-          <div class="recs-title">Куда уходят средства после закрытия <span class="scn-synthetic" id="scnSynthetic" hidden>Синтетические данные</span></div>
-          <span class="scn-total" id="scnTotal"></span>
-        </div>
-        <div class="scn-accordion" id="scnAccordion"></div>
-        <p class="scn-note" id="scnNote"></p>
-      </div>
     </section>
 
     <p class="page-note" id="pageNote"></p>
@@ -705,6 +724,7 @@ const state = {
   measure: MEASURES.some((m) => m.id === 'clnt') ? 'clnt' : MEASURES[0].id,
   period: PERIODS[0]?.id || null,
   product: 'deposit',
+  activePanel: 'funnelPanel',
 };
 
 // Продуктовые ряды приходят из prolongation-data.json, собранного из Excel.
@@ -1610,8 +1630,10 @@ function renderCommunicationLayer() {
       {id: 'drafts', title: 'Черновики'},
       {id: 'prolongation', title: 'Пролонгация'},
     ].filter(({id}) => byCommunication[id] && byCommunication[id][state.measure]);
-    section.hidden = !available.length;
-    if (section.hidden) return;
+    if (!available.length) {
+      grid.append(el('p', 'funnel-empty', 'Нет данных по коммуникациям за выбранный период'));
+      return;
+    }
 
     const all = ((product.values || {})[state.period] || {})[state.measure];
     const expectedBase = all && all.expected;
@@ -1632,7 +1654,6 @@ function renderCommunicationLayer() {
     return;
   }
 
-  section.hidden = false;
   const expectedBase = communicationExpectedBase(state.period);
   const hasExpectedBase = Number.isFinite(expectedBase) && expectedBase > 0;
 
@@ -2022,6 +2043,40 @@ document.addEventListener('keydown', (event) => {
 });
 
 // ── сборка страницы ───────────────────────────────────────────────────────
+const analysisTabs = [...document.querySelectorAll('#analysisTabs [role="tab"]')];
+function renderAnalysisTabs() {
+  analysisTabs.forEach((tab) => {
+    tab.hidden = tab.dataset.panel === 'clientJourney' && isPolicyProduct();
+  });
+  if (!analysisTabs.some((tab) => tab.dataset.panel === state.activePanel && !tab.hidden)) {
+    state.activePanel = 'funnelPanel';
+  }
+  analysisTabs.forEach((tab) => {
+    const selected = tab.dataset.panel === state.activePanel;
+    tab.setAttribute('aria-selected', String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    document.getElementById(tab.dataset.panel).hidden = !selected;
+  });
+}
+
+analysisTabs.forEach((tab) => {
+  tab.addEventListener('click', () => {
+    state.activePanel = tab.dataset.panel;
+    renderAnalysisTabs();
+  });
+  tab.addEventListener('keydown', (event) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const visible = analysisTabs.filter((item) => !item.hidden);
+    const index = visible.indexOf(tab);
+    const next = event.key === 'Home' ? 0
+      : event.key === 'End' ? visible.length - 1
+      : (index + (event.key === 'ArrowRight' ? 1 : -1) + visible.length) % visible.length;
+    visible[next].click();
+    visible[next].focus();
+  });
+});
+
 function render() {
   renderSwitches();
   renderPromoNote();
@@ -2031,10 +2086,10 @@ function render() {
   renderKpi();
   renderFunnels();
   renderCommunicationLayer();
-  document.getElementById('clientJourney').hidden = isPolicyProduct();
   renderStatus();
   renderScenarios();
   renderNote();
+  renderAnalysisTabs();
 }
 
 renderFilters();
