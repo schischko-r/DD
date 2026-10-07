@@ -145,7 +145,6 @@ a { color: var(--link); }
 
 /* ── воронка ─────────────────────────────────────────────────────────── */
 .funnel-card .card-head { margin-bottom: 10px; }
-.funnel-card .card-head .switch { margin-left: auto; }
 .funnel-empty { margin: 16px 0 0; color: var(--ink-soft); }
 .communication-layer .card-head { margin-bottom: 12px; }
 .communication-layer-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
@@ -621,7 +620,6 @@ a { color: var(--link); }
     <section class="card funnel-card">
       <div class="card-head">
         <h2 id="funnelTitle">Воронка</h2>
-        <div class="switch" id="funnelSwitch" role="tablist" aria-label="Когорта воронки"></div>
       </div>
       <p class="disclaimer">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1Zm0 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8Zm-.75 3a.75.75 0 0 0 0 1.5v2.25a.75.75 0 0 0 1.5 0V8.25a.75.75 0 0 0-.75-.75h-.75Z"/></svg>
@@ -709,7 +707,6 @@ const state = {
   measure: MEASURES.some((m) => m.id === 'clnt') ? 'clnt' : MEASURES[0].id,
   period: PERIODS[0]?.id || null,
   product: 'deposit',
-  funnel: 'all',
 };
 
 // Продуктовые ряды приходят из prolongation-data.json, собранного из Excel.
@@ -761,11 +758,6 @@ const COHORT_TITLE = {
   promo: 'Получили коммуникацию',
 };
 const SPLIT_ORDER = ['base', 'promo'];
-const FUNNEL_OPTIONS = [
-  {id: 'all', label: 'Общая'},
-  {id: 'promo', label: 'Покрытые промо-коммуникациями'},
-  {id: 'base', label: 'Не получили промо-коммуникации'},
-];
 // Ступени, где рост конверсии — плохая новость. Для остальных выше — лучше.
 const BAD_WHEN_UP = new Set(['net_outflow', 'not_waited', 'left30', 'erosion30']);
 // «Осело» в этот набор не входит: там рост — хорошая новость.
@@ -976,22 +968,6 @@ function renderSwitches() {
     state.measure = id;
     render();
   });
-  const funnelSwitch = document.getElementById('funnelSwitch');
-  funnelSwitch.hidden = isPolicyProduct();
-  if (!isPolicyProduct()) {
-    const options = FUNNEL_OPTIONS.filter((option) => {
-      const funnel = funnelById(option.id);
-      return funnel && Object.prototype.hasOwnProperty.call(
-        funnel.series[state.measure] || {}, state.period);
-    });
-    if (!options.some((option) => option.id === state.funnel)) {
-      state.funnel = options[0]?.id || null;
-    }
-    renderSwitch('funnelSwitch', options, state.funnel, (id) => {
-      state.funnel = id;
-      render();
-    });
-  }
 }
 
 // ── пояснение по клику ────────────────────────────────────────────────────
@@ -1719,7 +1695,7 @@ function renderFunnels() {
     return;
   }
 
-  const selected = funnelById(state.funnel);
+  const selected = funnelById('all');
   if (!selected || !Object.prototype.hasOwnProperty.call(
     selected.series[state.measure] || {}, state.period)) {
     host.append(el('p', 'funnel-empty', 'Нет данных за период'));
@@ -1739,10 +1715,10 @@ function renderFunnels() {
   });
   const common = [baseStep];
   const branches = [{
-    id: state.funnel,
+    id: 'all',
     funnel: selected,
     steps: steps.slice(1),
-    title: FUNNEL_OPTIONS.find((item) => item.id === state.funnel)?.label || selected.name,
+    title: selected.name,
   }];
   if (!branches[0].steps.length) return;
 
