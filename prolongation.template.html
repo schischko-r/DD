@@ -441,27 +441,6 @@ a { color: var(--link); }
 .rec small { display: block; margin-top: 6px; font-size: 10px; color: var(--ink-hint); }
 .rec-links { margin-top: 8px; display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 11px; }
 
-/* метр: наша доля оттока против рыночной полосы */
-.meter { margin-top: 10px; }
-.meter-track {
-  position: relative; height: 16px; border-radius: 5px;
-  background: rgba(0, 0, 0, .04); overflow: hidden;
-}
-.meter-band { position: absolute; top: 0; bottom: 0; background: rgba(35, 158, 226, .18); }
-.meter-band::after {
-  content: ''; position: absolute; right: 0; top: 0; bottom: 0;
-  width: 2px; background: rgba(35, 158, 226, .55);
-}
-.meter-mark { position: absolute; top: -3px; bottom: -3px; width: 3px; background: var(--bad); border-radius: 2px; }
-.meter-scale {
-  margin-top: 3px; position: relative; height: 12px;
-  font-size: 10px; color: var(--ink-hint); font-variant-numeric: tabular-nums;
-}
-.meter-scale span { position: absolute; transform: translateX(-50%); }
-.meter-legend { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: var(--ink-soft); }
-.meter-legend em { font-style: normal; display: inline-flex; align-items: center; gap: 6px; }
-.meter-legend b { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
-
 .page-note { margin: 12px 0 0; font-size: 10px; color: var(--ink-hint); }
 
 /* ── вшитый лист: дерево и коммуникации открываются поверх страницы ───── */
@@ -1799,44 +1778,6 @@ function ruleHint() {
   return wrap;
 }
 
-// ── метр: наша доля оттока против рыночной полосы ────────────────────────
-function benchmarkMeter(share, bandHigh) {
-  const scaleMax = Math.max(3, Math.ceil(Math.max(share, bandHigh) * 1.2));
-  const wrap = el('div', 'meter');
-
-  const track = el('div', 'meter-track');
-  const band = el('div', 'meter-band');
-  band.style.left = '0%';
-  band.style.width = `${bandHigh / scaleMax * 100}%`;
-  band.title = `Рынок: нетто-отток до ${ru(bandHigh, 2)}% портфеля в месяц`;
-  const mark = el('div', 'meter-mark');
-  mark.style.left = `calc(${Math.min(share, scaleMax) / scaleMax * 100}% - 1.5px)`;
-  mark.title = `Мы: ${ru(share, 2)}%`;
-  track.append(band, mark);
-  wrap.append(track);
-
-  const scale = el('div', 'meter-scale');
-  for (let tick = 0; tick <= scaleMax; tick += 1) {
-    const label = el('span', null, `${tick}%`);
-    label.style.left = `${tick / scaleMax * 100}%`;
-    scale.append(label);
-  }
-  wrap.append(scale);
-
-  const legend = el('div', 'meter-legend');
-  const marketItem = el('em');
-  const marketSwatch = el('b');
-  marketSwatch.style.background = 'rgba(35, 158, 226, .45)';
-  marketItem.append(marketSwatch, document.createTextNode(`Рынок — до ${ru(bandHigh, 2)}% в месяц`));
-  const ourItem = el('em');
-  const ourSwatch = el('b');
-  ourSwatch.style.background = 'var(--leak)';
-  ourItem.append(ourSwatch, document.createTextNode(`Мы — ${ru(share, 2)}%`));
-  legend.append(marketItem, ourItem);
-  wrap.append(legend);
-  return wrap;
-}
-
 // ── рекомендации ──────────────────────────────────────────────────────────
 function sheetLink(label, key) {
   const links = el('div', 'rec-links');
@@ -1845,64 +1786,6 @@ function sheetLink(label, key) {
   button.addEventListener('click', () => openSheet(key));
   links.append(button);
   return links;
-}
-
-function benchmarkRec(series) {
-  const body = el('div');
-  body.append(el('h4', null, 'AI Benchmark: сверка с рынком'));
-
-  // Бенчмарк рынка считается в деньгах. Для клиентского разреза сопоставимой
-  // публичной цифры нет, и подставлять денежную под клиентов нельзя.
-  const points = DATA.benchmark.filter((p) => p.valuePct != null && p.measure === state.measure);
-  // Владельца бенчмарка называем только если он заявлен в том же разрезе;
-  // иначе ссылаемся на источник той точки, что задала границу полосы.
-  const owner = DATA.benchmark.find(
-    (p) => p.metric === 'benchmark_owner' && p.measure === state.measure);
-
-  if (!points.length || !series.length) {
-    const text = el('p');
-    text.textContent = `В книге нет рыночного ориентира для разреза «${activeMeasure().label}» — `
-      + 'сверка считается только по деньгам.';
-    body.append(text);
-    return {tag: 'AI Benchmark', body};
-  }
-
-  const top = points.reduce((best, point) => (point.valuePct > best.valuePct ? point : best));
-  const bandHigh = top.valuePct;
-  const source = owner ? `бенчмарка ${owner.source}` : `рыночного ориентира (${top.source})`;
-  const share = series[series.length - 1].share;
-  const above = share > bandHigh;
-  // Кратность всегда больше единицы: «ниже в 0,8 раза» — не по-русски.
-  const times = above ? share / bandHigh : bandHigh / share;
-  const band = points.length > 1 ? ' в худший месяц' : '';
-  const verdict = el('p');
-  verdict.innerHTML = `Относительно ${source} наше значение <b>${ru(share, 2)}%</b> — `
-    + `${above ? 'выше' : 'ниже'} рынка (<b>${ru(bandHigh, 2)}%</b>${band}) `
-    + `в ${ru(times, 1)} раза. Обратите внимание.`;
-  body.append(verdict);
-  body.append(benchmarkMeter(share, bandHigh));
-
-  const caveat = el('small');
-  caveat.textContent = isMoney()
-    ? 'Рынок меряет нетто-переток по системе, мы — отток портфеля: сравнение ориентировочное.'
-    : 'Рыночная цифра — опрос вкладчиков за год, пересчитанный в месяц; наша — факт по портфелю. '
-      + 'Прямой помесячной статистики по клиентам в открытом доступе нет.';
-  body.append(caveat);
-
-  const links = el('div', 'rec-links');
-  const seen = new Set();
-  DATA.benchmark.forEach((point) => {
-    if (!point.url || seen.has(point.source)) return;
-    seen.add(point.source);
-    const link = el('a', null, point.source);
-    link.href = point.url;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.title = point.note || point.source;
-    links.append(link);
-  });
-  body.append(links);
-  return {tag: 'AI Benchmark', body};
 }
 
 function treeRec() {
@@ -1952,20 +1835,6 @@ function renderStatus() {
   copy.append(el('p', null, statusWhy(light, series)));
   traffic.append(copy);
   host.append(traffic);
-
-  // Рыночный benchmark применим только к вкладам; для КАСКО и ОСАГО
-  // сопоставимого ориентира в данных нет.
-  const product = activeProduct();
-  if (isMoney() && (!product || product.id === 'deposit')) {
-    host.append(el('div', 'recs-title', 'Рекомендации'));
-    const list = el('ol', 'recs');
-    const rec = benchmarkRec(series);
-    const item = el('li', 'rec');
-    item.append(el('span', 'rec-tag', rec.tag));
-    item.append(rec.body);
-    list.append(item);
-    host.append(list);
-  }
 }
 
 function renderNote() {

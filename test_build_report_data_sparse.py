@@ -47,9 +47,10 @@ def test_sparse_product_and_communication_periods(tmp_path):
     book.save(workbook)
 
     tree_path, page_path = tmp_path / "tree.json", tmp_path / "page.json"
-    brd.build(workbook, tree_path, page_path, tmp_path / "no-benchmark.xlsx")
+    brd.build(workbook, tree_path, page_path)
     tree = json.loads(tree_path.read_text())
     page = json.loads(page_path.read_text())
+    assert "benchmark" not in page
 
     assert [period["id"] for period in page["meta"]["periods"]] == [
         "2026-08", "2026-07", "2026-06",

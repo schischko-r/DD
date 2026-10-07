@@ -34,7 +34,7 @@ def main(argv: list[str] | None = None) -> None:
 
     print("1/3 данные из выгрузки")
     build_report_data.build(args.workbook.expanduser(), build_report_data.DEFAULT_TREE,
-                            build_report_data.DEFAULT_PAGE, build_report_data.DEFAULT_BENCHMARK)
+                            build_report_data.DEFAULT_PAGE)
 
     print("2/3 дерево оттоков")
     build_outflow_v3.build(build_outflow_v3.DEFAULT_TEMPLATE, build_outflow_v3.DEFAULT_OUTPUT,

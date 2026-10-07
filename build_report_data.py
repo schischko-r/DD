@@ -18,10 +18,7 @@ _rur (рубли) и _cnt (клиенты). Скрипт не считает б�
 
 На выходе два файла:
   outflow-tree-graph.json  — дерево оттоков, узлы с рядами по обоим разрезам;
-  prolongation-data.json   — портфель, воронки, сценарии и бенчмарк.
-
-Бенчмарк рынка берётся с листа «Бенчмарк» той же книги, а если его нет —
-из outflow-report-metrics.xlsx.
+  prolongation-data.json   — портфель, воронки и сценарии.
 """
 
 from __future__ import annotations
@@ -37,7 +34,6 @@ from openpyxl import load_workbook
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_WORKBOOK = ROOT / "prolong.xlsx"
-DEFAULT_BENCHMARK = ROOT / "outflow-report-metrics.xlsx"
 DEFAULT_TREE = ROOT / "outflow-tree-graph.json"
 DEFAULT_PAGE = ROOT / "prolongation-data.json"
 
@@ -665,30 +661,8 @@ def build_scenarios(export: Export, synthetic: bool) -> dict:
     }
 
 
-def read_benchmark(book, fallback: Path) -> list[dict]:
-    if "Бенчмарк" in book.sheetnames:
-        sheet = book["Бенчмарк"]
-    elif fallback.is_file() and "Бенчмарк" in load_workbook(fallback, data_only=True).sheetnames:
-        sheet = load_workbook(fallback, data_only=True)["Бенчмарк"]
-    else:
-        print("  внимание: листа «Бенчмарк» нет, блок AI Benchmark будет пустым")
-        return []
-    points = []
-    for row in sheet_rows(sheet):
-        points.append({
-            "period": str(row["period"]),
-            "measure": row["measure"],
-            "metric": row["metric_id"],
-            "valuePct": None if row.get("value_pct") is None else float(row["value_pct"]) * 100,
-            "source": row.get("source_name") or "",
-            "url": row.get("url") or "",
-            "note": row.get("note") or "",
-        })
-    return points
-
-
-def build(workbook: Path, tree_out: Path, page_out: Path, benchmark: Path) -> None:
-    export, synthetic, book = read_export(workbook)
+def build(workbook: Path, tree_out: Path, page_out: Path) -> None:
+    export, synthetic, _ = read_export(workbook)
 
     graph = build_tree(export)
     funnels = build_funnels(export)
@@ -706,7 +680,6 @@ def build(workbook: Path, tree_out: Path, page_out: Path, benchmark: Path) -> No
         "serviceCoverage": build_service(export),
         "funnels": funnels,
         "scenarios": scenarios,
-        "benchmark": read_benchmark(book, benchmark),
     }
 
     if export.filled:
@@ -724,15 +697,13 @@ def build(workbook: Path, tree_out: Path, page_out: Path, benchmark: Path) -> No
     print(f"{tree_out.name}: {len(graph['nodes'])} узлов, {len(export.periods)} периодов, "
           f"{len(MEASURES)} разреза")
     print(f"{page_out.name}: {len(funnels)} воронки, {len(scenarios['groups'])} групп сценариев, "
-          f"{len(scenarios['communications'])} коммуникаций, {len(page['benchmark'])} строк бенчмарка"
+          f"{len(scenarios['communications'])} коммуникаций"
           + (" · синтетика" if synthetic else ""))
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workbook", type=Path, default=DEFAULT_WORKBOOK)
-    parser.add_argument("--benchmark", type=Path, default=DEFAULT_BENCHMARK,
-                        help="книга с листом «Бенчмарк», если его нет в выгрузке")
     parser.add_argument("--tree-out", type=Path, default=DEFAULT_TREE)
     parser.add_argument("--page-out", type=Path, default=DEFAULT_PAGE)
     return parser.parse_args(argv)
@@ -740,7 +711,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    build(args.workbook, args.tree_out, args.page_out, args.benchmark)
+    build(args.workbook, args.tree_out, args.page_out)
 
 
 if __name__ == "__main__":

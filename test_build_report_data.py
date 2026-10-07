@@ -24,7 +24,7 @@ def built(tmp_path_factory):
     real = synth.read_real_totals(SOURCE)
     synth.write(synth.build_rows(real, synth.SEED), workbook, SOURCE)
     tree, page = tmp / "tree.json", tmp / "page.json"
-    brd.build(workbook, tree, page, SOURCE)
+    brd.build(workbook, tree, page)
     return real, json.loads(tree.read_text()), json.loads(page.read_text())
 
 
