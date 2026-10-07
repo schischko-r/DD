@@ -298,6 +298,11 @@ export function metricSkillLinks(block, metric) {
   return links.filter((item, index) => links.findIndex((candidate) => candidate.label === item.label && candidate.href === item.href) === index);
 }
 
+export function isDepositOutflowAnalysis(product, metric) {
+  return /^вклады\s*\+\s*нс$/i.test(String(product?.name || '').trim())
+    && /^churn\.funnel_analysis$/i.test(String(metric?.code || '').trim());
+}
+
 export function hasPilotCampaignSkill(block) {
   return nestedTools(block).some((tool) => /^пилотные кампании$/i.test(String(tool?.name || '').trim()));
 }
