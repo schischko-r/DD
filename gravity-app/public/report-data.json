@@ -60355,10 +60355,50 @@
       ],
       "roadmap": {
         "current_score": 48.0,
-        "expected_uplift": 0.0,
-        "expected_score": 48.0,
-        "expected_level": "Развивающиеся",
-        "items": []
+        "expected_uplift": 14.9,
+        "expected_score": 62.9,
+        "expected_level": "Зрелые",
+        "items": [
+          {
+            "source_sheet": "СВР",
+            "source_row": 30,
+            "source_product_name": "Сейфы",
+            "unit": "CBP",
+            "profile_name": "Сейфы",
+            "quarter": "Q42026",
+            "development_block": "Знание ключевых метрик",
+            "planned_activity": "Валидация данных об Объеме целевого рынка в России, объем целевого рынка в Сбере, клиенты с продуктом, MAU продукта, знание продуктов-спутников",
+            "due_date": "окт.26",
+            "expected_uplift": 1.0,
+            "status": "в работе"
+          },
+          {
+            "source_sheet": "СВР",
+            "source_row": 31,
+            "source_product_name": "Сейфы",
+            "unit": "CBP",
+            "profile_name": "Сейфы",
+            "quarter": "Q42026",
+            "development_block": "Воронка привлечения",
+            "planned_activity": "Черновики в СБОЛ;\nРазработка CJM с воронками и процентами привлечения;\nНаличие Self-Service;\nНаличие бенчмарков - предоставить отчет по рынку",
+            "due_date": "окт.26-дек.26",
+            "expected_uplift": 7.9,
+            "status": "в работе"
+          },
+          {
+            "source_sheet": "СВР",
+            "source_row": 32,
+            "source_product_name": "Сейфы",
+            "unit": "CBP",
+            "profile_name": "Сейфы",
+            "quarter": "Q42026",
+            "development_block": "Цели",
+            "planned_activity": "Цели уровня ЛЮ и ЛТ выведены на мониторинг и Прогноз по целям",
+            "due_date": "дек.26",
+            "expected_uplift": 6.0,
+            "status": "в работе"
+          }
+        ]
       }
     },
     {
