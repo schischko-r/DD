@@ -12,6 +12,21 @@ const products = report.products.filter(team => team.type === 'Продукт');
 const route = answers => getSections(answers).flatMap(section =>
   visibleQuestions(section, getBacklogAnalyzed(answers), answers));
 
+test('benchmarks are checkbox options and do not restore excluded completeness', () => {
+  for (const team of enabledTeams) {
+    assert.ok(!getSections({product: team.id}).some(s => s.id === 'benchmarks'));
+    for (const parent of getSections({product: team.id}).flatMap(s => s.questions)) {
+      if (!parent.benchmark) continue;
+      assert.ok(parent.options.includes('Бенчмарки'));
+      assert.ok(!inlineQuestions(parent).some(q => q.id.startsWith('benchmarks')));
+      if (parent.benchmarkOnly) {
+        assert.deepEqual(parent.options, ['Бенчмарки', 'Затрудняюсь ответить']);
+        assert.equal(parent.inlineEvidence, undefined);
+      }
+    }
+  }
+});
+
 function completeAnswers(team) {
   const answers = {name: 'Тест', product: team.id, unit: team.unit};
   for (const question of getSections(answers).flatMap(section => section.questions).flatMap(q => [q, ...inlineQuestions(q)])) {
@@ -32,7 +47,7 @@ function completeAnswers(team) {
     if (needsComment(question, answers)) answers[question.commentId] = 'Описание механики';
     if (needsReason(question, answers)) answers[question.reasonId] = 'Не подходит для продукта';
     if (needsEvidence(question, answers)) answers[question.inlineEvidence.formatId] = 'excel';
-    if (needsProof(question, answers)) answers[question.inlineProof.id] = 'Описание подтверждения';
+    if (needsProof(question, answers)) answers[question.inlineProof.id] = question.inlineProof.kind === 'metricSource' ? 'Затрудняюсь ответить' : 'Описание подтверждения';
   }
   return answers;
 }
@@ -74,7 +89,7 @@ test('all product routes can complete and preserve their own baseline', () => {
       const metric = productSurveyProfiles[team.id].metrics.find(item => item.code === code);
       if (metric && metric.is_applicabble_flg && !metric.excluded_from_index &&
         Number(metric.dd_calculation_flg) !== 0 && metric.max_value > 0) {
-        assert.ok(questions.some(question => question.id === id),
+        assert.ok(id === 'monitoring' || questions.some(question => question.id === id),
           `${team.name}: applicable knowledge ${id} asked even at maximum`);
       }
     }
@@ -131,7 +146,24 @@ test('known mechanics, backlog and completed metric gaps vary by product', () =>
 });
 
 test('product not-relevant answers require the Excel reason and no funnel evidence', () => {
-  for (const [teamName, id] of [['Брокерский счет', 'attractConfigured'], ['БПИФ', 'churnConfigured']]) {
+  for (const team of enabledTeams) {
+    const question = getSections({product: team.id}).flatMap(section => section.questions).find(q => q.id === 'churnConfigured');
+    if (!question) continue;
+    assert.deepEqual(question.options, ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь']);
+    for (const choice of question.options) {
+      const answers = {churnConfigured: choice};
+      assert.equal(needsEvidence(question, answers), choice.startsWith('Да'));
+      assert.equal(hasAnswer(question, answers), !choice.startsWith('Да') || Boolean(question.inlineEvidence.previousLinks));
+    }
+    assert.equal(question.reasonId, undefined);
+  }
+  const fund = enabledTeams.find(team => team.name === 'БПИФ');
+  for (const [choice, expected] of [['Да, автоматическая (monthly/weekly)', 0.5], ['Да, по запросу', 0.25], ['Нет', 0], ['Затрудняюсь', 0]]) {
+    const answers = {...completeAnswers(fund), churnConfigured: choice, churnReportFormat: 'excel'};
+    const metric = buildSurveyResult(answers).result.metrics.find(m => m.code === 'churn.nastroena_otchetnostь');
+    assert.equal(metric.value, expected);
+  }
+  for (const [teamName, id] of [['Брокерский счет', 'attractConfigured']]) {
     const team = enabledTeams.find(item => item.name === teamName);
     const question = getSections({product: team.id}).flatMap(section => section.questions)
       .find(item => item.id === id);
@@ -194,7 +226,7 @@ test('Data products use their own knowledge and funnel questions', () => {
     adaptedFrom: 'Что включает воронка оттока (анализа снижения активности в канале)?',
     accuracyReview: true,
   });
-  for (const id of ['usageConfigured', 'churnConfigured']) {
+  for (const id of ['usageConfigured']) {
     const question = mail.find(item => item.id === id);
     const negative = question.options.find(option => option.startsWith('Не релевантно'));
     assert.ok(negative);
@@ -240,11 +272,11 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
   };
   try {
     await pause();
-    await write(doc.querySelector('.survey-single-question input'), 'Тест'); await next();
+    await write(doc.querySelector('.survey-single-question input'), 'Тест');
     await selectTeam('Вклады+НС'); await next();
     await write(doc.querySelector('.survey-single-question input'), '777');
     button('Назад').click(); await pause();
-    assert.equal(currentId(), 'product');
+    assert.equal(currentId(), 'cover');
     await selectTeam(target.name); await next();
     assert.equal(currentId(), 'marketRussia');
     assert.equal(doc.querySelector('.survey-single-question input').value, '', 'Deposit answer was cleared');
@@ -257,7 +289,7 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
       const question = questions.find(item => item.id === id);
       assert.ok(question, `Question ${id} belongs to selected product`);
       if (question.type === 'info') {
-        assert.match(doc.querySelector('.survey-info-copy').textContent, /Cross-sell/);
+        if (id === 'crossSellInfo') assert.match(doc.querySelector('.survey-info-copy').textContent, /Cross-sell/);
       } else if (question.type === 'numeric') await write(doc.querySelector('.survey-single-question input'), '1000');
       else if (question.type === 'multi') {
         const option = id === 'usageIncludes' ? question.options[0]
@@ -269,26 +301,21 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
         assert.ok(checkbox, `${id}: ${option} available`);
         checkbox.querySelector('input').click(); await pause();
       } else if (question.type === 'radio') {
-        const option = id === 'churnConfigured' && targetName === 'БПИФ'
-          ? question.options.find(item => item.startsWith('Не релевантно'))
-          : question.options.includes('Нет') ? 'Нет' : question.options[0];
+        const option = question.options.includes('Нет') ? 'Нет' : question.options[0];
         const radio = [...doc.querySelectorAll('.survey-single-question .g-radio')]
           .find(item => item.textContent.trim() === option);
         assert.ok(radio, `${id}: ${option} available`);
         radio.querySelector('input').click(); await pause();
-        if (id === 'churnConfigured' && targetName === 'БПИФ') {
-          const reason = doc.querySelector('.survey-other-answer textarea');
-          assert.ok(reason, 'Excel not-relevant answer reveals the reason field');
-          assert.equal(button('Далее').disabled, true, 'Reason is mandatory');
-          await write(reason, 'Не применимо к фонду');
-        }
+
       } else {
         const control = doc.querySelector('.survey-single-question textarea, .survey-single-question input');
         await write(control, 'Тест');
       }
       for (const field of inlineQuestions(question)) {
         const block = [...doc.querySelectorAll('.survey-inline-question')].find(item => item.getAttribute('aria-label') === field.title);
-        await write(block.querySelector('textarea'), 'Результаты и причины');
+        if (field.type === 'radio') {
+          [...block.querySelectorAll('.g-radio')].find(node => node.textContent.trim() === 'Нет').querySelector('input').click(); await pause();
+        } else await write(block.querySelector('textarea'), 'Результаты и причины');
       }
       const evidence = doc.querySelector('.survey-inline-evidence');
       if (evidence?.querySelector('input[type="radio"]')) {
@@ -296,10 +323,14 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
         assert.equal(evidence.querySelector('.survey-excel-notice'), null);
         evidence.querySelectorAll('input[type="radio"]')[1].click(); await pause();
         assert.equal(evidence.querySelector('.survey-excel-notice').textContent, 'Для учета в оценке просим направить по почте нам. В противном случае ответ не будет принят.');
-        assert.equal(evidence.querySelector('.survey-excel-notice a').getAttribute('href'), 'mailto:MYCherkova@sberbank.ru');
+        assert.equal(evidence.querySelector('.survey-excel-notice a').getAttribute('href'), 'mailto:MYCherkova@sberbank.ru,RGShishko@sberbank.ru,ASAntandze@sberbank.ru');
       } else if (evidence?.querySelector('textarea')) await write(evidence.querySelector('textarea'), 'Описание подтверждения');
       const comment = doc.querySelector('.survey-mechanics-comment textarea');
       if (comment) await write(comment, 'Описание механики');
+      if (question.inlineProof?.kind === 'metricSource') {
+        doc.querySelector('.survey-inline-question input[value="Запрос у аналитиков"]').click(); await pause();
+        assert.equal(doc.querySelector('.survey-excel-notice'), null);
+      }
       await next();
     }
     assert.match(doc.querySelector('h1').textContent, /Проверьте ответы/);
@@ -307,7 +338,7 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
     const payload = JSON.parse(dom.window.DDI_SURVEY_RESULT_JSON);
     assert.deepEqual(payload.team, {id: target.id, name: target.name, unit: target.unit});
     assert.equal(payload.answers.marketRussia, '1000');
-    if (targetName === 'БПИФ') assert.equal(payload.answers.churnConfiguredReason, 'Не применимо к фонду');
+    assert.equal(payload.answers.churnConfiguredReason, undefined);
     assert.equal(payload.result.baselinePeriod, productSurveyProfiles[target.id].period);
     assert.equal(payload.result.metrics.length, productSurveyProfiles[target.id].metrics.length);
     assert.deepEqual(errors, []);
@@ -320,7 +351,10 @@ test('quarterly actions ignore previous maximum scores and keep attraction and c
     for (const [code, id] of [['attract.initiatives_list', 'attractDeviations'], ['churn.deviation_actions', 'deviations']]) {
       const metric = productSurveyProfiles[team.id].metrics.find(item => item.code === code);
       const applicable = Boolean(metric && metric.is_applicabble_flg !== false && !metric.excluded_from_index && Number(metric.dd_calculation_flg) !== 0 && metric.max_value > 0);
-      assert.equal(actions.some(q => q.id === id), applicable, `${team.name}: ${id} always asked if applicable`);
+      const parent = getSections({product: team.id}).flatMap(s => s.questions).find(q => q.action?.id === id);
+      assert.equal(Boolean(parent), applicable, `${team.name}: ${id} merged if applicable`);
+      assert.ok(!actions.some(q => q.id === id));
+      if (parent) assert.ok(parent.options.includes(parent.actionOption));
       assert.equal(actions.some(q => q.id === `${id}Completed`), applicable && Number(metric?.value) === 1,
         `${team.name}: retrospective follows its own previous score`);
     }
@@ -349,27 +383,41 @@ test('action results require descriptions and valid link or Excel; stale example
   const excel = buildSurveyResult({...linkAnswers, [formatId]: 'excel'});
   assert.ok(!(id in excel.answers), 'Switching to Excel removes stale URL');
   for (const actionId of ['attractDeviations', 'deviations']) {
-    const question = actions.find(q => q.id === actionId);
+    const question = route(answers).find(q => q.action?.id === actionId);
     const proofId = question.inlineProof.id;
-    const reportId = question.inlineEvidence.id;
-    const formatId = question.inlineEvidence.formatId;
     assert.match(question.inlineProof.title, /за текущий квартал/);
-    assert.match(question.inlineEvidence.title, /за текущий квартал/);
-    assert.equal(hasAnswer(question, {...answers, [actionId]: 'Да', [proofId]: 'Задачи', [formatId]: 'link', [reportId]: 'invalid'}), false);
-    const linked = buildSurveyResult({...answers, [actionId]: 'Да', [proofId]: 'Задачи', [formatId]: 'link', [reportId]: 'https://example.test/current'});
-    assert.equal(linked.answers[reportId], 'https://example.test/current');
-    assert.equal(linked.answers[proofId], 'Задачи');
-    assert.equal(hasAnswer(question, {...answers, [actionId]: 'Да', [proofId]: '   '}), false);
-    assert.throws(() => buildSurveyResult({...answers, [actionId]: 'Да', [proofId]: 'Задачи квартала'}), /Incomplete/);
-    const positive = buildSurveyResult({...answers, [actionId]: 'Да', [proofId]: 'Задачи квартала', [formatId]: 'excel'});
+    const selected = {...answers, [question.id]: [question.actionOption], [proofId]: 'Задачи квартала',
+      ...(question.inlineEvidence ? {[question.inlineEvidence.formatId]: 'excel'} : {}),
+      [question.action.inlineEvidence.formatId]: 'excel'};
+    assert.equal(hasAnswer(question, {...selected, [proofId]: '   '}), false);
+    const positive = buildSurveyResult(selected);
+    assert.equal(positive.answers[actionId], 'Да');
     assert.equal(positive.answers[proofId], 'Задачи квартала');
-    for (const negative of ['Нет', 'Затрудняюсь ответить']) {
-      const result = buildSurveyResult({...answers, [actionId]: negative, [proofId]: 'Старые задачи', [formatId]: 'link', [reportId]: 'https://example.test/stale'});
-      assert.ok(!(proofId in result.answers));
-      assert.ok(!(proofId in result.questionSources));
-      assert.ok(!(reportId in result.answers));
-      assert.ok(!(formatId in result.answers));
+    const evidence = question.action.inlineEvidence;
+    assert.equal(hasAnswer(question, {...selected, [evidence.formatId]: ''}), false);
+    assert.equal(hasAnswer(question, {...selected, [evidence.formatId]: 'link', [evidence.id]: 'invalid'}), false);
+    const linked = buildSurveyResult({...selected, [evidence.formatId]: 'link', [evidence.id]: 'https://example.test/current'});
+    assert.equal(linked.answers[evidence.id], 'https://example.test/current');
+    const analysisCode = actionId === 'deviations' ? 'churn.funnel_analysis' : 'attract.funnel_analysis';
+    assert.equal(positive.result.metrics.find(m => m.code === analysisCode)?.value,
+      buildSurveyResult(answers).result.metrics.find(m => m.code === analysisCode)?.value);
+    const allIndex = question.options.indexOf('Все перечисленное выше');
+    if (allIndex >= 0) {
+      assert.ok(question.options.indexOf(question.actionOption) < allIndex);
+      const all = {...selected, [question.id]: ['Все перечисленное выше']};
+      assert.equal(hasAnswer(question, {...all, [proofId]: ''}), false);
+      assert.equal(hasAnswer(question, {...all, [evidence.formatId]: ''}), false);
+      const result = buildSurveyResult(all);
+      assert.equal(result.answers[actionId], 'Да');
+      assert.equal(result.answers[proofId], 'Задачи квартала');
+      assert.equal(result.answers[evidence.formatId], 'excel');
     }
+    const result = buildSurveyResult({...selected, [question.id]: ['Затрудняюсь ответить']});
+    assert.equal(result.answers[actionId], 'Нет');
+    assert.ok(!(proofId in result.answers));
+    assert.ok(!(proofId in result.questionSources));
+    assert.ok(!(question.action.inlineEvidence.id in result.answers));
+    assert.ok(!(question.action.inlineEvidence.formatId in result.answers));
   }
 });
 

@@ -1,8 +1,9 @@
-import {hasAnswer, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, needsReason, getSections, visibleQuestions} from './questions.js';
+import {isOptionSelected, hasAnswer, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, needsReason, getSections, visibleQuestions, evidenceResponse} from './questions.js';
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {scoringBaseline} from './scoring-baseline.js';
 import {callCenterBaseline, callCenterScoreRules} from './call-center.js';
 import {productSurveyProfiles} from './product-surveys.js';
+import {metricSourceEvidence, metricSourceFields} from './metric-source.js';
 
 const round = value => Math.round(value * 10000) / 10000;
 const text = value => String(value ?? '').trim();
@@ -15,31 +16,45 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   const isOtherProduct = Boolean(productProfile && team.id !== scoringBaseline.teamId);
   const baseline = isCallCenter ? callCenterBaseline : productProfile || scoringBaseline;
   if (!team || team.id !== baseline.teamId) throw new Error('Unsupported survey team');
-  const questions = getSections(answers).flatMap(section => visibleQuestions(section, backlogAnalyzed, answers)).filter(q => q.type !== 'info').flatMap(q => [q, ...inlineQuestions(q)]);
+  const catalogue = getSections(answers);
+  answers = {...answers};
+  for (const q of catalogue.flatMap(section => section.questions)) {
+    if (q.action) answers[q.action.id] = isOptionSelected(q, answers, q.actionOption) ? 'Да' : 'Нет';
+    if (q.benchmark) answers[q.benchmark.id] = isOptionSelected(q, answers, 'Бенчмарки') ? 'Да' : 'Нет';
+  }
+  const questions = catalogue.flatMap(section => visibleQuestions(section, backlogAnalyzed, answers)).flatMap(q => [q, ...inlineQuestions(q), ...(q.benchmark ? [q.benchmark] : []), ...(q.action ? [q.action] : [])]).filter(q => q.type !== 'info');
   if (questions.some(q => !hasAnswer(q, answers))) throw new Error('Incomplete survey');
   // Export only the current branch; old hidden proofs/comments are excluded.
   const cleanAnswers = {};
   const questionRows = {};
   for (const q of questions) {
     cleanAnswers[q.id] = Array.isArray(answers[q.id]) ? answers[q.id].filter(option => q.options.includes(option)) : answers[q.id];
+    if (q.previousOptions?.length) cleanAnswers[q.id] = [...new Set([...q.previousOptions, ...selected(cleanAnswers[q.id])])];
     questionRows[q.id] = q.row;
     if (selected(answers[q.id]).some(option => /Свой вариант|Что-то ещ[её]|^Другое$/.test(option))) cleanAnswers[`${q.id}Other`] = answers[`${q.id}Other`];
     if (needsComment(q, answers)) cleanAnswers[q.commentId] = answers[q.commentId];
-    if (needsReason(q, answers)) {
+    if (needsReason(q, answers) && (!q.reasonOptional || text(answers[q.reasonId]))) {
       cleanAnswers[q.reasonId] = String(answers[q.reasonId]).trim();
       questionRows[q.reasonId] = q.row;
     }
     if (needsProof(q, answers)) {
-      cleanAnswers[q.inlineProof.id] = answers[q.inlineProof.id];
-      questionRows[q.inlineProof.id] = q.inlineProof.row;
+      const fields = q.inlineProof.kind === 'metricSource' ? metricSourceFields(q.inlineProof, answers)
+        : {[q.inlineProof.id]: answers[q.inlineProof.id]};
+      Object.assign(cleanAnswers, fields);
+      for (const id of Object.keys(fields)) questionRows[id] = q.inlineProof.row;
     }
   }
   const activeInlineQuestions = questions.filter(q => needsEvidence(q, answers));
   const evidenceById = new Map(activeInlineQuestions.map(q => [q.inlineEvidence.id, q.inlineEvidence]));
   for (const activeInlineEvidence of evidenceById.values()) {
     const {id, formatId, row} = activeInlineEvidence;
-    cleanAnswers[formatId] = answers[formatId];
-    if (answers[formatId] === 'link') cleanAnswers[id] = String(answers[id]).trim();
+    const response = evidenceResponse(activeInlineEvidence, answers);
+    cleanAnswers[formatId] = response.format;
+    if (response.format === 'link') cleanAnswers[id] = response.value;
+    if (response.correction) {
+      cleanAnswers[`${id}Correction`] = response.correction;
+      questionRows[`${id}Correction`] = row;
+    }
     questionRows[id] = row;
     questionRows[formatId] = row;
   }
@@ -48,7 +63,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     : {sheet: q.sheet || (isCallCenter ? 'Каналы Phigital' : 'Продукты (2)'), row: q.row,
       ...(q.adaptedFrom ? {adaptedFrom: q.adaptedFrom, accuracyReview: true} : {})}]));
   for (const q of questions) {
-    if (needsReason(q, answers)) questionSources[q.reasonId] = {
+    if (needsReason(q, answers) && (!q.reasonOptional || text(answers[q.reasonId]))) questionSources[q.reasonId] = {
       sheet: q.sheet || 'Продукты (2)', row: q.row,
     };
   }
@@ -57,15 +72,19 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     const source = {sheet: activeInlineQuestion.sheet || 'Продукты (2)', row: activeInlineEvidence.row};
     questionSources[activeInlineEvidence.id] = source;
     questionSources[activeInlineEvidence.formatId] = source;
+    if (activeInlineEvidence.previousLinks) questionSources[`${activeInlineEvidence.id}Correction`] = source;
   }
 
   for (const q of questions) {
     if (needsProof(q, answers)) {
-      questionSources[q.inlineProof.id] = {sheet: q.sheet || 'Продукты (2)', row: q.inlineProof.row};
+      const fields = q.inlineProof.kind === 'metricSource' ? metricSourceFields(q.inlineProof, answers) : {[q.inlineProof.id]: answers[q.inlineProof.id]};
+      for (const id of Object.keys(fields)) questionSources[id] = {sheet: q.sheet || 'Продукты (2)', row: q.inlineProof.row};
     }
   }
 
   const updates = new Map();
+  const metricSourceEvidenceById = new Map(questions.filter(q => q.inlineProof?.kind === 'metricSource')
+    .map(q => [q.inlineProof.id, metricSourceEvidence(q.inlineProof, answers)]));
   function score(code, questionId, fraction, rule, evidenceId) {
     const metric = baseline.metrics.find(item => item.code === code);
     if (!metric || !questions.some(q => q.id === questionId)) return;
@@ -75,7 +94,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
       questionId,
       value: round(metric.max_value * Math.max(0, Math.min(1, fraction))),
       rule,
-      evidence: evidenceId ? cleanAnswers[evidenceId] ||
+      evidence: evidenceId ? metricSourceEvidenceById.get(evidenceId) || cleanAnswers[evidenceId] ||
         (inlineEvidence && cleanAnswers[inlineEvidence.formatId] === 'excel'
           ? 'Отчет в формате Excel' : null) : null,
       requiresReview: true,
@@ -92,7 +111,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     dauMau: 'general.dau_mau',
     satellite: 'general.znanie_produktov_sputnikov',
   };
-  for (const [id, code] of Object.entries(knowledge)) score(code, id, text(answers[id]) ? 1 : 0, 'answer_present; accuracy_requires_review');
+  for (const [id, code] of Object.entries(knowledge)) score(code, id, text(answers[id]) ? 1 : 0, 'answer_present; accuracy_requires_review', id === 'satellite' ? undefined : `${id}Source`);
   const monitor = selected(answers.monitoring);
   const full = monitor.includes('Дашборд в Навигаторе (доступны все метрики)');
   const partial = monitor.includes('Дашборд в Навигаторе (доступна часть метрик)');
@@ -105,13 +124,14 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   ]) {
     const includesQ = questions.find(q => q.id === includesId);
     const analysisQ = questions.find(q => q.id === analysisId);
-    if (includesQ) {
-      const positive = includesQ.options.filter(option => option !== 'Затрудняюсь ответить');
-      const count = positive.filter(option => selected(answers[includesId]).includes(option)).length;
+    if (includesQ && !includesQ.benchmarkOnly) {
+      const positive = includesQ.options.filter(option => !['Затрудняюсь ответить', 'Бенчмарки'].includes(option));
+      const choices = [...(includesQ.previousOptions || []), ...selected(answers[includesId])];
+      const count = positive.filter(option => choices.includes(option)).length;
       score(`${prefix}.report_completeness`, includesId, count / positive.length, 'selected_positive_elements / available_positive_elements', proofId);
     }
-    if (analysisQ) {
-      const positive = analysisQ.options.filter(option => !['Все перечисленное выше', 'Не проводился', 'Затрудняюсь ответить'].includes(option));
+    if (analysisQ && !analysisQ.actionOnly) {
+      const positive = analysisQ.options.filter(option => !['Все перечисленное выше', 'Не проводился', 'Затрудняюсь ответить', analysisQ.actionOption].includes(option));
       const choices = selected(answers[analysisId]);
       const fraction = choices.includes('Все перечисленное выше') ? 1 : positive.filter(option => choices.includes(option)).length / positive.length;
       score(`${prefix}.funnel_analysis`, analysisId, fraction, 'all=1; otherwise selected_analysis_dimensions / available_dimensions', proofId);
@@ -122,23 +142,23 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   score('churn.deviation_actions', 'deviations', answers.deviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'deviationExample');
   score('attract.initiatives_list', 'attractDeviations', answers.attractDeviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'attractDeviationExample');
   score('attract.nastroena_otchetnostь', 'attractConfigured', answers.attractConfigured === 'Да' ? 1 : 0, 'yes=1; other=0', 'attractReport');
-  score('churn.nastroena_otchetnostь', 'churnConfigured', answers.churnConfigured === 'Да' ? 1 : 0, 'yes=1; other=0', 'churnReport');
+  score('churn.nastroena_otchetnostь', 'churnConfigured', answers.churnConfigured === 'Да, автоматическая (monthly/weekly)' ? 1 : answers.churnConfigured === 'Да, по запросу' ? 0.5 : 0, 'automatic=1; on_request=0.5; other=0', 'churnReport');
   score('alerts.business_metrics', 'alerts', answers.alerts === 'Да' ? 1 : answers.alerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
   score('alerts.system_failures', 'systemAlerts', answers.systemAlerts === 'Да' ? 1 : answers.systemAlerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
   score('alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui', 'uxAlerts', answers.uxAlerts === 'Да' ? 1 : answers.uxAlerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
   score('hyp.discovery_40_backlog', 'discovery', ['Больше 80%', 'От 40 до 79%'].includes(answers.discovery) ? 1 : 0, 'reported_discovery_at_least_40_percent=1; other=0', 'backlog');
 
-  if (isOtherProduct && questions.some(q => q.id === 'usageIncludes')) {
+  if (isOtherProduct && questions.some(q => q.id === 'usageIncludes' && !q.benchmarkOnly)) {
     const includes = questions.find(q => q.id === 'usageIncludes');
-    const positive = includes.options.filter(option => option !== 'Затрудняюсь ответить');
+    const positive = includes.options.filter(option => !['Затрудняюсь ответить', 'Бенчмарки'].includes(option));
     const fraction = positive.filter(option => selected(answers.usageIncludes).includes(option)).length / positive.length;
     const code = baseline.metrics.some(metric => metric.code === 'voronka_ispolьzovaniya.polnota_otcheta')
       ? 'voronka_ispolьzovaniya.polnota_otcheta' : 'attract.report_completeness';
     score(code, 'usageIncludes', fraction, 'selected_positive_elements / available_positive_elements; accuracy_requires_review', 'usageReport');
   }
-  if (isOtherProduct && questions.some(q => q.id === 'usageAnalysis')) {
+  if (isOtherProduct && questions.some(q => q.id === 'usageAnalysis' && !q.actionOnly)) {
     const analysis = questions.find(q => q.id === 'usageAnalysis');
-    const positive = analysis.options.filter(option => !['Все перечисленное выше', 'Не проводился', 'Затрудняюсь ответить'].includes(option));
+    const positive = analysis.options.filter(option => !['Все перечисленное выше', 'Не проводился', 'Затрудняюсь ответить', analysis.actionOption].includes(option));
     const fraction = selected(answers.usageAnalysis).includes('Все перечисленное выше') ? 1 :
       positive.filter(option => selected(answers.usageAnalysis).includes(option)).length / positive.length;
     score('attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya', 'usageAnalysis', fraction,
@@ -205,6 +225,8 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     questionRows,
     questionSources,
     previousMechanics: [...new Set(questions.flatMap(q => knownMechanics(q, answers)))],
+    previousFunnelElements: Object.fromEntries(questions.filter(q => q.previousOptions?.length).map(q => [q.id, q.previousOptions])),
+    previousFunnelReports: Object.fromEntries(questions.filter(q => q.previousClickstreamUrl).map(q => [q.id, q.previousClickstreamUrl])),
     result: {
       status: 'provisional_self_report',
       scoringVersion: 'ddi-survey-self-report-v1',

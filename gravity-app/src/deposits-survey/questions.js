@@ -1,7 +1,9 @@
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {callCenterSections, callCenterBaseline, callCenterBacklogAnalyzed} from './call-center.js';
 import {productSurveyProfiles} from './product-surveys.js';
+import {hasMetricSource} from './metric-source.js';
 import {scoringBaseline} from './scoring-baseline.js';
+import {previousFunnels, clickstreamOnlyAttraction, previousReportLinks} from './previous-funnels.js';
 
 export const CROSS_SELL_URL = 'https://losshunter.ru/showcase/crosssell/#screen=pult';
 const crossSellSection = {
@@ -12,7 +14,7 @@ const crossSellSection = {
       title: 'Настроена ли у вас механика Cross-sell после оформления продукта?',
       options: ['Да', 'Нет', 'Затрудняюсь ответить'],
       inlineProof: {id: 'crossSellAfterProduct', row: null, appearance: 'base',
-        title: 'С каким продуктом настроена механика Cross-sell?', placeholder: 'Укажите продукт'},
+        title: 'С какими продуктами настроена механика Cross-sell?', placeholder: 'Укажите продукты'},
     }],
 };
 
@@ -54,7 +56,7 @@ export const sections = [
       {
         "id": "marketSber",
         "row": 17,
-        "title": "Напишите доступный объем рынка в Сбере, который продукт реально может охватить с учетом текущей бизнес-модели",
+        "title": "Напишите доступный объем рынка в Сбере",
         "type": "numeric",
         "placeholder": "Введите число"
       },
@@ -305,7 +307,7 @@ export const sections = [
   {
     "id": "mechanics",
     "title": "Продуктовые механики",
-    "description": "Допродажи и сценарии, которые применяет команда.",
+    "description": "Механики удержания и возврата клиентов, а также допродаж.",
     "questions": [
       {
         "id": "upsell",
@@ -355,6 +357,11 @@ export const sections = [
           "Нет собственных аналитиков",
           "Затрудняюсь ответить"
         ],
+        "reasonId": "discoveryStaff",
+        "reasonOptional": true,
+        "reasonWhen": "Нет собственных аналитиков",
+        "reasonTitle": "Если функцию аналитики выполняет Штаб, укажите предметную область и ФИО сотрудников",
+        "reasonPlaceholder": "Предметная область и ФИО сотрудников (при наличии)",
         "discovery": true
       },
       {
@@ -442,8 +449,7 @@ const extraProductQuestions = {
     reasonId: 'attractConfiguredReason', reasonWhen: 'Не релевантно для вашего продукта (в комментарии укажите, почему?)',
     inlineEvidence: {id: 'attractReport', formatId: 'attractReportFormat', row: 56}},
   churnConfigured: {id: 'churnConfigured', row: 57, title: 'Настроена ли регулярная отчётность по воронке оттока?',
-    type: 'radio', options: ['Да', 'Нет', 'Не релевантно для вашего продукта (в комментарии укажите, почему?)', 'Затрудняюсь ответить'],
-    reasonId: 'churnConfiguredReason', reasonWhen: 'Не релевантно для вашего продукта (в комментарии укажите, почему?)',
+    type: 'radio', options: ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь'],
     inlineEvidence: {id: 'churnReport', formatId: 'churnReportFormat', row: 79}},
   attractDeviations: {id: 'attractDeviations', row: 84, title: 'Есть ли задачи/мероприятия по работе с отклонениями по воронке привлечения?',
     type: 'radio', options: ['Да', 'Нет', 'Затрудняюсь ответить']},
@@ -533,7 +539,7 @@ const dataProductQuestions = {
     inlineEvidence: {id: 'usageReport', formatId: 'usageReportFormat', row: 68}},
   churnConfigured: {id: 'churnConfigured', sheet: 'Data', row: 85,
     title: 'Настроена ли регулярная отчётность по воронке оттока (анализа снижения активности в продукте)?',
-    type: 'radio', options: ['Да', 'Нет', 'Не релевантно для моего продукта', 'Затрудняюсь ответить'],
+    type: 'radio', options: ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь'],
     adaptedFrom: ['Настроена ли регулярная отчётность по воронке оттока (анализа снижения активности в канале)?', 'Не релевантно для моего канала'], accuracyReview: true,
     inlineEvidence: {id: 'churnReport', formatId: 'churnReportFormat', row: 100}},
   churnIncludes: {id: 'churnIncludes', sheet: 'Data', row: 89,
@@ -661,7 +667,7 @@ function productSections(profile) {
 }
 
 // Команда определяет набор вопросов; первоначальный каталог вкладов сохранён.
-export function getSections(answers = {}) {
+function baseSections(answers = {}) {
   const productProfile = productSurveyProfiles[answers.product];
   if (productProfile && answers.product !== scoringBaseline.teamId) return productSections(productProfile);
   if (!CHANNEL_SURVEYS_ENABLED || answers.product !== callCenterBaseline.teamId) {
@@ -675,6 +681,91 @@ export function getSections(answers = {}) {
     ? {...q, sheet: 'Каналы Phigital', row: 147, options: q.options.map(option => option.replace('по продукту', 'по каналу'))}
     : {...q, sheet: 'Каналы Phigital', row: 155, title: q.title.replace('вашего продукта', 'вашего канала')})};
   return [sections[0], ...callCenterSections, finalSection];
+}
+
+function embedBenchmarks(catalogue) {
+  const benchmarks = catalogue.find(section => section.id === 'benchmarks')?.questions.filter(q => !q.inlineOnly) || [];
+  const result = catalogue.filter(section => section.id !== 'benchmarks').map(section => ({...section, questions: [...section.questions]}));
+  for (const benchmark of benchmarks) {
+    const direction = benchmark.id === 'benchmarksAttract' ? 'attract' : 'churn';
+    let section = result.find(section => section.id === direction || (direction === 'attract' && section.id === 'usage'));
+    if (!section) {
+      section = {...sections.find(section => section.id === direction), questions: []};
+      const insertion = result.findIndex(section => !['intro', 'metrics', 'dataQuality', 'attract', 'usage', 'churn'].includes(section.id));
+      result.splice(insertion < 0 ? result.length : insertion, 0, section);
+    }
+    let parent = section.questions.find(q => q.id === `${direction}Includes` || (direction === 'attract' && q.id === 'usageIncludes'));
+    if (!parent) {
+      const source = sourceQuestion(`${direction}Includes`);
+      parent = {id: source.id, row: source.row, title: source.title, type: 'multi', options: ['Затрудняюсь ответить'], benchmarkOnly: true};
+      section.questions.push(parent);
+    }
+    section.questions = section.questions.map(q => q.id === parent.id ? {...q,
+      options: [...q.options.filter(option => option !== 'Затрудняюсь ответить'), 'Бенчмарки', 'Затрудняюсь ответить'],
+      benchmark, inlineProof: benchmark.inlineProof} : q);
+  }
+  return result;
+}
+
+function embedActions(catalogue) {
+  const result = catalogue.map(section => ({...section, questions: [...section.questions]}));
+  const actions = result.find(section => section.id === 'actions');
+  if (!actions) return result;
+  for (const [id, direction, label] of [
+    ['attractDeviations', 'attract', 'привлечением'], ['deviations', 'churn', 'оттоком'],
+  ]) {
+    const action = actions.questions.find(q => q.id === id);
+    if (!action) continue;
+    const option = `Зафиксирован пул мероприятий по работе с ${label}`;
+    let section = result.find(s => s.id === direction || (direction === 'attract' && s.id === 'usage'));
+    if (!section) {
+      section = {...sections.find(s => s.id === direction), questions: []};
+      result.splice(result.indexOf(actions), 0, section);
+    }
+    let parent = section.questions.find(q => q.id === `${direction}Analysis` || (direction === 'attract' && q.id === 'usageAnalysis'));
+    if (!parent) {
+      const source = sourceQuestion(`${direction}Analysis`);
+      parent = {id: source.id, row: source.row, title: source.title, type: 'multi', options: ['Затрудняюсь ответить'], actionOnly: true};
+      section.questions.push(parent);
+    }
+    const metadata = action;
+    section.questions = section.questions.map(q => q.id === parent.id ? {...q,
+      options: [...q.options.filter(value => !['Все перечисленное выше', 'Не проводился', 'Затрудняюсь ответить'].includes(value)), option,
+        ...q.options.filter(value => ['Все перечисленное выше', 'Не проводился', 'Затрудняюсь ответить'].includes(value))],
+      action: metadata, actionOption: option, inlineProof: action.inlineProof} : q);
+    actions.questions = actions.questions.filter(q => q.id !== id);
+  }
+  return result.filter(section => section.questions.length);
+}
+
+export function getSections(answers = {}) {
+  return embedActions(embedBenchmarks(baseSections(answers))).map(section => ({...section,
+    ...(section.id === 'priorities' ? {title: 'Поддержка', description: 'Какие инструменты и поддержка помогут команде.'} : {}),
+    questions: section.questions.filter(q => !['lastResearch', 'priorities'].includes(q.id)),
+  })).filter(section => section.questions.length).map(section => section.id !== 'metrics' ? {
+    ...section,
+    questions: section.questions.map(question => !question.benchmarkOnly && question.type !== 'info' && previousFunnels[answers.product]?.[question.id]?.length ? {
+        ...question,
+        previousOptions: [...new Set([...previousFunnels[answers.product][question.id],
+          ...(question.id === 'attractIncludes' && clickstreamOnlyAttraction[answers.product] ? [2] : [])])].sort((a, b) => a - b)
+          .filter(index => !(question.id === 'attractIncludes' && clickstreamOnlyAttraction[answers.product] && [0, 4].includes(index)))
+          .map(index => question.options[index]),
+        ...(question.id === 'attractIncludes' && clickstreamOnlyAttraction[answers.product] ? {
+          title: 'Укажите, что еще включает воронка привлечения?',
+          previousClickstreamUrl: clickstreamOnlyAttraction[answers.product],
+        } : {}),
+      } : question),
+  } : {
+    ...section,
+    questions: section.questions.map(question => question.id === 'monitoring' ? {...question, inlineOnly: true} : question.id === 'satellite' ? question : {
+      ...question,
+      inlineProof: {id: `${question.id}Source`, kind: 'metricSource', row: null, appearance: 'base', always: true, autoFocus: false,
+        title: 'Где вы смотрите этот показатель?'},
+    }),
+  }).map(section => ({...section, questions: section.questions.map(question => {
+    const links = previousReportLinks[answers.product]?.[question.inlineEvidence?.id];
+    return links ? {...question, inlineEvidence: {...question.inlineEvidence, previousLinks: links}} : question;
+  })}));
 }
 
 export function getBacklogAnalyzed(answers = {}) {
@@ -711,28 +802,39 @@ export function visibleQuestions(section, backlogAnalyzed, answers = {}) {
 export function indicatesPresence(value) {
   if (Array.isArray(value)) return value.some(indicatesPresence);
   return Boolean(value) && !(typeof value === 'string' && value.toLocaleLowerCase('ru').startsWith('не релевантно')) &&
-    !['Нет', 'Не проводился', 'Затрудняюсь ответить', 'Нет собственных аналитиков', 'Не подходит для моего продукта', 'Не настроены дополнительные механики', 'Предложенные варианты неподходят для моего продукта'].includes(value);
+    !['Нет', 'Не проводился', 'Затрудняюсь ответить', 'Затрудняюсь', 'Нет собственных аналитиков', 'Не подходит для моего продукта', 'Не настроены дополнительные механики', 'Предложенные варианты неподходят для моего продукта'].includes(value);
 }
 
 export function needsEvidence(question, answers = {}) {
   const evidence = question.inlineEvidence;
   const absent = evidence?.evidenceWhenAbsent;
   const earlierIds = Array.isArray(absent) ? absent : absent ? [absent] : [];
-  return Boolean(evidence && indicatesPresence(answers[question.id]) &&
+  const unknown = Array.isArray(answers[question.id]) && answers[question.id].includes('Затрудняюсь ответить');
+  return Boolean(evidence && !unknown && (question.previousOptions?.length || indicatesPresence(answers[question.id])) &&
     earlierIds.every(id => !indicatesPresence(answers[id])));
 }
 
 export function hasEvidence(question, answers = {}) {
   if (!needsEvidence(question, answers)) return true;
-  const {id, formatId} = question.inlineEvidence;
-  if (answers[formatId] === 'excel') return true;
-  if (answers[formatId] !== 'link') return false;
+  const {format, value} = evidenceResponse(question.inlineEvidence, answers);
+  if (format === 'excel') return true;
+  if (format !== 'link') return false;
   try {
-    const url = new URL(String(answers[id] ?? '').trim());
-    return (url.protocol === 'http:' || url.protocol === 'https:') && Boolean(url.hostname);
+    const links = question.inlineEvidence.previousLinks ? value.split(/\r?\n/).map(link => link.trim()).filter(Boolean) : [value];
+    return links.length > 0 && links.every(link => {
+      const url = new URL(link);
+      return (url.protocol === 'http:' || url.protocol === 'https:') && Boolean(url.hostname);
+    });
   } catch {
     return false;
   }
+}
+
+export function evidenceResponse(evidence, answers = {}) {
+  const correction = evidence.previousLinks ? (answers[`${evidence.id}Correction`] || 'keep') : undefined;
+  return correction === 'keep'
+    ? {format: 'link', value: evidence.previousLinks.join('\n'), correction}
+    : {format: answers[evidence.formatId] || '', value: String(answers[evidence.id] ?? '').trim(), correction};
 }
 
 export function normalizeNumericAnswer(value, allowDecimal = false) {
@@ -749,11 +851,13 @@ export function formatNumericAnswer(value) {
 }
 
 export function hasAnswer(question, answers) {
-  if (question.type === 'info') return true;
-  const value = answers[question.id];
+  const value = question.previousOptions?.length ? [...question.previousOptions, ...(Array.isArray(answers[question.id]) ? answers[question.id] : [])] : answers[question.id];
   if (inlineQuestions(question).some(q => !hasAnswer(q, answers))) return false;
-  if (needsReason(question, answers) && !String(answers[question.reasonId] || '').trim()) return false;
-  if (needsProof(question, answers) && !String(answers[question.inlineProof.id] || '').trim()) return false;
+  if (question.type === 'info') return true;
+  if (question.action && needsProof(question, answers) && !hasEvidence(question.action, {...answers, [question.action.id]: 'Да'})) return false;
+  if (needsReason(question, answers) && !question.reasonOptional && !String(answers[question.reasonId] || '').trim()) return false;
+  if (needsProof(question, answers) && (question.inlineProof.kind === 'metricSource'
+    ? !hasMetricSource(question.inlineProof, answers) : !String(answers[question.inlineProof.id] || '').trim())) return false;
   if (question.type === 'numeric') return (question.allowDecimal ? /^[0-9]+(?:,[0-9]+)?$/ : /^[0-9]+$/).test(String(value ?? '')) && hasEvidence(question, answers);
   if (value === 'Свой вариант ответа') return Boolean(String(answers[`${question.id}Other`] || '').trim()) && hasEvidence(question, answers);
   if (Array.isArray(value)) {
@@ -765,8 +869,17 @@ export function hasAnswer(question, answers) {
   return Boolean(String(value || '').trim()) && hasEvidence(question, answers);
 }
 
+export function isOptionSelected(question, answers, option) {
+  const choices = answers[question.id];
+  return Array.isArray(choices) && question.options?.includes(option)
+    && (choices.includes(option) || (question.options.includes('Все перечисленное выше') && choices.includes('Все перечисленное выше')));
+}
+
 export function needsProof(question, answers = {}) {
-  return Boolean(question.inlineProof && indicatesPresence(answers[question.id]));
+  return Boolean(question.inlineProof && (question.benchmark
+    ? isOptionSelected(question, answers, 'Бенчмарки')
+    : question.action ? isOptionSelected(question, answers, question.actionOption)
+    : question.inlineProof.always || indicatesPresence(answers[question.id])));
 }
 
 export function toggleOption(current, option) {
@@ -777,6 +890,8 @@ export function toggleOption(current, option) {
 }
 
 export function questionOptions(question) {
+  if (question.previousClickstreamUrl) return question.options.filter(option => !question.previousOptions.includes(option));
+  if (question.previousOptions?.length) return [...question.previousOptions, ...question.options.filter(option => !question.previousOptions.includes(option))];
   return question.options || [];
 }
 
