@@ -62,15 +62,15 @@
   .survey-option-group {grid-column: 1 !important; grid-row: auto !important; align-self: auto !important;}
 }
 
-.survey-inline-evidence {margin-top: 24px; padding: 20px; border: 1px solid #58ad81; border-radius: 10px; background: #0a3a3a;}
-.survey-inline-evidence h2 {margin: 0 0 8px; color: #bdf2d0; font-size: 17px; line-height: 1.4; font-weight: 600;}
-.survey-inline-evidence p {margin: 0 0 18px; color: #d0e8df; font-size: 13px; line-height: 1.6;}
-.survey-inline-evidence a, .review-inline-evidence a {color: #bdf2d0; text-decoration: underline; text-underline-offset: 3px;}
+.survey-inline-evidence {margin-top: 24px; padding: 20px; border: 1px solid #c98245; border-radius: 10px; background: #3b2b26;}
+.survey-inline-evidence h2 {margin: 0 0 8px; color: #ffd0a2; font-size: 17px; line-height: 1.4; font-weight: 600;}
+.survey-inline-evidence p {margin: 0 0 18px; color: #f0d5bd; font-size: 13px; line-height: 1.6;}
+.survey-inline-evidence a, .review-inline-evidence a {color: #ffd0a2; text-decoration: underline; text-underline-offset: 3px;}
 .survey-evidence-options {margin-bottom: 14px;}
-.survey-evidence-options .g-radio {background: #0b343e; border-color: #477f72;}
-.survey-evidence-options .g-radio:hover {background: #164b4b; border-color: #75c79b;}
-.survey-evidence-options .g-radio:has(input:checked) {background: #165a4f; border-color: #83d7a9;}
-.review-answer .review-inline-evidence {margin-top: 7px; color: #bdf2d0;}
+.survey-evidence-options .g-radio {background: #3a2a25; border-color: #a76d40;}
+.survey-evidence-options .g-radio:hover {background: #503626; border-color: #d99a5d;}
+.survey-evidence-options .g-radio:has(input:checked) {background: #62412b; border-color: #f0b677;}
+.review-answer .review-inline-evidence {margin-top: 7px; color: #ffd0a2;}
 
 .survey-progress-label {color: var(--survey-muted); font-size: 12px; line-height: 1.4; font-variant-numeric: tabular-nums; text-align: right; flex-shrink: 0;}
 .survey-progress-steps {display: grid; width: 100%; gap: 4px;}
@@ -85,3 +85,24 @@
 .survey-progress-step:active:not([aria-disabled="true"]) {background: #264973;}
 .survey-progress-hint {position: fixed; z-index: 20; padding: 10px 12px; border: 1px solid var(--survey-line); border-radius: 6px; background: #0b2c53; color: var(--survey-ink); font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; pointer-events: none;}
 @media (max-width: 480px) {.survey-header {flex-wrap: wrap; padding-top: 16px; padding-bottom: 8px; gap: 8px;}.survey-progress-label {margin-left: auto; font-size: 11px;}.survey-top-progress {margin: 0 16px;}.survey-progress-steps {gap: 2px;}.survey-inline-evidence {padding: 16px;}}
+
+
+.survey-info-copy {margin: 0; color: var(--survey-muted); font-size: 20px; line-height: 1.7; text-wrap: pretty;}
+.finish-crosssell {max-width: 1184px; margin: 0 auto 48px; padding: 40px; display: flex; align-items: center; gap: 40px; background: #ffe083; color: #002147; border-color: #e7bd44; border-radius: 12px;}
+.finish-crosssell > div {flex: 1; min-width: 0;}
+.finish-crosssell .survey-eyebrow {color: #3b4655; margin-bottom: 16px;}
+.finish-crosssell h2 {margin: 0 0 16px; font-size: clamp(24px, 2.5vw, 32px); line-height: 1.25; letter-spacing: -.5px; text-wrap: balance;}
+.finish-crosssell p:not(.survey-eyebrow) {margin: 0; color: #3b4655; font-size: 16px; line-height: 1.6;}
+.survey-finish .finish-crosssell > .g-button {flex-shrink: 0; --g-color-base-brand: #002147; --g-color-base-brand-hover: #12345a; --g-color-text-brand-contrast: #fff;}
+.finish-crosssell > .g-button:focus-visible {outline: 2px solid #002147; outline-offset: 3px;}
+@media (max-width: 1050px) {.finish-crosssell {align-items: flex-start; flex-direction: column; gap: 24px;}}
+@media (max-width: 720px) {.finish-crosssell {padding: 24px; margin-bottom: 32px;}.finish-crosssell > .g-button {width: 100%;}.survey-info-copy {font-size: 18px;}}
+
+
+.survey-excel-notice {margin-top: 16px; padding: 16px; border: 1px solid #e46d78; border-radius: 8px; background: #612b35; color: #ffe4e7; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere;}
+.survey-excel-notice a {color: inherit; font-weight: 600;}
+
+
+.survey-inline-question {margin-top: 24px; padding: 20px; border: 1px solid var(--survey-line); border-radius: 10px; background: #0a2b52;}
+.survey-inline-question > h2 {margin: 0 0 12px; color: var(--survey-ink); font-size: 17px; line-height: 1.4; font-weight: 600;}
+@media (max-width: 480px) {.survey-inline-question {padding: 16px;}}

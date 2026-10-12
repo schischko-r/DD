@@ -5,9 +5,9 @@ import {JSDOM} from 'jsdom';
 import {callCenterBaseline, callCenterSections} from './call-center.js';
 import {correctTypos, formatNumericAnswer, getBacklogAnalyzed, getSections, hasAnswer, knownMechanics, normalizeNumericAnswer, toggleOption, visibleQuestions} from './questions.js';
 import {buildSurveyResult} from './result.js';
-import {enabledTeam, enabledTeams} from './teams.js';
+import {CHANNEL_SURVEYS_ENABLED, enabledTeam, teams} from './teams.js';
 
-const callCenter = enabledTeams.find(team => team.name === 'Колл-центр');
+const callCenter = teams.find(team => team.name === 'Колл-центр');
 const retention = 'Удержания клиента (при обращении по закрытию продукта клиентом)';
 const route = answers => getSections(answers).flatMap(section =>
   visibleQuestions(section, getBacklogAnalyzed(answers), answers));
@@ -32,7 +32,7 @@ function completeCallCenterAnswers() {
   return answers;
 }
 
-test('call center uses its Phigital channel questions and excludes already-maximized Discovery', () => {
+test('call center uses its Phigital channel questions and excludes already-maximized Discovery', {skip: !CHANNEL_SURVEYS_ENABLED && 'Channel surveys are temporarily disabled'}, () => {
   assert.equal(callCenter.id, callCenterBaseline.teamId);
   assert.equal(callCenter.unit, 'PC');
   assert.deepEqual(callCenterSections.map(section => section.id),
@@ -51,7 +51,7 @@ test('call center uses its Phigital channel questions and excludes already-maxim
   for (const question of route({product: callCenter.id})) assert.equal(question.optional, undefined);
 });
 
-test('call center conditional evidence requires an affirmative parent and a real answer', () => {
+test('call center conditional evidence requires an affirmative parent and a real answer', {skip: !CHANNEL_SURVEYS_ENABLED && 'Channel surveys are temporarily disabled'}, () => {
   const base = {product: callCenter.id};
   assert.ok(!ids({...base, ccEntryIncludes: ['Затрудняюсь ответить']}).includes('ccEntryReport'));
   assert.ok(ids({...base, ccEntryIncludes: ['Пошаговая воронка']}).includes('ccEntryReport'));
@@ -104,7 +104,7 @@ test('call center decimal metrics normalize pasted text and require a complete n
   assert.equal(formatNumericAnswer('1234567'), '1 234 567');
 });
 
-test('call center completion is team specific and excludes stale hidden answers', () => {
+test('call center completion is team specific and excludes stale hidden answers', {skip: !CHANNEL_SURVEYS_ENABLED && 'Channel surveys are temporarily disabled'}, () => {
   const answers = completeCallCenterAnswers();
   for (const question of route(answers)) {
     const incomplete = {...answers, [question.id]: undefined};
@@ -150,7 +150,7 @@ test('call center completion is team specific and excludes stale hidden answers'
   }
 });
 
-test('entry funnel completeness counts eight standard elements and excludes custom text', () => {
+test('entry funnel completeness counts eight standard elements and excludes custom text', {skip: !CHANNEL_SURVEYS_ENABLED && 'Channel surveys are temporarily disabled'}, () => {
   const answers = completeCallCenterAnswers();
   const question = route(answers).find(q => q.id === 'ccEntryIncludes');
   const standard = question.options.slice(0, 8);
@@ -166,7 +166,7 @@ test('entry funnel completeness counts eight standard elements and excludes cust
   }
 });
 
-test('switching teams clears answers from the previous team in the autonomous page', async () => {
+test('switching teams clears answers from the previous team in the autonomous page', {skip: !CHANNEL_SURVEYS_ENABLED && 'Channel surveys are temporarily disabled'}, async () => {
   const html = readFileSync(new URL('../../dist-deposits-survey/deposits-survey.html', import.meta.url), 'utf8');
   const script = html.match(/<script\b[^>]*>([\s\S]*?)<\/script>/)?.[1];
   assert.ok(script, 'Autonomous bundle has an inline script');

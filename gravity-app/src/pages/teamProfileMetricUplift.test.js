@@ -190,7 +190,7 @@ test('metric uplift is limited to incomplete applicable DD-index metrics', () =>
   assert.equal(eligible(inapplicable), false);
   assert.match(
     metricRowSource,
-    /const indexUpliftBadge = indexUplift > 0 && <MetricUpliftBadge label=\{indexUpliftLabel\} title=\{indexUpliftTitle\} recommendation=\{metricRecommendation\} \/>/,
+    /const indexUpliftBadge = indexUplift > 0 && metric\.code !== 'mehaniki\.gibkoe_izmenenie_usloviy_produkta' && <MetricUpliftBadge label=\{indexUpliftLabel\} title=\{indexUpliftTitle\} recommendation=\{metricRecommendation\} \/>/,
   );
 });
 
@@ -453,7 +453,7 @@ test('only incomplete described metrics without uplift use the name trigger', ()
   );
   assert.match(
     metricRowSource,
-    /const indexUpliftBadge = indexUplift > 0 && <MetricUpliftBadge [^;]+recommendation=\{metricRecommendation\} \/>;/,
+    /const indexUpliftBadge = indexUplift > 0 && metric\.code !== 'mehaniki\.gibkoe_izmenenie_usloviy_produkta' && <MetricUpliftBadge [^;]+recommendation=\{metricRecommendation\} \/>;/,
   );
   assert.doesNotMatch(
     metricRowSource,

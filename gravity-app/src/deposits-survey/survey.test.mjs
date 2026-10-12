@@ -4,21 +4,37 @@ import test from 'node:test';
 import {JSDOM} from 'jsdom';
 import {buildSurveyResult} from './result.js';
 import {scoringBaseline} from './scoring-baseline.js';
-import {enabledTeam, enabledTeams, filterTeamOption, teamGroups, teams} from './teams.js';
-import {correctTypos, getSections, hasAnswer, hasEvidence, indicatesPresence, knownMechanics, needsComment, needsEvidence, needsProof, questionOptions, sections, toggleOption, visibleQuestions} from './questions.js';
+import {productSurveyProfiles} from './product-surveys.js';
+import {CHANNEL_SURVEYS_ENABLED, enabledTeam, enabledTeams, filterTeamOption, teamGroups, teams} from './teams.js';
+import {correctTypos, getSections, hasAnswer, hasEvidence, indicatesPresence, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, questionOptions, sections, toggleOption, visibleQuestions} from './questions.js';
 
-test('team selector contains the final index catalog and enables deposits and call center', () => {
+test('team selector keeps the final index catalog and enables every product team', () => {
   assert.equal(teams.length, 83);
   assert.equal(teamGroups.length, 8);
   assert.deepEqual(teamGroups.map(g => g.label), ['CBP', 'CX', 'Data', 'DB', 'DP', 'PC', 'ДомКлик', 'УБ']);
   for (const group of teamGroups) for (const option of group.options) assert.equal(teams.find(team => team.id === option.value).unit, group.label);
-  assert.equal(teamGroups.flatMap(g => g.options).filter(o => !o.disabled).length, 2);
-  assert.deepEqual(enabledTeams.map(team => team.name), ['Вклады+НС', 'Колл-центр']);
+  assert.equal(teamGroups.flatMap(g => g.options).filter(o => !o.disabled).length, 67);
+  assert.deepEqual(new Set(enabledTeams.map(team => team.id)), new Set(Object.keys(productSurveyProfiles)));
+  assert.equal(CHANNEL_SURVEYS_ENABLED, false);
+  assert.equal(teamGroups.flatMap(group => group.options).find(option => option.content === 'Колл-центр').disabled, true);
   assert.equal(enabledTeam.name, 'Вклады+НС');
   assert.equal(enabledTeam.unit, 'CBP');
   assert.ok(!sections.flatMap(s => s.questions).some(q => q.id === 'unit'));
   assert.deepEqual(teamGroups.map(g => g.label), teamGroups.map(g => g.label).sort((a,b) => new Intl.Collator('en', {sensitivity: 'base', numeric: true}).compare(a, b)));
   for (const group of teamGroups) assert.deepEqual(group.options.map(o => o.content), group.options.map(o => o.content).sort((a,b) => new Intl.Collator('en', {sensitivity: 'base', numeric: true}).compare(a, b)));
+});
+
+test('disabled channel cannot produce a survey result or expose its questions', () => {
+  const channel = teams.find(team => team.name === 'Колл-центр');
+  assert.ok(channel, 'Channel remains in the team catalog for future use');
+  assert.ok(!enabledTeams.some(team => team.id === channel.id));
+  const ids = getSections({product: channel.id}).flatMap(section => section.questions).map(question => question.id);
+  assert.ok(!ids.some(id => id.startsWith('cc')), 'Disabled channel never exposes channel questions');
+  assert.throws(() => buildSurveyResult({...completedAnswers(), product: channel.id, unit: channel.unit}), /Unsupported survey team/);
+  const html = readFileSync(new URL('../../dist-deposits-survey/deposits-survey.html', import.meta.url), 'utf8');
+  for (const marker of ['ccCalls', 'ccFcr', 'ccEntryIncludes', 'Каналы Phigital']) {
+    assert.ok(!html.includes(marker), `Compiled product HTML omits channel-specific data: ${marker}`);
+  }
 });
 
 test('team search accepts Cyrillic, Latin transliteration and existing English names', () => {
@@ -71,12 +87,16 @@ test('mechanics relevance, multiple selection and conditional mandatory comment'
 
 function completedAnswers() {
   const answers = {product: enabledTeam.id, unit: enabledTeam.unit};
-  for (const q of sections.flatMap(s => s.questions)) {
+  for (const q of getSections(answers).flatMap(s => s.questions).flatMap(q => [q, ...inlineQuestions(q)])) {
     if (q.id === 'product') continue;
     if (q.type === 'numeric') answers[q.id] = '1000';
     else if (q.type === 'multi') answers[q.id] = q.id === 'upsell' ? ['Допродажи (upsell)'] : [q.options[0]];
     else if (q.type === 'radio') answers[q.id] = q.options[0];
     else answers[q.id] = 'Описание';
+  }
+  for (const q of getSections(answers).flatMap(s => s.questions).flatMap(q => [q, ...inlineQuestions(q)])) {
+    if (q.inlineProof) answers[q.inlineProof.id] = 'Описание';
+    if (q.inlineEvidence) answers[q.inlineEvidence.formatId] = 'excel';
   }
   answers.attractReportFormat = 'link';
   answers.attractReport = 'https://example.test/attract-report';
@@ -167,7 +187,7 @@ test('display corrections preserve source option values', () => {
 });
 
 test('questionnaire follows the approved Excel selection and backlog condition', () => {
-  const expected = [3, 4, 15, 17, 19, 21, 23, 24, 38, 49, 61, 72, 80, 80, 83, 88, 91, 96, 100, 115, 122, 123, 131];
+  const expected = [3, 4, 15, 17, 19, 21, 23, 24, 38, 49, 61, 72, 80, 80, 88, 91, 96, 100, null, null, 115, 122, 123, 131];
   const bothYes = {benchmarksAttract: 'Да', benchmarksChurn: 'Да', attractIncludes: ['Объёмы'], churnIncludes: ['Объёмы'], deviations: 'Да', upsell: 'Допродажи (upsell)', discovery: 'От 40 до 79%'};
   assert.deepEqual(sections.flatMap(s => visibleQuestions(s, false, bothYes).map(q => q.row)), expected);
   assert.ok(sections.every(s => s.questions.every(q => !q.optional)), 'Every question is mandatory');
@@ -182,12 +202,9 @@ test('questionnaire follows the approved Excel selection and backlog condition',
   assert.deepEqual(sections.flatMap(s => visibleQuestions(s, true, bothYes).map(q => q.row)), expected.filter(r => r !== 115 && r !== 121));
 });
 
-test('full Navigator coverage is exclusive in both surveys', () => {
-  for (const question of [
-    sections.flatMap(section => section.questions).find(item => item.id === 'monitoring'),
-    getSections({product: enabledTeams.find(team => team.name === 'Колл-центр').id})
-      .flatMap(section => section.questions).find(item => item.id === 'ccMonitoring'),
-  ]) {
+test('full Navigator coverage is exclusive in every available survey', () => {
+  for (const question of enabledTeams.map(team => getSections({product: team.id})
+    .flatMap(section => section.questions).find(item => ['monitoring', 'ccMonitoring'].includes(item.id)))) {
     const [full, partial, analysts, , , unknown] = question.options;
     assert.deepEqual(toggleOption([partial, analysts], full), [full]);
     assert.deepEqual(toggleOption([full], partial), [partial]);
@@ -272,7 +289,7 @@ test('result exports both independent proofs, rejects missing evidence and omits
   }
 });
 
-test('attraction benchmark proof is inline while churn proof keeps its separate screen', () => {
+test('attraction and churn benchmark proofs stay inline and independent', () => {
   const section = sections.find(s => s.id === 'benchmarks');
   assert.equal(section.questions.find(q => q.id === 'benchmarksAttract').title, 'Есть ли бенчмарки по метрикам воронок привлечения?');
   assert.equal(section.questions.find(q => q.id === 'benchmarksChurn').title, 'Есть ли бенчмарки по метрикам воронок оттока?');
@@ -280,7 +297,7 @@ test('attraction benchmark proof is inline while churn proof keeps its separate 
   assert.deepEqual(ids({benchmarksAttract: 'Нет', benchmarksChurn: 'Нет'}), ['benchmarksAttract', 'benchmarksChurn']);
   assert.deepEqual(ids({benchmarksAttract: 'Затрудняюсь ответить', benchmarksChurn: 'Нет'}), ['benchmarksAttract', 'benchmarksChurn']);
   assert.deepEqual(ids({benchmarksAttract: 'Да', benchmarksChurn: 'Нет'}), ['benchmarksAttract', 'benchmarksChurn']);
-  assert.deepEqual(ids({benchmarksAttract: 'Нет', benchmarksChurn: 'Да'}), ['benchmarksAttract', 'benchmarksChurn', 'benchmarkChurnProof']);
+  assert.deepEqual(ids({benchmarksAttract: 'Нет', benchmarksChurn: 'Да'}), ['benchmarksAttract', 'benchmarksChurn']);
 });
 
 test('inline attraction benchmark proof validates content and preserves evidence metadata and scoring', () => {
@@ -288,7 +305,7 @@ test('inline attraction benchmark proof validates content and preserves evidence
   const parent = questions.find(q => q.id === 'benchmarksAttract');
   assert.deepEqual(parent.inlineProof, {id: 'benchmarkAttractProof', row: 83, title: 'Опишите, какие бенчмарки используются', placeholder: 'Введите описание'});
   assert.equal(questions.find(q => q.id === 'benchmarkAttractProof').inlineOnly, true);
-  assert.notEqual(questions.find(q => q.id === 'benchmarkChurnProof').inlineOnly, true);
+  assert.equal(questions.find(q => q.id === 'benchmarkChurnProof').inlineOnly, true);
   for (const proof of [undefined, '', '   ']) {
     assert.equal(hasAnswer(parent, {benchmarksAttract: 'Да', benchmarkAttractProof: proof}), false);
     assert.throws(() => buildSurveyResult({...completedAnswers(), benchmarkAttractProof: proof}), /Incomplete/);
@@ -385,7 +402,15 @@ test('single-question flow requires every answer, preserves answers and applies 
     if (doc.querySelector('.g-select')) {
       doc.querySelector('[role="combobox"]').click(); await pause();
       const filter = doc.querySelector('input');
-      if (filter) await write(filter, 'Вклады');
+      assert.ok(filter, 'Team search remains available');
+      await write(filter, 'koll-centr');
+      const channelOption = [...doc.querySelectorAll('[role="option"]')].find(option => option.textContent.trim() === 'Колл-центр');
+      assert.ok(channelOption, 'Disabled channel remains visible in search');
+      assert.equal(channelOption.getAttribute('aria-disabled'), 'true');
+      channelOption.click(); await pause();
+      assert.equal([...doc.querySelectorAll('button')].find(button => button.textContent.includes('Далее')).disabled, true, 'Clicking disabled channel cannot answer mandatory team question');
+      assert.equal(doc.querySelector('.survey-single-question').dataset.questionId, 'product');
+      await write(filter, 'Вклады');
       const option = [...doc.querySelectorAll('[role="option"], .g-select-list__option, .g-list__item')].find(n => n.textContent.trim() === 'Вклады+НС'); assert.ok(option, `Select option rendered: ${[...doc.querySelectorAll('[role]')].map(n => n.getAttribute('role')).join(',')}`); option.click(); await pause();
     } else if (doc.querySelector('input[type="radio"], input[type="checkbox"]')) {
       doc.querySelector('input[type="radio"]:not(:disabled), input[type="checkbox"]:not(:disabled)').click(); await pause();
@@ -396,17 +421,22 @@ test('single-question flow requires every answer, preserves answers and applies 
         assert.ok(evidence, 'Positive funnel answer reveals inline evidence');
         assert.equal(evidence.getAttribute('aria-label'), `Подтверждение воронки ${noun}`);
         assert.match(evidence.querySelector('h2').textContent, new RegExp(`воронку ${noun}`));
-        assert.match(evidence.querySelector('p').textContent, new RegExp(`воронка ${noun} формируется в Excel`));
-        assert.equal(evidence.querySelector('a').getAttribute('href'), 'mailto:MYCherkova@sberbank.ru');
-        assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).disabled, true);
+        assert.equal(evidence.querySelector('.survey-excel-notice'), null);
+        evidence.querySelector('input[value="excel"]').click(); await pause();
+        const notice = evidence.querySelector('.survey-excel-notice');
+        assert.equal(notice.textContent, 'Для учета в оценке просим направить по почте нам. В противном случае ответ не будет принят.');
+        assert.equal(notice.querySelector('a').getAttribute('href'), 'mailto:MYCherkova@sberbank.ru');
+        assert.equal(notice.parentElement, evidence);
+        assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).disabled, false);
         evidence.querySelector('input[type="radio"]').click(); await pause();
+        assert.equal(evidence.querySelector('.survey-excel-notice'), null, 'Switching to a link hides the Excel notice');
         const link = doc.querySelector('.survey-inline-evidence input[type="url"]');
         assert.ok(link, 'Link format reveals URL field');
         await write(link, 'not-a-link');
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).disabled, true);
         await write(link, `https://example.test/${direction}-report`);
       }
-      if (doc.querySelector('.survey-single-question').dataset.questionId === 'benchmarksAttract') {
+      if (['benchmarksAttract', 'benchmarksChurn'].includes(doc.querySelector('.survey-single-question').dataset.questionId)) {
         const proof = doc.querySelector('textarea');
         assert.ok(proof, 'Affirmative attraction benchmark answer reveals inline description');
         assert.equal(doc.querySelector(`label[for="${proof.id}"]`).textContent, 'Опишите, какие бенчмарки используются');
@@ -521,11 +551,26 @@ test('single-question flow requires every answer, preserves answers and applies 
         const no = [...dom.window.document.querySelectorAll('.g-radio')].find(n => n.textContent.trim() === 'Нет');
         no.querySelector('input').click(); await pause();
         await click('Далее');
-        assert.equal(dom.window.document.querySelector('.survey-single-question').dataset.questionId, currentId === 'benchmarksAttract' ? 'benchmarksChurn' : 'deviations');
+        assert.equal(dom.window.document.querySelector('.survey-single-question').dataset.questionId, currentId === 'benchmarksAttract' ? 'benchmarksChurn' : 'attractDeviationsCompleted');
         await click('Назад');
         assert.equal(dom.window.document.querySelector('h1').textContent, currentTitle);
       }
-      await fillCurrent();
+      if (currentId === 'crossSellInfo') {
+        assert.match(dom.window.document.querySelector('.survey-info-copy').textContent, /по цифровым следам с платформы LossHunter/);
+        assert.equal(dom.window.document.querySelector('.survey-single-question input, .survey-single-question textarea'), null);
+      } else if (currentId === 'attractDeviationsCompleted') {
+        for (const control of dom.window.document.querySelectorAll('.survey-single-question textarea')) await write(control, 'Результат мероприятия');
+        dom.window.document.querySelector('.survey-evidence-options input[type="radio"][value="excel"]').click();
+        await pause();
+      } else {
+        await fillCurrent();
+        if (currentId === 'crossSellAfter') await write(dom.window.document.querySelector('textarea'), 'Продукт для Cross-sell');
+        if (['attractDeviations', 'deviations'].includes(currentId)) {
+          await write(dom.window.document.querySelector('textarea'), 'Задачи квартала');
+          assert.match(dom.window.document.querySelector('.survey-inline-question h2').textContent, /за текущий квартал/);
+          dom.window.document.querySelector('.survey-evidence-options input[value="excel"]').click(); await pause();
+        }
+      }
       assert.equal([...dom.window.document.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).disabled, false);
       const textarea = dom.window.document.querySelector('textarea');
       if (textarea) {
@@ -540,11 +585,11 @@ test('single-question flow requires every answer, preserves answers and applies 
       } else await click('Далее');
       screenCount++;
     }
-    assert.equal(screenCount, 23, 'Funnel, attraction benchmark and Discovery proofs are inline; churn benchmark proof remains separate');
+    assert.equal(screenCount, 25, 'Funnel, both benchmarks and Discovery proofs are inline');
     assert.match(dom.window.document.querySelector('h1').textContent, /Проверьте ответы/);
-    assert.equal(dom.window.document.querySelectorAll('.review-answer').length, 23);
+    assert.equal(dom.window.document.querySelectorAll('.review-answer').length, 24);
     const reviewItems = [...dom.window.document.querySelectorAll('.survey-progress-step')];
-    assert.equal(reviewItems.length, 23);
+    assert.equal(reviewItems.length, 25);
     assert.ok(reviewItems.every(item => item.getAttribute('aria-disabled') !== 'true'), 'Review permits editing any question');
     const evidenceLinks = [...dom.window.document.querySelectorAll('.review-inline-evidence a')].map(link => link.href);
     assert.deepEqual(evidenceLinks, ['https://example.test/attract-report', 'https://example.test/churn-report']);
@@ -624,6 +669,13 @@ test('single-question flow requires every answer, preserves answers and applies 
     assert.equal(payload.result.status, 'provisional_self_report');
     assert.doesNotMatch(dom.window.document.body.textContent, /DDI_SURVEY_RESULT_JSON|JSON|provisional_self_report|scorePct/);
     assert.equal(dom.window.document.querySelectorAll('.finish-feature').length, 5);
+    const crossSellCard = dom.window.document.querySelector('.finish-crosssell');
+    assert.match(crossSellCard.textContent, /Не забудьте посмотреть статус Cross-sell по ссылке/);
+    const crossSellLink = crossSellCard.querySelector('a');
+    assert.equal(crossSellLink.href, 'https://losshunter.ru/showcase/crosssell/#screen=pult');
+    assert.equal(crossSellLink.target, '_blank');
+    assert.equal(payload.answers.crossSellInfo, undefined);
+    assert.equal(payload.questionSources.crossSellInfo, undefined);
     assert.equal(dom.window.document.querySelectorAll('.finish-stats strong').length, 3);
     await click('Вернуться к ответам');
     assert.equal(dom.window.DDI_SURVEY_RESULT_JSON, null, 'Returning to review invalidates the exported result');
@@ -632,4 +684,22 @@ test('single-question flow requires every answer, preserves answers and applies 
     assert.equal(dom.window.localStorage.length, 0);
     assert.equal(dom.window.sessionStorage.length, 0);
   } finally {dom.window.close();}
+});
+
+test('churn benchmarks require inline description for Yes and omit stale descriptions otherwise', () => {
+  const parent = sections.find(s => s.id === 'benchmarks').questions.find(q => q.id === 'benchmarksChurn');
+  for (const proof of [undefined, '', '   ']) {
+    assert.equal(hasAnswer(parent, {benchmarksChurn: 'Да', benchmarkChurnProof: proof}), false);
+    assert.throws(() => buildSurveyResult({...completedAnswers(), benchmarkChurnProof: proof}), /Incomplete/);
+  }
+  const positive = buildSurveyResult({...completedAnswers(), benchmarkChurnProof: 'Бенчмарки оттока'});
+  assert.equal(positive.answers.benchmarkChurnProof, 'Бенчмарки оттока');
+  assert.equal(positive.result.metrics.find(m => m.code === 'churn.benchmarks').evidence, 'Бенчмарки оттока');
+  for (const answer of ['Нет', 'Затрудняюсь ответить']) {
+    assert.equal(hasAnswer(parent, {benchmarksChurn: answer}), true);
+    const result = buildSurveyResult({...completedAnswers(), benchmarksChurn: answer, benchmarkChurnProof: 'Старое описание'});
+    assert.ok(!('benchmarkChurnProof' in result.answers));
+    assert.ok(!('benchmarkChurnProof' in result.questionSources));
+    assert.ok('benchmarkAttractProof' in result.answers);
+  }
 });

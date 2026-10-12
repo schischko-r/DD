@@ -1,7 +1,8 @@
-import {hasAnswer, knownMechanics, needsComment, needsEvidence, needsProof, getSections, visibleQuestions} from './questions.js';
-import {teams} from './teams.js';
+import {hasAnswer, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, needsReason, getSections, visibleQuestions} from './questions.js';
+import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {scoringBaseline} from './scoring-baseline.js';
 import {callCenterBaseline, callCenterScoreRules} from './call-center.js';
+import {productSurveyProfiles} from './product-surveys.js';
 
 const round = value => Math.round(value * 10000) / 10000;
 const text = value => String(value ?? '').trim();
@@ -9,9 +10,12 @@ const selected = value => Array.isArray(value) ? value : value ? [value] : [];
 
 export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt = new Date().toISOString()) {
   const team = teams.find(item => item.id === answers.product);
-  const baseline = team?.id === callCenterBaseline.teamId ? callCenterBaseline : scoringBaseline;
+  const isCallCenter = CHANNEL_SURVEYS_ENABLED && team?.id === callCenterBaseline.teamId;
+  const productProfile = productSurveyProfiles[team?.id];
+  const isOtherProduct = Boolean(productProfile && team.id !== scoringBaseline.teamId);
+  const baseline = isCallCenter ? callCenterBaseline : productProfile || scoringBaseline;
   if (!team || team.id !== baseline.teamId) throw new Error('Unsupported survey team');
-  const questions = getSections(answers).flatMap(section => visibleQuestions(section, backlogAnalyzed, answers));
+  const questions = getSections(answers).flatMap(section => visibleQuestions(section, backlogAnalyzed, answers)).filter(q => q.type !== 'info').flatMap(q => [q, ...inlineQuestions(q)]);
   if (questions.some(q => !hasAnswer(q, answers))) throw new Error('Incomplete survey');
   // Export only the current branch; old hidden proofs/comments are excluded.
   const cleanAnswers = {};
@@ -21,6 +25,10 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     questionRows[q.id] = q.row;
     if (selected(answers[q.id]).some(option => /Свой вариант|Что-то ещ[её]|^Другое$/.test(option))) cleanAnswers[`${q.id}Other`] = answers[`${q.id}Other`];
     if (needsComment(q, answers)) cleanAnswers[q.commentId] = answers[q.commentId];
+    if (needsReason(q, answers)) {
+      cleanAnswers[q.reasonId] = String(answers[q.reasonId]).trim();
+      questionRows[q.reasonId] = q.row;
+    }
     if (needsProof(q, answers)) {
       cleanAnswers[q.inlineProof.id] = answers[q.inlineProof.id];
       questionRows[q.inlineProof.id] = q.inlineProof.row;
@@ -37,7 +45,13 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   }
   const questionSources = Object.fromEntries(questions.map(q => [q.id, q.id === 'product'
     ? {source: 'ddi_team_catalog', sheet: null, row: null}
-    : {sheet: q.sheet || (baseline === callCenterBaseline ? 'Каналы Phigital' : 'Продукты (2)'), row: q.row}]));
+    : {sheet: q.sheet || (isCallCenter ? 'Каналы Phigital' : 'Продукты (2)'), row: q.row,
+      ...(q.adaptedFrom ? {adaptedFrom: q.adaptedFrom, accuracyReview: true} : {})}]));
+  for (const q of questions) {
+    if (needsReason(q, answers)) questionSources[q.reasonId] = {
+      sheet: q.sheet || 'Продукты (2)', row: q.row,
+    };
+  }
   for (const activeInlineQuestion of activeInlineQuestions) {
     const activeInlineEvidence = activeInlineQuestion.inlineEvidence;
     const source = {sheet: activeInlineQuestion.sheet || 'Продукты (2)', row: activeInlineEvidence.row};
@@ -55,6 +69,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   function score(code, questionId, fraction, rule, evidenceId) {
     const metric = baseline.metrics.find(item => item.code === code);
     if (!metric || !questions.some(q => q.id === questionId)) return;
+    if (isOtherProduct && !code.startsWith('general.') && Number(metric.value) >= Number(metric.max_value)) return;
     const inlineEvidence = evidenceById.get(evidenceId);
     updates.set(code, {
       questionId,
@@ -72,6 +87,9 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     marketSber: 'general.obъem_celevogo_rynka_v_sbere',
     clients: 'general.klienty_s_produktom',
     mau: 'general.mau_produkta',
+    dau: 'general.dau_produkta',
+    yau: 'general.yau_produkta',
+    dauMau: 'general.dau_mau',
     satellite: 'general.znanie_produktov_sputnikov',
   };
   for (const [id, code] of Object.entries(knowledge)) score(code, id, text(answers[id]) ? 1 : 0, 'answer_present; accuracy_requires_review');
@@ -102,8 +120,32 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   score('attract.benchmarks', 'benchmarksAttract', answers.benchmarksAttract === 'Да' ? 1 : 0, 'yes=1; other=0', 'benchmarkAttractProof');
   score('churn.benchmarks', 'benchmarksChurn', answers.benchmarksChurn === 'Да' ? 1 : 0, 'yes=1; other=0', 'benchmarkChurnProof');
   score('churn.deviation_actions', 'deviations', answers.deviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'deviationExample');
+  score('attract.initiatives_list', 'attractDeviations', answers.attractDeviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'attractDeviationExample');
+  score('attract.nastroena_otchetnostь', 'attractConfigured', answers.attractConfigured === 'Да' ? 1 : 0, 'yes=1; other=0', 'attractReport');
+  score('churn.nastroena_otchetnostь', 'churnConfigured', answers.churnConfigured === 'Да' ? 1 : 0, 'yes=1; other=0', 'churnReport');
   score('alerts.business_metrics', 'alerts', answers.alerts === 'Да' ? 1 : answers.alerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
+  score('alerts.system_failures', 'systemAlerts', answers.systemAlerts === 'Да' ? 1 : answers.systemAlerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
+  score('alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui', 'uxAlerts', answers.uxAlerts === 'Да' ? 1 : answers.uxAlerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
   score('hyp.discovery_40_backlog', 'discovery', ['Больше 80%', 'От 40 до 79%'].includes(answers.discovery) ? 1 : 0, 'reported_discovery_at_least_40_percent=1; other=0', 'backlog');
+
+  if (isOtherProduct && questions.some(q => q.id === 'usageIncludes')) {
+    const includes = questions.find(q => q.id === 'usageIncludes');
+    const positive = includes.options.filter(option => option !== 'Затрудняюсь ответить');
+    const fraction = positive.filter(option => selected(answers.usageIncludes).includes(option)).length / positive.length;
+    const code = baseline.metrics.some(metric => metric.code === 'voronka_ispolьzovaniya.polnota_otcheta')
+      ? 'voronka_ispolьzovaniya.polnota_otcheta' : 'attract.report_completeness';
+    score(code, 'usageIncludes', fraction, 'selected_positive_elements / available_positive_elements; accuracy_requires_review', 'usageReport');
+  }
+  if (isOtherProduct && questions.some(q => q.id === 'usageAnalysis')) {
+    const analysis = questions.find(q => q.id === 'usageAnalysis');
+    const positive = analysis.options.filter(option => !['Все перечисленное выше', 'Не проводился', 'Затрудняюсь ответить'].includes(option));
+    const fraction = selected(answers.usageAnalysis).includes('Все перечисленное выше') ? 1 :
+      positive.filter(option => selected(answers.usageAnalysis).includes(option)).length / positive.length;
+    score('attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya', 'usageAnalysis', fraction,
+      'selected_analysis_dimensions / available_dimensions; accuracy_requires_review', 'usageReport');
+  }
+  score('attract.nastroena_otchetnostь', 'usageConfigured', answers.usageConfigured === 'Да' ? 1 : 0,
+    'yes=1; other=0; accuracy_requires_review', 'usageReport');
 
   const mechanicsQ = questions.find(q => q.id === 'upsell');
   const known = mechanicsQ ? knownMechanics(mechanicsQ, answers) : [];
@@ -116,7 +158,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     if (!known.includes(option)) score(code, 'upsell', selected(answers.upsell).includes(option) ? 1 : 0, 'newly_selected_mechanic=1; other=0; previously_confirmed_preserved', 'mechanics');
   }
 
-  if (baseline === callCenterBaseline) {
+  if (isCallCenter) {
     for (const {code, questionId, kind, evidenceId, option} of callCenterScoreRules) {
       const q = questions.find(question => question.id === questionId);
       if (!q) continue;
@@ -155,7 +197,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   const baselinePoints = round(included.reduce((sum, metric) => sum + Number(metric.baselineValue || 0), 0));
   return {
     schemaVersion: 1,
-    surveyId: baseline === callCenterBaseline ? 'ddi-call-center' : 'ddi-deposits-ns',
+    surveyId: isCallCenter ? 'ddi-call-center' : isOtherProduct ? `ddi-product-${team.id.split('¦')[0]}` : 'ddi-deposits-ns',
     completedAt,
     team: {id: team.id, name: team.name, unit: team.unit},
     respondent: {name: cleanAnswers.name},
@@ -174,6 +216,9 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
       scorePct: maxPoints ? round(points / maxPoints * 100) : null,
       baselineScorePct: maxPoints ? round(baselinePoints / maxPoints * 100) : null,
       scoredMetricCount: updates.size,
+      unscoredGapMetricCodes: isOtherProduct ? baseline.metrics.filter(metric =>
+        metric.is_applicabble_flg !== false && !metric.excluded_from_index && Number(metric.dd_calculation_flg) !== 0 &&
+        Number(metric.value) < Number(metric.max_value) && !updates.has(metric.code)).map(metric => metric.code) : [],
       metrics,
     },
   };

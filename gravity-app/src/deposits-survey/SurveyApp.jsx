@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Button, Card, Checkbox, Icon, Label, RadioGroup, Select, TextArea, TextInput, Tooltip} from '@gravity-ui/uikit';
 import {ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Bulb, ChartColumn, Check, FileText, Magnifier} from '@gravity-ui/icons';
-import {correctTypos, formatNumericAnswer, getBacklogAnalyzed, getSections, hasAnswer, hasEvidence, knownMechanics, needsComment, needsEvidence, needsProof, normalizeNumericAnswer, questionOptions, toggleOption, visibleQuestions} from './questions.js';
+import {CROSS_SELL_URL, correctTypos, formatNumericAnswer, getBacklogAnalyzed, getSections, hasAnswer, hasEvidence, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, needsReason, normalizeNumericAnswer, questionOptions, toggleOption, visibleQuestions} from './questions.js';
 import dataDrivenLogo from '../assets/ocb2c.png';
 import {enabledTeams, filterTeamOption, teamGroups, teams} from './teams.js';
 import {buildSurveyResult} from './result.js';
@@ -10,29 +10,30 @@ function SurveyBrand() {
   return <div className="survey-brand"><img className="survey-logo" src={dataDrivenLogo} alt="" width="30" height="30" /><span className="survey-wordmark">DATA-DRIVEN</span><span className="survey-brand-separator" aria-hidden="true" /><span className="survey-platform-wordmark">LOSSHUNTER</span></div>;
 }
 
-function Answer({question: q, answers, update}) {
+function Answer({question: q, answers, update, autoFocus = true}) {
   const [selectOpen, setSelectOpen] = useState(false);
   const value = answers[q.id] || '';
   const label = correctTypos(q.title);
+  if (q.type === 'info') return <p className="survey-info-copy">{q.description}</p>;
   const known = knownMechanics(q, answers);
   if (q.type === 'numeric') return <TextInput autoFocus size="xl" type="text" controlProps={{inputMode: q.allowDecimal ? 'decimal' : 'numeric', pattern: q.allowDecimal ? '[0-9 ,.]*' : '[0-9 ]*'}} aria-label={label} placeholder={q.placeholder} value={formatNumericAnswer(value)} onUpdate={v => update(q.id, normalizeNumericAnswer(v, q.allowDecimal))} />;
   if (q.type === 'select') return <Select open={selectOpen} onOpenChange={setSelectOpen} size="xl" width="max" popupClassName="survey-team-popup" virtualizationThreshold={100} filterable filterOption={filterTeamOption} aria-label={label} placeholder="Выберите команду" filterPlaceholder="Поиск команды" options={teamGroups} getOptionGroupHeight={() => 46} renderOptionGroup={({label}) => <div className={`survey-team-unit ${label === teamGroups[0].label ? 'is-first' : ''}`}>{label}</div>} value={value ? [value] : []} onUpdate={v => update(q.id, v[0] || '')} />;
   if (q.type === 'input') return <TextInput autoFocus size="xl" aria-label={label} placeholder={q.placeholder} readOnly={q.readOnly} value={value} onUpdate={v => update(q.id, v)} />;
-  if (q.type === 'radio') return <><RadioGroup className="survey-radio" direction="vertical" size="l" aria-label={label} value={value} options={q.options.map(v => ({value: v, content: correctTypos(v)}))} onUpdate={v => update(q.id, v)} />{value === 'Свой вариант ответа' && <div className="survey-other-answer"><TextArea autoFocus aria-label="Ваш вариант ответа" minRows={2} size="l" placeholder="Напишите свой вариант" value={answers[`${q.id}Other`] || ''} onUpdate={v => update(`${q.id}Other`, v)} /></div>}</>;
+  if (q.type === 'radio') return <><RadioGroup className="survey-radio" direction="vertical" size="l" aria-label={label} value={value} options={q.options.map(v => ({value: v, content: correctTypos(v)}))} onUpdate={v => update(q.id, v)} />{needsReason(q, answers) && <div className="survey-other-answer"><TextArea autoFocus aria-label="Причина неприменимости" minRows={2} size="l" placeholder="Укажите, почему вопрос не релевантен вашему продукту" value={answers[q.reasonId] || ''} onUpdate={v => update(q.reasonId, v)} /></div>}{value === 'Свой вариант ответа' && <div className="survey-other-answer"><TextArea autoFocus aria-label="Ваш вариант ответа" minRows={2} size="l" placeholder="Напишите свой вариант" value={answers[`${q.id}Other`] || ''} onUpdate={v => update(`${q.id}Other`, v)} /></div>}</>;
   const renderChoice = v => <React.Fragment key={v}>{v === q.dividerBefore && <div className="survey-options-divider" aria-hidden="true" />}{known.includes(v) ? <Tooltip content="Указано как настроенное при прошлом прохождении"><div className="survey-known-mechanic" tabIndex={0} aria-label={`${correctTypos(v)}: указано как настроенное при прошлом прохождении`}><Checkbox size="l" checked disabled>{correctTypos(v)}<span className="survey-known-label">Уже настроено</span></Checkbox></div></Tooltip> : <Checkbox size="l" checked={Array.isArray(value) && value.includes(v)} onUpdate={() => update(q.id, toggleOption(Array.isArray(value) ? value : [], v))}>{correctTypos(v)}</Checkbox>}</React.Fragment>;
   if (q.type === 'multi') return <div className="survey-options" role="group" aria-label={label}>{q.optionGroups ? <div className="survey-option-groups">{q.optionGroups.map(group => <section className="survey-option-group" style={{gridColumn: group.column + 1, gridRow: group.gridRow, alignSelf: group.alignEnd ? 'end' : undefined}} key={group.title}><h3>{group.title}</h3><div className="survey-options">{group.indices.map(index => renderChoice(q.options[index]))}</div></section>)}</div> : questionOptions(q, answers).map(renderChoice)}{needsComment(q, answers) && <div className="survey-mechanics-comment"><label htmlFor="mechanics-comment">Комментарий (обязательно)</label><TextArea id="mechanics-comment" autoFocus aria-label="Комментарий к продуктовым механикам" minRows={3} size="l" placeholder="Опишите настроенные механики" value={answers[q.commentId] || ''} onUpdate={v => update(q.commentId, v)} /></div>}{Array.isArray(value) && value.some(v => /Свой вариант|Что-то ещ[её]|^Другое$/.test(v)) && <TextArea autoFocus aria-label="Ваш вариант ответа" minRows={2} size="l" placeholder="Напишите свой вариант" value={answers[`${q.id}Other`] || ''} onUpdate={v => update(`${q.id}Other`, v)} />}</div>;
-  return <TextArea autoFocus size="xl" minRows={q.proof ? 2 : 3} maxRows={8} aria-label={label} placeholder={q.placeholder || 'Ваш ответ'} value={value} onUpdate={v => update(q.id, v)} />;
+  return <TextArea autoFocus={autoFocus} size="xl" minRows={q.proof ? 2 : 3} maxRows={8} aria-label={label} placeholder={q.placeholder || 'Ваш ответ'} value={value} onUpdate={v => update(q.id, v)} />;
 }
 
 function InlineEvidence({question, answers, update}) {
   if (!needsEvidence(question, answers)) return null;
-  const {id, formatId} = question.inlineEvidence;
+  const {id, formatId, title, label} = question.inlineEvidence;
   const format = answers[formatId] || '';
-  const direction = id === 'churnReport' ? 'оттока' : 'привлечения';
-  return <section className="survey-inline-evidence" aria-label={`Подтверждение воронки ${direction}`}>
-    <h2>Прикрепите подтверждающую ссылку на воронку {direction}.</h2>
-    <p>В случае, если воронка {direction} формируется в Excel, просьба направить <a href="mailto:MYCherkova@sberbank.ru">нам</a></p>
-    <RadioGroup className="survey-radio survey-evidence-options" direction="vertical" size="l" aria-label={`Формат подтверждения воронки ${direction}`} value={format} options={[{value: 'link', content: 'Ссылка на отчёт'}, {value: 'excel', content: 'Отчет в формате Excel'}]} onUpdate={value => update(formatId, value)} />
+  const direction = id === 'churnReport' ? 'оттока' : id === 'usageReport' ? 'использования' : 'привлечения';
+  return <section className="survey-inline-evidence" aria-label={label || `Подтверждение воронки ${direction}`}>
+    <h2>{title || `Прикрепите подтверждающую ссылку на воронку ${direction}.`}</h2>
+    <RadioGroup className="survey-radio survey-evidence-options" direction="vertical" size="l" aria-label={label ? `Формат: ${label}` : `Формат подтверждения воронки ${direction}`} value={format} options={[{value: 'link', content: 'Ссылка на отчёт'}, {value: 'excel', content: 'Отчет в формате Excel'}]} onUpdate={value => update(formatId, value)} />
+    {format === 'excel' && <div className="survey-excel-notice" role="alert">Для учета в оценке просим направить по почте <a href="mailto:MYCherkova@sberbank.ru">нам</a>. В противном случае ответ не будет принят.</div>}
     {format === 'link' && <TextInput autoFocus size="l" type="url" controlProps={{inputMode: 'url'}} aria-label="Ссылка на отчёт" placeholder="https://" value={answers[id] || ''} onUpdate={value => update(id, value)} />}
   </section>;
 }
@@ -40,7 +41,7 @@ function InlineEvidence({question, answers, update}) {
 function InlineProof({question, answers, update}) {
   const proof = question.inlineProof;
   if (!needsProof(question, answers)) return null;
-  return <section className="survey-inline-evidence" aria-label={`Подтверждение: ${question.title}`}>
+  return <section className={proof.appearance === 'base' ? 'survey-inline-question' : 'survey-inline-evidence'} aria-label={`Подтверждение: ${question.title}`}>
     <h2><label htmlFor={proof.id}>{proof.title}</label></h2>
     <TextArea id={proof.id} autoFocus size="l" minRows={2} maxRows={8} aria-label={proof.title} placeholder={proof.placeholder} value={answers[proof.id] || ''} onUpdate={value => update(proof.id, value)} />
   </section>;
@@ -77,6 +78,7 @@ function Finish({name, back}) {
   return <main className="survey-finish">
     <div className="finish-top"><SurveyBrand /><Label theme="success" size="m"><Icon data={Check} size={14} /> Опрос завершён</Label></div>
     <section className="finish-hero"><p className="survey-eyebrow">От ответов — к действиям</p><h1>Спасибо{name?.trim() ? `, ${name.trim()}` : ''}.<br />Следующий шаг — новые идеи.</h1><p>Вы прошли опрос на аналитической платформе <b>LossHunter</b>.<br />Здесь можно изучить рынок, разобрать клиентский путь и найти точки роста продукта.</p><Button view="action" size="xl" href="https://losshunter.ru/" target="_blank" rel="noreferrer">Открыть LossHunter <Icon data={ArrowUpRight} size={18} /></Button></section>
+    <Card view="outlined" className="finish-crosssell" aria-labelledby="finish-crosssell-title"><div><p className="survey-eyebrow">Cross-sell · цифровые следы</p><h2 id="finish-crosssell-title">Не забудьте посмотреть статус Cross-sell по ссылке</h2><p>Наличие механики во время оформления вашего продукта — на платформе LossHunter.</p></div><Button view="action" size="xl" href={CROSS_SELL_URL} target="_blank" rel="noreferrer">Посмотреть статус Cross-sell <Icon data={ArrowUpRight} size={18} /></Button></Card>
     <section className="finish-features"><div className="finish-section-head"><h2>Что есть на платформе</h2><span>Исследуйте. Сравнивайте. Применяйте.</span></div><div className="finish-feature-grid">{features.map((f, i) => <Card view="outlined" className={`finish-feature feature-${i}`} key={f.title}><div className="finish-feature-top"><span className="feature-icon"><Icon data={f.icon} size={20} /></span><Button size="s" view="outlined" href={f.href} target="_blank" rel="noreferrer">Перейти <Icon data={ArrowUpRight} size={14} /></Button></div><h3>{f.title}</h3><p>{f.copy}</p></Card>)}</div></section>
     <section className="finish-stats" aria-label="LossHunter в цифрах">{[['2 140+', 'клиентских сценариев разобрано'], ['195+', 'готовых исследований'], ['35 мин', 'в среднем на подготовку исследования']].map(([n, text]) => <Card view="outlined" key={n}><strong>{n}</strong><span>{text}</span></Card>)}</section>
     <footer className="finish-footer"><Button view="flat" size="l" onClick={back}><Icon data={ArrowLeft} size={16} /> Вернуться к ответам</Button><span>LossHunter · аналитика для продуктовых решений</span></footer>
@@ -146,18 +148,19 @@ export function SurveyApp() {
     const known = knownMechanics(q, answers);
     const knownText = known.length ? `${known.join('; ')} — указано ранее. ` : '';
     const base = Array.isArray(value) ? value.map(correctTypos).join('; ') : ['radio', 'select'].includes(q.type) ? correctTypos(value || 'Не заполнено') : value || 'Не заполнено';
+    if (needsReason(q, answers)) return `${base}. ${answers[q.reasonId]}`;
     if (needsComment(q, answers)) return `${knownText}${base}. ${answers[q.commentId]}`;
     const otherSelected = (Array.isArray(value) ? value : [value]).some(option => /Свой вариант|Что-то ещ[её]|^Другое$/.test(option || ''));
     return otherSelected && answers[`${q.id}Other`] ? `${base}. ${answers[`${q.id}Other`]}` : `${knownText}${base}`;
   }
   function reviewEvidence(q) {
-    if (needsProof(q, answers)) return <p className="review-inline-evidence">{q.inlineProof.title}: {answers[q.inlineProof.id]}</p>;
-    if (!needsEvidence(q, answers)) return null;
+    const proof = needsProof(q, answers) ? <p className="review-inline-evidence">{q.inlineProof.title}: {answers[q.inlineProof.id]}</p> : null;
+    if (!needsEvidence(q, answers)) return proof;
     const {id, formatId} = q.inlineEvidence;
     const format = answers[formatId];
-    if (format === 'excel') return <p className="review-inline-evidence">Подтверждение: Отчет в формате Excel</p>;
-    if (format === 'link') return <p className="review-inline-evidence">Подтверждение: Ссылка на отчёт — {hasEvidence(q, answers) ? <a href={answers[id]} target="_blank" rel="noreferrer">{answers[id]}</a> : (answers[id] || 'Не заполнено')}</p>;
-    return <p className="review-inline-evidence">Подтверждение: Не заполнено</p>;
+    if (format === 'excel') return <>{proof}<p className="review-inline-evidence">Подтверждение: Отчет в формате Excel</p></>;
+    if (format === 'link') return <>{proof}<p className="review-inline-evidence">Подтверждение: Ссылка на отчёт — {hasEvidence(q, answers) ? <a href={answers[id]} target="_blank" rel="noreferrer">{answers[id]}</a> : (answers[id] || 'Не заполнено')}</p></>;
+    return <>{proof}<p className="review-inline-evidence">Подтверждение: Не заполнено</p></>;
   }
   if (finished) return <Finish name={answers.name} back={() => {setFinished(false); go('review');}} />;
   return <div className="survey-shell">
@@ -166,7 +169,7 @@ export function SurveyApp() {
     <main className={`survey-main ${review ? 'is-review' : ''}`}>
       {review ? <>
         <p className="survey-eyebrow">Последний шаг</p><h1 ref={heading} tabIndex={-1}>Всё готово.<br />Проверьте ответы.</h1><p className="survey-intro-copy">Можно уточнить любой ответ перед завершением.</p>
-        <div className="survey-review">{sections.map(section => <Card view="outlined" className="review-section" key={section.id}><h2>{section.title}</h2>{visibleQuestions(section, backlogAnalyzed, answers).map(q => <div className="review-answer" key={q.id}><div><b>{correctTypos(q.title)}</b><p>{answerText(q)}</p>{reviewEvidence(q)}</div><Button view="flat" size="m" onClick={() => edit(q.id)}>Изменить</Button></div>)}</Card>)}</div>
+        <div className="survey-review">{sections.filter(section => section.questions.some(q => q.type !== 'info')).map(section => <Card view="outlined" className="review-section" key={section.id}><h2>{section.title}</h2>{visibleQuestions(section, backlogAnalyzed, answers).filter(q => q.type !== 'info').map(q => <div className="review-answer" key={q.id}><div><b>{correctTypos(q.title)}</b><p>{answerText(q)}</p>{reviewEvidence(q)}{inlineQuestions(q).map(field => <div key={field.id}><b>{field.title}</b><p>{answerText(field)}</p>{reviewEvidence(field)}</div>)}</div><Button view="flat" size="m" onClick={() => edit(q.id)}>Изменить</Button></div>)}</Card>)}</div>
       </> : <form onSubmit={next} className="survey-single-form" onKeyDown={e => {
         if (e.key !== 'Enter' || e.nativeEvent.isComposing || e.defaultPrevented || e.target.closest('.g-select, button')) return;
         if (e.shiftKey) {
@@ -180,7 +183,7 @@ export function SurveyApp() {
           {question.proof && <p className="survey-proof-label"><Icon data={FileText} size={16} /> Подтверждение</p>}
           <h1 id="survey-title" ref={heading} tabIndex={-1}>{question.title}</h1>
           <p className="question-hint">{question.type === 'multi' ? 'Можно выбрать несколько вариантов' : question.proof ? 'Добавьте ссылку или описание, если ссылки нет' : ''}</p>
-          <div className="survey-answer"><Answer question={question} answers={answers} update={update} /><InlineEvidence question={question} answers={answers} update={update} /><InlineProof question={question} answers={answers} update={update} /></div>
+          <div className="survey-answer"><Answer question={question} answers={answers} update={update} /><InlineProof question={question} answers={answers} update={update} /><InlineEvidence question={question} answers={answers} update={update} />{inlineQuestions(question).map(field => <section className="survey-inline-question" key={field.id} aria-label={field.title}><h2>{field.title}</h2><Answer question={field} answers={answers} update={update} autoFocus={false} /><InlineEvidence question={field} answers={answers} update={update} /></section>)}</div>
         </section>
         <div className="survey-error" role="alert">{error}</div>
         <footer className="survey-actions"><Button type="button" view="flat" size="l" disabled={!editingFromReview && index === 0} onClick={() => editingFromReview ? returnToReview() : go(flow[index - 1].id)}><Icon data={ArrowLeft} size={16} /> {editingFromReview ? 'К проверке' : 'Назад'}</Button><div><Button type="submit" view="action" size="xl" disabled={!canContinue}>{editingFromReview ? 'Сохранить и вернуться' : 'Далее'} <Icon data={ArrowRight} size={17} /></Button></div></footer>

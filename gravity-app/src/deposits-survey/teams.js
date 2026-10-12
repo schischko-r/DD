@@ -1,4 +1,6 @@
 // Команды из финального gravity-standalone.html (Data-Driven Index).
+import {productSurveyProfiles} from './product-surveys.js';
+
 export const teams = [
   {
     "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
@@ -855,7 +857,8 @@ export function filterTeamOption(option, filter) {
 }
 
 export const enabledTeam = teams.find(team => team.name === 'Вклады+НС');
-export const enabledTeams = teams.filter(team => ['Вклады+НС', 'Колл-центр'].includes(team.name));
+export const CHANNEL_SURVEYS_ENABLED = false;
+export const enabledTeams = teams.filter(team => Boolean(productSurveyProfiles[team.id]));
 const enabledTeamIds = new Set(enabledTeams.map(team => team.id));
 export const teamGroups = [...new Set(teams.map(team => team.unit))]
   .map(unit => ({

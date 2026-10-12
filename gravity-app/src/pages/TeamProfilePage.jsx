@@ -705,7 +705,7 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
   const upliftDigitalTrace = metricRecommendation?.note
     ? <DigitalTraceConfirmation message={metricRecommendation.note} />
     : null;
-  const indexUpliftBadge = indexUplift > 0 && <MetricUpliftBadge label={indexUpliftLabel} title={indexUpliftTitle} recommendation={metricRecommendation} />;
+  const indexUpliftBadge = indexUplift > 0 && metric.code !== 'mehaniki.gibkoe_izmenenie_usloviy_produkta' && <MetricUpliftBadge label={indexUpliftLabel} title={indexUpliftTitle} recommendation={metricRecommendation} />;
   const metricName = metricRecommendation && indexUplift === 0 && value < 100
     ? (
       <MetricRecommendationTrigger
