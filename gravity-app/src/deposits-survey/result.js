@@ -1,8 +1,8 @@
-import {isOptionSelected, hasAnswer, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, needsReason, getSections, visibleQuestions, evidenceResponse} from './questions.js';
+import {quarterlyAnalysisCodes, allowsMissingMetric, isOptionSelected, hasAnswer, inlineQuestions, knownMechanics, showsOptionalComment, needsComment, needsEvidence, needsProof, needsReason, getSections, visibleQuestions, evidenceResponse} from './questions.js';
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {scoringBaseline} from './scoring-baseline.js';
 import {callCenterBaseline, callCenterScoreRules} from './call-center.js';
-import {productSurveyProfiles} from './product-surveys.js';
+import {productSurveyProfiles} from './survey-profiles.js';
 import {metricSourceEvidence, metricSourceFields} from './metric-source.js';
 
 const round = value => Math.round(value * 10000) / 10000;
@@ -20,17 +20,32 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   answers = {...answers};
   for (const q of catalogue.flatMap(section => section.questions)) {
     if (q.action) answers[q.action.id] = isOptionSelected(q, answers, q.actionOption) ? 'Да' : 'Нет';
-    if (q.benchmark) answers[q.benchmark.id] = isOptionSelected(q, answers, 'Бенчмарки') ? 'Да' : 'Нет';
+    if (q.benchmark) answers[q.benchmark.id] = q.benchmarkOnly ? answers[q.id] : isOptionSelected(q, answers, 'Бенчмарки') ? 'Да' : 'Нет';
   }
-  const questions = catalogue.flatMap(section => visibleQuestions(section, backlogAnalyzed, answers)).flatMap(q => [q, ...inlineQuestions(q), ...(q.benchmark ? [q.benchmark] : []), ...(q.action ? [q.action] : [])]).filter(q => q.type !== 'info');
+  const questions = catalogue.flatMap(section => visibleQuestions(section, backlogAnalyzed, answers)).flatMap(q => [q, ...inlineQuestions(q, answers), ...(q.benchmark ? [q.benchmark] : []), ...(q.action ? [q.action] : [])]).filter(q => q.type !== 'info');
   if (questions.some(q => !hasAnswer(q, answers))) throw new Error('Incomplete survey');
   // Export only the current branch; old hidden proofs/comments are excluded.
   const cleanAnswers = {};
   const questionRows = {};
   for (const q of questions) {
     cleanAnswers[q.id] = Array.isArray(answers[q.id]) ? answers[q.id].filter(option => q.options.includes(option)) : answers[q.id];
+    if (q.type === 'links') {
+      const format = answers[`${q.id}Unknown`] === true ? 'unknown' : answers[`${q.id}Format`] || 'link';
+      cleanAnswers[`${q.id}Format`] = format;
+      cleanAnswers[q.id] = format === 'unknown' ? 'Затрудняюсь ответить' : format === 'excel' ? 'Отчетность в формате Excel' : text(answers[q.id]).split(/\r?\n/).map(link => link.trim()).filter(Boolean).join('\n');
+      questionRows[`${q.id}Format`] = q.row;
+    }
+    if (allowsMissingMetric(q, answers)) {
+      cleanAnswers[q.id] = null;
+      cleanAnswers[`${q.id}Unknown`] = true;
+      questionRows[`${q.id}Unknown`] = q.row;
+    }
     if (q.previousOptions?.length) cleanAnswers[q.id] = [...new Set([...q.previousOptions, ...selected(cleanAnswers[q.id])])];
     questionRows[q.id] = q.row;
+    if (showsOptionalComment(q, answers) && text(answers[q.optionalCommentId])) {
+      cleanAnswers[q.optionalCommentId] = text(answers[q.optionalCommentId]);
+      questionRows[q.optionalCommentId] = q.row;
+    }
     if (selected(answers[q.id]).some(option => /Свой вариант|Что-то ещ[её]|^Другое$/.test(option))) cleanAnswers[`${q.id}Other`] = answers[`${q.id}Other`];
     if (needsComment(q, answers)) cleanAnswers[q.commentId] = answers[q.commentId];
     if (needsReason(q, answers) && (!q.reasonOptional || text(answers[q.reasonId]))) {
@@ -50,7 +65,11 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     const {id, formatId, row} = activeInlineEvidence;
     const response = evidenceResponse(activeInlineEvidence, answers);
     cleanAnswers[formatId] = response.format;
-    if (response.format === 'link') cleanAnswers[id] = response.value;
+    if (!['excel', 'unavailable'].includes(response.format)) cleanAnswers[id] = response.value;
+    if (response.format === 'unavailable' && response.comment) {
+      cleanAnswers[`${id}Comment`] = response.comment;
+      questionRows[`${id}Comment`] = row;
+    }
     if (response.correction) {
       cleanAnswers[`${id}Correction`] = response.correction;
       questionRows[`${id}Correction`] = row;
@@ -63,6 +82,9 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     : {sheet: q.sheet || (isCallCenter ? 'Каналы Phigital' : 'Продукты (2)'), row: q.row,
       ...(q.adaptedFrom ? {adaptedFrom: q.adaptedFrom, accuracyReview: true} : {})}]));
   for (const q of questions) {
+    if (q.type === 'links') questionSources[`${q.id}Format`] = {sheet: q.sheet || 'Продукты (2)', row: q.row};
+    if (allowsMissingMetric(q, answers)) questionSources[`${q.id}Unknown`] = {sheet: q.sheet || 'Продукты (2)', row: q.row};
+    if (q.optionalCommentId && cleanAnswers[q.optionalCommentId]) questionSources[q.optionalCommentId] = {sheet: q.sheet || 'Продукты (2)', row: q.row};
     if (needsReason(q, answers) && (!q.reasonOptional || text(answers[q.reasonId]))) questionSources[q.reasonId] = {
       sheet: q.sheet || 'Продукты (2)', row: q.row,
     };
@@ -72,6 +94,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     const source = {sheet: activeInlineQuestion.sheet || 'Продукты (2)', row: activeInlineEvidence.row};
     questionSources[activeInlineEvidence.id] = source;
     questionSources[activeInlineEvidence.formatId] = source;
+    if (cleanAnswers[`${activeInlineEvidence.id}Comment`]) questionSources[`${activeInlineEvidence.id}Comment`] = source;
     if (activeInlineEvidence.previousLinks) questionSources[`${activeInlineEvidence.id}Correction`] = source;
   }
 
@@ -88,7 +111,8 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   function score(code, questionId, fraction, rule, evidenceId) {
     const metric = baseline.metrics.find(item => item.code === code);
     if (!metric || !questions.some(q => q.id === questionId)) return;
-    if (isOtherProduct && !code.startsWith('general.') && Number(metric.value) >= Number(metric.max_value)) return;
+    if (isOtherProduct && !code.startsWith('general.') && !quarterlyAnalysisCodes.includes(code) && code !== 'hyp.discovery_40_backlog'
+      && Number(metric.value) >= Number(metric.max_value)) return;
     const inlineEvidence = evidenceById.get(evidenceId);
     updates.set(code, {
       questionId,
@@ -139,9 +163,9 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   }
   score('attract.benchmarks', 'benchmarksAttract', answers.benchmarksAttract === 'Да' ? 1 : 0, 'yes=1; other=0', 'benchmarkAttractProof');
   score('churn.benchmarks', 'benchmarksChurn', answers.benchmarksChurn === 'Да' ? 1 : 0, 'yes=1; other=0', 'benchmarkChurnProof');
-  score('churn.deviation_actions', 'deviations', answers.deviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'deviationExample');
-  score('attract.initiatives_list', 'attractDeviations', answers.attractDeviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'attractDeviationExample');
-  score('attract.nastroena_otchetnostь', 'attractConfigured', answers.attractConfigured === 'Да' ? 1 : 0, 'yes=1; other=0', 'attractReport');
+  score('churn.deviation_actions', 'deviations', answers.deviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'deviationExampleReport');
+  score('attract.initiatives_list', 'attractDeviations', answers.attractDeviations === 'Да' ? 1 : 0, 'yes=1; other=0', 'attractDeviationExampleReport');
+  score('attract.nastroena_otchetnostь', 'attractConfigured', answers.attractConfigured === 'Да, автоматическая (monthly/weekly)' ? 1 : answers.attractConfigured === 'Да, по запросу' ? 0.5 : 0, 'automatic=1; on_request=0.5; other=0', 'attractReport');
   score('churn.nastroena_otchetnostь', 'churnConfigured', answers.churnConfigured === 'Да, автоматическая (monthly/weekly)' ? 1 : answers.churnConfigured === 'Да, по запросу' ? 0.5 : 0, 'automatic=1; on_request=0.5; other=0', 'churnReport');
   score('alerts.business_metrics', 'alerts', answers.alerts === 'Да' ? 1 : answers.alerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
   score('alerts.system_failures', 'systemAlerts', answers.systemAlerts === 'Да' ? 1 : answers.systemAlerts === 'Частично' ? 0.5 : 0, 'yes=1; partial=0.5; other=0');
@@ -164,8 +188,8 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     score('attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya', 'usageAnalysis', fraction,
       'selected_analysis_dimensions / available_dimensions; accuracy_requires_review', 'usageReport');
   }
-  score('attract.nastroena_otchetnostь', 'usageConfigured', answers.usageConfigured === 'Да' ? 1 : 0,
-    'yes=1; other=0; accuracy_requires_review', 'usageReport');
+  score('attract.nastroena_otchetnostь', 'usageConfigured', answers.usageConfigured === 'Да, автоматическая (monthly/weekly)' ? 1 : answers.usageConfigured === 'Да, по запросу' ? 0.5 : 0,
+    'automatic=1; on_request=0.5; other=0; accuracy_requires_review', 'usageReport');
 
   const mechanicsQ = questions.find(q => q.id === 'upsell');
   const known = mechanicsQ ? knownMechanics(mechanicsQ, answers) : [];
@@ -206,8 +230,8 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
       value: update ? update.value : metric.value,
       maxValue: metric.max_value,
       includedInIndex: metric.is_applicabble_flg !== false && !metric.excluded_from_index && Number(metric.dd_calculation_flg) !== 0 && Number(metric.max_value) > 0,
-      source: update ? 'survey_self_report' : 'ddi_baseline',
-      rule: 'ddi_baseline_preserved',
+      source: update ? 'survey_self_report' : baseline.fullSurvey ? 'no_previous_answer' : 'ddi_baseline',
+      rule: baseline.fullSurvey ? 'no_previous_answer' : 'ddi_baseline_preserved',
       ...(update || {}),
     };
   });
@@ -229,14 +253,15 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     previousFunnelReports: Object.fromEntries(questions.filter(q => q.previousClickstreamUrl).map(q => [q.id, q.previousClickstreamUrl])),
     result: {
       status: 'provisional_self_report',
+      ...(baseline.fullSurvey ? {fullSurvey: true, historicalBaselineAvailable: false, scoringWeightsRequireReview: true} : {}),
       scoringVersion: 'ddi-survey-self-report-v1',
       requiresBackendReview: true,
       baselinePeriod: baseline.period,
-      baselinePoints,
+      baselinePoints: baseline.fullSurvey ? null : baselinePoints,
       points,
       maxPoints,
       scorePct: maxPoints ? round(points / maxPoints * 100) : null,
-      baselineScorePct: maxPoints ? round(baselinePoints / maxPoints * 100) : null,
+      baselineScorePct: !baseline.fullSurvey && maxPoints ? round(baselinePoints / maxPoints * 100) : null,
       scoredMetricCount: updates.size,
       unscoredGapMetricCodes: isOtherProduct ? baseline.metrics.filter(metric =>
         metric.is_applicabble_flg !== false && !metric.excluded_from_index && Number(metric.dd_calculation_flg) !== 0 &&

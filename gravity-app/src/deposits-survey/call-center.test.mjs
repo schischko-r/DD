@@ -218,10 +218,10 @@ test('switching teams clears answers from the previous team in the autonomous pa
     assert.equal(doc.querySelector('.survey-single-question input').getAttribute('inputmode'), 'decimal');
     await setInput('abc');
     assert.equal(doc.querySelector('.survey-single-question input').value, '');
-    assert.equal(button('Далее').disabled, true);
+    assert.equal(button('Далее').getAttribute('aria-disabled') === 'true', true);
     await setInput('12 абв 345.67!');
     assert.equal(doc.querySelector('.survey-single-question input').value, '12 345,67');
-    assert.equal(button('Далее').disabled, false);
+    assert.equal(button('Далее').getAttribute('aria-disabled') === 'true', false);
     await next();
     assert.equal(currentId(), 'ccFcr');
     assert.doesNotMatch(doc.querySelector('h1').textContent, /\(Колл-центр, Чат\)/);

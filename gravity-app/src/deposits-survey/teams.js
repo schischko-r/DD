@@ -1,7 +1,7 @@
 // Команды из финального gravity-standalone.html (Data-Driven Index).
-import {productSurveyProfiles} from './product-surveys.js';
+import {productSurveyProfiles} from './survey-profiles.js';
 
-export const teams = [
+const sourceTeams = [
   {
     "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
     "name": "БПИФ",
@@ -855,6 +855,21 @@ export function filterTeamOption(option, filter) {
   return [compactSearch(name), romanize(name), romanize(name, true)]
     .some(candidate => candidate.includes(query));
 }
+
+// Актуальный состав DB: только согласованный перечень и отдельные B2C/B2B.
+export const dailyBankingNames = [
+  'Зарплатный продукт', 'Пенсионный продукт', 'SberPay NFC', 'Переводы по РФ',
+  'Оплата улыбкой', 'Торговый Эквайринг', 'Кредитные карты', 'Дебетовая карта',
+  'SberPay Ecom', 'Платежи', 'Вжух', 'Детская карта', 'Интернет-Эквайринг',
+];
+export const teams = [
+  ...sourceTeams.filter(team => productSurveyProfiles[team.id] && (team.unit !== 'DB'
+    || dailyBankingNames.includes(team.name === 'SberPay Вжух' ? 'Вжух' : team.name)))
+    .map(team => team.name === 'SberPay Вжух' ? {...team, name: 'Вжух'} : team),
+  ...Object.values(productSurveyProfiles).filter(profile => profile.fullSurvey).map(profile => ({
+    id: profile.teamId, name: profile.name, unit: 'DB', mechanicScores: {},
+  })),
+];
 
 export const enabledTeam = teams.find(team => team.name === 'Вклады+НС');
 export const CHANNEL_SURVEYS_ENABLED = false;

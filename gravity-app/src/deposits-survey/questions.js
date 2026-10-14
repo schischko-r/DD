@@ -1,7 +1,8 @@
+import {previousBacklogs, hasBacklogLinks} from './previous-backlogs.js';
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {callCenterSections, callCenterBaseline, callCenterBacklogAnalyzed} from './call-center.js';
-import {productSurveyProfiles} from './product-surveys.js';
-import {hasMetricSource} from './metric-source.js';
+import {productSurveyProfiles} from './survey-profiles.js';
+import {hasMetricSource, hasHttpLinks, httpLinkValues} from './metric-source.js';
 import {scoringBaseline} from './scoring-baseline.js';
 import {previousFunnels, clickstreamOnlyAttraction, previousReportLinks} from './previous-funnels.js';
 
@@ -9,7 +10,8 @@ export const CROSS_SELL_URL = 'https://losshunter.ru/showcase/crosssell/#screen=
 const crossSellSection = {
   id: 'crossSell', title: 'Cross-sell',
   questions: [{id: 'crossSellInfo', row: null, type: 'info', title: 'Cross-sell во время оформления продукта',
-    description: 'Наличие Cross-sell-механики во время оформления продукта мы забираем по цифровым следам с платформы LossHunter. Статус по своему продукту можете посмотреть после прохождения опроса.'},
+    description: 'Наличие Cross-sell-механики во время оформления продукта мы забираем по цифровым следам с платформы LossHunter. Статус по своему продукту вы сможете посмотреть после прохождения опроса и изменить его при необходимости.',
+    emphasis: ['сможете посмотреть', 'после прохождения опроса']},
     {id: 'crossSellAfter', row: null, type: 'radio',
       title: 'Настроена ли у вас механика Cross-sell после оформления продукта?',
       options: ['Да', 'Нет', 'Затрудняюсь ответить'],
@@ -31,7 +33,7 @@ export const sections = [
         "row": 3,
         "title": "Представьтесь, пожалуйста",
         "type": "input",
-        "placeholder": "Введите ответ"
+        "placeholder": "Введите ФИО"
       },
       {
         "id": "product",
@@ -45,18 +47,20 @@ export const sections = [
     "id": "metrics",
     "title": "Ключевые метрики",
     "description": "Рынок, клиентская база и инструменты мониторинга.",
+    "introNote": "В рамках проекта «Единые клиентские метрики» формировалась единая сквозная методология клиентских метрик и доступного потенциального рынка.",
     "questions": [
       {
         "id": "marketRussia",
         "row": 15,
-        "title": "Укажите общий объем целевого рынка вашего продукта в России",
+        "title": "Укажите общий объем целевого рынка вашего продукта в России (клиентов)",
         "type": "numeric",
         "placeholder": "Введите число"
       },
       {
         "id": "marketSber",
         "row": 17,
-        "title": "Напишите доступный объем рынка в Сбере",
+        "title": "Напишите доступный объем рынка в Сбере (клиентов)",
+        "detail": "Количество клиентов в Сбере, которых продукт реально может охватить с учетом текущей бизнес-модели.",
         "type": "numeric",
         "placeholder": "Введите число"
       },
@@ -105,7 +109,7 @@ export const sections = [
       {
         "id": "attractIncludes",
         "row": 38,
-        "title": "Что включает воронка привлечения?",
+        "title": "Укажите, что еще включает отчет по воронке привлечения?",
         "type": "multi",
         "inlineEvidence": {"id": "attractReport", "formatId": "attractReportFormat", "row": 56},
         "options": [
@@ -158,7 +162,7 @@ export const sections = [
       {
         "id": "churnIncludes",
         "row": 61,
-        "title": "Что включает воронка оттока?",
+        "title": "Укажите, что еще включает отчет по воронке оттока?",
         "type": "multi",
         "inlineEvidence": {"id": "churnReport", "formatId": "churnReportFormat", "row": 79},
         "options": [
@@ -312,8 +316,18 @@ export const sections = [
       {
         "id": "upsell",
         "row": 100,
-        "title": "Какие продуктовые механики были настроены по вашему продукту?",
+        "title": "Какие продуктовые механики настроены по вашему продукту?",
         "type": "multi",
+        "inlineQuestions": [
+          {"id": "retentionMechanism", "row": null, "type": "multi", "inlineAtOption": true,
+           "title": "Как работает механика удержания клиентов?",
+           "whenOption": {"id": "upsell", "option": "Удержание клиентов"},
+           "options": ["Информационная коммуникация", "Создание ценности", "Что-то еще? Напишите", "Затрудняюсь ответить"]},
+          {"id": "returnMechanism", "row": null, "type": "multi", "inlineAtOption": true,
+           "title": "Как работает механика возврата?",
+           "whenOption": {"id": "upsell", "option": "Возврат клиентов"},
+           "options": ["Информационная коммуникация", "Создание ценности", "Что-то еще? Напишите", "Затрудняюсь ответить"]}
+        ],
         "commentId": "mechanics",
         "commentWhen": ["Удержание клиентов", "Возврат клиентов", "Допродажи (upsell)"],
         "dividerBefore": "Не настроены дополнительные механики",
@@ -322,7 +336,6 @@ export const sections = [
           "Возврат клиентов",
           "Допродажи (upsell)",
           "Не настроены дополнительные механики",
-          "Предложенные варианты неподходят для моего продукта",
           "Затрудняюсь ответить"
         ]
       },
@@ -348,27 +361,32 @@ export const sections = [
         "row": 115,
         "title": "Какая доля задач аналитиков данных (DA) в бэклоге связана с исследованиями?",
         "type": "radio",
-        "inlineProof": {"id": "backlog", "row": 121, "title": "Приложите ссылку на бэклог задач аналитиков данных (DA) по вашему продукту/опишите, кто делает исследования", "placeholder": "Ссылка или описание"},
+        "inlineQuestions": [{
+          "id": "discoveryBacklogType", "row": 121, "type": "radio", "when": "discovery",
+          "title": "Как ведётся бэклог задач аналитиков данных?",
+          "options": ["Собственный бэклог в Jira/SberTrack", "Задачи ведет Штаб в Jira/SberTrack", "Бэклог ведется вне Jira/SberTrack"],
+          "inlineProof": {"id": "backlog", "row": 121, "kind": "backlog", "whenAnswer": "Собственный бэклог в Jira/SberTrack",
+            "title": "Приложите ссылку на бэклог", "placeholder": "Ссылка на бэклог в Jira/SberTrack"},
+          "optionalCommentId": "discoveryBacklogComment",
+          "optionalCommentWhen": ["Задачи ведет Штаб в Jira/SberTrack", "Бэклог ведется вне Jira/SberTrack"],
+          "optionalCommentTitles": {"Задачи ведет Штаб в Jira/SberTrack": "ФИО сотрудников при необходимости", "Бэклог ведется вне Jira/SberTrack": "Комментарий при необходимости"},
+          "optionalCommentPlaceholder": "Введите комментарий"
+        }],
         "options": [
           "Больше 80%",
           "От 40 до 79%",
           "От 20 до 39%",
           "Меньше 20%",
-          "Нет собственных аналитиков",
+          "Нет аналитиков",
           "Затрудняюсь ответить"
         ],
-        "reasonId": "discoveryStaff",
-        "reasonOptional": true,
-        "reasonWhen": "Нет собственных аналитиков",
-        "reasonTitle": "Если функцию аналитики выполняет Штаб, укажите предметную область и ФИО сотрудников",
-        "reasonPlaceholder": "Предметная область и ФИО сотрудников (при наличии)",
-        "discovery": true
+
       },
       {
         "id": "backlog",
         "inlineOnly": true,
         "row": 121,
-        "title": "Приложите ссылку на бэклог задач аналитиков данных (DA) по вашему продукту/опишите, кто делает исследования",
+        "title": "Приложите ссылку на бэклог задач аналитиков данных (DA) в Jira/SberTrack",
         "type": "text",
         "proof": true,
         "placeholder": "Ссылка или описание",
@@ -437,9 +455,11 @@ const sourceQuestion = id => sections.flatMap(section => section.questions).find
 const productMetric = (profile, code) => profile.metrics.find(metric => metric.code === code);
 const applicable = metric => metric && metric.is_applicabble_flg !== false && !metric.excluded_from_index &&
   Number(metric.dd_calculation_flg) !== 0 && Number(metric.max_value) > 0;
+export const quarterlyAnalysisCodes = ['attract.funnel_analysis', 'churn.funnel_analysis'];
 const needsSurvey = (profile, code) => {
   const metric = productMetric(profile, code);
-  return applicable(metric) && Number(metric.value) < Number(metric.max_value);
+  return applicable(metric) && (quarterlyAnalysisCodes.includes(code)
+    || Number(metric.value) < Number(metric.max_value));
 };
 
 // Дополнительные исходные вопросы листа «Продукты (2)», которых нет в пилоте вкладов.
@@ -449,19 +469,20 @@ const extraProductQuestions = {
     reasonId: 'attractConfiguredReason', reasonWhen: 'Не релевантно для вашего продукта (в комментарии укажите, почему?)',
     inlineEvidence: {id: 'attractReport', formatId: 'attractReportFormat', row: 56}},
   churnConfigured: {id: 'churnConfigured', row: 57, title: 'Настроена ли регулярная отчётность по воронке оттока?',
-    type: 'radio', options: ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь'],
+    type: 'radio', options: ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь ответить'],
     inlineEvidence: {id: 'churnReport', formatId: 'churnReportFormat', row: 79}},
   attractDeviations: {id: 'attractDeviations', row: 84, title: 'Есть ли задачи/мероприятия по работе с отклонениями по воронке привлечения?',
     type: 'radio', options: ['Да', 'Нет', 'Затрудняюсь ответить']},
   attractDeviationExample: {id: 'attractDeviationExample', row: 87, title: 'Приведите пример задачи/мероприятия за последний квартал',
     type: 'text', proof: true, placeholder: 'Ссылка или описание', when: 'attractDeviations'},
   systemAlerts: {id: 'systemAlerts', row: 92, title: 'Настроены ли автоматические оповещения по системным сбоям?',
+    sectionDescription: 'Системный сбой — это техническая проблема в работе продукта: недоступность сервиса, ошибки или задержки при выполнении операций, сбои API и интеграций. Оповещения помогают команде быстро узнать о таких проблемах.',
     type: 'radio', options: ['Да', 'Частично', 'Нет', 'Затрудняюсь ответить']},
   mechanicsMonitoring: {id: 'mechanicsMonitoring', row: 114, title: 'Опишите метрики, которые вы используете для мониторинга и оценки эффективности работы механики',
     type: 'text', placeholder: 'Введите ответ'},
 };
 
-// Мероприятия спрашиваем каждый квартал; прошлый балл определяет только ретроспективу.
+// Пул мероприятий спрашиваем каждый квартал независимо от прошлого балла.
 function actionQuestions(profile) {
   return [
     ['attract.initiatives_list', 'attractDeviations', 'attractDeviationExample', 'привлечения', 84, 87],
@@ -471,38 +492,24 @@ function actionQuestions(profile) {
     if (!applicable(metric)) return [];
     const scope = direction === 'привлечения' ? 'Привлечение' : 'Отток';
     const questions = [];
-    if (Number(metric.value) === 1) questions.push({
-      id: `${id}Completed`, row, scope, type: 'text',
-      title: `Укажите, какие задачи/мероприятия по работе с воронкой ${direction} проводились в этом квартале?`,
-      placeholder: 'Перечислите проведённые задачи/мероприятия',
-      inlineQuestions: [
-        {id: `${id}Success`, row: proofRow, type: 'text',
-          title: 'Опишите, какие мероприятия проведены успешно и какой результат получен',
-          placeholder: 'Опишите успешные мероприятия и результат. Если их не было, укажите это.',
-          inlineEvidence: {id: `${id}SuccessReport`, formatId: `${id}SuccessReportFormat`, row: proofRow,
-            title: 'Приложите подтверждение результатов мероприятий.',
-            description: 'Если результаты оформлены в Excel, просьба направить файл',
-            label: 'Подтверждение результатов мероприятий'}},
-        {id: `${id}Difficulties`, row: proofRow, type: 'text',
-          title: 'С какими мероприятиями возникли трудности? Напишите причину',
-          placeholder: 'Опишите трудности и причины. Если трудностей не было, укажите это.'},
-      ],
-    });
     questions.push({id, row, scope, type: 'radio',
       title: `Есть ли задачи/мероприятия по работе с отклонениями по воронке ${direction} в текущем квартале?`,
       options: ['Да', 'Нет', 'Затрудняюсь ответить'],
-      inlineProof: {id: exampleId, row: proofRow, appearance: 'base', title: 'Перечислите задачи/мероприятия за текущий квартал',
-        placeholder: 'Перечислите задачи/мероприятия'},
       inlineEvidence: {id: `${exampleId}Report`, formatId: `${exampleId}ReportFormat`, row: proofRow,
-        title: 'Приложите подтверждение мероприятий за текущий квартал.',
-        label: `Подтверждение мероприятий ${direction} за текущий квартал`},
+        title: 'Пожалуйста, приложите ссылки на мероприятия в прошедшем квартале',
+        formats: [{value: 'jira', label: 'Ссылка на задачу в Jira/ST'}, {value: 'confluence', label: 'Ссылка на Confluence'}, {value: 'other', label: 'Другое'}],
+        label: `Материалы по мероприятиям ${direction} в прошедшем квартале`},
     });
     return questions;
   });
 }
 
-export function inlineQuestions(question) {
-  return question.inlineQuestions || [];
+export function inlineQuestions(question, answers) {
+  return (question.inlineQuestions || []).filter(q => !answers ||
+    ((!q.when || indicatesPresence(answers[q.when])) &&
+      (!q.whenOption || (Array.isArray(answers[q.whenOption.id])
+        ? answers[q.whenOption.id].includes(q.whenOption.option)
+        : answers[q.whenOption.id] === q.whenOption.option))));
 }
 
 // Для SberID и «Почта, Диск, Календарь» применим отдельный лист «Data».
@@ -539,7 +546,7 @@ const dataProductQuestions = {
     inlineEvidence: {id: 'usageReport', formatId: 'usageReportFormat', row: 68}},
   churnConfigured: {id: 'churnConfigured', sheet: 'Data', row: 85,
     title: 'Настроена ли регулярная отчётность по воронке оттока (анализа снижения активности в продукте)?',
-    type: 'radio', options: ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь'],
+    type: 'radio', options: ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь ответить'],
     adaptedFrom: ['Настроена ли регулярная отчётность по воронке оттока (анализа снижения активности в канале)?', 'Не релевантно для моего канала'], accuracyReview: true,
     inlineEvidence: {id: 'churnReport', formatId: 'churnReportFormat', row: 100}},
   churnIncludes: {id: 'churnIncludes', sheet: 'Data', row: 89,
@@ -658,7 +665,7 @@ function productSections(profile) {
     else result[index] = {...result[index], questions: [...result[index].questions, extraProductQuestions.mechanicsMonitoring]};
   }
   result.push(crossSellSection);
-  if (has('hyp.discovery_40_backlog') && !profile.backlogAnalyzed) {
+  if (applicable(productMetric(profile, 'hyp.discovery_40_backlog')) && !previousBacklogs[profile.teamId]) {
     const research = sections.find(s => s.id === 'research');
     result.push({...research, questions: research.questions.filter(q => q.id !== 'lastResearch')});
   }
@@ -697,11 +704,11 @@ function embedBenchmarks(catalogue) {
     let parent = section.questions.find(q => q.id === `${direction}Includes` || (direction === 'attract' && q.id === 'usageIncludes'));
     if (!parent) {
       const source = sourceQuestion(`${direction}Includes`);
-      parent = {id: source.id, row: source.row, title: source.title, type: 'multi', options: ['Затрудняюсь ответить'], benchmarkOnly: true};
+      parent = {id: source.id, row: source.row, title: `Есть ли бенчмарки по воронке ${direction === 'attract' ? 'привлечения' : 'оттока'}?`, type: 'radio', options: ['Да', 'Нет', 'Затрудняюсь ответить'], benchmarkOnly: true};
       section.questions.push(parent);
     }
     section.questions = section.questions.map(q => q.id === parent.id ? {...q,
-      options: [...q.options.filter(option => option !== 'Затрудняюсь ответить'), 'Бенчмарки', 'Затрудняюсь ответить'],
+      options: q.benchmarkOnly ? ['Да', 'Нет', 'Затрудняюсь ответить'] : [...q.options.filter(option => option !== 'Затрудняюсь ответить'), 'Бенчмарки', 'Затрудняюсь ответить'],
       benchmark, inlineProof: benchmark.inlineProof} : q);
   }
   return result;
@@ -738,10 +745,113 @@ function embedActions(catalogue) {
   return result.filter(section => section.questions.length);
 }
 
+function addChurnModel(catalogue, product) {
+  if (!productSurveyProfiles[product]) return catalogue;
+  const result = catalogue.map(section => ({...section, questions: [...section.questions]}));
+  let churn = result.find(section => section.id === 'churn');
+  if (!churn) {
+    churn = {...sections.find(section => section.id === 'churn'), questions: []};
+    const insertion = result.findIndex(section => !['intro', 'metrics', 'dataQuality', 'attract', 'usage'].includes(section.id));
+    result.splice(insertion < 0 ? result.length : insertion, 0, churn);
+  }
+  const includesIndex = churn.questions.findIndex(q => q.id === 'churnIncludes');
+  const analysisIndex = churn.questions.findIndex(q => q.id === 'churnAnalysis');
+  const insertion = includesIndex >= 0 ? includesIndex + 1 : analysisIndex >= 0 ? analysisIndex : churn.questions.length;
+  churn.questions.splice(insertion, 0, {
+    id: 'churnModel', row: null, type: 'radio', title: 'Есть ли у вас модель оттока?',
+    hint: 'Модель оттока — это факторная модель, которая оценивает вероятность того, что клиент перестанет пользоваться продуктом. Она учитывает сочетание признаков: например, снижение активности, изменение частоты операций, остатков или объёма использования продукта. Модель помогает определить клиентов с высоким риском оттока и факторы, связанные с этим риском, чтобы выбрать меры удержания.',
+    options: ['Да', 'Нет', 'Не релевантно для моего продукта', 'Затрудняюсь ответить'],
+    inlineEvidence: {id: 'churnModelReport', formatId: 'churnModelReportFormat', row: null,
+      title: 'Пожалуйста, приложите ссылки на модель оттока', label: 'Материалы по модели оттока'},
+  });
+  return result;
+}
+
+export function assignFunnelEvidence(section) {
+  let questions = section.questions;
+  for (const direction of ['attract', 'churn']) {
+    const reportId = `${direction}Report`;
+    const candidates = questions.filter(q => !q.inlineOnly && q.inlineEvidence?.id === reportId);
+    const owner = candidates.find(q => q.id === `${direction}Includes`)
+      || candidates.find(q => q.id === `${direction}Configured`);
+    questions = questions.map(q => q.inlineEvidence?.id !== reportId ? q
+      : {...q, inlineEvidence: q.id === owner?.id ? {...q.inlineEvidence, evidenceWhenAbsent: undefined} : undefined});
+  }
+  return {...section, questions};
+}
+
+function addGoals(catalogue, product) {
+  if (!productSurveyProfiles[product]) return catalogue;
+  const result = [...catalogue];
+  const metricsIndex = result.findIndex(section => section.id === 'metrics');
+  result.splice(metricsIndex >= 0 ? metricsIndex + 1 : 1, 0, {
+    id: 'goals', title: 'Цели', description: 'Где команда отслеживает ключевые показатели эффективности продукта.',
+    questions: [{id: 'goalsMonitoring', row: null, type: 'radio',
+      title: 'Есть ли у вас регулярный отчет/дашборд для мониторинга всех метрических целей уровня РО?',
+      options: ['Да (включены все цели)', 'Частично (мониторинг не по всем целям)', 'Нет'],
+      inlineQuestions: [
+        {id: 'goalsForecast', row: null, type: 'radio', questionCards: true, when: 'goalsMonitoring',
+          title: 'Все ли метрические цели уровня PO покрыты прогнозами?',
+          options: ['Да, >90%', 'Частично, <90%', 'Нет']},
+        {id: 'goalsFactorAnalysis', row: null, type: 'radio', questionCards: true, when: 'goalsMonitoring',
+          title: 'У всех ли метрических целей уровня PO есть факторный анализ?',
+          options: ['Да, >90%', 'Частично, <90%', 'Нет']},
+        {id: 'goalsDashboards', row: null, type: 'links', when: 'goalsMonitoring',
+          title: 'Пожалуйста, приложите ссылку на отчет',
+          hint: 'Можно указать несколько ссылок. Для каждой дополнительной ссылки нажмите «Добавить ещё».'}
+      ]}],
+  });
+  return result;
+}
+
+const businessAlertHints = {
+  'Да': 'По всем ключевым бизнес-метрикам автоматически приходят уведомления об отклонениях.',
+  'Частично': 'Автоматические уведомления настроены только для части ключевых бизнес-метрик или отклонений.',
+  'Нет': 'Автоматические уведомления об отклонениях ключевых бизнес-метрик не настроены.',
+};
+
+const reportingOptions = ['Да, автоматическая (monthly/weekly)', 'Да, по запросу', 'Нет', 'Затрудняюсь ответить'];
+const reportingCodes = {
+  attractConfigured: 'attract.nastroena_otchetnostь',
+  churnConfigured: 'churn.nastroena_otchetnostь',
+  usageConfigured: 'attract.nastroena_otchetnostь',
+};
+
+function configureReporting(question, profile, catalogue) {
+  const code = reportingCodes[question.id];
+  if (code) {
+    const alreadyConfigured = Number(profile && productMetric(profile, code)?.value) > 0;
+    return {...question,
+      ...(alreadyConfigured ? {title: `С какой регулярностью настроен мониторинг по воронке ${{attractConfigured: 'привлечения', churnConfigured: 'оттока', usageConfigured: 'использования'}[question.id]}?`} : {}),
+      options: reportingOptions.filter(option => option !== 'Нет' || !alreadyConfigured),
+      reasonId: undefined, reasonWhen: undefined};
+  }
+  const configuredId = {attractIncludes: 'attractConfigured', churnIncludes: 'churnConfigured', usageIncludes: 'usageConfigured'}[question.id];
+  if (configuredId && !question.benchmarkOnly && catalogue.some(q => q.id === configuredId)) {
+    return {...question, hideWhenAnswer: {id: configuredId, value: 'Нет'}};
+  }
+  return question;
+}
+
 export function getSections(answers = {}) {
-  return embedActions(embedBenchmarks(baseSections(answers))).map(section => ({...section,
+  const profile = productSurveyProfiles[answers.product];
+  const completedKnowledge = new Set(Object.entries({
+    marketRussia: 'general.obъem_celevogo_rynka_v_rossii',
+    marketSber: 'general.obъem_celevogo_rynka_v_sbere',
+    satellite: 'general.znanie_produktov_sputnikov',
+  }).filter(([, code]) => {
+    const metric = profile && productMetric(profile, code);
+    return metric && Number(metric.max_value) > 0 && Number(metric.value) / Number(metric.max_value) === 1;
+  }).map(([id]) => id));
+  return addGoals(addChurnModel(embedActions(embedBenchmarks(baseSections(answers))), answers.product), answers.product).map(section => ({...section,
     ...(section.id === 'priorities' ? {title: 'Поддержка', description: 'Какие инструменты и поддержка помогут команде.'} : {}),
-    questions: section.questions.filter(q => !['lastResearch', 'priorities'].includes(q.id)),
+    questions: section.questions.filter(q => !['lastResearch', 'priorities', 'attractDeviationsCompleted', 'deviationsCompleted'].includes(q.id) && !completedKnowledge.has(q.id))
+      .filter(q => q.id !== 'crossSellAfter' || !profile || needsSurvey(profile, 'mehaniki.cross_sell'))
+      .map(q => ['attractAnalysis', 'churnAnalysis'].includes(q.id) ? {...q, inlineEvidence: undefined} : q)
+      .map(q => q.id === 'alerts' ? {...q, optionHints: businessAlertHints,
+        optionalCommentId: 'alertsComment', optionalCommentWhen: ['Да', 'Частично'], optionalCommentRequired: true,
+        optionalCommentTitle: 'Что настроено и как?'} : q.id === 'upsell' ? {...q,
+        optionHints: {'Допродажи (upsell)': 'Upsell — это предложение клиенту более дорогой или расширенной версии текущего продукта. Например, повышение тарифа, переход на премиальный пакет или подключение дополнительных платных возможностей.'}} : q),
   })).filter(section => section.questions.length).map(section => section.id !== 'metrics' ? {
     ...section,
     questions: section.questions.map(question => !question.benchmarkOnly && question.type !== 'info' && previousFunnels[answers.product]?.[question.id]?.length ? {
@@ -751,7 +861,7 @@ export function getSections(answers = {}) {
           .filter(index => !(question.id === 'attractIncludes' && clickstreamOnlyAttraction[answers.product] && [0, 4].includes(index)))
           .map(index => question.options[index]),
         ...(question.id === 'attractIncludes' && clickstreamOnlyAttraction[answers.product] ? {
-          title: 'Укажите, что еще включает воронка привлечения?',
+          title: 'Укажите, что еще включает отчет по воронке привлечения?',
           previousClickstreamUrl: clickstreamOnlyAttraction[answers.product],
         } : {}),
       } : question),
@@ -759,17 +869,31 @@ export function getSections(answers = {}) {
     ...section,
     questions: section.questions.map(question => question.id === 'monitoring' ? {...question, inlineOnly: true} : question.id === 'satellite' ? question : {
       ...question,
+      ...(question.type === 'numeric' ? {
+        title: question.title.replace(/\s*\(клиентов\)/g, ''),
+        hint: 'Введите число за последний доступный период',
+        unit: question.id === 'dauMau' ? '%' : 'клиентов',
+        optionalCommentId: `${question.id}Comment`,
+      } : {}),
       inlineProof: {id: `${question.id}Source`, kind: 'metricSource', row: null, appearance: 'base', always: true, autoFocus: false,
         title: 'Где вы смотрите этот показатель?'},
     }),
   }).map(section => ({...section, questions: section.questions.map(question => {
     const links = previousReportLinks[answers.product]?.[question.inlineEvidence?.id];
     return links ? {...question, inlineEvidence: {...question.inlineEvidence, previousLinks: links}} : question;
-  })}));
+  })})).map(section => section.id === 'crossSell' ? {...section,
+    questions: section.questions.filter(q => q.id !== 'crossSellInfo').map(q => q.id === 'crossSellAfter'
+      ? {...q, introInfo: crossSellSection.questions[0]} : q),
+  } : section).map(section => ({...section, questions: section.questions.map(q =>
+    ['attractIncludes', 'churnIncludes', 'usageIncludes'].includes(q.id) && !q.benchmarkOnly ? {...q,
+      title: ['attractIncludes', 'churnIncludes'].includes(q.id) ? `Какие метрики вы мониторите в рамках воронки ${q.id === 'attractIncludes' ? 'привлечения' : 'оттока'} по вашему продукту?` : 'Какую отчетность вы используете для мониторинга метрик ниже?',
+      hint: ['attractIncludes', 'churnIncludes'].includes(q.id) ? 'Можно выбрать несколько вариантов' : 'Пожалуйста, добавьте ссылку и выберите метрики',
+      reportMonitoring: true, evidenceAfterOptions: ['attractIncludes', 'churnIncludes'].includes(q.id),
+    } : q)})).map(section => ({...section, questions: section.questions.map(q => configureReporting(q, profile, section.questions))})).map(assignFunnelEvidence).filter(section => section.questions.length);
 }
 
 export function getBacklogAnalyzed(answers = {}) {
-  if (productSurveyProfiles[answers.product]) return productSurveyProfiles[answers.product].backlogAnalyzed;
+  if (productSurveyProfiles[answers.product]) return Boolean(previousBacklogs[answers.product]);
   return CHANNEL_SURVEYS_ENABLED && answers.product === callCenterBaseline.teamId ? callCenterBacklogAnalyzed : false;
 }
 
@@ -792,6 +916,7 @@ export function correctTypos(text) {
 export function visibleQuestions(section, backlogAnalyzed, answers = {}) {
   return section.questions.filter((q) =>
     !q.inlineOnly &&
+    (!q.hideWhenAnswer || answers[q.hideWhenAnswer.id] !== q.hideWhenAnswer.value) &&
     (!backlogAnalyzed || !['discovery', 'backlog'].includes(q.id)) &&
     (!q.when || indicatesPresence(answers[q.when])) &&
     (!q.whenOption || (Array.isArray(answers[q.whenOption.id]) ? answers[q.whenOption.id].includes(q.whenOption.option) : answers[q.whenOption.id] === q.whenOption.option)) &&
@@ -802,7 +927,7 @@ export function visibleQuestions(section, backlogAnalyzed, answers = {}) {
 export function indicatesPresence(value) {
   if (Array.isArray(value)) return value.some(indicatesPresence);
   return Boolean(value) && !(typeof value === 'string' && value.toLocaleLowerCase('ru').startsWith('не релевантно')) &&
-    !['Нет', 'Не проводился', 'Затрудняюсь ответить', 'Затрудняюсь', 'Нет собственных аналитиков', 'Не подходит для моего продукта', 'Не настроены дополнительные механики', 'Предложенные варианты неподходят для моего продукта'].includes(value);
+    !['Нет', 'Не проводился', 'Затрудняюсь ответить', 'Затрудняюсь', 'Нет собственных аналитиков', 'Нет аналитиков', 'Не подходит для моего продукта', 'Не настроены дополнительные механики', 'Предложенные варианты неподходят для моего продукта'].includes(value);
 }
 
 export function needsEvidence(question, answers = {}) {
@@ -810,31 +935,29 @@ export function needsEvidence(question, answers = {}) {
   const absent = evidence?.evidenceWhenAbsent;
   const earlierIds = Array.isArray(absent) ? absent : absent ? [absent] : [];
   const unknown = Array.isArray(answers[question.id]) && answers[question.id].includes('Затрудняюсь ответить');
-  return Boolean(evidence && !unknown && (question.previousOptions?.length || indicatesPresence(answers[question.id])) &&
+  return Boolean(evidence && !unknown && (question.reportMonitoring || question.previousOptions?.length || indicatesPresence(answers[question.id])) &&
     earlierIds.every(id => !indicatesPresence(answers[id])));
 }
 
 export function hasEvidence(question, answers = {}) {
   if (!needsEvidence(question, answers)) return true;
   const {format, value} = evidenceResponse(question.inlineEvidence, answers);
-  if (format === 'excel') return true;
-  if (format !== 'link') return false;
-  try {
-    const links = question.inlineEvidence.previousLinks ? value.split(/\r?\n/).map(link => link.trim()).filter(Boolean) : [value];
-    return links.length > 0 && links.every(link => {
-      const url = new URL(link);
-      return (url.protocol === 'http:' || url.protocol === 'https:') && Boolean(url.hostname);
-    });
-  } catch {
-    return false;
+  if (question.inlineEvidence.formats) {
+    if (!question.inlineEvidence.formats.some(option => option.value === format)) return false;
+    if (format === 'other') return Boolean(value);
+  } else {
+    if (['excel', 'unavailable'].includes(format)) return true;
+    if (format !== 'link') return false;
   }
+  return hasHttpLinks(value);
 }
 
 export function evidenceResponse(evidence, answers = {}) {
   const correction = evidence.previousLinks ? (answers[`${evidence.id}Correction`] || 'keep') : undefined;
   return correction === 'keep'
     ? {format: 'link', value: evidence.previousLinks.join('\n'), correction}
-    : {format: answers[evidence.formatId] || '', value: String(answers[evidence.id] ?? '').trim(), correction};
+    : {format: answers[evidence.formatId] || '', value: answers[evidence.formatId] === 'other' ? String(answers[evidence.id] ?? '').trim() : httpLinkValues(answers[evidence.id]).join('\n'), correction,
+      ...(answers[evidence.formatId] === 'unavailable' ? {comment: String(answers[`${evidence.id}Comment`] || '').trim()} : {})};
 }
 
 export function normalizeNumericAnswer(value, allowDecimal = false) {
@@ -850,15 +973,29 @@ export function formatNumericAnswer(value) {
   return fraction === undefined ? grouped : `${grouped},${fraction}`;
 }
 
+export function allowsMissingMetric(question, answers) {
+  return question.type === 'numeric' && answers[`${question.id}Unknown`] === true;
+}
+
 export function hasAnswer(question, answers) {
   const value = question.previousOptions?.length ? [...question.previousOptions, ...(Array.isArray(answers[question.id]) ? answers[question.id] : [])] : answers[question.id];
-  if (inlineQuestions(question).some(q => !hasAnswer(q, answers))) return false;
+  if (inlineQuestions(question, answers).some(q => !hasAnswer(q, answers))) return false;
   if (question.type === 'info') return true;
-  if (question.action && needsProof(question, answers) && !hasEvidence(question.action, {...answers, [question.action.id]: 'Да'})) return false;
+  if (question.type === 'links') {
+    const format = answers[`${question.id}Unknown`] === true ? 'unknown' : answers[`${question.id}Format`] || 'link';
+    if (['excel', 'unknown'].includes(format)) return true;
+    return format === 'link' && hasHttpLinks(value);
+  }
+  if (question.type === 'radio' && !question.options.includes(value)) return false;
+  if (question.optionalCommentRequired && showsOptionalComment(question, answers)
+    && !String(answers[question.optionalCommentId] || '').trim()) return false;
+  if (question.action && isOptionSelected(question, answers, question.actionOption) && !hasEvidence(question.action, {...answers, [question.action.id]: 'Да'})) return false;
   if (needsReason(question, answers) && !question.reasonOptional && !String(answers[question.reasonId] || '').trim()) return false;
   if (needsProof(question, answers) && (question.inlineProof.kind === 'metricSource'
-    ? !hasMetricSource(question.inlineProof, answers) : !String(answers[question.inlineProof.id] || '').trim())) return false;
-  if (question.type === 'numeric') return (question.allowDecimal ? /^[0-9]+(?:,[0-9]+)?$/ : /^[0-9]+$/).test(String(value ?? '')) && hasEvidence(question, answers);
+    ? !hasMetricSource(question.inlineProof, answers) : question.inlineProof.kind === 'backlog' ? !hasBacklogLinks(answers[question.inlineProof.id]) : !String(answers[question.inlineProof.id] || '').trim())) return false;
+  if (question.type === 'numeric') return (allowsMissingMetric(question, answers)
+    ? !String(value ?? '').trim()
+    : (question.allowDecimal ? /^[0-9]+(?:,[0-9]+)?$/ : /^[0-9]+$/).test(String(value ?? ''))) && hasEvidence(question, answers);
   if (value === 'Свой вариант ответа') return Boolean(String(answers[`${question.id}Other`] || '').trim()) && hasEvidence(question, answers);
   if (Array.isArray(value)) {
     if (!value.filter(option => question.options.includes(option) && !knownMechanics(question, answers).includes(option)).length) return false;
@@ -870,12 +1007,14 @@ export function hasAnswer(question, answers) {
 }
 
 export function isOptionSelected(question, answers, option) {
+  if (question.benchmarkOnly && option === 'Бенчмарки') return answers[question.id] === 'Да';
   const choices = answers[question.id];
   return Array.isArray(choices) && question.options?.includes(option)
     && (choices.includes(option) || (question.options.includes('Все перечисленное выше') && choices.includes('Все перечисленное выше')));
 }
 
 export function needsProof(question, answers = {}) {
+  if (question.inlineProof?.whenAnswer) return answers[question.id] === question.inlineProof.whenAnswer;
   return Boolean(question.inlineProof && (question.benchmark
     ? isOptionSelected(question, answers, 'Бенчмарки')
     : question.action ? isOptionSelected(question, answers, question.actionOption)
@@ -890,7 +1029,6 @@ export function toggleOption(current, option) {
 }
 
 export function questionOptions(question) {
-  if (question.previousClickstreamUrl) return question.options.filter(option => !question.previousOptions.includes(option));
   if (question.previousOptions?.length) return [...question.previousOptions, ...question.options.filter(option => !question.previousOptions.includes(option))];
   return question.options || [];
 }
@@ -908,4 +1046,18 @@ export function needsComment(question, answers) {
 
 export function needsReason(question, answers = {}) {
   return Boolean(question.reasonId && answers[question.id] === question.reasonWhen);
+}
+
+
+export function showsOptionalComment(question, answers) {
+  return Boolean(question.optionalCommentId && (!question.optionalCommentWhen
+    || question.optionalCommentWhen.includes(answers[question.id])));
+}
+
+
+export function shouldShowCrossSellReminder(answers) {
+  const profile = productSurveyProfiles[answers.product];
+  const metric = profile && productMetric(profile, 'mehaniki.cross_sell');
+  return Boolean(applicable(metric) && Number(metric.value) > 0
+    && Number(metric.value) < Number(metric.max_value) && answers.crossSellAfter !== 'Нет');
 }
