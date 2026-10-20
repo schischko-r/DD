@@ -18,6 +18,7 @@ from pathlib import Path
 import build_outflow_v3
 import build_prolongation
 import build_report_data
+from archive_outflow_report import archive_report
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -45,6 +46,8 @@ def main(argv: list[str] | None = None) -> None:
     output = args.output.expanduser()
     size = build_prolongation.build(build_prolongation.DEFAULT_TEMPLATE, output,
                                     build_prolongation.DEFAULT_TREE, build_prolongation.DEFAULT_DATA)
+    archived_page = archive_report(output, build_prolongation.DEFAULT_DATA)
+    print(f"Отдельный HTML сохранен: {archived_page}")
     print(f"Готово: {output.resolve()} ({size / 1024 / 1024:.2f} МБ)")
 
 

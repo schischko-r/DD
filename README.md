@@ -35,6 +35,21 @@ Excel, обновления данных и загрузки в Qlik:
 ./build_gravity_report.sh --outflow-from-excel
 ```
 
+При полной сборке и в режиме `--outflow-from-excel` готовый самостоятельный
+HTML анализа оттока сохраняется **до сборки frontend и встраивания в основной
+отчёт** в `outputs/outflow/from-excel/prolongation-<UTC-время>-<уникальный ID>.html`.
+Каждый запуск создаёт отдельную копию с теми же байтами, что и `prolongation.html`;
+дерево, данные и ресурсы уже встроены, файл открывается отдельно от основного отчёта.
+Для источника с `scenarios.synthetic: true` копия попадает в
+`outputs/outflow/synthetic/`, для отсутствующего или неизвестного признака — в
+`outputs/outflow/unknown/`. `from-excel` означает явный признак
+`scenarios.synthetic: false`, а не дополнительную проверку достоверности данных.
+Режим `--html-only` новых копий не создаёт.
+
+Прямая команда `python prolongation_from_excel.py /path/to/prolong.xlsx`
+сохраняет такую же архивную копию после успешной сборки HTML, включая запуск
+с собственным выходным файлом через `-o report.html`.
+
 Скрипт использует корневой `.env`, а при его отсутствии также проверяет
 `$HOME/Documents/Codex/DD-dev/.env`. Другой env-файл можно передать через
 `DD_ENV_FILE=/path/to/.env`. Все аргументы передаются в Python-сборщик, например

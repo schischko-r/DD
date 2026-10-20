@@ -8,9 +8,12 @@ class GravityBuildCrosssellTest(unittest.TestCase):
     def setUp(self) -> None:
         self.backlog_source = patch.object(report.Path, "is_file", return_value=True)
         self.backlog_source.start()
+        self.archive = patch.object(report, "archive_report")
+        self.archive.start()
 
     def tearDown(self) -> None:
         self.backlog_source.stop()
+        self.archive.stop()
 
     def test_crosssell_is_enabled_by_default(self) -> None:
         args = report.parse_args([])

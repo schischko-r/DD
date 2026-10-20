@@ -11,6 +11,8 @@ import subprocess
 import sys
 from pathlib import Path
 
+from archive_outflow_report import archive_report
+
 
 ROOT = Path(__file__).resolve().parent
 DEFAULT_INPUT = ROOT / "flat_table.xlsx"
@@ -23,6 +25,7 @@ DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlo
 DEFAULT_STANDALONE_OUTPUT = ROOT / "gravity-standalone.html"
 DEFAULT_PROLONGATION_WORKBOOK = ROOT / "prolong.xlsx"
 DEFAULT_PROLONGATION_PAGE = ROOT / "prolongation.html"
+DEFAULT_PROLONGATION_DATA = ROOT / "prolongation-data.json"
 DEFAULT_CROSSSELL_EXPORT = ROOT / "crosssell_export.json"
 DEFAULT_HTML_REPORTS_DIRECTORY = ROOT / "source-html-reports" / "downloaded"
 NPM_COMMAND = shutil.which("npm.cmd") or shutil.which("npm") or "npm"
@@ -148,6 +151,9 @@ def build(args: argparse.Namespace) -> None:
         ])
     run([sys.executable, str(ROOT / "build_outflow_v3.py")])
     run([sys.executable, str(ROOT / "build_prolongation.py")])
+    if full_data_build or args.outflow_from_excel:
+        archived_page = archive_report(DEFAULT_PROLONGATION_PAGE, DEFAULT_PROLONGATION_DATA)
+        print(f"Outflow HTML saved: {archived_page}")
 
     npm_environment = frontend_environment()
     if full_data_build:
