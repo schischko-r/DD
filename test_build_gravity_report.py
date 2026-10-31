@@ -253,6 +253,7 @@ class GravityBuildCrosssellTest(unittest.TestCase):
 
     def test_full_build_rebuilds_backlog_data_from_source_by_default(self) -> None:
         args = report.parse_args([])
+        self.assertEqual(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT.name, "tickets_final.xlsx")
 
         with patch.object(report, "run") as run:
             report.build(args)
@@ -264,6 +265,8 @@ class GravityBuildCrosssellTest(unittest.TestCase):
                 str(report.ROOT / "build_backlog_data.py"),
                 "--input",
                 str(report.DEFAULT_BACKLOG_INPUT),
+                "--additional-input",
+                str(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT),
                 "--output",
                 str(report.DEFAULT_BACKLOG_DATA),
             ],

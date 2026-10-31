@@ -143,7 +143,7 @@ test('focused time-in-work recommendation table retains Gravity UI resources and
   assert.doesNotMatch(pageSource, /DdScenarioRecommendationTable|buildScenarioRecommendation(?:Rows|Columns)|Рекомендации по сценариям работы|Справочная информация, визуализация разовая, для инфо/);
   assert.doesNotMatch(summarySource, /DdScenarioRecommendationTable|DD_SCENARIO_RECOMMENDATIONS/);
   assert.doesNotMatch(stylesSource, /dd-scenario-recommendations/);
-  assert.match(pageSource, /medianTtm/);
+  assert.doesNotMatch(pageSource, /medianTtm/);
   assert.doesNotMatch(pageSource, /TTM/);
   assert.match(stylesSource, /\.ex-el-access-modal\s*\{[^}]*--g-modal-width:\s*min\(1040px,/s);
   assert.match(stylesSource, /\.ex-el-access-table-scroll\s*\{[^}]*overflow-x:\s*auto;/s);

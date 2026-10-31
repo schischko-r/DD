@@ -4,6 +4,8 @@ import {ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo} from '@gravity-ui
 import {Alert, Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label, Link, Modal, Popover, Progress, Select, Spin, Table, Text} from '@gravity-ui/uikit';
 import {DD_SCENARIO_RECOMMENDATIONS} from './backlogScenarioRecommendations.js';
 import {RecommendationCell} from './RecommendationCell.js';
+import {findBacklogTeamFilterOption, getBacklogTeamFilterOptions} from '../domain/backlogTeamSelection.js';
+import {displayProductName} from '../domain/report.js';
 
 const GROUPING_OPTIONS = [
   {value: 'directions', content: 'Направления'},
@@ -869,26 +871,29 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const [grouping, setGrouping] = useState('directions');
   const [categoryFilter, setCategoryFilter] = useState('');
   const teams = useMemo(() => getTeamDatasets(data || {}), [data]);
-  const [selectedTeamKey, setSelectedTeamKey] = useState(() => String(initialTeamKey || teams[0]?.key || ''));
+  const teamFilterOptions = useMemo(() => getBacklogTeamFilterOptions(teams), [teams]);
+  const [selectedTeamKey, setSelectedTeamKey] = useState(() => findBacklogTeamFilterOption(teamFilterOptions, initialTeamKey)?.value || '');
   const appliedInitialTeamKey = useRef(null);
   useEffect(() => {
     const requestedTeamKey = String(initialTeamKey || '');
     if (requestedTeamKey !== appliedInitialTeamKey.current) {
-      if (requestedTeamKey && teams.some((team) => String(team?.key) === requestedTeamKey)) {
+      if (requestedTeamKey && teamFilterOptions.some((option) => option.value === requestedTeamKey || option.teamKey === requestedTeamKey)) {
         appliedInitialTeamKey.current = requestedTeamKey;
-        if (selectedTeamKey !== requestedTeamKey) setSelectedTeamKey(requestedTeamKey);
+        const requestedOption = findBacklogTeamFilterOption(teamFilterOptions, requestedTeamKey);
+        if (selectedTeamKey !== requestedOption.value) setSelectedTeamKey(requestedOption.value);
         return;
       }
       if (!requestedTeamKey) {
         appliedInitialTeamKey.current = '';
-        const defaultTeamKey = String(teams[0]?.key || '');
+        const defaultTeamKey = teamFilterOptions[0]?.value || '';
         if (selectedTeamKey !== defaultTeamKey) setSelectedTeamKey(defaultTeamKey);
         return;
       }
     }
-    if (!teams.some((team) => String(team?.key) === selectedTeamKey)) setSelectedTeamKey(String(teams[0]?.key || ''));
-  }, [initialTeamKey, selectedTeamKey, teams]);
-  const team = selectTeamDataset(data || {}, selectedTeamKey);
+    if (!teamFilterOptions.some((option) => option.value === selectedTeamKey)) setSelectedTeamKey(teamFilterOptions[0]?.value || '');
+  }, [initialTeamKey, selectedTeamKey, teamFilterOptions]);
+  const selectedTeamOption = findBacklogTeamFilterOption(teamFilterOptions, selectedTeamKey);
+  const team = selectTeamDataset(data || {}, selectedTeamOption?.teamKey);
   const months = Array.isArray(team?.months) ? team.months : [];
   const quarters = useMemo(() => Array.isArray(team?.quarters) && team.quarters.length ? team.quarters : fallbackQuarters(months), [team?.quarters, months]);
   const defaultQuarter = selectQuarter(quarters);
@@ -906,16 +911,16 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   }, [categoryFilter, categoryFilterOptions]);
   const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths, categoryFilter, discoveryDirectionLabel), [categoryFilter, discoveryDirectionLabel, grouping, selectedMonths, visibleMonths]);
   const dashboard = useMemo(() => buildDashboardInsights(quarter), [quarter]);
-  const teamOptions = useMemo(() => teams.map((item) => ({value: String(item?.key), content: String(item?.label || item?.key)})), [teams]);
+  const teamOptions = useMemo(() => teamFilterOptions.map(({value, content}) => ({value, content: displayProductName(content)})), [teamFilterOptions]);
   const quarterOptions = useMemo(() => quarters.map((item) => ({value: quarterKey(item), content: quarterLabel(item)})), [quarters]);
   const scenarioFocus = useMemo(() => buildScenarioFocusRecommendations(quarters), [quarters]);
   const updateTeam = (value) => {
-    const nextTeamKey = value[0] || '';
-    const nextTeam = selectTeamDataset(data || {}, nextTeamKey);
+    const nextOption = findBacklogTeamFilterOption(teamFilterOptions, value[0]);
+    const nextTeam = selectTeamDataset(data || {}, nextOption?.teamKey);
     const nextMonths = Array.isArray(nextTeam?.months) ? nextTeam.months : [];
     const nextQuarters = Array.isArray(nextTeam?.quarters) && nextTeam.quarters.length ? nextTeam.quarters : fallbackQuarters(nextMonths);
-    setSelectedTeamKey(nextTeamKey);
-    setSelectedQuarterKey(quarterKey(selectQuarter(nextQuarters)));
+    setSelectedTeamKey(nextOption?.value || '');
+    if (nextTeam?.key !== team?.key) setSelectedQuarterKey(quarterKey(selectQuarter(nextQuarters)));
   };
 
   if (status === 'loading') return <PageState type="loading" />;
@@ -931,8 +936,6 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const routineShare = metric(quarter, 'exportRoutineShare', 'routineShare');
   const automationCount = metric(quarter, 'automationCount');
   const automationShare = metric(quarter, 'automationShare');
-  const medianCycleTimeDays = metric(quarter, 'medianCycleTimeDays', 'cycleTimeMedianDays');
-  const cycleTimeSampleCount = metric(quarter, 'cycleTimeSampleCount');
   const storyPointsFilledCount = metric(quarter, 'storyPointsFilledCount');
   const storyPointsBaseCount = metric(quarter, 'storyPointsBaseCount', 'storyPointsTotalCount');
   const storyPointsFilledShare = metric(quarter, 'storyPointsFilledShare', 'storyPointsFillShare');
@@ -953,7 +956,6 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   const kpiMiniCharts = {
     created: buildKpiMiniChartData(visibleMonths, [{name: 'Создано', key: 'createdCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
     createdResolved: buildKpiMiniChartData(visibleMonths, [{name: 'Завершено из созданных', key: 'createdResolvedCount'}], {unit: 'задач', scaleMonths: selectedMonths}),
-    medianTtm: buildKpiMiniChartData(visibleMonths, [{name: 'Медианное время в работе', key: 'medianCycleTimeDays'}], {unit: 'дн.', scaleMonths: selectedMonths}),
     storyPoints: buildKpiMiniChartData(visibleMonths, [{name: 'Заполнение Story Points', key: 'storyPointsFilledShare'}], {format: 'percent', scaleMonths: selectedMonths}),
     routineAutomation: buildKpiMiniChartData(visibleMonths, [
       {name: 'Рутина', key: 'exportRoutineShare', color: 'var(--g-color-text-danger)'},
@@ -963,7 +965,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
 
   return (
     <main className="content dashboard-page backlog-page">
-      {onOpenTeam && <Box spacing={{mb: 2}}><Button view="flat" size="m" onClick={() => onOpenTeam(team)}><Icon data={ArrowLeft} size={16} />Назад к карточке команды</Button></Box>}
+      {onOpenTeam && <Box spacing={{mb: 2}}><Button view="flat" size="m" onClick={() => onOpenTeam(team, selectedTeamOption?.member)}><Icon data={ArrowLeft} size={16} />Назад к карточке команды</Button></Box>}
       <header className="backlog-header">
         <Flex direction="column" gap="1">
           <Text as="h1" variant="display-2">Декомпозиция бэклога</Text>
@@ -973,7 +975,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
         <Flex className="backlog-header-controls" alignItems="flex-end" gap="3">
           <Flex className="backlog-filter-control backlog-team-control" direction="column" gap="1">
             <Text variant="caption-2" color="secondary">Команда</Text>
-            <Select value={team ? [String(team.key)] : []} options={teamOptions} onUpdate={updateTeam} size="l" width="max" popupWidth="fit" popupPlacement="bottom-end" aria-label="Команда" />
+            <Select value={selectedTeamOption ? [selectedTeamOption.value] : []} options={teamOptions} onUpdate={updateTeam} size="l" width="max" popupWidth="fit" popupPlacement="bottom-end" aria-label="Команда" />
           </Flex>
           <Flex className="backlog-filter-control" direction="column" gap="1">
             <Text variant="caption-2" color="secondary">Квартал</Text>
@@ -1022,7 +1024,6 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
       <section className="backlog-kpi-grid" aria-label="Ключевые показатели квартала">
         <KpiCard value={formatNumber(created)} label="Создано за квартал" note={selectedPeriodLabel} chartData={kpiMiniCharts.created} chartUnit="задач" />
         <KpiCard value={formatNumber(createdResolved)} label="Завершено из созданных" note={`${selectedPeriodLabel} · ${formatPercentValue(createdResolvedShare)} от задач · Resolved / Done`} chartData={kpiMiniCharts.createdResolved} chartUnit="задач" />
-        <KpiCard value={Number.isFinite(medianCycleTimeDays) ? `${formatNumber(medianCycleTimeDays, 1)} дн.` : '—'} label="Медианное время в работе" note={`${selectedPeriodLabel} · ${Number.isFinite(cycleTimeSampleCount) ? `по ${formatNumber(cycleTimeSampleCount)} завершённым задачам` : 'от In Progress до Resolved / Done'}`} chartData={kpiMiniCharts.medianTtm} chartUnit="дн." />
         <KpiCard value={Number.isFinite(storyPointsFilledShare) ? formatPercentValue(storyPointsFilledShare) : '—'} label="Заполнение Story Points" note={`${selectedPeriodLabel} · ${Number.isFinite(storyPointsFilledCount) && Number.isFinite(storyPointsBaseCount) ? `${formatNumber(storyPointsFilledCount)} из ${formatNumber(storyPointsBaseCount)} созданных задач` : 'доля созданных задач с оценкой'}`} chartData={kpiMiniCharts.storyPoints} chartUnit="%" />
         <RoutineAutomationCard periodLabel={selectedPeriodLabel} total={created} routineShare={routineShare} routineCount={routineCount} automationShare={automationShare} automationCount={automationCount} chartData={kpiMiniCharts.routineAutomation} />
       </section>

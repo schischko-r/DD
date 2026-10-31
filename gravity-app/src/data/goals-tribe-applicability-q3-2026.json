@@ -1,0 +1,282 @@
+{
+  "period": "III кв. 2026",
+  "scope": "metric-applicability-assessment",
+  "source": {
+    "origin": "userConfirmedGoalsTribeTable",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "description": "Таблица целей по трайбам из сообщения пользователя. Берутся три готовые колонки оценок, не проценты и не итоговые строки юнитов/ЛЮ. Применяется ко всем продуктам соответствующего трайба за III квартал, заменяет старые оценки, в том числе 0.5.",
+    "scoreOrder": [
+      "goals.monitored",
+      "goals.forecast",
+      "goals.factor_analysis_l1_l2"
+    ],
+    "nullRule": "Нулевой знаменатель и #DIV/0! означают нерелевантность, исключение из расчёта и визуала; это последнее уточнение пользователя заменяет предыдущее указание считать ошибку нулём.",
+    "confirmedAliases": {
+      "Почтенный возраст": "Зрелость",
+      "Вторичка": [
+        "Сделка вторичка",
+        "Много денег (НКПЗН)"
+      ],
+      "ИЖС": "Сделка ИЖС",
+      "Первичка": "Сделка с Первичным жильём",
+      "Развитие сервисных технологий в каналах": [
+        "Колл-центр",
+        "Телемаркетинг"
+      ],
+      "Sber ID": [
+        "SberID",
+        "Единый личный кабинет (ЕЛК)",
+        "Почта, Диск, Календарь"
+      ]
+    }
+  },
+  "products": [
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Daily Banking B2C",
+            "sourceTribe": "Социальные и зарплатные решения",
+            "catalogTribe": "Социальные и зарплатные решения",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Daily Banking B2C",
+            "sourceTribe": "Социальные и зарплатные решения",
+            "catalogTribe": "Социальные и зарплатные решения",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Phygital Channels",
+            "sourceTribe": "Клиентские документы",
+            "catalogTribe": "Клиентские документы",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Daily Banking B2C",
+            "sourceTribe": "Кредитные карты",
+            "catalogTribe": "Кредитные карты",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Phygital Channels",
+            "sourceTribe": "Развитие сервисных технологий в каналах",
+            "catalogTribe": "Развитие сервиса в каналах",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Phygital Channels",
+            "sourceTribe": "Развитие сервисных технологий в каналах",
+            "catalogTribe": "Развитие продаж в каналах",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Phygital Channels",
+            "sourceTribe": "Платформа Phygital",
+            "catalogTribe": "Платформа Phygital",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Digital Channels",
+            "sourceTribe": "Уведомления",
+            "catalogTribe": "Уведомления",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        }
+      }
+    },
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "goals.forecast": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Data",
+            "sourceTribe": "SberCampaigning",
+            "catalogTribe": "Аутентификация клиентов",
+            "metricCode": "goals.forecast",
+            "zeroDenominator": true
+          }
+        },
+        "goals.factor_analysis_l1_l2": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedGoalsTribeTable",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-source-q3-2026.json",
+            "sourceSha256": "b216fc098205753e26af21f1938d69129e46fdffe92a3a68b42dbef41da4d3ba",
+            "sourceUnit": "Data",
+            "sourceTribe": "SberCampaigning",
+            "catalogTribe": "Аутентификация клиентов",
+            "metricCode": "goals.factor_analysis_l1_l2",
+            "zeroDenominator": true
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 9,
+    "facts": 10
+  }
+}

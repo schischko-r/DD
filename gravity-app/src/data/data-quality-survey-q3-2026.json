@@ -1,0 +1,101 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-metric-assessment",
+  "source": {
+    "origin": "q3DataQualitySurvey",
+    "date": "2026-10-30",
+    "instruction": "Заполнить пустые ККД и промышленные данные из ответов III квартала; отсутствие нового ответа не подменять прежним баллом."
+  },
+  "products": [
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "dannye.kontrolь_kachestva_dannyh_kkd": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "q3DataQualitySurvey",
+            "period": "III кв. 2026",
+            "file": "ddi_3q_response/questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 4,
+            "respondent": "Воробьев Александр Валерьевич",
+            "questionId": "qualityTools",
+            "answer": [
+              "Ручная проверка аналитиками (сверка с первичными источниками, выгрузки)",
+              "Проверка на стороне источника данных (DWH, витрины) силами data-инженеров"
+            ],
+            "rule": "Собственные/ручные проверки и проверка DWH/витрин без встроенного ККД Навигатора: 50%, аналогично подтверждённой шкале кампейнинга."
+          }
+        }
+      }
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "dannye.kontrolь_kachestva_dannyh_kkd": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "q3DataQualitySurvey",
+            "period": "III кв. 2026",
+            "file": "ddi_3q_response/questionare-responses(13).csv",
+            "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+            "csvRow": 10,
+            "respondent": "Калинова Наталья Михайловна",
+            "questionId": "qualityTools",
+            "answer": [
+              "Ручная проверка аналитиками (сверка с первичными источниками, выгрузки)",
+              "Проверка на стороне источника данных (DWH, витрины) силами data-инженеров"
+            ],
+            "rule": "Собственные/ручные проверки и проверка DWH/витрин без встроенного ККД Навигатора: 50%, аналогично подтверждённой шкале кампейнинга."
+          }
+        },
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "q3DataQualitySurvey",
+            "period": "III кв. 2026",
+            "file": "ddi_3q_response/questionare-responses(13).csv",
+            "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+            "csvRow": 10,
+            "respondent": "Калинова Наталья Михайловна",
+            "questionId": "industrialData",
+            "answer": "Да, большая часть метрик — на промышленных данных, но часть ещё требует ручной обработки",
+            "rule": "Большая часть метрик промышленная, но часть требует ручной обработки: 50%."
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "dannye.kontrolь_kachestva_dannyh_kkd": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "q3DataQualitySurvey",
+            "period": "III кв. 2026",
+            "file": "ddi_3q_response/questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 22,
+            "respondent": "Белозеров Дмитрий Александрович",
+            "questionId": "qualityTools",
+            "answer": [
+              "Собственная система мониторинга качества данных",
+              "Ручная проверка аналитиками (сверка с первичными источниками, выгрузки)",
+              "Проверка на стороне источника данных (DWH, витрины) силами data-инженеров"
+            ],
+            "rule": "Собственные/ручные проверки и проверка DWH/витрин без встроенного ККД Навигатора: 50%, аналогично подтверждённой шкале кампейнинга."
+          }
+        }
+      }
+    }
+  ]
+}

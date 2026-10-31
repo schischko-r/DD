@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import posixpath
 import re
@@ -20,7 +21,8 @@ ROOT = Path(__file__).resolve().parent
 DEFAULT_INPUT = ROOT / "sbertrack_all_full_history_to_export.xlsx"
 DEFAULT_OUTPUT = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_HISTORY_START = date(2026, 2, 1)
-DEFAULT_HISTORY_END = date(2026, 6, 30)
+DEFAULT_HISTORY_END = date(2026, 9, 30)
+FROZEN_HISTORY_END = date(2026, 6, 30)
 REQUIRED_COLUMNS = (
     "Created",
     "Resolved",
@@ -41,9 +43,9 @@ COLUMN_ALIASES = {
     "Дата перехода в in_progress": (
         "Дата перехода в in_progress",
         "In Progress",
-        "In progress",
+        "In progress", "in_progress",
     ),
-    "SP": ("SP", "Story Points", "Story points"),
+    "SP": ("SP", "Story Points", "Story points", "story_points"),
 }
 REQUIRED_SOURCE_COLUMNS = tuple(
     column for column in REQUIRED_COLUMNS if column != "Status"
@@ -170,6 +172,7 @@ class TeamTickets:
     excluded_before_history_start: int
     excluded_after_history_end: int
     terminal_without_resolved: int
+    member_teams: tuple[str, ...] = ()
 
 
 def _cell_column(reference: str) -> int:
@@ -256,7 +259,7 @@ def read_workbook_rows(path: Path) -> tuple[list[dict[str, str]], bool]:
                             index
                             for alias in aliases
                             for index, value in enumerate(header)
-                            if value == alias
+                            if value.casefold() == alias.casefold()
                         ]
                         for column, aliases in COLUMN_ALIASES.items()
                     }
@@ -332,6 +335,10 @@ def parse_datetime(value: str, date_1904: bool = False) -> datetime:
 def _normalize_scenario(value: str) -> tuple[str, str]:
     key = SCENARIO_ALIASES.get(value.strip(), value.strip())
     if key not in SCENARIO_LABELS:
+        reverse_labels = {label.casefold(): code for code, label in SCENARIO_LABELS.items()}
+        reverse_labels['доработки дашбордов'] = 'dashboard_improvements'
+        key = reverse_labels.get(key.casefold(), key)
+    if key not in SCENARIO_LABELS:
         key = "unknown"
     return key, SCENARIO_LABELS[key]
 
@@ -379,10 +386,22 @@ _CYRILLIC_TRANSLITERATION = str.maketrans(
     }
 )
 _TEAM_KEY_OVERRIDES = {PRIMARY_TEAM_LABEL.casefold(): "sberchai"}
+TEAM_LABEL_ALIASES = {
+    'молодёжь': 'Молодежь',
+    'сберчаевые #b2c': 'СберЧаевые',
+    'персональная рекомендация (кампанийнг)': 'Персональная рекомендация',
+    'персональная рекомендация (кампейнинг)': 'Персональная рекомендация',
+}
+SHARED_TEAM_MEMBERS = {
+    'КАСКО, ОСАГО': ('КАСКО', 'ОСАГО'),
+    'Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой':
+        ('Переводы по РФ', 'Переводы подарков', 'SberPay Вжух', 'Оплата улыбкой'),
+}
 
 
 def _normalize_team(value: str) -> tuple[str, str]:
     label = " ".join(value.split())
+    label = TEAM_LABEL_ALIASES.get(label.casefold(), label)
     if not label:
         raise ValueError("пустая команда")
     identity = label.casefold()
@@ -395,10 +414,83 @@ def _normalize_team(value: str) -> tuple[str, str]:
     return key, label
 
 
+def read_ticket_sources(path: Path, additional_inputs: list[Path] | None = None) -> tuple[list[dict[str, str]], bool, dict]:
+    """Append only unseen physical issue keys; existing source rows always win."""
+    rows, date_1904 = read_workbook_rows(path)
+    audit = {'baselineFile': path.name, 'baselineRows': len(rows), 'additionalSources': []}
+    if not additional_inputs:
+        return rows, date_1904, audit
+    owners: dict[str, str] = {}
+    merged = []
+    cross_team_duplicates = 0
+    for row in rows:
+        key = row['Issue key'].strip().casefold()
+        team = _normalize_team(row['team'])[0]
+        if key and owners.setdefault(key, team) != team:
+            cross_team_duplicates += 1
+            continue
+        merged.append(row)
+    existing = set(owners)
+    seen = set(existing)
+    audit.update(baselineDistinctTickets=len(existing), baselineCrossTeamDuplicateRows=cross_team_duplicates)
+    for additional in additional_inputs:
+        incoming, incoming_1904 = read_workbook_rows(additional)
+        counts = {'file': additional.name, 'sha256': hashlib.sha256(additional.read_bytes()).hexdigest(),
+                  'inputRows': len(incoming), 'acceptedRows': 0, 'skippedExistingIssueKeys': 0,
+                  'skippedAdditionalDuplicateIssueKeys': 0, 'acceptedCancelledRows': 0,
+                  'acceptedTerminalWithoutResolvedRows': 0, 'acceptedResearchDirectionRows': 0,
+                  'invalidNonterminalResolvedDates': 0, 'byTeam': {}}
+        for row in incoming:
+            label = _normalize_team(row['team'])[1]
+            team_counts = counts['byTeam'].setdefault(label, {'inputRows': 0, 'acceptedRows': 0,
+                'skippedExistingIssueKeys': 0, 'skippedAdditionalDuplicateIssueKeys': 0,
+                'acceptedCancelledRows': 0, 'acceptedTerminalWithoutResolvedRows': 0,
+                'invalidNonterminalResolvedDates': 0})
+            team_counts['inputRows'] += 1
+            key = row['Issue key'].strip().casefold()
+            reason = 'skippedExistingIssueKeys' if key and key in existing else 'skippedAdditionalDuplicateIssueKeys' if key and key in seen else None
+            if reason:
+                counts[reason] += 1
+                team_counts[reason] += 1
+                continue
+            if key:
+                seen.add(key)
+            # An impossible completion date on an open ticket is unknown, not a closure.
+            # Baseline rows and terminal/otherwise malformed dates retain strict validation.
+            if row['Resolved'] and row['Status'].strip().casefold() not in TERMINAL_STATUSES:
+                created = parse_datetime(row['Created'], incoming_1904)
+                resolved = parse_datetime(row['Resolved'], incoming_1904)
+                if resolved < created:
+                    row = dict(row)
+                    row['Resolved'] = ''
+                    counts['invalidNonterminalResolvedDates'] += 1
+                    team_counts['invalidNonterminalResolvedDates'] += 1
+            if incoming_1904 != date_1904:
+                row = dict(row)
+                for column in ('Created', 'Resolved', 'Дата перехода в in_progress'):
+                    if row[column]:
+                        row[column] = parse_datetime(row[column], incoming_1904).isoformat()
+            merged.append(row)
+            counts['acceptedRows'] += 1
+            team_counts['acceptedRows'] += 1
+            if row['Status'].strip().casefold() in CANCELLED_STATUSES:
+                counts['acceptedCancelledRows'] += 1
+                team_counts['acceptedCancelledRows'] += 1
+            if row['Status'].strip().casefold() in TERMINAL_STATUSES and not row['Resolved']:
+                counts['acceptedTerminalWithoutResolvedRows'] += 1
+                team_counts['acceptedTerminalWithoutResolvedRows'] += 1
+            if row['direction'].strip() == 'Исследования':
+                counts['acceptedResearchDirectionRows'] += 1
+        audit['additionalSources'].append(counts)
+    return merged, date_1904, audit
+
+
 def read_tickets(
     path: Path,
     history_start: date | None = DEFAULT_HISTORY_START,
     history_end: date | None = DEFAULT_HISTORY_END,
+    additional_inputs: list[Path] | None = None,
+    import_audit: dict | None = None,
 ) -> list[TeamTickets]:
     if (
         history_start is not None
@@ -407,7 +499,9 @@ def read_tickets(
     ):
         raise ValueError("Конец истории не может быть раньше начала истории")
 
-    rows, date_1904 = read_workbook_rows(path)
+    rows, date_1904, audit = read_ticket_sources(path, additional_inputs)
+    if import_audit is not None:
+        import_audit.update(audit)
     if not rows:
         raise ValueError("В XLSX нет строк с тикетами")
 
@@ -431,6 +525,8 @@ def read_tickets(
         team_labels.setdefault(team_key, team_label)
 
         issue_key = row["Issue key"].strip()
+        if additional_inputs:
+            issue_key = issue_key.casefold()
         if not issue_key:
             excluded_missing_issue_key[team_key] += 1
             continue
@@ -576,6 +672,7 @@ def read_tickets(
                 terminal_without_resolved=sum(
                     ticket.terminal_without_resolved for ticket in included
                 ),
+                member_teams=SHARED_TEAM_MEMBERS.get(team_label, (team_label,)),
             )
         )
 
@@ -994,11 +1091,15 @@ def build_payload(
     input_path: Path,
     history_start: date | None = DEFAULT_HISTORY_START,
     history_end: date | None = DEFAULT_HISTORY_END,
+    additional_inputs: list[Path] | None = None,
 ) -> dict[str, object]:
+    import_audit: dict = {}
     team_sources = read_tickets(
         input_path,
         history_start=history_start,
         history_end=history_end,
+        additional_inputs=additional_inputs,
+        import_audit=import_audit,
     )
     teams: list[dict[str, object]] = []
     for source in team_sources:
@@ -1030,16 +1131,33 @@ def build_payload(
             "quarterCount": len(aggregates["quarters"]),
             "teamKey": source.key,
             "teamLabel": source.label,
+            "memberTeams": list(source.member_teams),
             "discoveryDefinition": _discovery_definition(),
         }
         teams.append(
             {
                 "key": source.key,
                 "label": source.label,
+                "memberTeams": list(source.member_teams),
                 "meta": meta,
                 **aggregates,
             }
         )
+
+    frozen_through = None
+    if (additional_inputs and (history_end is None or history_end > FROZEN_HISTORY_END)
+            and (history_start is None or history_start <= FROZEN_HISTORY_END)):
+        historical = build_payload(input_path, history_start=history_start, history_end=FROZEN_HISTORY_END)
+        historical_teams = {team['key']: team for team in historical['teams']}
+        for team in teams:
+            old_team = historical_teams.get(team['key'])
+            if old_team is None:
+                continue
+            for period_type in ('months', 'quarters'):
+                old_periods = {period['key']: period for period in old_team[period_type]}
+                team[period_type] = [old_periods.get(period['key'], period) for period in team[period_type]]
+            team['meta']['frozenHistoricalThrough'] = FROZEN_HISTORY_END.isoformat()
+        frozen_through = FROZEN_HISTORY_END.isoformat()
 
     primary = next(
         (
@@ -1051,6 +1169,10 @@ def build_payload(
     )
     primary_meta = dict(primary["meta"])  # type: ignore[arg-type]
     primary_meta["teamCount"] = len(teams)
+    if additional_inputs:
+        primary_meta['importAudit'] = import_audit
+        primary_meta['frozenHistoricalThrough'] = frozen_through
+        primary_meta['historicalSnapshotPolicy'] = 'Периоды до 2026-06-30 воспроизводятся из базового XLSX с отсечкой 2026-06-30; новые источники не обновляют уже существующие тикеты. Общие итоги и III квартал рассчитаны по объединению уникальных тикетов.'
 
     return {
         "meta": primary_meta,
@@ -1067,11 +1189,13 @@ def write_payload(
     output_path: Path,
     history_start: date | None = DEFAULT_HISTORY_START,
     history_end: date | None = DEFAULT_HISTORY_END,
+    additional_inputs: list[Path] | None = None,
 ) -> dict[str, object]:
     payload = build_payload(
         input_path,
         history_start=history_start,
         history_end=history_end,
+        additional_inputs=additional_inputs,
     )
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -1082,6 +1206,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build anonymized monthly backlog aggregates from XLSX")
     parser.add_argument("--input", type=Path, default=DEFAULT_INPUT)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument('--additional-input', type=Path, action='append', default=[],
+                        help='Append only new issue keys from this XLSX; repeatable, existing rows win')
     parser.add_argument(
         "--history-start",
         type=date.fromisoformat,
@@ -1104,6 +1230,7 @@ def main() -> None:
         args.output,
         history_start=args.history_start,
         history_end=args.history_end,
+        additional_inputs=args.additional_input,
     )
     included_tickets = sum(
         int(team["meta"]["includedTickets"]) for team in payload["teams"]  # type: ignore[index]

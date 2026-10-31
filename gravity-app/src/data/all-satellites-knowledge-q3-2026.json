@@ -1,0 +1,1816 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedAllSatelliteKnowledge20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "БПИФ",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Брокерский счет",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Вклады+НС",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ДСЖ КК",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Дебетовая карта",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.1,
+            "previousMaxValue": 0.1,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Детская карта",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.1,
+              "sourceMaxValue": 0.1,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ЗПИФ",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.1,
+            "previousMaxValue": 0.1,
+            "previousSource": {
+              "origin": "salaryCohortAverage",
+              "period": "III кв. 2026",
+              "rule": "Среднее арифметическое оценок B2B и B2C с равными весами 1/2. Пропуск не заменяется нулём.",
+              "cohorts": {
+                "b2b": {
+                  "value": 0.1,
+                  "maxValue": 0.1,
+                  "applicable": true,
+                  "source": {
+                    "origin": "priorQuarterCarryForward",
+                    "file": "gravity-app/public/report-data.json",
+                    "period": "III кв. 2026",
+                    "fromPeriod": "II кв. 2026",
+                    "sourceName": "Зарплатный продукт",
+                    "sourceMetricCode": "general.znanie_produktov_sputnikov",
+                    "sourceMetricName": "Знание продуктов спутников",
+                    "sourceValue": 0.1,
+                    "sourceMaxValue": 0.1,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                    "rawValue": 1,
+                    "sharedAssessment": true,
+                    "inheritedFromTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт"
+                  }
+                },
+                "b2c": {
+                  "value": 0.1,
+                  "maxValue": 0.1,
+                  "applicable": true,
+                  "source": {
+                    "origin": "priorQuarterCarryForward",
+                    "file": "gravity-app/public/report-data.json",
+                    "period": "III кв. 2026",
+                    "fromPeriod": "II кв. 2026",
+                    "sourceName": "Зарплатный продукт",
+                    "sourceMetricCode": "general.znanie_produktov_sputnikov",
+                    "sourceMetricName": "Знание продуктов спутников",
+                    "sourceValue": 0.1,
+                    "sourceMaxValue": 0.1,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                    "rawValue": 1,
+                    "sharedAssessment": true,
+                    "inheritedFromTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт"
+                  }
+                }
+              },
+              "compatibleRubrics": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ИСЖ",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ИнвестКопилка",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Интернет-Эквайринг",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Много денег (НКПЗН)",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Монеты",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "НСЖ",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ОПИФ",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Объект Авто",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ПДС",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Пакет услуг СберПервый",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Пакет услуг СберПремьер",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Пенсионный продукт",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "СберЧаевые",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Сделка ИЖС",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Сделка вторичка",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Сделка с Первичным жильём",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Сейфы",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Страхование залога",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Торговый Эквайринг",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.1,
+            "previousMaxValue": 0.1,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Трансграничные переводы",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.1,
+              "sourceMaxValue": 0.1,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "SberPay Ecom",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "SberPay Вжух",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Автокредит",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Выписки, справки",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ДСЖ ПК",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Залоговое страхование (корпоративное страхование)",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "ОМС",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Слитки",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Страхование жизни",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Кредитный потенциал",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Образовательный кредит",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "userConfirmedKaskoMonety20261030",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "rule": "Последнее явное указание пользователя: обеим указанным метрикам КАСКО/Монеты поставить 1 (100% прежнего максимума). Предыдущее указание 0.5 по анализу оттока Монет заменено последним указанием 1.",
+              "previousValue": null,
+              "previousMaxValue": 0.2,
+              "previousSource": null,
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "POS-кредиты",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.1,
+            "previousMaxValue": 0.1,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "SberPay NFC",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.1,
+              "sourceMaxValue": 0.1,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Потребительский кредит",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "СберСпасибо",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedAllSatelliteKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "BNPL",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "currentTeams": 76,
+    "eligible": 54,
+    "alreadyFull": 45,
+    "changed": 9,
+    "missingRubric": 20,
+    "notApplicable": 2
+  }
+}

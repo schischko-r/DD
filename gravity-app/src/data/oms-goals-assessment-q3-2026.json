@@ -1,0 +1,143 @@
+{
+  "period": "III кв. 2026",
+  "scope": "goals-assessment",
+  "source": {
+    "origin": "userMaximumSurveyAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "metrics": {
+        "goals.forecast": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": 0.5,
+            "previousMaxValue": 1,
+            "questionId": "goalsForecast",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "goalsForecast",
+                "answer": "Да, >90%",
+                "normalizedValue": 1,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": null
+                },
+                "selected": null,
+                "available": null
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "goalsForecast",
+                "answer": "Да, >90%",
+                "normalizedValue": 1,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": null
+                },
+                "selected": null,
+                "available": null
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 12,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "goalsForecast",
+              "answer": "Да, >90%",
+              "normalizedValue": 1,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": null
+              },
+              "selected": null,
+              "available": null
+            }
+          }
+        },
+        "goals.factor_analysis_l1_l2": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": 0,
+            "previousMaxValue": 1,
+            "questionId": "goalsFactorAnalysis",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "goalsFactorAnalysis",
+                "answer": "Да, >90%",
+                "normalizedValue": 1,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": null
+                },
+                "selected": null,
+                "available": null
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "goalsFactorAnalysis",
+                "answer": "Частично, <90%",
+                "normalizedValue": 0.5,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": null
+                },
+                "selected": null,
+                "available": null
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 12,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "goalsFactorAnalysis",
+              "answer": "Да, >90%",
+              "normalizedValue": 1,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": null
+              },
+              "selected": null,
+              "available": null
+            }
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 2
+  }
+}

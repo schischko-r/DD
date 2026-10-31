@@ -1,0 +1,2726 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-metric-assessment",
+  "source": {
+    "origin": "userConfirmedMetricAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-29",
+    "aliases": {
+      "Дети/подростки": "Дети",
+      "Сберчаевые #B2C": "СберЧаевые",
+      "Трансграничные переводы #B2C": "Трансграничные переводы",
+      "Трансграничный эквайринг #B2C": "Трансграничный эквайринг",
+      "Вжух": "SberPay Вжух"
+    },
+    "rule": "Только явно указанные оценки. Повторяющиеся одинаковые строки дедуплицированы; противоречащие значения и несуществующая команда B2B отложены до уточнения. II квартал, веса и применимость не изменяются."
+  },
+  "products": [
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Телемаркетинг",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СБОЛ",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СБОЛ",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СБОЛ",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СБОЛ",
+            "sourceMetricName": "Алерты по проблемам, связанным с UX/UI",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберKids",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберKids",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберKids",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберИнвестор",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберИнвестор",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберИнвестор",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберИнвестор",
+            "sourceMetricName": "Алерты по проблемам, связанным с UX/UI",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Уведомления",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Уведомления",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Уведомления",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Уведомления",
+            "sourceMetricName": "Алерты по проблемам, связанным с UX/UI",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "Алерты по проблемам, связанным с UX/UI",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Оплата улыбкой",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "SberID",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "SberID",
+            "sourceMetricName": "Алерты по проблемам, связанным с UX/UI",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Много денег (НКПЗН)",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Объект Авто",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Объект Авто",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ОМС",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ОМС",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ОМС",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Слитки",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Слитки",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Слитки",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПервый",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПервый",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПервый",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Выписки, справки",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Ecom",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничные переводы #B2C",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничные переводы #B2C",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничные переводы #B2C",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничные переводы #B2C",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Почта, Диск, Календарь",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберПрайм",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберПрайм",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "НСЖ",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "НСЖ",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "НСЖ",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ИСЖ",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ИСЖ",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ИСЖ",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "BNPL",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "BNPL",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "BNPL",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ВЗР",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ВЗР",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ВЗР",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Автокредит",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Автокредит",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Вжух",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Вжух",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Вжух",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПремьер",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Платежи",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Брокерский счет",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Брокерский счет",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Брокерский счет",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитные карты",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитные карты",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничный эквайринг #B2C",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничный эквайринг #B2C",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничный эквайринг #B2C",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Монеты",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Монеты",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Монеты",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ КК",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ КК",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберСпасибо",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберСпасибо",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберСпасибо",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитный потенциал",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитный потенциал",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитный потенциал",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитный потенциал",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ПДС",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ПДС",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ПДС",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Конверсия",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Конверсия",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Вклады+НС",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Вклады+НС",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Вклады+НС",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ЦФА",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ЦФА",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ЗЛС",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ЗЛС",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ЗЛС",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "ИнвестКопилка",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "СберСова",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Личная защита Плюс",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Личная защита Плюс",
+            "sourceMetricName": "Алерты по системным-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование жизни",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование жизни",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Активная клиентская база",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_poluchateley_zp": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Кол-во получателей ЗП",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.obъem_zachisleniy_fot": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Объем зачислений ФОТ",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Активная клиентская база",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.sredniy_dohoda_na_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Средний дохода на клиента",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Активная клиентская база",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Активная клиентская база",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дети/подростки",
+            "sourceMetricName": "Бенчмарки по привлечению",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дети/подростки",
+            "sourceMetricName": "Бенчмарки по оттокам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дети/подростки",
+            "sourceMetricName": "Алерты по бизнес-метрикам",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дети/подростки",
+            "sourceMetricName": "Активная клиентская база",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Дети/подростки",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Активная клиентская база",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        },
+        "general.sredniy_dohoda_na_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-29",
+            "period": "III кв. 2026",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Средний дохода на клиента",
+            "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+          }
+        }
+      }
+    }
+  ],
+  "pending": [
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metricCode": "alerts.business_metrics",
+      "rawValues": [
+        1,
+        0.5
+      ],
+      "reason": "conflictingUserRows",
+      "status": "awaitingClarification"
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metricCode": "alerts.business_metrics",
+      "rawValues": [
+        0.5,
+        1
+      ],
+      "reason": "conflictingUserRows",
+      "status": "awaitingClarification"
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "metricCode": "attract.benchmarks",
+      "rawValues": [
+        1,
+        0
+      ],
+      "reason": "conflictingUserRows",
+      "status": "awaitingClarification"
+    },
+    {
+      "name": "Трансграничный эквайринг #B2B",
+      "metricCode": "attract.benchmarks",
+      "rawValues": [
+        0
+      ],
+      "reason": "separateB2BTeamNotInCatalog",
+      "status": "awaitingClarification"
+    },
+    {
+      "name": "Трансграничный эквайринг #B2B",
+      "metricCode": "churn.benchmarks",
+      "rawValues": [
+        0
+      ],
+      "reason": "separateB2BTeamNotInCatalog",
+      "status": "awaitingClarification"
+    },
+    {
+      "name": "Трансграничный эквайринг #B2B",
+      "metricCode": "alerts.business_metrics",
+      "rawValues": [
+        0
+      ],
+      "reason": "separateB2BTeamNotInCatalog",
+      "status": "awaitingClarification"
+    },
+    {
+      "name": "Трансграничный эквайринг #B2B",
+      "metricCode": "alerts.system_failures",
+      "rawValues": [
+        0.5
+      ],
+      "reason": "separateB2BTeamNotInCatalog",
+      "status": "awaitingClarification"
+    }
+  ],
+  "counts": {
+    "teams": 64,
+    "facts": 175,
+    "byMetric": {
+      "alerts.business_metrics": 57,
+      "attract.benchmarks": 37,
+      "churn.benchmarks": 39,
+      "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui": 5,
+      "alerts.system_failures": 16,
+      "general.aktivnaya_klientskaya_baza": 6,
+      "general.kol_vo_major_klientov": 6,
+      "general.kol_vo_klientov_s_2_nefin_servisov": 5,
+      "general.kol_vo_poluchateley_zp": 1,
+      "general.obъem_zachisleniy_fot": 1,
+      "general.sredniy_dohoda_na_klienta": 2
+    },
+    "pendingPairs": 7
+  }
+}

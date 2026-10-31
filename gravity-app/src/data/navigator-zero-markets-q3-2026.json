@@ -1,0 +1,1286 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedNavigatorZeroMarketsRule",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "targetMetricCode": "general.navigator_reporting_knowledge"
+  },
+  "products": [
+    {
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "ПДС",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    140
+                  ],
+                  "cell": "C140",
+                  "cells": [
+                    {
+                      "sourceRow": 140,
+                      "cell": "C140",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "ПДС",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "ПДС",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    141
+                  ],
+                  "cell": "C141",
+                  "cells": [
+                    {
+                      "sourceRow": 141,
+                      "cell": "C141",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "ПДС",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousSource": {
+              "origin": "userConfirmedNavigatorKnowledgeRule",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "rule": "При полностью набранных применимых оценках MAU продукта или общего MAU канала и знания продуктов-спутников установить применимую оценку знания об отчётности в Навигаторе равной 100%. Максимум метрики сохраняется.",
+              "previousEffectiveValue": null,
+              "maxValue": 0.5,
+              "basisMetrics": [
+                {
+                  "code": "general.mau_produkta",
+                  "name": "MAU продукта",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true,
+                  "source": {
+                    "origin": "keyMetricsWorkbookAssessment",
+                    "file": "Ключевые метрики Продукта Баллы.xlsx",
+                    "sheet": "Лист1",
+                    "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                    "period": "III кв. 2026",
+                    "sourceName": "ПДС",
+                    "sourceMetricName": "MAU продукта",
+                    "sourceRows": [
+                      143
+                    ],
+                    "cell": "C143",
+                    "cells": [
+                      {
+                        "sourceRow": 143,
+                        "cell": "C143",
+                        "rawValue": 1,
+                        "cellType": "n",
+                        "sourceName": "ПДС",
+                        "sourceMetric": "MAU продукта",
+                        "note": null
+                      }
+                    ],
+                    "points": 1,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "mappingRule": "normalizedExact",
+                    "baselineApplicable": true,
+                    "baselineMaxValue": 0.2,
+                    "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                    "rawValue": 1
+                  }
+                },
+                {
+                  "code": "general.znanie_produktov_sputnikov",
+                  "name": "Знание продуктов спутников",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true,
+                  "source": {
+                    "origin": "priorQuarterCarryForward",
+                    "file": "gravity-app/public/report-data.json",
+                    "period": "III кв. 2026",
+                    "fromPeriod": "II кв. 2026",
+                    "sourceName": "ПДС",
+                    "sourceMetricCode": "general.znanie_produktov_sputnikov",
+                    "sourceMetricName": "Знание продуктов спутников",
+                    "sourceValue": 0.2,
+                    "sourceMaxValue": 0.2,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                    "rawValue": 1
+                  }
+                }
+              ],
+              "reason": "Условия проверены по действующим оценкам III квартала после всех подключённых наборов данных, а не по исходному числу клиентов MAU.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Сберчаевые #B2C",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    65
+                  ],
+                  "cell": "C65",
+                  "cells": [
+                    {
+                      "sourceRow": 65,
+                      "cell": "C65",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Сберчаевые #B2C",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "explicitB2CAlias",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Сберчаевые #B2C",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    66
+                  ],
+                  "cell": "C66",
+                  "cells": [
+                    {
+                      "sourceRow": 66,
+                      "cell": "C66",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Сберчаевые #B2C",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "explicitB2CAlias",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "SberPay Ecom",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    44,
+                    57
+                  ],
+                  "cell": "C44",
+                  "cells": [
+                    {
+                      "sourceRow": 44,
+                      "cell": "C44",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "SberPay Ecom",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    },
+                    {
+                      "sourceRow": 57,
+                      "cell": "C57",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "SberPay Ecom",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "SberPay Ecom",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    45,
+                    58
+                  ],
+                  "cell": "C45",
+                  "cells": [
+                    {
+                      "sourceRow": 45,
+                      "cell": "C45",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "SberPay Ecom",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    },
+                    {
+                      "sourceRow": 58,
+                      "cell": "C58",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "SberPay Ecom",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Вжух",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    91
+                  ],
+                  "cell": "C91",
+                  "cells": [
+                    {
+                      "sourceRow": 91,
+                      "cell": "C91",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Вжух",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "explicitVzhukhAlias",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Вжух",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    92
+                  ],
+                  "cell": "C92",
+                  "cells": [
+                    {
+                      "sourceRow": 92,
+                      "cell": "C92",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Вжух",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "explicitVzhukhAlias",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousSource": {
+              "origin": "userConfirmedNavigatorKnowledgeRule",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "rule": "При полностью набранных применимых оценках MAU продукта или общего MAU канала и знания продуктов-спутников установить применимую оценку знания об отчётности в Навигаторе равной 100%. Максимум метрики сохраняется.",
+              "previousEffectiveValue": null,
+              "maxValue": 0.5,
+              "basisMetrics": [
+                {
+                  "code": "general.mau_produkta",
+                  "name": "MAU продукта",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true,
+                  "source": {
+                    "origin": "keyMetricsWorkbookAssessment",
+                    "file": "Ключевые метрики Продукта Баллы.xlsx",
+                    "sheet": "Лист1",
+                    "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                    "period": "III кв. 2026",
+                    "sourceName": "Вжух",
+                    "sourceMetricName": "MAU продукта",
+                    "sourceRows": [
+                      94
+                    ],
+                    "cell": "C94",
+                    "cells": [
+                      {
+                        "sourceRow": 94,
+                        "cell": "C94",
+                        "rawValue": 1,
+                        "cellType": "n",
+                        "sourceName": "Вжух",
+                        "sourceMetric": "MAU продукта",
+                        "note": null
+                      }
+                    ],
+                    "points": 1,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "mappingRule": "explicitVzhukhAlias",
+                    "baselineApplicable": true,
+                    "baselineMaxValue": 0.2,
+                    "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                    "rawValue": 1
+                  }
+                },
+                {
+                  "code": "general.znanie_produktov_sputnikov",
+                  "name": "Знание продуктов спутников",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true,
+                  "source": {
+                    "origin": "priorQuarterCarryForward",
+                    "file": "gravity-app/public/report-data.json",
+                    "period": "III кв. 2026",
+                    "fromPeriod": "II кв. 2026",
+                    "sourceName": "SberPay Вжух",
+                    "sourceMetricCode": "general.znanie_produktov_sputnikov",
+                    "sourceMetricName": "Знание продуктов спутников",
+                    "sourceValue": 0.2,
+                    "sourceMaxValue": 0.2,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                    "rawValue": 1
+                  }
+                }
+              ],
+              "reason": "Условия проверены по действующим оценкам III квартала после всех подключённых наборов данных, а не по исходному числу клиентов MAU.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Автокредит",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    85
+                  ],
+                  "cell": "C85",
+                  "cells": [
+                    {
+                      "sourceRow": 85,
+                      "cell": "C85",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Автокредит",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Автокредит",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    86
+                  ],
+                  "cell": "C86",
+                  "cells": [
+                    {
+                      "sourceRow": 86,
+                      "cell": "C86",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Автокредит",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Автокредит",
+              "sourceMetricCode": "general.navigator_reporting_knowledge",
+              "sourceMetricName": "Знание об отчетности в Навигаторе",
+              "sourceValue": 0.5,
+              "sourceMaxValue": 0.5,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Слитки",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    24,
+                    30
+                  ],
+                  "cell": "C24",
+                  "cells": [
+                    {
+                      "sourceRow": 24,
+                      "cell": "C24",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Слитки",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    },
+                    {
+                      "sourceRow": 30,
+                      "cell": "C30",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Слитки",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Слитки",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    25,
+                    31
+                  ],
+                  "cell": "C25",
+                  "cells": [
+                    {
+                      "sourceRow": 25,
+                      "cell": "C25",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Слитки",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    },
+                    {
+                      "sourceRow": 31,
+                      "cell": "C31",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Слитки",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousSource": {
+              "origin": "userConfirmedNavigatorKnowledgeRule",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "rule": "При полностью набранных применимых оценках MAU продукта или общего MAU канала и знания продуктов-спутников установить применимую оценку знания об отчётности в Навигаторе равной 100%. Максимум метрики сохраняется.",
+              "previousEffectiveValue": null,
+              "maxValue": 0.5,
+              "basisMetrics": [
+                {
+                  "code": "general.mau_produkta",
+                  "name": "MAU продукта",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true,
+                  "source": {
+                    "origin": "keyMetricsWorkbookAssessment",
+                    "file": "Ключевые метрики Продукта Баллы.xlsx",
+                    "sheet": "Лист1",
+                    "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                    "period": "III кв. 2026",
+                    "sourceName": "Слитки",
+                    "sourceMetricName": "MAU продукта",
+                    "sourceRows": [
+                      27,
+                      33
+                    ],
+                    "cell": "C27",
+                    "cells": [
+                      {
+                        "sourceRow": 27,
+                        "cell": "C27",
+                        "rawValue": 1,
+                        "cellType": "n",
+                        "sourceName": "Слитки",
+                        "sourceMetric": "MAU продукта",
+                        "note": null
+                      },
+                      {
+                        "sourceRow": 33,
+                        "cell": "C33",
+                        "rawValue": 1,
+                        "cellType": "n",
+                        "sourceName": "Слитки",
+                        "sourceMetric": "MAU продукта",
+                        "note": null
+                      }
+                    ],
+                    "points": 1,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "mappingRule": "normalizedExact",
+                    "baselineApplicable": true,
+                    "baselineMaxValue": 0.2,
+                    "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                    "rawValue": 1
+                  }
+                },
+                {
+                  "code": "general.znanie_produktov_sputnikov",
+                  "name": "Знание продуктов спутников",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true,
+                  "source": {
+                    "origin": "priorQuarterCarryForward",
+                    "file": "gravity-app/public/report-data.json",
+                    "period": "III кв. 2026",
+                    "fromPeriod": "II кв. 2026",
+                    "sourceName": "Слитки",
+                    "sourceMetricCode": "general.znanie_produktov_sputnikov",
+                    "sourceMetricName": "Знание продуктов спутников",
+                    "sourceValue": 0.2,
+                    "sourceMaxValue": 0.2,
+                    "confirmedBy": "user",
+                    "userprovided": true,
+                    "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                    "rawValue": 1
+                  }
+                }
+              ],
+              "reason": "Условия проверены по действующим оценкам III квартала после всех подключённых наборов данных, а не по исходному числу клиентов MAU.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Страхование жизни",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    188
+                  ],
+                  "cell": "C188",
+                  "cells": [
+                    {
+                      "sourceRow": 188,
+                      "cell": "C188",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Страхование жизни",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Страхование жизни",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    189
+                  ],
+                  "cell": "C189",
+                  "cells": [
+                    {
+                      "sourceRow": 189,
+                      "cell": "C189",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Страхование жизни",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousSource": null
+          }
+        }
+      }
+    },
+    {
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "POS-кредиты",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    77
+                  ],
+                  "cell": "C77",
+                  "cells": [
+                    {
+                      "sourceRow": 77,
+                      "cell": "C77",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "POS-кредиты",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "POS-кредиты",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    78
+                  ],
+                  "cell": "C78",
+                  "cells": [
+                    {
+                      "sourceRow": 78,
+                      "cell": "C78",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "POS-кредиты",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "POS-кредиты",
+              "sourceMetricCode": "general.navigator_reporting_knowledge",
+              "sourceMetricName": "Знание об отчетности в Навигаторе",
+              "sourceValue": 0.5,
+              "sourceMaxValue": 0.5,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Если действующие оценки объёма целевого рынка в России и в Сбере обе равны нулю при применимых метриках с положительным максимумом, знание об отчётности в Навигаторе = 0. Это позднее указание имеет приоритет над прежними правилами MAU/рынка. Пропуск или неприменимость не считаются нулём.",
+            "criteria": {
+              "metricCodes": [
+                "general.obъem_celevogo_rynka_v_rossii",
+                "general.obъem_celevogo_rynka_v_sbere"
+              ],
+              "requiredValue": 0,
+              "requireApplicable": true,
+              "requirePositiveMax": true
+            },
+            "marketEvidence": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Потребительский кредит",
+                  "sourceMetricName": "Объем целевого рынка в России",
+                  "sourceRows": [
+                    176
+                  ],
+                  "cell": "C176",
+                  "cells": [
+                    {
+                      "sourceRow": 176,
+                      "cell": "C176",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Потребительский кредит",
+                      "sourceMetric": "Объем целевого рынка в России",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0,
+                "maxValue": 0.2,
+                "applicable": true,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "Потребительский кредит",
+                  "sourceMetricName": "Объем целевого рынка в Сбере",
+                  "sourceRows": [
+                    177
+                  ],
+                  "cell": "C177",
+                  "cells": [
+                    {
+                      "sourceRow": 177,
+                      "cell": "C177",
+                      "rawValue": 0,
+                      "cellType": "n",
+                      "sourceName": "Потребительский кредит",
+                      "sourceMetric": "Объем целевого рынка в Сбере",
+                      "note": null
+                    }
+                  ],
+                  "points": 0,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 0
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousSource": null
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "eligible": 9,
+    "changed": 9,
+    "alreadyZero": 0
+  }
+}

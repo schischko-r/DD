@@ -1,0 +1,750 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-metric-assessment",
+  "source": {
+    "origin": "userConfirmedSegmentAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "aliases": {
+      "Дети/подростки": "Дети"
+    },
+    "inputRows": [
+      {
+        "sourceRow": 1,
+        "team": "Рабочий возраст",
+        "metricCode": "attract.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 2,
+        "team": "Рабочий возраст",
+        "metricCode": "churn.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 3,
+        "team": "Рабочий возраст",
+        "metricCode": "alerts.business_metrics",
+        "rawValue": 0.5
+      },
+      {
+        "sourceRow": 4,
+        "team": "МВС",
+        "metricCode": "attract.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 5,
+        "team": "МВС",
+        "metricCode": "churn.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 6,
+        "team": "МВС",
+        "metricCode": "alerts.business_metrics",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 7,
+        "team": "Зрелость",
+        "metricCode": "attract.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 8,
+        "team": "Зрелость",
+        "metricCode": "churn.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 9,
+        "team": "Зрелость",
+        "metricCode": "alerts.business_metrics",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 10,
+        "team": "Молодежь",
+        "metricCode": "alerts.business_metrics",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 11,
+        "team": "Дети/подростки",
+        "metricCode": "attract.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 12,
+        "team": "Дети/подростки",
+        "metricCode": "churn.benchmarks",
+        "rawValue": 0
+      },
+      {
+        "sourceRow": 13,
+        "team": "Дети/подростки",
+        "metricCode": "alerts.business_metrics",
+        "rawValue": 0.5
+      },
+      {
+        "sourceRow": 14,
+        "team": "Рабочий возраст",
+        "metricCode": "general.aktivnaya_klientskaya_baza",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 15,
+        "team": "Рабочий возраст",
+        "metricCode": "general.kol_vo_major_klientov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 16,
+        "team": "Рабочий возраст",
+        "metricCode": "general.kol_vo_klientov_s_2_nefin_servisov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 17,
+        "team": "Рабочий возраст",
+        "metricCode": "general.kol_vo_poluchateley_zp",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 18,
+        "team": "Рабочий возраст",
+        "metricCode": "general.obъem_zachisleniy_fot",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 19,
+        "team": "Top Affluent",
+        "metricCode": "general.aktivnaya_klientskaya_baza",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 20,
+        "team": "Top Affluent",
+        "metricCode": "general.kol_vo_major_klientov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 21,
+        "team": "Top Affluent",
+        "metricCode": "general.kol_vo_klientov_s_2_nefin_servisov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 22,
+        "team": "Top Affluent",
+        "metricCode": "general.sredniy_dohoda_na_klienta",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 23,
+        "team": "МВС",
+        "metricCode": "general.aktivnaya_klientskaya_baza",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 24,
+        "team": "МВС",
+        "metricCode": "general.kol_vo_major_klientov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 25,
+        "team": "МВС",
+        "metricCode": "general.kol_vo_klientov_s_2_nefin_servisov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 26,
+        "team": "МВС",
+        "metricCode": "general.sredniy_dohoda_na_klienta",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 27,
+        "team": "Зрелость",
+        "metricCode": "general.aktivnaya_klientskaya_baza",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 28,
+        "team": "Зрелость",
+        "metricCode": "general.kol_vo_major_klientov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 29,
+        "team": "Зрелость",
+        "metricCode": "general.kol_vo_klientov_s_2_nefin_servisov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 30,
+        "team": "Молодежь",
+        "metricCode": "general.aktivnaya_klientskaya_baza",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 31,
+        "team": "Молодежь",
+        "metricCode": "general.kol_vo_major_klientov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 32,
+        "team": "Молодежь",
+        "metricCode": "general.kol_vo_klientov_s_2_nefin_servisov",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 33,
+        "team": "Дети/подростки",
+        "metricCode": "general.aktivnaya_klientskaya_baza",
+        "rawValue": 1
+      },
+      {
+        "sourceRow": 34,
+        "team": "Дети/подростки",
+        "metricCode": "general.kol_vo_major_klientov",
+        "rawValue": 1
+      }
+    ]
+  },
+  "products": [
+    {
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 1,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 2,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 3,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0.5,
+            "previousMaxValue": 1,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 14,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 15,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 16,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_poluchateley_zp": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 17,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.obъem_zachisleniy_fot": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 18,
+            "sourceTeamName": "Рабочий возраст",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 4,
+            "sourceTeamName": "МВС",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 5,
+            "sourceTeamName": "МВС",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 6,
+            "sourceTeamName": "МВС",
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 23,
+            "sourceTeamName": "МВС",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 24,
+            "sourceTeamName": "МВС",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 25,
+            "sourceTeamName": "МВС",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.sredniy_dohoda_na_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 26,
+            "sourceTeamName": "МВС",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 7,
+            "sourceTeamName": "Зрелость",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 8,
+            "sourceTeamName": "Зрелость",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 9,
+            "sourceTeamName": "Зрелость",
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 27,
+            "sourceTeamName": "Зрелость",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 28,
+            "sourceTeamName": "Зрелость",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 29,
+            "sourceTeamName": "Зрелость",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 10,
+            "sourceTeamName": "Молодежь",
+            "previousValue": 0,
+            "previousMaxValue": 1,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 30,
+            "sourceTeamName": "Молодежь",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 31,
+            "sourceTeamName": "Молодежь",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 32,
+            "sourceTeamName": "Молодежь",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 11,
+            "sourceTeamName": "Дети/подростки",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 12,
+            "sourceTeamName": "Дети/подростки",
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 13,
+            "sourceTeamName": "Дети/подростки",
+            "previousValue": 0.5,
+            "previousMaxValue": 1,
+            "rule": "Явные оценки пользователя для сегментов III квартала. Нормализованная оценка умножается на прежний максимум; применимость и II квартал сохраняются."
+          }
+        },
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 33,
+            "sourceTeamName": "Дети/подростки",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 34,
+            "sourceTeamName": "Дети/подростки",
+            "previousValue": 0.3,
+            "previousMaxValue": 0.3,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 19,
+            "sourceTeamName": "Top Affluent",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 20,
+            "sourceTeamName": "Top Affluent",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 21,
+            "sourceTeamName": "Top Affluent",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        },
+        "general.sredniy_dohoda_na_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSegmentAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 22,
+            "sourceTeamName": "Top Affluent",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.25,
+            "rule": "Явная оценка пользователя: 100% существующего максимума метрики III квартала; применимость и II квартал сохраняются."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 6,
+    "facts": 34,
+    "changed": 0,
+    "alreadySet": 34
+  }
+}

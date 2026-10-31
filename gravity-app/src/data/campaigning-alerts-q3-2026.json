@@ -1,0 +1,61 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-metric-assessment",
+  "source": {
+    "origin": "userConfirmedCampaigningAlerts",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "alerts.nastroena_matrica_otkloneniy": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaigningAlerts",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "surveyFile": "ddi_3q_response/questionare-responses(13).csv",
+            "questionId": "campaignDeviationMatrix",
+            "answer": "100",
+            "evidenceLinks": [
+              {
+                "label": "Матрица отклонений — дашборд в Навигаторе",
+                "url": "https://navigator.sigma.sbrf.ru/gdash/1000004779/1000042017?vp=%D0%92%D1%81%D0%B5"
+              }
+            ],
+            "rule": "Пользователь подтвердил 100% за III квартал 2026. Оценка 1 умножается на существующий вес метрики."
+          }
+        },
+        "alerts.nastroeny_avtoalerty_po_otkloneniyam": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaigningAlerts",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "surveyFile": "ddi_3q_response/questionare-responses(13).csv",
+            "questionId": "campaignAutomaticAlerts",
+            "answer": "100",
+            "evidenceLinks": [
+              {
+                "label": "Автоалерты — собственная отчетность",
+                "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=17698634566#expand-20260615"
+              }
+            ],
+            "rule": "Пользователь подтвердил 100% за III квартал 2026. Оценка 1 умножается на существующий вес метрики."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 2
+  }
+}

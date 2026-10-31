@@ -1,0 +1,38 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-metric-assessment",
+  "source": {
+    "origin": "userConfirmedCampaigningDataQuality",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "dannye.kontrolь_kachestva_dannyh_kkd": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCampaigningDataQuality",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "ddi_3q_response/questionare-responses(13).csv",
+            "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+            "csvRow": 2,
+            "respondent": "Комаров Иван Алексеевич",
+            "questionId": "qualityTools",
+            "answer": [
+              "Собственная система мониторинга качества данных",
+              "Проверка на стороне источника данных (DWH, витрины) силами data-инженеров"
+            ],
+            "rule": "Пользователь подтвердил оценку ККД 0.5 (50% существующего максимума). При максимуме 0.5 взвешенный балл равен 0.25; максимум не изменяется."
+          }
+        }
+      }
+    }
+  ]
+}

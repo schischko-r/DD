@@ -96609,8 +96609,8 @@
               "code": "attract.benchmarks",
               "name": "Наличие бенчмарков",
               "footer": "Цели / динамика / рынок",
-              "value": 0.5,
-              "max_value": 0.5,
+              "value": 1,
+              "max_value": 1,
               "is_applicabble_flg": true,
               "traffic_light": "green",
               "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
@@ -96627,8 +96627,8 @@
                   "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
                   "group": 5,
                   "recommendation_difficulty": 5,
-                  "value": 0.5,
-                  "max_value": 0.5,
+                  "value": 1,
+                  "max_value": 1,
                   "gap": 0
                 }
               ],
@@ -96959,38 +96959,6 @@
               "dd_calculation_flg": 1,
               "metric_subgroup": "Анализ",
               "sort": 5.0
-            },
-            {
-              "code": "churn.benchmarks",
-              "name": "Наличие бенчмарков",
-              "footer": "Цели / динамика / рынок",
-              "value": 0.5,
-              "max_value": 0.5,
-              "is_applicabble_flg": true,
-              "traffic_light": "green",
-              "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-              "recommendations": [
-                "Сформировать бенчмарки по продуктовым метрикам"
-              ],
-              "recommendation_group": 5,
-              "recommendation_groups": [
-                5
-              ],
-              "recommendation_difficulty": 5,
-              "recommendation_items": [
-                {
-                  "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0.5,
-                  "max_value": 0.5,
-                  "gap": 0
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "metric_subgroup": "Анализ",
-              "sort": 6.0
             }
           ]
         },
@@ -121318,7 +121286,7 @@
               "name": "Наличие бенчмарков",
               "footer": "Цели / динамика / рынок",
               "value": 0,
-              "max_value": 0.5,
+              "max_value": 1,
               "is_applicabble_flg": true,
               "traffic_light": "red",
               "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
@@ -121336,8 +121304,8 @@
                   "group": 5,
                   "recommendation_difficulty": 5,
                   "value": 0,
-                  "max_value": 0.5,
-                  "gap": 0.5
+                  "max_value": 1,
+                  "gap": 1
                 }
               ],
               "excluded_from_index": false,
@@ -121667,38 +121635,6 @@
               "dd_calculation_flg": 1,
               "metric_subgroup": "Анализ",
               "sort": 5.0
-            },
-            {
-              "code": "churn.benchmarks",
-              "name": "Наличие бенчмарков",
-              "footer": "Цели / динамика / рынок",
-              "value": 0,
-              "max_value": 0.5,
-              "is_applicabble_flg": true,
-              "traffic_light": "red",
-              "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-              "recommendations": [
-                "Сформировать бенчмарки по продуктовым метрикам"
-              ],
-              "recommendation_group": 5,
-              "recommendation_groups": [
-                5
-              ],
-              "recommendation_difficulty": 5,
-              "recommendation_items": [
-                {
-                  "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
-                  "group": 5,
-                  "recommendation_difficulty": 5,
-                  "value": 0,
-                  "max_value": 0.5,
-                  "gap": 0.5
-                }
-              ],
-              "excluded_from_index": false,
-              "dd_calculation_flg": 1,
-              "metric_subgroup": "Анализ",
-              "sort": 6.0
             }
           ]
         },

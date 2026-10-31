@@ -46,6 +46,9 @@ test('card product names are synchronized in the frontend only', () => {
   assert.equal(displayProductName('Дебетовая карта'), 'Дебетовая карта');
   assert.equal(displayProductName('Детская карта'), 'Детская карта');
   assert.equal(displayProductName('SberPay Вжух'), 'Вжух');
+  assert.equal(displayProductName('ВЗР'), 'Страхование путешественников');
+  assert.equal(displayProductName('  взр  '), 'Страхование путешественников');
+  assert.equal(displayProductName('Страхование путешественников'), 'Страхование путешественников');
   assert.equal(displayProductName('Другой продукт'), 'Другой продукт');
 });
 

@@ -1,0 +1,27 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedWorkingAgeFotKnowledge",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.dolya_rynka_fot": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedWorkingAgeFotKnowledge",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "rule": "Прямое указание пользователя: Рабочий возраст, Доля рынка ФОТ, % = 1. Нормированный балл 100%, исходный вес 0,3 сохраняется."
+          }
+        }
+      }
+    }
+  ]
+}

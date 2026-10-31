@@ -1,0 +1,2640 @@
+{
+  "period": "III кв. 2026",
+  "scope": "discovery-assessment",
+  "source": {
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "sourceHashes": {
+      "analysis/1/questionare-responses(7).csv": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "analysis/1/questionare-responses(8).csv": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "analysis/1/questionare-responses(9).csv": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501"
+    },
+    "aliases": {
+      "Трансграничный эквайринг #B2C": "Трансграничный эквайринг",
+      "Трансграничные переводы #B2C": "Трансграничные переводы",
+      "Сберчаевые #B2C": "СберЧаевые",
+      "Дети/подростки": "Дети",
+      "Персональная рекомендация (кампейнинг)": "Персональная рекомендация"
+    },
+    "excludedRespondentMatch": "чикин (ФИО респондента, без учёта регистра)",
+    "backlogLocationSource": "Выбранный ответ discoveryBacklogType; ссылки и комментарии сохранены отдельно и не подменяют ответ.",
+    "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+    "decompositionFallbackNames": [
+      "Рабочий возраст",
+      "Top Affluent",
+      "Молодежь",
+      "Объект Авто",
+      "Персональная рекомендация",
+      "КАСКО",
+      "ОСАГО",
+      "Личная защита Плюс",
+      "Переводы по РФ",
+      "SberPay Вжух",
+      "Оплата улыбкой"
+    ],
+    "backlogFile": "gravity-app/public/backlog-data.json",
+    "backlogSha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010"
+  },
+  "excludedRespondents": [
+    {
+      "file": "analysis/1/questionare-responses(7).csv",
+      "csvRow": 23,
+      "team": "SberPay Ecom",
+      "respondent": "чикина м"
+    },
+    {
+      "file": "analysis/1/questionare-responses(7).csv",
+      "csvRow": 65,
+      "team": "Трансграничный эквайринг #B2B",
+      "respondent": "(тест Штаб DB B2C) Чикина Мария"
+    }
+  ],
+  "salarySplitExclusions": [
+    {
+      "file": "analysis/1/questionare-responses(7).csv",
+      "csvRow": 46,
+      "respondent": "Королева Александра Дмитриевна",
+      "answer": "От 20 до 39%",
+      "rawValue": 0.5,
+      "reason": "B2C respondent is assessed in salary-products-q3-2026.json; do not merge with B2B."
+    }
+  ],
+  "products": [
+    {
+      "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 2,
+                "respondent": "Фисенко Владислав Николаевич",
+                "answer": "Затрудняюсь ответить",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 4,
+                "respondent": "Воробьев Александр Валерьевич",
+                "answer": "От 20 до 39%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=50951&view=detail",
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 5,
+                "respondent": "Сауткин Андрей ",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 9,
+                "respondent": "Яковлев Сергей Викторович",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 10,
+                "respondent": "Семенов Тимофей Александрович ",
+                "answer": "От 20 до 39%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 16,
+                "respondent": "Кравченко Т.В (Ведерникова Ю.А.)",
+                "answer": "Меньше 20%",
+                "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 19,
+                "respondent": "Красильников Антон Владимирович",
+                "answer": "Больше 80%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.delta.sbrf.ru/projects/PCHA/issues/PCHA-2260?filter=allopenissues",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 20,
+                "respondent": "Ведерникова Ю А",
+                "answer": "Меньше 20%",
+                "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 21,
+                "respondent": "Сидорова Ксения Евгеньевна",
+                "answer": "Больше 80%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "DA в команде, работает по запросам",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 22,
+                "respondent": "Белозеров Дмитрий Александрович",
+                "answer": "От 20 до 39%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "sberworks",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 24,
+                "respondent": "Фомичева Анна Геннадьевна",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/scrum?space=PRIME&tenant=default",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 25,
+                "respondent": "Губин Юрий Сергеевич",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.sberbank.ru/projects/VOTSLHGUWJ/issues/VOTSLHGUWJ-176?filter=allopenissues",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 26,
+                "respondent": "Волобуев Андрей Николаевич",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 27,
+                "respondent": "Клычева Олеся Олеговна ",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 28,
+                "respondent": "Адуллин Антон Викторович",
+                "answer": "От 20 до 39%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 29,
+                "respondent": "Адуллин Антон Викторович",
+                "answer": "От 20 до 39%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 30,
+                "respondent": "Мартусенко Игорь Викторович",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=PRVZR&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%A1%D1%82%D1%80%D0%B0%D1%85%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5+%D0%BF%D1%83%D1%82%D0%B5%D1%88%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2+%D0%B8+%D0%9F%D0%A3+%28jira%29%22%2C%22value%22%3A%22PRVZR%22%7D%5D&assign_to=%5B%7B%22label%22%3A%22%D0%A1%D1%82%D0%B5%D0%BF%D1%87%D0%B5%D0%BD%D0%BA%D0%BE+%D0%90%D1%80%D1%82%D1%91%D0%BC+%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87+%28%D0%AF%29%22%2C%22value%22%3A%2223712784%22%7D%5D",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 31,
+                "respondent": "Бажанова Елена Олеговна",
+                "answer": "От 20 до 39%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=CI8LDDG1KY&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0+%5C%22%D0%90%D0%92%D0%A2%D0%9E%5C%22%22%2C%22value%22%3A%22CI8LDDG1KY%22%7D%5D",
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 34,
+                "respondent": "Козлова Диана Леонидовна ",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=AMNS&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0+%D0%9C%D0%92%D0%A1+%D0%B8+%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5+%D1%81%D0%B5%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%22%2C%22value%22%3A%22AMNS%22%7D%5D",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 35,
+                "respondent": "Юрковский Роберт",
+                "answer": "От 20 до 39%",
+                "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 36,
+                "respondent": "Султанов Руслан Рафисович",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 37,
+                "respondent": "Сайфуллин Азат Шавкатович",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 38,
+                "respondent": "Забегаев Михаил Евгеньевич",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 39,
+                "respondent": "Лазарев Никита Игоревич",
+                "answer": "От 40 до 79%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "Задачи ведутся в системе \nПОТОК https://potok.sber.ru/\nConfluence https://confluence.sberbank.ru/pages/viewpage.action?pageId=16315384978",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 40,
+                "respondent": "Большакова Наталья Сергеевна",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.delta.sbrf.ru/secure/RapidBoard.jspa?rapidView=22145&projectKey=PRDSJKK&view=planning.nodetail&quickFilter=103735&issueLimit=100#",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 41,
+                "respondent": "Краснов Игорь Константинович",
+                "answer": "От 40 до 79%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "Конфлюенс",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 42,
+                "respondent": "Казакова Кристина Юрьевна",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/pages/wiki/unit/ZALOGINS-196?space=ZALOGINS&tenant=default&suite=LT_page",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 43,
+                "respondent": "Зырянская Валерия",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 44,
+                "respondent": "Клочкова Ольга",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 45,
+                "respondent": "Савицкий Евгений Михайлович",
+                "answer": "От 20 до 39%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/board/1b97c01f-be10-4b5d-aac0-c894be23c867?space=ANDEP&tenant=default&spaces=%5B%7B%22label%22%3A%22Управление+портфелем+ПЛ%22%2C%22value%22%3A%22ANDEP%22%7D%5D",
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 47,
+                "respondent": "Маманков Максим Сергеевич",
+                "answer": "Больше 80%",
+                "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "Чикина Мария, Ткаченко Михаил",
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 48,
+                "respondent": "Фомин Андрей Евгеньевич",
+                "answer": "От 40 до 79%",
+                "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "Ткаченко Михаил Васильевич, Захаров Александр Евгеньевич, Хромов Степан Алексеевич",
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 49,
+                "respondent": "Родина Марина Анатольевна",
+                "answer": "От 20 до 39%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "Taska",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 50,
+                "respondent": "Норенко Александра Викторовна",
+                "answer": "Меньше 20%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/pages/wiki/unit/SSLDVNN-1?space=SSLDVNN&tenant=default&suite=wiki_page ",
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 52,
+                "respondent": "Сулейманов Расим",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 53,
+                "respondent": "Дубинина Татьяна Валерьевна",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=KPDS&rapidView=21722#",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 54,
+                "respondent": "Савенков Илья Игоревич",
+                "answer": "Больше 80%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=21597227614",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 55,
+                "respondent": "Тырсина Ю.И.",
+                "answer": "Меньше 20%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 56,
+                "respondent": "Илларионов Артем Андреевич",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 58,
+                "respondent": "Корпачева Надежда Олеговна",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/pages/wiki/unit/B0REGAUM0PS1-258?space=B0REGAUM0PS1&tenant=default&suite=wiki_page",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 59,
+                "respondent": "Коробова Екатерина Вадимовна ",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/board/fc08e852-22a0-41c4-bd30-416aade9a5b2?space=INVESTMB&tenant=default&spaces=%5B%7B%22label%22%3A%22InvestMoneyBox%22%2C%22value%22%3A%22INVESTMB%22%7D%5D ",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 60,
+                "respondent": "Киреева Наталья Николавена",
+                "answer": "От 40 до 79%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "бэклог задач ведется в jira pcbltools - это аналог jira только для платформы ШЦП",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 61,
+                "respondent": "Мерзликин Иван Сергеевич",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 63,
+                "respondent": "Ефанов Евгений Вячеславович",
+                "answer": "От 40 до 79%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 64,
+                "respondent": "Кузнецова Ольга Сергеевна",
+                "answer": "Нет аналитиков",
+                "backlogType": null,
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 0
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 66,
+                "respondent": "Лукьянова Юлия Сергеевна ",
+                "answer": "Больше 80%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "https://whiteboard.sberbank.ru/b/e57313bb-bb62-4fca-aa28-69a890003ad8",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+      "name": "PB",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(8).csv",
+                "csvRow": 2,
+                "respondent": "Маркарьян Арташес ",
+                "answer": "От 40 до 79%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "https://sbertrack.sberbank.ru/swtr/tasks/board/305e78b9-a5b5-43e2-8538-fdce9c1d98f8?space=PBDTNLSS&tenant=default&spaces=%5B%7B%22label%22%3A%22PB+Data+Analysis%22%2C%22value%22%3A%22PBDTNLSS%22%7D%5D ",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(8).csv",
+                "csvRow": 5,
+                "respondent": "Кориков Иван Сергеевич",
+                "answer": "От 20 до 39%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=AMNS&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0+%D0%9C%D0%92%D0%A1+%D0%B8+%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5+%D1%81%D0%B5%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%22%2C%22value%22%3A%22AMNS%22%7D%5D",
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(8).csv",
+                "csvRow": 6,
+                "respondent": "Серебряников Антон Олегович",
+                "answer": "Больше 80%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "https://onework.sigma.sbrf.ru/swtr/tasks/board/a562f3d8-c549-426f-ab43-421c738df40e?space=CX65NLTCS&tenant=default&spaces=%5B%7B%22label%22%3A%22CX-65-Analytics%22%2C%22value%22%3A%22CX65NLTCS%22%7D%5D",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(8).csv",
+                "csvRow": 8,
+                "respondent": "Калашников Роман Леонидович",
+                "answer": "От 20 до 39%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/scrum?space=SDRSAA&tenant=default",
+                "backlogComment": null,
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 3,
+                "respondent": "Аркуша Наталья Евгеньевна",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.delta.sbrf.ru/secure/RapidBoard.jspa?rapidView=11427#",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 4,
+                "respondent": "Судаков Николай",
+                "answer": "Больше 80%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=47829&projectKey=PSLS&quickFilter=309543",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 5,
+                "respondent": "Баринова Ксения",
+                "answer": "От 40 до 79%",
+                "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "Пашковская, Пашков",
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 6,
+                "respondent": "Беликов Дмитрий",
+                "answer": "От 40 до 79%",
+                "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 7,
+                "respondent": "Героник Екатерина",
+                "answer": "От 40 до 79%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=B2CNLSSNTR&tenant=default&spaces=%5B%7B%22label%22%3A%22B2C+Analysis+Interns%22%2C%22value%22%3A%22B2CNLSSNTR%22%7D%5D",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 8,
+                "respondent": "Самойлов Дмитрий Сергеевич",
+                "answer": "От 40 до 79%",
+                "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                "backlogLink": null,
+                "backlogComment": "таски в друге",
+                "rawValue": 0.5
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "questionId": "discovery",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "responses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 9,
+                "respondent": "Савин Евгений Юрьевич",
+                "answer": "Больше 80%",
+                "backlogType": "Собственный бэклог в Jira/SberTrack",
+                "backlogLink": "https://jira.delta.sbrf.ru/projects/PCHA/summary",
+                "backlogComment": null,
+                "rawValue": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(8).csv",
+                "csvRow": 3,
+                "respondent": "Сироткина Елена",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/10/quarters/2",
+            "teamKey": "rabochii-vozrast",
+            "teamLabel": "Рабочий возраст",
+            "memberTeams": [
+              "Рабочий возраст"
+            ],
+            "sharedAssessment": false,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-30",
+            "createdCount": 328,
+            "discoveryCount": 138,
+            "actualShare": 42.073170731707314,
+            "displayedShare": 42.07
+          }
+        }
+      }
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(8).csv",
+                "csvRow": 4,
+                "respondent": "Багдасарян Артем Робертович",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/2/quarters/2",
+            "teamKey": "top-affluent",
+            "teamLabel": "Top Affluent",
+            "memberTeams": [
+              "Top Affluent"
+            ],
+            "sharedAssessment": false,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-30",
+            "createdCount": 257,
+            "discoveryCount": 81,
+            "actualShare": 31.517509727626457,
+            "displayedShare": 31.52
+          }
+        }
+      }
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(8).csv",
+                "csvRow": 7,
+                "respondent": "Калашников Роман Леонидович",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/6/quarters/0",
+            "teamKey": "molodezh",
+            "teamLabel": "Молодежь",
+            "memberTeams": [
+              "Молодежь"
+            ],
+            "sharedAssessment": false,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-28",
+            "createdCount": 113,
+            "discoveryCount": 40,
+            "actualShare": 35.39823008849557,
+            "displayedShare": 35.4
+          }
+        }
+      }
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 11,
+                "respondent": "Мищенко Максим Павлович",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/7/quarters/2",
+            "teamKey": "obekt-avto",
+            "teamLabel": "Объект Авто",
+            "memberTeams": [
+              "Объект Авто"
+            ],
+            "sharedAssessment": false,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-30",
+            "createdCount": 461,
+            "discoveryCount": 44,
+            "actualShare": 9.544468546637743,
+            "displayedShare": 9.54
+          }
+        }
+      }
+    },
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(9).csv",
+                "csvRow": 2,
+                "respondent": "Комаров Иван Алексеевич",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/9/quarters/0",
+            "teamKey": "personalnaya-rekomendatsiya",
+            "teamLabel": "Персональная рекомендация",
+            "memberTeams": [
+              "Персональная рекомендация"
+            ],
+            "sharedAssessment": false,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-30",
+            "createdCount": 15,
+            "discoveryCount": 2,
+            "actualShare": 13.333333333333334,
+            "displayedShare": 13.33
+          }
+        }
+      }
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 57,
+                "respondent": "Сипугин Николай Александрович",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/4/quarters/0",
+            "teamKey": "kasko-osago",
+            "teamLabel": "КАСКО, ОСАГО",
+            "memberTeams": [
+              "КАСКО",
+              "ОСАГО"
+            ],
+            "sharedAssessment": true,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-30",
+            "createdCount": 118,
+            "discoveryCount": 16,
+            "actualShare": 13.559322033898304,
+            "displayedShare": 13.56
+          }
+        }
+      }
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 6,
+                "respondent": "Можак Максим Игоревич",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/4/quarters/0",
+            "teamKey": "kasko-osago",
+            "teamLabel": "КАСКО, ОСАГО",
+            "memberTeams": [
+              "КАСКО",
+              "ОСАГО"
+            ],
+            "sharedAssessment": true,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-30",
+            "createdCount": 118,
+            "discoveryCount": 16,
+            "actualShare": 13.559322033898304,
+            "displayedShare": 13.56
+          }
+        }
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 62,
+                "respondent": "Горбунова Екатерина Эдуардовна",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/5/quarters/0",
+            "teamKey": "lichnaya-zaschita-plyus",
+            "teamLabel": "Личная защита Плюс",
+            "memberTeams": [
+              "Личная защита Плюс"
+            ],
+            "sharedAssessment": false,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-30",
+            "createdCount": 22,
+            "discoveryCount": 0,
+            "actualShare": 0.0,
+            "displayedShare": 0.0
+          }
+        }
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 51,
+                "respondent": "Невелич Дмитрий Игоревич",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/8/quarters/0",
+            "teamKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+            "teamLabel": "Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой",
+            "memberTeams": [
+              "Переводы по РФ",
+              "Переводы подарков",
+              "SberPay Вжух",
+              "Оплата улыбкой"
+            ],
+            "sharedAssessment": true,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-25",
+            "createdCount": 108,
+            "discoveryCount": 49,
+            "actualShare": 45.370370370370374,
+            "displayedShare": 45.37
+          }
+        }
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/8/quarters/0",
+            "teamKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+            "teamLabel": "Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой",
+            "memberTeams": [
+              "Переводы по РФ",
+              "Переводы подарков",
+              "SberPay Вжух",
+              "Оплата улыбкой"
+            ],
+            "sharedAssessment": true,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-25",
+            "createdCount": 108,
+            "discoveryCount": 49,
+            "actualShare": 45.370370370370374,
+            "displayedShare": 45.37
+          }
+        }
+      }
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryDecompositionAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+            "explicitAnswerPresent": false,
+            "surveyResponses": [
+              {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "csvRow": 3,
+                "respondent": "Коняшин Артем Алексеевич",
+                "answer": null
+              }
+            ],
+            "file": "gravity-app/public/backlog-data.json",
+            "sha256": "4ef20b0ed1fda2767aaa04418a1185539880640f283bff41a78ed99e8cbef010",
+            "pointer": "/teams/8/quarters/0",
+            "teamKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+            "teamLabel": "Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой",
+            "memberTeams": [
+              "Переводы по РФ",
+              "Переводы подарков",
+              "SberPay Вжух",
+              "Оплата улыбкой"
+            ],
+            "sharedAssessment": true,
+            "quarterKey": "2026-Q3",
+            "start": "2026-07-01",
+            "end": "2026-09-30",
+            "dataThrough": "2026-09-25",
+            "createdCount": 108,
+            "discoveryCount": 49,
+            "actualShare": 45.370370370370374,
+            "displayedShare": 45.37
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": []
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": []
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": []
+          }
+        }
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": []
+          }
+        }
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": [
+              {
+                "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+                "name": "ОМС",
+                "unit": "CBP",
+                "type": "Продукт",
+                "metricCode": "hyp.discovery_40_backlog",
+                "rawValues": [
+                  0.5,
+                  1
+                ],
+                "responses": [
+                  {
+                    "file": "analysis/1/questionare-responses(7).csv",
+                    "csvRow": 12,
+                    "respondent": "Скворцов Виталий Михайлович",
+                    "answer": "От 40 до 79%",
+                    "backlogType": "Собственный бэклог в Jira/SberTrack",
+                    "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=48675&projectKey=FXPMDATA&view=detail&selectedIssue=FXPMDATA-681&quickFilter=280867#",
+                    "backlogComment": null,
+                    "rawValue": 1
+                  },
+                  {
+                    "file": "analysis/1/questionare-responses(7).csv",
+                    "csvRow": 14,
+                    "respondent": "Григорьев Алексей Владимирович",
+                    "answer": "От 40 до 79%",
+                    "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                    "backlogLink": null,
+                    "backlogComment": null,
+                    "rawValue": 0.5
+                  }
+                ],
+                "reason": "conflictingBacklogLocations",
+                "resolution": {
+                  "rawValue": 1,
+                  "confirmedBy": "user",
+                  "date": "2026-10-30"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": [
+              {
+                "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+                "name": "Слитки",
+                "unit": "CBP",
+                "type": "Продукт",
+                "metricCode": "hyp.discovery_40_backlog",
+                "rawValues": [
+                  0.5,
+                  1
+                ],
+                "responses": [
+                  {
+                    "file": "analysis/1/questionare-responses(7).csv",
+                    "csvRow": 13,
+                    "respondent": "Григорьев Алексей Владимирович",
+                    "answer": "От 40 до 79%",
+                    "backlogType": "Бэклог ведется вне Jira/SberTrack",
+                    "backlogLink": null,
+                    "backlogComment": null,
+                    "rawValue": 0.5
+                  },
+                  {
+                    "file": "analysis/1/questionare-responses(7).csv",
+                    "csvRow": 15,
+                    "respondent": "Скворцов Виталий Михайлович",
+                    "answer": "От 40 до 79%",
+                    "backlogType": "Собственный бэклог в Jira/SberTrack",
+                    "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=48675&projectKey=FXPMDATA&view=detail&selectedIssue=FXPMDATA-681&quickFilter=280867#",
+                    "backlogComment": null,
+                    "rawValue": 1
+                  }
+                ],
+                "reason": "conflictingBacklogLocations",
+                "resolution": {
+                  "rawValue": 1,
+                  "confirmedBy": "user",
+                  "date": "2026-10-30"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": []
+          }
+        }
+      }
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDiscoveryManualAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "reason": "Прямая оценка пользователя: Discovery = 1 за III квартал.",
+            "resolvedConflicts": []
+          }
+        }
+      }
+    }
+  ],
+  "pending": [],
+  "resolvedConflicts": [
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metricCode": "hyp.discovery_40_backlog",
+      "rawValues": [
+        0.5,
+        1
+      ],
+      "responses": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 12,
+          "respondent": "Скворцов Виталий Михайлович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=48675&projectKey=FXPMDATA&view=detail&selectedIssue=FXPMDATA-681&quickFilter=280867#",
+          "backlogComment": null,
+          "rawValue": 1
+        },
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 14,
+          "respondent": "Григорьев Алексей Владимирович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "rawValue": 0.5
+        }
+      ],
+      "reason": "conflictingBacklogLocations",
+      "resolution": {
+        "rawValue": 1,
+        "confirmedBy": "user",
+        "date": "2026-10-30"
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metricCode": "hyp.discovery_40_backlog",
+      "rawValues": [
+        0.5,
+        1
+      ],
+      "responses": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 13,
+          "respondent": "Григорьев Алексей Владимирович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "rawValue": 0.5
+        },
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 15,
+          "respondent": "Скворцов Виталий Михайлович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=48675&projectKey=FXPMDATA&view=detail&selectedIssue=FXPMDATA-681&quickFilter=280867#",
+          "backlogComment": null,
+          "rawValue": 1
+        }
+      ],
+      "reason": "conflictingBacklogLocations",
+      "resolution": {
+        "rawValue": 1,
+        "confirmedBy": "user",
+        "date": "2026-10-30"
+      }
+    }
+  ],
+  "counts": {
+    "teams": 76,
+    "facts": 76,
+    "zeros": 23,
+    "halves": 23,
+    "ones": 30,
+    "pendingTeams": 0
+  }
+}

@@ -6,6 +6,21 @@ export function groupFor(product, rows) {
   return rows.find((row) => row.name === product.name && row.unit === product.unit)?.group || '\u041d\u0435\u0442 \u0434\u0430\u043d\u043d\u044b\u0445';
 }
 
+export function excludeRemovedTeams(data) {
+  // Legacy removal used only when seeding Q3; Q2 is shown from the original report.
+  const included = (team) => String(team.name || '').trim().toLocaleLowerCase('ru-RU') !== 'ду';
+  const rows = (data.title?.rows || []).filter(included);
+  return {
+    ...data,
+    products: (data.products || []).filter(included),
+    ...(data.title ? {title: {
+      ...data.title,
+      rows,
+      avgScore: rows.length ? Math.round(rows.reduce((sum, row) => sum + Number(row.score || 0), 0) / rows.length) : 0,
+    }} : {}),
+  };
+}
+
 export const MATURITY_LEVELS = ['Требуют внимания', 'Развивающиеся', 'Зрелые', 'Лидеры Data Driven'];
 
 export function maturityLevelName(value) {
@@ -43,6 +58,10 @@ const PRODUCT_DISPLAY_NAMES = {
   'дебетовые карты': 'Дебетовая карта',
   'детские карты': 'Детская карта',
   'sberpay вжух': 'Вжух',
+  'взр': 'Страхование путешественников',
+  'сберчаевые': 'СберЧаевые #B2C',
+  'сберчаевые #b2c': 'СберЧаевые #B2C',
+  'персональная рекомендация': 'Персональная рекомендация (кампейнинг)',
 };
 
 export function displayProductName(value) {
@@ -117,6 +136,29 @@ export function blockPercent(block) {
   const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
   const max = metrics.reduce((sum, metric) => sum + Number(metric.max_value || 0), 0);
   return percent(value, max);
+}
+
+export function completeBlockPercent(block) {
+  const metrics = (block?.metrics || []).filter(isDdIndexMetric);
+  if (!metrics.length || metrics.some((metric) => !Number.isFinite(metric.value)
+    || metric.value < 0 || metric.value > Number(metric.max_value) || isTbdMetric(metric))) return null;
+  return blockPercent({metrics});
+}
+
+export function completeProductPercent(product) {
+  return completeBlockPercent({metrics: (product?.metrics || []).flatMap((block) => block.metrics || [])});
+}
+
+export function previousQuarterIndexDelta(product, score, baselineProducts = [], baselineRows = []) {
+  if (product?.period !== 'III кв. 2026' || !Number.isFinite(score) || score < 0 || score > 100) return null;
+  const originalId = String(product.id || '').replace(/::empty::.*/, '');
+  const previous = baselineProducts.filter((item) => item.period === 'II кв. 2026' && item.id === originalId
+    && ['name', 'unit', 'type'].every((key) => item[key] === product[key]));
+  if (previous.length !== 1) return null;
+  const rows = baselineRows.filter((row) => row.name === product.name && row.unit === product.unit
+    && (!row.type || String(row.type).toLocaleLowerCase('ru-RU') === String(product.type).toLocaleLowerCase('ru-RU')));
+  if (rows.length !== 1 || !Number.isFinite(rows[0].score) || rows[0].score < 0 || rows[0].score > 100) return null;
+  return {value: score - rows[0].score, previousScore: rows[0].score, previousPeriod: previous[0].period};
 }
 
 export function radarBlockPercent(block) {
@@ -317,6 +359,14 @@ export function filterMetricsForBlock(block, metrics) {
   return hidesInapplicable
     ? metrics.filter((metric) => metric.is_applicabble_flg !== false)
     : metrics;
+}
+
+const Q3_CAMPAIGN_METRICS = new Set(['attract.campaign_launches', 'attract.chernoviki_v_sbol_70',
+  'attract.nalichie_self_service', 'attract.nalichie_uspeshnyh_biznes_zapuskov']);
+
+export function isQ3CampaignMetricHidden(product, metric) {
+  return product?.period === 'III кв. 2026' && Q3_CAMPAIGN_METRICS.has(metric?.code)
+    && (metric.is_applicabble_flg === false || Number(metric.max_value) <= 0);
 }
 
 export function isCampaigningRelevant(block) {

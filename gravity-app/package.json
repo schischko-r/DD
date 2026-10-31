@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "prebuild": "node scripts/verify-manual-assessments.mjs",
     "build": "vite build",
+    "build:questionnaire": "vite build --config vite.questionnaire.config.js",
     "build:clickstream": "vite build --config vite.clickstream.config.js && node scripts/publish-clickstream.mjs",
     "build:moved": "vite build --config vite.moved.config.js && node scripts/publish-moved.mjs",
     "test": "node --test"
@@ -20,6 +22,7 @@
     "recharts": "^3.9.2"
   },
   "devDependencies": {
+    "@ant-design/plots": "^2.6.8",
     "@vitejs/plugin-react": "5.2.0",
     "jsdom": "^30.1.0",
     "vite": "7.3.6",

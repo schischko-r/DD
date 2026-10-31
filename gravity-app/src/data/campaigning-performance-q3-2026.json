@@ -1,0 +1,52 @@
+{
+  "period": "III кв. 2026",
+  "scope": "performance-assessment",
+  "source": {
+    "origin": "userConfirmedCampaigningPerformance",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "rezulьtativnostь.cr_vypolneniya": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaigningPerformance",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "metricCode": "rezulьtativnostь.cr_vypolneniya",
+            "rule": "Прямые пользовательские баллы результативности кампейнинга за III квартал: CR 1/1, Доп. NPV 0.25/1, Дельта CLTV 1/1. Не относится к знанию одноимённых ключевых метрик."
+          }
+        },
+        "rezulьtativnostь.dop_npv_vypolneniya": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedCampaigningPerformance",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "metricCode": "rezulьtativnostь.dop_npv_vypolneniya",
+            "rule": "Прямые пользовательские баллы результативности кампейнинга за III квартал: CR 1/1, Доп. NPV 0.25/1, Дельта CLTV 1/1. Не относится к знанию одноимённых ключевых метрик."
+          }
+        },
+        "rezulьtativnostь.delьta_cltv_vypolneniya": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaigningPerformance",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "metricCode": "rezulьtativnostь.delьta_cltv_vypolneniya",
+            "rule": "Прямые пользовательские баллы результативности кампейнинга за III квартал: CR 1/1, Доп. NPV 0.25/1, Дельта CLTV 1/1. Не относится к знанию одноимённых ключевых метрик."
+          }
+        }
+      }
+    }
+  ]
+}

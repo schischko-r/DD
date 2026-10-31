@@ -81,6 +81,7 @@ export function metricGroup(metric) {
 }
 
 export function isVisibleMetric(metric) {
+  if (metric.hidden_from_profile === true) return false;
   const isOwnMechanics = /(?:^|\.)nalichie_sobstvennyh_mehanik$/i.test(String(metric.code || ''))
     || /^наличие собственных механик$/i.test(String(metric.name || '').trim());
   return !isOwnMechanics || metric.is_applicabble_flg !== false;
@@ -226,6 +227,11 @@ export function CatalogDialog({openType, products, rows, onOpen, onClose}) {
   );
 }
 
+function averageScore(items) {
+  const scores = items.map((item) => item.score).filter(Number.isFinite);
+  return scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : null;
+}
+
 export function CatalogDialogFiltered({openType, openMaturity, products, rows, onOpen, onClose}) {
   const [expandedUnits, setExpandedUnits] = useState({});
   const [query, setQuery] = useState('');
@@ -243,7 +249,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
       map.get(unitName).items.push({
         ...product,
         type,
-        score: Number(row?.score || 0),
+        score: Number.isFinite(row?.score) ? row.score : null,
         group: row?.group || groupFor(product, rows),
       });
     });
@@ -251,7 +257,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
       .map((unit) => ({
         ...unit,
         items: unit.items.sort((a, b) => compareNames(a.name, b.name)),
-        avg: Math.round(unit.items.reduce((sum, item) => sum + item.score, 0) / Math.max(unit.items.length, 1)),
+        avg: averageScore(unit.items),
       }))
       .sort((a, b) => compareNames(a.name, b.name));
   }, [products, rows, selectedType, openMaturity]);
@@ -267,7 +273,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
       const sortedItems = [...items].sort((a, b) => sort === 'score'
         ? (b.score - a.score) || compareNames(a.name, b.name)
         : compareNames(a.name, b.name));
-      return {...unit, items: sortedItems, avg: items.length ? Math.round(items.reduce((sum, item) => sum + item.score, 0) / items.length) : 0};
+      return {...unit, items: sortedItems, avg: averageScore(items)};
     })
     .filter((unit) => unit.items.length > 0)
     .sort((a, b) => sort === 'score' ? (b.avg - a.avg) || compareNames(a.name, b.name) : compareNames(a.name, b.name)), [units, normalizedQuery, sort]);
@@ -286,7 +292,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
       <button type="button" className={`catalog-row catalog-item-row tone-${tone}`} key={key} onClick={() => { onClose(); onOpen(item); }}>
         <span className="catalog-title"><b title={displayProductName(item.name)}>{displayProductName(item.name)}</b></span>
         {flat && <span>{item.unit}</span>}
-        <strong>{item.score}%</strong>
+        <strong>{item.score === null ? '—' : `${item.score}%`}</strong>
         <Label theme={tone}>{item.group}</Label>
       </button>
     );
@@ -316,7 +322,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
               <React.Fragment key={unit.name}>
                 <button type="button" className="catalog-row catalog-unit-row" onClick={() => setExpandedUnits((state) => ({...state, [unit.name]: !unitOpen}))}>
                   <span className="catalog-title"><Icon data={unitOpen ? ChevronDown : ChevronRight} size={14} /><b>{unit.name}</b><small>{unit.items.length} {'\u043a\u043e\u043c\u0430\u043d\u0434'}</small></span>
-                  <strong>{unit.avg}%</strong>
+                  <strong>{unit.avg === null ? '—' : `${unit.avg}%`}</strong>
                   <span>{selectedType?.label || ''}</span>
                   <span>{unitOpen ? '\u0421\u0432\u0435\u0440\u043d\u0443\u0442\u044c' : '\u0420\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u044c'}</span>
                 </button>

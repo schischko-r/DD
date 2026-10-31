@@ -1,0 +1,29 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedSmileAttractAnalysis20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedSmileAttractAnalysis20261030",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "Последнее прямое указание пользователя: Проведение комплексного анализа воронки привлечения у Оплаты улыбкой = 0.5 (50%). Предыдущее указание 0 заменено; прежний максимум и II квартал сохраняются."
+          }
+        }
+      }
+    }
+  ]
+}

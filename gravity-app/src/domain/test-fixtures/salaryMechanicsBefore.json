@@ -1,0 +1,68 @@
+{
+  "salaryCohorts": {
+    "b2b": {
+      "metrics": [
+        {
+          "metrics": [
+            {
+              "code": "general.mau_produkta",
+              "value": 0,
+              "max_value": 0.2,
+              "source": {
+                "origin": "salaryPreConfirmationFixture"
+              }
+            },
+            {
+              "code": "mehaniki.vozvrat_klientov",
+              "value": null,
+              "max_value": 1,
+              "source": {
+                "origin": "salaryPreConfirmationFixture"
+              }
+            },
+            {
+              "code": "mehaniki.doprodazhi_up_sell",
+              "value": 0,
+              "max_value": 1,
+              "source": {
+                "origin": "salaryPreConfirmationFixture"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "b2c": {
+      "metrics": [
+        {
+          "metrics": [
+            {
+              "code": "general.mau_produkta",
+              "value": 0.2,
+              "max_value": 0.2,
+              "source": {
+                "origin": "salaryPreConfirmationFixture"
+              }
+            },
+            {
+              "code": "mehaniki.vozvrat_klientov",
+              "value": null,
+              "max_value": 1,
+              "source": {
+                "origin": "salaryPreConfirmationFixture"
+              }
+            },
+            {
+              "code": "mehaniki.doprodazhi_up_sell",
+              "value": 0,
+              "max_value": 1,
+              "source": {
+                "origin": "salaryPreConfirmationFixture"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

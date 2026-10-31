@@ -1,0 +1,68 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedChatEntryActions",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedChatEntryActions",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "analysis/1/questionare-responses(9).csv",
+            "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+            "csvRow": 9,
+            "surveyId": "ddi-channel-16b48c34-9b69-5403-8da8-41943903e5ff",
+            "completedAt": "2026-10-20T08:41:40.069Z",
+            "respondent": "Савин Евгений Юрьевич",
+            "questionId": "entryDeviations",
+            "questionSource": {
+              "sheet": "Каналы Phigital",
+              "row": 82
+            },
+            "answer": "Да",
+            "comment": "",
+            "evidenceFormat": "confluence",
+            "evidenceQuestionId": "entryDeviationExampleReport",
+            "evidence": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=20172510221\nhttps://mark.sber.ru/mark/researches?id=10B24385-EF23-4A75-9B25-372B0CA9CCE1\nhttps://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17776677304\nhttps://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17491465475",
+            "evidenceLinks": [
+              {
+                "label": "Подтверждение 1",
+                "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=20172510221"
+              },
+              {
+                "label": "Подтверждение 2",
+                "url": "https://mark.sber.ru/mark/researches?id=10B24385-EF23-4A75-9B25-372B0CA9CCE1"
+              },
+              {
+                "label": "Подтверждение 3",
+                "url": "https://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17776677304"
+              },
+              {
+                "label": "Подтверждение 4",
+                "url": "https://confluence.delta.sbrf.ru/pages/viewpage.action?pageId=17491465475"
+              }
+            ],
+            "rule": "Мероприятия по воронке входа в канал: доверяем явному ответу Да = 1. Исходные подтверждения сохранены без требования к их формату; комментарий не добавляется."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 1,
+    "evidenceLinks": 4
+  }
+}

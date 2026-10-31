@@ -1,0 +1,75 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {
+    "origin": "userConfirmedPaymentsMechanics20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPaymentsMechanics20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "teamId": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+            "rule": "Последнее явное указание пользователя: Платежи, III квартал — допродажи и возврат клиентов = 0. Имеет приоритет над прежними оценками и переносами; максимумы, применимость и остальные показатели сохраняются.",
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousSource": {
+              "origin": "userConfirmedMechanicsAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Платежи",
+              "sourceMetricName": "Допродажи (up-sell)",
+              "sourceRows": [
+                66
+              ],
+              "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются.",
+              "rawValue": 1
+            }
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPaymentsMechanics20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "teamId": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+            "rule": "Последнее явное указание пользователя: Платежи, III квартал — допродажи и возврат клиентов = 0. Имеет приоритет над прежними оценками и переносами; максимумы, применимость и остальные показатели сохраняются.",
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousSource": {
+              "origin": "userConfirmedMechanicsAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Платежи",
+              "sourceMetricName": "Возврат клиентов",
+              "sourceRows": [
+                65
+              ],
+              "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 2
+  }
+}

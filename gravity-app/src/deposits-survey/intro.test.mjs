@@ -13,7 +13,7 @@ test('title uses each product route and keeps survey and digital sources separat
     const sections = getSections(answers).filter(section => section.id !== 'intro'
       && visibleQuestions(section, getBacklogAnalyzed(answers), answers).length);
     assert.equal(summary.sectionCount, sections.length);
-    assert.ok(summary.survey.includes('Cross-sell после оформления продукта'));
+    assert.equal(summary.survey.includes('Cross-sell после оформления продукта'), sections.some(s => s.questions.some(q => q.id === 'crossSellAfter')));
     assert.equal(new Set(summary.survey).size, summary.survey.length);
     assert.ok(!summary.survey.some(label => /Бенчмарки|Модель оттока/.test(label)));
     assert.equal(new Set(summary.digital).size, summary.digital.length);
@@ -91,8 +91,8 @@ test('intro groups preserve every metric and assign it to its own section', () =
       'Допродажи (upsell)': 'Механики допродаж (Upsell)',
     }[option])) : [];
     if (questions.some(q => q.id === 'mechanicsMonitoring')) expected.push('Мониторинг эффективности механик');
-    expected.push('Cross-sell после оформления продукта');
-    assert.deepEqual(summary.surveyGroups.find(g => g.id === 'mechanics').metrics, expected);
+    if (questions.some(q => q.id === 'crossSellAfter')) expected.push('Cross-sell после оформления продукта');
+    assert.deepEqual(summary.surveyGroups.find(g => g.id === 'mechanics')?.metrics || [], expected);
     for (const group of summary.digitalGroups) {
       if (group.id === 'mechanics') assert.deepEqual(group.metrics, ['Cross-sell во время оформления продукта (LossHunter)']);
       if (group.id === 'research') assert.ok(group.metrics.every(label => /исследований|инициативы|A\/B|Discovery/.test(label)));

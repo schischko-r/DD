@@ -1,0 +1,25 @@
+{
+  "period": "III кв. 2026",
+  "scope": "metric-applicability-assessment",
+  "products": [
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.gibkoe_izmenenie_usloviy_produkta": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedCorporateFlexibleConditionsNotApplicable",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "reason": "Гибкое изменение опций продукта нерелевантно для корпоративного страхования; исключить из расчёта и визуала III квартала."
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedQ3MetricAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "period": "III кв. 2026",
+    "rule": "Общий MAU = 100% ⇒ знание отчётности в Навигаторе = 100%; условие спутников отменено."
+  },
+  "products": [
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedNavigatorMauKnowledgeRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Знание об отчётности в Навигаторе = 100%, если действующая оценка общего MAU продукта или канала = 100%. Продукты-спутники больше не являются условием. Сохраняются применимость и максимум.",
+            "mauEvidence": [
+              {
+                "code": "general.mau_produkta",
+                "value": 0.2,
+                "max": 0.2,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "ЦФА",
+                  "sourceMetricName": "MAU продукта",
+                  "sourceRows": [
+                    159
+                  ],
+                  "cell": "C159",
+                  "cells": [
+                    {
+                      "sourceRow": 159,
+                      "cell": "C159",
+                      "rawValue": 1,
+                      "cellType": "n",
+                      "sourceName": "ЦФА",
+                      "sourceMetric": "MAU продукта",
+                      "note": null
+                    }
+                  ],
+                  "points": 1,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 1
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5
+          }
+        }
+      }
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedNavigatorMauKnowledgeRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Знание об отчётности в Навигаторе = 100%, если действующая оценка общего MAU продукта или канала = 100%. Продукты-спутники больше не являются условием. Сохраняются применимость и максимум.",
+            "mauEvidence": [
+              {
+                "code": "general.mau_u_vashego_kanala",
+                "value": 0.1,
+                "max": 0.1,
+                "source": {
+                  "origin": "priorQuarterCarryForward",
+                  "file": "gravity-app/public/report-data.json",
+                  "period": "III кв. 2026",
+                  "fromPeriod": "II кв. 2026",
+                  "sourceName": "СБОЛ",
+                  "sourceMetricCode": "general.mau_u_vashego_kanala",
+                  "sourceMetricName": "MAU у вашего канала",
+                  "sourceValue": 0.1,
+                  "sourceMaxValue": 0.1,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                  "rawValue": 1
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedNavigatorMauKnowledgeRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Знание об отчётности в Навигаторе = 100%, если действующая оценка общего MAU продукта или канала = 100%. Продукты-спутники больше не являются условием. Сохраняются применимость и максимум.",
+            "mauEvidence": [
+              {
+                "code": "general.mau_u_vashego_kanala",
+                "value": 0.5,
+                "max": 0.5,
+                "source": {
+                  "origin": "priorQuarterCarryForward",
+                  "file": "gravity-app/public/report-data.json",
+                  "period": "III кв. 2026",
+                  "fromPeriod": "II кв. 2026",
+                  "sourceName": "Уведомления",
+                  "sourceMetricCode": "general.mau_u_vashego_kanala",
+                  "sourceMetricName": "MAU у вашего канала",
+                  "sourceValue": 0.5,
+                  "sourceMaxValue": 0.5,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                  "rawValue": 1
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5
+          }
+        }
+      }
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedNavigatorMauKnowledgeRule",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Знание об отчётности в Навигаторе = 100%, если действующая оценка общего MAU продукта или канала = 100%. Продукты-спутники больше не являются условием. Сохраняются применимость и максимум.",
+            "mauEvidence": [
+              {
+                "code": "general.mau_produkta",
+                "value": 0.2,
+                "max": 0.2,
+                "source": {
+                  "origin": "keyMetricsWorkbookAssessment",
+                  "file": "Ключевые метрики Продукта Баллы.xlsx",
+                  "sheet": "Лист1",
+                  "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                  "period": "III кв. 2026",
+                  "sourceName": "SberID",
+                  "sourceMetricName": "MAU продукта",
+                  "sourceRows": [
+                    3
+                  ],
+                  "cell": "C3",
+                  "cells": [
+                    {
+                      "sourceRow": 3,
+                      "cell": "C3",
+                      "rawValue": 1,
+                      "cellType": "n",
+                      "sourceName": "SberID",
+                      "sourceMetric": "MAU продукта",
+                      "note": null
+                    }
+                  ],
+                  "points": 1,
+                  "confirmedBy": "user",
+                  "userprovided": true,
+                  "mappingRule": "normalizedExact",
+                  "baselineApplicable": true,
+                  "baselineMaxValue": 0.2,
+                  "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                  "rawValue": 1
+                }
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 0.5
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "evaluatedTeams": 76,
+    "eligibleTeams": 47,
+    "alreadyFull": 43,
+    "changedTeams": 4,
+    "facts": 4
+  }
+}

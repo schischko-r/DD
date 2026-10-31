@@ -1,0 +1,41 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedIszhFunnelCompleteness",
+    "confirmedBy": "user",
+    "period": "III кв. 2026",
+    "date": "2026-10-30",
+    "rule": "По указанию пользователя, аналогично НСЖ, полнота отчёта ИСЖ за III квартал в привлечении и оттоке = 1 (100% существующего максимума)."
+  },
+  "products": [
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedIszhFunnelCompleteness",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "По указанию пользователя, аналогично НСЖ, полнота отчёта ИСЖ за III квартал в привлечении и оттоке = 1 (100% существующего максимума)."
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedIszhFunnelCompleteness",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "По указанию пользователя, аналогично НСЖ, полнота отчёта ИСЖ за III квартал в привлечении и оттоке = 1 (100% существующего максимума)."
+          }
+        }
+      }
+    }
+  ]
+}

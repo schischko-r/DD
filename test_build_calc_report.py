@@ -1753,6 +1753,45 @@ class SyntheticReportTest(unittest.TestCase):
 
         self.assertIs(report.find_crosssell_item(index, "Вклады+НС", "CBP"), combined)
 
+    def test_crosssell_travel_insurance_matches_old_and_new_api_names(self) -> None:
+        for dd_name, api_name in (
+            ("Страхование путешественников", "ВЗР"),
+            ("ВЗР", "Страхование путешественников"),
+        ):
+            with self.subTest(dd_name=dd_name, api_name=api_name):
+                product = {"name": api_name, "unit": "УБ", "uid": "взр"}
+                index = report.crosssell_items_by_name([product])
+                self.assertIs(report.find_crosssell_item(index, dd_name, "УБ"), product)
+                exact = {"name": dd_name, "unit": "УБ", "uid": "exact"}
+                index = report.crosssell_items_by_name([product, exact])
+                self.assertIs(report.find_crosssell_item(index, dd_name, "УБ"), exact)
+
+    def test_crosssell_travel_insurance_preserves_api_data_after_rename(self) -> None:
+        # Exercise markers, catalogue, research and the stable UID together.
+        root = Path(__file__).resolve().parent
+        export = json.loads((root / "crosssell_export.json").read_text(encoding="utf-8"))
+        source = json.loads((root / "gravity-app/public/report-data.json").read_text(encoding="utf-8"))
+        original = next(product for product in source["products"] if product["name"] == "ВЗР")
+        expected_uid = "взр"
+        for dd_name in ("ВЗР", "Страхование путешественников"):
+            with self.subTest(dd_name=dd_name), tempfile.TemporaryDirectory() as temp_dir:
+                product = json.loads(json.dumps(original))
+                product["name"] = dd_name
+                data = {"products": [product]}
+                path = Path(temp_dir) / "crosssell.json"
+                path.write_text(json.dumps(export, ensure_ascii=False), encoding="utf-8")
+                result = report.apply_crosssell_export(data, path)
+                self.assertEqual(result["crosssell"]["matched_products"], 1)
+                self.assertEqual(result["crosssell"]["matched_markers"], 1)
+                self.assertEqual(result["crosssell"]["unmatched_dd_products"], [])
+                enriched = result["products"][0]
+                self.assertEqual(enriched["id"], original["id"])
+                self.assertEqual(enriched["crosssell_uid"], expected_uid)
+                recommendation = next(item for item in enriched["metric_recommendations"] if item["skill_key"] == "cross_sell")
+                marker = next(item for item in export["markers_response"]["markers"] if item["uid"] == expected_uid)
+                self.assertEqual(recommendation["api_seen_around_n"], marker["cross_sell"]["seen_around_n"])
+                self.assertEqual(enriched["crosssell_candidates"], export["market_items_response"][expected_uid]["candidates"])
+
     def test_crosssell_absolute_deeplink_is_preserved(self) -> None:
         absolute = "https://product-lens.example/cross-sell#product=осаго"
         marker = {"cross_sell": {"deeplink": absolute}}

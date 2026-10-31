@@ -1,0 +1,51 @@
+{
+  "period": "III кв. 2026",
+  "scope": "metric-applicability-assessment",
+  "source": {
+    "origin": "userConfirmedInsuranceAbHidden",
+    "confirmedBy": "user",
+    "period": "III кв. 2026",
+    "date": "2026-10-30",
+    "reason": "Пользователь просит убрать строку A/B за III квартал у ДСЖ КК и ДСЖ ПК. Метрика уже неприменима; не активировать и не включать в индекс."
+  },
+  "products": [
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedInsuranceAbHidden",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "reason": "Пользователь просит убрать строку A/B за III квартал у ДСЖ КК и ДСЖ ПК. Метрика уже неприменима; не активировать и не включать в индекс."
+          }
+        }
+      }
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedInsuranceAbHidden",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "reason": "Пользователь просит убрать строку A/B за III квартал у ДСЖ КК и ДСЖ ПК. Метрика уже неприменима; не активировать и не включать в индекс."
+          }
+        }
+      }
+    }
+  ]
+}

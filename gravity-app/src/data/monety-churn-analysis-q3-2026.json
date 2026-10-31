@@ -1,0 +1,36 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedKaskoMonety20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedKaskoMonety20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: обеим указанным метрикам КАСКО/Монеты поставить 1 (100% прежнего максимума). Предыдущее указание 0.5 по анализу оттока Монет заменено последним указанием 1.",
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousSource": null
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 1
+  }
+}

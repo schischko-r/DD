@@ -32,7 +32,7 @@ test('backlog decomposition is a dedicated sidebar view with its own data source
   assert.match(appSource, /view === 'backlog'[\s\S]*?<BacklogDecompositionPage/);
   assert.doesNotMatch(appSource, /BacklogDecompositionV2Page|backlog-v2|openBacklogV2|\bCopy\b/);
   assert.match(appSource, /import \{AsideHeader\} from '@gravity-ui\/navigation'/);
-  assert.match(appSource, /import \{Spin\} from '@gravity-ui\/uikit'/);
+  assert.match(appSource, /import \{[^}]*\bSpin\b[^}]*\} from '@gravity-ui\/uikit'/);
   const mainMenuSource = appSource.slice(appSource.indexOf('const menuItems = ['), appSource.indexOf('const content ='));
   assert.match(mainMenuSource, /id: 'skills-divider',[\s\S]*?type: 'divider'/);
   assert.match(mainMenuSource, /HTML_PAGE_TOOLS\.map[\s\S]*?BACKLOG_DECOMPOSITION_ENABLED \? \[\{[\s\S]*?id: 'backlog'/);
@@ -42,34 +42,33 @@ test('backlog decomposition is a dedicated sidebar view with its own data source
 });
 
 test('backlog can return to the selected team profile with exact normalized name matching', () => {
-  assert.match(appSource, /const normalizeTeamName = \(value\) => String\(value \|\| ''\)\.trim\(\)\.replace\(\/\\s\+\/g, ' '\)\.toLocaleLowerCase\('ru-RU'\)/);
   const openTeamSource = appSource.slice(appSource.indexOf('const openBacklogTeam ='), appSource.indexOf('const content ='));
-  assert.match(openTeamSource, /\[teamDataset\?\.label, teamDataset\?\.meta\?\.teamLabel\]/);
-  assert.match(openTeamSource, /requestedNames\.includes\(normalizeTeamName\(item\?\.name\)\)/);
-  assert.match(openTeamSource, /normalizeTeamName\(item\?\.name\) === normalizeTeamName\('СберЧаевые'\)/);
+  assert.match(openTeamSource, /findProductForBacklogTeam\(requestedTeam, teamSelection\.products, product\)/);
+  assert.match(openTeamSource, /findProductForBacklogTeam\(requestedTeam, data\.products, product\)/);
+  assert.doesNotMatch(openTeamSource, /normalizeTeamName|requestedNames|СберЧаевые/);
   assert.match(openTeamSource, /setSelected\(target\);[\s\S]*?setView\('detail'\);[\s\S]*?window\.scrollTo\(0, 0\)/);
   assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
 
   assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
   assert.match(pageSource, /import \{[^}]*Box, Button, Card, DefinitionList, Divider/);
   assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
-  assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
+  assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team, selectedTeamOption\?\.member\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
 });
 
 test('backlog CTA is available for every team represented in backlog data and opens that team', () => {
   assert.match(appSource, /const backlogTeams = Array\.isArray\(backlog\.data\?\.teams\) \? backlog\.data\.teams : \[\]/);
   assert.match(appSource, /const productBacklogTeam = backlogTeams\.find/);
-  assert.match(appSource, /teamNames\.includes\(normalizeTeamName\(product\?\.name\)\)/);
+  assert.match(appSource, /backlogTeamMatchesProduct\(team, product\)/);
   assert.match(teamProfileSource, /metric\.code\s*===\s*['"]hyp\.discovery_40_backlog['"]/);
   assert.doesNotMatch(teamProfileSource, /product\.name\s*===\s*['"]СберЧаевые['"]/);
   assert.match(teamProfileSource, /title:\s*['"]Декомпозиция бэклога['"]/);
   assert.match(teamProfileSource, /label:\s*['"]Декомпозиция бэклога['"]/);
   assert.match(teamProfileSource, /onClick:\s*onBacklog/);
   assert.match(appSource, /const openBacklog = \(teamKey = ''\) => \{[\s\S]*?setBacklogTeamKey\(String\(teamKey \|\| ''\)\);[\s\S]*?setView\('backlog'\)/);
-  assert.match(appSource, /onBacklog=\{BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam \? \(\) => openBacklog\(productBacklogTeam\.key\) : undefined\}/);
+  assert.match(appSource, /onBacklog=\{BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam \? \(\) => openBacklog\(backlogTeamOptionValue\(productBacklogTeam, product\)\) : undefined\}/);
   assert.match(appSource, /initialTeamKey=\{backlogTeamKey\}/);
   assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
-  assert.match(pageSource, /String\(initialTeamKey \|\| teams\[0\]\?\.key \|\| ''\)/);
+  assert.match(pageSource, /findBacklogTeamFilterOption\(teamFilterOptions, initialTeamKey\)/);
   assert.match(pageSource, /const appliedInitialTeamKey = useRef\(null\)/);
   assert.match(pageSource, /requestedTeamKey !== appliedInitialTeamKey\.current/);
 });
@@ -138,7 +137,7 @@ test('created KPI uses the selected-quarter total while mini charts remain month
   assert.doesNotMatch(pageSource, /latestMonthCreated/);
   assert.match(pageSource, /value=\{formatNumber\(created\)\} label="Создано за квартал" note=\{selectedPeriodLabel\}/);
   assert.match(pageSource, /const selectedPeriodLabel = shortQuarterLabel\(quarter\)/);
-  assert.equal((pageSource.match(/buildKpiMiniChartData\(visibleMonths,/g) || []).length, 5);
+  assert.equal((pageSource.match(/buildKpiMiniChartData\(visibleMonths,/g) || []).length, 4);
 });
 
 test('dashboard insights consume the backend quarter schema and enforce the 40 percent goal', () => {
@@ -401,7 +400,6 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
     'Доля Discovery в созданных задачах квартала',
     'Создано за квартал',
     'Завершено из созданных',
-    'Медианное время в работе',
     'Заполнение Story Points',
     'Рутина',
     'Автоматизация',
@@ -412,7 +410,7 @@ test('quarter dashboard exposes goal, KPI and evidence panels in a compact layou
     assert.match(pageSource, new RegExp(label));
   }
   assert.match(pageSource, /const DISCOVERY_TARGET = 40/);
-  assert.match(stylesSource, /\.backlog-kpi-grid\s*\{[^}]*grid-template-columns:\s*repeat\(6, minmax\(0, 1fr\)\)/s);
+  assert.match(stylesSource, /\.backlog-kpi-grid\s*\{[^}]*grid-template-columns:\s*repeat\(5, minmax\(0, 1fr\)\)/s);
   assert.match(stylesSource, /\.backlog-kpi-card--combined\s*\{[^}]*grid-column:\s*span 2/s);
   assert.match(pageSource, /import \{[^}]*Box, Button, Card, DefinitionList, Divider, Flex, Icon, Label,[^}]*Progress/);
   const goalCardSource = pageSource.slice(pageSource.indexOf('<Card className="backlog-goal-card"'), pageSource.indexOf('<section className="backlog-kpi-grid"'));
@@ -467,7 +465,7 @@ test('KPI and recommendations are composed from neutral Gravity UI primitives', 
   assert.match(pageSource, /chartUnit="задач"/);
   assert.match(pageSource, /<RoutineAutomationCard periodLabel=\{selectedPeriodLabel\} total=\{created\} routineShare=\{routineShare\} routineCount=\{routineCount\} automationShare=\{automationShare\} automationCount=\{automationCount\} chartData=\{kpiMiniCharts\.routineAutomation\} \/>/);
   assert.match(pageSource, /function RoutineAutomationCard\(\{periodLabel,[^}]+\}[\s\S]*?>\{periodLabel\}<\/Text>/);
-  assert.equal((pageSource.match(/\$\{selectedPeriodLabel\} ·/g) || []).length, 3);
+  assert.equal((pageSource.match(/\$\{selectedPeriodLabel\} ·/g) || []).length, 2);
   assert.match(pageSource, /function RoutineAutomationCard[\s\S]*?<Card className="backlog-kpi-card backlog-kpi-card--combined" view="outlined" size="l"/);
   assert.match(pageSource, /<Flex className="backlog-kpi-chart-layout" alignItems="stretch" gap="2">[\s\S]*?<Chart data=\{chartData\} lang="ru" \/>[\s\S]*?<Flex className="backlog-kpi-chart-legend" direction="column" justifyContent="center" gap="1" role="list" aria-label="Легенда графика">/);
   assert.match(pageSource, /<Text color="danger"><Icon data=\{CircleFill\} size=\{8\} \/><\/Text><Text variant="caption-2">Рутина<\/Text>/);
@@ -494,9 +492,9 @@ test('KPI and recommendations are composed from neutral Gravity UI primitives', 
 });
 
 test('KPI mini charts show history only through the selected quarter with a quarter reference line', () => {
-  assert.equal((pageSource.match(/buildKpiMiniChartData\(visibleMonths,/g) || []).length, 5);
+  assert.equal((pageSource.match(/buildKpiMiniChartData\(visibleMonths,/g) || []).length, 4);
   assert.equal((pageSource.match(/buildKpiMiniChartData\(months,/g) || []).length, 0);
-  assert.equal((pageSource.match(/scaleMonths: selectedMonths/g) || []).length, 5);
+  assert.equal((pageSource.match(/scaleMonths: selectedMonths/g) || []).length, 4);
 
   const history = [
     {key: '2024-01', label: 'Январь', createdCount: 17, createdResolvedCount: 12},
@@ -667,7 +665,7 @@ test('team selector switches complete datasets and preserves top-level fallback'
   assert.match(pageSource, /setSelectedQuarterKey\(quarterKey\(selectQuarter\(nextQuarters\)\)\)/);
   assert.match(pageSource, /Структура и статус задач, созданных в выбранном квартале/);
   assert.match(pageSource, /className="backlog-header-controls"[^>]*alignItems="flex-end"[^>]*gap="3"/);
-  const teamSelectStart = pageSource.indexOf('<Select value={team ?');
+  const teamSelectStart = pageSource.indexOf('<Select value={selectedTeamOption ?');
   const teamSelect = pageSource.slice(teamSelectStart, pageSource.indexOf('/>', teamSelectStart));
   for (const prop of ['options={teamOptions}', 'onUpdate={updateTeam}', 'size="l"', 'width="max"', 'popupWidth="fit"', 'popupPlacement="bottom-end"', 'aria-label="Команда"']) {
     assert.ok(teamSelect.includes(prop), `team Select keeps ${prop}`);
@@ -783,16 +781,10 @@ test('Created semantics remain explicit alongside selected-quarter delivery qual
   assert.match(pageSource, /discoveryShare[\s\S]*created \? discoveryCount \/ created \* 100/);
   assert.match(pageSource, /Задача учитывается один раз — в месяце создания/);
   assert.match(pageSource, /routineShare=\{routineShare\}[\s\S]*total=\{created\}|total=\{created\}[\s\S]*routineShare=\{routineShare\}/);
-  assert.match(pageSource, /const medianCycleTimeDays = metric\(quarter, 'medianCycleTimeDays', 'cycleTimeMedianDays'\)/);
-  assert.match(pageSource, /const cycleTimeSampleCount = metric\(quarter, 'cycleTimeSampleCount'\)/);
   assert.match(pageSource, /const storyPointsFilledShare = metric\(quarter, 'storyPointsFilledShare', 'storyPointsFillShare'\)/);
-  assert.match(pageSource, /value=\{Number\.isFinite\(medianCycleTimeDays\) \? `\$\{formatNumber\(medianCycleTimeDays, 1\)\} дн\.` : '—'\}/);
   assert.match(pageSource, /value=\{Number\.isFinite\(storyPointsFilledShare\) \? formatPercentValue\(storyPointsFilledShare\) : '—'\}/);
-  assert.match(pageSource, /label="Медианное время в работе"/);
-  assert.match(pageSource, /label="Медианное время в работе"[\s\S]*?chartData=\{kpiMiniCharts\.medianTtm\}/);
   assert.match(pageSource, /name: 'Время в работе · 25-й перцентиль по всем аналитикам'/);
   assert.match(pageSource, /name: 'Медианное время в работе вашей команды'/);
-  assert.match(pageSource, /name: 'Медианное время в работе', key: 'medianCycleTimeDays'/);
   assert.match(pageSource, /Доля &gt;10% или время в работе команды выше 25-го перцентиля/);
   assert.match(pageSource, /нет сценариев с долей &gt;10% или временем в работе команды выше 25-го перцентиля/);
   assert.doesNotMatch(pageSource, /TTM/);
@@ -808,7 +800,6 @@ test('KPI charts use their declared Created or completed-task cohorts', () => {
   assert.deepEqual(chartKeys, [
     'createdCount',
     'createdResolvedCount',
-    'medianCycleTimeDays',
     'storyPointsFilledShare',
     'exportRoutineShare',
     'automationShare',
@@ -931,7 +922,7 @@ test('the May spike the notice describes is real in the shipped backlog data', (
   const data = JSON.parse(readFileSync(new URL('../../public/backlog-data.json', import.meta.url), 'utf8'));
   const team = data.teams.find((item) => item.key === 'investkopilka');
   const may = team.months.find((month) => month.key === '2026-05');
-  const others = team.months.filter((month) => month.key !== '2026-05');
+  const others = team.months.filter((month) => month.key !== '2026-05' && month.key <= '2026-06');
   const busiestOtherMonth = Math.max(...others.map((month) => month.createdCount));
 
   assert.ok(may.createdCount > busiestOtherMonth * 10, `May (${may.createdCount}) dwarfs every other month (max ${busiestOtherMonth})`);

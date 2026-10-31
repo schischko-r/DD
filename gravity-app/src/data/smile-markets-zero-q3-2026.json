@@ -1,0 +1,100 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedSmileMarketsZero20261030",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "general.obъem_celevogo_rynka_v_rossii": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSmileMarketsZero20261030",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "Прямое указание пользователя: оба рынка и знание отчётности в Навигаторе у Оплаты улыбкой = 0. Максимумы и II квартал сохраняются.",
+            "file": "ddi_3q_response/questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 3,
+            "respondent": "Коняшин Артем Алексеевич",
+            "questionId": "marketRussia",
+            "answer": "110000000",
+            "answerSource": "Запрос у аналитиков",
+            "comment": "Биометрией могут воспользоваться все физические лица с 6+ лет. На текущий момент в КБС Сбера находится 32,5 млн биометрических образцов - это потенциальное количество физических лиц, которые уже сегодня могут оплатить покупку улыбкой."
+          }
+        },
+        "general.obъem_celevogo_rynka_v_sbere": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSmileMarketsZero20261030",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "Прямое указание пользователя: оба рынка и знание отчётности в Навигаторе у Оплаты улыбкой = 0. Максимумы и II квартал сохраняются.",
+            "file": "ddi_3q_response/questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 3,
+            "respondent": "Коняшин Артем Алексеевич",
+            "questionId": "marketSber",
+            "answer": "23000000",
+            "answerSource": "Запрос у аналитиков",
+            "comment": "Учитывая ред. политику ДДРиС и доступность клиентов для коммуниакций,оперативно банк может дотянуться до 23 млн.клиентов, остальные 10 млн человек сложно-доступны."
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedNavigatorZeroMarketsRule",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "Прямое указание пользователя: оба рынка и знание отчётности в Навигаторе у Оплаты улыбкой = 0. Максимумы и II квартал сохраняются."
+          }
+        },
+        "general.mau_produkta": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSmileMarketsZero20261030",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "Последнее прямое указание пользователя: MAU и клиенты с продуктом у Оплаты улыбкой = 0. Максимумы и II квартал сохраняются.",
+            "file": "ddi_3q_response/questionare-responses(11).csv",
+            "csvRow": 3,
+            "respondent": "Коняшин Артем Алексеевич",
+            "questionId": "mau",
+            "answer": "4600000",
+            "answerSource": "Запрос у аналитиков",
+            "comment": "По итогам октября 4,6 млн. MAU",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5"
+          }
+        },
+        "general.klienty_s_produktom": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSmileMarketsZero20261030",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "Последнее прямое указание пользователя: MAU и клиенты с продуктом у Оплаты улыбкой = 0. Максимумы и II квартал сохраняются.",
+            "file": "ddi_3q_response/questionare-responses(11).csv",
+            "csvRow": 3,
+            "respondent": "Коняшин Артем Алексеевич",
+            "questionId": "clients",
+            "answer": "10000000",
+            "answerSource": "Запрос у аналитиков",
+            "comment": "10 млн клиентов уже воспользовались сервисом \"Оплата улыбкой\", однако биометрия подключена у 32,5 млн человек. ",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5"
+          }
+        }
+      }
+    }
+  ]
+}

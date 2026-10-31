@@ -1,0 +1,50 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedDepositsChurnCompleteness20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDepositsChurnCompleteness20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "teamId": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+            "rule": "Последнее явное указание пользователя: полнота отчёта по воронке ОТТОКА Вклады+НС за III квартал = 0. Полнота привлечения и остальные показатели не меняются.",
+            "previousValue": 0.25,
+            "previousMaxValue": 0.5,
+            "previousSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Вклады+НС",
+              "sourceMetricName": "Полнота отчета",
+              "question": "Какие метрики вы мониторите в рамках воронки оттока по вашему продукту?",
+              "sourceRows": [
+                24
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            }
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 1
+  }
+}

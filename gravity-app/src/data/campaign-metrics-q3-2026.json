@@ -1,0 +1,1604 @@
+{
+  "period": "III кв. 2026",
+  "source": {
+    "file": "Книга3(2).xlsx",
+    "sheet": "Лист1",
+    "sha256": "4fc8952c28848380ad5cdd77b666eace314e090ce2cc9e930f8988d6709767e1",
+    "period": "III кв. 2026",
+    "successfulBusinessPeriodNote": "Пользователь подтвердил: successful_business_q2 используется для оценки III квартала; успешность определяется по Q−1.",
+    "valueScale": "Бинарный факт 0/1 умножается на прежний максимальный балл применимой метрики. Применимость и максимальный балл не изменяются."
+  },
+  "products": [
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 11,
+      "sourceName": "БПИФ",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B11",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C11",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D11",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 12,
+      "sourceName": "Брокерский счет",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B12",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C12",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D12",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 15,
+      "sourceName": "Вклады+НС",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B15",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C15",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D15",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "2770002e-6b7e-5753-9915-189d0cf5272f¦Военная пенсия",
+      "name": "Военная пенсия",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 16,
+      "sourceName": "Военная пенсия",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B16",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C16",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D16",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 20,
+      "sourceName": "ДСЖ КК",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B20",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C20",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D20",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 17,
+      "sourceName": "Дебетовая карта",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B17",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C17",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D17",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 19,
+      "sourceName": "Детская карта",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B19",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C19",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D19",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 25,
+      "sourceName": "ЗПИФ",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B25",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C25",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D25",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 22,
+      "sourceName": "Зарплатный продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B22",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C22",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D22",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 26,
+      "sourceName": "Инвесткопилка",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B26",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C26",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D26",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 28,
+      "sourceName": "Конверсия",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B28",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C28",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D28",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 33,
+      "sourceName": "Монеты",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B33",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C33",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D33",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 34,
+      "sourceName": "НСЖ",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B34",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C34",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D34",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 36,
+      "sourceName": "Объект Авто",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B36",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C36",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D36",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 41,
+      "sourceName": "ПДС",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B41",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C41",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D41",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "sourceRow": 39,
+      "sourceName": "Пакет услуг СберПервый",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B39",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C39",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D39",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "sourceRow": 40,
+      "sourceName": "Пакет услуг СберПремьер",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B40",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C40",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D40",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 42,
+      "sourceName": "Пенсионный продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B42",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C42",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D42",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 43,
+      "sourceName": "Переводы по РФ",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B43",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C43",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D43",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 45,
+      "sourceName": "Платежи",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B45",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C45",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D45",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "sourceRow": 63,
+      "sourceName": "Сделка ИЖС",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B63",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C63",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D63",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "sourceRow": 62,
+      "sourceName": "Сделка Вторичка",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B62",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C62",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D62",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "sourceRow": 64,
+      "sourceName": "Сделка с первичным жильем",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B64",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C64",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D64",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 56,
+      "sourceName": "Сейфы",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B56",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C56",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D56",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 58,
+      "sourceName": "Страхование залога",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B58",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C58",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D58",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 59,
+      "sourceName": "Трансграничные переводы",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B59",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C59",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D59",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 60,
+      "sourceName": "ЦФА",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B60",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C60",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D60",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 13,
+      "sourceName": "Вжух",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B13",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C13",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D13",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 9,
+      "sourceName": "Автокредит",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B9",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C9",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D9",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 14,
+      "sourceName": "ВЗР",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B14",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C14",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D14",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 21,
+      "sourceName": "ДСЖ ПК",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B21",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C21",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D21",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 24,
+      "sourceName": "ЗЛС",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B24",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C24",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D24",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 29,
+      "sourceName": "Кредитные карты",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B29",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C29",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D29",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 37,
+      "sourceName": "ОМС",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B37",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C37",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D37",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 30,
+      "sourceName": "Кредитный потенциал",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B30",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C30",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D30",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 35,
+      "sourceName": "Образовательный кредит",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B35",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C35",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D35",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 27,
+      "sourceName": "КАСКО",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B27",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C27",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D27",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "sourceRow": 38,
+      "sourceName": "ОСАГО",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B38",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C38",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D38",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "sourceRow": 53,
+      "sourceName": "Сберпрайм",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B53",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C53",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D53",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "sourceRow": 7,
+      "sourceName": "SberPay NFC",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B7",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C7",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D7",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 46,
+      "sourceName": "Потребительский кредит",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B46",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C46",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D46",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "sourceRow": 54,
+      "sourceName": "Сберспасибо",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B54",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C54",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D54",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "sourceRow": 3,
+      "sourceName": "BNPL",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B3",
+            "columnLabel": "Сумма по полю launches_q3"
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C3",
+            "columnLabel": "Сумма по полю self_service_q3"
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D3",
+            "columnLabel": "Сумма по полю successful_business_q2"
+          }
+        }
+      }
+    }
+  ]
+}

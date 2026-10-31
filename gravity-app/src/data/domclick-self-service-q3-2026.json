@@ -1,0 +1,83 @@
+{
+  "period": "III кв. 2026",
+  "scope": "campaign-user-assessment",
+  "source": {
+    "origin": "userConfirmedDomclickSelfService",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickSelfService",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "По прямому указанию пользователя: Наличие Self-service = 1 у всех команд ДомКлика за III квартал; существующий максимум сохраняется."
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickSelfService",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "По прямому указанию пользователя: Наличие Self-service = 1 у всех команд ДомКлика за III квартал; существующий максимум сохраняется."
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickSelfService",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "По прямому указанию пользователя: Наличие Self-service = 1 у всех команд ДомКлика за III квартал; существующий максимум сохраняется."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickSelfService",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "rule": "По прямому указанию пользователя: Наличие Self-service = 1 у всех команд ДомКлика за III квартал; существующий максимум сохраняется."
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,3040 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {
+    "file": "outputs/mechanics-user-assessments-2026-10-30/source.tsv",
+    "date": "2026-10-30",
+    "confirmedBy": "user",
+    "rule": "Одинаковые повторные строки дедуплицированы; конфликтующие оценки оставлены до уточнения. Меняются только явно указанные оценки механик III квартала."
+  },
+  "products": [
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "mehaniki.uderzhaniya_klienta": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Колл-центр",
+            "sourceMetricName": "Удержания клиента",
+            "sourceRows": [
+              1
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "СберKids",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              2
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "СберKids",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              3
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "mehaniki.obuchayuschie_mehaniki": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "СберИнвестор",
+            "sourceMetricName": "Обучающие механики",
+            "sourceRows": [
+              4
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Уведомления",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              5
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "mehaniki.informirovaniya_klienta": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Чат",
+            "sourceMetricName": "Информирования клиента",
+            "sourceRows": [
+              6
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.personalizaciya": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Чат",
+            "sourceMetricName": "Персонализация",
+            "sourceRows": [
+              7
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.kontrolya_kachestva_rechi": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Чат",
+            "sourceMetricName": "Контроля качества речи",
+            "sourceRows": [
+              8
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhaniya_klienta": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Чат",
+            "sourceMetricName": "Удержания клиента",
+            "sourceRows": [
+              9
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "mehaniki.personalizaciya_interfeysa_kontenta": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "Персонализация интерфейса/контента",
+            "sourceRows": [
+              10
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.stimulirovanie_klienta": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "Стимулирование клиента",
+            "sourceRows": [
+              11
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.obuchayuschie_mehaniki": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "Обучающие механики",
+            "sourceRows": [
+              12
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.reagirovanie_na_zhiznennye_sobytiya": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Реагирование на жизненные события",
+            "sourceRows": [
+              13
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.personalizaciya_klientskogo_opyta": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Персонализация клиентского опыта",
+            "sourceRows": [
+              14
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              15
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.personalizaciya_klientskogo_opyta": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Персонализация клиентского опыта",
+            "sourceRows": [
+              16
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "МВС",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              17
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.personalizaciya_klientskogo_opyta": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Персонализация клиентского опыта",
+            "sourceRows": [
+              18
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.privlechenie_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Привлечение клиентов",
+            "sourceRows": [
+              19
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.privlechenie_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Привлечение клиентов",
+            "sourceRows": [
+              20
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.reagirovanie_na_zhiznennye_sobytiya": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Реагирование на жизненные события",
+            "sourceRows": [
+              21
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              23,
+              79
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ОСАГО",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              24
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              25
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              26
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Много денег (НКПЗН)",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              27
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              28
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              29
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Образовательный кредит",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              30
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Объект Авто",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              31
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ОМС",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              33,
+              37
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Слитки",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              35,
+              39
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              40
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              41
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              42
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПервый",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              43
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              44
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Ecom",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              45,
+              49
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Ecom",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              46,
+              50
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Ecom",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              47,
+              51
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Почта, Диск, Календарь",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              48
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "СберПрайм",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              52
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "НСЖ",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              53
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "НСЖ",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              54
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ИСЖ",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              55
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "BNPL",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              56
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "POS-кредиты",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              57
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "POS-кредиты",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              58
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ВЗР",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              59
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Автокредит",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              60
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              61
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Вжух",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              62
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПремьер",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              63
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПремьер",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              64
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Платежи",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              65
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Платежи",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              66
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Брокерский счет",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              67
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Брокерский счет",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              68
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитные карты",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              69
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитные карты",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              70
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Монеты",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              71
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ КК",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              72
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              73
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              74
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              75
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              76
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              77
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              80
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              81
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              82
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ПДС",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              83
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              84
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              85
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              86
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Конверсия",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              87
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Вклады+НС",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              88
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "КАСКО",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              89
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ЗЛС",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              90
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ИнвестКопилка",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              91
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "СберСова",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              92
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              93
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Удержание клиентов",
+            "sourceRows": [
+              94
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              95
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Личная защита Плюс",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              96
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ ПК",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              97
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование жизни",
+            "sourceMetricName": "Возврат клиентов",
+            "sourceRows": [
+              98
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedMechanicsAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование жизни",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "sourceRows": [
+              99
+            ],
+            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+          }
+        }
+      }
+    }
+  ],
+  "sourceRows": [
+    {
+      "row": 1,
+      "product": "Колл-центр",
+      "metric": "Удержания клиента",
+      "metricCode": "mehaniki.uderzhaniya_klienta",
+      "rawValue": 0.0,
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 2,
+      "product": "СберKids",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 3,
+      "product": "СберKids",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 4,
+      "product": "СберИнвестор",
+      "metric": "Обучающие механики",
+      "metricCode": "mehaniki.obuchayuschie_mehaniki",
+      "rawValue": 1.0,
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 5,
+      "product": "Уведомления",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 6,
+      "product": "Чат",
+      "metric": "Информирования клиента",
+      "metricCode": "mehaniki.informirovaniya_klienta",
+      "rawValue": 0.0,
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 7,
+      "product": "Чат",
+      "metric": "Персонализация",
+      "metricCode": "mehaniki.personalizaciya",
+      "rawValue": 1.0,
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 8,
+      "product": "Чат",
+      "metric": "Контроля качества речи",
+      "metricCode": "mehaniki.kontrolya_kachestva_rechi",
+      "rawValue": 0.0,
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 9,
+      "product": "Чат",
+      "metric": "Удержания клиента",
+      "metricCode": "mehaniki.uderzhaniya_klienta",
+      "rawValue": 1.0,
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 10,
+      "product": "Единый личный кабинет (ЕЛК)",
+      "metric": "Персонализация интерфейса/контента",
+      "metricCode": "mehaniki.personalizaciya_interfeysa_kontenta",
+      "rawValue": 0.5,
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 11,
+      "product": "Единый личный кабинет (ЕЛК)",
+      "metric": "Стимулирование клиента",
+      "metricCode": "mehaniki.stimulirovanie_klienta",
+      "rawValue": 0.0,
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 12,
+      "product": "Единый личный кабинет (ЕЛК)",
+      "metric": "Обучающие механики",
+      "metricCode": "mehaniki.obuchayuschie_mehaniki",
+      "rawValue": 0.0,
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "status": "applied"
+    },
+    {
+      "row": 13,
+      "product": "Рабочий возраст",
+      "metric": "Реагирование на жизненные события",
+      "metricCode": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "rawValue": 0.0,
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 14,
+      "product": "Top Affluent",
+      "metric": "Персонализация клиентского опыта",
+      "metricCode": "mehaniki.personalizaciya_klientskogo_opyta",
+      "rawValue": 1.0,
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 15,
+      "product": "Top Affluent",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 16,
+      "product": "МВС",
+      "metric": "Персонализация клиентского опыта",
+      "metricCode": "mehaniki.personalizaciya_klientskogo_opyta",
+      "rawValue": 1.0,
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 17,
+      "product": "МВС",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 18,
+      "product": "Зрелость",
+      "metric": "Персонализация клиентского опыта",
+      "metricCode": "mehaniki.personalizaciya_klientskogo_opyta",
+      "rawValue": 1.0,
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 19,
+      "product": "Зрелость",
+      "metric": "Привлечение клиентов",
+      "metricCode": "mehaniki.privlechenie_klientov",
+      "rawValue": 0.0,
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 20,
+      "product": "Молодежь",
+      "metric": "Привлечение клиентов",
+      "metricCode": "mehaniki.privlechenie_klientov",
+      "rawValue": 0.0,
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 21,
+      "product": "Молодежь",
+      "metric": "Реагирование на жизненные события",
+      "metricCode": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "rawValue": 1.0,
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "status": "applied"
+    },
+    {
+      "row": 22,
+      "product": "Зарплатный продукт",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "pending"
+    },
+    {
+      "row": 23,
+      "product": "Зарплатный продукт",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 24,
+      "product": "ОСАГО",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 25,
+      "product": "Сделка ИЖС",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 26,
+      "product": "Сделка ИЖС",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 27,
+      "product": "Много денег (НКПЗН)",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 28,
+      "product": "Дебетовая карта",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 29,
+      "product": "Дебетовая карта",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 30,
+      "product": "Образовательный кредит",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 31,
+      "product": "Объект Авто",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 32,
+      "product": "ОМС",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "pending"
+    },
+    {
+      "row": 33,
+      "product": "ОМС",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 34,
+      "product": "Слитки",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "pending"
+    },
+    {
+      "row": 35,
+      "product": "Слитки",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 0.0,
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 36,
+      "product": "ОМС",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "pending"
+    },
+    {
+      "row": 37,
+      "product": "ОМС",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 38,
+      "product": "Слитки",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "pending"
+    },
+    {
+      "row": 39,
+      "product": "Слитки",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 0.0,
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 40,
+      "product": "Интернет-Эквайринг",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 41,
+      "product": "Интернет-Эквайринг",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 0.0,
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 42,
+      "product": "Интернет-Эквайринг",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 43,
+      "product": "Пакет услуг СберПервый",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 44,
+      "product": "Сделка с Первичным жильём",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 45,
+      "product": "SberPay Ecom",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 46,
+      "product": "SberPay Ecom",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 0.0,
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 47,
+      "product": "SberPay Ecom",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 48,
+      "product": "Почта, Диск, Календарь",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 49,
+      "product": "SberPay Ecom",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 50,
+      "product": "SberPay Ecom",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 0.0,
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 51,
+      "product": "SberPay Ecom",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 52,
+      "product": "СберПрайм",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 53,
+      "product": "НСЖ",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 54,
+      "product": "НСЖ",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 55,
+      "product": "ИСЖ",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 56,
+      "product": "BNPL",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 57,
+      "product": "POS-кредиты",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 58,
+      "product": "POS-кредиты",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 59,
+      "product": "ВЗР",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 60,
+      "product": "Автокредит",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 61,
+      "product": "Сделка вторичка",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 62,
+      "product": "SberPay Вжух",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 63,
+      "product": "Пакет услуг СберПремьер",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 64,
+      "product": "Пакет услуг СберПремьер",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 65,
+      "product": "Платежи",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 66,
+      "product": "Платежи",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 67,
+      "product": "Брокерский счет",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 68,
+      "product": "Брокерский счет",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 69,
+      "product": "Кредитные карты",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 70,
+      "product": "Кредитные карты",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 71,
+      "product": "Монеты",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 72,
+      "product": "ДСЖ КК",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 73,
+      "product": "Сейфы",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 74,
+      "product": "Сейфы",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 75,
+      "product": "Сейфы",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 76,
+      "product": "Страхование залога",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 77,
+      "product": "ЗПИФ",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 78,
+      "product": "Зарплатный продукт",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "pending"
+    },
+    {
+      "row": 79,
+      "product": "Зарплатный продукт",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 80,
+      "product": "Детская карта",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.5,
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 81,
+      "product": "Детская карта",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 82,
+      "product": "Детская карта",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 83,
+      "product": "ПДС",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 0.0,
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 84,
+      "product": "Переводы по РФ",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 85,
+      "product": "БПИФ",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 86,
+      "product": "БПИФ",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 87,
+      "product": "Конверсия",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 88,
+      "product": "Вклады+НС",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 89,
+      "product": "КАСКО",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 90,
+      "product": "ЗЛС",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 91,
+      "product": "ИнвестКопилка",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 92,
+      "product": "СберСова",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 93,
+      "product": "Пенсионный продукт",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 94,
+      "product": "Пенсионный продукт",
+      "metric": "Удержание клиентов",
+      "metricCode": "mehaniki.uderzhanie_klientov",
+      "rawValue": 1.0,
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 95,
+      "product": "Пенсионный продукт",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 0.0,
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 96,
+      "product": "Личная защита Плюс",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 97,
+      "product": "ДСЖ ПК",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 98,
+      "product": "Страхование жизни",
+      "metric": "Возврат клиентов",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValue": 1.0,
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    },
+    {
+      "row": 99,
+      "product": "Страхование жизни",
+      "metric": "Допродажи (up-sell)",
+      "metricCode": "mehaniki.doprodazhi_up_sell",
+      "rawValue": 1.0,
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "status": "applied"
+    }
+  ],
+  "pending": [
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValues": [
+        0.0,
+        1.0
+      ],
+      "sourceRows": [
+        22,
+        78
+      ],
+      "reason": "conflictingUserRows"
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValues": [
+        0.0,
+        1.0
+      ],
+      "sourceRows": [
+        32,
+        36
+      ],
+      "reason": "conflictingUserRows"
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metricCode": "mehaniki.vozvrat_klientov",
+      "rawValues": [
+        0.0,
+        1.0
+      ],
+      "sourceRows": [
+        34,
+        38
+      ],
+      "reason": "conflictingUserRows"
+    }
+  ],
+  "counts": {
+    "sourceRows": 99,
+    "teams": 57,
+    "facts": 87,
+    "pendingPairs": 3,
+    "byMetric": {
+      "mehaniki.uderzhaniya_klienta": 2,
+      "mehaniki.vozvrat_klientov": 30,
+      "mehaniki.uderzhanie_klientov": 17,
+      "mehaniki.obuchayuschie_mehaniki": 2,
+      "mehaniki.informirovaniya_klienta": 1,
+      "mehaniki.personalizaciya": 1,
+      "mehaniki.kontrolya_kachestva_rechi": 1,
+      "mehaniki.personalizaciya_interfeysa_kontenta": 1,
+      "mehaniki.stimulirovanie_klienta": 1,
+      "mehaniki.reagirovanie_na_zhiznennye_sobytiya": 2,
+      "mehaniki.personalizaciya_klientskogo_opyta": 3,
+      "mehaniki.privlechenie_klientov": 2,
+      "mehaniki.doprodazhi_up_sell": 24
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedNavigatorManualAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "rule": "Явная оценка пользователя: знание отчётности в Навигаторе у Чата = 1. Максимум 0.5 сохраняется."
+  },
+  "products": [
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedNavigatorManualAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceName": "Чат",
+            "rule": "Явная пользовательская оценка 1; применяется к существующему максимуму метрики без изменения II квартала."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 1
+  }
+}

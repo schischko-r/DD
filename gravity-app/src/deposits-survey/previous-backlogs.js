@@ -1,3 +1,4 @@
+import {toHttpUrl} from './metric-source.js';
 // Книга1(3).xlsx, Лист2, строка 139. Только ссылки Jira/SberTrack из исходных ответов.
 export const previousBacklogs = {
   "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)": {
@@ -102,7 +103,9 @@ export const previousBacklogs = {
 
 export function isBacklogUrl(value) {
   try {
-    const url = new URL(value);
+    const normalized = toHttpUrl(value);
+    if (!normalized) return false;
+    const url = new URL(normalized);
     return ["http:", "https:"].includes(url.protocol) && ["jira.sberbank.ru", "jira.delta.sbrf.ru", "jira.sberned.ru", "sbertrack.sberbank.ru"].includes(url.hostname);
   } catch {return false;}
 }

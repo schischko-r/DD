@@ -1,0 +1,443 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userMaximumSurveyAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "metrics": {
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "questionId": "attractAnalysis",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "attractAnalysis",
+                "answer": [
+                  "Все перечисленное выше"
+                ],
+                "normalizedValue": 1,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 49
+                },
+                "selected": null,
+                "available": null
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "attractAnalysis",
+                "answer": [
+                  "Анализ процесса оформления продукта: экраны в СБОЛ, клиентский путь в физическом канале",
+                  "Сравнение с конкурентами процесса оформления продукта, условий продукта или мониторинг новых фичей",
+                  "По кампаниям продаж: воронка внутри кампаний, количество достигших целевого действия, оценка результативности кампаний",
+                  "Выявление ключевых точек потери клиентов - составлен ТОП-3 факторов и причин"
+                ],
+                "normalizedValue": 1.0,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 49
+                },
+                "selected": null,
+                "available": null
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 12,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "attractAnalysis",
+              "answer": [
+                "Все перечисленное выше"
+              ],
+              "normalizedValue": 1,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 49
+              },
+              "selected": null,
+              "available": null
+            }
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "questionId": "churnAnalysis",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "churnAnalysis",
+                "answer": [
+                  "Все перечисленное выше"
+                ],
+                "normalizedValue": 1,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 72
+                },
+                "selected": null,
+                "available": null
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "churnAnalysis",
+                "answer": [
+                  "Не проводился"
+                ],
+                "normalizedValue": 0,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 72
+                },
+                "selected": null,
+                "available": null
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 12,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "churnAnalysis",
+              "answer": [
+                "Все перечисленное выше"
+              ],
+              "normalizedValue": 1,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 72
+              },
+              "selected": null,
+              "available": null
+            }
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "questionId": "attractDeviations",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "attractDeviations",
+                "answer": "Да",
+                "normalizedValue": 1,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 84
+                },
+                "selected": null,
+                "available": null
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "attractDeviations",
+                "answer": "Нет",
+                "normalizedValue": 0,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 84
+                },
+                "selected": null,
+                "available": null
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 12,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "attractDeviations",
+              "answer": "Да",
+              "normalizedValue": 1,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 84
+              },
+              "selected": null,
+              "available": null
+            }
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "questionId": "deviations",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "deviations",
+                "answer": "Да",
+                "normalizedValue": 1,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 88
+                },
+                "selected": null,
+                "available": null
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "deviations",
+                "answer": "Нет",
+                "normalizedValue": 0,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 88
+                },
+                "selected": null,
+                "available": null
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 12,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "deviations",
+              "answer": "Да",
+              "normalizedValue": 1,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 88
+              },
+              "selected": null,
+              "available": null
+            }
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "questionId": "attractIncludes",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "attractIncludes",
+                "answer": [
+                  "Источники привлечения (самоходы, внешние привлечения, кампейнинг, кросс-перетоки)",
+                  "Пошаговая воронка (CJM клиентский путь)",
+                  "CR (% конверсии)",
+                  "Механики привлечения (кампании, кросс-селл)",
+                  "Сегментный/когортный разрез",
+                  "Объёмы"
+                ],
+                "normalizedValue": 0.8571428571428571,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 38
+                },
+                "selected": 6,
+                "available": 7
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "attractIncludes",
+                "answer": [
+                  "Источники привлечения (самоходы, внешние привлечения, кампейнинг, кросс-перетоки)",
+                  "Пошаговая воронка (CJM клиентский путь)",
+                  "CR (% конверсии)",
+                  "Механики привлечения (кампании, кросс-селл)",
+                  "Сегментный/когортный разрез",
+                  "Объёмы",
+                  "UX/UI-дизайн"
+                ],
+                "normalizedValue": 1.0,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 38
+                },
+                "selected": 7,
+                "available": 7
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 14,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "attractIncludes",
+              "answer": [
+                "Источники привлечения (самоходы, внешние привлечения, кампейнинг, кросс-перетоки)",
+                "Пошаговая воронка (CJM клиентский путь)",
+                "CR (% конверсии)",
+                "Механики привлечения (кампании, кросс-селл)",
+                "Сегментный/когортный разрез",
+                "Объёмы",
+                "UX/UI-дизайн"
+              ],
+              "normalizedValue": 1.0,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 38
+              },
+              "selected": 7,
+              "available": 7
+            },
+            "completenessRatio": {
+              "selected": 7,
+              "available": 7
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5714285714285714,
+          "source": {
+            "origin": "userMaximumSurveyAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "По явному указанию пользователя: максимальная оценка из реальных ответов ОМС по каждой метрике; ранее известная более высокая оценка сохраняется.",
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "questionId": "churnIncludes",
+            "candidates": [
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 12,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "churnIncludes",
+                "answer": [
+                  "CR (% оттока)",
+                  "Объёмы",
+                  "Сегментный/когортный разрез",
+                  "Пошаговую воронку"
+                ],
+                "normalizedValue": 0.5714285714285714,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 61
+                },
+                "selected": 4,
+                "available": 7
+              },
+              {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 14,
+                "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+                "questionId": "churnIncludes",
+                "answer": [
+                  "CR (% оттока)",
+                  "Объёмы",
+                  "Сегментный/когортный разрез"
+                ],
+                "normalizedValue": 0.42857142857142855,
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 61
+                },
+                "selected": 3,
+                "available": 7
+              }
+            ],
+            "selectedSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 12,
+              "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+              "questionId": "churnIncludes",
+              "answer": [
+                "CR (% оттока)",
+                "Объёмы",
+                "Сегментный/когортный разрез",
+                "Пошаговую воронку"
+              ],
+              "normalizedValue": 0.5714285714285714,
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 61
+              },
+              "selected": 4,
+              "available": 7
+            },
+            "completenessRatio": {
+              "selected": 4,
+              "available": 7
+            }
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 6
+  }
+}

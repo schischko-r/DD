@@ -1,0 +1,782 @@
+{
+  "period": "III кв. 2026",
+  "source": {
+    "file": "questionare-responses(11).csv",
+    "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+    "date": "2026-10-30",
+    "confirmedBy": "user",
+    "respondentMapping": {
+      "B2B": "Сауткин Андрей",
+      "B2C": "Королева Александра Дмитриевна"
+    },
+    "baseTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+    "rule": "Q2 keeps the unsplit product. Q3 clones only its rubric/shared confirmed assessments, then applies respondent-specific overrides. Shared assessments retain original provenance. Null rawValue explicitly clears the inherited value. Individual Q2 baselines must not be invented for the new cohorts."
+  },
+  "products": [
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2c",
+      "name": "Зарплатный продукт #B2C",
+      "unit": "DB",
+      "type": "Продукт",
+      "baseTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "cohort": "B2C",
+      "respondent": "Королева Александра Дмитриевна",
+      "respondentSource": {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 46,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-20T15:43:33.270Z",
+        "respondent": "Королева Александра Дмитриевна",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт"
+      },
+      "metrics": {
+        "general.klienty_s_produktom": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "clients",
+            "answer": "29000000",
+            "rule": "Наличие числового ответа о клиентах: 1; иначе 0."
+          }
+        },
+        "general.mau_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "mau",
+            "answer": "29000000",
+            "rule": "Неизвестный MAU = 0; числовой ответ = 1. Не смешивается с другим респондентом."
+          }
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractConfigured",
+            "answer": "Да, автоматическая (monthly/weekly)",
+            "rule": "Автоматическая отчётность = 1; по запросу = 0.5; отсутствие/затруднение = 0."
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractIncludes",
+            "answer": [
+              "Источники привлечения (самоходы, внешние привлечения, кампейнинг, кросс-перетоки)",
+              "Пошаговая воронка (CJM клиентский путь)",
+              "CR (% конверсии)"
+            ],
+            "rule": "Все положительные пункты = 1; часть = 0.5; нет положительных пунктов/затруднение = 0."
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractAnalysis",
+            "answer": [
+              "Все перечисленное выше"
+            ],
+            "rule": "Все перечисленное выше = 1; часть положительных пунктов = 0.5; не проводился/затруднение = 0."
+          }
+        },
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "benchmarksAttract",
+            "answer": "Нет",
+            "rule": "Да = 1; Нет = 0."
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "churnConfigured",
+            "answer": "Да, автоматическая (monthly/weekly)",
+            "rule": "Автоматическая отчётность = 1; по запросу = 0.5; отсутствие/затруднение = 0."
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "churnIncludes",
+            "answer": [
+              "Затрудняюсь ответить"
+            ],
+            "rule": "Все положительные пункты = 1; часть = 0.5; нет положительных пунктов/затруднение = 0."
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "churnAnalysis",
+            "answer": [
+              "Все перечисленное выше"
+            ],
+            "rule": "Все перечисленное выше = 1; часть положительных пунктов = 0.5; не проводился/затруднение = 0."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "benchmarksChurn",
+            "answer": "Нет",
+            "rule": "Да = 1; Нет = 0."
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractDeviations",
+            "answer": "Да",
+            "rule": "Явный ответ Да = 1; Нет = 0."
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "deviations",
+            "answer": "Да",
+            "rule": "Явный ответ Да = 1; Нет = 0."
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "discovery",
+            "answer": "От 20 до 39%",
+            "rule": "Подтверждённое пользователем правило: Нет аналитиков/Затрудняюсь/Меньше 20% = 0. Ответ 20–39% = 0.5 независимо от места бэклога. Оценка относится только к этому респонденту."
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "upsell",
+            "answer": [
+              "Возврат клиентов"
+            ],
+            "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 46,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-20T15:43:33.270Z",
+            "respondent": "Королева Александра Дмитриевна",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "upsell",
+            "answer": [
+              "Возврат клиентов"
+            ],
+            "rule": "Последнее указание пользователя: выбранные Допродажи (upsell) = 1; не выбраны = 0. Оценка относится только к этому респонденту."
+          }
+        }
+      },
+      "resetMetricCodes": [],
+      "crossSellAfterPurchase": {
+        "rawValue": 0.5,
+        "applicable": true,
+        "source": {
+          "origin": "salarySplitSharedManualAssessment",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+          "answer": "Да",
+          "confirmation": "СберМобайл",
+          "respondent": "Королева Александра Дмитриевна",
+          "rule": "Ранее явно заданная ручная оценка 0.5 для общего продукта сохраняется как общая; обе анкеты отвечают Да. Это не новая оценка 1 из факта ответа Да."
+        }
+      },
+      "unassignedAggregateMetricCodes": [
+        "mehaniki.cross_sell"
+      ]
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2b",
+      "name": "Зарплатный продукт #B2B",
+      "unit": "DB",
+      "type": "Продукт",
+      "baseTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "cohort": "B2B",
+      "respondent": "Сауткин Андрей",
+      "respondentSource": {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 5,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-27T08:33:29.644Z",
+        "respondent": "Сауткин Андрей",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт"
+      },
+      "metrics": {
+        "general.klienty_s_produktom": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "clients",
+            "answer": "1500000",
+            "rule": "Наличие числового ответа о клиентах: 1; иначе 0."
+          }
+        },
+        "general.mau_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSharedQ2ProductKnowledgeCarry",
+            "sharedQ2Carry": true,
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "parentTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "sourceValue": 0.2,
+            "sourceMaxValue": 0.2,
+            "previousRawValue": 0,
+            "previousSource": {
+              "origin": "salarySplitSurveyAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-10-30",
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 5,
+              "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+              "completedAt": "2026-10-27T08:33:29.644Z",
+              "respondent": "Сауткин Андрей",
+              "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+              "originalTeamName": "Зарплатный продукт",
+              "questionId": "mau",
+              "answer": null,
+              "rule": "Неизвестный MAU = 0; числовой ответ = 1. Не смешивается с другим респондентом."
+            },
+            "rule": "Последнее указание пользователя: сохранить 100% MAU исходного зарплатного продукта из II квартала в III, включая оба разреза B2B/B2C. Это общий перенос оценки Q2, а не самооценка респондента B2B. Другие метрики B2B не меняются."
+          }
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractConfigured",
+            "answer": "Да, по запросу",
+            "rule": "Автоматическая отчётность = 1; по запросу = 0.5; отсутствие/затруднение = 0."
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractIncludes",
+            "answer": [
+              "Источники привлечения (самоходы, внешние привлечения, кампейнинг, кросс-перетоки)",
+              "Пошаговая воронка (CJM клиентский путь)",
+              "CR (% конверсии)",
+              "Объёмы",
+              "Механики привлечения (кампании, кросс-селл)"
+            ],
+            "rule": "Все положительные пункты = 1; часть = 0.5; нет положительных пунктов/затруднение = 0."
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractAnalysis",
+            "answer": [
+              "По кампаниям продаж: воронка внутри кампаний, количество достигших целевого действия, оценка результативности кампаний",
+              "Выявление ключевых точек потери клиентов - составлен ТОП-3 факторов и причин"
+            ],
+            "rule": "Все перечисленное выше = 1; часть положительных пунктов = 0.5; не проводился/затруднение = 0."
+          }
+        },
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "benchmarksAttract",
+            "answer": "Нет",
+            "rule": "Да = 1; Нет = 0."
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "churnConfigured",
+            "answer": "Затрудняюсь ответить",
+            "rule": "Автоматическая отчётность = 1; по запросу = 0.5; отсутствие/затруднение = 0."
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "churnIncludes",
+            "answer": [
+              "Затрудняюсь ответить"
+            ],
+            "rule": "Все положительные пункты = 1; часть = 0.5; нет положительных пунктов/затруднение = 0."
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "churnAnalysis",
+            "answer": [
+              "Затрудняюсь ответить"
+            ],
+            "rule": "Все перечисленное выше = 1; часть положительных пунктов = 0.5; не проводился/затруднение = 0."
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "benchmarksChurn",
+            "answer": "Нет",
+            "rule": "Да = 1; Нет = 0."
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "attractDeviations",
+            "answer": "Нет",
+            "rule": "Явный ответ Да = 1; Нет = 0."
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "deviations",
+            "answer": "Нет",
+            "rule": "Явный ответ Да = 1; Нет = 0."
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "discovery",
+            "answer": "Нет аналитиков",
+            "rule": "Подтверждённое пользователем правило: Нет аналитиков/Затрудняюсь/Меньше 20% = 0. Ответ 20–39% = 0.5 независимо от места бэклога. Оценка относится только к этому респонденту."
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "upsell",
+            "answer": [
+              "Допродажи (upsell)",
+              "Возврат клиентов"
+            ],
+            "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 1,
+          "source": {
+            "origin": "salarySplitSurveyAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 5,
+            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+            "completedAt": "2026-10-27T08:33:29.644Z",
+            "respondent": "Сауткин Андрей",
+            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "originalTeamName": "Зарплатный продукт",
+            "questionId": "upsell",
+            "answer": [
+              "Допродажи (upsell)",
+              "Возврат клиентов"
+            ],
+            "rule": "Последнее указание пользователя: выбранные Допродажи (upsell) = 1; не выбраны = 0. Оценка относится только к этому респонденту."
+          }
+        }
+      },
+      "resetMetricCodes": [],
+      "crossSellAfterPurchase": {
+        "rawValue": 0.5,
+        "applicable": true,
+        "source": {
+          "origin": "salarySplitSharedManualAssessment",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+          "answer": "Да",
+          "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+          "respondent": "Сауткин Андрей",
+          "rule": "Ранее явно заданная ручная оценка 0.5 для общего продукта сохраняется как общая; обе анкеты отвечают Да. Это не новая оценка 1 из факта ответа Да."
+        }
+      },
+      "unassignedAggregateMetricCodes": [
+        "mehaniki.cross_sell"
+      ]
+    }
+  ],
+  "pending": [
+    {
+      "code": "mehaniki.cross_sell",
+      "component": "during",
+      "teams": [
+        "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2c",
+        "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2b"
+      ],
+      "reason": "LossHunter catalogue has only unsplit Зарплатный продукт. Aggregate incoming count is not independently attributable to B2B/B2C.",
+      "apiReference": {
+        "file": "crosssell_export.json",
+        "pointer": "/products_response/products/57",
+        "uid": "зарплатный продукт",
+        "seen_in_n": 2,
+        "seen_out_n": 0
+      },
+      "recommendation": "Leave during score unresolved for both until source attribution is confirmed; descriptions about salary-card consumers suggest B2C but are not explicit cohort metadata."
+    }
+  ],
+  "inheritancePolicy": {
+    "inheritSharedConfirmedValues": true,
+    "doNotInheritCodes": [
+      "hyp.discovery_40_backlog",
+      "mehaniki.vozvrat_klientov",
+      "mehaniki.cross_sell"
+    ],
+    "cxScore": "No explicit parent Q3 CX assessment exists; do not populate 0.5 from its Q2 baseline.",
+    "unsegmentedOtherInputs": "Campaign/research and draft source names are unsplit. If inherited, mark shared aggregate provenance rather than claim independently measured cohort values."
+  },
+  "resolvedAssessments": [
+    {
+      "code": "mehaniki.vozvrat_klientov",
+      "previousUnattributedManualValues": [
+        0,
+        1
+      ],
+      "status": "resolved_by_user_confirmation",
+      "date": "2026-10-30",
+      "rule": "Latest user confirmation assigns each respondent their own survey mechanics; both B2B and B2C explicitly selected Возврат клиентов."
+    }
+  ]
+}

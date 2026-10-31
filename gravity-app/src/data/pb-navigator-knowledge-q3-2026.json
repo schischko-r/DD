@@ -1,0 +1,36 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedPbKnowledge20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "PB",
+      "unit": "CX",
+      "type": "Сегмент",
+      "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPbKnowledge20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Явное указание пользователя для PB: 2+ нефинансовых сервисов = 50%; знание отчётности в Навигаторе = 100% прежнего максимума. Остальные показатели и II квартал сохраняются.",
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousSource": null
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 1
+  }
+}

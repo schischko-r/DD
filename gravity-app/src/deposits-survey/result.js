@@ -1,4 +1,4 @@
-import {quarterlyAnalysisCodes, allowsMissingMetric, isOptionSelected, hasAnswer, inlineQuestions, knownMechanics, showsOptionalComment, needsComment, needsEvidence, needsProof, needsReason, getSections, visibleQuestions, evidenceResponse} from './questions.js';
+import {quarterlyAnalysisCodes, correctTypos, allowsMissingMetric, isOptionSelected, hasAnswer, inlineQuestions, knownMechanics, showsOptionalComment, needsComment, needsEvidence, needsProof, needsReason, getSections, visibleQuestions, evidenceResponse} from './questions.js';
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {scoringBaseline} from './scoring-baseline.js';
 import {callCenterBaseline, callCenterScoreRules} from './call-center.js';
@@ -18,6 +18,10 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   if (!team || team.id !== baseline.teamId) throw new Error('Unsupported survey team');
   const catalogue = getSections(answers);
   answers = {...answers};
+  for (const q of catalogue.flatMap(s => s.questions).flatMap(q => [q, ...inlineQuestions(q)])) {
+    if (q.type === 'multi' && Array.isArray(answers[q.id])) answers[q.id] = answers[q.id].map(correctTypos);
+    if (q.type === 'radio' && typeof answers[q.id] === 'string') answers[q.id] = correctTypos(answers[q.id]);
+  }
   for (const q of catalogue.flatMap(section => section.questions)) {
     if (q.action) answers[q.action.id] = isOptionSelected(q, answers, q.actionOption) ? 'Да' : 'Нет';
     if (q.benchmark) answers[q.benchmark.id] = q.benchmarkOnly ? answers[q.id] : isOptionSelected(q, answers, 'Бенчмарки') ? 'Да' : 'Нет';
@@ -32,7 +36,7 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     if (q.type === 'links') {
       const format = answers[`${q.id}Unknown`] === true ? 'unknown' : answers[`${q.id}Format`] || 'link';
       cleanAnswers[`${q.id}Format`] = format;
-      cleanAnswers[q.id] = format === 'unknown' ? 'Затрудняюсь ответить' : format === 'excel' ? 'Отчетность в формате Excel' : text(answers[q.id]).split(/\r?\n/).map(link => link.trim()).filter(Boolean).join('\n');
+      cleanAnswers[q.id] = format === 'unknown' ? 'Затрудняюсь ответить' : format === 'excel' ? 'Отчетность в формате Excel' : String(answers[q.id] ?? '');
       questionRows[`${q.id}Format`] = q.row;
     }
     if (allowsMissingMetric(q, answers)) {
@@ -43,13 +47,13 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     if (q.previousOptions?.length) cleanAnswers[q.id] = [...new Set([...q.previousOptions, ...selected(cleanAnswers[q.id])])];
     questionRows[q.id] = q.row;
     if (showsOptionalComment(q, answers) && text(answers[q.optionalCommentId])) {
-      cleanAnswers[q.optionalCommentId] = text(answers[q.optionalCommentId]);
+      cleanAnswers[q.optionalCommentId] = String(answers[q.optionalCommentId]);
       questionRows[q.optionalCommentId] = q.row;
     }
-    if (selected(answers[q.id]).some(option => /Свой вариант|Что-то ещ[её]|^Другое$/.test(option))) cleanAnswers[`${q.id}Other`] = answers[`${q.id}Other`];
-    if (needsComment(q, answers)) cleanAnswers[q.commentId] = answers[q.commentId];
+    if (selected(answers[q.id]).some(option => /Свой вариант|Что-то ещ[её]|^Другое$/.test(option))) {cleanAnswers[`${q.id}Other`] = answers[`${q.id}Other`]; questionRows[`${q.id}Other`] = q.row;}
+    if (needsComment(q, answers)) {cleanAnswers[q.commentId] = answers[q.commentId]; questionRows[q.commentId] = q.row;}
     if (needsReason(q, answers) && (!q.reasonOptional || text(answers[q.reasonId]))) {
-      cleanAnswers[q.reasonId] = String(answers[q.reasonId]).trim();
+      cleanAnswers[q.reasonId] = String(answers[q.reasonId]);
       questionRows[q.reasonId] = q.row;
     }
     if (needsProof(q, answers)) {
@@ -65,7 +69,8 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
     const {id, formatId, row} = activeInlineEvidence;
     const response = evidenceResponse(activeInlineEvidence, answers);
     cleanAnswers[formatId] = response.format;
-    if (!['excel', 'unavailable'].includes(response.format)) cleanAnswers[id] = response.value;
+    if (response.format === 'unknown') cleanAnswers[id] = 'Затрудняюсь ответить';
+    else if (!['excel', 'unavailable'].includes(response.format)) cleanAnswers[id] = response.value;
     if (response.format === 'unavailable' && response.comment) {
       cleanAnswers[`${id}Comment`] = response.comment;
       questionRows[`${id}Comment`] = row;
@@ -91,7 +96,8 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
   }
   for (const activeInlineQuestion of activeInlineQuestions) {
     const activeInlineEvidence = activeInlineQuestion.inlineEvidence;
-    const source = {sheet: activeInlineQuestion.sheet || 'Продукты (2)', row: activeInlineEvidence.row};
+    const source = {sheet: activeInlineQuestion.sheet || 'Продукты (2)', row: activeInlineEvidence.row,
+      ...(activeInlineEvidence.previousSource ? {previousSource: activeInlineEvidence.previousSource} : {})};
     questionSources[activeInlineEvidence.id] = source;
     questionSources[activeInlineEvidence.formatId] = source;
     if (cleanAnswers[`${activeInlineEvidence.id}Comment`]) questionSources[`${activeInlineEvidence.id}Comment`] = source;
@@ -103,6 +109,10 @@ export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt 
       const fields = q.inlineProof.kind === 'metricSource' ? metricSourceFields(q.inlineProof, answers) : {[q.inlineProof.id]: answers[q.inlineProof.id]};
       for (const id of Object.keys(fields)) questionSources[id] = {sheet: q.sheet || 'Продукты (2)', row: q.inlineProof.row};
     }
+  }
+
+  for (const id of Object.keys(cleanAnswers)) {
+    if (!questionSources[id]) questionSources[id] = {sheet: isCallCenter ? 'Каналы Phigital' : 'Продукты (2)', row: questionRows[id] ?? null};
   }
 
   const updates = new Map();

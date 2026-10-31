@@ -1,0 +1,23 @@
+{
+  "period": "III кв. 2026",
+  "source": {
+    "origin": "userConfirmedPoGoalsCombinedRule",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "confirmedClarifications": "Нерелевантные ЛЮ/ЛТ означают нерелевантные PO. В B2B зарплатного продукта неизвестный источник считать 0, объединять с B2C средним: мониторинг PO 0.5.",
+    "excelClarification": "Последнее правило: вне прямого PO-scope положительная оценка ЦС/ЛЮЛТ является основой и не понижается форматом Excel. Только при нулевой базе и для прямого PO-scope полный ответ + настоящая ссылка =1, Excel=0.5; частично/нет=0.",
+    "previousExcelClarification": "Шкала Excel применяется ко всем PO: полный ответ 0.5, частично/нет 0, включая положительную базу ЛЮ/ЛТ. Нерелевантные метрики не активируются, оценки ЛЮ/ЛТ не меняются.",
+    "indexRule": "В DDI только три итоговые PO-оценки; ЛЮ/ЛТ всех команд информационные. Нерелевантные пары не активируются."
+  },
+  "directSurveyScope": "All UB teams and only Commission Products tribe in CBP",
+  "otherTeamsRule": "Preserve positive LT base (0.5/1) without Excel reduction; when LT is zero use actual survey full+valid dashboard link=1, Excel=0.5, partial/no=0. Direct 25 teams use PO survey only.",
+  "maximumSurveyTeams": [
+    "ОМС",
+    "Слитки"
+  ],
+  "notApplicableLtPolicy": "exclude",
+  "salarySurveyPolicy": "averageWithUnknownZero",
+  "excelUseSurveyAnswersForAllTeams": false,
+  "preservePositiveLtScores": true,
+  "requireActualLinkForFullSurveyScore": true
+}

@@ -1,0 +1,96 @@
+{
+  "period": "III кв. 2026",
+  "scope": "campaign-user-assessment",
+  "source": {
+    "origin": "userConfirmedCampaignAssessment",
+    "confirmedBy": "user",
+    "confirmedAt": "2026-10-29",
+    "rule": "Прямые ручные оценки запусков, Self-service и успешных бизнес-запусков за III квартал. rawValue 1 означает полный балл при прежнем максимуме; другие метрики и II квартал не изменяются."
+  },
+  "products": [
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSuccessfulBusinessLaunch",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ОСАГО",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "reason": "Пользователь явно установил полный балл по наличию успешных бизнес-запусков за III квартал."
+          }
+        }
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedSuccessfulBusinessLaunch",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "БПИФ",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "reason": "Пользователь явно установил полный балл по наличию успешных бизнес-запусков за III квартал."
+          }
+        }
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedCampaignAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ДСЖ КК",
+            "metricCode": "attract.campaign_launches",
+            "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedCampaignAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ДСЖ КК",
+            "metricCode": "attract.nalichie_self_service",
+            "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ДСЖ КК",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+          }
+        }
+      }
+    }
+  ]
+}

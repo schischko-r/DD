@@ -1,0 +1,789 @@
+{
+  "period": "III кв. 2026",
+  "scope": "ab-tests-assessment",
+  "source": {
+    "origin": "userConfirmedAbTestsAssessment",
+    "inputRows": "Персональная рекомендация\t1\nSberID\t1\nСделка ИЖС\t1\nСделка с Первичным жильём\t1\nСделка вторичка\t1\nЧат\t1\nКолл-центр\t1\nТелемаркетинг\t1\nВыписки, справки\t1\nАвтокредит\t0.25\nВклады+НС\t0.25\nPOS-кредиты\t0.25\nTop Affluent\t0\nСберСпасибо\t1\nМВС\t1\nСберПрайм\t0.5\nРабочий возраст\t1\nДети\t1\nЗрелость\t0.5\nДебетовые карты\t1\nКредитные карты\t1\nПереводы по России\t1\nПлатежи\t1\nБрокерский счет\t1\nСберKids\t0.25\nСБОЛ\t1\nСберИнвестор\t1\nУведомления\t1\nПенсионный продукт\t1\nВжух\t1\nСтрахование жизни\t1\nБПИФ\t1\nЗПИФ\t1\nОПИФ\t1\nПДС\t1\nЗЛС\t0.25\nСтрахование путешественников\t0.25\nИнвестКопилка\t1",
+    "aliases": {
+      "Страхование путешественников": "ВЗР",
+      "Вжух": "SberPay Вжух",
+      "Дебетовые карты": "Дебетовая карта",
+      "Переводы по России": "Переводы по РФ"
+    },
+    "reportFile": "gravity-app/public/report-data.json",
+    "reportSha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+    "maxRule": "Явное указание пользователя от 2026-10-30: только в III квартале для оценки A/B 0.25 максимальный балл также 0.25 (100%); для оценок 0/0.5/1 максимум остаётся 1. Оценки абсолютные, не умножаются на новый максимум. II квартал не меняется."
+  },
+  "products": [
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 1,
+            "sourceName": "Персональная рекомендация",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 2,
+            "sourceName": "SberID",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 3,
+            "sourceName": "Сделка ИЖС",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 4,
+            "sourceName": "Сделка с Первичным жильём",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 5,
+            "sourceName": "Сделка вторичка",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 6,
+            "sourceName": "Чат",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 7,
+            "sourceName": "Колл-центр",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 8,
+            "sourceName": "Телемаркетинг",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 9,
+            "sourceName": "Выписки, справки",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 10,
+            "sourceName": "Автокредит",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 11,
+            "sourceName": "Вклады+НС",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 12,
+            "sourceName": "POS-кредиты",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 13,
+            "sourceName": "Top Affluent",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 14,
+            "sourceName": "СберСпасибо",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 15,
+            "sourceName": "МВС",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 16,
+            "sourceName": "СберПрайм",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 17,
+            "sourceName": "Рабочий возраст",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 18,
+            "sourceName": "Дети",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 19,
+            "sourceName": "Зрелость",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 20,
+            "sourceName": "Дебетовые карты",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 21,
+            "sourceName": "Кредитные карты",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 22,
+            "sourceName": "Переводы по России",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 23,
+            "sourceName": "Платежи",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 24,
+            "sourceName": "Брокерский счет",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 25,
+            "sourceName": "СберKids",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 26,
+            "sourceName": "СБОЛ",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 27,
+            "sourceName": "СберИнвестор",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 28,
+            "sourceName": "Уведомления",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 29,
+            "sourceName": "Пенсионный продукт",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 30,
+            "sourceName": "Вжух",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 31,
+            "sourceName": "Страхование жизни",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 32,
+            "sourceName": "БПИФ",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 33,
+            "sourceName": "ЗПИФ",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 34,
+            "sourceName": "ОПИФ",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 35,
+            "sourceName": "ПДС",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 36,
+            "sourceName": "ЗЛС",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 37,
+            "sourceName": "Страхование путешественников",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "sourceRow": 38,
+            "sourceName": "ИнвестКопилка",
+            "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 38,
+    "facts": 38,
+    "byRawValue": {
+      "1.0": 29,
+      "0.25": 6,
+      "0.0": 1,
+      "0.5": 2
+    }
+  }
+}

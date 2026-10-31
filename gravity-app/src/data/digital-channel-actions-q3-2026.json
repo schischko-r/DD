@@ -1,0 +1,57 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedQ3MetricAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "period": "III кв. 2026",
+    "rule": "Явные оценки пользователя; максимумы и применимость не меняются."
+  },
+  "products": [
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3MetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Явное указание пользователя: мероприятия по работе с отклонениями = 100%.",
+            "previousValue": null,
+            "previousMaxValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3MetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Явное указание пользователя: мероприятия по работе с отклонениями = 100%.",
+            "previousValue": null,
+            "previousMaxValue": 1
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 2,
+    "facts": 2
+  }
+}

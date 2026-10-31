@@ -1,0 +1,6958 @@
+{
+  "source": {
+    "file": "Копия Выведение целей (факт план прогно ФА) 3Q.xlsx",
+    "sheet": "Лист1",
+    "sha256": "cc92a5a45bf1cb15f6e2bc9b8b3de4b9a943071df4f66e7e8bd5f7c58c0cb055",
+    "ddiFile": "gravity-app/public/report-data.json",
+    "ddiSha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+    "purpose": "Проверяемое сопоставление исходных строк с командами DDI; не импорт баллов.",
+    "unitAliases": {
+      "core banking": "CBP",
+      "daily banking b2c": "DB",
+      "digital channels": "DP",
+      "phygital channels": "PC",
+      "домклик": "ДомКлик"
+    },
+    "scoreColumns": {
+      "C": {
+        "sourceTitle": "Оценка выведения целей",
+        "metricCode": "goals.monitored"
+      },
+      "D": {
+        "sourceTitle": "Оценка наличия прогноза",
+        "metricCode": "goals.forecast"
+      },
+      "E": {
+        "sourceTitle": "Оценка ФА",
+        "metricCode": "goals.factor_analysis_l1_l2"
+      }
+    },
+    "errorPolicy": "Excel-ошибки сохраняются как ошибки и не превращаются в нули."
+  },
+  "counts": {
+    "ddiTeams": 83,
+    "sourceRows": 74,
+    "uniqueSourceKeys": 73,
+    "exact": 68,
+    "normalized_alias": 6,
+    "pending": 9,
+    "pendingWithSuggestions": 5,
+    "pendingWithoutSuggestions": 4,
+    "sourceRowUsage": {
+      "matched": 36,
+      "unused": 33,
+      "suggestedOnly": 5
+    }
+  },
+  "duplicateSourceGroups": [
+    {
+      "unit": "Core Banking",
+      "tribe": "Сбережения клиентов",
+      "sourceRows": [
+        6,
+        7
+      ],
+      "scoresIdentical": true
+    }
+  ],
+  "sourceRows": [
+    {
+      "sourceRow": 2,
+      "unit": "Core Banking",
+      "normalizedUnit": "CBP",
+      "tribe": "Авто",
+      "unitCell": "A2",
+      "tribeCell": "B2",
+      "scores": {
+        "C": {
+          "cell": "C2",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D2",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E2",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F2"
+    },
+    {
+      "sourceRow": 3,
+      "unit": "Core Banking",
+      "normalizedUnit": "CBP",
+      "tribe": "Комиссионные продукты",
+      "unitCell": "A3",
+      "tribeCell": "B3",
+      "scores": {
+        "C": {
+          "cell": "C3",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D3",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E3",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F3"
+    },
+    {
+      "sourceRow": 4,
+      "unit": "Core Banking",
+      "normalizedUnit": "CBP",
+      "tribe": "Кредитный потенциал",
+      "unitCell": "A4",
+      "tribeCell": "B4",
+      "scores": {
+        "C": {
+          "cell": "C4",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D4",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E4",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F4"
+    },
+    {
+      "sourceRow": 5,
+      "unit": "Core Banking",
+      "normalizedUnit": "CBP",
+      "tribe": "Потребительское кредитование",
+      "unitCell": "A5",
+      "tribeCell": "B5",
+      "scores": {
+        "C": {
+          "cell": "C5",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D5",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E5",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F5"
+    },
+    {
+      "sourceRow": 6,
+      "unit": "Core Banking",
+      "normalizedUnit": "CBP",
+      "tribe": "Сбережения клиентов",
+      "unitCell": "A6",
+      "tribeCell": "B6",
+      "scores": {
+        "C": {
+          "cell": "C6",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D6",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E6",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F6"
+    },
+    {
+      "sourceRow": 7,
+      "unit": "Core Banking",
+      "normalizedUnit": "CBP",
+      "tribe": "Сбережения клиентов",
+      "unitCell": "A7",
+      "tribeCell": "B7",
+      "scores": {
+        "C": {
+          "cell": "C7",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D7",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E7",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F7"
+    },
+    {
+      "sourceRow": 8,
+      "unit": "Core Banking",
+      "normalizedUnit": "CBP",
+      "tribe": "ЛЮ",
+      "unitCell": "A8",
+      "tribeCell": "B8",
+      "scores": {
+        "C": {
+          "cell": "C8",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D8",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E8",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F8"
+    },
+    {
+      "sourceRow": 9,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Дети и Молодежь",
+      "unitCell": "A9",
+      "tribeCell": "B9",
+      "scores": {
+        "C": {
+          "cell": "C9",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D9",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E9",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F9"
+    },
+    {
+      "sourceRow": 10,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Лояльность",
+      "unitCell": "A10",
+      "tribeCell": "B10",
+      "scores": {
+        "C": {
+          "cell": "C10",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D10",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E10",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F10"
+    },
+    {
+      "sourceRow": 11,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "МВС",
+      "unitCell": "A11",
+      "tribeCell": "B11",
+      "scores": {
+        "C": {
+          "cell": "C11",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D11",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E11",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F11"
+    },
+    {
+      "sourceRow": 12,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Прайм",
+      "unitCell": "A12",
+      "tribeCell": "B12",
+      "scores": {
+        "C": {
+          "cell": "C12",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D12",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E12",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F12"
+    },
+    {
+      "sourceRow": 13,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Премиальный сегмент",
+      "unitCell": "A13",
+      "tribeCell": "B13",
+      "scores": {
+        "C": {
+          "cell": "C13",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D13",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E13",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F13"
+    },
+    {
+      "sourceRow": 14,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Рабочий возраст",
+      "unitCell": "A14",
+      "tribeCell": "B14",
+      "scores": {
+        "C": {
+          "cell": "C14",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D14",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E14",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F14"
+    },
+    {
+      "sourceRow": 15,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Управление клиентского опыта",
+      "unitCell": "A15",
+      "tribeCell": "B15",
+      "scores": {
+        "C": {
+          "cell": "C15",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D15",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E15",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F15"
+    },
+    {
+      "sourceRow": 16,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Управление частным капиталом",
+      "unitCell": "A16",
+      "tribeCell": "B16",
+      "scores": {
+        "C": {
+          "cell": "C16",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D16",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E16",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F16"
+    },
+    {
+      "sourceRow": 17,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Упр-е ИИ-сценариев и комплексных реш.",
+      "unitCell": "A17",
+      "tribeCell": "B17",
+      "scores": {
+        "C": {
+          "cell": "C17",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D17",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E17",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F17"
+    },
+    {
+      "sourceRow": 18,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Почтенный возраст",
+      "unitCell": "A18",
+      "tribeCell": "B18",
+      "scores": {
+        "C": {
+          "cell": "C18",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D18",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E18",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F18"
+    },
+    {
+      "sourceRow": 19,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "Упр-е монетизации и индивидуального ценообразования",
+      "unitCell": "A19",
+      "tribeCell": "B19",
+      "scores": {
+        "C": {
+          "cell": "C19",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D19",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E19",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F19"
+    },
+    {
+      "sourceRow": 20,
+      "unit": "CX",
+      "normalizedUnit": "CX",
+      "tribe": "ЛЮ",
+      "unitCell": "A20",
+      "tribeCell": "B20",
+      "scores": {
+        "C": {
+          "cell": "C20",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D20",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E20",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F20"
+    },
+    {
+      "sourceRow": 21,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Альтернативные платежные методы",
+      "unitCell": "A21",
+      "tribeCell": "B21",
+      "scores": {
+        "C": {
+          "cell": "C21",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D21",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E21",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F21"
+    },
+    {
+      "sourceRow": 22,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Государственные продукты и сервисы",
+      "unitCell": "A22",
+      "tribeCell": "B22",
+      "scores": {
+        "C": {
+          "cell": "C22",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D22",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E22",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F22"
+    },
+    {
+      "sourceRow": 23,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Кошелёк клиента",
+      "unitCell": "A23",
+      "tribeCell": "B23",
+      "scores": {
+        "C": {
+          "cell": "C23",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D23",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E23",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F23"
+    },
+    {
+      "sourceRow": 24,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Кредитные карты",
+      "unitCell": "A24",
+      "tribeCell": "B24",
+      "scores": {
+        "C": {
+          "cell": "C24",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D24",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E24",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F24"
+    },
+    {
+      "sourceRow": 25,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Переводы",
+      "unitCell": "A25",
+      "tribeCell": "B25",
+      "scores": {
+        "C": {
+          "cell": "C25",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D25",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E25",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F25"
+    },
+    {
+      "sourceRow": 26,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Платежи",
+      "unitCell": "A26",
+      "tribeCell": "B26",
+      "scores": {
+        "C": {
+          "cell": "C26",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D26",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E26",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F26"
+    },
+    {
+      "sourceRow": 27,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Социальные и зарплатные решения",
+      "unitCell": "A27",
+      "tribeCell": "B27",
+      "scores": {
+        "C": {
+          "cell": "C27",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D27",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E27",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F27"
+    },
+    {
+      "sourceRow": 28,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "Эквайринг",
+      "unitCell": "A28",
+      "tribeCell": "B28",
+      "scores": {
+        "C": {
+          "cell": "C28",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D28",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E28",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F28"
+    },
+    {
+      "sourceRow": 29,
+      "unit": "Daily Banking B2C",
+      "normalizedUnit": "DB",
+      "tribe": "ЛЮ",
+      "unitCell": "A29",
+      "tribeCell": "B29",
+      "scores": {
+        "C": {
+          "cell": "C29",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D29",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E29",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F29"
+    },
+    {
+      "sourceRow": 30,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "AmazMe",
+      "unitCell": "A30",
+      "tribeCell": "B30",
+      "scores": {
+        "C": {
+          "cell": "C30",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D30",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E30",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F30"
+    },
+    {
+      "sourceRow": 31,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "CDO B2C",
+      "unitCell": "A31",
+      "tribeCell": "B31",
+      "scores": {
+        "C": {
+          "cell": "C31",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D31",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E31",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F31"
+    },
+    {
+      "sourceRow": 32,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "CDS B2C",
+      "unitCell": "A32",
+      "tribeCell": "B32",
+      "scores": {
+        "C": {
+          "cell": "C32",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D32",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E32",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F32"
+    },
+    {
+      "sourceRow": 33,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "Sber ID",
+      "unitCell": "A33",
+      "tribeCell": "B33",
+      "scores": {
+        "C": {
+          "cell": "C33",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D33",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E33",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F33"
+    },
+    {
+      "sourceRow": 34,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "SberCampaigning",
+      "unitCell": "A34",
+      "tribeCell": "B34",
+      "scores": {
+        "C": {
+          "cell": "C34",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D34",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E34",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F34"
+    },
+    {
+      "sourceRow": 35,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "SberNBA",
+      "unitCell": "A35",
+      "tribeCell": "B35",
+      "scores": {
+        "C": {
+          "cell": "C35",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D35",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E35",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F35"
+    },
+    {
+      "sourceRow": 36,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "SberProfile",
+      "unitCell": "A36",
+      "tribeCell": "B36",
+      "scores": {
+        "C": {
+          "cell": "C36",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D36",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E36",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F36"
+    },
+    {
+      "sourceRow": 37,
+      "unit": "Data",
+      "normalizedUnit": "Data",
+      "tribe": "ЛЮ",
+      "unitCell": "A37",
+      "tribeCell": "B37",
+      "scores": {
+        "C": {
+          "cell": "C37",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D37",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E37",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F37"
+    },
+    {
+      "sourceRow": 38,
+      "unit": "Digital Channels",
+      "normalizedUnit": "DP",
+      "tribe": "Digital Platform",
+      "unitCell": "A38",
+      "tribeCell": "B38",
+      "scores": {
+        "C": {
+          "cell": "C38",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D38",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E38",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F38"
+    },
+    {
+      "sourceRow": 39,
+      "unit": "Digital Channels",
+      "normalizedUnit": "DP",
+      "tribe": "СберKids",
+      "unitCell": "A39",
+      "tribeCell": "B39",
+      "scores": {
+        "C": {
+          "cell": "C39",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D39",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E39",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F39"
+    },
+    {
+      "sourceRow": 40,
+      "unit": "Digital Channels",
+      "normalizedUnit": "DP",
+      "tribe": "СберИнвестор",
+      "unitCell": "A40",
+      "tribeCell": "B40",
+      "scores": {
+        "C": {
+          "cell": "C40",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D40",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E40",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F40"
+    },
+    {
+      "sourceRow": 41,
+      "unit": "Digital Channels",
+      "normalizedUnit": "DP",
+      "tribe": "СБОЛ",
+      "unitCell": "A41",
+      "tribeCell": "B41",
+      "scores": {
+        "C": {
+          "cell": "C41",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D41",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E41",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F41"
+    },
+    {
+      "sourceRow": 42,
+      "unit": "Digital Channels",
+      "normalizedUnit": "DP",
+      "tribe": "Уведомления",
+      "unitCell": "A42",
+      "tribeCell": "B42",
+      "scores": {
+        "C": {
+          "cell": "C42",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D42",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E42",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F42"
+    },
+    {
+      "sourceRow": 43,
+      "unit": "Digital Channels",
+      "normalizedUnit": "DP",
+      "tribe": "Цифровой ассистент",
+      "unitCell": "A43",
+      "tribeCell": "B43",
+      "scores": {
+        "C": {
+          "cell": "C43",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D43",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E43",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F43"
+    },
+    {
+      "sourceRow": 44,
+      "unit": "Digital Channels",
+      "normalizedUnit": "DP",
+      "tribe": "ЛЮ",
+      "unitCell": "A44",
+      "tribeCell": "B44",
+      "scores": {
+        "C": {
+          "cell": "C44",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D44",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E44",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F44"
+    },
+    {
+      "sourceRow": 45,
+      "unit": "eCom",
+      "normalizedUnit": "eCom",
+      "tribe": "ЛЮ",
+      "unitCell": "A45",
+      "tribeCell": "B45",
+      "scores": {
+        "C": {
+          "cell": "C45",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D45",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E45",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F45"
+    },
+    {
+      "sourceRow": 46,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "AI",
+      "unitCell": "A46",
+      "tribeCell": "B46",
+      "scores": {
+        "C": {
+          "cell": "C46",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D46",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E46",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F46"
+    },
+    {
+      "sourceRow": 47,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "Клиентские документы",
+      "unitCell": "A47",
+      "tribeCell": "B47",
+      "scores": {
+        "C": {
+          "cell": "C47",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D47",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E47",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F47"
+    },
+    {
+      "sourceRow": 48,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "Платформа Phygital",
+      "unitCell": "A48",
+      "tribeCell": "B48",
+      "scores": {
+        "C": {
+          "cell": "C48",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D48",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E48",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F48"
+    },
+    {
+      "sourceRow": 49,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "Продажи",
+      "unitCell": "A49",
+      "tribeCell": "B49",
+      "scores": {
+        "C": {
+          "cell": "C49",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D49",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E49",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F49"
+    },
+    {
+      "sourceRow": 50,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "СберМобайл",
+      "unitCell": "A50",
+      "tribeCell": "B50",
+      "scores": {
+        "C": {
+          "cell": "C50",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D50",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E50",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F50"
+    },
+    {
+      "sourceRow": 51,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "Сервисные технологии",
+      "unitCell": "A51",
+      "tribeCell": "B51",
+      "scores": {
+        "C": {
+          "cell": "C51",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D51",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E51",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": "нет бизнес-целей",
+      "noteCell": "F51"
+    },
+    {
+      "sourceRow": 52,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "Управление каналами ЕСЗК",
+      "unitCell": "A52",
+      "tribeCell": "B52",
+      "scores": {
+        "C": {
+          "cell": "C52",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D52",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E52",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F52"
+    },
+    {
+      "sourceRow": 53,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "Развитие сервисных технологий в каналах",
+      "unitCell": "A53",
+      "tribeCell": "B53",
+      "scores": {
+        "C": {
+          "cell": "C53",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D53",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E53",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F53"
+    },
+    {
+      "sourceRow": 54,
+      "unit": "Phygital Channels",
+      "normalizedUnit": "PC",
+      "tribe": "ЛЮ",
+      "unitCell": "A54",
+      "tribeCell": "B54",
+      "scores": {
+        "C": {
+          "cell": "C54",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D54",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E54",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F54"
+    },
+    {
+      "sourceRow": 55,
+      "unit": "В2С",
+      "normalizedUnit": "В2С",
+      "tribe": "В2С",
+      "unitCell": "A55",
+      "tribeCell": "B55",
+      "scores": {
+        "C": {
+          "cell": "C55",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D55",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E55",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F55"
+    },
+    {
+      "sourceRow": 56,
+      "unit": "Домклик",
+      "normalizedUnit": "ДомКлик",
+      "tribe": "Аренда",
+      "unitCell": "A56",
+      "tribeCell": "B56",
+      "scores": {
+        "C": {
+          "cell": "C56",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D56",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E56",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F56"
+    },
+    {
+      "sourceRow": 57,
+      "unit": "Домклик",
+      "normalizedUnit": "ДомКлик",
+      "tribe": "Вторичка",
+      "unitCell": "A57",
+      "tribeCell": "B57",
+      "scores": {
+        "C": {
+          "cell": "C57",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D57",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E57",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F57"
+    },
+    {
+      "sourceRow": 58,
+      "unit": "Домклик",
+      "normalizedUnit": "ДомКлик",
+      "tribe": "ИЖС",
+      "unitCell": "A58",
+      "tribeCell": "B58",
+      "scores": {
+        "C": {
+          "cell": "C58",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D58",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E58",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F58"
+    },
+    {
+      "sourceRow": 59,
+      "unit": "Домклик",
+      "normalizedUnit": "ДомКлик",
+      "tribe": "Лайфстайл",
+      "unitCell": "A59",
+      "tribeCell": "B59",
+      "scores": {
+        "C": {
+          "cell": "C59",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D59",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E59",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F59"
+    },
+    {
+      "sourceRow": 60,
+      "unit": "Домклик",
+      "normalizedUnit": "ДомКлик",
+      "tribe": "Первичка",
+      "unitCell": "A60",
+      "tribeCell": "B60",
+      "scores": {
+        "C": {
+          "cell": "C60",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D60",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E60",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F60"
+    },
+    {
+      "sourceRow": 61,
+      "unit": "Домклик",
+      "normalizedUnit": "ДомКлик",
+      "tribe": "ЛЮ",
+      "unitCell": "A61",
+      "tribeCell": "B61",
+      "scores": {
+        "C": {
+          "cell": "C61",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D61",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E61",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F61"
+    },
+    {
+      "sourceRow": 62,
+      "unit": "Индустрия Развлечений и рекламы",
+      "normalizedUnit": "Индустрия Развлечений и рекламы",
+      "tribe": "ЛЮ",
+      "unitCell": "A62",
+      "tribeCell": "B62",
+      "scores": {
+        "C": {
+          "cell": "C62",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D62",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E62",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": "новый дэш, пока не брали на контроль",
+      "noteCell": "F62"
+    },
+    {
+      "sourceRow": 63,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "AI эффективность",
+      "unitCell": "A63",
+      "tribeCell": "B63",
+      "scores": {
+        "C": {
+          "cell": "C63",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D63",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E63",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F63"
+    },
+    {
+      "sourceRow": 64,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "PFM",
+      "unitCell": "A64",
+      "tribeCell": "B64",
+      "scores": {
+        "C": {
+          "cell": "C64",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D64",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E64",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F64"
+    },
+    {
+      "sourceRow": 65,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "ДББ",
+      "unitCell": "A65",
+      "tribeCell": "B65",
+      "scores": {
+        "C": {
+          "cell": "C65",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D65",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E65",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F65"
+    },
+    {
+      "sourceRow": 66,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "Деп. Инвест бизнес (ДИБ)",
+      "unitCell": "A66",
+      "tribeCell": "B66",
+      "scores": {
+        "C": {
+          "cell": "C66",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D66",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E66",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F66"
+    },
+    {
+      "sourceRow": 67,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "Депозитарий",
+      "unitCell": "A67",
+      "tribeCell": "B67",
+      "scores": {
+        "C": {
+          "cell": "C67",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D67",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E67",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F67"
+    },
+    {
+      "sourceRow": 68,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "ДЗСПиС",
+      "unitCell": "A68",
+      "tribeCell": "B68",
+      "scores": {
+        "C": {
+          "cell": "C68",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D68",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E68",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F68"
+    },
+    {
+      "sourceRow": 69,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "ДИиН",
+      "unitCell": "A69",
+      "tribeCell": "B69",
+      "scores": {
+        "C": {
+          "cell": "C69",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D69",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E69",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F69"
+    },
+    {
+      "sourceRow": 70,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "ИЦ (Инвестиционный центр)",
+      "unitCell": "A70",
+      "tribeCell": "B70",
+      "scores": {
+        "C": {
+          "cell": "C70",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D70",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E70",
+          "rawValue": "#DIV/0!",
+          "cellType": "e",
+          "status": "error",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": "трайба не стало при реорганизации",
+      "noteCell": "F70"
+    },
+    {
+      "sourceRow": 71,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "РИБ",
+      "unitCell": "A71",
+      "tribeCell": "B71",
+      "scores": {
+        "C": {
+          "cell": "C71",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D71",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E71",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F71"
+    },
+    {
+      "sourceRow": 72,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "УППБ",
+      "unitCell": "A72",
+      "tribeCell": "B72",
+      "scores": {
+        "C": {
+          "cell": "C72",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D72",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E72",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F72"
+    },
+    {
+      "sourceRow": 73,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "ЦКС",
+      "unitCell": "A73",
+      "tribeCell": "B73",
+      "scores": {
+        "C": {
+          "cell": "C73",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D73",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E73",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F73"
+    },
+    {
+      "sourceRow": 74,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "УИЭиПР",
+      "unitCell": "A74",
+      "tribeCell": "B74",
+      "scores": {
+        "C": {
+          "cell": "C74",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D74",
+          "rawValue": 1,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E74",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": "новый трайб",
+      "noteCell": "F74"
+    },
+    {
+      "sourceRow": 75,
+      "unit": "УБ",
+      "normalizedUnit": "УБ",
+      "tribe": "ЛЮ",
+      "unitCell": "A75",
+      "tribeCell": "B75",
+      "scores": {
+        "C": {
+          "cell": "C75",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.monitored"
+        },
+        "D": {
+          "cell": "D75",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.forecast"
+        },
+        "E": {
+          "cell": "E75",
+          "rawValue": 0,
+          "cellType": "n",
+          "status": "valid",
+          "metricCode": "goals.factor_analysis_l1_l2"
+        }
+      },
+      "note": null,
+      "noteCell": "F75"
+    }
+  ],
+  "teams": [
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДИиН",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        69
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 69,
+          "unit": "УБ",
+          "tribe": "ДИиН",
+          "scores": {
+            "C": {
+              "cell": "C69",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДББ",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        65
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 65,
+          "unit": "УБ",
+          "tribe": "ДББ",
+          "scores": {
+            "C": {
+              "cell": "C65",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D65",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E65",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Сбережения клиентов",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        6,
+        7
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 6,
+          "unit": "Core Banking",
+          "tribe": "Сбережения клиентов",
+          "scores": {
+            "C": {
+              "cell": "C6",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D6",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E6",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        },
+        {
+          "sourceRow": 7,
+          "unit": "Core Banking",
+          "tribe": "Сбережения клиентов",
+          "scores": {
+            "C": {
+              "cell": "C7",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D7",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E7",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "2770002e-6b7e-5753-9915-189d0cf5272f¦Военная пенсия",
+      "name": "Военная пенсия",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Социальные и зарплатные решения",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        27
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 27,
+          "unit": "Daily Banking B2C",
+          "tribe": "Социальные и зарплатные решения",
+          "scores": {
+            "C": {
+              "cell": "C27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "7d3e85aa-cc1a-5831-9db0-35735fe9bd0a¦ДУ",
+      "name": "ДУ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДИиН",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        69
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 69,
+          "unit": "УБ",
+          "tribe": "ДИиН",
+          "scores": {
+            "C": {
+              "cell": "C69",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Кошелёк клиента",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        23
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 23,
+          "unit": "Daily Banking B2C",
+          "tribe": "Кошелёк клиента",
+          "scores": {
+            "C": {
+              "cell": "C23",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D23",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E23",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Кошелёк клиента",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        23
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 23,
+          "unit": "Daily Banking B2C",
+          "tribe": "Кошелёк клиента",
+          "scores": {
+            "C": {
+              "cell": "C23",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D23",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E23",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДИиН",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        69
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 69,
+          "unit": "УБ",
+          "tribe": "ДИиН",
+          "scores": {
+            "C": {
+              "cell": "C69",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Социальные и зарплатные решения",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        27
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 27,
+          "unit": "Daily Banking B2C",
+          "tribe": "Социальные и зарплатные решения",
+          "scores": {
+            "C": {
+              "cell": "C27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДИиН",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        69
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 69,
+          "unit": "УБ",
+          "tribe": "ДИиН",
+          "scores": {
+            "C": {
+              "cell": "C69",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "РИБ",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        71
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 71,
+          "unit": "УБ",
+          "tribe": "РИБ",
+          "scores": {
+            "C": {
+              "cell": "C71",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D71",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E71",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Эквайринг",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        28
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 28,
+          "unit": "Daily Banking B2C",
+          "tribe": "Эквайринг",
+          "scores": {
+            "C": {
+              "cell": "C28",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D28",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E28",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Комиссионные продукты",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        3
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 3,
+          "unit": "Core Banking",
+          "tribe": "Комиссионные продукты",
+          "scores": {
+            "C": {
+              "cell": "C3",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "tribe": "Сделка со вторичным жильём",
+      "mappingStatus": "normalized_alias",
+      "rule": "Переименование трайба: Сделка со вторичным жильём → Вторичка; юнит сохранён.",
+      "sourceRows": [
+        57
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 57,
+          "unit": "Домклик",
+          "tribe": "Вторичка",
+          "scores": {
+            "C": {
+              "cell": "C57",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D57",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E57",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Комиссионные продукты",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        3
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 3,
+          "unit": "Core Banking",
+          "tribe": "Комиссионные продукты",
+          "scores": {
+            "C": {
+              "cell": "C3",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДИиН",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        69
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 69,
+          "unit": "УБ",
+          "tribe": "ДИиН",
+          "scores": {
+            "C": {
+              "cell": "C69",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДИиН",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        69
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 69,
+          "unit": "УБ",
+          "tribe": "ДИиН",
+          "scores": {
+            "C": {
+              "cell": "C69",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Авто",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        2
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 2,
+          "unit": "Core Banking",
+          "tribe": "Авто",
+          "scores": {
+            "C": {
+              "cell": "C2",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D2",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E2",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДИиН",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        69
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 69,
+          "unit": "УБ",
+          "tribe": "ДИиН",
+          "scores": {
+            "C": {
+              "cell": "C69",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E69",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "tribe": "Премиальный сегмент",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        13
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 13,
+          "unit": "CX",
+          "tribe": "Премиальный сегмент",
+          "scores": {
+            "C": {
+              "cell": "C13",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D13",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E13",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "tribe": "Массовый высокодоходный сегмент",
+      "mappingStatus": "normalized_alias",
+      "rule": "Переименование трайба: Массовый высокодоходный сегмент → МВС; юнит сохранён.",
+      "sourceRows": [
+        11
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 11,
+          "unit": "CX",
+          "tribe": "МВС",
+          "scores": {
+            "C": {
+              "cell": "C11",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D11",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E11",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Социальные и зарплатные решения",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        27
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 27,
+          "unit": "Daily Banking B2C",
+          "tribe": "Социальные и зарплатные решения",
+          "scores": {
+            "C": {
+              "cell": "C27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Переводы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        25
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 25,
+          "unit": "Daily Banking B2C",
+          "tribe": "Переводы",
+          "scores": {
+            "C": {
+              "cell": "C25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "20f8336c-e0cf-5944-9c0e-5f201a9c4561¦Переводы подарков",
+      "name": "Переводы подарков",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Переводы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        25
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 25,
+          "unit": "Daily Banking B2C",
+          "tribe": "Переводы",
+          "scores": {
+            "C": {
+              "cell": "C25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Платежи",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        26
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 26,
+          "unit": "Daily Banking B2C",
+          "tribe": "Платежи",
+          "scores": {
+            "C": {
+              "cell": "C26",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D26",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E26",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Альтернативные платежные методы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        21
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 21,
+          "unit": "Daily Banking B2C",
+          "tribe": "Альтернативные платежные методы",
+          "scores": {
+            "C": {
+              "cell": "C21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D21",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "tribe": "Индивидуальное жилищное строительство",
+      "mappingStatus": "normalized_alias",
+      "rule": "Переименование трайба: Индивидуальное жилищное строительство → ИЖС; юнит сохранён.",
+      "sourceRows": [
+        58
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 58,
+          "unit": "Домклик",
+          "tribe": "ИЖС",
+          "scores": {
+            "C": {
+              "cell": "C58",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D58",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E58",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "tribe": "Сделка со вторичным жильём",
+      "mappingStatus": "normalized_alias",
+      "rule": "Переименование трайба: Сделка со вторичным жильём → Вторичка; юнит сохранён.",
+      "sourceRows": [
+        57
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 57,
+          "unit": "Домклик",
+          "tribe": "Вторичка",
+          "scores": {
+            "C": {
+              "cell": "C57",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D57",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E57",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "tribe": "Сделка с первичным жильём",
+      "mappingStatus": "normalized_alias",
+      "rule": "Переименование трайба: Сделка с первичным жильём → Первичка; юнит сохранён.",
+      "sourceRows": [
+        60
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 60,
+          "unit": "Домклик",
+          "tribe": "Первичка",
+          "scores": {
+            "C": {
+              "cell": "C60",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D60",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E60",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Комиссионные продукты",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        3
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 3,
+          "unit": "Core Banking",
+          "tribe": "Комиссионные продукты",
+          "scores": {
+            "C": {
+              "cell": "C3",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "9ab3c21c-493a-54dc-92ec-022aefb84f84¦Сценарии оплаты",
+      "name": "Сценарии оплаты",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Платежи",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        26
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 26,
+          "unit": "Daily Banking B2C",
+          "tribe": "Платежи",
+          "scores": {
+            "C": {
+              "cell": "C26",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D26",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E26",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Эквайринг",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        28
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 28,
+          "unit": "Daily Banking B2C",
+          "tribe": "Эквайринг",
+          "scores": {
+            "C": {
+              "cell": "C28",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D28",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E28",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Переводы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        25
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 25,
+          "unit": "Daily Banking B2C",
+          "tribe": "Переводы",
+          "scores": {
+            "C": {
+              "cell": "C25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E25",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Альтернативные платежные методы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        21
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 21,
+          "unit": "Daily Banking B2C",
+          "tribe": "Альтернативные платежные методы",
+          "scores": {
+            "C": {
+              "cell": "C21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D21",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "b4d7d4f8-e4c7-5cc2-ada8-9fb3801fb28a¦Транспортный эквайринг",
+      "name": "Транспортный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Государственные продукты и сервисы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        22
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 22,
+          "unit": "Daily Banking B2C",
+          "tribe": "Государственные продукты и сервисы",
+          "scores": {
+            "C": {
+              "cell": "C22",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D22",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E22",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "РИБ",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        71
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 71,
+          "unit": "УБ",
+          "tribe": "РИБ",
+          "scores": {
+            "C": {
+              "cell": "C71",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D71",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E71",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "8e9b9731-8712-59fd-b654-6aac03844b1c¦Школьные сервисы",
+      "name": "Школьные сервисы",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Государственные продукты и сервисы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        22
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 22,
+          "unit": "Daily Banking B2C",
+          "tribe": "Государственные продукты и сервисы",
+          "scores": {
+            "C": {
+              "cell": "C22",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D22",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E22",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Альтернативные платежные методы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        21
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 21,
+          "unit": "Daily Banking B2C",
+          "tribe": "Альтернативные платежные методы",
+          "scores": {
+            "C": {
+              "cell": "C21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D21",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Альтернативные платежные методы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        21
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 21,
+          "unit": "Daily Banking B2C",
+          "tribe": "Альтернативные платежные методы",
+          "scores": {
+            "C": {
+              "cell": "C21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D21",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Авто",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        2
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 2,
+          "unit": "Core Banking",
+          "tribe": "Авто",
+          "scores": {
+            "C": {
+              "cell": "C2",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D2",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E2",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "tribe": "Клиентские документы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        47
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 47,
+          "unit": "Phygital Channels",
+          "tribe": "Клиентские документы",
+          "scores": {
+            "C": {
+              "cell": "C47",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D47",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E47",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ЦКС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        73
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 73,
+          "unit": "УБ",
+          "tribe": "ЦКС",
+          "scores": {
+            "C": {
+              "cell": "C73",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D73",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E73",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e146d7b5-0627-5493-b841-3e87393d585c¦Как зарплатный",
+      "name": "Как зарплатный",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Социальные и зарплатные решения",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        27
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 27,
+          "unit": "Daily Banking B2C",
+          "tribe": "Социальные и зарплатные решения",
+          "scores": {
+            "C": {
+              "cell": "C27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E27",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Кредитные карты",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        24
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 24,
+          "unit": "Daily Banking B2C",
+          "tribe": "Кредитные карты",
+          "scores": {
+            "C": {
+              "cell": "C24",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D24",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E24",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Комиссионные продукты",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        3
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 3,
+          "unit": "Core Banking",
+          "tribe": "Комиссионные продукты",
+          "scores": {
+            "C": {
+              "cell": "C3",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "УППБ",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        72
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 72,
+          "unit": "УБ",
+          "tribe": "УППБ",
+          "scores": {
+            "C": {
+              "cell": "C72",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D72",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E72",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Комиссионные продукты",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        3
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 3,
+          "unit": "Core Banking",
+          "tribe": "Комиссионные продукты",
+          "scores": {
+            "C": {
+              "cell": "C3",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E3",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Кредитный потенциал",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        4
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 4,
+          "unit": "Core Banking",
+          "tribe": "Кредитный потенциал",
+          "scores": {
+            "C": {
+              "cell": "C4",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D4",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E4",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Потребительское кредитование",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        5
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 5,
+          "unit": "Core Banking",
+          "tribe": "Потребительское кредитование",
+          "scores": {
+            "C": {
+              "cell": "C5",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D5",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E5",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "tribe": "Прайм",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        12
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 12,
+          "unit": "CX",
+          "tribe": "Прайм",
+          "scores": {
+            "C": {
+              "cell": "C12",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D12",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E12",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Товарное кредитование",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [],
+      "pendingReason": "Подходящая строка источника не определена; не использовать общую строку ЛЮ или похожую команду."
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "tribe": "ДЗСПиС",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        68
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 68,
+          "unit": "УБ",
+          "tribe": "ДЗСПиС",
+          "scores": {
+            "C": {
+              "cell": "C68",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E68",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Альтернативные платежные методы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        21
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 21,
+          "unit": "Daily Banking B2C",
+          "tribe": "Альтернативные платежные методы",
+          "scores": {
+            "C": {
+              "cell": "C21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D21",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "tribe": "Альтернативные платежные методы",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        21
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 21,
+          "unit": "Daily Banking B2C",
+          "tribe": "Альтернативные платежные методы",
+          "scores": {
+            "C": {
+              "cell": "C21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D21",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E21",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Потребительское кредитование",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        5
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 5,
+          "unit": "Core Banking",
+          "tribe": "Потребительское кредитование",
+          "scores": {
+            "C": {
+              "cell": "C5",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D5",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E5",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "tribe": "Лояльность",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        10
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 10,
+          "unit": "CX",
+          "tribe": "Лояльность",
+          "scores": {
+            "C": {
+              "cell": "C10",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D10",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E10",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "tribe": "Товарное кредитование",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [],
+      "pendingReason": "Подходящая строка источника не определена; не использовать общую строку ЛЮ или похожую команду."
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "tribe": "Дети и Молодежь",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        9
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 9,
+          "unit": "CX",
+          "tribe": "Дети и Молодежь",
+          "scores": {
+            "C": {
+              "cell": "C9",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D9",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E9",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "tribe": "Зрелость",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [
+        {
+          "sourceRow": 18,
+          "unit": "CX",
+          "tribe": "Почтенный возраст",
+          "scores": {
+            "C": {
+              "cell": "C18",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D18",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E18",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          },
+          "status": "requiresUserConfirmation"
+        }
+      ],
+      "pendingReason": "Требуется подтверждение предложенного сопоставления."
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "tribe": "Развитие сервиса в каналах",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [
+        {
+          "sourceRow": 53,
+          "unit": "Phygital Channels",
+          "tribe": "Развитие сервисных технологий в каналах",
+          "scores": {
+            "C": {
+              "cell": "C53",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D53",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E53",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          },
+          "status": "requiresUserConfirmation"
+        }
+      ],
+      "pendingReason": "Требуется подтверждение предложенного сопоставления."
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "tribe": "Массовый высокодоходный сегмент",
+      "mappingStatus": "normalized_alias",
+      "rule": "Переименование трайба: Массовый высокодоходный сегмент → МВС; юнит сохранён.",
+      "sourceRows": [
+        11
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 11,
+          "unit": "CX",
+          "tribe": "МВС",
+          "scores": {
+            "C": {
+              "cell": "C11",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D11",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E11",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "tribe": "Дети и Молодежь",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        9
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 9,
+          "unit": "CX",
+          "tribe": "Дети и Молодежь",
+          "scores": {
+            "C": {
+              "cell": "C9",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D9",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E9",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "tribe": "СберKids",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        39
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 39,
+          "unit": "Digital Channels",
+          "tribe": "СберKids",
+          "scores": {
+            "C": {
+              "cell": "C39",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D39",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E39",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "tribe": "Развитие продаж в каналах",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [
+        {
+          "sourceRow": 49,
+          "unit": "Phygital Channels",
+          "tribe": "Продажи",
+          "scores": {
+            "C": {
+              "cell": "C49",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D49",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E49",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          },
+          "status": "requiresUserConfirmation"
+        }
+      ],
+      "pendingReason": "Требуется подтверждение предложенного сопоставления."
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "tribe": "Платформа Phygital",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        48
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 48,
+          "unit": "Phygital Channels",
+          "tribe": "Платформа Phygital",
+          "scores": {
+            "C": {
+              "cell": "C48",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D48",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E48",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "tribe": "СБОЛ",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        41
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 41,
+          "unit": "Digital Channels",
+          "tribe": "СБОЛ",
+          "scores": {
+            "C": {
+              "cell": "C41",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D41",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E41",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "tribe": "СберИнвестор",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        40
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 40,
+          "unit": "Digital Channels",
+          "tribe": "СберИнвестор",
+          "scores": {
+            "C": {
+              "cell": "C40",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D40",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E40",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "tribe": "Уведомления",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        42
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 42,
+          "unit": "Digital Channels",
+          "tribe": "Уведомления",
+          "scores": {
+            "C": {
+              "cell": "C42",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D42",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E42",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "tribe": "Рабочий возраст",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        14
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 14,
+          "unit": "CX",
+          "tribe": "Рабочий возраст",
+          "scores": {
+            "C": {
+              "cell": "C14",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D14",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E14",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+      "name": "PB",
+      "unit": "CX",
+      "type": "Сегмент",
+      "tribe": "Управление частным капиталом",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        16
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 16,
+          "unit": "CX",
+          "tribe": "Управление частным капиталом",
+          "scores": {
+            "C": {
+              "cell": "C16",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D16",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E16",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "tribe": "Премиальный сегмент",
+      "mappingStatus": "exact",
+      "rule": "Нормализованный юнит и точный нормализованный трайб.",
+      "sourceRows": [
+        13
+      ],
+      "matchedSource": [
+        {
+          "sourceRow": 13,
+          "unit": "CX",
+          "tribe": "Премиальный сегмент",
+          "scores": {
+            "C": {
+              "cell": "C13",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D13",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E13",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "tribe": "Аутентификация клиентов",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [
+        {
+          "sourceRow": 33,
+          "unit": "Data",
+          "tribe": "Sber ID",
+          "scores": {
+            "C": {
+              "cell": "C33",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D33",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E33",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          },
+          "status": "requiresUserConfirmation"
+        }
+      ],
+      "pendingReason": "Требуется подтверждение предложенного сопоставления."
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "tribe": "Аутентификация клиентов",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [],
+      "pendingReason": "Подходящая строка источника не определена; не использовать общую строку ЛЮ или похожую команду."
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "tribe": "Аутентификация клиентов",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [],
+      "pendingReason": "Подходящая строка источника не определена; не использовать общую строку ЛЮ или похожую команду."
+    },
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "tribe": "Аутентификация клиентов",
+      "mappingStatus": "pending",
+      "rule": "Однозначное соответствие не установлено; оценки не применяются.",
+      "sourceRows": [],
+      "matchedSource": [],
+      "suggestions": [
+        {
+          "sourceRow": 34,
+          "unit": "Data",
+          "tribe": "SberCampaigning",
+          "scores": {
+            "C": {
+              "cell": "C34",
+              "rawValue": 1,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.monitored"
+            },
+            "D": {
+              "cell": "D34",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.forecast"
+            },
+            "E": {
+              "cell": "E34",
+              "rawValue": 0,
+              "cellType": "n",
+              "status": "valid",
+              "metricCode": "goals.factor_analysis_l1_l2"
+            }
+          },
+          "status": "requiresUserConfirmation"
+        }
+      ],
+      "pendingReason": "Требуется подтверждение предложенного сопоставления."
+    }
+  ],
+  "productionScoresApplied": true,
+  "sourceRowUsage": [
+    {
+      "sourceRow": 2,
+      "status": "matched",
+      "matchedTeamIds": [
+        "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+        "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 3,
+      "status": "matched",
+      "matchedTeamIds": [
+        "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+        "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+        "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+        "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 4,
+      "status": "matched",
+      "matchedTeamIds": [
+        "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 5,
+      "status": "matched",
+      "matchedTeamIds": [
+        "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+        "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 6,
+      "status": "matched",
+      "matchedTeamIds": [
+        "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 7,
+      "status": "matched",
+      "matchedTeamIds": [
+        "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 8,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 9,
+      "status": "matched",
+      "matchedTeamIds": [
+        "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+        "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 10,
+      "status": "matched",
+      "matchedTeamIds": [
+        "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 11,
+      "status": "matched",
+      "matchedTeamIds": [
+        "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+        "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 12,
+      "status": "matched",
+      "matchedTeamIds": [
+        "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 13,
+      "status": "matched",
+      "matchedTeamIds": [
+        "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+        "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 14,
+      "status": "matched",
+      "matchedTeamIds": [
+        "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 15,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 16,
+      "status": "matched",
+      "matchedTeamIds": [
+        "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 17,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 18,
+      "status": "suggestedOnly",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": [
+        "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость"
+      ]
+    },
+    {
+      "sourceRow": 19,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 20,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 21,
+      "status": "matched",
+      "matchedTeamIds": [
+        "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+        "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+        "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+        "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+        "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+        "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 22,
+      "status": "matched",
+      "matchedTeamIds": [
+        "b4d7d4f8-e4c7-5cc2-ada8-9fb3801fb28a¦Транспортный эквайринг",
+        "8e9b9731-8712-59fd-b654-6aac03844b1c¦Школьные сервисы"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 23,
+      "status": "matched",
+      "matchedTeamIds": [
+        "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+        "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 24,
+      "status": "matched",
+      "matchedTeamIds": [
+        "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 25,
+      "status": "matched",
+      "matchedTeamIds": [
+        "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+        "20f8336c-e0cf-5944-9c0e-5f201a9c4561¦Переводы подарков",
+        "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 26,
+      "status": "matched",
+      "matchedTeamIds": [
+        "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+        "9ab3c21c-493a-54dc-92ec-022aefb84f84¦Сценарии оплаты"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 27,
+      "status": "matched",
+      "matchedTeamIds": [
+        "2770002e-6b7e-5753-9915-189d0cf5272f¦Военная пенсия",
+        "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+        "e146d7b5-0627-5493-b841-3e87393d585c¦Как зарплатный"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 28,
+      "status": "matched",
+      "matchedTeamIds": [
+        "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+        "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 29,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 30,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 31,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 32,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 33,
+      "status": "suggestedOnly",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": [
+        "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID"
+      ]
+    },
+    {
+      "sourceRow": 34,
+      "status": "suggestedOnly",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": [
+        "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация"
+      ]
+    },
+    {
+      "sourceRow": 35,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 36,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 37,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 38,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 39,
+      "status": "matched",
+      "matchedTeamIds": [
+        "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 40,
+      "status": "matched",
+      "matchedTeamIds": [
+        "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 41,
+      "status": "matched",
+      "matchedTeamIds": [
+        "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 42,
+      "status": "matched",
+      "matchedTeamIds": [
+        "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 43,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 44,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 45,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 46,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 47,
+      "status": "matched",
+      "matchedTeamIds": [
+        "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 48,
+      "status": "matched",
+      "matchedTeamIds": [
+        "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 49,
+      "status": "suggestedOnly",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": [
+        "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг"
+      ]
+    },
+    {
+      "sourceRow": 50,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 51,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 52,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 53,
+      "status": "suggestedOnly",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": [
+        "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр"
+      ]
+    },
+    {
+      "sourceRow": 54,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 55,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 56,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 57,
+      "status": "matched",
+      "matchedTeamIds": [
+        "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+        "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 58,
+      "status": "matched",
+      "matchedTeamIds": [
+        "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 59,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 60,
+      "status": "matched",
+      "matchedTeamIds": [
+        "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 61,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 62,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 63,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 64,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 65,
+      "status": "matched",
+      "matchedTeamIds": [
+        "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 66,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 67,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 68,
+      "status": "matched",
+      "matchedTeamIds": [
+        "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+        "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+        "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+        "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+        "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+        "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+        "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+        "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+        "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 69,
+      "status": "matched",
+      "matchedTeamIds": [
+        "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+        "7d3e85aa-cc1a-5831-9db0-35735fe9bd0a¦ДУ",
+        "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+        "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+        "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+        "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+        "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 70,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 71,
+      "status": "matched",
+      "matchedTeamIds": [
+        "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+        "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 72,
+      "status": "matched",
+      "matchedTeamIds": [
+        "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 73,
+      "status": "matched",
+      "matchedTeamIds": [
+        "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)"
+      ],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 74,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    },
+    {
+      "sourceRow": 75,
+      "status": "unused",
+      "matchedTeamIds": [],
+      "suggestedTeamIds": []
+    }
+  ],
+  "unusedSourceRows": [
+    8,
+    15,
+    17,
+    19,
+    20,
+    29,
+    30,
+    31,
+    32,
+    35,
+    36,
+    37,
+    38,
+    43,
+    44,
+    45,
+    46,
+    50,
+    51,
+    52,
+    54,
+    55,
+    56,
+    59,
+    61,
+    62,
+    63,
+    64,
+    66,
+    67,
+    70,
+    74,
+    75
+  ],
+  "application": {
+    "period": "III кв. 2026",
+    "overlay": "gravity-app/src/data/goals-metrics-q3-2026.json",
+    "teams": 74,
+    "facts": 222,
+    "pendingTeamsUnchanged": 9,
+    "confirmedBy": "user",
+    "date": "2026-10-28",
+    "userPolicy": {
+      "policy": "retainQ2HalfWhenWorkbookZero",
+      "confirmedBy": "user",
+      "date": "2026-10-28",
+      "description": "Только для трёх метрик целей: если балл Q2 равен 0,5, а исходная оценка файла Q3 равна 0, итоговая оценка Q3 равна 0,5. Все прочие оценки, максимумы и девять неподтверждённых команд сохраняются.",
+      "affectedFacts": 47,
+      "affectedTeams": 37
+    },
+    "policyAffectedFacts": [
+      {
+        "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+        "name": "БПИФ",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+        "name": "Брокерский счет",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+        "name": "Вклады+НС",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+        "name": "Дебетовая карта",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+        "name": "Детская карта",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+        "name": "Интернет-Эквайринг",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+        "name": "Конверсия",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+        "name": "Конверсия",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+        "name": "Монеты",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+        "name": "Монеты",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+        "name": "НСЖ",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+        "name": "Объект Авто",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+        "name": "Пакет услуг СберПервый",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+        "name": "Пакет услуг СберПремьер",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+        "name": "Переводы по РФ",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "20f8336c-e0cf-5944-9c0e-5f201a9c4561¦Переводы подарков",
+        "name": "Переводы подарков",
+        "metricCode": "goals.monitored",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "20f8336c-e0cf-5944-9c0e-5f201a9c4561¦Переводы подарков",
+        "name": "Переводы подарков",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+        "name": "СберЧаевые",
+        "metricCode": "goals.monitored",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+        "name": "СберЧаевые",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+        "name": "Сделка ИЖС",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+        "name": "Сейфы",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+        "name": "Сейфы",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+        "name": "Трансграничные переводы",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "b4d7d4f8-e4c7-5cc2-ada8-9fb3801fb28a¦Транспортный эквайринг",
+        "name": "Транспортный эквайринг",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "b4d7d4f8-e4c7-5cc2-ada8-9fb3801fb28a¦Транспортный эквайринг",
+        "name": "Транспортный эквайринг",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+        "name": "SberPay Ecom",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+        "name": "Автокредит",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+        "name": "Кредитные карты",
+        "metricCode": "goals.monitored",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+        "name": "Кредитные карты",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "name": "ОМС",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+        "name": "Кредитный потенциал",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+        "name": "КАСКО",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+        "name": "КАСКО",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+        "name": "ОСАГО",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+        "name": "СберПрайм",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+        "name": "Личная защита Плюс",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+        "name": "Оплата улыбкой",
+        "metricCode": "goals.monitored",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+        "name": "Оплата улыбкой",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+        "name": "Потребительский кредит",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+        "name": "СберСпасибо",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+        "name": "МВС",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+        "name": "Чат",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+        "name": "Уведомления",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+        "name": "Рабочий возраст",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+        "name": "PB",
+        "metricCode": "goals.forecast",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+        "name": "PB",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      },
+      {
+        "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+        "name": "Top Affluent",
+        "metricCode": "goals.factor_analysis_l1_l2",
+        "fromPeriod": "II кв. 2026",
+        "previousValue": 0.5,
+        "workbookValue": 0,
+        "appliedPoints": 0.5
+      }
+    ],
+    "scoreCounts": {
+      "ones": 78,
+      "halves": 47,
+      "zeros": 97
+    }
+  }
+}

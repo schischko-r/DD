@@ -1,0 +1,826 @@
+{
+  "period": "III кв. 2026",
+  "scope": "crosssell-after-purchase-assessment",
+  "source": {
+    "origin": "userConfirmed",
+    "confirmedAt": "2026-10-29",
+    "uniqueTeams": 54,
+    "rule": "Cross-sell total = 50% during-purchase component + 50% after-purchase component; only the total is counted in DDI.",
+    "halfPointTeams": 18,
+    "zeroTeams": 16,
+    "notApplicableTeams": 1,
+    "fullPointTeams": 19
+  },
+  "products": [
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Страхование залога"
+      }
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Страхование жизни"
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Слитки"
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Сделка с Первичным жильём"
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Сделка ИЖС"
+      }
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Сберчаевые #B2C"
+      }
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "СберСова"
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Переводы по РФ"
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Пенсионный продукт"
+      }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Пакет услуг СберПремьер"
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Кредитные карты"
+      }
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "КАСКО"
+      }
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ЗЛС"
+      }
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Зарплатный продукт"
+      }
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Залоговое страхование (корпоративное страхование)"
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Детская карта"
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ВЗР"
+      }
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0.5,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Автокредит"
+      }
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "postPurchaseValue": null,
+      "postPurchaseApplicable": false,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Выписки, справки"
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Почта, Диск, Календарь"
+      }
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ОСАГО"
+      }
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Образовательный кредит"
+      }
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Объект Авто"
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ОМС"
+      }
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Интернет-Эквайринг"
+      }
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "SberPay Ecom"
+      }
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Трансграничные переводы #B2C"
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "НСЖ"
+      }
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ИСЖ"
+      }
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "BNPL"
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Вжух"
+      }
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Трансграничный эквайринг #B2C"
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Сейфы"
+      }
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Кредитный потенциал"
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 0,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Конверсия"
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Вклады+НС"
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "БПИФ",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Брокерский счет",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Дебетовая карта",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ЗПИФ",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Много денег (НКПЗН)",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Монеты",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ОПИФ",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "ПДС",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Пакет услуг СберПервый",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Платежи",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Сделка вторичка",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "9ab3c21c-493a-54dc-92ec-022aefb84f84¦Сценарии оплаты",
+      "name": "Сценарии оплаты",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Сценарии оплаты",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Торговый Эквайринг",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "POS-кредиты",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Личная защита Плюс",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "SberPay NFC",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "Потребительский кредит",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "postPurchaseValue": 1,
+      "postPurchaseApplicable": true,
+      "source": {
+        "origin": "userConfirmedPostPurchaseCrossSell",
+        "period": "III кв. 2026",
+        "confirmedAt": "2026-10-29",
+        "inputName": "СберСпасибо",
+        "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+        "baselinePeriod": "II кв. 2026",
+        "baselineValue": 1,
+        "baselineMaxValue": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "period": "III кв. 2026",
+  "scope": "metric-applicability-assessment",
+  "products": [
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "reason": "Метрика нерелевантна по указанию пользователя"
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "reason": "Метрика нерелевантна по указанию пользователя"
+          }
+        }
+      }
+    },
+    {
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "metrics": {
+        "hyp.extra_initiatives": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "reason": "Явное указание пользователя: Доп. инициативы сверх БП неприменимы для КАСКО и ОСАГО в III квартале.",
+            "previousValue": 0,
+            "previousMaxValue": 1,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "fromPeriod": "II кв. 2026",
+              "period": "III кв. 2026",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-10-29",
+              "sourceName": "КАСКО",
+              "sourceMetricCode": "hyp.extra_initiatives",
+              "sourceValue": 0,
+              "sourceMaxValue": 1,
+              "rawValue": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "metrics": {
+        "hyp.extra_initiatives": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-10-30",
+            "reason": "Явное указание пользователя: Доп. инициативы сверх БП неприменимы для КАСКО и ОСАГО в III квартале.",
+            "previousValue": 0,
+            "previousMaxValue": 1,
+            "previousSource": {
+              "origin": "priorQuarterCarryForward",
+              "fromPeriod": "II кв. 2026",
+              "period": "III кв. 2026",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-10-29",
+              "sourceName": "ОСАГО",
+              "sourceMetricCode": "hyp.extra_initiatives",
+              "sourceValue": 0,
+              "sourceMaxValue": 1,
+              "rawValue": 0
+            }
+          }
+        }
+      }
+    }
+  ]
+}

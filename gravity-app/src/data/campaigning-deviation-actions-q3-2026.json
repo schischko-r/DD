@@ -1,0 +1,69 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedCampaignDeviationActions20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "metrics": {
+        "analiz_effektivnostь.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignDeviationActions20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "file": "ddi_3q_response/questionare-responses(13).csv",
+            "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+            "csvRow": 2,
+            "surveyId": "ddi-channel-6d607e87-5e45-5759-a9cc-1a162b981a26",
+            "completedAt": "2026-10-27T06:35:41.159Z",
+            "respondent": "Комаров Иван Алексеевич",
+            "questionId": "campaignDeviations",
+            "answer": "Да",
+            "questionSource": {
+              "sheet": "Кампейнинг",
+              "row": 70
+            },
+            "evidenceQuestionId": "campaignDeviationReport",
+            "evidenceFormat": "jira",
+            "evidence": "https://jira.delta.sbrf.ru/browse/ISNBA-2990\nhttps://jira.delta.sbrf.ru/browse/ISNBA-3342\nhttps://jira.delta.sbrf.ru/browse/ISNBA-2288\nhttps://confluence.sberbank.ru/pages/viewpage.action?pageId=24438933886",
+            "evidenceLinks": [
+              {
+                "label": "Подтверждение 1",
+                "url": "https://jira.delta.sbrf.ru/browse/ISNBA-2990"
+              },
+              {
+                "label": "Подтверждение 2",
+                "url": "https://jira.delta.sbrf.ru/browse/ISNBA-3342"
+              },
+              {
+                "label": "Подтверждение 3",
+                "url": "https://jira.delta.sbrf.ru/browse/ISNBA-2288"
+              },
+              {
+                "label": "Подтверждение 4",
+                "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=24438933886"
+              }
+            ],
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "rule": "Явное указание пользователя: мероприятия по работе с отклонениями кампейнинга = максимум в III квартале. В анкете campaignDeviations = Да; исходные 3 Jira и 1 Confluence сохранены."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 1,
+    "evidenceLinks": 4
+  }
+}

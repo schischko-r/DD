@@ -1,0 +1,36 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedKaskoMonety20261030",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedKaskoMonety20261030",
+            "confirmedBy": "user",
+            "date": "2026-10-30",
+            "period": "III кв. 2026",
+            "rule": "Последнее явное указание пользователя: обеим указанным метрикам КАСКО/Монеты поставить 1 (100% прежнего максимума). Предыдущее указание 0.5 по анализу оттока Монет заменено последним указанием 1.",
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousSource": null
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 1
+  }
+}

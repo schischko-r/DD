@@ -19,6 +19,7 @@ DEFAULT_INPUT = ROOT / "flat_table.xlsx"
 DEFAULT_LEGACY_OUTPUT = ROOT / "final_report_from_excel.html"
 DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_BACKLOG_INPUT = ROOT / "sbertrack_all_full_history_to_export.xlsx"
+DEFAULT_BACKLOG_ADDITIONAL_INPUT = ROOT / "tickets_final.xlsx"
 DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_MATURITY_DATA = ROOT / "gravity-app" / "public" / "data-maturity.json"
 DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlog.json"
@@ -127,16 +128,21 @@ def build(args: argparse.Namespace) -> None:
             report_command.append("--no-update-crosssell")
 
         run(report_command)
-        run(
-            [
-                sys.executable,
-                str(ROOT / "build_backlog_data.py"),
-                "--input",
-                str(args.backlog_input),
-                "--output",
-                str(args.backlog_data),
-            ]
-        )
+        backlog_command = [
+            sys.executable,
+            str(ROOT / "build_backlog_data.py"),
+            "--input",
+            str(args.backlog_input),
+        ]
+        additional_backlogs = args.backlog_additional_input
+        if additional_backlogs is None:
+            additional_backlogs = [DEFAULT_BACKLOG_ADDITIONAL_INPUT] if (
+                args.backlog_input.resolve() == DEFAULT_BACKLOG_INPUT.resolve() and DEFAULT_BACKLOG_ADDITIONAL_INPUT.is_file()
+            ) else []
+        for additional_backlog in additional_backlogs:
+            backlog_command.extend(['--additional-input', str(additional_backlog)])
+        backlog_command.extend(['--output', str(args.backlog_data)])
+        run(backlog_command)
         if args.data_only:
             return
 
@@ -156,6 +162,7 @@ def build(args: argparse.Namespace) -> None:
         print(f"Outflow HTML saved: {archived_page}")
 
     npm_environment = frontend_environment()
+    npm_environment["DDI_REPORT_DATA_PATH"] = str(args.data_output.resolve())
     if full_data_build:
         run(
             [npm_command, "run", "build:clickstream"],
@@ -210,6 +217,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         default=configured_path("REPORT_JSON", DEFAULT_DATA_OUTPUT),
     )
     parser.add_argument("--backlog-input", type=Path, default=DEFAULT_BACKLOG_INPUT)
+    parser.add_argument('--backlog-additional-input', type=Path, action='append', default=None)
     parser.add_argument("--backlog-data", type=Path, default=DEFAULT_BACKLOG_DATA)
     parser.add_argument("--maturity-data", type=Path, default=DEFAULT_MATURITY_DATA)
     parser.add_argument("--initiatives-data", type=Path, default=DEFAULT_INITIATIVES_DATA)

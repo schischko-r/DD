@@ -1,0 +1,72 @@
+{
+  "period": "III кв. 2026",
+  "scope": "goals-assessment",
+  "source": {
+    "snapshotFile": "outputs/goals-navigator-update-2026-10-30/before.json",
+    "snapshotSha256": "40ae59a7f048c0f5f8849751b49bf00f0aadf2a194e8c0abfb2c79e2fc3dfc78",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "metrics": {
+        "goals.monitored": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedBnplGoalsCarryForward",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "file": "gravity-app/public/report-data.json",
+            "sha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+            "sourceTeamId": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+            "sourceMetricCode": "goals.monitored",
+            "sourceValue": 1,
+            "sourceMaxValue": 1,
+            "rule": "Для BNPL три оценки целей III квартала переносятся без изменений из II квартала."
+          }
+        },
+        "goals.factor_analysis_l1_l2": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedBnplGoalsCarryForward",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "file": "gravity-app/public/report-data.json",
+            "sha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+            "sourceTeamId": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+            "sourceMetricCode": "goals.factor_analysis_l1_l2",
+            "sourceValue": 0,
+            "sourceMaxValue": 1,
+            "rule": "Для BNPL три оценки целей III квартала переносятся без изменений из II квартала."
+          }
+        },
+        "goals.forecast": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedBnplGoalsCarryForward",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "file": "gravity-app/public/report-data.json",
+            "sha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+            "sourceTeamId": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+            "sourceMetricCode": "goals.forecast",
+            "sourceValue": 0,
+            "sourceMaxValue": 1,
+            "rule": "Для BNPL три оценки целей III квартала переносятся без изменений из II квартала."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 1,
+    "facts": 3
+  }
+}

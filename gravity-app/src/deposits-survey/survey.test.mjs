@@ -77,7 +77,7 @@ test('mechanics relevance, multiple selection and conditional mandatory comment'
   assert.equal(needsComment(q, {upsell: combined}), true);
   assert.equal(hasAnswer(q, {upsell: combined}), false);
   assert.equal(hasAnswer(q, {upsell: combined, mechanics: '   '}), false);
-  assert.equal(hasAnswer(q, {upsell: combined, mechanics: 'Описание'}), true);
+  assert.equal(hasAnswer(q, {upsell: combined, mechanics: 'Описание', retentionMechanism: ['Затрудняюсь ответить'], returnMechanism: ['Затрудняюсь ответить']}), true);
   for (const negative of q.options.slice(3)) {
     assert.deepEqual(toggleOption(combined, negative), [negative]);
     assert.deepEqual(toggleOption([negative], positive[2]), [positive[2]]);
@@ -303,10 +303,10 @@ for (const [direction, row] of [['attract', 56], ['churn', 79]]) {
     assert.equal(needsEvidence(includes, positive), true);
     assert.equal(needsEvidence(analysis, positive), false);
     assert.equal(hasAnswer(includes, positive), false);
-    for (const invalid of ['example.test/report', 'ftp://example.test/report', 'javascript:alert(1)', '   ']) {
+    for (const invalid of ['invalid', 'ftp://example.test/report', 'javascript:alert(1)', '   ']) {
       assert.equal(hasEvidence(includes, {...positive, [formatId]: 'link', [reportId]: invalid}), false);
     }
-    for (const valid of ['https://example.test/report', 'http://example.test/report']) {
+    for (const valid of ['example.test/report', 'https://example.test/report', 'http://example.test/report']) {
       assert.equal(hasAnswer(includes, {...positive, [formatId]: 'link', [reportId]: valid}), true);
     }
     assert.equal(hasAnswer(includes, {...positive, [formatId]: 'excel'}), true);
@@ -391,40 +391,33 @@ test('inline attraction benchmark proof validates content and preserves evidence
   }
 });
 
-test('Discovery requires inline backlog evidence for percentages and omits stale evidence when absent', () => {
-  const questions = sections.find(s => s.id === 'research').questions;
-  const parent = questions.find(q => q.id === 'discovery');
-  const child = questions.find(q => q.id === 'backlog');
-  assert.deepEqual(parent.inlineProof, {id: 'backlog', row: 121, kind: 'backlog', title: child.title, placeholder: 'Приложите бэклог в Jira/SberTrack, в которой команды ведут задачи.'});
-  assert.equal(child.inlineOnly, true);
+test('Discovery requires a backlog type for percentages, a valid link only for own backlog, and omits hidden branches', () => {
+  const parent = getSections({product: enabledTeam.id}).flatMap(s => s.questions).find(q => q.id === 'discovery');
+  const child = inlineQuestions(parent)[0];
+  assert.equal(child.id, 'discoveryBacklogType');
+  assert.equal(parent.options[4], 'Нет аналитиков');
   for (const percent of parent.options.slice(0, 4)) {
-    assert.equal(needsProof(parent, {discovery: percent}), true);
-    for (const proof of [undefined, '', '   ']) {
-      assert.equal(hasAnswer(parent, {discovery: percent, backlog: proof}), false);
-      assert.throws(() => buildSurveyResult({...completedAnswers(), discovery: percent, backlog: proof}), /Incomplete/);
+    assert.equal(hasAnswer(parent, {discovery: percent}), false);
+    for (const [i, option] of child.options.entries()) {
+      const base = {...completedAnswers(), discovery: percent, discoveryBacklogType: option, discoveryBacklogComment: '  ФИО или комментарий\n  '};
+      if (i === 0) {
+        assert.equal(hasAnswer(parent, {...base, backlog: 'confluence.sberbank.ru/report'}), false);
+        base.backlog = 'jira.sberbank.ru/browse/DA-1\nhttps://sbertrack.sberbank.ru/DA-2';
+      }
+      assert.equal(hasAnswer(parent, base), true);
+      const result = buildSurveyResult(base);
+      assert.equal(result.answers.discoveryBacklogType, option);
+      if (i === 0) assert.equal(result.answers.backlog, base.backlog);
+      else {assert.ok(!('backlog' in result.answers)); assert.equal(result.answers.discoveryBacklogComment, base.discoveryBacklogComment);}
+      const metric = result.result.metrics.find(m => m.code === 'hyp.discovery_40_backlog');
+      assert.equal(metric.value, parent.options.indexOf(percent) < 2 ? metric.maxValue : 0);
     }
-    const proof = 'https://jira.sberbank.ru/browse/DA-1';
-    assert.equal(hasAnswer(parent, {discovery: percent, backlog: proof}), true);
-    const result = buildSurveyResult({...completedAnswers(), discovery: percent, backlog: proof});
-    assert.equal(result.answers.backlog, proof);
-    assert.equal(result.questionRows.backlog, 121);
-    assert.deepEqual(result.questionSources.backlog, {sheet: 'Продукты (2)', row: 121});
-    const metric = result.result.metrics.find(metric => metric.code === 'hyp.discovery_40_backlog');
-    assert.equal(metric.evidence, proof);
-    assert.equal(metric.value, parent.options.indexOf(percent) < 2 ? metric.maxValue : 0);
   }
   for (const absent of parent.options.slice(4)) {
-    assert.equal(needsProof(parent, {discovery: absent}), false);
-    const staff = absent === 'Нет собственных аналитиков' ? 'Штаб: клиентская аналитика, Иванов Иван Иванович' : undefined;
-    assert.equal(hasAnswer(parent, {discovery: absent, discoveryStaff: staff}), true);
-    if (staff) {
-      assert.equal(hasAnswer(parent, {discovery: absent}), true);
-      assert.equal(hasAnswer(parent, {discovery: absent, discoveryStaff: '   '}), true);
-    }
-    const result = buildSurveyResult({...completedAnswers(), discovery: absent, discoveryStaff: staff || 'stale', backlog: 'stale'});
-    assert.equal(result.answers.discoveryStaff, staff);
-    assert.ok(!('backlog' in result.answers));
-    assert.equal(result.result.metrics.find(metric => metric.code === 'hyp.discovery_40_backlog').evidence, null);
+    const base = {...completedAnswers(), discovery: absent, backlog: 'stale', discoveryBacklogComment: 'stale'};
+    assert.equal(hasAnswer(parent, base), true);
+    const result = buildSurveyResult(base);
+    for (const field of ['backlog', 'discoveryBacklogType', 'discoveryBacklogComment']) assert.ok(!(field in result.answers));
   }
 });
 
@@ -535,26 +528,18 @@ test('single-question flow requires every answer, preserves answers and applies 
       assert.equal(channelOption, undefined, 'Removed channels cannot be selected');
       await write(filter, 'Вклады');
       const option = [...doc.querySelectorAll('[role="option"], .g-select-list__option, .g-list__item')].find(n => n.textContent.trim() === 'Вклады+НС'); assert.ok(option, `Select option rendered: ${[...doc.querySelectorAll('[role]')].map(n => n.getAttribute('role')).join(',')}`); option.click(); await pause();
-    } else if (doc.querySelector('.survey-single-question').dataset.questionId === 'goalsForecast') {
-      const cards = doc.querySelectorAll('.survey-goals-question');
-      assert.equal(cards.length, 2, 'Both Goals questions share the same card styling');
-      const forecast = cards[0].querySelector('.survey-radio');
-      const factor = cards[1];
-      const firstHeadingStyle = dom.window.getComputedStyle(cards[0].querySelector('h1'));
-      const secondHeadingStyle = dom.window.getComputedStyle(cards[1].querySelector('h2'));
-      for (const property of ['fontSize', 'fontWeight', 'lineHeight', 'letterSpacing']) {
-        assert.equal(firstHeadingStyle[property], secondHeadingStyle[property], `Goals heading ${property} matches`);
-      }
-      assert.equal(factor.querySelector('h2').textContent, 'У всех ли метрических целей уровня PO есть факторный анализ?');
-      const nextButton = () => [...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее'));
-      forecast.querySelector('input[value="Да, >90%"] ').click(); await pause();
-      assert.equal(nextButton().getAttribute('aria-disabled'), 'true', 'Factor answer is independently required');
-      factor.querySelector('input[value="Частично, <90%"] ').click(); await pause();
-      assert.equal(nextButton().getAttribute('aria-disabled'), 'false');
     } else if (doc.querySelector('.survey-single-question').dataset.questionId === 'goalsMonitoring') {
       doc.querySelector('.survey-radio input[value=\"Да (включены все цели)\"]').click(); await pause();
       assert.equal(doc.querySelector('.survey-section-number').textContent, 'Раздел 2');
       assert.equal(doc.querySelector('.survey-section-intro h2').textContent, 'Цели');
+      const cards = doc.querySelectorAll('.survey-goals-question');
+      assert.equal(cards.length, 2);
+      assert.equal(doc.activeElement !== doc.querySelector('.survey-link-fields input'), true, 'Expanding Goals does not focus the bottom link');
+      const styles = [...cards].map(card => dom.window.getComputedStyle(card.querySelector('h2')));
+      for (const prop of ['fontSize', 'fontWeight', 'lineHeight', 'letterSpacing']) assert.equal(styles[0][prop], styles[1][prop]);
+      cards[0].querySelector('input[value="Да, >90%"] ').click(); await pause();
+      cards[1].querySelector('input[value="Частично, <90%"] ').click(); await pause();
+
       const fields = () => [...doc.querySelectorAll('.survey-link-fields input')];
       const nextDisabled = () => [...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled');
       await click('Далее');
@@ -562,7 +547,7 @@ test('single-question flow requires every answer, preserves answers and applies 
       await write(fields()[0], 'https://example.test/kpi');
       await click('Добавить ещё');
       assert.equal(fields().length, 2);
-      assert.equal(doc.activeElement, fields()[1]);
+      assert.equal(doc.activeElement === fields()[1], true, 'Added KPI link receives focus');
       await write(fields()[1], 'invalid');
       assert.equal(nextDisabled(), 'true');
       assert.equal(fields()[1].getAttribute('aria-invalid'), 'true');
@@ -579,14 +564,16 @@ test('single-question flow requires every answer, preserves answers and applies 
       doc.querySelector('input[value="excel"]').click(); await pause();
       assert.equal(fields().length, 0);
       assert.equal(nextDisabled(), 'false');
-      assert.ok(new URL(doc.querySelector('.survey-excel-notice a').href).searchParams.get('subject').includes(enabledTeam.name));
+      assert.equal(doc.querySelector('.survey-excel-notice'), null);
+      assert.equal(doc.querySelector('.survey-mail-details'), null);
+      assert.equal(doc.querySelector('.survey-excel-notice'), null);
       doc.querySelector('input[value="link"]').click(); await pause();
       assert.equal(fields().length, 1);
       assert.equal(fields()[0].value, '');
       assert.equal(nextDisabled(), 'true');
       doc.querySelector('input[value="unknown"]').click(); await pause();
       assert.equal(fields().length, 0);
-      assert.equal(doc.querySelector('.survey-excel-notice'), null);
+      assert.equal(doc.querySelector('.survey-excel-notice') === null, true);
       assert.equal(nextDisabled(), 'false');
     } else if (doc.querySelector('.survey-answer > .survey-radio input, .survey-answer > .survey-options input')) {
       doc.querySelector('.survey-answer > .survey-radio input:not(:disabled), .survey-answer > .survey-options input:not(:disabled)').click(); await pause();
@@ -608,17 +595,17 @@ test('single-question flow requires every answer, preserves answers and applies 
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled'), 'true');
         await click('Далее');
         assert.equal(doc.querySelector('#alertsComment').getAttribute('aria-invalid'), 'true');
-        assert.equal(doc.querySelector('.survey-radio').getAttribute('aria-invalid'), null, 'A selected radio is valid; the missing comment is highlighted');
+        assert.equal(doc.querySelector('.survey-radio').getAttribute('aria-invalid') === null, true, 'A selected radio is valid; the missing comment is highlighted');
         await write(doc.querySelector('#alertsComment'), 'Уведомления по электронной почте при отклонении метрик');
         cards[2].querySelector('input').click(); await pause();
-        assert.equal(doc.querySelector('#alertsComment'), null);
+        assert.equal(doc.querySelector('#alertsComment') === null, true);
         cards[1].querySelector('input').click(); await pause();
         assert.equal(doc.querySelector('#alertsComment').value, 'Уведомления по электронной почте при отклонении метрик');
         doc.querySelector('h1').focus(); await pause();
         cards[3].dispatchEvent(new dom.window.MouseEvent('mouseenter', {bubbles: false})); await pause();
-        assert.equal(doc.querySelector('[role="tooltip"]'), null, 'Unknown has no hover hint');
+        assert.equal(doc.querySelector('[role="tooltip"]') === null, true, 'Unknown has no hover hint');
         cards[3].querySelector('input').focus(); await pause();
-        assert.equal(doc.querySelector('[role="tooltip"]'), null, 'Unknown has no keyboard hint');
+        assert.equal(doc.querySelector('[role="tooltip"]') === null, true, 'Unknown has no keyboard hint');
         doc.querySelector('h1').focus(); await pause();
       }
       if (['attractIncludes', 'churnIncludes'].includes(doc.querySelector('.survey-single-question').dataset.questionId)) {
@@ -627,7 +614,7 @@ test('single-question flow requires every answer, preserves answers and applies 
         const existing = doc.querySelectorAll('.survey-known-funnel');
         assert.equal(existing.length, direction === 'churn' ? 2 : 3);
         assert.ok(doc.querySelector('.survey-options').firstElementChild.classList.contains('survey-known-funnel'));
-        assert.equal(doc.querySelector('.survey-clickstream-history'), null, 'Clickstream shares the common history layout');
+        assert.equal(doc.querySelector('.survey-clickstream-history') === null, true, 'Clickstream shares the common history layout');
         assert.equal(doc.querySelectorAll('.survey-previous-evidence').length, direction === 'attract' ? 1 : 0);
         if (direction === 'attract') {
           assert.match(existing[0].textContent, /Пошаговая воронка/);
@@ -650,7 +637,7 @@ test('single-question flow requires every answer, preserves answers and applies 
           assert.ok(doc.querySelector('.survey-options').compareDocumentPosition(evidence) & dom.window.Node.DOCUMENT_POSITION_FOLLOWING, 'Metric choices precede links');
           assert.equal(evidence.querySelector('ol a').href, 'https://clickstream.sberbank.ru/frontend/sbol/reports/funnels/34601');
           assert.equal(doc.querySelector('.question-hint').textContent, 'Можно выбрать несколько вариантов');
-          assert.equal(doc.querySelector('.survey-selection-hint').textContent, 'Можно выбрать несколько вариантов');
+          assert.equal(doc.querySelector('.question-hint').textContent, 'Можно выбрать несколько вариантов');
           assert.ok(evidence.querySelector('textarea') === null);
           assert.ok(evidence.querySelector('input[type=radio]') === null);
           const keep = [...evidence.querySelectorAll('button')].find(button => button.textContent === 'Не требуется корректировки');
@@ -659,26 +646,14 @@ test('single-question flow requires every answer, preserves answers and applies 
           await pause();
           assert.equal(evidence.querySelector('input[type=url]').value, 'https://clickstream.sberbank.ru/frontend/sbol/reports/funnels/34601');
         }
-        assert.equal(evidence.querySelector('.survey-excel-notice'), null);
+        assert.equal(evidence.querySelector('.survey-excel-notice') === null, true);
         evidence.querySelector('input[value="excel"]').click(); await pause();
-        const notice = evidence.querySelector('.survey-excel-notice');
-        assert.match(notice.textContent, /Пожалуйста, направьте отчетность нам по почте, чтобы мы могли учесть её при оценке\./);
-        assert.equal(notice.querySelector('a').getAttribute('href'), `mailto:MYCherkova@sberbank.ru,RGShishko@sberbank.ru,ASAntandze@sberbank.ru?subject=${encodeURIComponent(`3Q_DDI - ${enabledTeam.name} - Источники`)}`);
-        const mailLink = notice.querySelector('a');
-        assert.equal(mailLink.target, '_blank');
-        const mailEnter = new dom.window.KeyboardEvent('keydown', {key: 'Enter', bubbles: true, cancelable: true});
-        mailLink.dispatchEvent(mailEnter);
-        assert.equal(mailEnter.defaultPrevented, false, 'Enter on mail link keeps native link activation');
-        assert.equal(doc.querySelector('.survey-single-form') !== null, true);
-        mailLink.click(); await pause();
-        assert.equal(notice.querySelector('details').open, true, 'Click reveals a manual mail fallback');
-        assert.equal(notice.querySelector('[aria-label="Получатели отчётности"]').value, 'MYCherkova@sberbank.ru,RGShishko@sberbank.ru,ASAntandze@sberbank.ru');
-        assert.equal(notice.querySelector('[aria-label="Тема письма с отчётностью"]').value, `3Q_DDI - ${enabledTeam.name} - Источники`);
-
-        assert.equal(notice.parentElement, evidence);
+        assert.equal(evidence.querySelector('.survey-excel-notice'), null);
+        assert.equal(evidence.querySelector('.survey-mail-details'), null);
+        assert.doesNotMatch(evidence.textContent, /направьте отчетность|Адреса и тема письма/);
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', false);
         evidence.querySelector('input[type="radio"]').click(); await pause();
-        assert.equal(evidence.querySelector('.survey-excel-notice'), null, 'Switching to a link hides the Excel notice');
+        assert.equal(evidence.querySelector('.survey-excel-notice') === null, true, 'Switching to a link hides the Excel notice');
         const link = doc.querySelector('.survey-inline-evidence input[type="url"], .survey-inline-evidence textarea');
         assert.ok(link, 'Link format reveals URL field');
         await write(link, 'not-a-link');
@@ -686,12 +661,12 @@ test('single-question flow requires every answer, preserves answers and applies 
         await write(link, `https://example.test/${direction}-report`);
       }
       if (['attractAnalysis', 'churnAnalysis'].includes(doc.querySelector('.survey-single-question').dataset.questionId)) {
-        assert.equal(doc.querySelector('.survey-inline-evidence'), null, 'Analysis never asks for the funnel itself');
+        assert.equal(doc.querySelector('.survey-inline-evidence') === null, true, 'Analysis never asks for the funnel itself');
         const action = [...doc.querySelectorAll('.survey-answer > .survey-options .g-checkbox')]
           .find(node => node.textContent.includes('Зафиксирован пул мероприятий'));
         assert.ok(action, 'Actions are an analysis checkbox');
         action.querySelector('input').click(); await pause();
-        assert.equal(doc.querySelector('.survey-inline-question textarea'), null, 'Actions need confirmation without a duplicate description');
+        assert.equal(doc.querySelector('.survey-inline-question textarea') === null, true, 'Actions need confirmation without a duplicate description');
         const evidence = doc.querySelector('.survey-inline-evidence');
         assert.ok(evidence, 'Actions retain their own confirmation');
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', true);
@@ -706,7 +681,7 @@ test('single-question flow requires every answer, preserves answers and applies 
         evidence.querySelector('input[value="other"]').click(); await pause();
         assert.equal(evidence.querySelector('textarea').value, '');
         await write(evidence.querySelector('textarea'), 'Другое подтверждение');
-        assert.equal(evidence.querySelector('.survey-excel-notice'), null);
+        assert.equal(evidence.querySelector('.survey-excel-notice') === null, true);
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', false);
         action.querySelector('input').click(); await pause();
         assert.ok(!doc.querySelector('.survey-inline-question textarea'));
@@ -720,7 +695,7 @@ test('single-question flow requires every answer, preserves answers and applies 
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', true);
         await click('Далее');
         assert.equal(evidence.querySelector('[role="radiogroup"]').getAttribute('aria-invalid'), 'true');
-        assert.equal(doc.querySelector('.survey-answer > .survey-radio').getAttribute('aria-invalid'), null, 'Answered main radio stays valid');
+        assert.equal(doc.querySelector('.survey-answer > .survey-radio').getAttribute('aria-invalid') === null, true, 'Answered main radio stays valid');
         evidence.querySelector('input[value="link"]').click(); await pause();
         assert.equal(evidence.querySelector('input[type="url"]').getAttribute('aria-invalid'), 'true');
         await write(evidence.querySelector('input[type="url"]'), 'invalid');
@@ -729,34 +704,33 @@ test('single-question flow requires every answer, preserves answers and applies 
         assert.notEqual(evidence.querySelector('input[type="url"]').getAttribute('aria-invalid'), 'true');
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', false);
         evidence.querySelector('input[value="excel"]').click(); await pause();
-        assert.ok(evidence.querySelector('.survey-excel-notice'));
+        assert.equal(evidence.querySelector('.survey-excel-notice'), null);
         doc.querySelector('.survey-answer > .survey-radio input[value="Нет"]').click(); await pause();
         assert.ok(!doc.querySelector('.survey-inline-evidence'));
         assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', false);
       }
       if (doc.querySelector('.survey-single-question').dataset.questionId === 'discovery') {
-        const proof = doc.querySelector('textarea');
-        assert.ok(proof, 'Positive Discovery answer reveals inline backlog evidence');
-        assert.equal(proof.id, 'backlog');
-        assert.ok(doc.activeElement === proof, 'New backlog field receives focus');
-        assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', true);
-        assert.equal(proof.placeholder, 'Приложите бэклог в Jira/SberTrack, в которой команды ведут задачи.');
-        await write(proof, 'https://confluence.sberbank.ru/page');
+        assert.equal(doc.querySelector('#backlog') === null, true, 'Percentage first requires a backlog type');
+        const choose = async value => {doc.querySelector(`input[value="${value}"]`).click(); await pause();};
+        await choose('Собственный бэклог в Jira/SberTrack');
+        const proof = doc.querySelector('#backlog');
+        assert.ok(proof);
+        await write(proof, 'confluence.sberbank.ru/page');
         await click('Далее');
         assert.equal(proof.getAttribute('aria-invalid'), 'true');
-        assert.equal(doc.querySelector('.survey-single-question').dataset.questionId, 'discovery');
         await write(proof, 'https://jira.sberbank.ru/browse/DA-1');
-        doc.querySelector('input[value="Нет собственных аналитиков"]').click(); await pause();
-        assert.ok(!doc.querySelector('#backlog'));
-        const staff = doc.querySelector('.survey-inline-question textarea');
-        assert.ok(staff);
-        assert.match(staff.closest('.survey-inline-question').textContent, /Если функцию аналитики выполняет Штаб/);
-        assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', false);
-        await write(staff, 'Штаб: клиентская аналитика, Иванов Иван Иванович');
-        assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', false);
-        doc.querySelector('input[value="Больше 80%"]').click(); await pause();
-        assert.ok(!doc.querySelector('#discoveryStaff'));
-        assert.equal(doc.querySelector('textarea').value, 'https://jira.sberbank.ru/browse/DA-1');
+        await choose('Задачи ведет Штаб в Jira/SberTrack');
+        assert.equal(doc.querySelector('#backlog') === null, true);
+        assert.match(doc.querySelector('.survey-optional-comment h2').textContent, /ФИО сотрудников/);
+        await write(doc.querySelector('#discoveryBacklogComment'), '  Иванов Иван Иванович  ');
+        await choose('Бэклог ведется вне Jira/SberTrack');
+        assert.match(doc.querySelector('.survey-optional-comment h2').textContent, /Комментарий при необходимости/);
+        await choose('Нет аналитиков');
+        assert.equal(doc.querySelector('.survey-inline-question') === null, true);
+        assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled'), 'false');
+        await choose('Больше 80%');
+        await choose('Собственный бэклог в Jira/SberTrack');
+        assert.equal(doc.querySelector('#backlog').value, 'https://jira.sberbank.ru/browse/DA-1');
       }
       if (doc.querySelector('.survey-single-question').dataset.questionId === 'upsell') {
         const known = doc.querySelectorAll('.survey-known-mechanic input[type="checkbox"]');
@@ -814,8 +788,8 @@ test('single-question flow requires every answer, preserves answers and applies 
         const unavailable = doc.querySelector('.survey-inline-evidence input[value="unavailable"]');
         unavailable.click(); await pause();
         assert.equal(nextDisabled(), false, 'Cannot provide link allows empty optional comment');
-        assert.equal(doc.querySelector('.survey-inline-evidence input[type="url"]'), null);
-        assert.equal(doc.querySelector('.survey-excel-notice'), null);
+        assert.equal(doc.querySelector('.survey-inline-evidence input[type="url"]') === null, true);
+        assert.equal(doc.querySelector('.survey-excel-notice') === null, true);
         await write(doc.querySelector('.survey-inline-evidence textarea'), 'Источник временно недоступен');
         const own = doc.querySelector('.survey-inline-evidence');
         own.querySelector('input[value="link"]').click(); await pause();
@@ -823,7 +797,7 @@ test('single-question flow requires every answer, preserves answers and applies 
         const add = [...own.querySelectorAll('button')].find(button => button.textContent === 'Добавить ещё');
         add.click(); await pause();
         assert.equal(own.querySelectorAll('input[type="url"]').length, 2);
-        assert.equal(doc.activeElement, own.querySelectorAll('input[type="url"]')[1]);
+        assert.equal(doc.activeElement === own.querySelectorAll('input[type="url"]')[1], true, 'Added report link receives focus');
         await write(own.querySelectorAll('input[type="url"]')[1], 'invalid');
         assert.equal(nextDisabled(), true);
         await write(own.querySelectorAll('input[type="url"]')[1], 'https://two.test/source');
@@ -834,7 +808,7 @@ test('single-question flow requires every answer, preserves answers and applies 
         assert.equal(own.querySelector('input[type="url"]').value, 'https://one.test/source');
         doc.querySelector('.survey-evidence-options input[value="excel"]').click(); await pause();
         assert.equal(nextDisabled(), false);
-        assert.equal(doc.querySelector('.survey-excel-notice a').getAttribute('href'), `mailto:MYCherkova@sberbank.ru,RGShishko@sberbank.ru,ASAntandze@sberbank.ru?subject=${encodeURIComponent(`3Q_DDI - ${enabledTeam.name} - Источники`)}`);
+        assert.equal(doc.querySelector('.survey-excel-notice'), null);
         await choose('Запрос у аналитиков');
         assert.ok(doc.querySelector('.survey-inline-evidence') === null, 'Analyst request has no orange wrapper');
         assert.ok(doc.querySelector('.survey-other-answer') === null, 'Analyst request needs no follow-up');
@@ -885,7 +859,7 @@ test('single-question flow requires every answer, preserves answers and applies 
     assert.ok(doc.activeElement === doc.querySelector('h1'), 'Cover starts with its heading focused');
     assert.ok(doc.querySelector('.survey-source-table') === null, 'No invented team summary before selection');
     assert.equal([...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).getAttribute('aria-disabled') === 'true', true);
-    assert.equal(doc.querySelector('[aria-invalid="true"]'), null);
+    assert.equal(doc.querySelector('[aria-invalid="true"]') === null, true);
     [...doc.querySelectorAll('button')].find(b => b.textContent.includes('Далее')).click();
     await pause();
     assert.match(doc.querySelector('[role="alert"]').textContent, /Заполните обязательные поля/);
@@ -956,8 +930,8 @@ test('single-question flow requires every answer, preserves answers and applies 
       if (currentId === 'product') {
         const select = dom.window.document.querySelector('[role="combobox"]');
         assert.equal(select.getAttribute('aria-expanded'), 'false', 'Team dropdown starts closed');
-        assert.notEqual(dom.window.document.activeElement, select, 'Team dropdown is not automatically focused');
-        assert.equal(dom.window.document.querySelector('[role="listbox"]'), null);
+        assert.equal(dom.window.document.activeElement !== select, true, 'Team dropdown is not automatically focused');
+        assert.equal(dom.window.document.querySelector('[role="listbox"]') === null, true);
       }
       if (currentId === 'crossSellAfter') {
         assert.match(dom.window.document.querySelector('.survey-info-copy').textContent, /по цифровым следам с платформы LossHunter/);
@@ -990,13 +964,13 @@ test('single-question flow requires every answer, preserves answers and applies 
       } else await click('Далее');
       screenCount++;
     }
-    assert.equal(screenCount, 15, 'Cross-sell notice and question share one step');
+    assert.equal(screenCount, getSections(completedAnswers()).flatMap(s => visibleQuestions(s, false, completedAnswers())).filter(q => q.section?.id !== 'intro' && !['name', 'product'].includes(q.id)).length + 1);
     assert.match(dom.window.document.querySelector('h1').textContent, /Проверьте ответы/);
-    assert.equal(dom.window.document.querySelectorAll('.review-answer').length, 16);
+    assert.equal(dom.window.document.querySelectorAll('.review-answer').length, screenCount + 1);
     assert.ok(dom.window.document.querySelector('.review-metric-comment').textContent.includes('Метрика за последний доступный период'));
-    assert.equal(dom.window.document.querySelector('.review-answer p p'), null, 'Review comments do not nest paragraphs');
+    assert.equal(dom.window.document.querySelector('.review-answer p p') === null, true, 'Review comments do not nest paragraphs');
     const reviewItems = [...dom.window.document.querySelectorAll('.survey-progress-step')];
-    assert.equal(reviewItems.length, 15);
+    assert.equal(reviewItems.length, screenCount);
     assert.ok(reviewItems.every(item => item.getAttribute('aria-disabled') !== 'true'), 'Review permits editing any question');
     const evidenceLinks = [...dom.window.document.querySelectorAll('.review-inline-evidence a')].map(link => link.href);
     assert.deepEqual(evidenceLinks, ['https://example.test/attract-report', 'https://example.test/churn-report']);
@@ -1028,7 +1002,7 @@ test('single-question flow requires every answer, preserves answers and applies 
     assert.ok([...dom.window.document.querySelectorAll('.survey-progress-step')].every(item => item.getAttribute('aria-disabled') !== 'true'), 'Editing permits selecting any question');
     let other = [...dom.window.document.querySelectorAll('.g-checkbox')].find(n => n.textContent.trim() === 'Другое');
     other.querySelector('input').click(); await pause();
-    assert.equal(dom.window.document.querySelector('textarea'), null);
+    assert.equal(dom.window.document.querySelector('textarea') === null, true);
     await click('Сохранить и вернуться');
     const supportReview = [...dom.window.document.querySelectorAll('.review-answer')].find(n => n.querySelector('b').textContent === supportTitle);
     assert.doesNotMatch(supportReview.textContent, /Нужны инструменты/);
@@ -1097,10 +1071,8 @@ test('single-question flow requires every answer, preserves answers and applies 
     assert.match(ideas.textContent, /Вы находитесь на платформе LossHunter/);
     assert.equal(dom.window.document.querySelectorAll('.finish-feature').length, 5);
     const crossSellCard = dom.window.document.querySelector('.finish-crosssell');
-    assert.match(crossSellCard.textContent, /Не забудьте посмотреть статус Cross-sell по ссылке/);
-    const crossSellLink = crossSellCard.querySelector('a');
-    assert.equal(crossSellLink.href, 'https://losshunter.ru/showcase/crosssell/#screen=pult');
-    assert.equal(crossSellLink.target, '_blank');
+    assert.ok(crossSellCard, 'Prior partial Cross-sell and positive current answer retain the reminder');
+    assert.equal(crossSellCard.querySelector('a').href, 'https://losshunter.ru/showcase/crosssell/#screen=pult');
     assert.equal(payload.answers.crossSellInfo, undefined);
     assert.equal(payload.questionSources.crossSellInfo, undefined);
     assert.equal(dom.window.document.querySelectorAll('.finish-stats strong').length, 3);
@@ -1138,6 +1110,7 @@ test('every product has one Cross-sell screen with the notice above its question
     const flow = getSections(answers).flatMap(section => visibleQuestions(section, false, answers));
     assert.ok(!flow.some(q => q.id === 'crossSellInfo'));
     const question = flow.find(q => q.id === 'crossSellAfter');
+    if (!question) continue;
     assert.equal(question.introInfo.type, 'info');
     assert.equal(question.introInfo.id, 'crossSellInfo');
     assert.equal(question.type, 'radio');

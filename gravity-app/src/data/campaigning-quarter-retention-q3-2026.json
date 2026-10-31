@@ -1,0 +1,67 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-confirmed-q2-retention",
+  "source": {
+    "origin": "userConfirmedCampaigningQuarterRetention",
+    "confirmedBy": "user",
+    "date": "2026-10-30"
+  },
+  "products": [
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "modeli_i_ai_proniknovenie.stimulirovanie_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "date": "2026-10-30",
+            "policy": "campaigningFullCriteria",
+            "sourceValue": 1,
+            "sourceMaxValue": 1,
+            "sourceFile": "gravity-app/public/report-data.json",
+            "sourceSha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+            "rule": "Прямой перенос 100% из II квартала только для трёх указанных критериев команды Персональная рекомендация (кампейнинг)."
+          }
+        },
+        "modeli_i_ai_proniknovenie.obuchayuschie_mehaniki": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "date": "2026-10-30",
+            "policy": "campaigningFullCriteria",
+            "sourceValue": 1,
+            "sourceMaxValue": 1,
+            "sourceFile": "gravity-app/public/report-data.json",
+            "sourceSha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+            "rule": "Прямой перенос 100% из II квартала только для трёх указанных критериев команды Персональная рекомендация (кампейнинг)."
+          }
+        },
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "date": "2026-10-30",
+            "policy": "campaigningFullCriteria",
+            "sourceValue": 0.5,
+            "sourceMaxValue": 0.5,
+            "sourceFile": "gravity-app/public/report-data.json",
+            "sourceSha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+            "rule": "Прямой перенос 100% из II квартала только для трёх указанных критериев команды Персональная рекомендация (кампейнинг)."
+          }
+        }
+      }
+    }
+  ]
+}

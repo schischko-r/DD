@@ -1,4 +1,5 @@
 import {previousBacklogs, hasBacklogLinks} from './previous-backlogs.js';
+import {previousGoalsReports} from './previous-goals.js';
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {callCenterSections, callCenterBaseline, callCenterBacklogAnalyzed} from './call-center.js';
 import {productSurveyProfiles} from './survey-profiles.js';
@@ -782,6 +783,7 @@ export function assignFunnelEvidence(section) {
 
 function addGoals(catalogue, product) {
   if (!productSurveyProfiles[product]) return catalogue;
+  const previousGoals = previousGoalsReports[product];
   const result = [...catalogue];
   const metricsIndex = result.findIndex(section => section.id === 'metrics');
   result.splice(metricsIndex >= 0 ? metricsIndex + 1 : 1, 0, {
@@ -798,6 +800,11 @@ function addGoals(catalogue, product) {
           options: ['Да, >90%', 'Частично, <90%', 'Нет']},
         {id: 'goalsDashboards', row: null, type: 'links', when: 'goalsMonitoring',
           title: 'Пожалуйста, приложите ссылку на отчет',
+          ...(previousGoals ? {inlineEvidence: {id: 'goalsDashboards', formatId: 'goalsDashboardsFormat', row: null, always: true, defaultFormat: 'link', unknownId: 'goalsDashboardsUnknown',
+            title: 'Пожалуйста, приложите ссылку на отчет', label: 'Источники мониторинга целей',
+            previousTitle: 'Ранее предоставленная ссылка на отчет по целям:',
+            previousLinks: previousGoals.links, previousSource: {workbook: previousGoals.workbook, sheet: previousGoals.sheet, cell: previousGoals.cell},
+            formats: [{value: 'link', label: 'Ссылки на дашборды'}, {value: 'excel', label: 'Отчетность в формате Excel'}, {value: 'unknown', label: 'Затрудняюсь ответить'}]}} : {}),
           hint: 'Можно указать несколько ссылок. Для каждой дополнительной ссылки нажмите «Добавить ещё».'}
       ]}],
   });
@@ -889,7 +896,33 @@ export function getSections(answers = {}) {
       title: ['attractIncludes', 'churnIncludes'].includes(q.id) ? `Какие метрики вы мониторите в рамках воронки ${q.id === 'attractIncludes' ? 'привлечения' : 'оттока'} по вашему продукту?` : 'Какую отчетность вы используете для мониторинга метрик ниже?',
       hint: ['attractIncludes', 'churnIncludes'].includes(q.id) ? 'Можно выбрать несколько вариантов' : 'Пожалуйста, добавьте ссылку и выберите метрики',
       reportMonitoring: true, evidenceAfterOptions: ['attractIncludes', 'churnIncludes'].includes(q.id),
-    } : q)})).map(section => ({...section, questions: section.questions.map(q => configureReporting(q, profile, section.questions))})).map(assignFunnelEvidence).filter(section => section.questions.length);
+    } : q)})).map(section => ({...section, questions: section.questions.map(q => configureReporting(q, profile, section.questions))})).map(assignFunnelEvidence).filter(section => section.questions.length).map(section => ({...section, questions: section.questions.map(withUiValues)}));
+}
+
+function withUiValues(question) {
+  const displayKeys = ['title', 'hint', 'detail', 'description', 'placeholder', 'sectionDescription', 'optionalCommentTitle', 'reasonTitle', 'reasonPlaceholder', 'whenAnswer'];
+  return {...question,
+    ...Object.fromEntries(displayKeys.filter(key => typeof question[key] === 'string').map(key => [key, correctTypos(question[key])])),
+    ...(question.options ? {options: question.options.map(correctTypos)} : {}),
+    ...(question.previousOptions ? {previousOptions: question.previousOptions.map(correctTypos)} : {}),
+    ...(question.knownOptions ? {knownOptions: question.knownOptions.map(correctTypos)} : {}),
+    ...(question.commentWhen ? {commentWhen: question.commentWhen.map(correctTypos)} : {}),
+    ...(question.optionalCommentWhen ? {optionalCommentWhen: question.optionalCommentWhen.map(correctTypos)} : {}),
+    ...(question.whenOption ? {whenOption: {...question.whenOption, option: correctTypos(question.whenOption.option)}} : {}),
+    ...(question.reasonWhen ? {reasonWhen: correctTypos(question.reasonWhen)} : {}),
+    ...(question.hideWhenAnswer ? {hideWhenAnswer: {...question.hideWhenAnswer, value: correctTypos(question.hideWhenAnswer.value)}} : {}),
+    ...(question.actionOption ? {actionOption: correctTypos(question.actionOption)} : {}),
+    ...(question.dividerBefore ? {dividerBefore: correctTypos(question.dividerBefore)} : {}),
+    ...(question.optionHints ? {optionHints: Object.fromEntries(Object.entries(question.optionHints).map(([option, hint]) => [correctTypos(option), correctTypos(hint)]))} : {}),
+    ...(question.optionMetricCodes ? {optionMetricCodes: Object.fromEntries(Object.entries(question.optionMetricCodes).map(([option, code]) => [correctTypos(option), code]))} : {}),
+    ...(question.introInfo ? {introInfo: withUiValues(question.introInfo)} : {}),
+    ...(question.inlineProof ? {inlineProof: withUiValues(question.inlineProof)} : {}),
+    ...(question.inlineEvidence ? {inlineEvidence: withUiValues(question.inlineEvidence)} : {}),
+    ...(question.formats ? {formats: question.formats.map(format => ({...format, label: correctTypos(format.label)}))} : {}),
+    ...(question.inlineQuestions ? {inlineQuestions: question.inlineQuestions.map(withUiValues)} : {}),
+    ...(question.benchmark ? {benchmark: withUiValues(question.benchmark)} : {}),
+    ...(question.action ? {action: withUiValues(question.action)} : {}),
+  };
 }
 
 export function getBacklogAnalyzed(answers = {}) {
@@ -897,19 +930,59 @@ export function getBacklogAnalyzed(answers = {}) {
   return CHANNEL_SURVEYS_ENABLED && answers.product === callCenterBaseline.teamId ? callCenterBacklogAnalyzed : false;
 }
 
-// Исправляем только очевидные опечатки при отображении; исходный текст Excel
-// и значения выбранных ответов сохраняются.
+// Нормализуем только статические формулировки и перечисления UI/JSON.
+// Свободные ответы, комментарии, URL и исходные снимки истории не проходят через эту функцию.
 export function correctTypos(text) {
   return text
     .replaceAll('Автоматизации (автоклассификация обращений, распределения очередей / сплитов /лидов)', 'Автоматизация: классификация обращений, распределение очередей, сплитов и лидов')
+    .replaceAll('Автоматизации (распределения очередей / сплитов /лидов)', 'Автоматизация: распределение очередей, сплитов и лидов')
     .replaceAll('кагортный', 'когортный')
     .replaceAll('Сегментный/ когортный', 'Сегментный/когортный')
+    .replaceAll('Сегментный/Когортный', 'Сегментный/когортный')
     .replaceAll('потрери', 'потери')
     .replaceAll('неподходят', 'не подходят')
     .replaceAll('Выберете ваш юнит', 'Выберите ваш юнит')
     .replaceAll('оценка результативности компаний', 'оценка результативности кампаний')
     .replaceAll('ТОР 3', 'ТОП-3')
+    .replaceAll('TOP-3', 'ТОП-3')
+    .replaceAll('Топ-3', 'ТОП-3')
+    .replaceAll('Продукты драйверы', 'Продукты-драйверы')
+    .replaceAll('Каналы, Самоходы, Органический рост, Кампейнинг, Маркетинг', 'каналы, самоходы, органический рост, кампейнинг, маркетинг')
+    .replaceAll('Премиальные офисы', 'премиальные офисы')
+    .replaceAll('( Например:', '(например:')
+    .replaceAll('(Например:', '(например:')
+    .replaceAll('не дозвонов', 'недозвонов')
+    .replaceAll('Предотточные', 'Предоттоковые')
+    .replaceAll('предотточных', 'предоттоковых')
+    .replaceAll('механника', 'механика')
+    .replaceAll('механники', 'механики')
+    .replaceAll('На чем основа механика', 'На чем основана механика')
+    .replaceAll('каммуникац', 'коммуникац')
+    .replaceAll('камуникац', 'коммуникац')
+    .replaceAll('комуникац', 'коммуникац')
+    .replaceAll('эксклюзивнуя', 'эксклюзивная')
+    .replaceAll('доступнуя', 'доступная')
+    .replaceAll('клиенстких', 'клиентских')
+    .replaceAll('с учетом персонализация', 'с учетом персонализации')
+    .replaceAll('целевон действие', 'целевое действие')
+    .replaceAll('показетелей', 'показателей')
+    .replaceAll('спец.предложения', 'спецпредложения')
+    .replaceAll('спец. сценарий', 'специальный сценарий')
+    .replaceAll('IT разработка', 'IT-разработка')
+    .replaceAll('направленные на повышения', 'направленные на повышение')
+    .replaceAll('сценарии направленные', 'сценарии, направленные')
+    .replaceAll('и тд', 'и т. д.')
+    .replaceAll('Напимер', 'Например')
+    .replaceAll('получеия', 'получения')
+    .replace(/\bpuch\b/g, 'push')
+    .replace(/\(При срабатывании/g, '(при срабатывании')
     .replace(/\s*\(Колл-центр, Чат\)/g, '')
+    .replace(/([^\s(])\(/g, '$1 (')
+    .replace(/\([ \t]+/g, '(')
+    .replaceAll('(Например:', '(например:')
+    .replace(/[ \t]+([,.;:!?)])/g, '$1')
+    .replace(/,(?=\S)/g, (comma, offset, value) => /[0-9]/.test(value[offset - 1] || '') && /[0-9]/.test(value[offset + 1] || '') ? comma : ', ')
+    .replace(/[ \t]{2,}/g, ' ')
     .trim();
 }
 
@@ -935,7 +1008,7 @@ export function needsEvidence(question, answers = {}) {
   const absent = evidence?.evidenceWhenAbsent;
   const earlierIds = Array.isArray(absent) ? absent : absent ? [absent] : [];
   const unknown = Array.isArray(answers[question.id]) && answers[question.id].includes('Затрудняюсь ответить');
-  return Boolean(evidence && !unknown && (question.reportMonitoring || question.previousOptions?.length || indicatesPresence(answers[question.id])) &&
+  return Boolean(evidence && !unknown && (evidence.always || question.reportMonitoring || question.previousOptions?.length || indicatesPresence(answers[question.id])) &&
     earlierIds.every(id => !indicatesPresence(answers[id])));
 }
 
@@ -944,7 +1017,8 @@ export function hasEvidence(question, answers = {}) {
   const {format, value} = evidenceResponse(question.inlineEvidence, answers);
   if (question.inlineEvidence.formats) {
     if (!question.inlineEvidence.formats.some(option => option.value === format)) return false;
-    if (format === 'other') return Boolean(value);
+    if (['excel', 'unknown'].includes(format)) return true;
+    if (format === 'other') return Boolean(String(value).trim());
   } else {
     if (['excel', 'unavailable'].includes(format)) return true;
     if (format !== 'link') return false;
@@ -956,8 +1030,8 @@ export function evidenceResponse(evidence, answers = {}) {
   const correction = evidence.previousLinks ? (answers[`${evidence.id}Correction`] || 'keep') : undefined;
   return correction === 'keep'
     ? {format: 'link', value: evidence.previousLinks.join('\n'), correction}
-    : {format: answers[evidence.formatId] || '', value: answers[evidence.formatId] === 'other' ? String(answers[evidence.id] ?? '').trim() : httpLinkValues(answers[evidence.id]).join('\n'), correction,
-      ...(answers[evidence.formatId] === 'unavailable' ? {comment: String(answers[`${evidence.id}Comment`] || '').trim()} : {})};
+    : {format: evidence.unknownId && answers[evidence.unknownId] === true ? 'unknown' : answers[evidence.formatId] || evidence.defaultFormat || '', value: String(answers[evidence.id] ?? ''), correction,
+      ...(answers[evidence.formatId] === 'unavailable' ? {comment: String(answers[`${evidence.id}Comment`] || '')} : {})};
 }
 
 export function normalizeNumericAnswer(value, allowDecimal = false) {
@@ -982,6 +1056,7 @@ export function hasAnswer(question, answers) {
   if (inlineQuestions(question, answers).some(q => !hasAnswer(q, answers))) return false;
   if (question.type === 'info') return true;
   if (question.type === 'links') {
+    if (question.inlineEvidence) return hasEvidence(question, answers);
     const format = answers[`${question.id}Unknown`] === true ? 'unknown' : answers[`${question.id}Format`] || 'link';
     if (['excel', 'unknown'].includes(format)) return true;
     return format === 'link' && hasHttpLinks(value);

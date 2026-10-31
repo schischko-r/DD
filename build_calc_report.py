@@ -993,6 +993,8 @@ def normalize_crosssell_key(value: Any) -> str:
 CROSSSELL_PRODUCT_NAME_ALIASES = {
     "вклады+нс": "вклады",
     "вклады + нс": "вклады",
+    "взр": "страхование путешественников",
+    "страхование путешественников": "взр",
 }
 
 
@@ -2002,6 +2004,53 @@ SINGLE_FUNNEL_BENCHMARK_TARGETS = {
 }
 
 
+def split_funnel_benchmark_rows(product_rows: Any, benchmark_rows: Any) -> Any:
+    """Keep a shared benchmark's weight in the applicable funnel(s) of its team."""
+    funnel_groups = ("Воронка привлечения", "Воронка оттока")
+    group_names = {normalize_lookup_key(group): group for group in funnel_groups}
+    entity_columns = ["entity_type", "_unit_key", "_product_key"]
+    benchmark_mask = (
+        product_rows["metric_group"].map(normalize_lookup_key).eq(normalize_lookup_key("BENCHMARKS"))
+        | product_rows["metric_name_clean"].map(normalize_lookup_key).eq(
+            normalize_lookup_key("Наличие бенчмарков")
+        )
+    )
+    applicable_rows = product_rows[
+        ~benchmark_mask
+        & _PD.to_numeric(product_rows["max_value_num"], errors="coerce").gt(0)
+        & product_rows["metric_group"].map(normalize_lookup_key).isin(group_names)
+    ]
+    targets_by_entity = {
+        key: set(rows["metric_group"].map(normalize_lookup_key))
+        for key, rows in applicable_rows.groupby(entity_columns, sort=False)
+    }
+    parts = []
+    for key, rows in benchmark_rows.groupby(entity_columns, sort=False):
+        applicable_groups = targets_by_entity.get(key, set())
+        benchmark_exclusions = TEAM_INAPPLICABLE_METRICS.get(key[2], frozenset())
+        has_custom_benchmark_exclusion = bool(
+            benchmark_exclusions.intersection({"attract.benchmarks", "churn.benchmarks"})
+        )
+        # Older exports may contain only benchmarks, without funnel metadata.
+        # Preserve their existing split when applicability cannot be established.
+        targets = [group for group in funnel_groups if normalize_lookup_key(group) in applicable_groups]
+        # Explicit exclusions remove their historical share downstream. Moving
+        # that share into the other funnel would change the approved denominator.
+        if not targets or has_custom_benchmark_exclusion:
+            targets = list(funnel_groups)
+        for target_group in targets:
+            part = rows.copy()
+            part["metric_group"] = target_group
+            part["metric_subgroup"] = "Анализ"
+            part["metric_name_clean"] = "Наличие бенчмарков"
+            part["value_num"] = part["value_num"] / len(targets)
+            part["max_value_num"] = part["max_value_num"] / len(targets)
+            part["value"] = part["value_num"]
+            part["max_value"] = part["max_value_num"]
+            parts.append(part)
+    return _PD.concat(parts, ignore_index=True) if parts else benchmark_rows.copy()
+
+
 def route_benchmark_rows(product_rows: Any) -> Any:
     benchmark_mask = product_rows["metric_group"].map(normalize_lookup_key).eq(
         normalize_lookup_key("BENCHMARKS")
@@ -2028,21 +2077,13 @@ def route_benchmark_rows(product_rows: Any) -> Any:
         part["metric_name_clean"] = "Наличие бенчмарков"
         parts.append(part)
 
-    for target_group in ("Воронка привлечения", "Воронка оттока"):
-        part = split_rows.copy()
-        part["metric_group"] = target_group
-        part["metric_subgroup"] = "Анализ"
-        part["metric_name_clean"] = "Наличие бенчмарков"
-        part["value_num"] = part["value_num"] / 2
-        part["max_value_num"] = part["max_value_num"] / 2
-        part["value"] = part["value_num"]
-        part["max_value"] = part["max_value_num"]
-        parts.append(part)
+    routed_rows = split_funnel_benchmark_rows(product_rows, split_rows)
+    parts.append(routed_rows)
 
     result = _PD.concat([product_rows[~benchmark_mask], *parts], ignore_index=True)
     result.attrs.update(product_rows.attrs)
-    result.attrs["benchmark_rows_split"] = len(split_rows)
-    result.attrs["benchmark_rows_single_funnel"] = len(single_rows)
+    result.attrs["benchmark_rows_split"] = len(routed_rows) - len(split_rows)
+    result.attrs["benchmark_rows_single_funnel"] = len(single_rows) + 2 * len(split_rows) - len(routed_rows)
     return result
 
 
@@ -2074,19 +2115,11 @@ def split_named_funnel_benchmarks(product_rows: Any) -> Any:
 
     source_rows = product_rows.loc[rows_to_split]
     regular_rows = product_rows.drop(index=rows_to_split)
-    split_parts = []
-    for target_group in ("Воронка привлечения", "Воронка оттока"):
-        part = source_rows.copy()
-        part["metric_group"] = target_group
-        part["value_num"] = part["value_num"] / 2
-        part["max_value_num"] = part["max_value_num"] / 2
-        part["value"] = part["value_num"]
-        part["max_value"] = part["max_value_num"]
-        split_parts.append(part)
+    routed_rows = split_funnel_benchmark_rows(product_rows, source_rows)
 
-    result = _PD.concat([regular_rows, *split_parts], ignore_index=True)
+    result = _PD.concat([regular_rows, routed_rows], ignore_index=True)
     result.attrs.update(product_rows.attrs)
-    result.attrs["named_benchmark_rows_split"] = len(source_rows)
+    result.attrs["named_benchmark_rows_split"] = len(routed_rows) - len(source_rows)
     return result
 
 

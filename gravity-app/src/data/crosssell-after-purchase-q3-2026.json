@@ -1,0 +1,645 @@
+{
+  "period": "III кв. 2026",
+  "question": "Настроена ли у вас механика Cross-sell после оформления продукта?",
+  "source": {
+    "file": "questionare-uplifts(7).csv",
+    "sha256": "f26a1fb1975099c18854579b11828ffec4a15f253d84c82b527c9748acaa2307"
+  },
+  "products": [
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Сауткин Андрей",
+          "respondentId": "sautkin.a.yu@sberbank.ru",
+          "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+          "comment": "",
+          "sourceName": "Зарплатный продукт",
+          "sourceRecord": 136
+        },
+        {
+          "answer": "Да",
+          "respondent": "Королева Александра Дмитриевна",
+          "respondentId": "alexknz@bk.ru",
+          "confirmation": "СберМобайл",
+          "comment": "",
+          "sourceName": "Зарплатный продукт",
+          "sourceRecord": 2127
+        }
+      ]
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Можак Максим Игоревич",
+          "respondentId": "mimozhak",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "ОСАГО",
+          "sourceRecord": 185
+        }
+      ]
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Чернов Дмитрий Леонидович",
+          "respondentId": "dlchernov@domclick.ru",
+          "confirmation": "ДКП, СЭР, СБР, РИР, ССГ, продукты витрины для b2b",
+          "comment": "",
+          "sourceName": "Сделка ИЖС",
+          "sourceRecord": 234
+        }
+      ]
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Семенов Тимофей Александрович",
+          "respondentId": "samble95",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Образовательный кредит",
+          "sourceRecord": 383
+        }
+      ]
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Мищенко Максим Павлович",
+          "respondentId": "mpmishchenko",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Объект Авто",
+          "sourceRecord": 432
+        }
+      ]
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Скворцов Виталий Михайлович",
+          "respondentId": "vmskvortsov",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "ОМС",
+          "sourceRecord": 481
+        },
+        {
+          "answer": "Нет",
+          "respondent": "Григорьев Алексей Владимирович",
+          "respondentId": "bigbrother",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "ОМС",
+          "sourceRecord": 577
+        }
+      ]
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Григорьев Алексей Владимирович",
+          "respondentId": "bigbrother",
+          "confirmation": "Продажа хранения купленного слитка как в сейфах, так и в банке на ответственном хранении",
+          "comment": "",
+          "sourceName": "Слитки",
+          "sourceRecord": 529
+        },
+        {
+          "answer": "Да",
+          "respondent": "Скворцов Виталий Михайлович",
+          "respondentId": "vmskvortsov",
+          "confirmation": "Бандл с Вкладами: запуск вклада \"Лучший % Золотой\"",
+          "comment": "",
+          "sourceName": "Слитки",
+          "sourceRecord": 626
+        }
+      ]
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Кравченко Т.В (Ведерникова Ю.А.)",
+          "respondentId": "vedernikova",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Интернет-Эквайринг",
+          "sourceRecord": 674
+        }
+      ]
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Ильин Павел Константинович",
+          "respondentId": "pkilin",
+          "confirmation": "Страхование, электронная регистрация сделки, расчеты",
+          "comment": "",
+          "sourceName": "Сделка с Первичным жильём",
+          "sourceRecord": 775
+        }
+      ]
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Красильников Антон Владимирович",
+          "respondentId": "avkrasilnikov@sberbank.ru",
+          "confirmation": "В рамках процесса выписки и справки реализованы жизненные ситуации, среди которые есть документы для визы и продажа полиса под визовый сценарий",
+          "comment": "",
+          "sourceName": "Выписки, справки",
+          "sourceRecord": 820
+        }
+      ]
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Ведерникова Ю А",
+          "respondentId": "vedernikova",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "SberPay Ecom",
+          "sourceRecord": 871
+        },
+        {
+          "answer": "Затрудняюсь ответить",
+          "respondent": "чикина м",
+          "respondentId": "mvchikina",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "SberPay Ecom",
+          "sourceRecord": 1000
+        }
+      ]
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Белозеров Дмитрий Александрович",
+          "respondentId": "dbelozerov",
+          "confirmation": "Из Почты в Диск",
+          "comment": "",
+          "sourceName": "Почта, Диск, Календарь",
+          "sourceRecord": 952
+        }
+      ]
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Волобуев Андрей Николаевич",
+          "respondentId": "volobuev.a.nikolae@sberbank.ru",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "НСЖ",
+          "sourceRecord": 1133
+        }
+      ]
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Клычева Олеся Олеговна",
+          "respondentId": "ooklycheva@sberbank.ru",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "ИСЖ",
+          "sourceRecord": 1184
+        }
+      ]
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Адуллин Антон Викторович",
+          "respondentId": "avadullin@sberbank.ru",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "BNPL",
+          "sourceRecord": 1233
+        }
+      ]
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Мартусенко Игорь Викторович",
+          "respondentId": "igormartusenko",
+          "confirmation": "Просьба учесть в расчете механику Cross-sell после оформления полиса\nПосле оформления полиса клиенту предлагаются сервисы экосистемы: оформление билетов, бронирование отелей, покупка проходов  в бизнес залы и др. (предложение находится на карточке оформленного продукта в МП СБОЛ)",
+          "comment": "",
+          "sourceName": "ВЗР",
+          "sourceRecord": 1334
+        }
+      ]
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Бажанова Елена Олеговна",
+          "respondentId": "elena_easy",
+          "confirmation": "Помощь на дороге, Мультиполис, Защита в пути, Подписка Прайм (+опция Авто)",
+          "comment": "",
+          "sourceName": "Автокредит",
+          "sourceRecord": 1389
+        }
+      ]
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Дрожжина Валентина Юрьевна",
+          "respondentId": "drozhzhina.v.y@sberbank.ru",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Вжух",
+          "sourceRecord": 1490
+        }
+      ]
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Козлова Диана Леонидовна",
+          "respondentId": "dianakozlova",
+          "confirmation": "вклады/накопительный счета/инвестиционные продукты/карты/страховые продукты/ докупка опций/сервисы экосистемы",
+          "comment": "",
+          "sourceName": "Пакет услуг СберПремьер",
+          "sourceRecord": 1542
+        }
+      ]
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Сайфуллин Азат Шавкатович",
+          "respondentId": "azat",
+          "confirmation": "ДСЖ",
+          "comment": "",
+          "sourceName": "Кредитные карты",
+          "sourceRecord": 1693
+        }
+      ]
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Краснов Игорь Константинович",
+          "respondentId": "krasnov.i.k@sberbank.ru",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Сейфы",
+          "sourceRecord": 1873
+        }
+      ]
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Казакова Кристина Юрьевна",
+          "respondentId": "kykazakova@sberbank.ru",
+          "confirmation": "в рамках пролонгации: при продлении полиса залога в МП СБОЛ рекомендуется продлить полис НПР (при наличии)",
+          "comment": "",
+          "sourceName": "Страхование залога",
+          "sourceRecord": 1924
+        }
+      ]
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Фомин Андрей Евгеньевич",
+          "respondentId": "evander@mail.ru",
+          "confirmation": "Фоксфорд, МП SberKids, СберМобайл (тариф Детский), Детский SberId",
+          "comment": "",
+          "sourceName": "Детская карта",
+          "sourceRecord": 2231
+        }
+      ]
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Затрудняюсь ответить",
+          "respondent": "Родина Марина Анатольевна",
+          "respondentId": "rodina",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Кредитный потенциал",
+          "sourceRecord": 2283
+        }
+      ]
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Невелич Дмитрий Игоревич",
+          "respondentId": "nevelich.d.i@sberbank.ru",
+          "confirmation": "Подарочные сертификаты (точка входа на экране выбора банка в сценарии переводов по телефону)+баннер на статусом экране перевода для кросс-продаж всех продуктов экосистемы",
+          "comment": "",
+          "sourceName": "Переводы по РФ",
+          "sourceRecord": 2383
+        }
+      ]
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Дубинина Татьяна Валерьевна",
+          "respondentId": "makartseva",
+          "confirmation": "Продажи продуктов Личная защита, Защита 360",
+          "comment": "",
+          "sourceName": "Залоговое страхование (корпоративное страхование)",
+          "sourceRecord": 2486
+        }
+      ]
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Савенков Илья Игоревич",
+          "respondentId": "connector888",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Конверсия",
+          "sourceRecord": 2535
+        }
+      ]
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Нет",
+          "respondent": "Тырсина Ю.И.",
+          "respondentId": "annaromanenko77@gmail.com",
+          "confirmation": "",
+          "comment": "",
+          "sourceName": "Вклады+НС",
+          "sourceRecord": 2582
+        }
+      ]
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Сипугин Николай Александрович",
+          "respondentId": "sipugin.n.a",
+          "confirmation": "GAP, Автозащита при отказе",
+          "comment": "",
+          "sourceName": "КАСКО",
+          "sourceRecord": 2683
+        }
+      ]
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Корпачева Надежда Олеговна",
+          "respondentId": "nkorp",
+          "confirmation": "В БСП после продажи ПДС, запущен пилот после вклада",
+          "comment": "",
+          "sourceName": "ЗЛС",
+          "sourceRecord": 2734
+        }
+      ]
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Киреева Наталья Николавена",
+          "respondentId": "kireeva.nat.nik@sberbank.ru",
+          "confirmation": "инвестиционными продуктами блока УБ",
+          "comment": "",
+          "sourceName": "СберСова",
+          "sourceRecord": 2836
+        }
+      ]
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Мерзликин Иван Сергеевич",
+          "respondentId": "icmuzz",
+          "confirmation": "ПК, ДК",
+          "comment": "",
+          "sourceName": "Пенсионный продукт",
+          "sourceRecord": 2888
+        }
+      ]
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "responses": [
+        {
+          "answer": "Да",
+          "respondent": "Лукьянова Юлия Сергеевна",
+          "respondentId": "lukyanova-ys",
+          "confirmation": "Удобная страховка - в процессе оформления ипотечного страхования жизни. Ипотечное страхование недвижимости, вывод баннер на финальном экране (экран успеха)",
+          "comment": "",
+          "sourceName": "Страхование жизни",
+          "sourceRecord": 3122
+        }
+      ]
+    }
+  ],
+  "unmatchedResponses": [
+    {
+      "answer": "Нет",
+      "respondent": "Сидорова Ксения Евгеньевна",
+      "respondentId": "kesidorova@sberbank.ru",
+      "confirmation": "",
+      "comment": "",
+      "sourceName": "Трансграничные переводы #B2C",
+      "sourceRecord": 904
+    },
+    {
+      "answer": "Да",
+      "respondent": "Губин Юрий Сергеевич",
+      "respondentId": "yusegubin@sberbank.ru",
+      "confirmation": "На финишном экране проведения операции Клиентам доступны акции и предлоожения банка и Партнеров.",
+      "comment": "",
+      "sourceName": "Сберчаевые #B2C",
+      "sourceRecord": 1077
+    },
+    {
+      "answer": "Нет",
+      "respondent": "Забегаев Михаил Евгеньевич",
+      "respondentId": "16643181",
+      "confirmation": "",
+      "comment": "",
+      "sourceName": "Трансграничный эквайринг #B2C",
+      "sourceRecord": 1721
+    },
+    {
+      "answer": "Да",
+      "respondent": "(тест Штаб DB B2C) Чикина Мария",
+      "respondentId": "mvchikina",
+      "confirmation": "Здесь не хватает ссылки на LossHunter с опросом по cross-sell.",
+      "comment": "",
+      "sourceName": "Трансграничный эквайринг #B2B",
+      "sourceRecord": 3071
+    }
+  ]
+}

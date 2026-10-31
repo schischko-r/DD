@@ -1,1 +1,5 @@
-source-html-reports/zeroed/current/*.html -whitespace
+# Raw questionnaire exports contain respondent data and use source-specific line endings.
+# Keep their bytes stable for source hashes and avoid exposing full rows in diffs.
+analysis/1/*.csv -diff
+ddi_3q_response/*.csv -diff
+questionare-responses*.csv -diff

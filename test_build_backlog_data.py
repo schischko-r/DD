@@ -2,6 +2,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from datetime import date
 from zipfile import ZIP_DEFLATED, ZipFile
 
 import build_backlog_data as backlog
@@ -17,7 +18,7 @@ class BacklogCliDefaultsTest(unittest.TestCase):
 
         self.assertEqual(args.input.name, "sbertrack_all_full_history_to_export.xlsx")
         self.assertEqual(args.history_start.isoformat(), "2026-02-01")
-        self.assertEqual(args.history_end.isoformat(), "2026-06-30")
+        self.assertEqual(args.history_end.isoformat(), "2026-09-30")
 
 
 def _column_name(index: int) -> str:
@@ -499,7 +500,7 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertEqual(payload["months"][0]["createdCount"], 1)
         self.assertEqual(payload["months"][0]["resolvedCount"], 0)
 
-    def test_default_history_end_excludes_and_censors_post_cutoff_data(self) -> None:
+    def test_explicit_history_end_excludes_and_censors_post_cutoff_data(self) -> None:
         path = Path(self.temporary_directory.name) / "history_end_cutoff.xlsx"
         common = {
             "team": "СберЧаевые",
@@ -536,7 +537,7 @@ class BuildBacklogDataTest(unittest.TestCase):
             ],
         )
 
-        source = backlog.read_tickets(path)[0]
+        source = backlog.read_tickets(path, history_end=date(2026,6,30))[0]
         censored = next(
             ticket
             for ticket in source.tickets
@@ -546,7 +547,7 @@ class BuildBacklogDataTest(unittest.TestCase):
         self.assertIsNone(censored.in_progress)
         self.assertFalse(censored.completed_by_status)
 
-        payload = backlog.build_payload(path)
+        payload = backlog.build_payload(path, history_end=date(2026,6,30))
         quarter = _quarter(payload, "2026-Q2")
 
         self.assertEqual(payload["meta"]["historyEnd"], "2026-06-30")
@@ -1309,6 +1310,189 @@ class BuildBacklogDataTest(unittest.TestCase):
             "presentations",
             [category["key"] for category in quarter["discoveryScenarios"]],
         )
+
+class AdditiveBacklogImportTest(unittest.TestCase):
+    def test_additive_keys_existing_wins_lowercase_columns_russian_scenarios_and_quarter_bounds(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base, extra = root / 'base.xlsx', root / 'new.xlsx'
+            second = root / 'second.xlsx'
+            _write_minimal_xlsx(base, [
+                {'team': 'Объект Авто', 'Created': '2026-02-01', 'Resolved': '2026-02-03', 'Status': 'Done', 'Issue key': ' EXISTING-1 ', 'direction': 'Аналитика', 'scenario': 'metrics_calculation', 'SP': 3},
+                {'team': 'Объект Авто', 'Created': '2026-06-20', 'Resolved': '2026-07-20', 'Status': 'Done', 'Issue key': 'CROSS-QUARTER', 'direction': 'Аналитика', 'scenario': 'growth_factors_research', 'SP': 2},
+            ])
+            common = {'product': 'КАСКО, ОСАГО', 'created': '2026-07-01', 'resolved': '', 'status': 'Done', 'issuekey': 'NEW-1', 'direction': 'Аналитика', 'scenario': 'Расчет метрик', 'story_points': 5, 'in_progress': '2026-07-01'}
+            _write_minimal_xlsx(extra, [
+                {**common, 'issuekey': ' existing-1 ', 'status': 'Cancelled'},
+                common,
+                {**common, 'issuekey': ' new-1 ', 'created': '2026-08-01', 'status': 'Cancelled'},
+                {**common, 'issuekey': 'BOUNDARY', 'created': '2026-09-30 23:59:59', 'resolved': '2026-10-02', 'in_progress': '2026-10-01', 'scenario': 'Доработки дашбордов'},
+                {**common, 'issuekey': 'AFTER', 'created': '2026-10-01', 'status': 'In Progress'},
+            ])
+            _write_minimal_xlsx(second, [
+                {**common, 'issuekey': ' NeW-1 ', 'status': 'Cancelled'},
+                {**common, 'issuekey': 'PAYMENT-1', 'product': 'Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой', 'created': '2026-08-10', 'status': 'In Progress'},
+            ])
+            sources = backlog.read_tickets(base, additional_inputs=[extra, second])
+            tickets = [ticket for source in sources for ticket in source.tickets]
+            by_key = {ticket.issue_key.strip().casefold(): ticket for ticket in tickets}
+            self.assertEqual(set(by_key), {'existing-1', 'cross-quarter', 'new-1', 'boundary', 'payment-1'})
+            self.assertEqual(len(tickets), 5)
+            self.assertEqual(by_key['existing-1'].created.isoformat(), '2026-02-01T00:00:00')
+            self.assertEqual(by_key['existing-1'].resolved.isoformat(), '2026-02-03T00:00:00')
+            self.assertFalse(by_key['existing-1'].cancelled)
+            self.assertEqual(by_key['new-1'].story_points, '5')
+            self.assertEqual(by_key['new-1'].scenario_key, 'metrics_calculation')
+            self.assertEqual(by_key['boundary'].scenario_key, 'dashboard_improvements')
+            self.assertIsNone(by_key['new-1'].resolved)
+            self.assertTrue(by_key['new-1'].terminal_without_resolved)
+            self.assertIsNone(by_key['boundary'].resolved)
+            self.assertIsNone(by_key['boundary'].in_progress)
+            self.assertFalse(by_key['boundary'].completed_by_status)
+            self.assertEqual(by_key['new-1'].in_progress.isoformat(), '2026-07-01T00:00:00')
+            payload = backlog.build_payload(base, additional_inputs=[extra, second])
+            frozen = backlog.build_payload(base, history_end=date(2026, 6, 30))
+            original_team = next(team for team in payload['teams'] if team['label'] == 'Объект Авто')
+            for quarter in frozen['teams'][0]['quarters']:
+                self.assertEqual(next(q for q in original_team['quarters'] if q['key'] == quarter['key']), quarter)
+            shared = next(team for team in payload['teams'] if 'КАСКО' in team.get('memberTeams', []))
+            self.assertEqual(set(shared['memberTeams']), {'КАСКО', 'ОСАГО'})
+            self.assertEqual(_quarter(shared, '2026-Q3')['createdCount'], 2)
+            self.assertEqual(sum(_quarter(team, '2026-Q3')['createdCount'] for team in payload['teams'] if any(q['key']=='2026-Q3' for q in team['quarters'])), 3)
+            payments = next(team for team in payload['teams'] if 'Оплата улыбкой' in team.get('memberTeams', []))
+            self.assertEqual(len(payments['memberTeams']), 4)
+            self.assertEqual(_quarter(payments, '2026-Q3')['createdCount'], 1)
+            self.assertEqual(payload['meta']['importAudit']['additionalSources'][1]['skippedAdditionalDuplicateIssueKeys'], 1)
+            self.assertEqual(payload['meta']['importAudit']['additionalSources'][1]['acceptedRows'], 1)
+            self.assertEqual(payload['meta']['importAudit']['additionalSources'][0]['acceptedRows'], 3)
+            self.assertEqual(payload['meta']['importAudit']['additionalSources'][0]['skippedExistingIssueKeys'], 1)
+            self.assertEqual(payload['meta']['importAudit']['additionalSources'][0]['skippedAdditionalDuplicateIssueKeys'], 1)
+
+    def test_only_accepted_additional_nonterminal_invalid_resolved_is_unknown_and_retained(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base, extra = root / 'base.xlsx', root / 'extra.xlsx'
+            common = {'team': 'Объект Авто', 'Created': '2026-07-10', 'Resolved': '2026-07-01', 'Status': 'To Do', 'Issue key': 'ADDITIONAL-BAD-DATE', 'direction': 'Аналитика', 'scenario': 'metrics_calculation', 'SP': 0}
+            _write_minimal_xlsx(base, [{**common, 'Created': '2026-02-01', 'Resolved': '2026-02-02', 'Status': 'Done', 'Issue key': 'BASE'}])
+            _write_minimal_xlsx(extra, [common])
+            with self.assertRaisesRegex(ValueError, 'Resolved раньше Created'):
+                backlog.read_tickets(extra)
+            retained = next(t for team in backlog.read_tickets(base, additional_inputs=[extra]) for t in team.tickets if t.issue_key.casefold() == common['Issue key'].casefold())
+            self.assertEqual(retained.created.isoformat(), '2026-07-10T00:00:00')
+            self.assertIsNone(retained.resolved)
+            self.assertFalse(retained.completed_by_status)
+            self.assertFalse(retained.terminal_without_resolved)
+            self.assertEqual(retained.story_points, '0')
+            self.assertEqual(retained.direction_key, 'Аналитика')
+            self.assertEqual(retained.scenario_key, 'metrics_calculation')
+            payload = backlog.build_payload(base, additional_inputs=[extra])
+            self.assertEqual(payload['meta']['importAudit']['additionalSources'][0]['invalidNonterminalResolvedDates'], 1)
+            self.assertNotIn(common['Issue key'].casefold(), json.dumps(payload).casefold())
+            quarter = _quarter(payload['teams'][0], '2026-Q3')
+            self.assertEqual(quarter['createdCount'], 1)
+            self.assertEqual(quarter['createdOpenCount'], 1)
+            self.assertEqual(quarter['createdResolvedCount'], 0)
+            self.assertEqual(quarter['resolvedCount'], 0)
+            self.assertEqual(quarter['cycleTimeSampleCount'], 0)
+            _write_minimal_xlsx(extra, [{**common, 'Status': 'Done'}])
+            with self.assertRaisesRegex(ValueError, 'Resolved раньше Created'):
+                backlog.read_tickets(base, additional_inputs=[extra])
+            _write_minimal_xlsx(extra, [{**common, 'Resolved': 'invalid-date'}])
+            with self.assertRaises(ValueError):
+                backlog.read_tickets(base, additional_inputs=[extra])
+            _write_minimal_xlsx(extra, [{**common, 'Issue key': 'base'}])
+            existing = [t for team in backlog.read_tickets(base, additional_inputs=[extra]) for t in team.tickets]
+            self.assertEqual(len(existing), 1)
+            self.assertEqual(existing[0].resolved.isoformat(), '2026-02-02T00:00:00')
+            _write_minimal_xlsx(base, [common])
+            _write_minimal_xlsx(extra, [{**common, 'Issue key': 'GOOD', 'Resolved': ''}])
+            with self.assertRaisesRegex(ValueError, 'Resolved раньше Created'):
+                backlog.read_tickets(base, additional_inputs=[extra])
+
+    def test_final_workbook_reconciles_existing_keys_and_keeps_frozen_historical_snapshots(self):
+        import hashlib
+        root = Path(__file__).resolve().parent
+        base, extra = root / 'sbertrack_all_full_history_to_export.xlsx', root / 'tickets_final.xlsx'
+        hashes = [hashlib.sha256(path.read_bytes()).hexdigest() for path in (base, extra)]
+        base_rows, _ = backlog.read_workbook_rows(base)
+        extra_rows, _ = backlog.read_workbook_rows(extra)
+        keys = lambda rows: {row['Issue key'].strip().casefold() for row in rows if row['Issue key'].strip()}
+        base_keys, extra_keys = keys(base_rows), keys(extra_rows)
+        self.assertEqual(len(base_rows), 12890)
+        self.assertEqual(len(base_keys), 12890)
+        self.assertEqual(len(extra_rows), 3834)
+        self.assertEqual(len(extra_keys), 3834)
+        self.assertEqual(len(base_keys & extra_keys), 1073)
+        self.assertEqual(len(extra_keys - base_keys), 2761)
+        # Independent raw-workbook audit found 26 raw scenario labels. Every label
+        # besides explicit unknown/ad-hoc labels must remain recognized.
+        self.assertEqual(len({row['scenario'] for row in extra_rows}), 26)
+        for row in extra_rows:
+            key, _ = backlog._normalize_scenario(row['scenario'])
+            self.assertEqual(key == 'unknown', row['scenario'] in {'Невозможно разметить', 'ad-hoc'})
+        self.assertEqual(len({row['team'] for row in extra_rows}), 10)
+        new_rows = [r for r in extra_rows if r['Issue key'].strip().casefold() not in base_keys]
+        self.assertEqual(len(new_rows), 2761)
+        month_counts = {}
+        for row in new_rows:
+            month = backlog.parse_datetime(row['Created']).strftime('%Y-%m')
+            month_counts[month] = month_counts.get(month, 0) + 1
+        self.assertEqual(month_counts, {'2026-04':112,'2026-05':91,'2026-06':70,'2026-07':389,'2026-08':680,'2026-09':1071,'2026-10':348})
+        _, dates_1904 = backlog.read_workbook_rows(extra)
+        expected_new = {r['Issue key'].strip().casefold(): r for r in new_rows if backlog.parse_datetime(r['Created'], dates_1904).date() <= date(2026, 9, 30) and r['Status'].strip().casefold() not in backlog.CANCELLED_STATUSES}
+        self.assertEqual(len(expected_new), 2334)
+        sources = backlog.read_tickets(base, additional_inputs=[extra])
+        actual_new = {t.issue_key.strip().casefold(): t for team in sources for t in team.tickets if t.issue_key.strip().casefold() not in base_keys}
+        self.assertEqual(set(actual_new), set(expected_new))
+        invalid_resolved = {key for key, row in expected_new.items() if row['Resolved'] and backlog.parse_datetime(row['Resolved'], dates_1904) < backlog.parse_datetime(row['Created'], dates_1904)}
+        self.assertEqual(invalid_resolved, {'sid-79279', 'sid-81821'})
+        self.assertEqual(sum(ticket.resolved is not None for ticket in actual_new.values()), 12)
+        for key, row in expected_new.items():
+            ticket = actual_new[key]
+            self.assertEqual(ticket.created, backlog.parse_datetime(row['Created'], dates_1904))
+            self.assertEqual(ticket.story_points, row['SP'])
+            if not row['Resolved']:
+                self.assertIsNone(ticket.resolved, 'Current status must never invent a missing completion timestamp')
+            else:
+                raw_resolved = backlog.parse_datetime(row['Resolved'], dates_1904)
+                raw_created = backlog.parse_datetime(row['Created'], dates_1904)
+                if raw_resolved < raw_created and row['Status'].strip().casefold() not in backlog.TERMINAL_STATUSES:
+                    self.assertIsNone(ticket.resolved, 'Only an invalid nonterminal additional timestamp becomes unknown')
+                else:
+                    self.assertEqual(ticket.resolved, raw_resolved)
+            if not row['Дата перехода в in_progress']:
+                self.assertIsNone(ticket.in_progress)
+        old = backlog.build_payload(base, history_end=date(2026, 6, 30))
+        combined = backlog.build_payload(base, additional_inputs=[extra])
+        full_base = backlog.build_payload(base)
+        self.assertEqual(sum(t['meta']['includedTickets'] for t in combined['teams'])-sum(t['meta']['includedTickets'] for t in full_base['teams']), 2334)
+        self.assertEqual(sum(t['meta']['terminalWithoutResolved'] for t in combined['teams'])-sum(t['meta']['terminalWithoutResolved'] for t in full_base['teams']), 816)
+        self.assertEqual(sum(q['createdCount'] for t in combined['teams'] for q in t['quarters'] if q['key']=='2026-Q3'), 3186)
+        audit = combined['meta']['importAudit']['additionalSources'][0]
+        self.assertEqual(audit['inputRows'], 3834)
+        self.assertEqual(audit['acceptedRows'], 2761)
+        self.assertEqual(audit['skippedExistingIssueKeys'], 1073)
+        self.assertEqual(audit['skippedAdditionalDuplicateIssueKeys'], 0)
+        self.assertEqual(audit['invalidNonterminalResolvedDates'], 2)
+        for key in invalid_resolved:
+            self.assertNotIn(key, json.dumps(combined).casefold(), 'Detailed anomaly keys must stay outside the public aggregate')
+        for team in old['teams']:
+            merged = next(t for t in combined['teams'] if t['key'] == team['key'])
+            for kind in ('months', 'quarters'):
+                for snapshot in team[kind]:
+                    self.assertEqual(next(s for s in merged[kind] if s['key'] == snapshot['key']), snapshot)
+        before = json.loads((root / 'outputs/backlog-final-refresh-2026-10-29/backlog-before.json').read_text())
+        self.assertEqual(len(combined['teams']), 11)
+        self.assertEqual(sum(len(t['memberTeams']) for t in combined['teams']), 15)
+        for team in before['teams']:
+            refreshed = next(t for t in combined['teams'] if t['key'] == team['key'])
+            self.assertEqual(refreshed['memberTeams'], team['memberTeams'])
+            for kind in ('months','quarters'):
+                for snapshot in team[kind]:
+                    if snapshot['key'] <= ('2026-06' if kind == 'months' else '2026-Q2'):
+                        self.assertEqual(next(s for s in refreshed[kind] if s['key']==snapshot['key']), snapshot)
+        self.assertTrue(any(d['key']=='Неизвестно' and d['count']>0 for t in combined['teams'] for q in t['quarters'] if q['key']=='2026-Q3' for d in q['directions']), 'Unknown directions remain in the source denominator')
+        self.assertEqual([hashlib.sha256(path.read_bytes()).hexdigest() for path in (base, extra)], hashes)
 
 
 if __name__ == "__main__":

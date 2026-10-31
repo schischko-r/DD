@@ -1,0 +1,103 @@
+{
+  "period": "III кв. 2026",
+  "scope": "ux-score-assessment",
+  "source": {
+    "origin": "userProvidedAssessment",
+    "date": "2026-10-27",
+    "confirmedBy": "user",
+    "metricCode": "cx.uh_score",
+    "rule": "Прямые оценки UX Score пользователя для четырёх каналов DP. rawValue равен баллу при прежнем максимуме 1; другие метрики не затрагиваются."
+  },
+  "products": [
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "cx.uh_score": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "sourceName": "СберKids",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "userprovided": true,
+            "points": 0,
+            "metricCode": "cx.uh_score",
+            "reason": "Пользователь явно указал балл UX Score за III квартал. Максимум 1 и применимость сохранены; CX Score и UX-оповещения не изменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "cx.uh_score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "sourceName": "СберИнвестор",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "userprovided": true,
+            "points": 0.5,
+            "metricCode": "cx.uh_score",
+            "reason": "Пользователь явно указал балл UX Score за III квартал. Максимум 1 и применимость сохранены; CX Score и UX-оповещения не изменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "cx.uh_score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "sourceName": "СБОЛ",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "userprovided": true,
+            "points": 0.5,
+            "metricCode": "cx.uh_score",
+            "reason": "Пользователь явно указал балл UX Score за III квартал. Максимум 1 и применимость сохранены; CX Score и UX-оповещения не изменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "cx.uh_score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "sourceName": "Уведомления",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "userprovided": true,
+            "points": 1,
+            "metricCode": "cx.uh_score",
+            "reason": "Пользователь явно указал балл UX Score за III квартал. Максимум 1 и применимость сохранены; CX Score и UX-оповещения не изменяются."
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 4,
+    "zero": 1,
+    "half": 2,
+    "full": 1
+  }
+}

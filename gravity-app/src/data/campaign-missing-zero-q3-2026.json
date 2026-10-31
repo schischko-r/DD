@@ -1,0 +1,717 @@
+{
+  "period": "III кв. 2026",
+  "scope": "campaign-missing-zero-assessment",
+  "source": {
+    "origin": "userConfirmedMissingAsZero",
+    "confirmedBy": "user",
+    "confirmedAt": "2026-10-29",
+    "rule": "Только отсутствовавшие применимые значения четырёх метрик III квартала заполнены явным нулём. Другие оценки, применимость и максимумы не изменяются."
+  },
+  "counts": {
+    "teams": 17,
+    "values": 43,
+    "byMetric": {
+      "attract.campaign_launches": 11,
+      "attract.chernoviki_v_sbol_70": 10,
+      "attract.nalichie_self_service": 11,
+      "attract.nalichie_uspeshnyh_biznes_zapuskov": 11
+    }
+  },
+  "products": [
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ИСЖ",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ИСЖ",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ИСЖ",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ОПИФ",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ОПИФ",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ОПИФ",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Платежи",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "СберЧаевые",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "СберЧаевые",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "СберЧаевые",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сделка ИЖС",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сделка вторичка",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сделка с Первичным жильём",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сейфы",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "9ab3c21c-493a-54dc-92ec-022aefb84f84¦Сценарии оплаты",
+      "name": "Сценарии оплаты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сценарии оплаты",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сценарии оплаты",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сценарии оплаты",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сценарии оплаты",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ЦФА",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "e146d7b5-0627-5493-b841-3e87393d585c¦Как зарплатный",
+      "name": "Как зарплатный",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Как зарплатный",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Как зарплатный",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Как зарплатный",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Слитки",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Слитки",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Слитки",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Страхование жизни",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Страхование жизни",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Страхование жизни",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "POS-кредиты",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "POS-кредиты",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "POS-кредиты",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Личная защита Плюс",
+            "metricCode": "attract.campaign_launches",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Личная защита Плюс",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Личная защита Плюс",
+            "metricCode": "attract.nalichie_self_service",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingAsZero",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Личная защита Плюс",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "previousQ3Value": null,
+            "reason": "По явному указанию пользователя отсутствующее значение III квартала установлено равным 0."
+          }
+        }
+      }
+    }
+  ]
+}

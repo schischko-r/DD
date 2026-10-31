@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import test from 'node:test';
 import {JSDOM} from 'jsdom';
 import {productSurveyProfiles} from './survey-profiles.js';
-import {assignFunnelEvidence, getBacklogAnalyzed, getSections, hasAnswer, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, needsReason, visibleQuestions} from './questions.js';
+import {assignFunnelEvidence, getBacklogAnalyzed, getSections, shouldShowCrossSellReminder, hasAnswer, inlineQuestions, knownMechanics, needsComment, needsEvidence, needsProof, needsReason, visibleQuestions} from './questions.js';
 import {buildSurveyResult} from './result.js';
 import {enabledTeams, teams} from './teams.js';
 
@@ -45,15 +45,107 @@ test('all products answer about churn models and export only active confirmation
   }
 });
 
+test('SberFirst provided goal dashboard supports keep and edit with provenance and hides under No', async () => {
+  const {previousGoalsReports} = await import('./previous-goals.js');
+  const team = enabledTeams.find(team => team.id === 'd16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый');
+  const source = previousGoalsReports[team.id];
+  assert.equal(source.workbook, 'Расчет_СХ_чек_проверка релевантности.xlsx');
+  assert.equal(source.sheet, 'ПУ.Премиальное обслуж. ур.4-5');
+  assert.equal(source.cell, 'G31');
+  assert.equal(source.links[0], 'https://navigator.sigma.sbrf.ru/gdash/1000003450/1000038580?vmetric=%D0%90%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D0%B0%D1%8F%20%D0%BA%D0%BB%D0%B8%D0%B5%D0%BD%D1%82%D1%81%D0%BA%D0%B0%D1%8F%20%D0%B1%D0%B0%D0%B7%D0%B0%2C%20%D0%BC%D0%BB%D0%BD%20%D1%87%D0%B5%D0%BB&vQrt=2');
+  const answers = completeAnswers(team);
+  const parent = getSections(answers).find(section => section.id === 'goals').questions.find(q => q.id === 'goalsMonitoring');
+  const question = inlineQuestions(parent).find(q => q.id === 'goalsDashboards');
+  assert.deepEqual(question.inlineEvidence.previousLinks, source.links);
+  const keep = {...answers};
+  delete keep.goalsDashboards; delete keep.goalsDashboardsFormat; delete keep.goalsDashboardsCorrection;
+  assert.equal(hasAnswer(parent, keep), true);
+  const kept = buildSurveyResult(keep);
+  assert.equal(kept.answers.goalsDashboards, source.links[0]);
+  assert.equal(kept.answers.goalsDashboardsCorrection, 'keep');
+  assert.deepEqual(kept.questionSources.goalsDashboards.previousSource, {workbook: source.workbook, sheet: source.sheet, cell: source.cell});
+  const edit = {...keep, goalsDashboardsCorrection: 'edit', goalsDashboardsFormat: 'link'};
+  assert.equal(hasAnswer(parent, edit), false);
+  assert.equal(hasAnswer(parent, {...edit, goalsDashboards: 'invalid'}), false);
+  const raw = '  navigator.sigma.sbrf.ru/gdash/changed#literal  \nhttps://example.test/second\n';
+  const edited = buildSurveyResult({...edit, goalsDashboards: raw});
+  assert.equal(edited.answers.goalsDashboards, raw);
+  assert.equal(edited.answers.goalsDashboardsCorrection, 'edit');
+  assert.deepEqual(edited.result.metrics, kept.result.metrics, 'Changing source links cannot change DDI scores');
+  const hidden = buildSurveyResult({...edit, goalsDashboards: raw, goalsMonitoring: 'Нет'});
+  for (const id of ['goalsDashboards', 'goalsDashboardsFormat', 'goalsDashboardsCorrection']) {
+    assert.ok(!(id in hidden.answers));
+    assert.ok(!(id in hidden.questionSources));
+  }
+  for (const code of ['goals.monitored', 'goals.forecast', 'goals.factor_analysis_l1_l2']) {
+    const baseline = productSurveyProfiles[team.id].metrics.find(metric => metric.code === code);
+    if (baseline) assert.equal(hidden.result.metrics.find(metric => metric.code === code).value, baseline.value);
+  }
+});
+
+test('SberFirst standalone goals show one historical source control and reveal one editor', async () => {
+  const html = readFileSync(new URL('../../dist-deposits-survey/deposits-survey.html', import.meta.url), 'utf8');
+  const script = html.match(/<script\b[^>]*>([\s\S]*?)<\/script>/)[1];
+  const dom = new JSDOM(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/, ''), {runScripts: 'dangerously', pretendToBeVisual: true, url: 'http://localhost/', beforeParse(window) {
+    window.scrollTo = () => {};
+    window.matchMedia = () => ({matches: false, addListener() {}, removeListener() {}, addEventListener() {}, removeEventListener() {}});
+    window.ResizeObserver = class {observe() {} unobserve() {} disconnect() {}};
+  }});
+  dom.window.eval(script);
+  const pause = () => new Promise(resolve => setTimeout(resolve, 25));
+  const doc = dom.window.document;
+  const write = async (control, value) => {
+    const prototype = control.tagName === 'TEXTAREA' ? dom.window.HTMLTextAreaElement.prototype : dom.window.HTMLInputElement.prototype;
+    Object.getOwnPropertyDescriptor(prototype, 'value').set.call(control, value);
+    control.dispatchEvent(new dom.window.Event('input', {bubbles: true})); await pause();
+  };
+  const next = async () => {const button = [...doc.querySelectorAll('.survey-actions button')].find(button => button.textContent.includes('Далее')); assert.notEqual(button.getAttribute('aria-disabled'), 'true', doc.querySelector('.survey-single-question').dataset.questionId); button.click(); await pause();};
+  try {
+    await pause();
+    await write(doc.querySelector('input[placeholder="Введите ФИО"]'), 'Тест');
+    doc.querySelector('[role="combobox"]').click(); await pause();
+    const team = [...doc.querySelectorAll('[role="option"]')].find(node => node.textContent.trim() === 'Пакет услуг СберПервый');
+    assert.ok(team); team.click(); await pause(); await next();
+    for (let i = 0; doc.querySelector('.survey-single-question').dataset.questionId !== 'goalsMonitoring'; i++) {
+      assert.ok(i < 12);
+      const step = doc.querySelector('.survey-single-question');
+      const numeric = step.querySelector('input[inputmode="numeric"]');
+      const radio = [...step.querySelectorAll('input[type="radio"]')].find(input => input.value === 'Затрудняюсь ответить');
+      if (numeric) {
+        await write(numeric, '1000');
+        const source = doc.querySelector('.survey-single-question input[value="Запрос у аналитиков"]');
+        assert.ok(source); source.click(); await pause();
+      } else if (radio) {radio.click(); await pause();}
+      else {
+        await write(step.querySelector('textarea, input[inputmode="numeric"]'), '1000');
+        const source = step.querySelector('input[value="Запрос у аналитиков"]');
+        if (source) {source.click(); await pause();}
+      }
+      await next();
+    }
+    doc.querySelector('input[value="Да (включены все цели)"]').click(); await pause();
+    const evidence = doc.querySelectorAll('.survey-inline-evidence');
+    assert.equal(evidence.length, 1, 'Only one source block');
+    assert.ok(evidence[0].querySelector('a[href*="1000003450/1000038580"]'));
+    assert.equal(doc.querySelectorAll('.survey-link-fields input').length, 0, 'Keep has no duplicate editor');
+    const change = [...evidence[0].querySelectorAll('button')].find(button => button.textContent.trim() === 'Скорректировать');
+    assert.ok(change); change.click(); await pause();
+    assert.equal(doc.querySelectorAll('.survey-link-fields input').length, 1, 'Edit reveals one URL input');
+    doc.querySelector('input[value="Нет"]').click(); await pause();
+    assert.equal(doc.querySelectorAll('.survey-inline-evidence').length, 0);
+  } finally {dom.window.close();}
+});
+
 test('benchmarks are checkbox options and do not restore excluded completeness', () => {
   for (const team of enabledTeams) {
     assert.ok(!getSections({product: team.id}).some(s => s.id === 'benchmarks'));
     for (const parent of getSections({product: team.id}).flatMap(s => s.questions)) {
       if (!parent.benchmark) continue;
-      assert.ok(parent.options.includes('Бенчмарки'));
+      if (!parent.benchmarkOnly) assert.ok(parent.options.includes('Бенчмарки'));
       assert.ok(!inlineQuestions(parent).some(q => q.id.startsWith('benchmarks')));
       if (parent.benchmarkOnly) {
-        assert.deepEqual(parent.options, ['Бенчмарки', 'Затрудняюсь ответить']);
+        assert.deepEqual(parent.options, ['Да', 'Нет', 'Затрудняюсь ответить']);
+        assert.equal(parent.type, 'radio');
         assert.equal(parent.inlineEvidence, undefined);
       }
     }
@@ -80,7 +172,10 @@ function completeAnswers(team) {
   for (const question of route(answers).flatMap(q => [q, ...inlineQuestions(q)])) {
     if (needsComment(question, answers)) answers[question.commentId] = 'Описание механики';
     if (needsReason(question, answers)) answers[question.reasonId] = 'Не подходит для продукта';
-    if (needsEvidence(question, answers)) answers[question.inlineEvidence.formatId] = 'excel';
+    if (needsEvidence(question, answers)) {
+      answers[question.inlineEvidence.formatId] = question.id === 'goalsDashboards' ? 'link' : 'excel';
+      if (question.id === 'goalsDashboards') answers.goalsDashboardsCorrection = 'edit';
+    }
     if (needsProof(question, answers)) answers[question.inlineProof.id] = question.inlineProof.kind === 'metricSource' ? 'Затрудняюсь ответить' : question.inlineProof.kind === 'backlog' ? 'https://jira.sberbank.ru/browse/DA-1' : 'Описание подтверждения';
   }
   return answers;
@@ -355,7 +450,8 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
         await write(doc.querySelector('.survey-single-question input'), '1000');
       }
       else if (question.type === 'multi') {
-        const option = id === 'usageIncludes' ? question.options[0]
+        const option = id === 'upsell' ? question.commentWhen.find(v => !knownMechanics(question, {product: target.id}).includes(v)) || 'Затрудняюсь ответить'
+          : id === 'usageIncludes' ? question.options[0]
           : question.options.includes('Затрудняюсь ответить') ? 'Затрудняюсь ответить'
           : question.options.includes('Не настроены дополнительные механики') ? 'Не настроены дополнительные механики'
             : question.options[0];
@@ -378,11 +474,17 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
       }
       for (const field of inlineQuestions(question)) {
         const block = [...doc.querySelectorAll('.survey-inline-question')].find(item => item.getAttribute('aria-label') === field.title);
-        if (!block && field.when) continue;
+        if (!block && (field.when || field.whenOption)) continue;
         if (field.type === 'links') {
           await write(block.querySelector('.survey-link-fields input'), 'https://example.test/kpi');
+        } else if (field.type === 'multi') {
+          assert.ok(block.classList.contains('survey-mechanic-detail'));
+          assert.ok(block.previousElementSibling.textContent.includes(field.whenOption.option), 'Detail is directly below its own mechanic');
+          [...block.querySelectorAll('.g-checkbox')].find(node => node.textContent.trim() === 'Затрудняюсь ответить').querySelector('input').click(); await pause();
         } else if (field.type === 'radio') {
-          [...block.querySelectorAll('.g-radio')].find(node => node.textContent.trim() === 'Нет').querySelector('input').click(); await pause();
+          const choice = field.options.includes('Нет') ? 'Нет' : field.options[0];
+          [...block.querySelectorAll('.g-radio')].find(node => node.textContent.trim() === choice).querySelector('input').click(); await pause();
+          if (field.inlineProof?.kind === 'backlog' && needsProof(field, {[field.id]: choice})) await write(block.querySelector('textarea'), 'jira.sberbank.ru/browse/DA-1');
         } else await write(block.querySelector('textarea'), 'Результаты и причины');
       }
       const evidence = doc.querySelector('.survey-inline-evidence');
@@ -390,9 +492,10 @@ for (const targetName of ['БПИФ', 'Почта, Диск, Календарь'
         if (id === 'usageIncludes') assert.equal(evidence.querySelector('h2').textContent, 'Пожалуйста, приложите ссылки');
         assert.equal(evidence.querySelector('.survey-excel-notice'), null);
         evidence.querySelectorAll('input[type="radio"]')[1].click(); await pause();
-        assert.match(evidence.querySelector('.survey-excel-notice').textContent, /^Пожалуйста, направьте отчетность нам по почте, чтобы мы могли учесть её при оценке\./);
-        assert.equal(evidence.querySelector('.survey-excel-notice a').getAttribute('href'), `mailto:MYCherkova@sberbank.ru,RGShishko@sberbank.ru,ASAntandze@sberbank.ru?subject=${encodeURIComponent(`3Q_DDI - ${target.name} - Источники`)}`);
-      } else if (evidence?.querySelector('textarea')) await write(evidence.querySelector('textarea'), question.inlineProof?.kind === 'backlog' ? 'https://jira.sberbank.ru/browse/DA-1' : 'Описание подтверждения');
+        assert.equal(evidence.querySelector('.survey-excel-notice'), null);
+        assert.equal(evidence.querySelector('.survey-mail-details'), null);
+        assert.doesNotMatch(evidence.textContent, /направьте отчетность|Адреса и тема письма/);
+      } else if (evidence?.querySelector('textarea')) await write(evidence.querySelector('textarea'), evidence.querySelector('#backlog') ? 'https://jira.sberbank.ru/browse/DA-1' : 'Описание подтверждения');
       const comment = doc.querySelector('.survey-mechanics-comment textarea');
       if (comment) await write(comment, 'Описание механики');
       if (question.inlineProof?.kind === 'metricSource') {
@@ -487,6 +590,15 @@ test('all products see the Cross-sell notice after mechanics without providing a
     delete answers.crossSellInfo;
     const sections = getSections(answers);
     const index = sections.findIndex(section => section.id === 'crossSell');
+    const metric = productSurveyProfiles[team.id].metrics.find(m => m.code === 'mehaniki.cross_sell');
+    const expected = Boolean(metric?.is_applicabble_flg && !metric.excluded_from_index && metric.dd_calculation_flg && metric.max_value > 0 && Number(metric.value) < metric.max_value);
+    assert.equal(index >= 0, expected, team.name);
+    if (!expected) {
+      const result = buildSurveyResult({...answers, crossSellAfter: 'Да', crossSellAfterProduct: 'Скрытый продукт'}, getBacklogAnalyzed(answers));
+      assert.ok(!('crossSellAfter' in result.answers));
+      assert.ok(!('crossSellAfterProduct' in result.answers));
+      continue;
+    }
     assert.ok(index > 0, `${team.name}: notice present`);
     const mechanicsIndex = sections.findIndex(section => section.id === 'mechanics');
     if (mechanicsIndex >= 0) assert.equal(index, mechanicsIndex + 1, `${team.name}: directly after mechanics`);
@@ -503,6 +615,7 @@ test('Cross-sell after opening follows the notice and requires a product only fo
   for (const team of enabledTeams) {
     const answers = completeAnswers(team);
     const crossSell = getSections(answers).find(section => section.id === 'crossSell');
+    if (!crossSell) continue;
     assert.deepEqual(crossSell.questions.map(q => q.id), ['crossSellAfter']);
     const question = crossSell.questions[0];
     const proofId = question.inlineProof.id;
@@ -624,11 +737,11 @@ test('goals are section 2 for all products and accept multiple links or unknown'
     const answers = completeAnswers(team);
     const sections = getSections(answers).filter(section => section.id !== 'intro');
     assert.equal(sections[1].id, 'goals', team.name);
-    assert.equal(sections[1].questions.length, 2);
+    assert.equal(sections[1].questions.length, 1);
     const monitoring = sections[1].questions[0];
     assert.equal(monitoring.id, 'goalsMonitoring');
     assert.deepEqual(monitoring.options, ['Да (включены все цели)', 'Частично (мониторинг не по всем целям)', 'Нет']);
-    const question = inlineQuestions(monitoring)[0];
+    const question = inlineQuestions(monitoring).find(q => q.id === 'goalsDashboards');
     assert.equal(hasAnswer(monitoring, {}), false);
     assert.equal(hasAnswer(monitoring, {goalsMonitoring: 'Нет'}), true);
     for (const choice of monitoring.options.slice(0, 2)) {
@@ -639,13 +752,14 @@ test('goals are section 2 for all products and accept multiple links or unknown'
     }
     const no = buildSurveyResult({...answers, goalsMonitoring: 'Нет', goalsDashboards: 'https://stale.test'});
     assert.equal(no.answers.goalsMonitoring, 'Нет');
-    for (const field of ['goalsDashboards', 'goalsDashboardsFormat']) {
+    for (const field of ['goalsForecast', 'goalsFactorAnalysis', 'goalsDashboards', 'goalsDashboardsFormat']) {
       assert.ok(!(field in no.answers));
       assert.ok(!(field in no.questionSources));
     }
-    assert.equal(hasAnswer(question, {}), false);
+    const correction = question.inlineEvidence?.previousLinks ? {goalsDashboardsCorrection: 'edit'} : {};
+    assert.equal(hasAnswer(question, correction), false);
     for (const bad of ['invalid', 'https://good.test\njavascript:alert(1)', 'ftp://example.test']) {
-      assert.equal(hasAnswer(question, {[question.id]: bad}), false);
+      assert.equal(hasAnswer(question, {...correction, [question.id]: bad}), false);
     }
     const links = 'https://example.test/kpi\nhttp://example.test/targets';
     const linked = buildSurveyResult({...answers, goalsDashboards: links});
@@ -655,9 +769,9 @@ test('goals are section 2 for all products and accept multiple links or unknown'
     assert.equal(excel.answers.goalsDashboards, 'Отчетность в формате Excel');
     assert.equal(excel.answers.goalsDashboardsFormat, 'excel');
     assert.ok('goalsDashboardsFormat' in excel.questionSources);
-    assert.equal(hasAnswer(question, {goalsDashboardsFormat: 'excel'}), true);
-    assert.equal(hasAnswer(question, {goalsDashboardsFormat: 'unknown'}), true);
-    assert.equal(hasAnswer(question, {goalsDashboardsFormat: 'invalid'}), false);
+    assert.equal(hasAnswer(question, {...correction, goalsDashboardsFormat: 'excel'}), true);
+    assert.equal(hasAnswer(question, {...correction, goalsDashboardsFormat: 'unknown'}), true);
+    assert.equal(hasAnswer(question, {...correction, goalsDashboardsFormat: 'invalid'}), false);
     assert.deepEqual(excel.result.metrics, linked.result.metrics);
     const unknown = buildSurveyResult({...answers, goalsDashboards: 'https://stale.test', goalsDashboardsUnknown: true});
     assert.equal(unknown.answers.goalsDashboards, 'Затрудняюсь ответить');
@@ -771,7 +885,7 @@ test('Internet acquiring has no historical churn items and shows a clearly label
   assert.equal(question.benchmarkOnly, true);
   assert.equal(question.title, 'Есть ли бенчмарки по воронке оттока?');
   assert.equal(question.previousOptions, undefined);
-  assert.deepEqual(question.options, ['Бенчмарки', 'Затрудняюсь ответить']);
+  assert.deepEqual(question.options, ['Да', 'Нет', 'Затрудняюсь ответить']);
   assert.equal(question.inlineEvidence, undefined);
 });
 
@@ -795,7 +909,7 @@ test('numeric knowledge metrics have automatic units and optional comments witho
     assert.deepEqual(after.result.metrics, before.result.metrics);
     for (const q of numeric) {
       assert.ok(!(q.optionalCommentId in before.answers));
-      assert.equal(after.answers[q.optionalCommentId], 'За последний доступный период');
+      assert.equal(after.answers[q.optionalCommentId], '  За последний доступный период  ');
       assert.equal(after.questionRows[q.optionalCommentId], q.row);
       assert.ok(q.optionalCommentId in after.questionSources);
     }
@@ -842,7 +956,7 @@ test('all evidence blocks accept multiple links and export only nonempty active 
         const answers = {...base, [source]: choice, [`${source}Format`]: 'link', [`${source}Link`]: links};
         assert.equal(hasAnswer(q, answers), true);
         const result = buildSurveyResult(answers);
-        assert.equal(result.answers[`${source}Link`], 'https://one.test/source\nhttps://two.test/source');
+        assert.equal(result.answers[`${source}Link`], links);
         assert.equal(hasAnswer(q, {...answers, [`${source}Link`]: 'https://one.test\nhttps://'}), false);
       }
       const hidden = buildSurveyResult({...base, [source]: 'Затрудняюсь ответить', [`${source}Link`]: links});
@@ -852,7 +966,7 @@ test('all evidence blocks accept multiple links and export only nonempty active 
     const {id, formatId} = q.inlineEvidence;
     const answers = {...base, churnModel: 'Да', [formatId]: 'link', [id]: 'https://one.test/model\n\nhttps://two.test/model\n'};
     assert.equal(hasAnswer(q, answers), true);
-    assert.equal(buildSurveyResult(answers).answers[id], 'https://one.test/model\nhttps://two.test/model');
+    assert.equal(buildSurveyResult(answers).answers[id], answers[id]);
     assert.equal(hasAnswer(q, {...answers, [id]: 'https://one.test/model\nnot-url'}), false);
     assert.ok(!(id in buildSurveyResult({...answers, [formatId]: 'excel'}).answers));
   }
@@ -867,7 +981,7 @@ test('Navigator metric sources accept dashboard names and URLs while own reporti
       const entries = '  Клиентская база продукта \n\nhttps://navigator.sigma.sbrf.ru/gdash/123\nMAU: продукт';
       const answers = {...base, [id]: 'Дашборд в Навигаторе', [`${id}Link`]: entries};
       assert.equal(hasAnswer(q, answers), true);
-      assert.equal(buildSurveyResult(answers).answers[`${id}Link`], 'Клиентская база продукта\nhttps://navigator.sigma.sbrf.ru/gdash/123\nMAU: продукт');
+      assert.equal(buildSurveyResult(answers).answers[`${id}Link`], entries);
       assert.equal(hasAnswer(q, {...answers, [`${id}Link`]: '   \n'}), false);
       assert.equal(hasAnswer(q, {...answers, [`${id}Link`]: 'Дашборд\nhttps://'}), false);
       assert.equal(hasAnswer(q, {...answers, [id]: 'Собственная отчетность', [`${id}Format`]: 'link'}), false);
@@ -888,7 +1002,7 @@ test('cannot provide a link is a valid common evidence choice with an optional a
     assert.ok(!(id in result.answers));
     assert.ok(!(`${id}Comment` in result.answers));
     result = buildSurveyResult({...answers, [`${id}Comment`]: '  Модель во внутренней системе  '});
-    assert.equal(result.answers[`${id}Comment`], 'Модель во внутренней системе');
+    assert.equal(result.answers[`${id}Comment`], '  Модель во внутренней системе  ');
     assert.ok(`${id}Comment` in result.questionSources);
     for (const format of ['link', 'excel']) {
       const restored = buildSurveyResult({...answers, [formatId]: format, [`${id}Comment`]: 'Старый комментарий'});
@@ -901,7 +1015,7 @@ test('cannot provide a link is a valid common evidence choice with an optional a
       assert.equal(hasAnswer(q, own), true);
       const ownResult = buildSurveyResult(own);
       assert.equal(ownResult.answers[`${source}Format`], 'unavailable');
-      assert.equal(ownResult.answers[`${source}LinkComment`], 'Ограничен доступ');
+      assert.equal(ownResult.answers[`${source}LinkComment`], '  Ограничен доступ  ');
       assert.ok(!(`${source}Link` in ownResult.answers));
       assert.ok(!(`${source}LinkComment` in buildSurveyResult({...own, [source]: 'Затрудняюсь ответить'}).answers));
     }
@@ -923,7 +1037,7 @@ test('business alerts require a setup comment only for Yes and Partial', () => {
       assert.throws(() => buildSurveyResult(empty), /Incomplete/);
       const before = buildSurveyResult({...empty, alertsComment: 'Описание'});
       const after = buildSurveyResult({...empty, alertsComment: '  Пороговые оповещения по email  '});
-      assert.equal(after.answers.alertsComment, 'Пороговые оповещения по email');
+      assert.equal(after.answers.alertsComment, '  Пороговые оповещения по email  ');
       assert.ok('alertsComment' in after.questionSources);
       assert.deepEqual(after.result.metrics, before.result.metrics);
     }
@@ -939,14 +1053,16 @@ test('forecast and factor analysis are two independent required answers on one G
   for (const team of enabledTeams) {
     const answers = completeAnswers(team);
     const goals = getSections(answers).find(s => s.id === 'goals');
-    assert.deepEqual(goals.questions.map(q => q.id), ['goalsMonitoring', 'goalsForecast']);
-    const forecast = goals.questions[1];
-    const factor = inlineQuestions(forecast, answers)[0];
+    assert.deepEqual(goals.questions.map(q => q.id), ['goalsMonitoring']);
+    const monitoring = goals.questions[0];
+    const forecast = inlineQuestions(monitoring, answers).find(q => q.id === 'goalsForecast');
+    const factor = inlineQuestions(monitoring, answers).find(q => q.id === 'goalsFactorAnalysis');
     assert.equal(factor.id, 'goalsFactorAnalysis');
     assert.deepEqual(forecast.options, ['Да, >90%', 'Частично, <90%', 'Нет']);
     assert.deepEqual(factor.options, forecast.options);
-    assert.equal(hasAnswer(forecast, {goalsForecast: 'Нет'}), false);
-    assert.equal(hasAnswer(forecast, {goalsFactorAnalysis: 'Нет'}), false);
+    assert.equal(hasAnswer(monitoring, {goalsMonitoring: monitoring.options[0], goalsForecast: 'Нет'}), false);
+    assert.equal(hasAnswer(monitoring, {goalsMonitoring: monitoring.options[0], goalsFactorAnalysis: 'Нет'}), false);
+    assert.equal(inlineQuestions(monitoring, {goalsMonitoring: 'Нет'}).length, 0);
     for (const forecastChoice of forecast.options) for (const factorChoice of factor.options) {
       const complete = {...answers, goalsForecast: forecastChoice, goalsFactorAnalysis: factorChoice};
       assert.equal(hasAnswer(forecast, complete), true);
@@ -957,4 +1073,70 @@ test('forecast and factor analysis are two independent required answers on one G
       assert.ok('goalsFactorAnalysis' in result.questionSources);
     }
   }
+});
+
+test('visible option labels and every active raw source are preserved exactly in JSON for all teams', () => {
+  const raw = '  navigator.sigma.sbrf.ru/gdash/123  \n\nhttps://example.com/report?a=1&b=2\n';
+  const comment = '  Комментарий: строка 1\nСтрока 2  ';
+  for (const team of enabledTeams) {
+    const base = completeAnswers(team);
+    const questions = route(base).flatMap(q => [q, ...inlineQuestions(q, base)]);
+    for (const q of questions) {
+      assert.ok(!q.options?.some(v => /кагортный|Сегментный\/ /i.test(v)), `${team.name}: ${q.id} has UI labels as values`);
+      if (q.type === 'numeric') {
+        const source = q.inlineProof.id;
+        const result = buildSurveyResult({...base, [source]: 'Собственная отчетность', [`${source}Format`]: 'link', [`${source}Link`]: raw, [q.optionalCommentId]: comment});
+        assert.equal(result.answers[`${source}Link`], raw);
+        assert.equal(result.answers[q.optionalCommentId], comment);
+        assert.ok(`${source}Link` in result.questionSources);
+      }
+      if (q.type === 'links') {
+        const result = buildSurveyResult({...base, [q.id]: raw});
+        assert.equal(result.answers[q.id], raw);
+      }
+      if (q.type === 'multi' && q.id !== 'upsell') {
+        const option = q.options.find(v => /Сегментный\/когортный/.test(v));
+        if (!option) continue;
+        const a = {...base, [q.id]: [option]};
+        if (q.inlineEvidence) {a[q.inlineEvidence.formatId] = 'link'; a[q.inlineEvidence.id] = raw; a[`${q.inlineEvidence.id}Correction`] = 'edit';}
+        assert.ok(buildSurveyResult(a).answers[q.id].includes(option));
+      }
+    }
+    const model = questions.find(q => q.id === 'churnModel');
+    const linked = buildSurveyResult({...base, churnModel: 'Да', [model.inlineEvidence.formatId]: 'link', [model.inlineEvidence.id]: raw});
+    assert.equal(linked.answers[model.inlineEvidence.id], raw);
+  }
+});
+
+test('conditional mechanic details are required only for newly selected retention and return and preserve Other text', () => {
+  for (const team of enabledTeams) {
+    const base = completeAnswers(team);
+    const parent = getSections(base).flatMap(s => s.questions).find(q => q.id === 'upsell');
+    if (!parent) continue;
+    for (const child of inlineQuestions(parent)) {
+      const option = child.whenOption.option;
+      if (knownMechanics(parent, base).includes(option)) continue;
+      const a = {...base, upsell: [option], mechanics: 'Общий комментарий'};
+      assert.equal(hasAnswer(parent, {...a, [child.id]: undefined}), false);
+      a[child.id] = ['Информационная коммуникация', 'Что-то еще? Напишите'];
+      a[`${child.id}Other`] = '  Пользовательский вариант\nбез обрезки  ';
+      const result = buildSurveyResult(a);
+      assert.deepEqual(result.answers[child.id], a[child.id]);
+      assert.equal(result.answers[`${child.id}Other`], a[`${child.id}Other`]);
+      assert.ok(`${child.id}Other` in result.questionSources);
+      const hidden = buildSurveyResult({...a, upsell: ['Затрудняюсь ответить']});
+      for (const field of [child.id, `${child.id}Other`]) {assert.ok(!(field in hidden.answers)); assert.ok(!(field in hidden.questionSources));}
+    }
+  }
+});
+
+
+test('Cross-sell reminder requires a prior partial applicable score and is hidden for a current No', () => {
+  for (const team of enabledTeams) {
+    const metric = productSurveyProfiles[team.id].metrics.find(m => m.code === 'mehaniki.cross_sell');
+    const expected = Boolean(metric?.is_applicabble_flg && !metric.excluded_from_index && metric.dd_calculation_flg && metric.value > 0 && metric.value < metric.max_value);
+    for (const choice of ['Да', 'Затрудняюсь ответить']) assert.equal(shouldShowCrossSellReminder({product: team.id, crossSellAfter: choice}), expected, team.name);
+    assert.equal(shouldShowCrossSellReminder({product: team.id, crossSellAfter: 'Нет'}), false);
+  }
+  assert.equal(shouldShowCrossSellReminder({product: 'unknown'}), false);
 });

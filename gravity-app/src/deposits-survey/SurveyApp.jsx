@@ -7,7 +7,7 @@ import dataDrivenLogo from '../assets/ocb2c.png';
 import {enabledTeams, filterTeamOption, teamGroups, teams} from './teams.js';
 import {buildSurveyResult} from './result.js';
 import {getIntroSummary, sectionCountText} from './intro.js';
-import {hasMetricSource, hasHttpLinks, hasDashboardSources, httpLinkValues, metricSourceEvidence, metricSourceOptions} from './metric-source.js';
+import {hasMetricSource, toHttpUrl, hasHttpLinks, hasDashboardSources, httpLinkValues, metricSourceEvidence, metricSourceOptions} from './metric-source.js';
 import {previousReportLinks} from './previous-funnels.js';
 
 const ValidationContext = createContext(false);
@@ -20,6 +20,7 @@ function SurveyBrand() {
 
 function Answer({question: q, answers, update, autoFocus = true}) {
   const [selectOpen, setSelectOpen] = useState(false);
+  const [addedLinkIndex, setAddedLinkIndex] = useState(null);
   const value = answers[q.id] || '';
   const attempted = useContext(ValidationContext);
   const invalid = attempted && !(allowsMissingMetric(q, answers) && blank(value)) && !hasAnswer({...q, inlineProof: undefined, inlineEvidence: undefined, inlineQuestions: undefined,
@@ -34,6 +35,7 @@ function Answer({question: q, answers, update, autoFocus = true}) {
   }
   const known = [...knownMechanics(q, answers), ...(q.previousOptions || [])];
   if (q.type === 'links') {
+    if (q.inlineEvidence) return null;
     const links = String(value).split(/\r?\n/);
     const format = answers[`${q.id}Unknown`] === true ? 'unknown' : answers[`${q.id}Format`] || 'link';
     const options = [{value: 'link', label: 'Ссылки на дашборды'}, {value: 'excel', label: 'Отчетность в формате Excel'}, {value: 'unknown', label: 'Затрудняюсь ответить'}];
@@ -41,12 +43,11 @@ function Answer({question: q, answers, update, autoFocus = true}) {
       <Radio size="l" name={`${q.id}Format`} value={option.value} checked={format === option.value} onUpdate={checked => {if (checked) {update(`${q.id}Format`, option.value); update(`${q.id}Unknown`, option.value === 'unknown'); if (option.value !== 'link') update(q.id, '');}}}>{option.label}</Radio>
       {format === option.value && option.value === 'link' && <>
         <div className="survey-link-fields">{links.map((link, index) => <div className="survey-link-row" key={index}>
-          <TextInput validationState={invalid && !hasHttpLinks(link) && (!blank(link) || !httpLinkValues(value).length && index === 0) ? 'invalid' : undefined} autoFocus={index === links.length - 1} size="xl" type="url" aria-label={`Ссылка на дашборд ${index + 1}`} placeholder="https://" value={link} onUpdate={v => update(q.id, links.map((item, i) => i === index ? v : item).join('\n'))} />
+          <TextInput validationState={invalid && !hasHttpLinks(link) && (!blank(link) || !httpLinkValues(value).length && index === 0) ? 'invalid' : undefined} autoFocus={index === addedLinkIndex} size="xl" type="url" aria-label={`Ссылка на дашборд ${index + 1}`} placeholder="example.ru/report" value={link} onUpdate={v => update(q.id, links.map((item, i) => i === index ? v : item).join('\n'))} />
           {links.length > 1 && <Button type="button" view="flat" size="xl" aria-label={`Удалить ссылку ${index + 1}`} onClick={() => update(q.id, links.filter((_, i) => i !== index).join('\n'))}>Удалить</Button>}
         </div>)}</div>
-        <Button type="button" className="survey-add-link" view="outlined" size="l" onClick={() => update(q.id, `${value}\n`)}>Добавить ещё</Button>
+        <Button type="button" className="survey-add-link" view="outlined" size="l" onClick={() => {setAddedLinkIndex(links.length); update(q.id, `${value}\n`);}}>Добавить ещё</Button>
       </>}
-      {format === option.value && option.value === 'excel' && <ExcelNotice product={answers.product} />}
     </React.Fragment>)}</div>;
   }
   if (q.type === 'numeric') {
@@ -72,34 +73,18 @@ function Answer({question: q, answers, update, autoFocus = true}) {
 }
 
 function EvidenceLinks({id, value, update, invalid, allowNames = false, label = 'Ссылка на отчёт'}) {
+  const [addedLinkIndex, setAddedLinkIndex] = useState(null);
   const links = String(value || '').split(/\r?\n/);
   const hasAny = httpLinkValues(value).length > 0;
   const validEntry = allowNames ? hasDashboardSources : hasHttpLinks;
   return <div className="survey-evidence-link-fields">
     <div className="survey-link-fields">{links.map((link, index) => <div className="survey-link-row" key={index}>
-      <TextInput size="l" type={allowNames ? "text" : "url"} controlProps={{inputMode: allowNames ? 'text' : 'url'}} autoFocus={index === links.length - 1} aria-label={index === 0 ? label : `${label} ${index + 1}`} placeholder={allowNames ? "Ссылка или название дашборда" : "https://"} value={link}
+      <TextInput size="l" type={allowNames ? "text" : "url"} controlProps={{inputMode: allowNames ? 'text' : 'url'}} autoFocus={id === 'goalsDashboards' ? index === addedLinkIndex : index === links.length - 1} aria-label={index === 0 ? label : `${label} ${index + 1}`} placeholder={allowNames ? "Ссылка или название дашборда" : "https://"} value={link}
         validationState={invalid && ((!blank(link) && !validEntry(link)) || (!hasAny && index === 0)) ? 'invalid' : undefined}
         onUpdate={next => update(id, links.map((item, i) => i === index ? next : item).join('\n'))} />
       {links.length > 1 && <Button type="button" view="flat" size="l" aria-label={`Удалить источник ${index + 1}`} onClick={() => update(id, links.filter((_, i) => i !== index).join('\n'))}>Удалить</Button>}
     </div>)}</div>
-    <Button type="button" view="outlined" size="l" className="survey-add-link" onClick={() => update(id, `${value || ''}\n`)}>Добавить ещё</Button>
-  </div>;
-}
-
-function ExcelNotice({product}) {
-  const [showMailDetails, setShowMailDetails] = useState(false);
-  const teamName = teams.find(team => team.id === product)?.name || '';
-  const recipients = 'MYCherkova@sberbank.ru,RGShishko@sberbank.ru,ASAntandze@sberbank.ru';
-  const subject = `3Q_DDI - ${teamName} - Источники`;
-  const href = `mailto:${recipients}?subject=${encodeURIComponent(subject)}`;
-  return <div className="survey-excel-notice" role="alert">
-    Пожалуйста, направьте отчетность <a className="survey-mail-link" href={href} target="_blank" rel="noopener noreferrer" onClick={() => setShowMailDetails(true)}>нам</a> по почте, чтобы мы могли учесть её при оценке.
-    <details className="survey-mail-details" open={showMailDetails} onToggle={event => setShowMailDetails(event.currentTarget.open)}>
-      <summary>Адреса и тема письма</summary>
-      <p>Если письмо не открылось, создайте его в вашей почте с этими данными и приложите Excel.</p>
-      <label>Кому<input readOnly aria-label="Получатели отчётности" value={recipients} onFocus={event => event.target.select()} /></label>
-      <label>Тема<input readOnly aria-label="Тема письма с отчётностью" value={subject} onFocus={event => event.target.select()} /></label>
-    </details>
+    <Button type="button" view="outlined" size="l" className="survey-add-link" onClick={() => {setAddedLinkIndex(links.length); update(id, `${value || ''}\n`);}}>Добавить ещё</Button>
   </div>;
 }
 
@@ -107,16 +92,16 @@ function InlineEvidence({question, answers, update}) {
   const attempted = useContext(ValidationContext);
   const invalid = attempted && !hasEvidence(question, answers);
   if (!needsEvidence(question, answers)) return null;
-  const {id, formatId, title, label, previousLinks, formats} = question.inlineEvidence;
+  const {id, formatId, title, label, previousLinks, previousTitle, formats, unknownId} = question.inlineEvidence;
   const options = formats || [{value: "link", label: "Ссылки на отчетность"}, {value: "excel", label: "Отчетность в формате Excel"}, {value: "unavailable", label: "Не могу предоставить ссылку"}];
   const {format, correction} = evidenceResponse(question.inlineEvidence, answers);
   const formatChosen = options.some(option => option.value === format);
   const direction = id === 'churnReport' ? 'оттока' : id === 'usageReport' ? 'использования' : 'привлечения';
   return <section className={`survey-inline-evidence ${previousLinks ? 'survey-previous-evidence' : ''}`} aria-label={label || `Материалы по воронке ${direction}`}>
     {previousLinks ? <>
-      <h2>{question.reportMonitoring ? 'Приложенные ранее ссылки:' : `При предыдущем прохождении опроса вы направили ссылку на воронку ${direction}:`}</h2>
-      <ol>{previousLinks.map(link => <li key={link}><a href={link} target="_blank" rel="noreferrer">{link}</a></li>)}</ol>
-      {!question.reportMonitoring && <p>Если в приложенной отчетности есть не все выбранные метрики, добавьте дополнительные ссылки.</p>}
+      <h2>{previousTitle || (question.reportMonitoring ? 'Приложенные ранее ссылки:' : `При предыдущем прохождении опроса вы направили ссылку на воронку ${direction}:`)}</h2>
+      <ol>{previousLinks.map(link => <li key={link}><a href={toHttpUrl(link) || link} target="_blank" rel="noreferrer">{link}</a></li>)}</ol>
+      {!question.reportMonitoring && !previousTitle && <p>Если в приложенной отчетности есть не все выбранные метрики, добавьте дополнительные ссылки.</p>}
     </> : <h2>{formats ? title || 'Пожалуйста, приложите ссылки' : 'Пожалуйста, приложите ссылки'}</h2>}
     {previousLinks && <div className="survey-correction-actions">
       {(!question.reportMonitoring || correction === 'edit') && <Button type="button" size="l" view={correction === 'keep' ? 'outlined-action' : 'outlined'} selected={correction === 'keep'} onClick={() => update(`${id}Correction`, 'keep')}>Не требуется корректировки</Button>}
@@ -126,13 +111,12 @@ function InlineEvidence({question, answers, update}) {
     <div className={`survey-radio survey-evidence-options ${invalid && !formatChosen ? "survey-field-error" : ""}`} aria-invalid={invalid && !formatChosen || undefined} role="radiogroup" aria-label={label ? `Формат: ${label}` : `Формат материалов по воронке ${direction}`}>
       {options.map((option, index) => <React.Fragment key={option.value}>
         {index > 0 && <span className="survey-evidence-or" aria-hidden="true">ИЛИ</span>}
-        <Radio size="l" name={formatId} value={option.value} checked={format === option.value} onUpdate={checked => {if (checked) {update(formatId, option.value); if (formats && format !== option.value) update(id, '');}}}>{option.label}</Radio>
+        <Radio size="l" name={formatId} value={option.value} checked={format === option.value} onUpdate={checked => {if (checked) {update(formatId, option.value); if (unknownId) update(unknownId, option.value === 'unknown'); if (formats && format !== option.value) update(id, '');}}}>{option.label}</Radio>
         {format === option.value && ['link', 'jira', 'confluence'].includes(option.value) && <EvidenceLinks id={id} value={answers[id]} update={update} invalid={invalid} />}
         {format === option.value && option.value === 'unavailable' && <section className="survey-metric-comment"><label htmlFor={`${id}Comment`}>Комментарий при необходимости</label><TextArea id={`${id}Comment`} autoFocus size="l" minRows={2} placeholder="Введите комментарий" value={answers[`${id}Comment`] || ''} onUpdate={value => update(`${id}Comment`, value)} /></section>}
         {format === option.value && option.value === 'other' && <TextArea validationState={invalid ? 'invalid' : undefined} autoFocus size="l" minRows={2} aria-label="Другие материалы по мероприятиям" placeholder="Опишите материалы или укажите, где их найти" value={answers[id] || ''} onUpdate={value => update(id, value)} />}
       </React.Fragment>)}
     </div>
-    {format === 'excel' && <ExcelNotice product={answers.product} />}
     </>}
   </section>;
 }
@@ -195,7 +179,7 @@ const features = [
 function Finish({name, back, showCrossSell}) {
   return <main className="survey-finish">
     <div className="finish-top"><SurveyBrand /><Label theme="success" size="m"><Icon data={Check} size={14} /> Опрос завершён</Label></div>
-    <section className="finish-result" aria-labelledby="finish-result-title"><p className="survey-eyebrow">Data Driven · 3Q26</p><h1 id="finish-result-title">Спасибо{name?.trim() ? `, ${name.trim()}` : ''}!<br />Вы прошли опрос.</h1><p>Итоги будут подведены <strong>до 31 октября</strong>.</p><p>Результат сможете посмотреть в Навигаторе по ссылке ниже.</p><Button view="action" size="xl" href="https://navigator.sigma.sbrf.ru/gdash/1000006647#eyJmdWxsc2NyZWVuV2lkZ2V0SUQiOjEwMDA1NDQ2MjB9" target="_blank" rel="noreferrer">Посмотреть результат оценки <Icon data={ArrowUpRight} size={18} /></Button></section>
+    <section className="finish-result" aria-labelledby="finish-result-title"><p className="survey-eyebrow">Data Driven · 3Q26</p><h1 id="finish-result-title">Спасибо{name?.trim() ? `, ${name.trim()}` : ''}!<br />Вы прошли опрос.</h1><p>Итоги будут подведены <strong>до 31 октября</strong>.</p><p>Результат сможете посмотреть в Навигаторе по ссылке ниже.</p><Button view="action" size="xl" href="https://navigator.sigma.sbrf.ru/gdash/1000006647#eyJmdWxsc2NyZWVuV2lkZ2V0SUQiOjEwMDA1NDQ2MjB9" target="_blank" rel="noreferrer">Перейти в дашборд Data Driven Index <Icon data={ArrowUpRight} size={18} /></Button></section>
     <section className="finish-hero"><p className="survey-eyebrow">От ответов — к действиям</p><h2>Следующий шаг — новые идеи.</h2><p>Вы находитесь на платформе <b>LossHunter</b>.<br />Здесь можно изучить рынок, разобрать клиентский путь и найти точки роста продукта.</p><Button view="action" size="xl" href="https://losshunter.ru/" target="_blank" rel="noreferrer">Открыть LossHunter <Icon data={ArrowUpRight} size={18} /></Button></section>
     {showCrossSell && <Card view="outlined" className="finish-crosssell" aria-labelledby="finish-crosssell-title"><div><p className="survey-eyebrow">Cross-sell · цифровые следы</p><h2 id="finish-crosssell-title">Не забудьте посмотреть статус Cross-sell по ссылке</h2><p>Наличие механики во время оформления вашего продукта — на платформе LossHunter.</p></div><Button view="action" size="xl" href={CROSS_SELL_URL} target="_blank" rel="noreferrer">Посмотреть статус Cross-sell <Icon data={ArrowUpRight} size={18} /></Button></Card>}
     <section className="finish-features"><div className="finish-section-head"><h2>Что есть на платформе</h2><span>Исследуйте. Сравнивайте. Применяйте.</span></div><div className="finish-feature-grid">{features.map((f, i) => <Card view="outlined" className={`finish-feature feature-${i}`} key={f.title}><div className="finish-feature-top"><span className="feature-icon"><Icon data={f.icon} size={20} /></span><Button size="s" view="outlined" href={f.href} target="_blank" rel="noreferrer">Перейти <Icon data={ArrowUpRight} size={14} /></Button></div><h3>{f.title}</h3><p>{f.copy}</p></Card>)}</div></section>
@@ -275,9 +259,10 @@ export function SurveyApp() {
       const fresh = (Array.isArray(value) ? value : []).filter(option => !q.previousOptions.includes(option));
       return `${q.previousOptions.map(correctTypos).join('; ')} — уже имеются.${fresh.length ? ` Новые ответы: ${fresh.map(correctTypos).join('; ')}` : ''}`;
     }
+    if (q.type === 'links' && q.inlineEvidence) return '';
     if (q.type === 'links') return answers[`${q.id}Unknown`] === true || answers[`${q.id}Format`] === 'unknown' ? 'Затрудняюсь ответить'
       : answers[`${q.id}Format`] === 'excel' ? 'Отчетность в формате Excel'
-      : !hasAnswer(q, answers) ? (value || 'Не заполнено') : String(value || '').split(/\r?\n/).map(link => link.trim()).filter(Boolean).map((link, index) => <React.Fragment key={`${index}-${link}`}><a href={link} target="_blank" rel="noreferrer">{link}</a><br /></React.Fragment>);
+      : !hasAnswer(q, answers) ? (value || 'Не заполнено') : String(value || '').split(/\r?\n/).map(link => link.trim()).filter(Boolean).map((link, index) => <React.Fragment key={`${index}-${link}`}><a href={toHttpUrl(link) || link} target="_blank" rel="noreferrer">{link}</a><br /></React.Fragment>);
     if (q.id === 'product') return teams.find(team => team.id === value)?.name || 'Не заполнено';
     if (q.type === 'numeric') return <>{allowsMissingMetric(q, answers) && blank(value) ? 'Затрудняюсь ответить' : `${formatNumericAnswer(value)}${q.unit ? ` ${q.unit}` : ''}`}{!blank(answers[q.optionalCommentId]) && <span className="review-inline-evidence review-metric-comment">Комментарий: {String(answers[q.optionalCommentId]).trim()}</span>}</>;
     const known = knownMechanics(q, answers);
@@ -295,6 +280,7 @@ export function SurveyApp() {
     if (!needsEvidence(q, values)) return proof;
     const {id, formatId} = q.inlineEvidence;
     const {format, value, comment} = evidenceResponse(q.inlineEvidence, values);
+    if (format === 'unknown') return <>{proof}<p className="review-inline-evidence">Материалы: Затрудняюсь ответить</p></>;
     if (format === 'unavailable') return <>{proof}<p className="review-inline-evidence">Материалы: Не могу предоставить ссылку{comment ? `. Комментарий: ${comment}` : ''}</p></>;
     if (format === 'excel') return <>{proof}<p className="review-inline-evidence">Материалы: Отчетность в формате Excel</p></>;
     if (q.inlineEvidence.formats && format === 'other') return <>{proof}<p className="review-inline-evidence">Материалы: Другое — {value}</p></>;

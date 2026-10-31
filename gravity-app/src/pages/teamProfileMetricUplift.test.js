@@ -10,17 +10,11 @@ const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'ut
 const metricRowSource = profileSource.match(
   /function MetricRow\([\s\S]*?(?=\nconst LEADER_CONFETTI_COLORS)/,
 )?.[0] || '';
-const metricUpliftBadgeSource = profileSource.match(
-  /function MetricUpliftBadge\([\s\S]*?(?=\nfunction MetricInlineAction)/,
-)?.[0] || '';
-const metricRecommendationTriggerSource = profileSource.match(
-  /function MetricRecommendationTrigger\([\s\S]*?(?=\nfunction MetricUpliftBadge)/,
-)?.[0] || '';
 const digitalTraceConfirmationSource = profileSource.match(
   /function DigitalTraceConfirmation\([\s\S]*?(?=\nfunction MetricRow)/,
 )?.[0] || '';
 const upliftRecommendationSource = profileSource.match(
-  /const GENERAL_UPLIFT_RECOMMENDATION[\s\S]*?(?=\nfunction MetricRecommendationTrigger)/,
+  /const GENERAL_UPLIFT_RECOMMENDATION[\s\S]*?(?=\nfunction MetricInlineAction)/,
 )?.[0] || '';
 const blockTitleSource = profileSource.match(
   /export function teamProfileBlockTitle[\s\S]*?(?=\nfunction AlertsHelpContent)/,
@@ -61,6 +55,7 @@ function recommendation(blockCode, blockName, metricCode, metricName, metricPerc
 test('team profile labels goals and CX blocks for their audience', () => {
   const {teamProfileBlockTitle} = blockTitleContext.blockTitleApi;
   assert.equal(teamProfileBlockTitle({code: 'goals', name: 'Цели'}), 'Цели уровня ЛЮ/ЛТ');
+  assert.equal(teamProfileBlockTitle({code: 'goals', name: 'Цели', goalsLevels: true}), 'Цели');
   assert.equal(teamProfileBlockTitle({name: 'Цели'}), 'Цели уровня ЛЮ/ЛТ');
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score'}]}), 'CX Score');
   assert.equal(teamProfileBlockTitle({name: 'Клиентский опыт', metrics: [{name: 'CX Score'}]}), 'CX Score');
@@ -72,7 +67,7 @@ test('team profile labels goals and CX blocks for their audience', () => {
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX   Score'}]}), 'CX Score');
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'UX Score report'}]}), 'CX Score');
   assert.match(profileSource, /<h3>\{teamProfileBlockTitle\(block\)\}<\/h3>/);
-  assert.match(profileSource, /name: teamProfileBlockTitle\(block\)/);
+  assert.match(profileSource, /name: teamProfileBlockTitle\(visibleMetricBlocks\[index\]\)/);
 });
 
 test('key metrics source help explains PO survey verification against dashboard data', () => {
@@ -125,7 +120,7 @@ test('industrial data metric reuses FeatureStore and materials from backlog reco
 test('business metrics analytics action follows the DD metric grid instead of AI recommendations', () => {
   assert.match(
     profileSource,
-    /<\/section>\s*<div className="metrics-title team-business-metrics-title">\s*<h2>Аналитические навыки<\/h2>\s*<\/div>\s*<Card className="promo metric-report-promo team-business-metrics-analytics"/,
+    /<\/section>\s*\{!product\.isPlaceholder && <><div className="metrics-title team-business-metrics-title">\s*<h2>Аналитические навыки<\/h2>\s*<\/div>\s*<Card className="promo metric-report-promo team-business-metrics-analytics"/,
   );
   assert.match(profileSource, /AI-аналитика по бизнес-метрикам/);
   assert.match(
@@ -152,58 +147,14 @@ test('draft AI action suppresses the duplicate generic Drafts skill link', () =>
   );
 });
 
-test('metric uplift uses the total maximum of applicable DD-index metrics', () => {
-  assert.match(
-    profileSource,
-    /const applicableMetrics = [^;]+\.filter\(isDdIndexMetric\);[\s\S]*?const maxPoints = applicableMetrics\.reduce\(\(sum, metric\) => sum \+ Number\(metric\.max_value \|\| 0\), 0\);/,
-  );
-  assert.match(metricRowSource, /function MetricRow\(\{[^}]*maxIndexPoints/);
-  assert.match(metricRowSource, /const metricValue = Number\(metric\.value \|\| 0\);/);
-  assert.match(metricRowSource, /const metricMax = Number\(metric\.max_value \|\| 0\);/);
-  assert.match(
-    metricRowSource,
-    /\(metricMax - metricValue\) \/ maxIndexPoints \* 100/,
-  );
-  assert.match(profileSource, /<MetricRow [^>]*maxIndexPoints=\{maxPoints\}/);
+test('metric rows retain actual growth and their current value without a potential-uplift duplicate', () => {
+  assert.doesNotMatch(metricRowSource, /indexUpliftBadge|MetricUpliftBadge|indexUpliftTitle/);
+  assert.match(metricRowSource, /const actualGrowthBadge = <MetricActualGrowthBadge/);
+  assert.match(metricRowSource, /metric-status-label/);
 });
 
-test('metric uplift is limited to incomplete applicable DD-index metrics', () => {
-  assert.match(
-    metricRowSource,
-    /const indexUplift = isDdIndexMetric\(metric\) && !isTbd && metricValue < metricMax && maxIndexPoints > 0/,
-  );
-  assert.match(metricRowSource, /const isTbd = isTbdMetric\(metric\);/);
-
-  const incomplete = {value: 0.4, max_value: 1};
-  const completed = {...incomplete, value: 1};
-  const tbd = {...incomplete, tbd: true};
-  const informational = {...incomplete, dd_calculation_flg: 0};
-  const inapplicable = {...incomplete, is_applicabble_flg: false};
-  const eligible = (metric) => isDdIndexMetric(metric)
-    && !isTbdMetric(metric)
-    && Number(metric.value || 0) < Number(metric.max_value || 0);
-
-  assert.equal(eligible(incomplete), true);
-  assert.equal(eligible(completed), false);
-  assert.equal(eligible(tbd), false);
-  assert.equal(eligible(informational), false);
-  assert.equal(eligible(inapplicable), false);
-  assert.match(
-    metricRowSource,
-    /const indexUpliftBadge = indexUplift > 0 && metric\.code !== 'mehaniki\.gibkoe_izmenenie_usloviy_produkta' && <MetricUpliftBadge label=\{indexUpliftLabel\} title=\{indexUpliftTitle\} recommendation=\{metricRecommendation\} \/>/,
-  );
-});
-
-test('Gravity uplift label shows percentage points with an accessible explanation', () => {
-  assert.match(metricRowSource, /`\+\$\{indexUplift\.toFixed\(1\)\} п\.п\.`/);
-  assert.match(
-    metricRowSource,
-    /const indexUpliftTitle = `Потенциальный прирост DD-индекса: \$\{indexUpliftLabel\}`;/,
-  );
-  assert.match(
-    metricUpliftBadgeSource,
-    /<Label className="metric-index-uplift" theme="success" title=\{title\} aria-label=\{title\}>\{label\}<\/Label>/,
-  );
+test('manually filled zeros do not claim digital-trace verification', () => {
+  assert.match(metricRowSource, /!\/\^userConfirmed\/\.test\(metric\.source\?\.origin \|\| ''\)/);
 });
 
 test('general block guidance applies to every incomplete metric in that block only', () => {
@@ -416,11 +367,11 @@ test('recommendation mapping and note confirmation stay available for completed 
   assert.equal(completedSelfService?.note, 'Проверено на цифровых следах за 1Q');
   assert.match(
     metricRowSource,
-    /const metricRecommendation = !isNotApplicable && !isTbd\s*\? metricUpliftRecommendation\(block, metric, value\)\s*: null;/,
+    /const baseMetricRecommendation = !isNotApplicable && !isTbd\s*\? metricUpliftRecommendation\(block, metric, value\)\s*: null;/,
   );
   assert.match(
     metricRowSource,
-    /const upliftDigitalTrace = metricRecommendation\?\.note\s*\? <DigitalTraceConfirmation message=\{metricRecommendation\.note\} \/>\s*: null;/,
+    /const upliftDigitalTrace = verificationNote\s*\? <DigitalTraceConfirmation message=\{verificationNote\} \/>\s*: null;/,
   );
   assert.doesNotMatch(
     metricRowSource,
@@ -428,132 +379,15 @@ test('recommendation mapping and note confirmation stay available for completed 
   );
 });
 
-test('only incomplete described metrics without uplift use the name trigger', () => {
-  const nameTriggerStyles = stylesSource.match(
-    /\.metric-name-recommendation-trigger\s*\{[^}]+\}/s,
-  )?.[0] || '';
-  const nameTriggerHoverStyles = stylesSource.match(
-    /\.metric-name-recommendation-trigger:hover\s*\{[^}]+\}/s,
-  )?.[0] || '';
-  const nameTriggerFocusStyles = stylesSource.match(
-    /\.metric-name-recommendation-trigger:focus-visible\s*\{[^}]+\}/s,
-  )?.[0] || '';
-
-  assert.equal(
-    recommendation('alerts', 'Алерты', 'alerts.business_metrics', 'Оповещения по бизнес-метрикам', 100)?.text,
-    'Воспользуйтесь инструментом Модуль Отклонений в Навигаторе',
-  );
-  assert.equal(
-    recommendation('alerts', 'Алерты', 'alerts.business_metrics', 'Неописанная метрика', 100),
-    null,
-  );
-  assert.match(
-    metricRowSource,
-    /const metricName = metricRecommendation && indexUplift === 0 && value < 100\s*\? \([\s\S]*?<MetricRecommendationTrigger[\s\S]*?className="metric-name-recommendation-trigger"[\s\S]*?triggerLabel=\{`Открыть рекомендацию для метрики «\$\{displayText\(metric\.name\)\}»`\}[\s\S]*?<b>\{displayText\(metric\.name\)\}<\/b>[\s\S]*?<\/MetricRecommendationTrigger>[\s\S]*?\)\s*: <b>\{displayText\(metric\.name\)\}<\/b>;/,
-  );
-  assert.match(
-    metricRowSource,
-    /const indexUpliftBadge = indexUplift > 0 && metric\.code !== 'mehaniki\.gibkoe_izmenenie_usloviy_produkta' && <MetricUpliftBadge [^;]+recommendation=\{metricRecommendation\} \/>;/,
-  );
-  assert.doesNotMatch(
-    metricRowSource,
-    /indexUplift > 0[\s\S]{0,180}className="metric-name-recommendation-trigger"/,
-  );
-  assert.match(nameTriggerStyles, /border-bottom:\s*1px dashed var\(--g-color-line-positive\);/);
-  assert.match(nameTriggerStyles, /background:\s*transparent;/);
-  assert.match(nameTriggerHoverStyles, /color:\s*var\(--g-color-text-positive-heavy\);/);
-  assert.match(nameTriggerHoverStyles, /border-bottom-style:\s*solid;/);
-  assert.doesNotMatch(nameTriggerHoverStyles, /background:/);
-  assert.match(nameTriggerFocusStyles, /outline:\s*2px solid var\(--g-color-line-focus\);/);
-});
-
-test('completed guidance is plain while incomplete guidance keeps exactly one popup trigger', () => {
-  const usesNameTrigger = ({recommendation: mappedRecommendation, indexUplift, value}) => (
-    Boolean(mappedRecommendation && indexUplift === 0 && value < 100)
-  );
-  const alertRecommendation = recommendation(
-    'alerts',
-    'Алерты',
-    'alerts.business_metrics',
-    'Оповещения по бизнес-метрикам',
-    50,
-  );
-  const incompleteDdRecommendation = recommendation(
-    'attract',
-    'Воронка привлечения',
-    'attract.report_completeness',
-    'Полнота отчета',
-    50,
-  );
-  const incompleteInformationalRegularityRecommendation = recommendation(
-    'churn',
-    'Воронка оттока',
-    'churn.regulyarnostь',
-    'Регулярность',
-    50,
-  );
-  const completedCampaignRecommendation = recommendation(
-    'attract',
-    'Воронка привлечения',
-    'attract.campaign_launches',
-    'Запуски кампаний за квартал',
-    100,
-  );
-  const completedSelfServiceRecommendation = recommendation(
-    'attract',
-    'Воронка привлечения',
-    'attract.nalichie_self_service',
-    'Наличие Self-service',
-    100,
-  );
-
-  assert.equal(
-    usesNameTrigger({recommendation: alertRecommendation, indexUplift: 0, value: 50}),
-    true,
-    'an incomplete informational mapping without uplift uses its metric name',
-  );
-  assert.equal(
-    usesNameTrigger({
-      recommendation: incompleteInformationalRegularityRecommendation,
-      indexUplift: 0,
-      value: 50,
-    }),
-    true,
-    'incomplete informational churn regularity uses its name trigger without uplift',
-  );
-  assert.equal(
-    usesNameTrigger({recommendation: alertRecommendation, indexUplift: 0, value: 100}),
-    false,
-    'a completed described metric keeps a plain metric name',
-  );
-  assert.equal(
-    usesNameTrigger({recommendation: completedCampaignRecommendation, indexUplift: 0, value: 100}),
-    false,
-    'a completed campaign keeps a plain metric name',
-  );
-  assert.equal(
-    usesNameTrigger({recommendation: completedSelfServiceRecommendation, indexUplift: 0, value: 100}),
-    false,
-    'a completed Self-service metric keeps a plain metric name',
-  );
-  assert.equal(completedCampaignRecommendation?.note, 'Проверено на цифровых следах за 1Q');
-  assert.equal(completedSelfServiceRecommendation?.note, 'Проверено на цифровых следах за 1Q');
-  assert.equal(
-    usesNameTrigger({recommendation: incompleteDdRecommendation, indexUplift: 5, value: 50}),
-    false,
-    'an incomplete DD metric uses its uplift trigger instead of a name trigger',
-  );
-  assert.match(
-    metricUpliftBadgeSource,
-    /<MetricRecommendationTrigger[\s\S]*?className="metric-index-uplift-trigger"[\s\S]*?>\s*\{upliftLabel\}\s*<\/MetricRecommendationTrigger>/,
-  );
-  assert.doesNotMatch(
-    metricRowSource,
-    /const metricName = [^;]*(?:value === 100|value >= 100)/,
-  );
+test('metric names remain plain and recommendations stay in the recommendations section', () => {
+  assert.match(metricRowSource, /const metricName = <b>\{displayText\(metric.name\)\}<\/b>;/);
+  assert.doesNotMatch(metricRowSource, /MetricRecommendationTrigger|metric-name-recommendation-trigger/);
+  assert.match(profileSource, /Рекомендации и фокусы для повышения DD-индекса/);
 });
 
 test('recommendation notes use the shared accessible digital-trace confirmation beside uplift', () => {
+  assert.ok(metricRowSource.includes("'Подтверждения отсутствуют на LossHunter'"));
+  assert.ok(metricRowSource.includes('Проверено на цифровых следах'));
   assert.match(
     digitalTraceConfirmationSource,
     /function DigitalTraceConfirmation\(\{message = 'Подтверждено на Цифровых следах'\}\)/,
@@ -568,101 +402,43 @@ test('recommendation notes use the shared accessible digital-trace confirmation 
   );
   assert.match(
     metricRowSource,
-    /const upliftDigitalTrace = metricRecommendation\?\.note\s*\? <DigitalTraceConfirmation message=\{metricRecommendation\.note\} \/>\s*: null;/,
+    /const upliftDigitalTrace = verificationNote\s*\? <DigitalTraceConfirmation message=\{verificationNote\} \/>\s*: null;/,
   );
   assert.equal(
     recommendation('alerts', 'Алерты', 'alerts.business_metrics', 'Оповещения по бизнес-метрикам')?.note,
     undefined,
   );
-  assert.doesNotMatch(metricRecommendationTriggerSource, /recommendation\.note|DigitalTraceConfirmation|CircleCheckFill|<small>/);
   assert.equal(
-    metricRowSource.match(/\{digitallyConfirmed && <DigitalTraceConfirmation \/>\}/g)?.length,
+    metricRowSource.match(/\{confirmationBadge\}/g)?.length,
     2,
   );
-});
-
-test('uplift and incomplete no-uplift metric name share one keyboard-accessible downward popup', () => {
-  const triggerOpenTag = metricRecommendationTriggerSource.match(
-    /<button\b[\s\S]*?>/,
-  )?.[0] || '';
-  const popupOpenTag = metricRecommendationTriggerSource.match(
-    /<Popup\b[\s\S]*?>/,
-  )?.[0] || '';
-  const dialogOpenTag = metricRecommendationTriggerSource.match(
-    /<div className="metric-index-uplift-popup-content"[^>]*>/,
-  )?.[0] || '';
-
-  assert.match(metricUpliftBadgeSource, /if \(!recommendation\) return upliftLabel;/);
-  assert.match(
-    metricUpliftBadgeSource,
-    /<MetricRecommendationTrigger[\s\S]*?className="metric-index-uplift-trigger"[\s\S]*?>\s*\{upliftLabel\}\s*<\/MetricRecommendationTrigger>/,
-  );
-  assert.match(
-    metricRowSource,
-    /<MetricRecommendationTrigger[\s\S]*?className="metric-name-recommendation-trigger"[\s\S]*?>\s*<b>\{displayText\(metric\.name\)\}<\/b>\s*<\/MetricRecommendationTrigger>/,
-  );
-  assert.match(triggerOpenTag, /type="button"/);
-  assert.match(triggerOpenTag, /aria-haspopup="dialog"/);
-  assert.match(triggerOpenTag, /aria-expanded=\{open\}/);
-  assert.match(triggerOpenTag, /aria-controls=\{popupId\}/);
-  assert.match(metricRecommendationTriggerSource, /onClick=\{\(\) => setOpen\(\(visible\) => !visible\)\}/);
-  assert.match(popupOpenTag, /placement="bottom-end"/);
-  assert.doesNotMatch(popupOpenTag, /\bid=\{popupId\}/);
-  assert.doesNotMatch(popupOpenTag, /\brole="dialog"/);
-  assert.doesNotMatch(popupOpenTag, /\baria-label=\{popupLabel\}/);
-  assert.match(dialogOpenTag, /\bid=\{popupId\}/);
-  assert.match(dialogOpenTag, /\brole="dialog"/);
-  assert.match(dialogOpenTag, /\baria-label=\{popupLabel\}/);
-  assert.match(metricRecommendationTriggerSource, /<p>\{recommendation\.text\}<\/p>/);
-  assert.doesNotMatch(metricRecommendationTriggerSource, /recommendation\.note|CircleCheckFill|<small>/);
 });
 
 test('uplift precedes digital-trace state indicators and the value in both detail modes', () => {
   assert.match(
     metricRowSource,
-    /<div className="metric-value-group">\{indexUpliftBadge\}\{upliftDigitalTrace\}\{digitallyConfirmed && <DigitalTraceConfirmation \/>\}\{crossSellUnconfirmed && <CrossSellUnconfirmedWarning \/>\}<span className="metric-value-label">\{valueLabel\}<\/span><\/div>/,
+    /<div className="metric-value-group">\{actualGrowthBadge\}\{confirmationBadge\}<span className="metric-value-label">\{valueLabel\}<\/span><\/div>/,
   );
   assert.match(
     metricRowSource,
-    /<div className="metric-value-group">\{indexUpliftBadge\}\{upliftDigitalTrace\}\{digitallyConfirmed && <DigitalTraceConfirmation \/>\}\{crossSellUnconfirmed && <CrossSellUnconfirmedWarning \/>\}<Label className="metric-status-label" theme=\{status\.theme\}>\{status\.label\}<\/Label><\/div>/,
+    /<div className="metric-value-group">\{actualGrowthBadge\}\{confirmationBadge\}<Label className=\{status\.theme === \'normal\' \? \'metric-status-label metric-status-label-text\' : \'metric-status-label\'\} theme=\{status\.theme\}>\{status\.label\}<\/Label><\/div>/,
   );
 
   const valueGroupStyles = stylesSource.match(
     /\.metric-value-group\s*\{[^}]+\}/s,
   )?.[0] || '';
-  assert.match(valueGroupStyles, /display:\s*flex;/);
-  assert.match(valueGroupStyles, /flex-wrap:\s*nowrap;/);
+  assert.match(valueGroupStyles, /display:\s*grid;/);
+  assert.match(valueGroupStyles, /grid-template-columns:\s*max-content 18px max-content;/);
   assert.match(valueGroupStyles, /align-items:\s*center;/);
-  assert.match(valueGroupStyles, /justify-content:\s*flex-end;/);
+  assert.match(valueGroupStyles, /justify-content:\s*end;/);
 });
 
-test('uplift is absent from the metric name and uses transparent green Label styling', () => {
-  const nameLineMarkup = metricRowSource
-    .split('\n')
-    .find((line) => line.includes('className="metric-name-line"')) || '';
-  const nameLineStyles = stylesSource.match(
-    /\.metric-name-line\s*\{[^}]+\}/s,
-  )?.[0] || '';
-  const upliftStyles = stylesSource.match(
-    /\.metric-index-uplift\s*\{[^}]+\}/s,
-  )?.[0] || '';
-
-  assert.doesNotMatch(nameLineMarkup, /metric-index-uplift|indexUpliftBadge/);
-  assert.doesNotMatch(nameLineStyles, /flex-wrap/);
-  assert.doesNotMatch(stylesSource, /\.metric-name-line\s*>\s*b/);
-  assert.doesNotMatch(stylesSource, /\.metric-copy \.metric-index-uplift/);
-  assert.match(upliftStyles, /--_--bg-color:\s*transparent;/);
-  assert.match(upliftStyles, /--_--bg-color-hover:\s*transparent;/);
-  assert.match(upliftStyles, /--_--text-color:\s*var\(--g-color-text-positive-heavy\);/);
-  assert.match(
-    upliftStyles,
-    /box-shadow:\s*inset 0 0 0 1px var\(--g-color-line-positive\);/,
-  );
-  const upliftHoverStyles = stylesSource.match(
-    /\.metric-index-uplift-trigger:hover\s+\.metric-index-uplift\s*\{[^}]+\}/s,
-  )?.[0] || '';
-  assert.match(upliftHoverStyles, /box-shadow:\s*inset 0 0 0 2px var\(--g-color-line-positive\);/);
-  assert.doesNotMatch(upliftHoverStyles, /--_--bg-color/);
+test('actual uplift is filled green, with fixed value and confirmation columns', () => {
+  const styles = stylesSource.match(/\.metric-index-uplift\s*\{[^}]+\}/s)?.[0] || '';
+  assert.match(styles, /--_--bg-color:\s*var\(--g-color-base-positive-light\);/);
+  assert.match(styles, /box-shadow:\s*none;/);
+  assert.match(stylesSource, /\.metric-row-status \.metric-value-group\s*\{ grid-template-columns: max-content 18px minmax\(64px, max-content\);/);
+  assert.match(stylesSource, /\.metric-value-group > \.metric-status-label, \.metric-value-group > \.metric-value-label\s*\{ grid-column: 3; grid-row: 1;/);
 });
 
 test('compact metric status stays aligned with its copy on narrow screens', () => {
