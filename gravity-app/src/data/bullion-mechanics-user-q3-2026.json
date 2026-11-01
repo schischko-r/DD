@@ -1,0 +1,15 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {"origin": "userConfirmedBullionReturn20261031", "confirmedBy": "user", "date": "2026-10-31"},
+  "products": [{
+    "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+    "name": "Слитки", "unit": "CBP", "type": "Продукт",
+    "metrics": {
+      "mehaniki.vozvrat_klientov": {
+        "rawValue": 0.5,
+        "source": {"origin": "userConfirmedBullionReturn20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "rawValue": 0.5, "supersededInput": 0, "rule": "Последнее уточнение пользователя: возврат клиентов у Слитков = 0.5. Предварительное указание 0 отменено."}
+      }
+    }
+  }]
+}

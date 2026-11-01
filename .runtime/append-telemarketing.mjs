@@ -1,0 +1,20 @@
+import assert from 'node:assert/strict';
+import {readFileSync, writeFileSync} from 'node:fs';
+import {products} from './audit-missing-scores.mjs';
+const product = products.find(team => team.name === 'Телемаркетинг');
+assert.ok(product);
+const identity = {id: product.id.split('::empty::')[0], name: product.name, unit: product.unit, type: product.type};
+const mechanicsCode = 'mehaniki.nailuchshego_vremeni_zvonka';
+const actionCode = 'voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami';
+const metrics = product.metrics.flatMap(block => block.metrics);
+assert.equal(metrics.find(metric => metric.code === mechanicsCode).value, null);
+assert.equal(metrics.find(metric => metric.code === actionCode).value, null);
+const proof = {origin: 'userConfirmedTelemarketingScores20261031', confirmedBy: 'user', date: '2026-10-31', period: product.period, inputAlias: 'тм'};
+const mechanics = {period: product.period, scope: 'mechanics-user-assessment', source: proof,
+  products: [{...identity, metrics: {[mechanicsCode]: {rawValue: 0.5, source: {...proof, rawValue: 0.5, previousValue: null}}}}]};
+writeFileSync(new URL('../gravity-app/src/data/telemarketing-mechanics-user-q3-2026.json', import.meta.url), JSON.stringify(mechanics, null, 2) + '\n');
+const path = new URL('../gravity-app/src/data/digital-funnel-actions-user-q3-2026.json', import.meta.url);
+const actions = JSON.parse(readFileSync(path, 'utf8'));
+assert.ok(!actions.products.some(team => team.name === product.name));
+actions.products.push({...identity, metrics: {[actionCode]: {rawValue: 1, source: {...proof, rawValue: 1, previousValue: null}}}});
+writeFileSync(path, JSON.stringify(actions, null, 2) + '\n');

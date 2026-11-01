@@ -2,9 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {buildTeamProfileProducts} from '../src/domain/teamProfileSelection.js';
-import {excludeRemovedTeams} from '../src/domain/report.js';
+import {excludeRemovedTeams, isDdIndexMetric} from '../src/domain/report.js';
 import {buildDdiPeriodProducts, Q3_DB_TEAMS} from '../src/domain/quarterProfiles.js';
-import {navigatorKnowledgeFraction, isInvestKopilkaNavigatorOverride} from '../src/domain/navigatorKnowledge.js';
+import {navigatorKnowledgeFraction, isInvestKopilkaNavigatorOverride, isDirectNavigatorOverride} from '../src/domain/navigatorKnowledge.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const input = process.env.DDI_REPORT_DATA_PATH || path.join(root, 'public/report-data.json');
@@ -28,6 +28,9 @@ const required = ['smile-attract-analysis-q3-2026.json', 'smile-markets-zero-q3-
 for (const name of required) {
   if (!overlays.some((overlay) => overlay.name === name)) throw new Error(`Manual assessment is disconnected: ${name}`);
 }
+if (!overlays.some(({name}) => name === 'reporting-absence-user-q3-2026.json')) {
+  throw new Error('Reporting absence rule is disconnected from App.jsx');
+}
 const products = buildTeamProfileProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data));
 const factKey = (team, code) => JSON.stringify([team.id, team.name, team.unit, team.type, code]);
 // An explicit assessment supersedes the historical carry-forward value, which remains in its source file.
@@ -39,6 +42,10 @@ const explicitMechanicsFacts = new Set(overlays.filter(({data}) => data.scope ==
   && data.period === 'III кв. 2026').flatMap(({data}) => (data.products || []).flatMap((team) =>
   Object.entries(team.metrics || {}).filter(([, fact]) => [0, 0.5, 1].includes(fact.rawValue))
     .map(([code]) => factKey(team, code)))));
+const explicitRegularityFacts = new Set(overlays.filter(({data}) => data.scope === 'regularity-user-assessment'
+  && data.period === 'III кв. 2026').flatMap(({data}) => (data.products || []).flatMap((team) =>
+    Object.entries(team.metrics || {}).filter(([, fact]) => [0, 0.5, 1].includes(fact.rawValue))
+      .map(([code]) => factKey(team, code)))));
 const explicitAlertFacts = new Set(overlays.filter(({data}) => data.scope === 'user-metric-assessment'
   && data.period === 'III кв. 2026').flatMap(({data}) => (data.products || []).flatMap((team) =>
   Object.entries(team.metrics || {}).filter(([code, fact]) => code.startsWith('alerts.') && [0, 0.5, 1].includes(fact.rawValue))
@@ -51,6 +58,11 @@ const goalsTribeFacts = new Map(overlays.filter(({data}) => data.source?.origin 
   .flatMap(({data}) => (data.products || []).flatMap((team) =>
     Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
 const errors = [];
+const latestCorrectionFacts = new Map(overlays.filter(({data}) =>
+  data.period === 'III кв. 2026' && ['userConfirmedAutoAttractCorrection20261031',
+    'userConfirmedInsuranceFunnelBatch20261031', 'userConfirmedDirectNavigatorAssessment'].includes(data.source?.origin))
+  .flatMap(({data}) => (data.products || []).flatMap((team) =>
+    Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
 const navigatorZeroMarketFacts = new Map(overlays.filter(({data}) => data.scope === 'key-metrics-assessment'
   && data.period === 'III кв. 2026').flatMap(({data}) => (data.products || []).flatMap((team) =>
   Object.entries(team.metrics || {}).filter(([code, fact]) => code === 'general.navigator_reporting_knowledge'
@@ -83,6 +95,8 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
     if (!product) {errors.push(`${name}: missing team ${team.unit} / ${team.name}`); continue;}
     const metrics = product.metrics.flatMap((block) => block.metrics || []);
     for (const [code, fact] of Object.entries(team.metrics || {})) {
+      const latestCorrectionFact = latestCorrectionFacts.get(factKey(team, code));
+      if (latestCorrectionFact && latestCorrectionFact !== fact) continue;
       if (data.scope === 'goals-information-assessment') {
         const metric = metrics.find(metric => metric.code === code);
         if (!metric || metric.dd_calculation_flg !== 0 || metric.excluded_from_index !== true) {
@@ -91,17 +105,21 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
         checked++;
         continue;
       }
-      const explicitMaximumSurveyFact = maximumSurveyFacts.get(factKey(team, code));
+      const explicitMaximumSurveyFact = latestCorrectionFact ? null : maximumSurveyFacts.get(factKey(team, code));
       if (explicitMaximumSurveyFact && explicitMaximumSurveyFact !== fact) continue;
       if (data.scope === 'user-confirmed-q2-retention') {
         const prior = source.products.find((product) => product.period === 'II кв. 2026'
           && product.id === team.id && ['name', 'unit', 'type'].every((key) => product[key] === team[key]));
         const old = prior?.metrics.flatMap((block) => block.metrics).find((metric) => metric.code === code);
         const metric = metrics.find((metric) => metric.code === code);
-        if (!old || !metric || metric.value !== old.value || metric.max_value !== old.max_value
+        const segmentFloor = fact.source?.policy === 'segmentMechanicsNonDecreasing';
+        const proposed = fact.source?.proposedRawValue;
+        const expected = old && segmentFloor ? Math.max(old.value, proposed * old.max_value) : old?.value;
+        const expectedRaw = old && segmentFloor ? Math.max(old.value / old.max_value, proposed) : old?.value / old?.max_value;
+        if (!old || !metric || metric.value !== expected || metric.max_value !== old.max_value
           || metric.is_applicabble_flg === false || !(metric.max_value > 0)
           || fact.source?.sourceValue !== old.value || fact.source?.sourceMaxValue !== old.max_value
-          || fact.rawValue !== old.value / old.max_value) {
+          || fact.rawValue !== expectedRaw || (segmentFloor && ![0, 0.5, 1].includes(proposed))) {
           errors.push(`${name}: ${team.name} / ${code}: exact Q2 retention was lost`);
         }
         checked++;
@@ -109,9 +127,9 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
       }
       const goalsTribeFact = goalsTribeFacts.get(factKey(team, code));
       if (goalsTribeFact && goalsTribeFact !== fact) continue;
-      const navigatorZeroMarketFact = navigatorZeroMarketFacts.get(factKey(team, code));
+      const navigatorZeroMarketFact = latestCorrectionFact ? null : navigatorZeroMarketFacts.get(factKey(team, code));
       if (navigatorZeroMarketFact && navigatorZeroMarketFact !== fact) continue;
-      const maximumSurveyFact = maximumSurveyFacts.get(factKey(team, code));
+      const maximumSurveyFact = latestCorrectionFact ? null : maximumSurveyFacts.get(factKey(team, code));
       if (maximumSurveyFact && maximumSurveyFact !== fact) continue;
       if (data.scope === 'metric-applicability-assessment' && fact.applicable === false) {
         const metric = metrics.find((item) => item.code === code);
@@ -130,7 +148,8 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
         && ['rezulьtativnostь.cr_vypolneniya', 'rezulьtativnostь.dop_npv_vypolneniya', 'rezulьtativnostь.delьta_cltv_vypolneniya'].includes(code);
       if (!isCompletenessFraction && !isPerformanceQuarter && ![0, 0.5, 1].includes(fact.rawValue) && !(data.scope === 'ab-tests-assessment'
         && code === 'hyp.ab_tests' && fact.rawValue === 0.25)) continue;
-      if (data.scope === 'funnel-reporting-carry-forward' && explicitFunnelFacts.has(factKey(team, code))) continue;
+      if (data.scope === 'funnel-reporting-carry-forward'
+        && (explicitFunnelFacts.has(factKey(team, code)) || explicitRegularityFacts.has(factKey(team, code)))) continue;
       if (data.scope === 'mechanics-carry-forward' && explicitMechanicsFacts.has(factKey(team, code))) continue;
       if (data.scope === 'alerts-carry-forward' && explicitAlertFacts.has(factKey(team, code))) continue;
       if (data.scope === 'campaign-missing-zero-assessment' && explicitCampaignFacts.has(factKey(team, code))) continue;
@@ -209,7 +228,8 @@ for (const product of finalProducts) {
   const metrics = product.metrics.flatMap((block) => block.metrics);
   const navigator = metrics.find((metric) => metric.code === 'general.navigator_reporting_knowledge');
   const fraction = navigatorKnowledgeFraction(metrics);
-  if (!isInvestKopilkaNavigatorOverride(product, navigator) && fraction !== undefined && navigator?.is_applicabble_flg !== false && navigator?.max_value > 0
+  if (!isInvestKopilkaNavigatorOverride(product, navigator) && !isDirectNavigatorOverride(product, navigator)
+    && fraction !== undefined && navigator?.is_applicabble_flg !== false && navigator?.max_value > 0
     && navigator.value !== (fraction === null ? null : fraction * navigator.max_value)) {
     throw new Error(`Navigator knowledge hierarchy lost: ${product.name}`);
   }
@@ -286,7 +306,7 @@ for (const team of reportingMissing.products || []) {
   if (!product) throw new Error(`Missing reporting fill team: ${team.name}`);
   for (const [code, fact] of Object.entries(team.metrics || {})) {
     const metric = product.metrics.flatMap((b) => b.metrics).find((m) => m.code === code);
-    const effectiveFact = reportingFormatFacts.get(factKey(team, code)) || fact;
+    const effectiveFact = latestCorrectionFacts.get(factKey(team, code)) || reportingFormatFacts.get(factKey(team, code)) || fact;
     if (!metric || metric.value !== effectiveFact.rawValue * metric.max_value) {
       throw new Error(`Missing reporting fill lost: ${team.name} / ${code}`);
     }
@@ -307,6 +327,66 @@ for (const team of actionMissing.products || []) {
     actionsFilled++;
   }
 }
+const absenceAssessments = overlays.filter(({data}) => data.scope === 'reporting-absence-assessment');
+const beforeAbsence = buildDdiPeriodProducts(source.products, 'III кв. 2026',
+  overlays.filter(({data}) => data.scope !== 'reporting-absence-assessment').map(({data}) => data), salary, reportingMissing, actionMissing);
+const beforeAbsenceTeams = beforeAbsence.flatMap(product => [product, ...Object.values(product.salaryCohorts || {})]);
+let absenceChanges = 0;
+for (const product of finalAssessmentProducts) {
+  const oldProduct = beforeAbsenceTeams.find(team => team.id === product.id && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
+  if (!oldProduct) throw new Error(`Reporting absence rule changed the roster: ${product.name}`);
+  const facts = absenceAssessments.flatMap(({data}) => data.products || []).filter(team =>
+    team.id === product.id.replace(/::empty::.*/, '') && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
+  for (const block of product.metrics) {
+    const oldBlock = oldProduct.metrics.find(item => item.code === block.code);
+    const proof = facts.flatMap(team => team.blocks || []).find(item => item.blockCode === block.code && item.answer === 'Нет');
+    const report = proof && oldBlock.metrics.find(metric => metric.code === proof.reportingCode);
+    const eligible = report && report.is_applicabble_flg !== false && report.max_value > 0
+      && (report.value == null || report.value === '' || report.value === 0);
+    for (const metric of block.metrics) {
+      const old = oldBlock.metrics.find(item => item.code === metric.code);
+      const dependent = /\.(?:benchmarks|nalichie_benchmarkov|regulyarnostь|report_completeness|polnota_otcheta)$/.test(metric.code);
+      const expected = eligible && (metric.code === proof.reportingCode || dependent)
+        && old.is_applicabble_flg !== false && old.max_value > 0 ? 0 : old.value;
+      if (metric.value !== expected || metric.max_value !== old.max_value || metric.is_applicabble_flg !== old.is_applicabble_flg) {
+        throw new Error(`Reporting absence rule changed an unauthorized value: ${product.name} / ${metric.code}`);
+      }
+      if (metric.value !== old.value) absenceChanges++;
+    }
+  }
+}
+const exclusionAssessments = overlays.filter(({data}) => data.scope === 'metric-index-exclusion-assessment');
+const beforeExclusions = buildDdiPeriodProducts(source.products, 'III кв. 2026',
+  overlays.filter(({data}) => data.scope !== 'metric-index-exclusion-assessment').map(({data}) => data), salary, reportingMissing, actionMissing);
+let excludedMetrics = 0;
+for (const product of finalProducts) {
+  const previous = beforeExclusions.find(item => item.id === product.id);
+  const teams = exclusionAssessments.flatMap(({data}) => data.products || []).filter(team =>
+    team.id === product.id.replace(/::empty::.*/, '') && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
+  const facts = Object.assign({}, ...teams.map(team => team.metrics || {}));
+  for (const metric of product.metrics.flatMap(block => block.metrics)) {
+    const old = previous.metrics.flatMap(block => block.metrics).find(item => item.code === metric.code);
+    if (metric.value !== old.value || metric.max_value !== old.max_value || metric.is_applicabble_flg !== old.is_applicabble_flg
+      || JSON.stringify(metric.source) !== JSON.stringify(old.source)) {
+      throw new Error(`Index exclusion changed a score or rubric: ${product.name} / ${metric.code}`);
+    }
+    if (facts[metric.code]?.excludedFromIndex === true) {
+      if (metric.excluded_from_index !== true || metric.dd_calculation_flg !== 0 || isDdIndexMetric(metric)) {
+        throw new Error(`Index exclusion lost: ${product.name} / ${metric.code}`);
+      }
+      excludedMetrics++;
+    } else if (metric.excluded_from_index !== old.excluded_from_index || metric.dd_calculation_flg !== old.dd_calculation_flg) {
+      throw new Error(`Index exclusion changed another metric: ${product.name} / ${metric.code}`);
+    }
+  }
+  const expectedMax = product.metrics.flatMap(block => block.metrics).filter(isDdIndexMetric)
+    .reduce((sum, metric) => sum + Number(metric.max_value), 0);
+  if (teams.length && Math.abs(product.indexMaxPoints - expectedMax) > 1e-9) {
+    throw new Error(`Index exclusion denominator is inconsistent: ${product.name}`);
+  }
+}
+console.log(`Index exclusions preserved: ${excludedMetrics}; scores and rubric maxima unchanged.`);
+console.log(`Reporting absence rule: ${absenceChanges} values changed; positive reporting and unrelated metrics preserved.`);
 console.log(`Funnel action blanks filled: ${actionsFilled}; existing scores preserved.`);
 console.log(`Reporting blanks filled: ${reportingFilled}; existing scores preserved.`);
 console.log(`Manual Q3 assessments preserved: ${checked} values checked across ${products.length} teams.`);

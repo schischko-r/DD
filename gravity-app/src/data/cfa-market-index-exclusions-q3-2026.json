@@ -1,0 +1,21 @@
+{
+  "period": "III кв. 2026",
+  "scope": "metric-index-exclusion-assessment",
+  "source": {"origin": "userConfirmedCfaMarketIndexExclusions20261031", "confirmedBy": "user", "date": "2026-10-31"},
+  "products": [{
+    "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+    "name": "ЦФА",
+    "unit": "УБ",
+    "type": "Продукт",
+    "metrics": {
+      "general.obъem_celevogo_rynka_v_rossii": {
+        "excludedFromIndex": true,
+        "source": {"origin": "userConfirmedCfaMarketIndexExclusions20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "rule": "По прямому указанию пользователя объём целевого рынка в России у ЦФА не входит в расчёт индекса. Значение и максимум сохраняются."}
+      },
+      "general.obъem_celevogo_rynka_v_sbere": {
+        "excludedFromIndex": true,
+        "source": {"origin": "userConfirmedCfaMarketIndexExclusions20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "rule": "По прямому указанию пользователя объём целевого рынка в Сбере у ЦФА не входит в расчёт индекса. Значение и максимум сохраняются."}
+      }
+    }
+  }]
+}

@@ -1,0 +1,33 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {
+    "origin": "userConfirmedTelemarketingScores20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "period": "III кв. 2026",
+    "inputAlias": "тм"
+  },
+  "products": [
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "mehaniki.nailuchshego_vremeni_zvonka": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedTelemarketingScores20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "inputAlias": "тм",
+            "rawValue": 0.5,
+            "previousValue": null
+          }
+        }
+      }
+    }
+  ]
+}

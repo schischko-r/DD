@@ -3,6 +3,8 @@ import {isDdIndexMetric} from './report.js';
 const benchmarkCodes = new Set(['attract.benchmarks', 'churn.benchmarks',
   'voronka_vhoda_v_kanal.nalichie_benchmarkov', 'voronka_prodazh.nalichie_benchmarkov',
   'voronka_ispolьzovaniya.nalichie_benchmarkov']);
+const segmentMechanicsCodes = new Set(['mehaniki.reagirovanie_na_zhiznennye_sobytiya',
+  'mehaniki.uderzhanie_klientov', 'mehaniki.povyshenie_urovnya_klienta', 'mehaniki.privlechenie_klientov']);
 const same = (a, b) => a.id === String(b.id).replace(/::empty::.*/, '')
   && ['name', 'unit', 'type'].every(key => a[key] === b[key]);
 
@@ -28,9 +30,14 @@ export function applyQuarterRetentionAssessments(products, period, overlays, bas
       const applicable = item => item && item.is_applicabble_flg !== false && Number(item.max_value) > 0;
       if (!fact || !applicable(old) || !applicable(metric) || old.max_value !== metric.max_value
         || !Number.isFinite(old.value) || old.value < 0 || old.value > old.max_value) return metric;
+      const segmentMechanicsFloor = fact.source?.policy === 'segmentMechanicsNonDecreasing'
+        && prior.unit === 'CX' && prior.type === 'Сегмент' && block.code === 'mehaniki'
+        && segmentMechanicsCodes.has(metric.code) && [0, 0.5, 1].includes(fact.source.proposedRawValue)
+        && fact.rawValue === Math.max(old.value / old.max_value, fact.source.proposedRawValue);
       if (fact.source?.origin !== 'userConfirmedQuarterRetention' || fact.source?.confirmedBy !== 'user'
         || fact.source?.fromPeriod !== prior.period || fact.source?.sourceValue !== old.value
-        || fact.source?.sourceMaxValue !== old.max_value || fact.rawValue !== old.value / old.max_value) return metric;
+        || fact.source?.sourceMaxValue !== old.max_value
+        || (!segmentMechanicsFloor && fact.rawValue !== old.value / old.max_value)) return metric;
       const pbMechanic = fact.source.policy === 'pbAllMechanics'
         && prior.name === 'PB' && prior.type === 'Сегмент' && block.code === 'mehaniki';
       const fullBenchmark = fact.source.policy === 'fullBenchmarks'
@@ -42,8 +49,8 @@ export function applyQuarterRetentionAssessments(products, period, overlays, bas
         && prior.name === 'Персональная рекомендация' && prior.unit === 'Data' && prior.type === 'Канал'
         && ['modeli_i_ai_proniknovenie.stimulirovanie_klienta', 'modeli_i_ai_proniknovenie.obuchayuschie_mehaniki',
           'dannye.promyshlenye_dannye'].includes(metric.code) && old.value === old.max_value;
-      if (!pbMechanic && !fullBenchmark && !fullProductKnowledge && !campaigningCriterion) return metric;
-      const value = old.value;
+      if (!pbMechanic && !fullBenchmark && !fullProductKnowledge && !campaigningCriterion && !segmentMechanicsFloor) return metric;
+      const value = segmentMechanicsFloor ? Math.max(old.value, fact.source.proposedRawValue * metric.max_value) : old.value;
       return {...metric, value, previousValue: old.value, previousMaxValue: old.max_value, previousPeriod: prior.period,
         source: {...fact.source, sourceValue: old.value, sourceMaxValue: old.max_value},
         ...(metric.recommendation_items ? {recommendation_items: metric.recommendation_items.map(item => ({

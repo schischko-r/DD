@@ -1,0 +1,53 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {
+    "origin": "userConfirmedChildrenMechanics20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "period": "III кв. 2026"
+  },
+  "products": [
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.reagirovanie_na_zhiznennye_sobytiya": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedChildrenMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Реагирование на жизненные события",
+            "rawValue": 0
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedChildrenMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Удержание клиентов",
+            "rawValue": 0
+          }
+        },
+        "mehaniki.monitoring_mehanik": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedChildrenMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Мониторинг механик",
+            "rawValue": 0
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {"origin": "userConfirmedNotificationRetention20261031", "confirmedBy": "user", "date": "2026-10-31"},
+  "products": [{
+    "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+    "name": "Уведомления", "unit": "DP", "type": "Канал",
+    "metrics": {
+      "mehaniki.uderzhanie_klientov": {
+        "rawValue": 0.5,
+        "source": {"origin": "userConfirmedNotificationRetention20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "fromPeriod": "II кв. 2026", "sourceValue": 0.5, "sourceMaxValue": 1, "rawValue": 0.5, "rule": "По указанию пользователя сохраняется прежняя оценка удержания клиентов Уведомлений из II квартала: 0.5 из 1."}
+      }
+    }
+  }]
+}

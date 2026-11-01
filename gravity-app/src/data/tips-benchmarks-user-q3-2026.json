@@ -1,0 +1,25 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-metric-assessment",
+  "source": {"origin": "userConfirmedTipsBenchmarks20261031", "confirmedBy": "user", "date": "2026-10-31"},
+  "products": [{
+    "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+    "name": "СберЧаевые",
+    "unit": "DB",
+    "type": "Продукт",
+    "metrics": {
+      "attract.benchmarks": {
+        "rawValue": 0,
+        "source": {
+          "origin": "userConfirmedTipsBenchmarks20261031",
+          "confirmedBy": "user",
+          "date": "2026-10-31",
+          "period": "III кв. 2026",
+          "sourceMetricName": "Наличие бенчмарков",
+          "rawValue": 0,
+          "rule": "Прямое указание пользователя: СберЧаевые, бенчмарки воронки привлечения за III квартал = 0."
+        }
+      }
+    }
+  }]
+}

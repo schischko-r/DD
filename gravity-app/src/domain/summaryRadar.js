@@ -12,7 +12,7 @@ export function previousQuarterPeriod(period) {
 function blockAverage(products, code) {
   const values = products.map(product => {
     const block = product.metrics?.find(block => block.code === code);
-    return product.isPlaceholder ? completeBlockPercent(block) : radarBlockPercent(block || {metrics: []});
+    return product.isPlaceholder ? completeBlockPercent(block, product.period) : radarBlockPercent(block || {metrics: []});
   }).filter(Number.isFinite);
   return values.length ? Math.round(values.reduce((sum, value) => sum + value, 0) / values.length) : null;
 }

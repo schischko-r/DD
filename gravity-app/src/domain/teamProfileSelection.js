@@ -21,12 +21,17 @@ const SCOPED_METRIC_CODES = {
     'alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui', 'alerts.nastroena_matrica_otkloneniy',
     'alerts.nastroeny_avtoalerty_po_otkloneniyam', 'dannye.kontrolь_kachestva_dannyh_kkd']),
   'mechanics-user-assessment': new Set(['mehaniki.uderzhaniya_klienta', 'mehaniki.vozvrat_klientov',
+    'mehaniki.nailuchshego_vremeni_zvonka',
+    'mehaniki.monitoring_mehanik',
     'mehaniki.uderzhanie_klientov', 'mehaniki.obuchayuschie_mehaniki', 'mehaniki.informirovaniya_klienta',
     'mehaniki.personalizaciya', 'mehaniki.kontrolya_kachestva_rechi', 'mehaniki.personalizaciya_interfeysa_kontenta',
     'mehaniki.stimulirovanie_klienta', 'mehaniki.reagirovanie_na_zhiznennye_sobytiya',
     'mehaniki.personalizaciya_klientskogo_opyta', 'mehaniki.privlechenie_klientov', 'mehaniki.doprodazhi_up_sell']),
   'funnel-user-assessment': new Set(['attract.nastroena_otchetnostь', 'attract.report_completeness', 'attract.funnel_analysis',
     'attract.initiatives_list', 'churn.deviation_actions',
+    'attract.meropriyatiya_po_rabote_s_otkloneniyami',
+    'voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami',
+    'voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami',
     'voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami',
     'voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami',
     'churn.nastroena_otchetnostь', 'churn.report_completeness', 'churn.funnel_analysis',
@@ -112,7 +117,7 @@ function referenceFieldsForBlock(block, product, measuredMetrics = {}) {
 
 export function buildTeamProfileProducts(products, period, overlay = null) {
   const overlays = (Array.isArray(overlay) ? overlay : [overlay]).filter(Boolean);
-  const scoringOverlays = overlays.filter((item) => !['metric-applicability-assessment', 'user-confirmed-q2-retention', 'goals-information-assessment', 'po-goals-template', 'po-goals-assessment', 'reporting-format-assessment'].includes(item.scope));
+  const scoringOverlays = overlays.filter((item) => !['metric-applicability-assessment', 'metric-index-exclusion-assessment', 'user-confirmed-q2-retention', 'goals-information-assessment', 'po-goals-template', 'po-goals-assessment', 'reporting-format-assessment'].includes(item.scope));
   const periods = getReportPeriods(products);
   const activePeriod = period || periods[0] || '';
   const actual = products.filter((product) => product.period === activePeriod);
@@ -244,7 +249,7 @@ export function metricActualGrowth(metric, maxIndexPoints, currentPeriod) {
 }
 
 export function buildTeamProfileRadarData(product, products, blocks) {
-  const blockValue = (team, block) => team.isPlaceholder ? completeBlockPercent(block) : radarBlockPercent(block);
+  const blockValue = (team, block) => team.isPlaceholder ? completeBlockPercent(block, team.period) : radarBlockPercent(block);
   const benchmarkProducts = products.filter((item) => item.period === product.period
     && /продукт|сегмент|product|segment/i.test(String(item.type || '')));
   return blocks.map((block) => {

@@ -1,0 +1,349 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedDailyBankingFunnels20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31"
+  },
+  "products": [
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Вжух",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "inputRow": 1,
+            "rawValue": 0,
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": null
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Вжух",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 2,
+            "rawValue": 1,
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Вжух",
+              "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+              "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+              "sourceRows": [
+                19
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитная карта",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "inputRow": 3,
+            "rawValue": 0.5,
+            "previousValue": 0.5,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Кредитная карта",
+              "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+              "question": "Проводился ли за последний квартал анализ воронки оттока?",
+              "sourceRows": [
+                111
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            }
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитная карта",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 4,
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": null
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "inputRow": 5,
+            "rawValue": 1,
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Пенсионный продукт",
+              "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+              "question": "Проводился ли за последний квартал анализ воронки оттока?",
+              "sourceRows": [
+                200
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 6,
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 7,
+            "rawValue": 1,
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Пенсионный продукт",
+              "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+              "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+              "sourceRows": [
+                202
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            }
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 8,
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null
+          }
+        }
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "inputRow": 9,
+            "rawValue": 1,
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Переводы по РФ",
+              "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+              "question": "Проводился ли за последний квартал анализ воронки оттока?",
+              "sourceRows": [
+                204
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 10,
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 11,
+            "rawValue": 1,
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Переводы по РФ",
+              "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+              "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+              "sourceRows": [
+                206
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            }
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 12,
+            "rawValue": 0.5,
+            "previousValue": 0.25,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Переводы по РФ",
+              "sourceMetricName": "Полнота отчета",
+              "question": "Какие метрики вы мониторите в рамках воронки привлечения по вашему продукту?",
+              "sourceRows": [
+                208
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDailyBankingFunnels20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "СберИнвестор",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 13,
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 1
+          }
+        }
+      }
+    }
+  ]
+}

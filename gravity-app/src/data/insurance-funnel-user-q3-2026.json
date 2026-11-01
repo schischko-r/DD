@@ -1,0 +1,652 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedInsuranceFunnelBatch20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31"
+  },
+  "products": [
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ ПК",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 1,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null,
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ КК",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 2,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null,
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 3,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null,
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 4,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null,
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 5,
+            "inputColumn": "last",
+            "rawValue": 1,
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "ОПИФ",
+              "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+              "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+              "sourceRows": [
+                171
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Настроена отчетность",
+            "inputRow": 6,
+            "inputColumn": "last",
+            "rawValue": 1,
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "ОПИФ",
+              "sourceMetricName": "Настроена отчетность",
+              "question": "С какой регулярностью настроен мониторинг по воронке привлечения?",
+              "sourceRows": [
+                172
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 7,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null,
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 8,
+            "inputColumn": "last",
+            "rawValue": 1,
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCorporateChurnCompleteness",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-10-30",
+              "rule": "По уточнению пользователя: полнота отчёта только в воронке оттока корпоративного страхования за III квартал = 1 (100% существующего максимума).",
+              "rawValue": 1
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Залоговое страхование (корпоративное страхование)",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 9,
+            "inputColumn": "last",
+            "rawValue": 1,
+            "previousValue": 1,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Залоговое страхование (корпоративное страхование)",
+              "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+              "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+              "sourceRows": [
+                60
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "inputRow": 10,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": 0.5,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Страхование залога",
+              "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+              "question": "Проводился ли за последний квартал анализ воронки оттока?",
+              "sourceRows": [
+                296
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Настроена отчетность",
+            "inputRow": 11,
+            "inputColumn": "last",
+            "rawValue": 1,
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Страхование залога",
+              "sourceMetricName": "Настроена отчетность",
+              "question": "Настроена ли регулярная отчётность по воронке оттока?",
+              "sourceRows": [
+                297
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 12,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": 0.25,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Страхование залога",
+              "sourceMetricName": "Полнота отчета",
+              "question": "Какие метрики вы мониторите в рамках воронки оттока по вашему продукту?",
+              "sourceRows": [
+                298
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 13,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": 0.5,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Страхование залога",
+              "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+              "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+              "sourceRows": [
+                299
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Настроена отчетность",
+            "inputRow": 14,
+            "inputColumn": "last",
+            "rawValue": 1,
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Страхование залога",
+              "sourceMetricName": "Настроена отчетность",
+              "question": "Настроена ли регулярная отчётность по воронке привлечения?",
+              "sourceRows": [
+                300
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 1
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 15,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": null,
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ЦФА",
+            "sourceMetricName": "Настроена отчетность",
+            "inputRow": 16,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": 0.5,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedReportingMissingRule",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 56,
+              "surveyId": "ddi-product-febe33a0-05c9-50d9-989c-9c1067e3ab21",
+              "completedAt": "2026-10-20T08:05:11.428Z",
+              "respondent": "Илларионов Артем Андреевич",
+              "originalTeamId": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+              "originalTeamName": "ЦФА",
+              "questionId": "churnConfigured",
+              "answer": "Да, по запросу",
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 57
+              },
+              "reportFormat": "excel",
+              "reportEvidence": null,
+              "rule": "Автоматическая отчётность: наличие=1, регулярность=1; по запросу: наличие=1, регулярность=0.5; Нет/Затрудняюсь ответить: оба=0. Заполняются только отсутствующие оценки; ранее выставленные значения сохраняются.",
+              "rawValue": 1
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ЦФА",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 17,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": 0.25,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "ЦФА",
+              "sourceMetricName": "Полнота отчета",
+              "question": "Какие метрики вы мониторите в рамках воронки оттока по вашему продукту?",
+              "sourceRows": [
+                325
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ЦФА",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "inputRow": 18,
+            "inputColumn": "last",
+            "rawValue": 0.5,
+            "previousValue": 0.5,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedFunnelAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "ЦФА",
+              "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+              "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+              "sourceRows": [
+                326
+              ],
+              "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+              "rawValue": 0.5
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ЦФА",
+            "sourceMetricName": "Настроена отчетность",
+            "inputRow": 19,
+            "inputColumn": "last",
+            "rawValue": 0,
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 56,
+              "surveyId": "ddi-product-febe33a0-05c9-50d9-989c-9c1067e3ab21",
+              "completedAt": "2026-10-20T08:05:11.428Z",
+              "originalTeamId": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+              "originalTeamName": "ЦФА",
+              "questionId": "attractConfigured",
+              "answer": "Нет",
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 34
+              },
+              "origin": "userConfirmedReportingAbsenceRule20261031",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "reportingCode": "attract.nastroena_otchetnostь",
+              "reportingValue": 0,
+              "rawValue": 0,
+              "previousAssessmentValue": 0,
+              "previousAssessmentSource": {
+                "origin": "userConfirmedFunnelAssessment",
+                "confirmedBy": "user",
+                "date": "2026-10-30",
+                "period": "III кв. 2026",
+                "sourceName": "ЦФА",
+                "sourceMetricName": "Настроена отчетность",
+                "question": "Настроена ли регулярная отчётность по воронке привлечения?",
+                "sourceRows": [
+                  327
+                ],
+                "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+                "rawValue": 0
+              },
+              "rule": "Ответ «Нет» при отсутствующей или нулевой оценке настроенной отчётности: отчётность, бенчмарки, регулярность и полнота отчёта = 0. Положительная оценка отчётности защищает весь блок."
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedInsuranceFunnelBatch20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "ЦФА",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 20,
+            "inputColumn": "last",
+            "rawValue": 0,
+            "previousValue": 0,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 56,
+              "surveyId": "ddi-product-febe33a0-05c9-50d9-989c-9c1067e3ab21",
+              "completedAt": "2026-10-20T08:05:11.428Z",
+              "originalTeamId": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+              "originalTeamName": "ЦФА",
+              "questionId": "attractConfigured",
+              "answer": "Нет",
+              "questionSource": {
+                "sheet": "Продукты (2)",
+                "row": 34
+              },
+              "origin": "userConfirmedReportingAbsenceRule20261031",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "reportingCode": "attract.nastroena_otchetnostь",
+              "reportingValue": 0,
+              "rawValue": 0,
+              "previousAssessmentValue": 0,
+              "previousAssessmentSource": {
+                "origin": "userConfirmedCfaAttractZero",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "date": "2026-10-30",
+                "rule": "Прямое указание пользователя: полнота отчёта и бенчмарки только воронки привлечения ЦФА за III квартал = 0. Ноль бенчмарков является ручной оценкой; отдельного ответа анкеты по привлечению нет.",
+                "rawValue": 0
+              },
+              "rule": "Ответ «Нет» при отсутствующей или нулевой оценке настроенной отчётности: отчётность, бенчмарки, регулярность и полнота отчёта = 0. Положительная оценка отчётности защищает весь блок."
+            },
+            "rule": "Последняя прямая оценка пользователя из пула 20 строк. 0/0.5/1 означает долю действующего максимума; более ранние оценки заменяются."
+          }
+        }
+      }
+    }
+  ]
+}

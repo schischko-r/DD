@@ -1,0 +1,209 @@
+{
+  "period": "III кв. 2026",
+  "scope": "reporting-absence-assessment",
+  "source": {
+    "origin": "userConfirmedReportingAbsenceRule20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "evidenceFile": "gravity-app/src/data/reporting-regularity-missing-q3-2026.json",
+    "rule": "При точном ответе «Нет» и пустой либо нулевой оценке настроенной отчётности обнулить отчётность, бенчмарки, регулярность и полноту той же воронки. Положительная оценка настроенной отчётности защищает весь блок. Неприменимые критерии не активируются."
+  },
+  "products": [
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "blocks": [
+        {
+          "blockCode": "attract",
+          "reportingCode": "attract.nastroena_otchetnostь",
+          "answer": "Нет",
+          "source": {
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 16,
+            "surveyId": "ddi-product-7043f2b6-9836-55c4-8801-c9bde60b990d",
+            "completedAt": "2026-10-22T14:45:25.379Z",
+            "originalTeamId": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+            "originalTeamName": "Интернет-Эквайринг",
+            "questionId": "attractConfigured",
+            "answer": "Нет",
+            "questionSource": {
+              "sheet": "Продукты (2)",
+              "row": 34
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "blocks": [
+        {
+          "blockCode": "churn",
+          "reportingCode": "churn.nastroena_otchetnostь",
+          "answer": "Нет",
+          "source": {
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 54,
+            "surveyId": "ddi-product-501ebceb-0d83-5f78-92bd-5e3507d11097",
+            "completedAt": "2026-10-20T10:16:21.905Z",
+            "originalTeamId": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+            "originalTeamName": "Конверсия",
+            "questionId": "churnConfigured",
+            "answer": "Нет",
+            "questionSource": {
+              "sheet": "Продукты (2)",
+              "row": 57
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "blocks": [
+        {
+          "blockCode": "churn",
+          "reportingCode": "churn.nastroena_otchetnostь",
+          "answer": "Нет",
+          "source": {
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 7,
+            "surveyId": "ddi-product-da0844f0-ff56-519d-97cb-a72ec1d97225",
+            "completedAt": "2026-10-26T15:07:44.013Z",
+            "originalTeamId": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+            "originalTeamName": "Сделка ИЖС",
+            "questionId": "churnConfigured",
+            "answer": "Нет",
+            "questionSource": {
+              "sheet": "Продукты (2)",
+              "row": 57
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "blocks": [
+        {
+          "blockCode": "attract",
+          "reportingCode": "attract.nastroena_otchetnostь",
+          "answer": "Нет",
+          "source": {
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 56,
+            "surveyId": "ddi-product-febe33a0-05c9-50d9-989c-9c1067e3ab21",
+            "completedAt": "2026-10-20T08:05:11.428Z",
+            "originalTeamId": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+            "originalTeamName": "ЦФА",
+            "questionId": "attractConfigured",
+            "answer": "Нет",
+            "questionSource": {
+              "sheet": "Продукты (2)",
+              "row": 34
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "blocks": [
+        {
+          "blockCode": "churn",
+          "reportingCode": "churn.nastroena_otchetnostь",
+          "answer": "Нет",
+          "source": {
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 31,
+            "surveyId": "ddi-product-4e10cf58-0146-5b04-b7c4-c5fa1651edef",
+            "completedAt": "2026-10-21T15:24:12.239Z",
+            "originalTeamId": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+            "originalTeamName": "Автокредит",
+            "questionId": "churnConfigured",
+            "answer": "Нет",
+            "questionSource": {
+              "sheet": "Продукты (2)",
+              "row": 57
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "blocks": [
+        {
+          "blockCode": "churn",
+          "reportingCode": "churn.nastroena_otchetnostь",
+          "answer": "Нет",
+          "source": {
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 38,
+            "surveyId": "ddi-product-full-cross-border-acquiring-b2c",
+            "completedAt": "2026-10-21T11:30:19.048Z",
+            "originalTeamId": "full-cross-border-acquiring-b2c¦Трансграничный эквайринг #B2C",
+            "originalTeamName": "Трансграничный эквайринг #B2C",
+            "questionId": "churnConfigured",
+            "answer": "Нет",
+            "questionSource": {
+              "sheet": "Продукты (2)",
+              "row": 57
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "blocks": [
+        {
+          "blockCode": "attract",
+          "reportingCode": "attract.nastroena_otchetnostь",
+          "answer": "Нет",
+          "source": {
+            "file": "questionare-responses(11).csv",
+            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+            "csvRow": 25,
+            "surveyId": "ddi-product-full-sber-tips-b2c",
+            "completedAt": "2026-10-22T06:26:05.429Z",
+            "originalTeamId": "full-sber-tips-b2c¦Сберчаевые #B2C",
+            "originalTeamName": "Сберчаевые #B2C",
+            "questionId": "attractConfigured",
+            "answer": "Нет",
+            "questionSource": {
+              "sheet": "Продукты (2)",
+              "row": 34
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

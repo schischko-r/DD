@@ -1,0 +1,107 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {
+    "origin": "userConfirmedCrossBorderMechanics20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31"
+  },
+  "products": [
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedCrossBorderMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничные переводы",
+            "sourceMetricName": "Удержание клиентов",
+            "inputRow": 1,
+            "rawValue": 0,
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": null
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedCrossBorderMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничные переводы",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "inputRow": 2,
+            "rawValue": 0,
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": null
+          }
+        }
+      }
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedCrossBorderMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничный эквайринг",
+            "sourceMetricName": "Возврат клиентов",
+            "inputRow": 3,
+            "rawValue": 0,
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": null
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedCrossBorderMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничный эквайринг",
+            "sourceMetricName": "Удержание клиентов",
+            "inputRow": 4,
+            "rawValue": 0,
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": null
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedCrossBorderMechanics20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничный эквайринг",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "inputRow": 5,
+            "rawValue": 0,
+            "previousValue": null,
+            "previousMaxValue": 1,
+            "previousAssessmentSource": null
+          }
+        }
+      }
+    }
+  ]
+}

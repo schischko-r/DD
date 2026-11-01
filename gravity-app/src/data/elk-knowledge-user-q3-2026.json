@@ -1,0 +1,47 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedDirectNavigatorAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-31"
+  },
+  "products": [
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "general.mau_u_vashego_kanala": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedElkMau20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "teamId": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+            "teamName": "Единый личный кабинет (ЕЛК)",
+            "unit": "Data",
+            "type": "Канал",
+            "rawValue": 1
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDirectNavigatorAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "teamId": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+            "teamName": "Единый личный кабинет (ЕЛК)",
+            "unit": "Data",
+            "type": "Канал",
+            "rawValue": 1
+          }
+        }
+      }
+    }
+  ]
+}

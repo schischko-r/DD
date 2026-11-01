@@ -1,0 +1,57 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedBullionFunnel20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "rule": "Итоговая нормированная оценка — последнее число в строке пользователя. Совпадающие повторные строки применяются один раз."
+  },
+  "products": [
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {"origin": "userConfirmedBullionFunnel20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "question": "Проводился ли за последний квартал анализ воронки оттока?", "inputRows": [13], "inputValues": [0.5], "resolutionOfInputRows": [1, 7], "rule": "Последнее прямое уточнение пользователя: анализ воронки оттока Слитков = 0.5. Прежнее противоречие 0/0.5 разрешено."}
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {"origin": "userConfirmedBullionFunnel20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "question": "Настроена ли регулярная отчётность по воронке оттока?", "inputRows": [2, 8], "inputValues": [1, 1, 1]}
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {"origin": "userConfirmedBullionFunnel20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "question": "Какие метрики вы мониторите в рамках воронки оттока по вашему продукту?", "inputRows": [3, 9], "inputValues": [0, 0.5, 0.5]}
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {"origin": "userConfirmedBullionFunnel20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "question": "Проводился ли за последний квартал анализ воронки привлечения?", "inputRows": [4, 10], "inputValues": [0.5, 0.5, 0.5]}
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {"origin": "userConfirmedBullionFunnel20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "question": "Настроена ли регулярная отчётность по воронке привлечения?", "inputRows": [5, 11], "inputValues": [1, 1, 1]}
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {"origin": "userConfirmedBullionFunnel20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "question": "Какие метрики вы мониторите в рамках воронки привлечения по вашему продукту?", "inputRows": [6, 12], "inputValues": [0.5, 0.5, 0.5]}
+        }
+      }
+    }
+  ],
+  "pending": [],
+  "resolvedPending": [
+    {
+      "name": "Слитки",
+      "code": "churn.funnel_analysis",
+      "question": "Проводился ли за последний квартал анализ воронки оттока?",
+      "inputRows": [{"row": 1, "values": [0, 0.5, 0.5]}, {"row": 7, "values": [0, 0, 0]}],
+      "reason": "В первоначальном сообщении были противоречащие оценки 0.5 и 0.",
+      "resolvedRawValue": 0.5,
+      "confirmedBy": "user",
+      "date": "2026-10-31"
+    }
+  ]
+}

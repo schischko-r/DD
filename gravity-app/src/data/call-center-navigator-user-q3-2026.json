@@ -1,0 +1,33 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedDirectNavigatorAssessment",
+    "confirmedBy": "user",
+    "date": "2026-10-31"
+  },
+  "products": [
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDirectNavigatorAssessment",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "teamId": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+            "teamName": "Колл-центр",
+            "unit": "PC",
+            "type": "Канал",
+            "rawValue": 1
+          }
+        }
+      }
+    }
+  ]
+}

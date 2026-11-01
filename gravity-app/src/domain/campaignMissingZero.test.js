@@ -50,7 +50,8 @@ test('43 applicable blanks across 17 teams become explicit Q3 zeros, preserving 
 test('explicit campaign assessments preserve prior corrections and update DСЖ КК only in Q3', () => {
   const manual = read('../data/campaign-user-assessments-q3-2026.json');
   assert.deepEqual(manual.products.map((p) => p.name).sort(), ['БПИФ', 'ДСЖ КК', 'ОСАГО']);
-  const before = buildTeamProfileProducts(source, manual.period, overlays.filter((o) => o.scope !== manual.scope));
+  // Compare this batch alone; later campaign corrections must remain in both runs.
+  const before = buildTeamProfileProducts(source, manual.period, overlays.filter((o) => o.source?.origin !== manual.source.origin));
   const after = buildTeamProfileProducts(source, manual.period, overlays);
   for (let i = 0; i < after.length; i++) {
     const current = after[i], old = before[i];

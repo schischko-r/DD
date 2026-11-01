@@ -1,0 +1,23 @@
+{
+  "period": "III кв. 2026",
+  "products": 76,
+  "affected": 0,
+  "total": 2574,
+  "missing": 0,
+  "policy": {
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "excludedMissingMetricCodes": [
+      "hyp.ab_tests"
+    ],
+    "rule": "A/B-тесты без оценки III квартала не считаются пропуском; оценки не изменяются."
+  },
+  "excludedAbTeams": [
+    "Детская карта",
+    "Много денег (НКПЗН)",
+    "Пакет услуг СберПервый",
+    "СберЧаевые",
+    "Трансграничные переводы"
+  ],
+  "rows": []
+}

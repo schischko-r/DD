@@ -1,0 +1,54 @@
+{
+  "period": "III кв. 2026",
+  "source": {
+    "origin": "userConfirmedDigitalCompletion20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31"
+  },
+  "scope": "user-metric-assessment",
+  "products": [
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Промышленые данные",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 0.5,
+            "sourceMaxValue": 0.5,
+            "sourceFile": "gravity-app/public/report-data.json",
+            "rule": "Перенос оценки промышленных данных SberID из II квартала по прямому указанию пользователя."
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Промышленые данные",
+            "rawValue": 1,
+            "rule": "Прямая оценка пользователя: промышленные данные Почта, Диск, Календарь = 1."
+          }
+        }
+      }
+    }
+  ]
+}

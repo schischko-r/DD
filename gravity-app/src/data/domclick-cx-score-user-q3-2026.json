@@ -1,0 +1,20 @@
+{
+  "period": "III кв. 2026",
+  "scope": "cx-score-assessment",
+  "source": {
+    "origin": "userConfirmedDomclickCxScore20261031", "confirmedBy": "user", "date": "2026-10-31",
+    "rule": "Последнее уточнение пользователя: НКПЗН и первичке CX Score = 0.5, как у вторички. Предварительно предложенная 1 не применяется."
+  },
+  "products": [
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)", "unit": "ДомКлик", "type": "Продукт",
+      "metrics": {"cx.score": {"rawValue": 0.5, "source": {"origin": "userConfirmedDomclickCxScore20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "inputAlias": "нкдзп", "rawValue": 0.5}}}
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём", "unit": "ДомКлик", "type": "Продукт",
+      "metrics": {"cx.score": {"rawValue": 0.5, "source": {"origin": "userConfirmedDomclickCxScore20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "inputAlias": "первичка", "rawValue": 0.5}}}
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Интернет-Эквайринг",
+    "metric": "Полнота отчета",
+    "code": "attract.report_completeness",
+    "before": null,
+    "after": 0
+  },
+  {
+    "name": "Интернет-Эквайринг",
+    "metric": "Наличие бенчмарков",
+    "code": "attract.benchmarks",
+    "before": null,
+    "after": 0
+  },
+  {
+    "name": "Конверсия",
+    "metric": "Наличие бенчмарков",
+    "code": "churn.benchmarks",
+    "before": 0.5,
+    "after": 0
+  },
+  {
+    "name": "Сделка ИЖС",
+    "metric": "Наличие бенчмарков",
+    "code": "churn.benchmarks",
+    "before": 0.5,
+    "after": 0
+  },
+  {
+    "name": "Трансграничный эквайринг",
+    "metric": "Наличие бенчмарков",
+    "code": "churn.benchmarks",
+    "before": null,
+    "after": 0
+  },
+  {
+    "name": "Автокредит",
+    "metric": "Наличие бенчмарков",
+    "code": "churn.benchmarks",
+    "before": null,
+    "after": 0
+  }
+]

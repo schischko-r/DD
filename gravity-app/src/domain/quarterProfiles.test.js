@@ -12,7 +12,9 @@ const salary = salaryBeforeMechanicsConfirmation(read('../data/salary-products-q
 const reporting = read('../data/reporting-regularity-missing-q3-2026.json');
 const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map((m) => [m[1], m[2]]));
-const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map((key) => read(`../data/${imports.get(key.trim())}`));
+// This file tests the earlier cohort/reporting-fill stages; the later No-answer rule has its own runtime coverage.
+const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map((key) => read(`../data/${imports.get(key.trim())}`))
+  .filter((assessment) => assessment.scope !== 'reporting-absence-assessment');
 const metrics = (p) => p.metrics.flatMap((b) => b.metrics);
 
 test('Q2 restores DU in УБ and stays byte-for-byte unchanged; Q3 has precisely the 17 requested DB teams', () => {

@@ -1,0 +1,32 @@
+{
+  "period": "III кв. 2026",
+  "scope": "mechanics-user-assessment",
+  "source": {
+    "origin": "userConfirmedTipsMechanics20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "rule": "Прямое указание пользователя: СберЧаевые — допродажи, возврат и удержание клиентов = 0 за III квартал."
+  },
+  "products": [
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0,
+          "source": {"origin": "userConfirmedTipsMechanics20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "sourceMetricName": "Допродажи (up-sell)", "rawValue": 0}
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0,
+          "source": {"origin": "userConfirmedTipsMechanics20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "sourceMetricName": "Возврат клиентов", "rawValue": 0}
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0,
+          "source": {"origin": "userConfirmedTipsMechanics20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "sourceMetricName": "Удержание клиентов", "rawValue": 0}
+        }
+      }
+    }
+  ]
+}

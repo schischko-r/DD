@@ -1,0 +1,302 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedMissingFunnelFill20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "rule": "Первоначальный пул заполняет только пустые оценки по последнему числу строки. Последующее прямое уточнение пользователя для Молодежи имеет приоритет: полнота привлечения = 1, полнота оттока = 0.5 по последнему столбцу."
+  },
+  "products": [
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMissingFunnelFill20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничный эквайринг #B2C",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 6,
+            "inputColumn": "last",
+            "previousValue": null,
+            "rule": "По указанию пользователя последнее число строки применяется только к пустой оценке. Ранее заполненные оценки, включая ноль, сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedMissingFunnelFill20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Полнота отчета",
+            "inputRow": 9,
+            "inputColumn": "last",
+            "previousValue": null,
+            "rule": "По указанию пользователя последнее число строки применяется только к пустой оценке. Ранее заполненные оценки, включая ноль, сохраняются."
+          }
+        }
+      }
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedYouthFunnelLastColumn20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Полнота отчета",
+            "inputColumn": "last",
+            "inputValues": [
+              0.5,
+              1,
+              1
+            ],
+            "previousRawValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedMissingFunnelFill20261031",
+              "confirmedBy": "user",
+              "date": "2026-10-31",
+              "period": "III кв. 2026",
+              "sourceName": "Молодежь",
+              "sourceMetricName": "Полнота отчета",
+              "inputRow": 13,
+              "inputColumn": "last",
+              "previousValue": null,
+              "rule": "По указанию пользователя последнее число строки применяется только к пустой оценке. Ранее заполненные оценки, включая ноль, сохраняются."
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedYouthFunnelLastColumn20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Полнота отчета",
+            "inputColumn": "last",
+            "inputValues": [
+              0,
+              0.5,
+              0.5
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedMissingFunnelFill20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Конверсия",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "inputRow": 16,
+            "inputColumn": "last",
+            "previousValue": null,
+            "rawValue": 0
+          }
+        }
+      }
+    }
+  ],
+  "sourceRows": [
+    {
+      "row": 1,
+      "sourceName": "Трансграничный эквайринг #B2C",
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "rawValue": 0.5,
+      "previousValue": 0.5,
+      "maxValue": 1,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 2,
+      "sourceName": "Трансграничный эквайринг #B2C",
+      "code": "churn.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "rawValue": 0,
+      "previousValue": 0,
+      "maxValue": 0.5,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 3,
+      "sourceName": "Трансграничный эквайринг #B2C",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "rawValue": 0,
+      "previousValue": null,
+      "maxValue": 0,
+      "status": "preservedNonApplicable"
+    },
+    {
+      "row": 4,
+      "sourceName": "Трансграничный эквайринг #B2C",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "rawValue": 0,
+      "previousValue": 0,
+      "maxValue": 1,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 5,
+      "sourceName": "Трансграничный эквайринг #B2C",
+      "code": "attract.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "rawValue": 0,
+      "previousValue": 0,
+      "maxValue": 0.5,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 6,
+      "sourceName": "Трансграничный эквайринг #B2C",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "rawValue": 0.5,
+      "previousValue": null,
+      "maxValue": 0.5,
+      "status": "filledMissingScore"
+    },
+    {
+      "row": 7,
+      "sourceName": "БПИФ",
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "rawValue": 1,
+      "previousValue": 1,
+      "maxValue": 1,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 8,
+      "sourceName": "БПИФ",
+      "code": "churn.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "rawValue": 1,
+      "previousValue": 0.5,
+      "maxValue": 0.5,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 9,
+      "sourceName": "БПИФ",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "rawValue": 0.5,
+      "previousValue": null,
+      "maxValue": 0.5,
+      "status": "filledMissingScore"
+    },
+    {
+      "row": 10,
+      "sourceName": "БПИФ",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "rawValue": 1,
+      "previousValue": 1,
+      "maxValue": 1,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 11,
+      "sourceName": "БПИФ",
+      "code": "attract.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "rawValue": 1,
+      "previousValue": 0.5,
+      "maxValue": 0.5,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 12,
+      "sourceName": "БПИФ",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "rawValue": 1,
+      "previousValue": 0.5,
+      "maxValue": 0.5,
+      "status": "preservedExistingScore"
+    },
+    {
+      "row": 13,
+      "sourceName": "Молодежь",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "rawValue": 0.5,
+      "previousValue": null,
+      "maxValue": 0.5,
+      "status": "supersededByExplicitUserCorrection"
+    },
+    {
+      "row": 14,
+      "sourceName": "Молодежь",
+      "code": "attract.report_completeness",
+      "rawValue": 1,
+      "inputValues": [
+        0.5,
+        1,
+        1
+      ],
+      "status": "explicitUserCorrection"
+    },
+    {
+      "row": 15,
+      "sourceName": "Молодежь",
+      "code": "churn.report_completeness",
+      "rawValue": 0.5,
+      "inputValues": [
+        0,
+        0.5,
+        0.5
+      ],
+      "status": "confirmedExistingScore"
+    },
+    {
+      "row": 16,
+      "sourceName": "Конверсия",
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "rawValue": 0,
+      "previousValue": null,
+      "maxValue": 1,
+      "status": "filledMissingScore"
+    }
+  ]
+}

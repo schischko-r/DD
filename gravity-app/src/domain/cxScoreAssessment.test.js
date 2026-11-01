@@ -18,7 +18,9 @@ test('40 user assessments affect only Q3 CX Score, with unit maxima and unchange
   assert.equal(overlay.products.length, 40);
   assert.equal(new Set(overlay.products.map((p) => p.id)).size, 40);
   assert.deepEqual([1, 0.5, 0].map((value) => overlay.products.filter((p) => p.metrics['cx.score'].rawValue === value).length), [10, 25, 5]);
-  const before = buildTeamProfileProducts(source, overlay.period, overlays.filter((o) => o.scope !== overlay.scope));
+  // Isolate the original batch while keeping later direct CX assessments in both runs.
+  const before = buildTeamProfileProducts(source, overlay.period, overlays.filter((o) =>
+    o.scope !== overlay.scope || o.source?.origin !== overlay.source.origin));
   const after = buildTeamProfileProducts(source, overlay.period, overlays);
   for (let i = 0; i < after.length; i++) {
     const current = after[i], old = before[i];

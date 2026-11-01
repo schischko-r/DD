@@ -1,0 +1,131 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-user-assessment",
+  "source": {
+    "origin": "userConfirmedTipsFunnel20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "sourceName": "Сберчаевые #B2C",
+    "rule": "Первичные шесть оценок пользователя дополнены последующим переносом отчётности и полноты привлечения из предыдущего опроса. История нулей сохранена в source.inputValues и source.override."
+  },
+  "products": [
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedTipsFunnel20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "question": "Проводился ли за последний квартал анализ воронки оттока?",
+            "inputValues": [
+              0.5,
+              0.5
+            ]
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedTipsFunnel20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "question": "Настроена ли регулярная отчётность по воронке оттока?",
+            "inputValues": [
+              0.5,
+              0.5
+            ]
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedTipsFunnel20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "question": "Какие метрики вы мониторите в рамках воронки оттока по вашему продукту?",
+            "inputValues": [
+              0.5,
+              0.5
+            ]
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedTipsFunnel20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "question": "Проводился ли за последний квартал анализ воронки привлечения?",
+            "inputValues": [
+              0.5,
+              0
+            ]
+          }
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedTipsFunnel20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "question": "Настроена ли регулярная отчётность по воронке привлечения?",
+            "inputValues": [
+              0,
+              0
+            ],
+            "override": {
+              "confirmedBy": "user",
+              "date": "2026-10-31",
+              "fromPeriod": "II кв. 2026",
+              "sourceValue": 0.5,
+              "sourceMaxValue": 0.5,
+              "rawValue": 1,
+              "previousRawValue": 0,
+              "rule": "Последнее указание пользователя: перенести отчётность и полноту воронки привлечения СберЧаевых из предыдущего опроса (II квартал). Имеет приоритет над ранее присланными нулями."
+            }
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedTipsFunnel20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceName": "Сберчаевые #B2C",
+            "question": "Какие метрики вы мониторите в рамках воронки привлечения по вашему продукту?",
+            "inputValues": [
+              0,
+              0
+            ],
+            "override": {
+              "confirmedBy": "user",
+              "date": "2026-10-31",
+              "fromPeriod": "II кв. 2026",
+              "sourceValue": 0.25,
+              "sourceMaxValue": 0.5,
+              "rawValue": 0.5,
+              "previousRawValue": 0,
+              "rule": "Последнее указание пользователя: перенести отчётность и полноту воронки привлечения СберЧаевых из предыдущего опроса (II квартал). Имеет приоритет над ранее присланными нулями."
+            }
+          }
+        }
+      }
+    }
+  ]
+}

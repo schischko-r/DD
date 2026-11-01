@@ -138,15 +138,15 @@ export function blockPercent(block) {
   return percent(value, max);
 }
 
-export function completeBlockPercent(block) {
-  const metrics = (block?.metrics || []).filter(isDdIndexMetric);
+export function completeBlockPercent(block, period) {
+  const metrics = (block?.metrics || []).filter((metric) => isDdIndexMetricForPeriod(metric, period));
   if (!metrics.length || metrics.some((metric) => !Number.isFinite(metric.value)
     || metric.value < 0 || metric.value > Number(metric.max_value) || isTbdMetric(metric))) return null;
   return blockPercent({metrics});
 }
 
 export function completeProductPercent(product) {
-  return completeBlockPercent({metrics: (product?.metrics || []).flatMap((block) => block.metrics || [])});
+  return completeBlockPercent({metrics: (product?.metrics || []).flatMap((block) => block.metrics || [])}, product?.period);
 }
 
 export function previousQuarterIndexDelta(product, score, baselineProducts = [], baselineRows = []) {
@@ -186,6 +186,12 @@ export function isDdIndexMetric(metric) {
     && !metric?.excluded_from_index
     && !isInformationalMetric(metric)
     && Number(metric?.max_value || 0) > 0;
+}
+
+export function isDdIndexMetricForPeriod(metric, period) {
+  const unscoredAb = period === 'III кв. 2026' && metric?.code === 'hyp.ab_tests'
+    && (metric.value == null || metric.value === '');
+  return isDdIndexMetric(metric) && !unscoredAb;
 }
 
 export function hasMetricDeviations(metrics) {

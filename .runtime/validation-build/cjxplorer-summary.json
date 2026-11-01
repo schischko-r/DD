@@ -1,0 +1,3950 @@
+{
+  "meta": {
+    "schema_version": 1,
+    "status": "ok",
+    "source": "https://cjxplorer.com",
+    "generated_at": "2026-08-06T09:36:54.238348+00:00",
+    "age_hours": 4.8,
+    "stale_days": 14,
+    "stale_rule": "сценарий устарел, если последний прогон старше 14 дней (порог задан порталом, поле stale_days)",
+    "products": 124,
+    "portfolio": {
+      "avg_rating": 73,
+      "avg_rating_delta": 12,
+      "with_critical": 62,
+      "covered": 124,
+      "total": 191,
+      "stale": 64
+    }
+  },
+  "products": [
+    {
+      "id": "aa6e4b4e-dc0e-5910-8df7-1b245cfe539a",
+      "name": "Кредитная карта",
+      "url": "https://cjxplorer.com/products/aa6e4b4e-dc0e-5910-8df7-1b245cfe539a",
+      "category": "banking",
+      "sub_type": [
+        "credit-card"
+      ],
+      "rating": {
+        "now": 82,
+        "prev": 96,
+        "delta": -14,
+        "place": 1,
+        "of_orgs": 4,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 23
+      },
+      "scenarios": {
+        "runs_total": 8,
+        "with_runs": 5,
+        "journeys_total": 6,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 50,
+        "last_run_at": "2026-07-16T13:03:07.696420+00:00"
+      }
+    },
+    {
+      "id": "2c2f9dbf-92e8-443f-97da-2e503b8ef826",
+      "name": "Медуслуги",
+      "url": "https://cjxplorer.com/products/2c2f9dbf-92e8-443f-97da-2e503b8ef826",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 71,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "СберЗдоровье",
+      "issues": {
+        "accepted": true,
+        "count": 4
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 7,
+        "last_run_at": "2026-06-24T20:23:25.233506+00:00"
+      }
+    },
+    {
+      "id": "b25eb556-58a8-5637-92be-e0cd8cddadbf",
+      "name": "Ипотека",
+      "url": "https://cjxplorer.com/products/b25eb556-58a8-5637-92be-e0cd8cddadbf",
+      "category": "banking",
+      "sub_type": [
+        "mortgage"
+      ],
+      "rating": {
+        "now": 66,
+        "prev": 88,
+        "delta": -22,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 2,
+        "journeys_total": 4,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 29,
+        "last_run_at": "2026-08-05T17:43:45.494520+00:00"
+      }
+    },
+    {
+      "id": "693da0f1-5591-59d6-82b7-81575f45b64e",
+      "name": "Автокредит",
+      "url": "https://cjxplorer.com/products/693da0f1-5591-59d6-82b7-81575f45b64e",
+      "category": "banking",
+      "sub_type": [
+        "auto-loan"
+      ],
+      "rating": {
+        "now": 80,
+        "prev": null,
+        "delta": null,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 8,
+        "last_run_at": "2026-07-15T05:46:52.979852+00:00"
+      }
+    },
+    {
+      "id": "11b66d6a-ac71-53c6-9e5c-d155b93d6002",
+      "name": "Рефинансирование",
+      "url": "https://cjxplorer.com/products/11b66d6a-ac71-53c6-9e5c-d155b93d6002",
+      "category": "banking",
+      "sub_type": [
+        "refinance"
+      ],
+      "rating": {
+        "now": 69,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 97
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 2,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 15,
+        "last_run_at": "2026-07-23T13:41:31.517206+00:00"
+      }
+    },
+    {
+      "id": "f6d9a6e0-2331-53d4-932a-2fcfae3a5739",
+      "name": "Расчётный счёт для бизнеса",
+      "url": "https://cjxplorer.com/products/f6d9a6e0-2331-53d4-932a-2fcfae3a5739",
+      "category": "banking",
+      "sub_type": [
+        "business"
+      ],
+      "rating": {
+        "now": 48,
+        "prev": 46,
+        "delta": 2,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 12
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 4,
+        "friction": 24,
+        "last_run_at": "2026-07-08T16:11:44.455360+00:00"
+      }
+    },
+    {
+      "id": "41e234ec-b3c4-5079-bc80-32f97de4188c",
+      "name": "Виртуальная карта",
+      "url": "https://cjxplorer.com/products/41e234ec-b3c4-5079-bc80-32f97de4188c",
+      "category": "banking",
+      "sub_type": [
+        "card"
+      ],
+      "rating": {
+        "now": 80,
+        "prev": 74,
+        "delta": 6,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 3,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 8,
+        "last_run_at": "2026-08-06T08:23:21.565243+00:00"
+      }
+    },
+    {
+      "id": "42e14bc9-0ea9-4ae3-942e-5a6510398fd8",
+      "name": "Платёжный счёт",
+      "url": "https://cjxplorer.com/products/42e14bc9-0ea9-4ae3-942e-5a6510398fd8",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 68,
+        "prev": 82,
+        "delta": -14,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 27,
+        "last_run_at": "2026-08-06T08:19:32.058431+00:00"
+      }
+    },
+    {
+      "id": "d0bfae00-3772-5dad-9c11-5dc29a3c8af3",
+      "name": "Кредит для бизнеса",
+      "url": "https://cjxplorer.com/products/d0bfae00-3772-5dad-9c11-5dc29a3c8af3",
+      "category": "banking",
+      "sub_type": [
+        "business"
+      ],
+      "rating": {
+        "now": 67,
+        "prev": 75,
+        "delta": -8,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Бизнес Онлайн"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 19
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 23,
+        "last_run_at": "2026-07-10T09:56:56.060481+00:00"
+      }
+    },
+    {
+      "id": "2054ea8f-04fe-5258-bf33-9ba2e9e1085b",
+      "name": "Онлайн-кинотеатр",
+      "url": "https://cjxplorer.com/products/2054ea8f-04fe-5258-bf33-9ba2e9e1085b",
+      "category": "ecosystem",
+      "sub_type": [
+        "streaming"
+      ],
+      "rating": {
+        "now": 98,
+        "prev": 95,
+        "delta": 3,
+        "place": 4,
+        "of_orgs": 4,
+        "leader_org": "Okko"
+      },
+      "own_org": "Okko",
+      "issues": {
+        "accepted": false,
+        "count": 30
+      },
+      "scenarios": {
+        "runs_total": 8,
+        "with_runs": 5,
+        "journeys_total": 8,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 19,
+        "last_run_at": "2026-07-21T09:44:18.841420+00:00"
+      }
+    },
+    {
+      "id": "01ea785b-1917-5726-a2a8-a09ea090606b",
+      "name": "Телемедицина",
+      "url": "https://cjxplorer.com/products/01ea785b-1917-5726-a2a8-a09ea090606b",
+      "category": "ecosystem",
+      "sub_type": [
+        "health"
+      ],
+      "rating": {
+        "now": 84,
+        "prev": 84,
+        "delta": 0,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "СберЗдоровье",
+      "issues": {
+        "accepted": false,
+        "count": 21
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 21,
+        "last_run_at": "2026-07-20T09:58:30.482360+00:00"
+      }
+    },
+    {
+      "id": "f2af49a1-bc1e-5319-b81c-04185dea227c",
+      "name": "Путешествия (отели, авиа)",
+      "url": "https://cjxplorer.com/products/f2af49a1-bc1e-5319-b81c-04185dea227c",
+      "category": "ecosystem",
+      "sub_type": [
+        "travel"
+      ],
+      "rating": {
+        "now": 64,
+        "prev": 91,
+        "delta": -27,
+        "place": 3,
+        "of_orgs": 5,
+        "leader_org": "Туту"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 124
+      },
+      "scenarios": {
+        "runs_total": 12,
+        "with_runs": 1,
+        "journeys_total": 3,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 7,
+        "friction": 64,
+        "last_run_at": "2026-07-22T13:24:27.061369+00:00"
+      }
+    },
+    {
+      "id": "4b731589-37f1-4869-9b56-69c88cb280fc",
+      "name": "Детская карта",
+      "url": "https://cjxplorer.com/products/4b731589-37f1-4869-9b56-69c88cb280fc",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 82,
+        "prev": 99,
+        "delta": -17,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 12
+      },
+      "scenarios": {
+        "runs_total": 9,
+        "with_runs": 5,
+        "journeys_total": 5,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 34,
+        "last_run_at": "2026-07-20T11:43:33.532261+00:00"
+      }
+    },
+    {
+      "id": "63d16cff-33b0-4254-90ef-c59a0f2acd2d",
+      "name": "Детский Сбер ID",
+      "url": "https://cjxplorer.com/products/63d16cff-33b0-4254-90ef-c59a0f2acd2d",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 50,
+        "prev": null,
+        "delta": null,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 24
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 10,
+        "last_run_at": "2026-07-27T13:12:35.742707+00:00"
+      }
+    },
+    {
+      "id": "6ef07f47-216d-40a4-8f5c-ff417ab99ecd",
+      "name": "СберМобайл",
+      "url": "https://cjxplorer.com/products/6ef07f47-216d-40a4-8f5c-ff417ab99ecd",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 91,
+        "prev": 90,
+        "delta": 1,
+        "place": 1,
+        "of_orgs": 3,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 11
+      },
+      "scenarios": {
+        "runs_total": 15,
+        "with_runs": 7,
+        "journeys_total": 10,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 61,
+        "last_run_at": "2026-07-21T00:39:33.128138+00:00"
+      }
+    },
+    {
+      "id": "343a7649-99db-4caf-83a6-f7f53506a1c3",
+      "name": "Гид выходного дня",
+      "url": "https://cjxplorer.com/products/343a7649-99db-4caf-83a6-f7f53506a1c3",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 68,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 4
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 4,
+        "last_run_at": "2026-07-03T10:47:37.281236+00:00"
+      }
+    },
+    {
+      "id": "cfc0d372-9b8e-5bbc-b8e3-2146a70994ab",
+      "name": "Перевод пенсии в Сбер",
+      "url": "https://cjxplorer.com/products/cfc0d372-9b8e-5bbc-b8e3-2146a70994ab",
+      "category": "banking",
+      "sub_type": [
+        "pension"
+      ],
+      "rating": {
+        "now": 1,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 5,
+        "friction": 17,
+        "last_run_at": "2026-07-15T15:02:09.127376+00:00"
+      }
+    },
+    {
+      "id": "32015c35-9078-4364-aad6-ffae65ae208b",
+      "name": "Тест",
+      "url": "https://cjxplorer.com/products/32015c35-9078-4364-aad6-ffae65ae208b",
+      "category": "banking",
+      "sub_type": [
+        ""
+      ],
+      "rating": {
+        "now": 56,
+        "prev": 66,
+        "delta": -10,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Тест"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 32
+      },
+      "scenarios": {
+        "runs_total": 23,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 32,
+        "friction": 188,
+        "last_run_at": "2026-07-29T06:39:49.053185+00:00"
+      }
+    },
+    {
+      "id": "a5e131ac-0a8a-58f5-8d3f-d702d3215a0c",
+      "name": "Кредит наличными (Потребительский кредит)",
+      "url": "https://cjxplorer.com/products/a5e131ac-0a8a-58f5-8d3f-d702d3215a0c",
+      "category": "banking",
+      "sub_type": [
+        "credit"
+      ],
+      "rating": {
+        "now": 70,
+        "prev": 60,
+        "delta": 10,
+        "place": 1,
+        "of_orgs": 4,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 131
+      },
+      "scenarios": {
+        "runs_total": 17,
+        "with_runs": 4,
+        "journeys_total": 5,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 5,
+        "friction": 111,
+        "last_run_at": "2026-08-04T11:03:24.003471+00:00"
+      }
+    },
+    {
+      "id": "ef7b5a13-effd-4647-ae11-c6e6796c21de",
+      "name": "Защита на любой случай (ЗЛС)",
+      "url": "https://cjxplorer.com/products/ef7b5a13-effd-4647-ae11-c6e6796c21de",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 54,
+        "prev": 26,
+        "delta": 28,
+        "place": 3,
+        "of_orgs": 4,
+        "leader_org": "СберСтрахование"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 45
+      },
+      "scenarios": {
+        "runs_total": 15,
+        "with_runs": 12,
+        "journeys_total": 12,
+        "stale": 7
+      },
+      "counts": {
+        "critical": 11,
+        "friction": 40,
+        "last_run_at": "2026-07-31T07:41:33.202546+00:00"
+      }
+    },
+    {
+      "id": "4b5f13ac-1343-4a76-b8d0-0dc1813f0561",
+      "name": "Кредитный потенциал (СХ)",
+      "url": "https://cjxplorer.com/products/4b5f13ac-1343-4a76-b8d0-0dc1813f0561",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 72,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 9
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 7,
+        "last_run_at": "2026-08-04T19:46:55.935075+00:00"
+      }
+    },
+    {
+      "id": "2e178acf-b052-41a6-8f68-62c9206a2c0d",
+      "name": "Оплата картой на терминале",
+      "url": "https://cjxplorer.com/products/2e178acf-b052-41a6-8f68-62c9206a2c0d",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 84,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 4
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 7,
+        "last_run_at": "2026-07-16T12:47:51.153422+00:00"
+      }
+    },
+    {
+      "id": "98d25c4d-c8f6-5a9f-952c-2f003b0ff6b7",
+      "name": "Перевод по СБП",
+      "url": "https://cjxplorer.com/products/98d25c4d-c8f6-5a9f-952c-2f003b0ff6b7",
+      "category": "banking",
+      "sub_type": [
+        "transfer"
+      ],
+      "rating": {
+        "now": 79,
+        "prev": null,
+        "delta": null,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Т-Банк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 1,
+        "journeys_total": 4,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 0,
+        "last_run_at": "2026-06-19T08:28:36.701181+00:00"
+      }
+    },
+    {
+      "id": "722d904b-4edc-4d52-a4c0-fc92940f6309",
+      "name": "Умная колонка",
+      "url": "https://cjxplorer.com/products/722d904b-4edc-4d52-a4c0-fc92940f6309",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 79,
+        "prev": 97,
+        "delta": -18,
+        "place": 1,
+        "of_orgs": 3,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 5,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 3
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 43,
+        "last_run_at": "2026-07-21T00:50:11.766632+00:00"
+      }
+    },
+    {
+      "id": "4af3f900-f268-4fa6-a7ea-6bd1571157af",
+      "name": "Интеллектуальный медиацентр",
+      "url": "https://cjxplorer.com/products/4af3f900-f268-4fa6-a7ea-6bd1571157af",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 74,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 7,
+        "last_run_at": "2026-06-22T11:54:49.670918+00:00"
+      }
+    },
+    {
+      "id": "af5dcb4d-b74a-4e33-a035-d4a1e93d54d2",
+      "name": "Зарплатная карта",
+      "url": "https://cjxplorer.com/products/af5dcb4d-b74a-4e33-a035-d4a1e93d54d2",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 68,
+        "prev": 78,
+        "delta": -10,
+        "place": 2,
+        "of_orgs": 8,
+        "leader_org": "Т-Банк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 39
+      },
+      "scenarios": {
+        "runs_total": 27,
+        "with_runs": 13,
+        "journeys_total": 15,
+        "stale": 11
+      },
+      "counts": {
+        "critical": 36,
+        "friction": 192,
+        "last_run_at": "2026-08-04T05:07:32.118532+00:00"
+      }
+    },
+    {
+      "id": "96675626-18eb-4074-93b6-e693c3fe287d",
+      "name": "Кредитный потенциал",
+      "url": "https://cjxplorer.com/products/96675626-18eb-4074-93b6-e693c3fe287d",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 82,
+        "prev": 85,
+        "delta": -3,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 9
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 20,
+        "last_run_at": "2026-07-16T10:19:50.227766+00:00"
+      }
+    },
+    {
+      "id": "b906f2b8-bd18-59f7-9833-093d201caaba",
+      "name": "Страхование",
+      "url": "https://cjxplorer.com/products/b906f2b8-bd18-59f7-9833-093d201caaba",
+      "category": "ecosystem",
+      "sub_type": [
+        "insurance"
+      ],
+      "rating": {
+        "now": 77,
+        "prev": 82,
+        "delta": -5,
+        "place": 3,
+        "of_orgs": 6,
+        "leader_org": "Альфа-Банк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 18,
+        "with_runs": 6,
+        "journeys_total": 23,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 18,
+        "last_run_at": "2026-08-06T07:19:58.580989+00:00"
+      }
+    },
+    {
+      "id": "d6da3a1c-71df-5ccc-8c7b-6f1f8ff2489a",
+      "name": "Подписка Прайм",
+      "url": "https://cjxplorer.com/products/d6da3a1c-71df-5ccc-8c7b-6f1f8ff2489a",
+      "category": "ecosystem",
+      "sub_type": [
+        "subscription"
+      ],
+      "rating": {
+        "now": 60,
+        "prev": 42,
+        "delta": 18,
+        "place": 1,
+        "of_orgs": 8,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 32
+      },
+      "scenarios": {
+        "runs_total": 16,
+        "with_runs": 8,
+        "journeys_total": 10,
+        "stale": 6
+      },
+      "counts": {
+        "critical": 10,
+        "friction": 94,
+        "last_run_at": "2026-08-03T08:48:48.847432+00:00"
+      }
+    },
+    {
+      "id": "488aa37a-9c92-5af7-82a7-0ea5a158a902",
+      "name": "Вклад",
+      "url": "https://cjxplorer.com/products/488aa37a-9c92-5af7-82a7-0ea5a158a902",
+      "category": "banking",
+      "sub_type": [
+        "deposit"
+      ],
+      "rating": {
+        "now": 72,
+        "prev": 89,
+        "delta": -17,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 7
+      },
+      "scenarios": {
+        "runs_total": 6,
+        "with_runs": 3,
+        "journeys_total": 8,
+        "stale": 3
+      },
+      "counts": {
+        "critical": 5,
+        "friction": 37,
+        "last_run_at": "2026-07-20T23:57:31.882396+00:00"
+      }
+    },
+    {
+      "id": "ec07db61-b5a3-538c-87f0-1ff5a7dcd60b",
+      "name": "Накопительный счет Премиум",
+      "url": "https://cjxplorer.com/products/ec07db61-b5a3-538c-87f0-1ff5a7dcd60b",
+      "category": "banking",
+      "sub_type": [
+        "savings"
+      ],
+      "rating": {
+        "now": 74,
+        "prev": 74,
+        "delta": 0,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 14
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 4,
+        "journeys_total": 5,
+        "stale": 4
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 29,
+        "last_run_at": "2026-07-21T00:19:35.361891+00:00"
+      }
+    },
+    {
+      "id": "61efc7e8-2be7-4182-adbd-e30e18bb19a9",
+      "name": "Сбер Инвестиции (приложение)",
+      "url": "https://cjxplorer.com/products/61efc7e8-2be7-4182-adbd-e30e18bb19a9",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 93,
+        "prev": 92,
+        "delta": 1,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 5,
+        "with_runs": 3,
+        "journeys_total": 4,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 52,
+        "last_run_at": "2026-07-22T11:11:43.127906+00:00"
+      }
+    },
+    {
+      "id": "99f94c44-7b67-4b3a-831c-c3555610690f",
+      "name": "СберЗдоровье",
+      "url": "https://cjxplorer.com/products/99f94c44-7b67-4b3a-831c-c3555610690f",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 74,
+        "prev": 70,
+        "delta": 4,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "СберЗдоровье",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 1,
+        "journeys_total": 4,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 41,
+        "last_run_at": "2026-07-21T00:39:32.831025+00:00"
+      }
+    },
+    {
+      "id": "55a8af79-ff14-4b05-9fb5-4c91d6800247",
+      "name": "Вклад Молодежный",
+      "url": "https://cjxplorer.com/products/55a8af79-ff14-4b05-9fb5-4c91d6800247",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 55,
+        "prev": 62,
+        "delta": -7,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 13
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 1,
+        "journeys_total": 3,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 22,
+        "last_run_at": "2026-06-25T17:47:59.328411+00:00"
+      }
+    },
+    {
+      "id": "29a1ee35-8ebf-4a5b-a60c-45a5f29363fd",
+      "name": "SberPay NFC",
+      "url": "https://cjxplorer.com/products/29a1ee35-8ebf-4a5b-a60c-45a5f29363fd",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 79,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 7
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 5,
+        "last_run_at": "2026-06-26T07:51:29.784587+00:00"
+      }
+    },
+    {
+      "id": "bd6ca143-4548-4baf-bb7f-444a2d4ffc90",
+      "name": "ТАБ Кредиты",
+      "url": "https://cjxplorer.com/products/bd6ca143-4548-4baf-bb7f-444a2d4ffc90",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 54,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 28
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 7,
+        "last_run_at": "2026-08-04T20:06:45.154205+00:00"
+      }
+    },
+    {
+      "id": "6a0c1368-2ff7-4f46-8002-b6433740daa5",
+      "name": "Премиальный пакет",
+      "url": "https://cjxplorer.com/products/6a0c1368-2ff7-4f46-8002-b6433740daa5",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 71,
+        "prev": 66,
+        "delta": 5,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 10
+      },
+      "scenarios": {
+        "runs_total": 20,
+        "with_runs": 7,
+        "journeys_total": 9,
+        "stale": 3
+      },
+      "counts": {
+        "critical": 15,
+        "friction": 118,
+        "last_run_at": "2026-08-01T09:22:43.696903+00:00"
+      }
+    },
+    {
+      "id": "68252ee4-0d73-4440-a987-6cf6b3debf7b",
+      "name": "Аккредитив",
+      "url": "https://cjxplorer.com/products/68252ee4-0d73-4440-a987-6cf6b3debf7b",
+      "category": "banking",
+      "sub_type": [
+        ""
+      ],
+      "rating": {
+        "now": 40,
+        "prev": 37,
+        "delta": 3,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 41
+      },
+      "scenarios": {
+        "runs_total": 5,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 3
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 79,
+        "last_run_at": "2026-07-09T07:56:29.628579+00:00"
+      }
+    },
+    {
+      "id": "eb25b9d4-9c05-4403-a3b3-ae79ae077be5",
+      "name": "Переводы",
+      "url": "https://cjxplorer.com/products/eb25b9d4-9c05-4403-a3b3-ae79ae077be5",
+      "category": "banking",
+      "sub_type": [
+        "transfer"
+      ],
+      "rating": {
+        "now": 76,
+        "prev": 62,
+        "delta": 14,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 6,
+        "with_runs": 2,
+        "journeys_total": 5,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 5,
+        "friction": 41,
+        "last_run_at": "2026-07-27T12:53:50.727834+00:00"
+      }
+    },
+    {
+      "id": "3ffadf24-2290-439d-aebc-6c67ca734658",
+      "name": "СберБокс",
+      "url": "https://cjxplorer.com/products/3ffadf24-2290-439d-aebc-6c67ca734658",
+      "category": "ecosystem",
+      "sub_type": [
+        "device"
+      ],
+      "rating": {
+        "now": 97,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 2,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 5,
+        "last_run_at": "2026-07-13T15:04:41.567686+00:00"
+      }
+    },
+    {
+      "id": "176ae801-1175-4a77-a46f-42aa5a4e03a7",
+      "name": "Платежи",
+      "url": "https://cjxplorer.com/products/176ae801-1175-4a77-a46f-42aa5a4e03a7",
+      "category": "banking",
+      "sub_type": [
+        "payments"
+      ],
+      "rating": {
+        "now": 66,
+        "prev": 78,
+        "delta": -12,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Т-Банк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 48
+      },
+      "scenarios": {
+        "runs_total": 7,
+        "with_runs": 3,
+        "journeys_total": 4,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 33,
+        "last_run_at": "2026-07-28T20:03:09.025243+00:00"
+      }
+    },
+    {
+      "id": "27f530a3-2115-535f-87cb-04ddf338c1f8",
+      "name": "Дебетовая карта",
+      "url": "https://cjxplorer.com/products/27f530a3-2115-535f-87cb-04ddf338c1f8",
+      "category": "banking",
+      "sub_type": [
+        "card"
+      ],
+      "rating": {
+        "now": 73,
+        "prev": 80,
+        "delta": -7,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 18
+      },
+      "scenarios": {
+        "runs_total": 18,
+        "with_runs": 9,
+        "journeys_total": 14,
+        "stale": 7
+      },
+      "counts": {
+        "critical": 16,
+        "friction": 121,
+        "last_run_at": "2026-08-06T08:28:58.438842+00:00"
+      }
+    },
+    {
+      "id": "0eb1b07e-8055-4c8a-94b9-bc1a79b35b26",
+      "name": "Автоплатеж",
+      "url": "https://cjxplorer.com/products/0eb1b07e-8055-4c8a-94b9-bc1a79b35b26",
+      "category": "ecosystem",
+      "sub_type": [
+        ""
+      ],
+      "rating": {
+        "now": 60,
+        "prev": 70,
+        "delta": -10,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 14
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 11,
+        "last_run_at": "2026-07-28T20:03:38.123718+00:00"
+      }
+    },
+    {
+      "id": "ccc1c9c1-ff52-4a0a-8f8c-3f08d54ea7b9",
+      "name": "МП СБОЛ",
+      "url": "https://cjxplorer.com/products/ccc1c9c1-ff52-4a0a-8f8c-3f08d54ea7b9",
+      "category": "banking",
+      "sub_type": [
+        ""
+      ],
+      "rating": {
+        "now": 86,
+        "prev": 88,
+        "delta": -2,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 8
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 4,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 30,
+        "last_run_at": "2026-07-27T11:24:38.287846+00:00"
+      }
+    },
+    {
+      "id": "727676ab-2233-4b35-b8c2-4840c2061aa9",
+      "name": "Самозанятость (Своё дело)",
+      "url": "https://cjxplorer.com/products/727676ab-2233-4b35-b8c2-4840c2061aa9",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 93,
+        "prev": 82,
+        "delta": 11,
+        "place": 1,
+        "of_orgs": 4,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 7,
+        "with_runs": 5,
+        "journeys_total": 5,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 42,
+        "last_run_at": "2026-07-22T16:34:59.602373+00:00"
+      }
+    },
+    {
+      "id": "d28d9921-2249-438a-bb65-4da32a2eaf2a",
+      "name": "СберПраво",
+      "url": "https://cjxplorer.com/products/d28d9921-2249-438a-bb65-4da32a2eaf2a",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 82,
+        "prev": 84,
+        "delta": -2,
+        "place": 2,
+        "of_orgs": 3,
+        "leader_org": "Сберправо"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 7,
+        "with_runs": 5,
+        "journeys_total": 5,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 25,
+        "last_run_at": "2026-07-20T06:14:23.881944+00:00"
+      }
+    },
+    {
+      "id": "4eaebf25-4533-4763-a332-85f12ef1d21b",
+      "name": "Ипотечные каникулы",
+      "url": "https://cjxplorer.com/products/4eaebf25-4533-4763-a332-85f12ef1d21b",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 78,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 14,
+        "last_run_at": "2026-07-16T14:32:27.923553+00:00"
+      }
+    },
+    {
+      "id": "56075e8f-5622-4a07-b7aa-140aad2d01a3",
+      "name": "Автокредит (с2с)",
+      "url": "https://cjxplorer.com/products/56075e8f-5622-4a07-b7aa-140aad2d01a3",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 74,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 11,
+        "last_run_at": "2026-07-20T11:26:43.505477+00:00"
+      }
+    },
+    {
+      "id": "803a75cb-0494-45b8-9e6d-36758247b77d",
+      "name": "Подписка Прайм",
+      "url": "https://cjxplorer.com/products/803a75cb-0494-45b8-9e6d-36758247b77d",
+      "category": "banking",
+      "sub_type": [
+        "subscription"
+      ],
+      "rating": {
+        "now": 67,
+        "prev": 84,
+        "delta": -17,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 37
+      },
+      "scenarios": {
+        "runs_total": 5,
+        "with_runs": 2,
+        "journeys_total": 7,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 9,
+        "friction": 61,
+        "last_run_at": "2026-07-29T10:32:53.103207+00:00"
+      }
+    },
+    {
+      "id": "23d12e2c-ce1f-58ce-bb8b-46004ac3718d",
+      "name": "Программа лояльности (бонусы \"Спасибо\")",
+      "url": "https://cjxplorer.com/products/23d12e2c-ce1f-58ce-bb8b-46004ac3718d",
+      "category": "ecosystem",
+      "sub_type": [
+        "loyalty"
+      ],
+      "rating": {
+        "now": 72,
+        "prev": 66,
+        "delta": 6,
+        "place": 3,
+        "of_orgs": 3,
+        "leader_org": "Т-Банк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 15
+      },
+      "scenarios": {
+        "runs_total": 18,
+        "with_runs": 8,
+        "journeys_total": 14,
+        "stale": 8
+      },
+      "counts": {
+        "critical": 8,
+        "friction": 94,
+        "last_run_at": "2026-07-17T13:43:26.389946+00:00"
+      }
+    },
+    {
+      "id": "dbf35b9a-fb0d-4c32-825c-caaca4230b12",
+      "name": "ИСЖ (Инвестиционное страхование жизни)",
+      "url": "https://cjxplorer.com/products/dbf35b9a-fb0d-4c32-825c-caaca4230b12",
+      "category": "banking",
+      "sub_type": [
+        "insurance",
+        "investments"
+      ],
+      "rating": {
+        "now": 59,
+        "prev": 72,
+        "delta": -13,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 29
+      },
+      "scenarios": {
+        "runs_total": 26,
+        "with_runs": 8,
+        "journeys_total": 10,
+        "stale": 4
+      },
+      "counts": {
+        "critical": 59,
+        "friction": 202,
+        "last_run_at": "2026-07-22T19:11:48.756161+00:00"
+      }
+    },
+    {
+      "id": "63d82938-a144-474c-99a4-ca7b2d3b22e7",
+      "name": "ОПИФ (Открытый паевой инвестиционный фонд)",
+      "url": "https://cjxplorer.com/products/63d82938-a144-474c-99a4-ca7b2d3b22e7",
+      "category": "banking",
+      "sub_type": [
+        "investments"
+      ],
+      "rating": {
+        "now": 59,
+        "prev": 98,
+        "delta": -39,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 9
+      },
+      "scenarios": {
+        "runs_total": 10,
+        "with_runs": 5,
+        "journeys_total": 8,
+        "stale": 4
+      },
+      "counts": {
+        "critical": 35,
+        "friction": 119,
+        "last_run_at": "2026-08-03T17:05:52.802976+00:00"
+      }
+    },
+    {
+      "id": "3d639002-321b-4239-bac7-e3cef74b92fe",
+      "name": "ОМС (Обезличенный металлический счёт)",
+      "url": "https://cjxplorer.com/products/3d639002-321b-4239-bac7-e3cef74b92fe",
+      "category": "banking",
+      "sub_type": [
+        "investments"
+      ],
+      "rating": {
+        "now": 31,
+        "prev": 39,
+        "delta": -8,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Т-Банк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 44
+      },
+      "scenarios": {
+        "runs_total": 11,
+        "with_runs": 7,
+        "journeys_total": 9,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 31,
+        "friction": 48,
+        "last_run_at": "2026-07-31T11:02:54.306615+00:00"
+      }
+    },
+    {
+      "id": "5c0212b0-2665-4825-a219-5818166e60bb",
+      "name": "ИИ-помощник по расходам и экономии",
+      "url": "https://cjxplorer.com/products/5c0212b0-2665-4825-a219-5818166e60bb",
+      "category": "banking",
+      "sub_type": [
+        "ии-агент"
+      ],
+      "rating": {
+        "now": 42,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 13
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 7,
+        "last_run_at": "2026-07-27T16:00:22.698356+00:00"
+      }
+    },
+    {
+      "id": "2468725a-36b8-47db-8429-5a606ab93576",
+      "name": "ПУ Сбер Первый",
+      "url": "https://cjxplorer.com/products/2468725a-36b8-47db-8429-5a606ab93576",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 64,
+        "prev": 96,
+        "delta": -32,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 7
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 28,
+        "last_run_at": "2026-07-22T12:37:25.136157+00:00"
+      }
+    },
+    {
+      "id": "035ce767-135b-40e7-889a-f19a7b714ea5",
+      "name": "Витрина страхования",
+      "url": "https://cjxplorer.com/products/035ce767-135b-40e7-889a-f19a7b714ea5",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 47,
+        "prev": 26,
+        "delta": 21,
+        "place": 3,
+        "of_orgs": 3,
+        "leader_org": "СберСтрахование"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 11
+      },
+      "scenarios": {
+        "runs_total": 12,
+        "with_runs": 11,
+        "journeys_total": 11,
+        "stale": 3
+      },
+      "counts": {
+        "critical": 13,
+        "friction": 82,
+        "last_run_at": "2026-07-23T10:54:57.385470+00:00"
+      }
+    },
+    {
+      "id": "e5da2fc4-aff5-40e9-b235-ede5bc90607f",
+      "name": "Прожиточный минимум",
+      "url": "https://cjxplorer.com/products/e5da2fc4-aff5-40e9-b235-ede5bc90607f",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 74,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 8,
+        "last_run_at": "2026-07-21T12:45:55.948786+00:00"
+      }
+    },
+    {
+      "id": "3e00d23f-cd93-4140-8624-e7f92f6bd74a",
+      "name": "Кредитный потенциал (СХ)",
+      "url": "https://cjxplorer.com/products/3e00d23f-cd93-4140-8624-e7f92f6bd74a",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 68,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 8,
+        "last_run_at": "2026-08-04T20:20:01.033074+00:00"
+      }
+    },
+    {
+      "id": "7e788a6f-2b70-4457-8dcc-373f7f9b4835",
+      "name": "Пенсия",
+      "url": "https://cjxplorer.com/products/7e788a6f-2b70-4457-8dcc-373f7f9b4835",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 79,
+        "prev": 98,
+        "delta": -19,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 10
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 4,
+        "friction": 37,
+        "last_run_at": "2026-07-24T16:30:14.027135+00:00"
+      }
+    },
+    {
+      "id": "4614d609-c711-4698-87da-06dbdb9edbe3",
+      "name": "Переводы ТГП",
+      "url": "https://cjxplorer.com/products/4614d609-c711-4698-87da-06dbdb9edbe3",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 73,
+        "prev": 84,
+        "delta": -11,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 20
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 5,
+        "friction": 20,
+        "last_run_at": "2026-07-21T20:59:31.987920+00:00"
+      }
+    },
+    {
+      "id": "acf0ea96-8adb-4fa4-a751-f3424117cf9f",
+      "name": "СберKids (приложение)",
+      "url": "https://cjxplorer.com/products/acf0ea96-8adb-4fa4-a751-f3424117cf9f",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 88,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 12,
+        "last_run_at": "2026-07-22T13:29:25.504822+00:00"
+      }
+    },
+    {
+      "id": "dfa85339-bacc-42e9-8dd5-d939bcb92f22",
+      "name": "Налоговые вычеты",
+      "url": "https://cjxplorer.com/products/dfa85339-bacc-42e9-8dd5-d939bcb92f22",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 64,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 13,
+        "last_run_at": "2026-07-23T15:10:33.685575+00:00"
+      }
+    },
+    {
+      "id": "6c175736-d029-4af5-b06d-63c8337bfbf0",
+      "name": "НСЖ",
+      "url": "https://cjxplorer.com/products/6c175736-d029-4af5-b06d-63c8337bfbf0",
+      "category": "banking",
+      "sub_type": [
+        "insurance"
+      ],
+      "rating": {
+        "now": 70,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 16
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 5,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 9,
+        "last_run_at": "2026-06-24T10:23:23.151447+00:00"
+      }
+    },
+    {
+      "id": "1e6d3a50-1a52-4cbc-8fba-892f83aed0fd",
+      "name": "БПИФ",
+      "url": "https://cjxplorer.com/products/1e6d3a50-1a52-4cbc-8fba-892f83aed0fd",
+      "category": "banking",
+      "sub_type": [
+        "investments"
+      ],
+      "rating": {
+        "now": 76,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 11
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 8,
+        "last_run_at": "2026-06-25T21:06:13.230464+00:00"
+      }
+    },
+    {
+      "id": "166e4211-ac2a-420f-8278-004718954ecd",
+      "name": "ЗПИФ",
+      "url": "https://cjxplorer.com/products/166e4211-ac2a-420f-8278-004718954ecd",
+      "category": "banking",
+      "sub_type": [
+        "investments"
+      ],
+      "rating": {
+        "now": 59,
+        "prev": 50,
+        "delta": 9,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 12,
+        "last_run_at": "2026-06-24T11:18:40.044525+00:00"
+      }
+    },
+    {
+      "id": "12fbafef-5c01-4f7f-9aee-dafcd95c80b4",
+      "name": "ПДС",
+      "url": "https://cjxplorer.com/products/12fbafef-5c01-4f7f-9aee-dafcd95c80b4",
+      "category": "banking",
+      "sub_type": [
+        "pension"
+      ],
+      "rating": {
+        "now": 82,
+        "prev": 64,
+        "delta": 18,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 9,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 13,
+        "last_run_at": "2026-07-28T10:21:13.938440+00:00"
+      }
+    },
+    {
+      "id": "83b14d4c-cee0-4491-ae41-1cfdd54e611f",
+      "name": "Финансовое здоровье",
+      "url": "https://cjxplorer.com/products/83b14d4c-cee0-4491-ae41-1cfdd54e611f",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 44,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 9,
+        "last_run_at": "2026-08-05T07:15:23.712179+00:00"
+      }
+    },
+    {
+      "id": "fc35718d-5bde-4b20-813c-c8a91efa2340",
+      "name": "Автонакопления",
+      "url": "https://cjxplorer.com/products/fc35718d-5bde-4b20-813c-c8a91efa2340",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 98,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 25
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 7,
+        "last_run_at": "2026-07-30T15:24:40.430265+00:00"
+      }
+    },
+    {
+      "id": "b6f68de2-312a-4a14-8b69-2fa7a4f48f94",
+      "name": "Всего средств",
+      "url": "https://cjxplorer.com/products/b6f68de2-312a-4a14-8b69-2fa7a4f48f94",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 85,
+        "prev": 90,
+        "delta": -5,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 67
+      },
+      "scenarios": {
+        "runs_total": 6,
+        "with_runs": 5,
+        "journeys_total": 5,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 38,
+        "last_run_at": "2026-07-29T08:10:40.946961+00:00"
+      }
+    },
+    {
+      "id": "0be9cafa-3e00-4bc8-af33-c51bfb8b0ad2",
+      "name": "Помощник по расходам",
+      "url": "https://cjxplorer.com/products/0be9cafa-3e00-4bc8-af33-c51bfb8b0ad2",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 62,
+        "prev": 55,
+        "delta": 7,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 18
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 12,
+        "last_run_at": "2026-07-27T16:10:03.577921+00:00"
+      }
+    },
+    {
+      "id": "33bbeaf5-00f0-4f17-9c3d-c33a1c2d2549",
+      "name": "Анализ финансов и бюджет",
+      "url": "https://cjxplorer.com/products/33bbeaf5-00f0-4f17-9c3d-c33a1c2d2549",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 94,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 10,
+        "last_run_at": "2026-07-28T08:11:18.655287+00:00"
+      }
+    },
+    {
+      "id": "0bc8bb40-2e9d-4b62-98ea-b92b82f1da3c",
+      "name": "Страхование жизни",
+      "url": "https://cjxplorer.com/products/0bc8bb40-2e9d-4b62-98ea-b92b82f1da3c",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 96,
+        "prev": 96,
+        "delta": 0,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 3,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 17,
+        "last_run_at": "2026-07-27T14:08:37.176453+00:00"
+      }
+    },
+    {
+      "id": "81a405fb-cd1f-4f84-a05f-9274525209e9",
+      "name": "Обмен безналичной валюты",
+      "url": "https://cjxplorer.com/products/81a405fb-cd1f-4f84-a05f-9274525209e9",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 59,
+        "prev": 64,
+        "delta": -5,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 24
+      },
+      "scenarios": {
+        "runs_total": 9,
+        "with_runs": 5,
+        "journeys_total": 6,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 13,
+        "friction": 85,
+        "last_run_at": "2026-08-05T10:21:54.176172+00:00"
+      }
+    },
+    {
+      "id": "de09e220-fe3e-421f-b3a4-20a5f6e18d04",
+      "name": "Сейфы",
+      "url": "https://cjxplorer.com/products/de09e220-fe3e-421f-b3a4-20a5f6e18d04",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 72,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 13
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 7,
+        "last_run_at": "2026-08-05T14:43:28.154556+00:00"
+      }
+    },
+    {
+      "id": "78c84200-a4eb-4780-a52f-0fec6fb3003f",
+      "name": "Рабочее место DE",
+      "url": "https://cjxplorer.com/products/78c84200-a4eb-4780-a52f-0fec6fb3003f",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 72,
+        "prev": 72,
+        "delta": 0,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 28
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 25,
+        "last_run_at": "2026-07-28T14:32:44.065889+00:00"
+      }
+    },
+    {
+      "id": "4807e194-59fb-443b-9a7e-3badabd9c043",
+      "name": "Наследство",
+      "url": "https://cjxplorer.com/products/4807e194-59fb-443b-9a7e-3badabd9c043",
+      "category": "banking",
+      "sub_type": [
+        "выплаты"
+      ],
+      "rating": {
+        "now": 28,
+        "prev": 38,
+        "delta": -10,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 23
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 16,
+        "last_run_at": "2026-08-05T05:55:57.191279+00:00"
+      }
+    },
+    {
+      "id": "b6b3d93b-1fd9-4686-914d-0d9880fa4923",
+      "name": "Межбанковский перевод",
+      "url": "https://cjxplorer.com/products/b6b3d93b-1fd9-4686-914d-0d9880fa4923",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 77,
+        "prev": 78,
+        "delta": -1,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 18,
+        "last_run_at": "2026-07-20T15:43:53.856161+00:00"
+      }
+    },
+    {
+      "id": "928f75cf-cbb5-444f-8a2d-589f054fb8ff",
+      "name": "Вклад Лучший %",
+      "url": "https://cjxplorer.com/products/928f75cf-cbb5-444f-8a2d-589f054fb8ff",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 98,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 8,
+        "last_run_at": "2026-07-22T09:33:22.199738+00:00"
+      }
+    },
+    {
+      "id": "905c7ac6-cc50-458f-8598-03793bd531e8",
+      "name": "Вклад Сбер Акционер",
+      "url": "https://cjxplorer.com/products/905c7ac6-cc50-458f-8598-03793bd531e8",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 62,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 8
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 11,
+        "last_run_at": "2026-07-28T15:29:26.940322+00:00"
+      }
+    },
+    {
+      "id": "f513e7d4-90a9-49eb-a7a2-28933a38627f",
+      "name": "Вклад «Забота о будущем» + ПДС",
+      "url": "https://cjxplorer.com/products/f513e7d4-90a9-49eb-a7a2-28933a38627f",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 88,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 11,
+        "last_run_at": "2026-07-28T06:54:06.896154+00:00"
+      }
+    },
+    {
+      "id": "4661cf50-b37a-45d1-92f4-924c0b883ac1",
+      "name": "Накопительный счет для массовых клиентов",
+      "url": "https://cjxplorer.com/products/4661cf50-b37a-45d1-92f4-924c0b883ac1",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 90,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 11,
+        "last_run_at": "2026-07-21T09:19:13.837388+00:00"
+      }
+    },
+    {
+      "id": "d3ad8872-0381-4214-afea-7c9684abed13",
+      "name": "Звук",
+      "url": "https://cjxplorer.com/products/d3ad8872-0381-4214-afea-7c9684abed13",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 97,
+        "prev": 97,
+        "delta": 0,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Звук",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 4,
+        "journeys_total": 5,
+        "stale": 4
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 26,
+        "last_run_at": "2026-07-15T08:16:13.852158+00:00"
+      }
+    },
+    {
+      "id": "cf68ade0-ca5e-4326-a9b4-086e2abb0958",
+      "name": "Самокат",
+      "url": "https://cjxplorer.com/products/cf68ade0-ca5e-4326-a9b4-086e2abb0958",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 98,
+        "prev": 92,
+        "delta": 6,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Самокат",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 4,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 23,
+        "last_run_at": "2026-07-23T12:09:31.126436+00:00"
+      }
+    },
+    {
+      "id": "3adc991d-0557-42a1-9ea1-8382115ac1ec",
+      "name": "Купер",
+      "url": "https://cjxplorer.com/products/3adc991d-0557-42a1-9ea1-8382115ac1ec",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 95,
+        "prev": 100,
+        "delta": -5,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Купер",
+      "issues": {
+        "accepted": true,
+        "count": 7
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 7,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 24,
+        "last_run_at": "2026-07-23T13:35:00.101315+00:00"
+      }
+    },
+    {
+      "id": "a012aa1d-592d-4796-9b2f-45a6633e45b8",
+      "name": "Веб СБОЛ",
+      "url": "https://cjxplorer.com/products/a012aa1d-592d-4796-9b2f-45a6633e45b8",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 85,
+        "prev": 60,
+        "delta": 25,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 9,
+        "with_runs": 9,
+        "journeys_total": 9,
+        "stale": 9
+      },
+      "counts": {
+        "critical": 4,
+        "friction": 50,
+        "last_run_at": "2026-07-21T15:24:38.791107+00:00"
+      }
+    },
+    {
+      "id": "2d5f71ec-13c2-4032-b68a-6b359a8dc2a3",
+      "name": "Раздел Выгода в МП СБОЛ",
+      "url": "https://cjxplorer.com/products/2d5f71ec-13c2-4032-b68a-6b359a8dc2a3",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 96,
+        "prev": 88,
+        "delta": 8,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 34,
+        "last_run_at": "2026-07-22T13:09:02.639981+00:00"
+      }
+    },
+    {
+      "id": "436ec32e-56f0-403f-814a-19cb75d8f23c",
+      "name": "Подработка",
+      "url": "https://cjxplorer.com/products/436ec32e-56f0-403f-814a-19cb75d8f23c",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 81,
+        "prev": 100,
+        "delta": -19,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 4
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 27,
+        "last_run_at": "2026-07-29T14:54:13.787542+00:00"
+      }
+    },
+    {
+      "id": "5d87ee8a-a09e-4c18-a77f-70ae6361ae31",
+      "name": "Витрина инвестиций",
+      "url": "https://cjxplorer.com/products/5d87ee8a-a09e-4c18-a77f-70ae6361ae31",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 45,
+        "prev": 29,
+        "delta": 16,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 23
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 16,
+        "friction": 27,
+        "last_run_at": "2026-07-28T14:01:30.846140+00:00"
+      }
+    },
+    {
+      "id": "0707c613-7c08-4fbf-86de-377d1fe96ff4",
+      "name": "Инвестиционная рекомендация",
+      "url": "https://cjxplorer.com/products/0707c613-7c08-4fbf-86de-377d1fe96ff4",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 89,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 5,
+        "last_run_at": "2026-07-17T06:44:58.759513+00:00"
+      }
+    },
+    {
+      "id": "87b5213f-efa8-4442-9854-9b81f5ca98f4",
+      "name": "Платеж ЖКХ (Дом)",
+      "url": "https://cjxplorer.com/products/87b5213f-efa8-4442-9854-9b81f5ca98f4",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 53,
+        "prev": 52,
+        "delta": 1,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 16
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 13,
+        "last_run_at": "2026-07-28T20:04:13.278756+00:00"
+      }
+    },
+    {
+      "id": "3256c7aa-c70b-48da-89cb-9a8648cc3ada",
+      "name": "Реструктуризация",
+      "url": "https://cjxplorer.com/products/3256c7aa-c70b-48da-89cb-9a8648cc3ada",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 65,
+        "prev": 50,
+        "delta": 15,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 19
+      },
+      "scenarios": {
+        "runs_total": 5,
+        "with_runs": 5,
+        "journeys_total": 5,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 52,
+        "last_run_at": "2026-07-20T10:32:03.491568+00:00"
+      }
+    },
+    {
+      "id": "6d9e76cf-dcda-4994-ab2b-addc392e9240",
+      "name": "Деньги до зарплаты",
+      "url": "https://cjxplorer.com/products/6d9e76cf-dcda-4994-ab2b-addc392e9240",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 90,
+        "prev": 90,
+        "delta": 0,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 19,
+        "last_run_at": "2026-07-17T13:28:19.138364+00:00"
+      }
+    },
+    {
+      "id": "69eaf5b2-7c7e-4c07-a32b-69fdb29b0843",
+      "name": "SberPay Улыбка",
+      "url": "https://cjxplorer.com/products/69eaf5b2-7c7e-4c07-a32b-69fdb29b0843",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 93,
+        "prev": 94,
+        "delta": -1,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 7
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 5,
+        "last_run_at": "2026-07-23T08:41:23.802573+00:00"
+      }
+    },
+    {
+      "id": "4d074519-342e-47d3-80db-a1bfea5ebb6f",
+      "name": "Поддержка в чате",
+      "url": "https://cjxplorer.com/products/4d074519-342e-47d3-80db-a1bfea5ebb6f",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 93,
+        "prev": 95,
+        "delta": -2,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 5,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 20,
+        "last_run_at": "2026-07-24T13:15:52.388206+00:00"
+      }
+    },
+    {
+      "id": "2c900265-42f6-4fee-acf1-aafbe43ccb0d",
+      "name": "Молодежная карта",
+      "url": "https://cjxplorer.com/products/2c900265-42f6-4fee-acf1-aafbe43ccb0d",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 84,
+        "prev": null,
+        "delta": null,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Сбер"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 5,
+        "last_run_at": "2026-07-20T11:15:43.678114+00:00"
+      }
+    },
+    {
+      "id": "f05acdbf-d78d-4247-97f6-a5587fd26286",
+      "name": "Афиша",
+      "url": "https://cjxplorer.com/products/f05acdbf-d78d-4247-97f6-a5587fd26286",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 70,
+        "prev": null,
+        "delta": null,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Афиша"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 6,
+        "with_runs": 5,
+        "journeys_total": 5,
+        "stale": 4
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 16,
+        "last_run_at": "2026-07-21T12:03:13.728112+00:00"
+      }
+    },
+    {
+      "id": "b2223715-1be3-4c34-8f6a-bb1af542ed87",
+      "name": "Кредитные каникулы",
+      "url": "https://cjxplorer.com/products/b2223715-1be3-4c34-8f6a-bb1af542ed87",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 85,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 11
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 11,
+        "last_run_at": "2026-07-20T09:54:07.037963+00:00"
+      }
+    },
+    {
+      "id": "aa4e9575-9d67-4491-ad4b-ee425c4b4ee6",
+      "name": "Подарок в переводах",
+      "url": "https://cjxplorer.com/products/aa4e9575-9d67-4491-ad4b-ee425c4b4ee6",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 66,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 9
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 8,
+        "last_run_at": "2026-07-20T10:11:52.112670+00:00"
+      }
+    },
+    {
+      "id": "d70e17ee-6c2f-444f-b18c-9dbadf0fa6b0",
+      "name": "Переводы по СберХаб",
+      "url": "https://cjxplorer.com/products/d70e17ee-6c2f-444f-b18c-9dbadf0fa6b0",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 90,
+        "prev": 91,
+        "delta": -1,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 10,
+        "last_run_at": "2026-07-20T11:14:17.632747+00:00"
+      }
+    },
+    {
+      "id": "4287de94-35f4-4e77-bafa-4269a2062e62",
+      "name": "Платеж за Телеком",
+      "url": "https://cjxplorer.com/products/4287de94-35f4-4e77-bafa-4269a2062e62",
+      "category": "banking",
+      "sub_type": [
+        "платеж-за-телеком"
+      ],
+      "rating": {
+        "now": 68,
+        "prev": 68,
+        "delta": 0,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 14
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 22,
+        "last_run_at": "2026-07-21T12:01:55.302041+00:00"
+      }
+    },
+    {
+      "id": "a1fc19b3-1350-45dc-8164-6d95619f01ee",
+      "name": "Переводы",
+      "url": "https://cjxplorer.com/products/a1fc19b3-1350-45dc-8164-6d95619f01ee",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 88,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 5,
+        "last_run_at": "2026-07-20T11:47:22.965724+00:00"
+      }
+    },
+    {
+      "id": "2cdff89b-5331-44ef-b61e-a4fe4b18b06d",
+      "name": "2ГИС",
+      "url": "https://cjxplorer.com/products/2cdff89b-5331-44ef-b61e-a4fe4b18b06d",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 100,
+        "prev": 100,
+        "delta": 0,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "2ГИС",
+      "issues": {
+        "accepted": false,
+        "count": 36
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 27,
+        "last_run_at": "2026-07-24T09:34:14.555165+00:00"
+      }
+    },
+    {
+      "id": "d90a6716-02e2-497e-967c-916ad9ad2b01",
+      "name": "Оплата с нескольких счетов",
+      "url": "https://cjxplorer.com/products/d90a6716-02e2-497e-967c-916ad9ad2b01",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 94,
+        "prev": 92,
+        "delta": 2,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 9
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 4,
+        "journeys_total": 4,
+        "stale": 4
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 36,
+        "last_run_at": "2026-07-21T10:58:52.429924+00:00"
+      }
+    },
+    {
+      "id": "f0b4c18e-be5e-4cb6-af45-745b269ecf67",
+      "name": "Куда привязаны ваши карты и счета",
+      "url": "https://cjxplorer.com/products/f0b4c18e-be5e-4cb6-af45-745b269ecf67",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 97,
+        "prev": 96,
+        "delta": 1,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 3
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 13,
+        "last_run_at": "2026-07-21T10:40:29.662356+00:00"
+      }
+    },
+    {
+      "id": "32d2b300-b2c2-4b31-a1a6-0de4b73ba436",
+      "name": "Отчет по кредитной истории",
+      "url": "https://cjxplorer.com/products/32d2b300-b2c2-4b31-a1a6-0de4b73ba436",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 78,
+        "prev": 91,
+        "delta": -13,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 28
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 24,
+        "last_run_at": "2026-07-28T15:00:31.378548+00:00"
+      }
+    },
+    {
+      "id": "9de58353-6f97-4ce6-b723-386f97608c53",
+      "name": "Сбер ID",
+      "url": "https://cjxplorer.com/products/9de58353-6f97-4ce6-b723-386f97608c53",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 92,
+        "prev": 92,
+        "delta": 0,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "МегаМаркет"
+      },
+      "own_org": "Okko",
+      "issues": {
+        "accepted": true,
+        "count": 4
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 4,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 18,
+        "last_run_at": "2026-07-22T14:07:41.883793+00:00"
+      }
+    },
+    {
+      "id": "5fdcdc0e-ab19-4998-86a8-99db25a7264a",
+      "name": "Образовательный кредит",
+      "url": "https://cjxplorer.com/products/5fdcdc0e-ab19-4998-86a8-99db25a7264a",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 85,
+        "prev": 94,
+        "delta": -9,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 8
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 4,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 25,
+        "last_run_at": "2026-07-27T06:56:59.159253+00:00"
+      }
+    },
+    {
+      "id": "3c31ee7b-66ca-4632-a715-c0bd444db849",
+      "name": "Оплата телефоном SberPay NFC",
+      "url": "https://cjxplorer.com/products/3c31ee7b-66ca-4632-a715-c0bd444db849",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 95,
+        "prev": 97,
+        "delta": -2,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 5
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 5,
+        "last_run_at": "2026-07-22T09:58:41.744375+00:00"
+      }
+    },
+    {
+      "id": "33ea01c8-cc0c-44bf-80dd-59be067e1cd4",
+      "name": "Мониторинг кредитной истории",
+      "url": "https://cjxplorer.com/products/33ea01c8-cc0c-44bf-80dd-59be067e1cd4",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 95,
+        "prev": 100,
+        "delta": -5,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 20,
+        "last_run_at": "2026-07-22T13:09:39.178780+00:00"
+      }
+    },
+    {
+      "id": "746444ad-dadb-435b-a21f-45661bc58ccf",
+      "name": "Путешествия (ЖД)",
+      "url": "https://cjxplorer.com/products/746444ad-dadb-435b-a21f-45661bc58ccf",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 51,
+        "prev": 72,
+        "delta": -21,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 4
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "with_runs": 2,
+        "journeys_total": 2,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 35,
+        "last_run_at": "2026-07-23T08:59:11.494441+00:00"
+      }
+    },
+    {
+      "id": "76d82a57-a676-463c-9338-d2050beeb16c",
+      "name": "Поиск в МП СБОЛ",
+      "url": "https://cjxplorer.com/products/76d82a57-a676-463c-9338-d2050beeb16c",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 98,
+        "prev": 100,
+        "delta": -2,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 28,
+        "last_run_at": "2026-07-22T14:26:24.230665+00:00"
+      }
+    },
+    {
+      "id": "14d791e4-63fc-4f04-ba9a-cefbfce3cdc3",
+      "name": "Раздел \"Настройки\" в МП СБОЛ",
+      "url": "https://cjxplorer.com/products/14d791e4-63fc-4f04-ba9a-cefbfce3cdc3",
+      "category": "banking",
+      "sub_type": [
+        "оплата-с-нескольких-счетов"
+      ],
+      "rating": {
+        "now": 87,
+        "prev": 81,
+        "delta": 6,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Сбер"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 15,
+        "last_run_at": "2026-07-24T13:15:27.977634+00:00"
+      }
+    },
+    {
+      "id": "52d0e414-e742-4684-9778-0184275bedb9",
+      "name": "Потребительский кредит",
+      "url": "https://cjxplorer.com/products/52d0e414-e742-4684-9778-0184275bedb9",
+      "category": "banking",
+      "sub_type": [
+        "consumer-loan"
+      ],
+      "rating": {
+        "now": 65,
+        "prev": 6,
+        "delta": 59,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 5,
+        "with_runs": 5,
+        "journeys_total": 5,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 5,
+        "friction": 58,
+        "last_run_at": "2026-08-05T06:03:50.403349+00:00"
+      }
+    },
+    {
+      "id": "7417daaa-29d9-4c29-884d-07ae786cfd22",
+      "name": "Банкоматы",
+      "url": "https://cjxplorer.com/products/7417daaa-29d9-4c29-884d-07ae786cfd22",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 84,
+        "prev": 80,
+        "delta": 4,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Сбер"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 4
+      },
+      "scenarios": {
+        "runs_total": 9,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 28,
+        "last_run_at": "2026-08-05T09:38:01.542412+00:00"
+      }
+    },
+    {
+      "id": "29735c06-f322-42ee-94a7-30fc93edeb9f",
+      "name": "Обмен наличной валюты без идентификации",
+      "url": "https://cjxplorer.com/products/29735c06-f322-42ee-94a7-30fc93edeb9f",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 98,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 5,
+        "last_run_at": "2026-07-29T13:43:37.208271+00:00"
+      }
+    },
+    {
+      "id": "e07a7f43-9c8d-41b9-a816-3404490c206a",
+      "name": "Проверка запрета на выезд за рубеж",
+      "url": "https://cjxplorer.com/products/e07a7f43-9c8d-41b9-a816-3404490c206a",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 54,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 10,
+        "last_run_at": "2026-07-30T08:05:09.662483+00:00"
+      }
+    },
+    {
+      "id": "b46555a7-6f3a-475e-8873-a3e90b32cf0e",
+      "name": "Выгода",
+      "url": "https://cjxplorer.com/products/b46555a7-6f3a-475e-8873-a3e90b32cf0e",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 62,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 11
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 7,
+        "last_run_at": "2026-07-30T14:00:02.746076+00:00"
+      }
+    },
+    {
+      "id": "de282a7d-8f9f-47fa-9c65-ecdf8c48b7b7",
+      "name": "ГигаЧат",
+      "url": "https://cjxplorer.com/products/de282a7d-8f9f-47fa-9c65-ecdf8c48b7b7",
+      "category": "ecosystem",
+      "sub_type": [],
+      "rating": {
+        "now": 49,
+        "prev": null,
+        "delta": null,
+        "place": 2,
+        "of_orgs": 2,
+        "leader_org": "Сбер"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 12,
+        "last_run_at": "2026-08-04T19:21:28.317907+00:00"
+      }
+    },
+    {
+      "id": "5073bf7c-e693-46b6-8cbd-871ef4308974",
+      "name": "Деньги за покупки (POS)",
+      "url": "https://cjxplorer.com/products/5073bf7c-e693-46b6-8cbd-871ef4308974",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 85,
+        "prev": 75,
+        "delta": 10,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 1
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "with_runs": 2,
+        "journeys_total": 3,
+        "stale": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 11,
+        "last_run_at": "2026-07-27T14:32:38.832783+00:00"
+      }
+    },
+    {
+      "id": "ee64f69e-c73c-4ac0-a172-dd9118056c27",
+      "name": "Оплата частями (BNPL)",
+      "url": "https://cjxplorer.com/products/ee64f69e-c73c-4ac0-a172-dd9118056c27",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 90,
+        "prev": 100,
+        "delta": -10,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 6
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "with_runs": 3,
+        "journeys_total": 3,
+        "stale": 2
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 24,
+        "last_run_at": "2026-07-23T14:36:26.938454+00:00"
+      }
+    },
+    {
+      "id": "ecf283be-0cee-4ea1-a8b8-6d44a4b9b448",
+      "name": "Зарубежная eSIm",
+      "url": "https://cjxplorer.com/products/ecf283be-0cee-4ea1-a8b8-6d44a4b9b448",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 26,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": false,
+        "count": 22
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 10,
+        "last_run_at": "2026-07-31T11:43:19.410146+00:00"
+      }
+    },
+    {
+      "id": "d3eb3fc0-39b6-498d-a597-2d94b82c0dce",
+      "name": "Брокерское обслуживание",
+      "url": "https://cjxplorer.com/products/d3eb3fc0-39b6-498d-a597-2d94b82c0dce",
+      "category": "banking",
+      "sub_type": [
+        "investments"
+      ],
+      "rating": {
+        "now": 66,
+        "prev": 90,
+        "delta": -24,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 19
+      },
+      "scenarios": {
+        "runs_total": 9,
+        "with_runs": 7,
+        "journeys_total": 7,
+        "stale": 5
+      },
+      "counts": {
+        "critical": 7,
+        "friction": 51,
+        "last_run_at": "2026-07-22T19:01:16.336233+00:00"
+      }
+    },
+    {
+      "id": "eb633bf8-e5a6-4f74-8a32-d01165483448",
+      "name": "НСЖ (накопительное страхование жизни)",
+      "url": "https://cjxplorer.com/products/eb633bf8-e5a6-4f74-8a32-d01165483448",
+      "category": "banking",
+      "sub_type": [
+        "insurance",
+        "investments"
+      ],
+      "rating": {
+        "now": 54,
+        "prev": 74,
+        "delta": -20,
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк"
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 51
+      },
+      "scenarios": {
+        "runs_total": 9,
+        "with_runs": 8,
+        "journeys_total": 8,
+        "stale": 8
+      },
+      "counts": {
+        "critical": 15,
+        "friction": 69,
+        "last_run_at": "2026-07-21T00:16:15.846442+00:00"
+      }
+    },
+    {
+      "id": "a1ae1843-c592-477e-af08-e01674872238",
+      "name": "Кредитный потенциал (СХ)",
+      "url": "https://cjxplorer.com/products/a1ae1843-c592-477e-af08-e01674872238",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 56,
+        "prev": null,
+        "delta": null,
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null
+      },
+      "own_org": "Сбербанк",
+      "issues": {
+        "accepted": true,
+        "count": 2
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "with_runs": 1,
+        "journeys_total": 1,
+        "stale": 0
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 10,
+        "last_run_at": "2026-08-04T20:31:18.325464+00:00"
+      }
+    }
+  ]
+}

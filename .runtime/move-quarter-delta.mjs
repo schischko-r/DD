@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {readFileSync, writeFileSync} from 'node:fs';
+const path = new URL('../gravity-app/src/pages/TeamProfilePage.jsx', import.meta.url);
+let page = readFileSync(path, 'utf8');
+const container = '<div className="index-next-level">';
+const start = page.indexOf(container + '{indexDelta &&');
+assert.ok(start >= 0);
+const end = page.indexOf('<Text variant="body-1"', start);
+assert.ok(end > start);
+page = page.slice(0, start + container.length) + page.slice(end);
+const anchor = '{hasScore && <Progress value={score} theme={maturityTone} size="s" />}';
+assert.equal(page.split(anchor).length, 2);
+const delta = `{indexDelta && <div className={\`index-quarter-delta index-quarter-delta-\${indexDelta.value > 0 ? 'positive' : indexDelta.value < 0 ? 'negative' : 'neutral'}\`}><span className="index-quarter-delta-badge"><span className="index-quarter-delta-direction" aria-hidden="true" /><strong className="index-quarter-delta-value">{indexDelta.value > 0 ? '+' : indexDelta.value < 0 ? '−' : ''}{Math.abs(indexDelta.value).toLocaleString('ru-RU', {maximumFractionDigits: 1})} <span>п.п.</span></strong></span><span className="index-quarter-delta-caption">ко II кварталу</span></div>}`;
+page = page.replace(anchor, delta + anchor);
+writeFileSync(path, page);

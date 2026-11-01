@@ -1,0 +1,26 @@
+{
+  "period": "III кв. 2026",
+  "scope": "campaign-user-assessment",
+  "source": {"origin": "userConfirmedAutoAttractCorrection20261031", "confirmedBy": "user", "date": "2026-10-31"},
+  "products": [{
+    "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+    "name": "Объект Авто",
+    "unit": "CBP",
+    "type": "Продукт",
+    "metrics": {
+      "attract.nalichie_self_service": {
+        "rawValue": 0,
+        "source": {
+          "origin": "userConfirmedAutoAttractCorrection20261031",
+          "confirmedBy": "user",
+          "date": "2026-10-31",
+          "period": "III кв. 2026",
+          "sourceMetricName": "Наличие Self-service",
+          "inputPercent": 0,
+          "rawValue": 0,
+          "rule": "Последняя прямая оценка пользователя — 0%. Заменяет прежние 100%; действующий максимум сохраняется."
+        }
+      }
+    }
+  }]
+}

@@ -1,0 +1,29 @@
+{
+  "period": "III кв. 2026",
+  "scope": "regularity-user-assessment",
+  "source": {"origin": "userConfirmedTipsRegularity20261031", "confirmedBy": "user", "date": "2026-10-31"},
+  "products": [{
+    "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+    "name": "СберЧаевые",
+    "unit": "DB",
+    "type": "Продукт",
+    "metrics": {
+      "attract.regulyarnostь": {
+        "rawValue": 1,
+        "source": {
+          "origin": "userConfirmedTipsRegularity20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026",
+          "fromPeriod": "II кв. 2026", "sourceValue": 1, "sourceMaxValue": 1, "rawValue": 1,
+          "rule": "По последнему указанию пользователя регулярность воронки привлечения СберЧаевых перенесена из предыдущего опроса."
+        }
+      },
+      "churn.regulyarnostь": {
+        "rawValue": 0.5,
+        "source": {
+          "origin": "userConfirmedTipsRegularity20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026",
+          "file": "ddi_3q_response/questionare-responses(11).csv", "csvRow": 25, "questionId": "churnConfigured", "answer": "Да, по запросу", "rawValue": 0.5,
+          "rule": "Прямое подтверждение пользователя: для ответа «по запросу» регулярность оценивается как 0.5 действующего максимума."
+        }
+      }
+    }
+  }]
+}

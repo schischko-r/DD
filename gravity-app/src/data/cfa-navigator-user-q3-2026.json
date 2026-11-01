@@ -1,0 +1,21 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {"origin": "userConfirmedDirectNavigatorAssessment", "confirmedBy": "user", "date": "2026-10-31"},
+  "products": [{
+    "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+    "name": "ЦФА",
+    "unit": "УБ",
+    "type": "Продукт",
+    "metrics": {
+      "general.navigator_reporting_knowledge": {
+        "rawValue": 1,
+        "source": {
+          "origin": "userConfirmedDirectNavigatorAssessment", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026",
+          "teamId": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА", "teamName": "ЦФА", "unit": "УБ", "type": "Продукт", "rawValue": 1,
+          "rule": "Последнее прямое указание пользователя: знание об отчётности в Навигаторе у ЦФА = 100%. Имеет приоритет над расчётом по MAU, рынку и спутникам."
+        }
+      }
+    }
+  }]
+}

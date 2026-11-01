@@ -1,0 +1,271 @@
+{
+  "period": "III кв. 2026",
+  "scope": "key-metrics-assessment",
+  "source": {
+    "origin": "userConfirmedBpifKnowledge20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "period": "III кв. 2026"
+  },
+  "products": [
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "general.obъem_celevogo_rynka_v_rossii": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Объем целевого рынка в России",
+            "rawValue": 1,
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousAssessmentSource": null
+          }
+        },
+        "general.obъem_celevogo_rynka_v_sbere": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Объем целевого рынка в Сбере",
+            "rawValue": 1,
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousAssessmentSource": null
+          }
+        },
+        "general.klienty_s_produktom": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Клиенты с продуктом",
+            "rawValue": 1,
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousAssessmentSource": {
+              "origin": "keyMetricsWorkbookAssessment",
+              "file": "Ключевые метрики Продукта Баллы.xlsx",
+              "sheet": "Лист1",
+              "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+              "period": "III кв. 2026",
+              "sourceName": "БПИФ",
+              "sourceMetricName": "Клиенты с продуктом",
+              "sourceRows": [
+                148
+              ],
+              "cell": "C148",
+              "cells": [
+                {
+                  "sourceRow": 148,
+                  "cell": "C148",
+                  "rawValue": 1,
+                  "cellType": "n",
+                  "sourceName": "БПИФ",
+                  "sourceMetric": "Клиенты с продуктом",
+                  "note": null
+                }
+              ],
+              "points": 1,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "mappingRule": "normalizedExact",
+              "baselineApplicable": true,
+              "baselineMaxValue": 0.2,
+              "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+              "rawValue": 1
+            }
+          }
+        },
+        "general.mau_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "MAU продукта",
+            "rawValue": 1,
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedQuarterRetention",
+              "policy": "fullProductKnowledge",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "previousQ3Value": 0.2,
+              "rule": "Последнее указание пользователя: перенести из II квартала в III только 100% оценки Клиенты с продуктом и MAU продукта. Применимость и веса сохраняются. Другие коды MAU и Навигатор не меняются."
+            }
+          }
+        },
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Знание продуктов спутников",
+            "rawValue": 1,
+            "previousValue": 0.2,
+            "previousMaxValue": 0.2,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedAllSatelliteKnowledge20261030",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "rule": "Последнее явное указание пользователя: знание продуктов-спутников = 100% всем действующим командам III квартала, где метрика уже существует и применима с положительным максимумом. Не добавлять метрики, не активировать неприменимые. Максимумы, II квартал и остальные метрики сохраняются.",
+              "previousValue": 0.2,
+              "previousMaxValue": 0.2,
+              "previousSource": {
+                "origin": "priorQuarterCarryForward",
+                "file": "gravity-app/public/report-data.json",
+                "period": "III кв. 2026",
+                "fromPeriod": "II кв. 2026",
+                "sourceName": "БПИФ",
+                "sourceMetricCode": "general.znanie_produktov_sputnikov",
+                "sourceMetricName": "Знание продуктов спутников",
+                "sourceValue": 0.2,
+                "sourceMaxValue": 0.2,
+                "confirmedBy": "user",
+                "userprovided": true,
+                "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                "rawValue": 1
+              },
+              "rawValue": 1
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "rawValue": 1,
+            "previousValue": null,
+            "previousMaxValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedNavigatorKnowledgeHierarchy",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "rawValue": null,
+              "rule": "Не знают MAU или рынок России — 0; знают MAU и рынок, но не спутники — 0.5; знают все три — 1. Пропуск ответа не равен незнанию.",
+              "inputs": [
+                {
+                  "code": "general.obъem_celevogo_rynka_v_rossii",
+                  "value": null,
+                  "maxValue": 0.2,
+                  "applicable": true
+                },
+                {
+                  "code": "general.mau_produkta",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true
+                },
+                {
+                  "code": "general.znanie_produktov_sputnikov",
+                  "value": 0.2,
+                  "maxValue": 0.2,
+                  "applicable": true
+                }
+              ],
+              "previousAssessmentSource": {
+                "origin": "userConfirmedNavigatorKnowledgeRule",
+                "confirmedBy": "user",
+                "date": "2026-10-30",
+                "period": "III кв. 2026",
+                "rule": "При полностью набранных применимых оценках MAU продукта или общего MAU канала и знания продуктов-спутников установить применимую оценку знания об отчётности в Навигаторе равной 100%. Максимум метрики сохраняется.",
+                "previousEffectiveValue": null,
+                "maxValue": 0.5,
+                "basisMetrics": [
+                  {
+                    "code": "general.mau_produkta",
+                    "name": "MAU продукта",
+                    "value": 0.2,
+                    "maxValue": 0.2,
+                    "applicable": true,
+                    "source": {
+                      "origin": "keyMetricsWorkbookAssessment",
+                      "file": "Ключевые метрики Продукта Баллы.xlsx",
+                      "sheet": "Лист1",
+                      "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                      "period": "III кв. 2026",
+                      "sourceName": "БПИФ",
+                      "sourceMetricName": "MAU продукта",
+                      "sourceRows": [
+                        149
+                      ],
+                      "cell": "C149",
+                      "cells": [
+                        {
+                          "sourceRow": 149,
+                          "cell": "C149",
+                          "rawValue": 1,
+                          "cellType": "n",
+                          "sourceName": "БПИФ",
+                          "sourceMetric": "MAU продукта",
+                          "note": null
+                        }
+                      ],
+                      "points": 1,
+                      "confirmedBy": "user",
+                      "userprovided": true,
+                      "mappingRule": "normalizedExact",
+                      "baselineApplicable": true,
+                      "baselineMaxValue": 0.2,
+                      "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+                      "rawValue": 1
+                    }
+                  },
+                  {
+                    "code": "general.znanie_produktov_sputnikov",
+                    "name": "Знание продуктов спутников",
+                    "value": 0.2,
+                    "maxValue": 0.2,
+                    "applicable": true,
+                    "source": {
+                      "origin": "priorQuarterCarryForward",
+                      "file": "gravity-app/public/report-data.json",
+                      "period": "III кв. 2026",
+                      "fromPeriod": "II кв. 2026",
+                      "sourceName": "БПИФ",
+                      "sourceMetricCode": "general.znanie_produktov_sputnikov",
+                      "sourceMetricName": "Знание продуктов спутников",
+                      "sourceValue": 0.2,
+                      "sourceMaxValue": 0.2,
+                      "confirmedBy": "user",
+                      "userprovided": true,
+                      "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются.",
+                      "rawValue": 1
+                    }
+                  }
+                ],
+                "reason": "Условия проверены по действующим оценкам III квартала после всех подключённых наборов данных, а не по исходному числу клиентов MAU.",
+                "rawValue": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

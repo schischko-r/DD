@@ -1,0 +1,151 @@
+{
+  "period": "III кв. 2026",
+  "source": {
+    "origin": "userConfirmedDigitalCompletion20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31"
+  },
+  "scope": "funnel-user-assessment",
+  "products": [
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "rawValue": 1,
+            "rule": "Прямое указание пользователя: мероприятия по работе с отклонениями = 1."
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "attract.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "rawValue": 1,
+            "rule": "Прямое указание пользователя: мероприятия по работе с отклонениями = 1."
+          }
+        }
+      }
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "rawValue": 1,
+            "previousValue": null
+          }
+        }
+      }
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "rawValue": 1,
+            "previousValue": null
+          }
+        }
+      }
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "rawValue": 0,
+            "previousValue": null
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedDigitalCompletion20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "rawValue": 0,
+            "previousValue": null
+          }
+        }
+      }
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedTelemarketingScores20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "inputAlias": "тм",
+            "rawValue": 1,
+            "previousValue": null
+          }
+        }
+      }
+    }
+  ]
+}

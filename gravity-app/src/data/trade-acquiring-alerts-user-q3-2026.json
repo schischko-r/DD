@@ -1,0 +1,31 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-metric-assessment",
+  "source": {
+    "origin": "userConfirmedTradeAcquiringAlerts20261031",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "period": "III кв. 2026"
+  },
+  "products": [
+    {
+      "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedTradeAcquiringAlerts20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "rawValue": 0,
+            "previousValue": null
+          }
+        }
+      }
+    }
+  ]
+}

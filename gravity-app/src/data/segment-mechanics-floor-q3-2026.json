@@ -1,0 +1,207 @@
+{
+  "period": "III кв. 2026",
+  "scope": "user-confirmed-q2-retention",
+  "source": {
+    "origin": "userConfirmedQuarterRetention",
+    "policy": "segmentMechanicsNonDecreasing",
+    "confirmedBy": "user",
+    "date": "2026-10-31",
+    "rule": "Для явно присланных пар команда–метрика итог III квартала равен максимуму из новой нормированной оценки и результата II квартала. Снижения заменяются точным сохранением прежних баллов. Жизненные события Зрелости дополнительно подтверждены пользователем как 0.5."
+  },
+  "products": [
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.reagirovanie_na_zhiznennye_sobytiya": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 0.5,
+            "sourceMaxValue": 1,
+            "proposedRawValue": 0.5
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 1.5,
+            "sourceMaxValue": 2,
+            "proposedRawValue": 1
+          }
+        },
+        "mehaniki.povyshenie_urovnya_klienta": {
+          "rawValue": 0.75,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 1.5,
+            "sourceMaxValue": 2,
+            "proposedRawValue": 0.5
+          }
+        }
+      }
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.reagirovanie_na_zhiznennye_sobytiya": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 0.25,
+            "sourceMaxValue": 1,
+            "proposedRawValue": 0
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.8333333333333334,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 1.25,
+            "sourceMaxValue": 1.5,
+            "proposedRawValue": 0.5
+          }
+        },
+        "mehaniki.povyshenie_urovnya_klienta": {
+          "rawValue": 0.625,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 1.25,
+            "sourceMaxValue": 2,
+            "proposedRawValue": 0.5
+          }
+        }
+      }
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.privlechenie_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 0.5,
+            "sourceMaxValue": 1,
+            "proposedRawValue": 0.5
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 1.5,
+            "sourceMaxValue": 2,
+            "proposedRawValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.reagirovanie_na_zhiznennye_sobytiya": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 0.5,
+            "sourceMaxValue": 1,
+            "proposedRawValue": 0.5
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.125,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 0.25,
+            "sourceMaxValue": 2,
+            "proposedRawValue": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.75,
+          "source": {
+            "origin": "userConfirmedQuarterRetention",
+            "policy": "segmentMechanicsNonDecreasing",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "fromPeriod": "II кв. 2026",
+            "sourceValue": 1.5,
+            "sourceMaxValue": 2,
+            "proposedRawValue": 0.5
+          }
+        }
+      }
+    }
+  ]
+}

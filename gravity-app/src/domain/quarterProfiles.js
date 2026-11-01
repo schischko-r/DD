@@ -5,6 +5,8 @@ import {applyFunnelActionAssessments} from './funnelActionAssessments.js';
 import {applyCrossSellMissingZeros} from './crossSellDecomposition.js';
 import {mergeSalaryCohorts} from './salaryCohortAverage.js';
 import {applyNavigatorKnowledge} from './navigatorKnowledge.js';
+import {applyReportingAbsenceAssessments} from './reportingAbsence.js';
+import {applyMetricIndexExclusionAssessments} from './indexExclusion.js';
 
 export const Q3_DB_TEAMS = [
   'Зарплатный продукт', 'Пенсионный продукт', 'SberPay NFC',
@@ -61,10 +63,16 @@ export function buildDdiCohortProducts(products, period, overlays, salaryConfig,
     return children.length ? children.map((team) => salaryCohort(product, team, period)) : [product];
   }).filter((product) => product.unit !== 'DB' || Q3_DB_COHORT_TEAMS.includes(product.name));
   const reported = applyReportingMissingAssessments(applyReportingRegularity(split, period, products), period, reportingAssessment, products);
-  return applyCrossSellMissingZeros(applyFunnelActionAssessments(reported, period, actionAssessment, products), period);
+  const assessed = applyCrossSellMissingZeros(applyFunnelActionAssessments(reported, period, actionAssessment, products), period);
+  const hasAbsenceAssessment = (Array.isArray(overlays) ? overlays : [overlays]).some((assessment) =>
+    assessment?.period === period && assessment.scope === 'reporting-absence-assessment');
+  if (!hasAbsenceAssessment) return assessed;
+  // Resolve each cohort before averaging, using the same effective reporting format as the final profile.
+  return applyReportingAbsenceAssessments(applyReportingFormatAssessments(assessed, period, overlays), period, overlays);
 }
 
 export function buildDdiPeriodProducts(products, period, overlays, salaryConfig, reportingAssessment = null, actionAssessment = null) {
-  return applyReportingFormatAssessments(applyNavigatorKnowledge(mergeSalaryCohorts(buildDdiCohortProducts(products, period, overlays, salaryConfig, reportingAssessment, actionAssessment),
+  const assessed = applyReportingFormatAssessments(applyNavigatorKnowledge(mergeSalaryCohorts(buildDdiCohortProducts(products, period, overlays, salaryConfig, reportingAssessment, actionAssessment),
     period, salaryConfig, products), period), period, overlays);
+  return applyMetricIndexExclusionAssessments(assessed, period, overlays);
 }
