@@ -27,6 +27,16 @@
             "date": "2026-10-30",
             "reason": "Метрика нерелевантна по указанию пользователя"
           }
+        },
+        "attract.chernoviki_v_sbol_70": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Метрика «Черновики в СБОЛ >70%» нерелевантна по указанию пользователя."
+          }
         }
       }
     },
@@ -90,6 +100,42 @@
               "sourceMaxValue": 1,
               "rawValue": 0
             }
+          }
+        }
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Метрика «Черновики в СБОЛ >70%» нерелевантна по указанию пользователя."
+          }
+        }
+      }
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Метрика «Черновики в СБОЛ >70%» нерелевантна по указанию пользователя."
           }
         }
       }

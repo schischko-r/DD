@@ -1,7 +1,8 @@
 import {isDdIndexMetric} from './report.js';
 
 const allowedCodes = new Set(['mehaniki.vozvrat_klientov', 'mehaniki.uderzhanie_klientov', 'mehaniki.gibkoe_izmenenie_usloviy_produkta',
-  'goals.monitored', 'goals.forecast', 'goals.factor_analysis_l1_l2', 'hyp.extra_initiatives', 'hyp.ab_tests']);
+  'goals.monitored', 'goals.forecast', 'goals.factor_analysis_l1_l2', 'hyp.extra_initiatives', 'hyp.ab_tests',
+  'attract.chernoviki_v_sbol_70']);
 
 export function applyMetricApplicabilityAssessments(products, period, overlays) {
   if (period !== 'III кв. 2026') return products;

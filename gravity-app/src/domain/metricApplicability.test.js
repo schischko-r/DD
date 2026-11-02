@@ -12,17 +12,17 @@ const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\
 const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').filter((key) => !['ab-tests-insurance-visibility-q3-2026.json', 'corporate-flexible-conditions-applicability-q3-2026.json', 'goals-tribe-assessments-q3-2026.json', 'goals-tribe-applicability-q3-2026.json'].includes(imports.get(key.trim()))).map((key) => read(`../data/${imports.get(key.trim())}`));
 const metrics = (p) => p.metrics.flatMap((b) => b.metrics);
 
-test('only the three explicitly assessed insurance teams lose their requested Q3 criteria and denominator weights; Q2 is unchanged', () => {
+test('only explicitly assessed teams lose their requested Q3 criteria and denominator weights; Q2 is unchanged', () => {
   const snapshot = JSON.stringify({source, overlays});
   const before = buildTeamProfileProducts(source, manual.period, overlays.filter((o) => o.scope !== manual.scope));
   const after = buildTeamProfileProducts(source, manual.period, overlays);
-  assert.deepEqual(manual.products.map(p=>p.name).sort(),['Залоговое страхование (корпоративное страхование)','КАСКО','ОСАГО'].sort());
+  assert.deepEqual(manual.products.map(p=>p.name).sort(),['Залоговое страхование (корпоративное страхование)','КАСКО','ОСАГО','Личная защита Плюс','ЦФА'].sort());
   for (let i = 0; i < after.length; i++) {
     const current = after[i], prior = before[i];
     const team=manual.products.find(p=>p.name===current.name);
     if (!team) {assert.deepEqual(current, prior); continue;}
     const removed=metrics(prior).filter(m=>team.metrics[m.code]).reduce((sum,m)=>sum+Number(m.max_value),0);
-    assert.equal(removed,current.name==='Залоговое страхование (корпоративное страхование)'?2:1);
+    assert.equal(removed,current.name==='Залоговое страхование (корпоративное страхование)'?3:1);
     assert.equal(current.indexMaxPoints, prior.indexMaxPoints - removed);
     for (const m of metrics(current)) {
       if (!team.metrics[m.code]) {assert.deepEqual(m, metrics(prior).find((p) => p.code === m.code)); continue;}

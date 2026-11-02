@@ -11,8 +11,8 @@ const metrics=p=>p.metrics.flatMap(b=>b.metrics);
 const source={"2": ["Автокредит", 0], "3": ["Автоплатеж", 0], "4": ["БПИФ", 0], "5": ["Брокерский счет", 1], "6": ["ВЗР", 1], "7": ["Вклады, руб.", 0], "8": ["Вклады, юани", 1], "9": ["Дебетовые карты", 0], "10": ["Детская карта", 0], "11": ["Зарплатные проекты", 0], "12": ["ЗЛС", 0], "13": ["ЗПИФ", 0], "14": ["ИИС к БО", 0], "15": ["ИИС УК", 0], "16": ["ИнвестКопилка", 0], "17": ["Как зарплатный", 0], "18": ["КАСКО", 0], "19": ["Кредитные карты", 0], "20": ["Мониторинг кредитной истории", 0], "21": ["Накопительные счета", 0], "22": ["Образовательный кредит", 0], "23": ["ОМС", 0], "24": ["ОПИФ", 1], "25": ["ОСАГО", 1], "26": ["Отчет по кредитной истории ОКБ", 0], "27": ["Пакет СБ1", 0], "28": ["Пакет СБП", 0], "29": ["ПДС", 0], "30": ["Пенсия (назначение)", 0], "31": ["Пенсия (перевод)", 0], "32": ["Потребительское кредитование", 0], "33": ["Прайм", 0], "34": ["Пульс рынка, Первый долевой, Гарант Капитал (ИСЖ)", 0], "35": ["ПУ Страховка с выгодой (до 01.04 -ДСЖ КК)", 0], "36": ["Рефинансирование", 0], "37": ["СберЗдоровье", 0], "38": ["СберМобайл", 0], "39": ["Спортивная защита", 0], "40": ["Страхование жизни при ИК", 0], "41": ["Страхование залога при ИК", 0], "42": ["Трансграничные переводы", 0], "43": ["Увеличение лимита по КК", 0], "44": ["Формула жизни (НСЖ)", 0]};
 
 test('draft source preserves all 43 workbook rows and the user-confirmed deposits override separately',()=>{
-  assert.equal(drafts.products.length,30);assert.equal(drafts.unmapped.length,10);
-  const cells=drafts.products.flatMap(p=>p.metrics[code].source.cells);
+  assert.equal(drafts.products.length,34);assert.equal(drafts.unmapped.length,10);
+  const cells=drafts.products.flatMap(p=>p.metrics[code].source.cells||[]);
   assert.equal(cells.length,33);const all=[...cells,...drafts.unmapped];assert.equal(all.length,43);assert.equal(new Set(all.map(c=>c.cell)).size,43);
   for(const c of all){const row=Number(c.cell.slice(1));assert.deepEqual([c.sourceName,c.rawValue],source[row]);assert.equal(c.file,'Книга4(1).xlsx');assert.equal(c.sheet,'Лист1');assert.equal(c.nameCell,`A${row}`);assert.equal(c.columnLabel,'max_coverage_q3');}
   const deposits=drafts.products.find(p=>p.name==='Вклады+НС').metrics[code];
@@ -36,7 +36,7 @@ test('combined draft and campaign overlays preserve Q2, authorized Q3 draft maxi
       if(metric.code!==code)assert.deepEqual(metric,metrics(prior).find(m=>m.code===metric.code),'Draft overlay cannot replace any campaign metric');
     }
   }
-  assert.equal(count,30);assert.equal(positive,13);
+  assert.equal(count,34);assert.equal(positive,18);
   const deposits=combined.find(p=>p.name==='Вклады+НС');assert.equal(metrics(deposits).find(m=>m.code===code).value,0);
   const growth=metrics(deposits).filter(m=>metricActualGrowth(m,deposits.indexMaxPoints,deposits.period));assert.deepEqual(growth.map(m=>m.code),['attract.nalichie_uspeshnyh_biznes_zapuskov']);
   assert.equal(buildTeamProfileProducts(actual,'II кв. 2026',[campaign,drafts]).length,83);
@@ -54,11 +54,11 @@ test('Q3 draft max is one for applicable products including unknown facts; Q2 an
   assert.equal(metrics(inputs[0])[0].max_value,.5);assert.equal(buildTeamProfileProducts([inputs[0]],'II кв. 2026')[0],inputs[0]);
 });
 
-test('15 user-confirmed absolute draft points use the authorized Q3 maximum and auditable raw Excel facts',()=>{
-  const expected={'Брокерский счет':1,'ВЗР':0,'ОПИФ':1,'ОСАГО':1,'Вклады+НС':0,'Зарплатный продукт':.5,'ИнвестКопилка':.5,'КАСКО':.5,'ПДС':.5,'Пенсионный продукт':.5,'Потребительский кредит':.5,'СберПрайм':.5,'Страхование жизни':1,'Страхование залога':1,'Детская карта':.5};
+test('19 user-confirmed absolute draft points use the authorized Q3 maximum and auditable source facts',()=>{
+  const expected={'Брокерский счет':1,'ВЗР':.5,'ОПИФ':1,'ОСАГО':1,'Вклады+НС':0,'Зарплатный продукт':.5,'ИнвестКопилка':.5,'КАСКО':.5,'ПДС':.5,'Пенсионный продукт':.5,'Потребительский кредит':.5,'СберПрайм':.5,'Страхование жизни':1,'Страхование залога':1,'Детская карта':.5,'Много денег (НКПЗН)':1,'Сделка вторичка':1,'Сделка ИЖС':1,'Сделка с Первичным жильём':1};
   const current=buildTeamProfileProducts(actual,drafts.period,drafts);
   const overrides=drafts.products.filter(p=>p.metrics[code].source.override);
-  assert.equal(overrides.length,15);assert.equal(drafts.metricMaxOverrides[code],1);assert.equal(drafts.period,'III кв. 2026');
+  assert.equal(overrides.length,19);assert.equal(drafts.metricMaxOverrides[code],1);assert.equal(drafts.period,'III кв. 2026');
   for(const [name,points] of Object.entries(expected)){
     const fact=drafts.products.find(p=>p.name===name).metrics[code];
     const prior=metrics(actual.find(p=>p.name===name)).find(m=>m.code===code);
@@ -67,7 +67,7 @@ test('15 user-confirmed absolute draft points use the authorized Q3 maximum and 
     assert.equal(fact.rawValue,points);assert.equal(fact.source.override.points,points);
     assert.equal(fact.source.override.baselineMaxValue,prior.max_value);assert.equal(fact.source.override.derivedRawValue,fact.rawValue);assert.equal(fact.source.override.maxValue,1);assert.equal(fact.source.override.effectiveMaxValue,1);
     assert.equal(fact.source.override.confirmedBy,'user');assert.equal(fact.source.valueOrigin,'userConfirmedPoints');
-    for(const cell of fact.source.cells)assert.deepEqual([cell.sourceName,cell.rawValue],source[Number(cell.cell.slice(1))]);
+    for(const cell of fact.source.cells||[])assert.deepEqual([cell.sourceName,cell.rawValue],source[Number(cell.cell.slice(1))]);
   }
   for(const team of drafts.products)assert.equal(team.metrics[code].rawValue,expected[team.name]??0,'Only the approved current facts are applied');
   for(const [name,points,coverage,oldPoints] of [['Детская карта',.5,16,0],['Страхование жизни',1,75,.5],['Страхование залога',1,90,.5]]){
@@ -78,6 +78,12 @@ test('15 user-confirmed absolute draft points use the authorized Q3 maximum and 
   for(const [name,cell] of [['Страхование жизни','B40'],['Страхование залога','B41']]){
     assert.ok(drafts.products.find(p=>p.name===name).metrics[code].source.cells.some(c=>c.cell===cell));assert.ok(!drafts.unmapped.some(c=>c.cell===cell));
   }
+  for(const name of ['Много денег (НКПЗН)','Сделка вторичка','Сделка ИЖС','Сделка с Первичным жильём']){
+    const fact=drafts.products.find(p=>p.name===name).metrics[code];
+    assert.equal(fact.rawValue,1);assert.equal(fact.source.valueOrigin,'userConfirmedPoints');assert.equal(fact.source.override.points,1);
+  }
+  const vzr=drafts.products.find(p=>p.name==='ВЗР').metrics[code];
+  assert.equal(vzr.rawValue,.5);assert.equal(vzr.source.override.points,.5);assert.equal(vzr.source.previousAssessmentSource.override.points,0);
 });
 
 test('Q3 recommendations retain exact Q2 wording, group and difficulty while updating only current value, max and gap',()=>{

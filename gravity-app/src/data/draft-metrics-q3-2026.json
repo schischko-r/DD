@@ -122,7 +122,7 @@
       "type": "Продукт",
       "metrics": {
         "attract.chernoviki_v_sbol_70": {
-          "rawValue": 0,
+          "rawValue": 0.5,
           "source": {
             "file": "Книга4(1).xlsx",
             "sheet": "Лист1",
@@ -142,12 +142,12 @@
             "mapping": "exact",
             "valueOrigin": "userConfirmedPoints",
             "override": {
-              "points": 0,
-              "derivedRawValue": 0,
+              "points": 0.5,
+              "derivedRawValue": 0.5,
               "baselineMaxValue": 1,
               "confirmedBy": "user",
-              "date": "2026-10-30",
-              "reason": "Последнее прямое указание пользователя: черновики ВЗР за III квартал 2026 оценить в 0. Исходный Excel сохранён отдельно.",
+              "date": "2026-11-02",
+              "reason": "Пользователь указал оценку черновиков за III квартал 2026: 50%. Исходный источник сохранён отдельно.",
               "maxValue": 1,
               "effectiveMaxValue": 1
             },
@@ -171,14 +171,44 @@
               "mapping": "exact",
               "valueOrigin": "userConfirmedPoints",
               "override": {
-                "points": 1,
-                "derivedRawValue": 1,
+                "points": 0,
+                "derivedRawValue": 0,
                 "baselineMaxValue": 1,
                 "confirmedBy": "user",
-                "date": "2026-10-27",
-                "reason": "Пользователь явно указал абсолютный балл за III квартал и затем установил Q3 max_value=1 для всех применимых метрик черновиков. rawValue=points/1; baselineMaxValue хранит максимум Q2, исходный Excel в source.cells не изменён.",
+                "date": "2026-10-30",
+                "reason": "Последнее прямое указание пользователя: черновики ВЗР за III квартал 2026 оценить в 0. Исходный Excel сохранён отдельно.",
                 "maxValue": 1,
                 "effectiveMaxValue": 1
+              },
+              "origin": "userConfirmedVzrDraftsZero",
+              "previousAssessmentSource": {
+                "file": "Книга4(1).xlsx",
+                "sheet": "Лист1",
+                "cell": "B6",
+                "columnLabel": "max_coverage_q3",
+                "cells": [
+                  {
+                    "file": "Книга4(1).xlsx",
+                    "sheet": "Лист1",
+                    "cell": "B6",
+                    "nameCell": "A6",
+                    "columnLabel": "max_coverage_q3",
+                    "sourceName": "ВЗР",
+                    "rawValue": 1
+                  }
+                ],
+                "mapping": "exact",
+                "valueOrigin": "userConfirmedPoints",
+                "override": {
+                  "points": 1,
+                  "derivedRawValue": 1,
+                  "baselineMaxValue": 1,
+                  "confirmedBy": "user",
+                  "date": "2026-10-27",
+                  "reason": "Пользователь явно указал абсолютный балл за III квартал и затем установил Q3 max_value=1 для всех применимых метрик черновиков. rawValue=points/1; baselineMaxValue хранит максимум Q2, исходный Excel в source.cells не изменён.",
+                  "maxValue": 1,
+                  "effectiveMaxValue": 1
+                }
               }
             }
           }
@@ -1153,6 +1183,102 @@
               }
             ],
             "coveragePct": 90
+          }
+        }
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "valueOrigin": "userConfirmedPoints",
+            "override": {
+              "points": 1,
+              "derivedRawValue": 1,
+              "baselineMaxValue": 1,
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "reason": "Пользователь указал оценку черновиков за III квартал 2026: 100%. Исходный источник сохранён отдельно.",
+              "maxValue": 1,
+              "effectiveMaxValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "valueOrigin": "userConfirmedPoints",
+            "override": {
+              "points": 1,
+              "derivedRawValue": 1,
+              "baselineMaxValue": 1,
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "reason": "Пользователь указал оценку черновиков за III квартал 2026: 100%. Исходный источник сохранён отдельно.",
+              "maxValue": 1,
+              "effectiveMaxValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "valueOrigin": "userConfirmedPoints",
+            "override": {
+              "points": 1,
+              "derivedRawValue": 1,
+              "baselineMaxValue": 1,
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "reason": "Пользователь указал оценку черновиков за III квартал 2026: 100%. Исходный источник сохранён отдельно.",
+              "maxValue": 1,
+              "effectiveMaxValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "valueOrigin": "userConfirmedPoints",
+            "override": {
+              "points": 1,
+              "derivedRawValue": 1,
+              "baselineMaxValue": 1,
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "reason": "Пользователь указал оценку черновиков за III квартал 2026: 100%. Исходный источник сохранён отдельно.",
+              "maxValue": 1,
+              "effectiveMaxValue": 1
+            }
           }
         }
       }
