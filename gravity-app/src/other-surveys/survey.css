@@ -1,0 +1,6 @@
+.survey-other-team-type {color: #66d9ff;}
+
+.survey-metric-group-field + .survey-metric-group-field {margin-top: 20px;}
+.survey-metric-group-field > h2 {margin: 0 0 12px; color: var(--survey-ink); font-size: 16px; line-height: 1.4; font-weight: 600;}
+
+.survey-metric-group-field {padding: 14px; border: 1px solid var(--survey-line); border-radius: 8px;}

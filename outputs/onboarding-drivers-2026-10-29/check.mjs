@@ -1,0 +1,10 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:736,height:500}});
+await p.goto(new URL('./preview.html',import.meta.url).href);
+const f=p.frameLocator('iframe');await f.locator('#ddi-onboarding-drivers').waitFor();
+assert.equal(await f.locator('.drivers-bar').count(),3);
+await f.locator('#ddi-onboarding-drivers').screenshot({path:new URL('./preview.png',import.meta.url).pathname});
+await p.setViewportSize({width:360,height:500});
+assert.ok(await f.locator('body').evaluate(n=>n.scrollWidth<=window.innerWidth));
+await b.close();console.log('PASS: reviewed values visible and mobile fits.');

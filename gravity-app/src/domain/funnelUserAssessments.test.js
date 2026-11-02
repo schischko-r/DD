@@ -13,7 +13,8 @@ const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map
   .filter((file) => !isPostSnapshotExternalAssessment(file))
   .map((file) => read(`../data/${file}`))
   // This regression isolates the original assessment batch; later explicit additions have their own test.
-  .filter((overlay) => !['userConfirmedAdditionalFunnelAssessment', 'userConfirmedChatEntryActions', 'userMaximumSurveyAssessment'].includes(overlay.source?.origin));
+  .filter((overlay) => !['userConfirmedAdditionalFunnelAssessment', 'userConfirmedChatEntryActions', 'userMaximumSurveyAssessment'].includes(overlay.source?.origin)
+    && overlay.scope !== 'funnel-link-quality-assessment' && overlay.scope !== 'q3-score-correction');
 const manual = read('../data/funnel-user-assessments-q3-2026.json');
 const metrics = (p) => p.metrics.flatMap((b) => b.metrics);
 const skipped = ['Зарплатный продукт', 'ОМС', 'Слитки'];
@@ -22,6 +23,7 @@ test('explicit Q3 funnel scores override earlier facts using existing weights, l
   const snapshot = JSON.stringify({source, overlays});
   const before = buildTeamProfileProducts(source, manual.period, overlays.filter((o) => o.scope !== manual.scope));
   const after = buildTeamProfileProducts(source, manual.period, overlays);
+  const pcFinal = overlays.find((o) => o.scope === 'pc-final-score-assessment');
   let facts = 0;
   for (let i = 0; i < after.length; i++) {
     const current = after[i], old = before[i];
@@ -37,6 +39,12 @@ test('explicit Q3 funnel scores override earlier facts using existing weights, l
       const fact = record.metrics[m.code];
       if (!fact) {assert.deepEqual(m, prior); continue;}
       facts++;
+      const pcRow = pcFinal?.products.find((team) => team.id === record.id && team.name === record.name && team.unit === record.unit);
+      if (pcRow?.metrics?.[m.code]) {
+        assert.equal(m.value / m.max_value, pcRow.metrics[m.code].rawValue, `${current.name} / ${m.code}: PC final score`);
+        assert.equal(m.source.origin, 'userConfirmedPCFinalScore20261102');
+        continue;
+      }
       assert.equal(m.value, fact.rawValue * m.max_value, `${current.name} / ${m.code}`);
       if (fact.applicabilityOverride) {
         assert.equal(prior.is_applicabble_flg, false);
@@ -101,7 +109,7 @@ test('normalized fractions use the correct funnels, including nonstandard report
     ['СберИнвестор', 'attract.nastroena_otchetnostь', 0.5],
     ['Уведомления', 'voronka_onbordinga.polnota_otcheta', 1],
     ['Уведомления', 'attract.report_completeness', 1],
-    ['Колл-центр', 'voronka_vhoda_v_kanal.polnota_otcheta', 1],
+    ['Колл-центр', 'voronka_vhoda_v_kanal.polnota_otcheta', 0.5],
     ['Телемаркетинг', 'voronka_prodazh.nastroena_otchetnostь', 1],
     ['Чат', 'voronka_vhoda_v_kanal.nastroena_otchetnostь', 1],
     ['Почта, Диск, Календарь', 'attract.report_completeness', 1],
@@ -120,6 +128,22 @@ test('normalized fractions use the correct funnels, including nonstandard report
     assert.equal(growth.pointsDelta, m.value - m.previousValue);
     assert.equal(growth.indexPctDelta, (m.value - m.previousValue) / current.indexMaxPoints * 100);
   } else assert.equal(growth, null);
+});
+
+test('single-system Clickstream evidence caps completeness at 0.25 points', () => {
+  const linkQuality = read('../data/funnel-link-quality-assessment-q3-2026.json');
+  const before = buildTeamProfileProducts(source, linkQuality.period, overlays);
+  const after = buildTeamProfileProducts(source, linkQuality.period, [...overlays, linkQuality]);
+  const get = (products) => metrics(products.find((p) => p.name === 'БПИФ'))
+    .find((m) => m.code === 'attract.report_completeness');
+  const prior = get(before), current = get(after);
+  assert.equal(prior.value, 0.5);
+  assert.equal(current.value, 0.25);
+  assert.equal(current.max_value, 0.5);
+  assert.equal(current.source.origin, 'userConfirmedFunnelLinkQualityAssessment');
+  assert.deepEqual(linkQuality.products.map((p) => [p.name, Object.keys(p.metrics)]), [
+    ['БПИФ', ['attract.report_completeness']],
+  ]);
 });
 
 test('the funnel scope rejects unrelated codes and identity mismatches; explicit zeros supersede carry-forward', () => {

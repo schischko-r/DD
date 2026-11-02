@@ -1,0 +1,24 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {metricDomId} from '../../gravity-app/src/domain/report.js';
+const source=JSON.parse(readFileSync(new URL('../../gravity-app/public/report-data.json',import.meta.url))).products;
+const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1440,height:1000}});const errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto('http://127.0.0.1:4178/');await p.waitForSelector('.dashboard-period');await p.locator('[aria-label="Профиль команды"]').click();await p.waitForSelector('.detail-header h1');
+const choose=async(s,n)=>{await p.locator(s).click();await p.getByRole('option',{name:n,exact:true}).click();};
+const select=async(u,n)=>{await choose('.detail-team-unit-filter [role="combobox"]',u);await choose('.detail-team-select [role="combobox"]',n);await p.getByRole('button',{name:'Подробно',exact:true}).click();};
+const c='hyp.discovery_40_backlog';const row=p.locator(`[id="${metricDomId(c)}"]`);
+await select('УБ','БПИФ');assert.equal((await row.locator('.metric-status-label').textContent()).trim(),'0%');
+await p.getByLabel('Критерии оценки гипотез и инициатив',{exact:true}).click();
+let help=p.locator('.attract-reporting-help-content:visible');assert.match(await help.textContent(),/доля исследований от 40%, бэклог ведётся вне Jira\/SberTrack/);assert.ok(!(await help.textContent()).includes('не менее 20%'));await p.locator('.detail-header h1').click();
+await select('DB','Торговый Эквайринг');assert.equal((await row.locator('.metric-status-label').textContent()).trim(),'0%');
+await select('PC','Выписки, справки');assert.equal((await row.locator('.metric-status-label').textContent()).trim(),'100%');
+await select('CBP','Монеты');assert.equal((await row.locator('.metric-status-label').textContent()).trim(),'50%');
+await select('DP','СБОЛ');assert.equal((await row.locator('.metric-status-label').textContent()).trim(),'100%');
+for(const name of ['ОМС','Слитки']){await select('CBP',name);assert.equal((await row.locator('.metric-value-label').textContent()).trim(),'—');}
+await select('CBP','Кредитный потенциал');assert.equal((await row.locator('.metric-value-label').textContent()).trim(),'—');
+await p.setViewportSize({width:390,height:844});assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));
+await select('УБ','БПИФ');await choose('.detail-period-filter [role="combobox"]','II кв. 2026');
+const prior=source.find(p=>p.name==='БПИФ').metrics.flatMap(b=>b.metrics).find(m=>m.code===c);
+assert.equal((await row.locator('.metric-status-label').textContent()).trim(),`${Math.round(prior.value/prior.max_value*100)}%`);
+await p.getByLabel('Критерии оценки гипотез и инициатив',{exact:true}).click();help=p.locator('.attract-reporting-help-content:visible');assert.ok((await help.textContent()).includes('не менее 20% бэклога'));assert.deepEqual(errors,[]);await b.close();console.log('PASS: Discovery0/50/100; own/Штаб/outside; pendingOMS/Slitkiunknown; lower40unchanged; Q2/mobile.');

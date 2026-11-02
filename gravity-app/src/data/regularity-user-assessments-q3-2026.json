@@ -45,6 +45,34 @@
           }
         }
       }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.regulyarnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedRegularityAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Прямое указание пользователя: регулярность отчётности по воронке оттока у Переводов по РФ = 0,5."
+          }
+        },
+        "attract.regulyarnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedRegularityAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Уточнение пользователя: регулярность Переводов по РФ должна отображаться как 0,5; заполнен пропуск регулярности привлечения, отток 0,5 сохраняется."
+          }
+        }
+      }
     }
   ]
 }

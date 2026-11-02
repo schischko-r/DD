@@ -1446,18 +1446,33 @@
       "type": "Продукт",
       "metrics": {
         "mehaniki.vozvrat_klientov": {
-          "rawValue": 1.0,
+          "rawValue": 0.5,
           "source": {
             "origin": "userConfirmedMechanicsAssessment",
             "confirmedBy": "user",
-            "date": "2026-10-30",
+            "date": "2026-11-02",
             "period": "III кв. 2026",
             "sourceName": "Переводы по РФ",
             "sourceMetricName": "Возврат клиентов",
             "sourceRows": [
               84
             ],
-            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+            "rule": "Последнее прямое указание пользователя: возврат клиентов у Переводов по РФ за III квартал = 0,5 из 1. Остальные оценки, применимость, максимум и II квартал сохраняются.",
+            "previousAssessment": {
+              "rawValue": 1.0,
+              "source": {
+                "origin": "userConfirmedMechanicsAssessment",
+                "confirmedBy": "user",
+                "date": "2026-10-30",
+                "period": "III кв. 2026",
+                "sourceName": "Переводы по РФ",
+                "sourceMetricName": "Возврат клиентов",
+                "sourceRows": [
+                  84
+                ],
+                "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+              }
+            }
           }
         }
       }
@@ -1645,33 +1660,63 @@
       "type": "Продукт",
       "metrics": {
         "mehaniki.vozvrat_klientov": {
-          "rawValue": 1.0,
+          "rawValue": 0.5,
           "source": {
             "origin": "userConfirmedMechanicsAssessment",
             "confirmedBy": "user",
-            "date": "2026-10-30",
+            "date": "2026-11-02",
             "period": "III кв. 2026",
             "sourceName": "Пенсионный продукт",
             "sourceMetricName": "Возврат клиентов",
             "sourceRows": [
               93
             ],
-            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+            "rule": "Последнее прямое указание пользователя: возврат и удержание клиентов Пенсионного продукта за III квартал = 0,5. Максимумы, применимость, остальные метрики и II квартал сохраняются.",
+            "previousAssessment": {
+              "rawValue": 1.0,
+              "source": {
+                "origin": "userConfirmedMechanicsAssessment",
+                "confirmedBy": "user",
+                "date": "2026-10-30",
+                "period": "III кв. 2026",
+                "sourceName": "Пенсионный продукт",
+                "sourceMetricName": "Возврат клиентов",
+                "sourceRows": [
+                  93
+                ],
+                "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+              }
+            }
           }
         },
         "mehaniki.uderzhanie_klientov": {
-          "rawValue": 1.0,
+          "rawValue": 0.5,
           "source": {
             "origin": "userConfirmedMechanicsAssessment",
             "confirmedBy": "user",
-            "date": "2026-10-30",
+            "date": "2026-11-02",
             "period": "III кв. 2026",
             "sourceName": "Пенсионный продукт",
             "sourceMetricName": "Удержание клиентов",
             "sourceRows": [
               94
             ],
-            "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+            "rule": "Последнее прямое указание пользователя: возврат и удержание клиентов Пенсионного продукта за III квартал = 0,5. Максимумы, применимость, остальные метрики и II квартал сохраняются.",
+            "previousAssessment": {
+              "rawValue": 1.0,
+              "source": {
+                "origin": "userConfirmedMechanicsAssessment",
+                "confirmedBy": "user",
+                "date": "2026-10-30",
+                "period": "III кв. 2026",
+                "sourceName": "Пенсионный продукт",
+                "sourceMetricName": "Удержание клиентов",
+                "sourceRows": [
+                  94
+                ],
+                "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+              }
+            }
           }
         },
         "mehaniki.doprodazhi_up_sell": {

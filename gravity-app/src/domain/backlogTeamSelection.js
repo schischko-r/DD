@@ -21,7 +21,8 @@ export function backlogTeamMatchesProduct(team, product) {
     const descriptor = typeof member === 'string' ? {name: member} : member;
     return descriptor && canonicalName(descriptor.name || descriptor.label || descriptor.teamLabel) === canonicalName(product.name)
       && (!descriptor.unit || normalize(descriptor.unit) === normalize(product.unit))
-      && (!descriptor.type || normalize(descriptor.type) === normalize(product.type));
+      && (!descriptor.type || normalize(descriptor.type) === normalize(product.type))
+      && (!descriptor.period || descriptor.period === product.period);
   });
 }
 
@@ -31,7 +32,7 @@ export function findProductForBacklogTeam(team, products, preferredProduct = nul
     && normalize(product.unit) === normalize(preferredProduct.unit) && normalize(product.type) === normalize(preferredProduct.type))) || matches[0] || null;
 }
 
-export function getBacklogTeamFilterOptions(teams) {
+export function getBacklogTeamFilterOptions(teams, products = []) {
   return teams.flatMap((team) => {
     const seen = new Set();
     const members = teamMembers(team).filter((member) => {
@@ -46,8 +47,10 @@ export function getBacklogTeamFilterOptions(teams) {
     return members.map((member) => {
       const name = typeof member === 'string' ? member : member.name || member.label || member.teamLabel;
       const teamKey = String(team.key || '');
+      const matchingUnits = [...new Set(products.filter((product) => backlogTeamMatchesProduct({memberTeams: [member]}, product)).map((product) => product.unit).filter(Boolean))];
+      const unit = (typeof member === 'object' && member.unit) || (matchingUnits.length === 1 ? matchingUnits[0] : '');
       return {value: members.length > 1 ? `${teamKey}::member::${encodeURIComponent(name)}` : teamKey,
-        content: String(members.length > 1 ? name : team.label || name), teamKey, member};
+        content: String(members.length > 1 ? name : team.label || name), teamKey, member, unit};
     });
   });
 }

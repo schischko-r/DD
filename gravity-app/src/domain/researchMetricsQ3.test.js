@@ -204,6 +204,7 @@ const expected=[
   ]
 ];
 const overlay=JSON.parse(readFileSync(new URL('../data/research-metrics-q3-2026.json',import.meta.url)));
+const corrections=JSON.parse(readFileSync(new URL('../data/research-metric-corrections-q3-2026.json',import.meta.url)));
 const otherOverlays=['campaign','draft','crosssell'].map(name=>JSON.parse(readFileSync(new URL(`../data/${name}-metrics-q3-2026.json`,import.meta.url))));
 
 test('all 39 user rows retain literal averages and authoritative last-column scores, including four pending rows',()=>{
@@ -283,5 +284,18 @@ test('nine user-approved Q2 ones and 38 missing Q2 zeros are carried without inv
     const fact=factTeam.metrics[code];assert.equal(fact.source.sourceValue,0);assert.equal(fact.source.confirmedBy,'user');
     assert.equal(fact.source.averageScore,undefined);assert.equal(fact.source.averageScoreText,undefined);
     assert.equal(metrics(current.find(p=>p.name===factTeam.name&&p.unit===factTeam.unit)).find(m=>m.code===code).value,0);
+  }
+});
+
+test('user-confirmed research corrections override the old carry-forward for only the named Q3 teams',()=>{
+  const products=buildTeamProfileProducts(actual,overlay.period,[...otherOverlays,overlay,corrections]);
+  const expected=new Map([['Автокредит',0],['Конверсия',0.5],['ОМС',0],['Сейфы',0],['Дети',0.5],['SberID',0],['Оплата улыбкой',0],['SberPay NFC',0]]);
+  assert.equal(corrections.products.length,expected.size);
+  for(const [name,value] of expected){
+    const product=products.find(p=>p.name===name);
+    const metric=metrics(product).find(m=>m.code===code);
+    assert.equal(metric.value,value,`${name} / III кв. 2026`);
+    assert.equal(metric.max_value,1);
+    assert.equal(metric.source.origin,'userConfirmedResearchMetricCorrection');
   }
 });

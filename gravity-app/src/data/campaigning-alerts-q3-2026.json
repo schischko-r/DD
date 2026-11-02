@@ -14,7 +14,7 @@
       "type": "Канал",
       "metrics": {
         "alerts.nastroena_matrica_otkloneniy": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
             "origin": "userConfirmedCampaigningAlerts",
             "confirmedBy": "user",
@@ -29,11 +29,19 @@
                 "url": "https://navigator.sigma.sbrf.ru/gdash/1000004779/1000042017?vp=%D0%92%D1%81%D0%B5"
               }
             ],
-            "rule": "Пользователь подтвердил 100% за III квартал 2026. Оценка 1 умножается на существующий вес метрики."
+            "rule": "Пользователь подтвердил 100% за III квартал 2026. Оценка 1 умножается на существующий вес метрики.",
+            "correctedFromRawValue": 1,
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "note": "Прямая корректировка пользователя: оценка метрики за III квартал 2026 равна 50%."
+            }
           }
         },
         "alerts.nastroeny_avtoalerty_po_otkloneniyam": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
             "origin": "userConfirmedCampaigningAlerts",
             "confirmedBy": "user",
@@ -48,7 +56,15 @@
                 "url": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=17698634566#expand-20260615"
               }
             ],
-            "rule": "Пользователь подтвердил 100% за III квартал 2026. Оценка 1 умножается на существующий вес метрики."
+            "rule": "Пользователь подтвердил 100% за III квартал 2026. Оценка 1 умножается на существующий вес метрики.",
+            "correctedFromRawValue": 1,
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "note": "Прямая корректировка пользователя: оценка метрики за III квартал 2026 равна 50%."
+            }
           }
         }
       }

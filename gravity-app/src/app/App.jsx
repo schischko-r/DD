@@ -24,7 +24,9 @@ import campaignMetricsQ32026 from '../data/campaign-metrics-q3-2026.json';
 import draftMetricsQ32026 from '../data/draft-metrics-q3-2026.json';
 import crosssellMetricsQ32026 from '../data/crosssell-metrics-q3-2026.json';
 import crosssellAfterPurchaseScoresQ32026 from '../data/crosssell-after-purchase-scores-q3-2026.json';
+import crosssellDuringPurchaseScoresQ32026 from '../data/crosssell-during-purchase-scores-q3-2026.json';
 import researchMetricsQ32026 from '../data/research-metrics-q3-2026.json';
+import researchMetricCorrectionsQ32026 from '../data/research-metric-corrections-q3-2026.json';
 import funnelReportingMetricsQ32026 from '../data/funnel-reporting-metrics-q3-2026.json';
 import uxScoreMetricsQ32026 from '../data/ux-score-metrics-q3-2026.json';
 import mechanicsMetricsQ32026 from '../data/mechanics-metrics-q3-2026.json';
@@ -43,6 +45,7 @@ import campaignMissingZeroQ32026 from '../data/campaign-missing-zero-q3-2026.jso
 import campaignUserAssessmentsQ32026 from '../data/campaign-user-assessments-q3-2026.json';
 import userMetricAssessmentsQ32026 from '../data/user-metric-assessments-q3-2026.json';
 import funnelUserAssessmentsQ32026 from '../data/funnel-user-assessments-q3-2026.json';
+import funnelLinkQualityAssessmentQ32026 from '../data/funnel-link-quality-assessment-q3-2026.json';
 import metricApplicabilityQ32026 from '../data/metric-applicability-q3-2026.json';
 import mechanicsUserAssessmentsQ32026 from '../data/mechanics-user-assessments-q3-2026.json';
 import alertsCarryForwardQ32026 from '../data/alerts-carry-forward-q3-2026.json';
@@ -80,6 +83,8 @@ import pbNonfinancialKnowledgeQ32026 from '../data/pb-nonfinancial-knowledge-q3-
 import pbNavigatorKnowledgeQ32026 from '../data/pb-navigator-knowledge-q3-2026.json';
 
 import goalsTribeAssessmentsQ32026 from '../data/goals-tribe-assessments-q3-2026.json';
+import goalsFinalScoresQ32026 from '../data/goals-final-scores-q3-2026.json';
+import goalsMetricCorrectionsQ32026 from '../data/goals-metric-corrections-q3-2026.json';
 import goalsTribeApplicabilityQ32026 from '../data/goals-tribe-applicability-q3-2026.json';
 
 import goalsInformationalQ32026 from '../data/goals-informational-q3-2026.json';
@@ -154,8 +159,17 @@ import callCenterNavigatorUserQ32026 from '../data/call-center-navigator-user-q3
 import notificationRetentionUserQ32026 from '../data/notification-retention-user-q3-2026.json';
 import telemarketingMechanicsUserQ32026 from '../data/telemarketing-mechanics-user-q3-2026.json';
 import tradeAcquiringAlertsUserQ32026 from '../data/trade-acquiring-alerts-user-q3-2026.json';
+import pcFinalScoresQ32026 from '../data/pc-final-scores-q3-2026.json';
+import q3ScoreCorrections2026 from '../data/q3-score-corrections-2026.json';
 
-const Q3_OVERLAYS = [mechanicsMetricsQ32026, alertsCarryForwardQ32026, campaignMetricsQ32026, draftMetricsQ32026, crosssellMetricsQ32026, crosssellAfterPurchaseScoresQ32026, researchMetricsQ32026, funnelReportingMetricsQ32026, uxScoreMetricsQ32026, goalsMetricsQ32026, keyMetricsQ32026, selectedMetricsCarryForwardQ32026, cxScoreMetricsQ32026, campaignMissingZeroQ32026, campaignUserAssessmentsQ32026, userMetricAssessmentsQ32026, funnelUserAssessmentsQ32026, funnelAdditionalUserAssessmentsQ32026, chatEntryActionsQ32026, navigatorReportingKnowledgeQ32026, navigatorMarketKnowledgeQ32026, knowledgeUserAssessmentsQ32026, goalsUserCarryForwardQ32026, abTestsUserAssessmentsQ32026, mechanicsUserAssessmentsQ32026, discoveryMetricsQ32026, regularityUserAssessmentsQ32026, metricApplicabilityQ32026, navigatorMauKnowledgeQ32026, digitalChannelActionsQ32026, digitalChannelReturnQ32026, omsKeyMetricsAssessmentQ32026, omsGoalsAssessmentQ32026, omsFunnelUserAssessmentQ32026, omsUserMetricAssessmentQ32026, omsMechanicsUserAssessmentQ32026, segmentUserAssessmentsQ32026, navigatorZeroMarketsQ32026, alertsBenchmarksUserQ32026, domclickSelfServiceQ32026, corporateFlexibleConditionsApplicabilityQ32026, quarterRetentionUserQ32026, pbBusinessAlertsQ32026, pbNonfinancialKnowledgeQ32026, pbNavigatorKnowledgeQ32026, goalsTribeAssessmentsQ32026, goalsTribeApplicabilityQ32026, goalsInformationalQ32026, poGoalsTemplateQ32026, poGoalsSurveyAssessmentsQ32026, campaigningQuarterRetentionQ32026, kaskoSatellitesQ32026, monetyChurnAnalysisQ32026, campaigningPerformanceQ32026, campaigningAlertsQ32026, allSatellitesKnowledgeQ32026, campaigningDataQualityQ32026, campaigningDeviationActionsQ32026, corporateChurnCompletenessQ32026, cfaAttractCompletenessQ32026, cfaAttractBenchmarksQ32026, abTestsInsuranceVisibilityQ32026, nszhFunnelCompletenessQ32026, iszhFunnelCompletenessQ32026, investKopilkaNavigatorQ32026, depositsChurnCompletenessQ32026, paymentsMechanicsQ32026, dataQualitySurveyQ32026, monthlyExcelReportingQ32026, workingAgeFotKnowledgeQ32026, smileMarketsZeroQ32026, smileAttractAnalysisQ32026, tipsFunnelUserQ32026, bullionFunnelUserQ32026, tipsMechanicsUserQ32026, autoAttractAnalysisQ32026, autoSelfServiceQ32026, tipsBenchmarksUserQ32026, tipsRegularityUserQ32026, funnelMissingUserFillQ32026, childrenMechanicsUserQ32026, reportingAbsenceUserQ32026, segmentMechanicsFloorQ32026, bpifKeyMetricsUserQ32026, insuranceFunnelUserQ32026, cfaNavigatorUserQ32026, cfaMarketIndexExclusionsQ32026, domclickCxScoreUserQ32026, industrialDataUserQ32026, digitalFunnelActionsUserQ32026, bullionMechanicsUserQ32026, dailyBankingFunnelUserQ32026, crossBorderMechanicsUserQ32026, elkKnowledgeUserQ32026, callCenterNavigatorUserQ32026, notificationRetentionUserQ32026, telemarketingMechanicsUserQ32026, tradeAcquiringAlertsUserQ32026];
+import crossborderAcquiringReportingApplicabilityQ32026 from '../data/crossborder-acquiring-reporting-applicability-q3-2026.json';
+
+import ubWorkbookCorrectionsQ32026 from '../data/ub-workbook-corrections-q3-2026.json';
+
+import cbpUserCorrectionsQ32026 from '../data/cbp-user-corrections-q3-2026.json';
+import cxUserCorrectionsQ32026 from '../data/cx-user-corrections-q3-2026.json';
+
+const Q3_OVERLAYS = [mechanicsMetricsQ32026, alertsCarryForwardQ32026, campaignMetricsQ32026, draftMetricsQ32026, crosssellMetricsQ32026, crosssellAfterPurchaseScoresQ32026, crosssellDuringPurchaseScoresQ32026, researchMetricsQ32026, researchMetricCorrectionsQ32026, funnelReportingMetricsQ32026, uxScoreMetricsQ32026, goalsMetricsQ32026, keyMetricsQ32026, selectedMetricsCarryForwardQ32026, cxScoreMetricsQ32026, campaignMissingZeroQ32026, campaignUserAssessmentsQ32026, userMetricAssessmentsQ32026, funnelUserAssessmentsQ32026, funnelLinkQualityAssessmentQ32026, funnelAdditionalUserAssessmentsQ32026, chatEntryActionsQ32026, navigatorReportingKnowledgeQ32026, navigatorMarketKnowledgeQ32026, knowledgeUserAssessmentsQ32026, goalsUserCarryForwardQ32026, abTestsUserAssessmentsQ32026, mechanicsUserAssessmentsQ32026, discoveryMetricsQ32026, regularityUserAssessmentsQ32026, metricApplicabilityQ32026, navigatorMauKnowledgeQ32026, digitalChannelActionsQ32026, digitalChannelReturnQ32026, omsKeyMetricsAssessmentQ32026, omsGoalsAssessmentQ32026, omsFunnelUserAssessmentQ32026, omsUserMetricAssessmentQ32026, omsMechanicsUserAssessmentQ32026, segmentUserAssessmentsQ32026, navigatorZeroMarketsQ32026, alertsBenchmarksUserQ32026, domclickSelfServiceQ32026, corporateFlexibleConditionsApplicabilityQ32026, quarterRetentionUserQ32026, pbBusinessAlertsQ32026, pbNonfinancialKnowledgeQ32026, pbNavigatorKnowledgeQ32026, goalsTribeAssessmentsQ32026, goalsFinalScoresQ32026, goalsTribeApplicabilityQ32026, goalsMetricCorrectionsQ32026, goalsInformationalQ32026, poGoalsTemplateQ32026, poGoalsSurveyAssessmentsQ32026, campaigningQuarterRetentionQ32026, kaskoSatellitesQ32026, monetyChurnAnalysisQ32026, campaigningPerformanceQ32026, campaigningAlertsQ32026, allSatellitesKnowledgeQ32026, campaigningDataQualityQ32026, campaigningDeviationActionsQ32026, corporateChurnCompletenessQ32026, cfaAttractCompletenessQ32026, cfaAttractBenchmarksQ32026, abTestsInsuranceVisibilityQ32026, nszhFunnelCompletenessQ32026, iszhFunnelCompletenessQ32026, investKopilkaNavigatorQ32026, depositsChurnCompletenessQ32026, paymentsMechanicsQ32026, dataQualitySurveyQ32026, monthlyExcelReportingQ32026, workingAgeFotKnowledgeQ32026, smileMarketsZeroQ32026, smileAttractAnalysisQ32026, tipsFunnelUserQ32026, bullionFunnelUserQ32026, tipsMechanicsUserQ32026, autoAttractAnalysisQ32026, autoSelfServiceQ32026, tipsBenchmarksUserQ32026, tipsRegularityUserQ32026, funnelMissingUserFillQ32026, childrenMechanicsUserQ32026, reportingAbsenceUserQ32026, segmentMechanicsFloorQ32026, bpifKeyMetricsUserQ32026, insuranceFunnelUserQ32026, cfaNavigatorUserQ32026, cfaMarketIndexExclusionsQ32026, domclickCxScoreUserQ32026, industrialDataUserQ32026, digitalFunnelActionsUserQ32026, bullionMechanicsUserQ32026, dailyBankingFunnelUserQ32026, crossBorderMechanicsUserQ32026, elkKnowledgeUserQ32026, callCenterNavigatorUserQ32026, notificationRetentionUserQ32026, telemarketingMechanicsUserQ32026, tradeAcquiringAlertsUserQ32026, pcFinalScoresQ32026, q3ScoreCorrections2026, crossborderAcquiringReportingApplicabilityQ32026, ubWorkbookCorrectionsQ32026, cbpUserCorrectionsQ32026, cxUserCorrectionsQ32026];
 
 const MOBILE_NAVIGATION_QUERY = '(max-width: 760px)';
 const BACKLOG_DECOMPOSITION_ENABLED = import.meta.env.VITE_BACKLOG_DECOMPOSITION_ENABLED !== 'false';
@@ -239,7 +253,8 @@ export function App() {
     }
     return undefined;
   }, []);
-  const profileProducts = useMemo(() => buildDdiPeriodProducts(data?.products || [], summaryFilters.period, Q3_OVERLAYS, salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026), [data, summaryFilters.period]);
+  const profileProducts = useMemo(() => buildDdiPeriodProducts(data?.products || [], summaryFilters.period, Q3_OVERLAYS, salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026,
+    backlog.status === 'ready' ? backlog.data : null), [data, summaryFilters.period, backlog]);
   const teamSelection = {...resolveTeamProfileSelection(profileProducts, {...summaryFilters, selected}), periods: getReportPeriods(data?.products || [])};
   useEffect(() => {
     if (!data || view !== 'detail') return;
@@ -371,13 +386,13 @@ export function App() {
     : activeHtmlPageTool
       ? <HtmlReportPage tool={activeHtmlPageTool} context={htmlPageContext} onStandAccessLink={setStandAccessHref} onBack={() => { setView('detail'); window.scrollTo(0, 0); }} />
       : view === 'dashboard'
-        ? <DashboardPage products={summaryData.products} rows={summaryData.rows} maturity={maturity} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={openAbout} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
+        ? <DashboardPage products={summaryData.products} rows={summaryData.rows} baselineProducts={data.products} baselineRows={rows} maturity={maturity} summaryFilters={summaryFilters} onSummaryFiltersChange={updateSummaryFilters} onOpen={openProduct} onAbout={openAbout} onInitiatives={() => { setView('initiatives'); window.scrollTo(0, 0); }} />
         : view === 'about'
           ? <AboutPage initialSection={aboutSection} onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'initiatives'
             ? <InitiativesBacklogPage onBack={() => { setView('dashboard'); window.scrollTo(0, 0); }} />
           : view === 'backlog' && BACKLOG_DECOMPOSITION_ENABLED
-            ? <BacklogDecompositionPage data={backlog.data} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
+            ? <BacklogDecompositionPage data={backlog.data} products={summaryData.products} status={backlog.status} onOpenTeam={openBacklogTeam} initialTeamKey={backlogTeamKey} />
             : product
               ? <TeamProfilePage product={product} products={teamSelection.products} rows={profileRows} baselineRows={rows} baselineProducts={data.products} detailScore={detailScore} teamUnit={summaryFilters.unit} onTeamUnitChange={(unit) => updateSummaryFilters({unit})} periods={teamSelection.periods} period={teamSelection.period} onPeriodChange={(period) => updateSummaryFilters({period})} onBack={() => setView('dashboard')} onProduct={setSelected} onOpenHtmlPageTool={openHtmlPageTool} onAbout={() => openAbout()} onBacklog={BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam ? () => openBacklog(backlogTeamOptionValue(productBacklogTeam, product)) : undefined} cjxplorerProduct={cjxplorerProduct} />
               : <main className="content detail-page"><h1>Профиль команды</h1><label className="product-select"><span>Период</span><Select value={teamSelection.period ? [teamSelection.period] : []} onUpdate={(value) => updateSummaryFilters({period: value[0] || ''})}>{teamSelection.periods.map((period) => <Select.Option key={period} value={period}>{period}</Select.Option>)}</Select></label><p>Данные ещё не добавлены</p></main>;

@@ -3,7 +3,7 @@
   "scope": "ab-tests-assessment",
   "source": {
     "origin": "userConfirmedAbTestsAssessment",
-    "inputRows": "Персональная рекомендация\t1\nSberID\t1\nСделка ИЖС\t1\nСделка с Первичным жильём\t1\nСделка вторичка\t1\nЧат\t1\nКолл-центр\t1\nТелемаркетинг\t1\nВыписки, справки\t1\nАвтокредит\t0.25\nВклады+НС\t0.25\nPOS-кредиты\t0.25\nTop Affluent\t0\nСберСпасибо\t1\nМВС\t1\nСберПрайм\t0.5\nРабочий возраст\t1\nДети\t1\nЗрелость\t0.5\nДебетовые карты\t1\nКредитные карты\t1\nПереводы по России\t1\nПлатежи\t1\nБрокерский счет\t1\nСберKids\t0.25\nСБОЛ\t1\nСберИнвестор\t1\nУведомления\t1\nПенсионный продукт\t1\nВжух\t1\nСтрахование жизни\t1\nБПИФ\t1\nЗПИФ\t1\nОПИФ\t1\nПДС\t1\nЗЛС\t0.25\nСтрахование путешественников\t0.25\nИнвестКопилка\t1",
+    "inputRows": "Персональная рекомендация\t1\nSberID\t1\nСделка ИЖС\t1\nСделка с Первичным жильём\t1\nСделка вторичка\t1\nЧат\t1\nКолл-центр\t1\nТелемаркетинг\t1\nВыписки, справки\t1\nАвтокредит\t0.25\nВклады+НС\t0.25\nPOS-кредиты\t0.25\nTop Affluent\t0\nСберСпасибо\t1\nМВС\t1\nСберПрайм\t0.5\nРабочий возраст\t1\nДети\t1\nЗрелость\t0.5\nДебетовые карты\t1\nКредитные карты\t1\nПереводы по России\t1\nПлатежи\t1\nБрокерский счет\t1\nСберKids\t0.25\nСБОЛ\t1\nСберИнвестор\t1\nУведомления\t1\nПенсионный продукт\t1\nВжух\t1\nСтрахование жизни\t1\nБПИФ\t1\nЗПИФ\t1\nОПИФ\t1\nПДС\t1\nЗЛС\t0.25\nСтрахование путешественников\t0.25\nИнвестКопилка\t1\nСберЧаевые\t0.25",
     "aliases": {
       "Страхование путешественников": "ВЗР",
       "Вжух": "SberPay Вжух",
@@ -12,7 +12,7 @@
     },
     "reportFile": "gravity-app/public/report-data.json",
     "reportSha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
-    "maxRule": "Явное указание пользователя от 2026-10-30: только в III квартале для оценки A/B 0.25 максимальный балл также 0.25 (100%); для оценок 0/0.5/1 максимум остаётся 1. Оценки абсолютные, не умножаются на новый максимум. II квартал не меняется."
+    "maxRule": "Явное указание пользователя от 2026-10-30: только в III квартале для оценки A/B 0.25 максимальный балл также 0.25 (100%); для оценок 0/0.5/1 максимум остаётся 1. Оценки абсолютные, не умножаются на новый максимум. II квартал не меняется. Дополнительно: СберЧаевые — 0.25 из 0.25 по указанию пользователя от 2026-11-02."
   },
   "products": [
     {
@@ -22,7 +22,7 @@
       "type": "Канал",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -42,7 +42,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -62,7 +62,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -82,7 +82,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -102,7 +102,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -122,7 +122,7 @@
       "type": "Канал",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -142,7 +142,7 @@
       "type": "Канал",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -162,7 +162,7 @@
       "type": "Канал",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -182,7 +182,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -262,7 +262,7 @@
       "type": "Сегмент",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 0.0,
+          "rawValue": 0,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -282,7 +282,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -302,7 +302,7 @@
       "type": "Сегмент",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -342,7 +342,7 @@
       "type": "Сегмент",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -362,7 +362,7 @@
       "type": "Сегмент",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -402,7 +402,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -422,7 +422,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -442,7 +442,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -462,7 +462,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -482,7 +482,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -522,7 +522,7 @@
       "type": "Канал",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -542,7 +542,7 @@
       "type": "Канал",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -562,7 +562,7 @@
       "type": "Канал",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -582,7 +582,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -602,7 +602,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -622,7 +622,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -642,7 +642,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -662,7 +662,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -682,7 +682,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -702,7 +702,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -762,7 +762,7 @@
       "type": "Продукт",
       "metrics": {
         "hyp.ab_tests": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAbTestsAssessment",
             "confirmedBy": "user",
@@ -771,6 +771,26 @@
             "sourceRow": 38,
             "sourceName": "ИнвестКопилка",
             "rule": "Скорректированная пользовательская оценка A/B-тестов за III квартал. Максимум 0.25 для балла 0.25, иначе 1; применимость и включение в DDI восстанавливаются."
+          }
+        }
+      }
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.ab_tests": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedAbTestsAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "sourceRow": 39,
+            "sourceName": "СберЧаевые",
+            "rule": "Прямое указание пользователя: оценка A/B-тестов за III квартал — 0.25 из 0.25."
           }
         }
       }

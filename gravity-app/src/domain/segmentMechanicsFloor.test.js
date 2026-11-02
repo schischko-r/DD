@@ -42,8 +42,11 @@ test('the supplied assessments only rise or retain exact Q2 points, including fr
     }
   }
   assert.equal(filled, 11);
-  assert.equal(rises, 2);
-  assert.equal(unchanged, 9);
+  assert.equal(rises, 1);
+  assert.equal(unchanged, 10);
+  const workingAge = after.find(product => product.name === 'Рабочий возраст');
+  const workingAgeRetention = metrics(workingAge).find(metric => metric.code === 'mehaniki.uderzhanie_klientov');
+  assert.equal(workingAgeRetention.value / workingAgeRetention.max_value, 0.75);
   assert.deepEqual(build(overlays, source[0].period), source);
 });
 

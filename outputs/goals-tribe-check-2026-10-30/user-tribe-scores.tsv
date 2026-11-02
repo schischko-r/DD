@@ -1,0 +1,64 @@
+unit	tribe	monitored	forecast	factor
+Core Banking	Авто	1	1	1
+Core Banking	Комиссионные продукты	1	1	1
+Core Banking	Кредитный потенциал	1	1	1
+Core Banking	Потребительское кредитование	1	0	1
+Core Banking	Сбережения клиентов	1	0	1
+Core Banking	Товарное кредитование	1	0	1
+CX	Дети и Молодежь	1	1	1
+CX	Лояльность	1	0	1
+CX	МВС	1	0	1
+CX	Почтенный возраст	1	1	1
+CX	Прайм	1	1	1
+CX	Премиальный сегмент	1	0	1
+CX	Рабочий возраст	1	1	1
+CX	Управление клиентского опыта	1	0	1
+CX	Управление частным капиталом	1	0	1
+CX	Упр-е ИИ-сценариев и комплексных реш.	1	1	1
+CX	Упр-е монетизации и индивидуального ценообразования	1	1	1
+Daily Banking B2C	Альтернативные платежные методы	0	1	1
+Daily Banking B2C	Государственные продукты и сервисы	0	0	1
+Daily Banking B2C	Кошелёк клиента	1	1	1
+Daily Banking B2C	Кредитные карты	0	0	1
+Daily Banking B2C	Переводы	0	0	1
+Daily Banking B2C	Платежи	1	1	1
+Daily Banking B2C	Социальные и зарплатные решения	0	0	1
+Daily Banking B2C	Эквайринг	1	0	1
+Data	AmazMe	1	1	1
+Data	CDO B2C	1	0	1
+Data	CDS B2C	1	0	0
+Data	Sber ID	1	1	1
+Data	SberCampaigning	1	0	0
+Data	SberNBA	1	0	1
+Data	SberProfile	1	0	1
+Digital Channels	Digital Platform	1	0	0
+Digital Channels	СберKids	0	1	1
+Digital Channels	СберИнвестор	1	0	1
+Digital Channels	СБОЛ	1	1	1
+Digital Channels	Уведомления	1	0	1
+Digital Channels	Цифровой ассистент	0	0	1
+Phygital Channels	AI	1	0	1
+Phygital Channels	Клиентские документы	1	0	1
+Phygital Channels	Платформа Phygital	1	0	1
+Phygital Channels	Продажи	0	0	1
+Phygital Channels	Развитие сервисных технологий в каналах	1	0	1
+Phygital Channels	СберМобайл	1	0	1
+Phygital Channels	Сервисные технологии	0	0	0
+Phygital Channels	Управление каналами ЕСЗК	1	0	1
+Домклик	Аренда	1	0	1
+Домклик	Вторичка	1	1	1
+Домклик	ИЖС	1	0	1
+Домклик	Лайфстайл	1	1	1
+Домклик	Первичка	1	1	1
+УБ	AI эффективность	1	1	0
+УБ	PFM	0	1	1
+УБ	ДББ	1	1	1
+УБ	Деп. Инвест бизнес (ДИБ)	1	1	1
+УБ	Депозитарий	0	1	1
+УБ	ДЗСПиС	1	1	1
+УБ	ДИиН	1	1	1
+УБ	ИЦ (Инвестиционный центр)	0	0	0
+УБ	РИБ	1	1	1
+УБ	УИЭиПР	0	1	1
+УБ	УППБ	1	1	1
+УБ	ЦКС	0	1	1

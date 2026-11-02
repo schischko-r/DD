@@ -14,7 +14,7 @@
       "type": "Продукт",
       "metrics": {
         "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
             "origin": "userConfirmedDigitalCompletion20261031",
             "confirmedBy": "user",
@@ -22,7 +22,15 @@
             "period": "III кв. 2026",
             "sourceMetricName": "Мероприятия по работе с отклонениями",
             "rawValue": 1,
-            "rule": "Прямое указание пользователя: мероприятия по работе с отклонениями = 1."
+            "rule": "Прямое указание пользователя: мероприятия по работе с отклонениями = 1.",
+            "correctedFromRawValue": 1,
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "note": "Прямая корректировка пользователя: оценка метрики за III квартал 2026 равна 50%."
+            }
           }
         }
       }

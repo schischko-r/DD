@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {buildTeamProfileProducts,filterTitleRowsByPeriod,resolveTeamProfileSelection} from './teamProfileSelection.js';
+import {blockActualGrowth,buildTeamProfileProducts,filterTitleRowsByPeriod,resolveTeamProfileSelection} from './teamProfileSelection.js';
 
 import {getReportPeriods} from './reportPeriods.js';
 import {scoreFor,groupFor} from './report.js';
@@ -8,6 +8,21 @@ import {scoreFor,groupFor} from './report.js';
 const q1='I кв. 2026',q2='II кв. 2026',q3='III кв. 2026';
 const make=(id,name,unit,period,type='Продукт')=>({id,name,unit,period,type,metrics:[{code:'attract',metrics:[{value:period===q1?1:2,max_value:3}]}]});
 const teams=[make('a1','Альфа','DB',q1),make('d1','Вклады','CBP',q1),make('x1','Только раньше','Data',q1),make('a2',' Альфа  ','DB',q2),make('b2','Бета','DB',q2),make('d2','Вклады+НС','CBP',q2),make('s2','Альфа','DB',q2,'Сегмент')];
+
+test('block uplift is the sum of the metric-level DDI uplifts shown underneath',()=>{
+  const metric=(code,value,previousValue,max=1,previousMax=max)=>({code,value,previousValue,max_value:max,previousMaxValue:previousMax,
+    previousPeriod:q2,is_applicabble_flg:true,excluded_from_index:false,dd_calculation_flg:1});
+  const result=blockActualGrowth({metrics:[metric('one',.5,.4),metric('two',.8,.5),metric('down',.2,.3),metric('flat',.4,.4),
+    metric('changed-maximum',.8,.5,2,1)]},10,q3);
+  assert.equal(result.indexPctDelta,3);
+  assert.ok(Math.abs(result.pointsDelta-.3)<1e-9);
+  assert.equal(result.previousValue,1.2);
+  assert.equal(result.value,1.5);
+  assert.equal(result.previousPeriod,q2);
+  assert.equal(result.currentPeriod,q3);
+  assert.equal(blockActualGrowth({metrics:[metric('flat',.4,.4)]},10,q3),null);
+  assert.ok(Math.abs(blockActualGrowth({metrics:[metric('down',.2,.3)]},10,q3).indexPctDelta+1)<1e-9);
+});
 
 test('period change selects the same team identity with its new ID and quarter-specific metric payload',()=>{
   const before=JSON.stringify(teams);
@@ -182,4 +197,21 @@ test('full product-knowledge carry accepts only the two exact full Q2 metrics, p
   overlay.scope='user-metric-assessment';assert.equal(current()[0].value,null);overlay.scope='user-confirmed-q2-retention';
   assert.deepEqual(buildTeamProfileProducts([team],q2,overlay),[team]);
   assert.equal(JSON.stringify({team,overlay}),snapshot);
+});
+
+test('direct Q3 business alert zero applies with exact identity and cannot alter system alerts or Q2', () => {
+  const metric = code => ({code, name: code, value: 1, max_value: 1, is_applicabble_flg: true, dd_calculation_flg: 1});
+  const team = {id: 'debit', name: 'Дебетовая карта', unit: 'DB', type: 'Продукт', period: q2,
+    metrics: [{code: 'alerts', metrics: [metric('alerts.business_metrics'), metric('alerts.system_failures')]}]};
+  const other = {...team, id: 'other', name: 'Другая карта'};
+  const record = {id: team.id, name: team.name, unit: team.unit, type: team.type,
+    metrics: {'alerts.business_metrics': {rawValue: 0, source: {confirmedBy: 'user'}},
+      'alerts.system_failures': {rawValue: 0, source: {confirmedBy: 'user'}}}};
+  const overlay = {scope: 'q3-score-correction', period: q3, products: [record]};
+  const before = buildTeamProfileProducts([team, other], q3), after = buildTeamProfileProducts([team, other], q3, overlay);
+  assert.equal(after[0].metrics[0].metrics[0].value, 0);
+  assert.equal(after[0].metrics[0].metrics[0].max_value, 1);
+  assert.deepEqual(after[0].metrics[0].metrics[1], before[0].metrics[0].metrics[1]);
+  assert.deepEqual(after[1], before[1]);
+  assert.deepEqual(buildTeamProfileProducts([team, other], q2, overlay), [team, other]);
 });

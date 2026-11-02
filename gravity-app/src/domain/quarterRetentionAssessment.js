@@ -18,6 +18,9 @@ export function applyQuarterRetentionAssessments(products, period, overlays, bas
     const prior = baselineProducts.find(team => team.period === 'II кв. 2026' && same(team, product));
     if (!teams.length || !prior) return product;
     const metrics = product.metrics.map(block => ({...block, metrics: block.metrics.map(metric => {
+      if (metric.source?.correction?.origin === 'userConfirmedQ3ScoreCorrection'
+        && metric.source.correction.confirmedBy === 'user'
+        && metric.source.correction.period === period) return metric;
       // A later explicit zero overrides the older full-score carry for this team.
       if (product.name === 'Оплата улыбкой' && product.unit === 'DB' && product.type === 'Продукт'
         && String(product.id).replace(/::empty::.*/, '') === '11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой'
@@ -32,7 +35,7 @@ export function applyQuarterRetentionAssessments(products, period, overlays, bas
         || !Number.isFinite(old.value) || old.value < 0 || old.value > old.max_value) return metric;
       const segmentMechanicsFloor = fact.source?.policy === 'segmentMechanicsNonDecreasing'
         && prior.unit === 'CX' && prior.type === 'Сегмент' && block.code === 'mehaniki'
-        && segmentMechanicsCodes.has(metric.code) && [0, 0.5, 1].includes(fact.source.proposedRawValue)
+        && segmentMechanicsCodes.has(metric.code) && [0, 0.5, 0.75, 1].includes(fact.source.proposedRawValue)
         && fact.rawValue === Math.max(old.value / old.max_value, fact.source.proposedRawValue);
       if (fact.source?.origin !== 'userConfirmedQuarterRetention' || fact.source?.confirmedBy !== 'user'
         || fact.source?.fromPeriod !== prior.period || fact.source?.sourceValue !== old.value

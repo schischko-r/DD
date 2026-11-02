@@ -47,6 +47,52 @@ export function sumCrossSellComponents(metric, assessment) {
   };
 }
 
+export function applyCrossSellDuringPurchaseScores(products, period, assessment) {
+  if (period !== 'III кв. 2026' || assessment?.period !== period
+    || assessment?.scope !== 'crosssell-during-purchase-assessment') return products;
+  const facts = assessment.products || [];
+  let anyChanged = false;
+  const apply = (product) => {
+    const baseId = String(product.sourceTeamId || product.id || '').replace(/::empty::.*$/, '');
+    const factTeam = facts.find((team) => team.id === baseId
+      && (team.name === product.name || product.sourceTeamId === baseId));
+    const fact = factTeam?.metrics?.['mehaniki.cross_sell'];
+    const cohorts = product.salaryCohorts ? Object.fromEntries(Object.entries(product.salaryCohorts)
+      .map(([key, cohort]) => [key, apply(cohort)])) : null;
+    if (![0, 1].includes(fact?.rawValue)) {
+      return cohorts && Object.entries(cohorts).some(([key, cohort]) => cohort !== product.salaryCohorts[key])
+        ? {...product, salaryCohorts: cohorts} : product;
+    }
+    let changed = false;
+    const metrics = product.metrics.map((block) => ({...block, metrics: block.metrics.map((metric) => {
+      if (metric.code !== 'mehaniki.cross_sell') return metric;
+      const max = Number(metric.max_value) > 0 ? Number(metric.max_value) : 1;
+      const duringValue = fact.rawValue * max / 2;
+      const after = metric.crossSellComponents?.after || {
+        value: 0, rawValue: 0, applicable: true,
+        source: {origin: 'userConfirmedCrossSellMissingAsZero', confirmedBy: 'user', period},
+      };
+      const value = Math.min(max, duringValue + (after.applicable === false ? 0 : Number(after.value) || 0));
+      changed = true;
+      const crossSellComponents = {during: {value: duringValue, rawValue: fact.rawValue, source: fact.source}, after};
+      return {...metric, max_value: max, value, is_applicabble_flg: true, excluded_from_index: false,
+        dd_calculation_flg: 1, source: {origin: 'crossSellComponentSum', period, rawValue: value / max,
+          duringSource: fact.source, afterSource: after.source}, crossSellComponents,
+        ...(metric.recommendation_items ? {recommendation_items: metric.recommendation_items.map((item) => ({
+          ...item, value, max_value: max, gap: Math.max(0, max - value),
+        }))} : {}),
+      };
+    })}));
+    if (!changed) return cohorts ? {...product, salaryCohorts: cohorts} : product;
+    anyChanged = true;
+    return {...product, metrics, ...(cohorts ? {salaryCohorts: cohorts} : {}),
+      indexMaxPoints: metrics.flatMap((block) => block.metrics)
+        .filter(isDdIndexMetric).reduce((sum, metric) => sum + Number(metric.max_value), 0)};
+  };
+  const result = products.map(apply);
+  return anyChanged ? result : products;
+}
+
 export function defaultMissingCrossSell(metric, period) {
   if (period !== 'III кв. 2026' || metric?.code !== 'mehaniki.cross_sell'
     || metric.is_applicabble_flg === false || !(Number(metric.max_value) > 0)

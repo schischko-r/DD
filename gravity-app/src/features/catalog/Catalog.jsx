@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {ArrowDown, ChevronDown, ChevronRight} from '@gravity-ui/icons';
 import {Button, Dialog, Icon, Label, Progress, SegmentedRadioGroup, Text, TextInput} from '@gravity-ui/uikit';
 import {Dot, Polygon} from 'recharts';
-import {allocateIndexUplifts, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayProductName, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, metricSkillLinks, percent, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from '../../domain/report.js';
+import {allocateIndexUplifts, blockPercent, crossSellAnalyticsLink, crossSellPreview, difficultyMeta, displayProductName, filterCampaigningLinks, filterDraftLinks, filterInapplicableMetricGroups, filterInapplicableMetricSubgroups, filterMetricRelevantLinks, filterMetricsForBlock, groupFor, hasMetricDeviations, hasPilotCampaignSkill, inapplicableMetricLabel, isCampaigningRelevant, isCrossSellDigitallyConfirmed, isCrossSellDigitallyUnconfirmed, isDdIndexMetric, isDraftsRelevant, isInformationalMetric, isTbdMetric, metricDomId, metricSkillLinks, percent, previousQuarterIndexDelta, maturityLevelName, radarBlockPercent, scoreFor, summarizeRecommendationUplifts, teamHelpAudience} from '../../domain/report.js';
 import {collectBlockLinks, linksForBlock} from './blockLinks.js';
 import {PRODUCT_KEY_METRIC_LINKS, SEGMENT_KEY_METRIC_LINKS} from './keyMetricLinks.js';
 
@@ -232,7 +232,8 @@ function averageScore(items) {
   return scores.length ? Math.round(scores.reduce((sum, score) => sum + score, 0) / scores.length) : null;
 }
 
-export function CatalogDialogFiltered({openType, openMaturity, products, rows, onOpen, onClose}) {
+export function CatalogDialogFiltered({openType, openMaturity, products, rows, period, baselineProducts = [], baselineRows = [], onOpen, onClose}) {
+  const compareQuarters = period === 'III кв. 2026';
   const [expandedUnits, setExpandedUnits] = useState({});
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('score');
@@ -251,6 +252,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
         type,
         score: Number.isFinite(row?.score) ? row.score : null,
         group: row?.group || groupFor(product, rows),
+        previousScore: compareQuarters ? previousQuarterIndexDelta(product, Number.isFinite(row?.score) ? row.score : 0, baselineProducts, baselineRows)?.previousScore ?? null : null,
       });
     });
     return [...map.values()]
@@ -260,7 +262,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
         avg: averageScore(unit.items),
       }))
       .sort((a, b) => compareNames(a.name, b.name));
-  }, [products, rows, selectedType, openMaturity]);
+  }, [products, rows, selectedType, openMaturity, compareQuarters, baselineProducts, baselineRows]);
   const isFlatCatalog = selectedType?.tone !== 'product';
   const normalizedQuery = query.trim().toLocaleLowerCase();
   const visibleUnits = useMemo(() => units
@@ -273,7 +275,7 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
       const sortedItems = [...items].sort((a, b) => sort === 'score'
         ? (b.score - a.score) || compareNames(a.name, b.name)
         : compareNames(a.name, b.name));
-      return {...unit, items: sortedItems, avg: averageScore(items)};
+      return {...unit, items: sortedItems, avg: averageScore(items), previousAvg: items.every((item) => Number.isFinite(item.previousScore)) ? averageScore(items.map((item) => ({score: item.previousScore}))) : null};
     })
     .filter((unit) => unit.items.length > 0)
     .sort((a, b) => sort === 'score' ? (b.avg - a.avg) || compareNames(a.name, b.name) : compareNames(a.name, b.name)), [units, normalizedQuery, sort]);
@@ -286,13 +288,22 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
     setSort('score');
   }, [openType, openMaturity, units]);
 
+  const renderComparison = (previousScore, score) => {
+    const delta = Number.isFinite(previousScore) && Number.isFinite(score) ? score - previousScore : null;
+    return <>
+      <strong className="catalog-previous-score">{previousScore === null ? '—' : `${previousScore}%`}</strong>
+      <strong>{score === null ? '—' : `${score}%`}</strong>
+      <span className={`catalog-quarter-delta catalog-quarter-delta-${delta === null || delta === 0 ? 'neutral' : delta > 0 ? 'positive' : 'negative'}`}>{delta === null ? '—' : `${delta > 0 ? '+' : ''}${delta} п.п.`}</span>
+    </>;
+  };
+
   const renderItemRow = (item, key, flat = false) => {
     const tone = maturityTheme(item.group);
     return (
       <button type="button" className={`catalog-row catalog-item-row tone-${tone}`} key={key} onClick={() => { onClose(); onOpen(item); }}>
         <span className="catalog-title"><b title={displayProductName(item.name)}>{displayProductName(item.name)}</b></span>
         {flat && <span>{item.unit}</span>}
-        <strong>{item.score === null ? '—' : `${item.score}%`}</strong>
+        {compareQuarters ? renderComparison(item.previousScore, item.score) : <strong>{item.score === null ? '—' : `${item.score}%`}</strong>}
         <Label theme={tone}>{item.group}</Label>
       </button>
     );
@@ -314,17 +325,19 @@ export function CatalogDialogFiltered({openType, openMaturity, products, rows, o
             </div>
           </div>
         </div>
-        <div className={`catalog-table ${isFlatCatalog ? 'catalog-table-flat' : 'catalog-table-product'}`}>
-          <div className="catalog-table-head"><span>{isFlatCatalog ? (selectedType?.label || '') : `${'\u042e\u043d\u0438\u0442'} / ${selectedType?.label || ''}`}</span><span>{isFlatCatalog ? '\u042e\u043d\u0438\u0442' : 'Data-Driven Index'}</span><span>{isFlatCatalog ? 'Data-Driven Index' : '\u0421\u0442\u0430\u0442\u0443\u0441'}</span><span>{isFlatCatalog ? '\u0421\u0442\u0430\u0442\u0443\u0441' : '\u0414\u0435\u0439\u0441\u0442\u0432\u0438\u0435'}</span></div>
+        <div className={`catalog-table ${isFlatCatalog ? 'catalog-table-flat' : 'catalog-table-product'}${compareQuarters ? ' catalog-table-comparison' : ''}`}>
+          <div className="catalog-table-head"><span>{isFlatCatalog ? (selectedType?.label || '') : `Юнит / ${selectedType?.label || ''}`}</span>{compareQuarters ? <>{isFlatCatalog && <span>Юнит</span>}<span>DDI 2 кв</span><span>DDI 3 кв</span><span>Дельта</span><span>Статус 3 кв</span></> : <><span>{isFlatCatalog ? 'Юнит' : 'Data-Driven Index'}</span><span>{isFlatCatalog ? 'Data-Driven Index' : 'Статус'}</span><span>{isFlatCatalog ? 'Статус' : 'Действие'}</span></>}</div>
           {isFlatCatalog ? flatItems.map((item) => renderItemRow(item, `${item.unit}-${openType}-${item.name}`, true)) : visibleUnits.map((unit) => {
             const unitOpen = Boolean(visibleUnits.length === 1 || normalizedQuery || expandedUnits[unit.name]);
             return (
               <React.Fragment key={unit.name}>
                 <button type="button" className="catalog-row catalog-unit-row" onClick={() => setExpandedUnits((state) => ({...state, [unit.name]: !unitOpen}))}>
                   <span className="catalog-title"><Icon data={unitOpen ? ChevronDown : ChevronRight} size={14} /><b>{unit.name}</b><small>{unit.items.length} {'\u043a\u043e\u043c\u0430\u043d\u0434'}</small></span>
-                  <strong>{unit.avg === null ? '—' : `${unit.avg}%`}</strong>
-                  <span>{selectedType?.label || ''}</span>
-                  <span>{unitOpen ? '\u0421\u0432\u0435\u0440\u043d\u0443\u0442\u044c' : '\u0420\u0430\u0437\u0432\u0435\u0440\u043d\u0443\u0442\u044c'}</span>
+                  {compareQuarters ? <>{renderComparison(unit.previousAvg, unit.avg)}<Label theme={maturityTheme(maturityLevelName(unit.avg))}>{unit.avg === null ? 'Нет данных' : maturityLevelName(unit.avg)}</Label></> : <>
+                    <strong>{unit.avg === null ? '—' : `${unit.avg}%`}</strong>
+                    <span>{selectedType?.label || ''}</span>
+                    <span>{unitOpen ? 'Свернуть' : 'Развернуть'}</span>
+                  </>}
                 </button>
                 {unitOpen && unit.items.map((item) => renderItemRow(item, `${unit.name}-${openType}-${item.name}`))}
               </React.Fragment>

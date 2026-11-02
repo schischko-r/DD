@@ -37,7 +37,7 @@ test('only the four UX values change while Q2, prior overlays, maxima, rubric an
       assert.deepEqual(metric.recommendation_items.map(i=>[i.recommendation,i.group,i.recommendation_difficulty]),q2.recommendation_items.map(i=>[i.recommendation,i.group,i.recommendation_difficulty]));
       assert.deepEqual(metric.recommendation_items.map(i=>i.recommendation),['Достигнуть целевого UХ Score']);
       assert.ok(metric.recommendation_items.every(i=>i.value===metric.value&&i.max_value===1&&i.gap===1-metric.value));
-      const growth=metricActualGrowth(metric,current.indexMaxPoints,current.period);assert.equal(Boolean(growth),current.name==='Уведомления');changed++;
+      const growth=metricActualGrowth(metric,current.indexMaxPoints,current.period);assert.equal(Boolean(growth),metric.value!==q2.value);changed++;
     }
   }
   assert.equal(changed,4);assert.equal(JSON.stringify(actual),beforeData);assert.equal(JSON.stringify(overlay),beforeOverlay);

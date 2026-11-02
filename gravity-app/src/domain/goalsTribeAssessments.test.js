@@ -9,7 +9,8 @@ const config = read('../data/goals-tribe-source-q3-2026.json');
 const informational = read('../data/goals-informational-q3-2026.json');
 const app = fs.readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m => [m[1], m[2]]));
-const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(k => read(`../data/${imports.get(k.trim())}`));
+const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(k => read(`../data/${imports.get(k.trim())}`))
+  .filter(overlay => overlay.scope !== 'goals-final-scores');
 const args = [read('../data/salary-products-q3-2026.json'), read('../data/reporting-regularity-missing-q3-2026.json'), read('../data/funnel-action-missing-q3-2026.json')];
 const build = (period, batches) => buildDdiPeriodProducts(source, period, batches, ...args);
 const metrics = p => p.metrics.flatMap(b => b.metrics);
@@ -25,7 +26,10 @@ test('all 76 Q3 teams use their confirmed tribe goal scores; zero denominators a
     const row = config.rows.find(r => r.unit === assignment.sourceUnit && r.tribe === assignment.sourceTribe);
     for (const [code, expected] of Object.entries(row.scores)) {
       const m = metrics(p).find(m => m.code === code);
-      assert.equal(m.source.origin, 'userConfirmedGoalsTribeTable');
+      const correction = overlays.filter(o => o.source?.origin === 'userConfirmedGoalsMetricCorrection')
+        .flatMap(o => o.products || []).find(team => team.id === p.id.replace(/::empty::.*/, '')
+          && team.metrics?.[code])?.metrics[code];
+      assert.equal(m.source.origin, correction ? 'userConfirmedGoalsMetricCorrection' : 'userConfirmedGoalsTribeTable');
       assert.equal(m.source.sourceTribe, row.tribe);
       if (expected === null) {
         notApplicable++;
@@ -34,7 +38,7 @@ test('all 76 Q3 teams use their confirmed tribe goal scores; zero denominators a
         assert.equal(isDdIndexMetric(m), false);
       } else {
         numeric++;
-        assert.equal(m.value / m.max_value, expected, p.name + ' / ' + code);
+        assert.equal(m.value / m.max_value, correction?.rawValue ?? expected, p.name + ' / ' + code);
         assert.equal(isDdIndexMetric(m), !informational.products.some(t => t.name === p.name && t.unit === p.unit));
       }
     }
@@ -65,4 +69,5 @@ test('confirmed mappings distinguish zero scores from irrelevant forecasts and r
   }
   assert.equal(values('Сделка ИЖС').find(m => m.code === 'goals.forecast').value, 0);
   assert.equal(values('Сделка ИЖС').find(m => m.code === 'goals.forecast').is_applicabble_flg, true);
+  assert.equal(values('Телемаркетинг').find(m => m.code === 'goals.factor_analysis_l1_l2').value, 0.5);
 });

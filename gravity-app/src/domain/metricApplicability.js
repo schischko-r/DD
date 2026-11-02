@@ -1,12 +1,15 @@
 import {isDdIndexMetric} from './report.js';
 
 const allowedCodes = new Set(['mehaniki.vozvrat_klientov', 'mehaniki.uderzhanie_klientov', 'mehaniki.gibkoe_izmenenie_usloviy_produkta',
+  'mehaniki.doprodazhi_up_sell',
   'goals.monitored', 'goals.forecast', 'goals.factor_analysis_l1_l2', 'hyp.extra_initiatives', 'hyp.ab_tests',
-  'attract.chernoviki_v_sbol_70']);
+  'attract.chernoviki_v_sbol_70', 'attract.nastroena_otchetnostь', 'attract.regulyarnostь', 'attract.report_completeness',
+  'churn.nastroena_otchetnostь', 'churn.regulyarnostь', 'churn.report_completeness', 'cx.score']);
 
-export function applyMetricApplicabilityAssessments(products, period, overlays) {
+export function applyMetricApplicabilityAssessments(products, period, overlays, afterReporting = false) {
   if (period !== 'III кв. 2026') return products;
-  const assessments = overlays.filter((item) => item.scope === 'metric-applicability-assessment' && item.period === period);
+  const assessments = overlays.filter((item) => item.scope === 'metric-applicability-assessment' && item.period === period
+    && Boolean(item.applyAfterReporting) === afterReporting);
   return products.map((product) => {
     const teams = assessments.flatMap((item) => item.products || []).filter((team) =>
       team.id === String(product.id || '').replace(/::empty::.*$/, '')

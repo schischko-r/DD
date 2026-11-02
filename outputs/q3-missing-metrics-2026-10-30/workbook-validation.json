@@ -1,0 +1,16 @@
+{
+  "sha256": "bf5930b8904e3030e48eff81461965ff26c6491d83fea8c2879b52f9224aa8aa",
+  "teams": 76,
+  "index": 219,
+  "informational": 1,
+  "rows": 220,
+  "metricGroups": 48,
+  "summary": [
+    219,
+    1,
+    220
+  ],
+  "readbackRows": 220,
+  "recalculation": true,
+  "outputPath": "/Users/roman/Documents/Codex/DD-dev/outputs/q3-missing-metrics-2026-10-30/Пустые_оценки_DDI_III_квартал_2026.xlsx"
+}

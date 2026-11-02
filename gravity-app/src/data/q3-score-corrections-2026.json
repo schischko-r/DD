@@ -1,0 +1,1283 @@
+{
+  "period": "III кв. 2026",
+  "scope": "q3-score-correction",
+  "source": {
+    "origin": "userConfirmedQ3ScoreCorrection",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "rule": "Точечные прямые корректировки оценок III квартала, предоставленные пользователем."
+  },
+  "products": [
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "general.klienty_s_produktom": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "Клиенты с продуктом",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая оценка пользователя: Клиенты с продуктом = 100% за III квартал."
+            }
+          }
+        },
+        "general.mau_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "MAU продукта",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая оценка пользователя: MAU продукта = 100% за III квартал."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDirectNavigatorAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "teamId": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+            "teamName": "SberID",
+            "unit": "Data",
+            "type": "Продукт",
+            "sourceName": "SberID",
+            "metricCode": "general.navigator_reporting_knowledge",
+            "rawValue": 0.5,
+            "rule": "Прямая оценка пользователя: знание об отчётности в Навигаторе = 50%."
+          }
+        }
+      }
+    },
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 0.75,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Персональная рекомендация",
+            "sourceMetricName": "Промышленные данные",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.75,
+              "note": "Прямая оценка пользователя: промышленные данные = 75% за III квартал."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Почта, Диск, Календарь",
+            "sourceMetricName": "Полнота отчета по воронке привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.25,
+              "note": "Прямая оценка пользователя за III квартал."
+            }
+          }
+        },
+        "attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Почта, Диск, Календарь",
+            "sourceMetricName": "Комплексный анализ воронки использования",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.25,
+              "note": "Прямая оценка пользователя за III квартал."
+            }
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Почта, Диск, Календарь",
+            "sourceMetricName": "Настроена отчетность по воронке оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая оценка пользователя за III квартал."
+            }
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Почта, Диск, Календарь",
+            "sourceMetricName": "Discovery >=40% бэклога",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.25,
+              "note": "Прямая оценка пользователя за III квартал."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedDirectNavigatorAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "teamId": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+            "teamName": "Почта, Диск, Календарь",
+            "unit": "Data",
+            "type": "Продукт",
+            "sourceName": "Почта, Диск, Календарь",
+            "metricCode": "general.navigator_reporting_knowledge",
+            "rawValue": 0.5,
+            "rule": "Прямая оценка пользователя: знание об отчётности в Навигаторе = 50%."
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 0.75,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "sourceMetricName": "Промышленные данные",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.75,
+              "note": "Повтор оценки пользователя: промышленные данные = 75% за III квартал."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 0.75,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "sourceMetricName": "Промышленные данные",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.75,
+              "note": "Повтор оценки пользователя: промышленные данные = 75% за III квартал."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Полнота отчета",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "attract.benchmarks": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Наличие бенчмарков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Полнота отчета",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Наличие бенчмарков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Дебетовая карта",
+            "sourceMetricName": "Оповещения по бизнес-метрикам",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямое указание пользователя: оповещения по бизнес-метрикам Дебетовой карты за III квартал = 0."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Наличие бенчмарков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Настроена отчетность",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Полнота отчета",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Детская карта",
+            "sourceMetricName": "Удержание клиентов",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Кредитные карты",
+            "sourceMetricName": "Допродажи (up-sell)",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Оплата улыбкой",
+            "sourceMetricName": "Полнота отчета",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Оплата улыбкой",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Настроена отчетность",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Полнота отчета",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Последнее прямое указание пользователя: комплексный анализ воронки оттока у Переводов по РФ = 0,5 за III квартал."
+            },
+            "previousAssessment": {
+              "rawValue": 1,
+              "source": {
+                "origin": "userConfirmedQ3ScoreCorrection",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "sourceName": "Переводы по РФ",
+                "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+                "correction": {
+                  "origin": "userConfirmedQ3ScoreCorrection",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "rawValue": 1,
+                  "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+                }
+              }
+            }
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "CX Score",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Наличие бенчмарков по воронке оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямое указание пользователя: бенчмарки воронки оттока Переводов по РФ = 0,5 (50% действующего максимума)."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Платежи",
+            "sourceMetricName": "Discovery >=40% бэклога",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Трансграничные переводы",
+            "sourceMetricName": "Настроена отчетность",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Вжух",
+            "sourceMetricName": "Полнота отчета",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Вжух",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Вжух",
+            "sourceMetricName": "Настроена отчетность",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Последнее прямое указание пользователя: анализ воронки оттока Пенсионного продукта = 0,5 из 1 за III квартал."
+            }
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Пенсионный продукт",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Последнее прямое указание пользователя: комплексный анализ воронки привлечения Пенсионного продукта тоже = 0,5 из 1 за III квартал."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "general.mau_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "SberPay Ecom",
+            "sourceMetricName": "MAU продукта",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямое указание пользователя: знание MAU продукта SberPay Ecom = 100% за III квартал; разрешает прежний конфликт баллов Excel."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ИСЖ",
+            "sourceMetricName": "Оповещения по бизнес-метрикам",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя: оповещения по бизнес-метрикам команды ИСЖ за III квартал = 50%."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "НСЖ",
+            "sourceMetricName": "Оповещения по бизнес-метрикам",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя: оповещения по бизнес-метрикам команды НСЖ за III квартал = 50%."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ КК",
+            "sourceMetricName": "Оповещения по бизнес-метрикам",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя: оповещения по бизнес-метрикам команды ДСЖ КК за III квартал = 50%."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "alerts.business_metrics": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Страхование залога",
+            "sourceMetricName": "Оповещения по бизнес-метрикам",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя: оповещения по бизнес-метрикам команды Страхование залога за III квартал = 50%."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Полнота отчета по воронке привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя: полнота отчета по воронке привлечения ЗПИФ = 50% за III квартал."
+            }
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Мероприятия по работе с отклонениями по воронке оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя: мероприятия по работе с отклонениями воронки оттока ЗПИФ = 0 за III квартал."
+            }
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Составлен перечень инициатив по привлечению",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя: составлен перечень инициатив по привлечению ЗПИФ = 0 за III квартал."
+            }
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая корректировка пользователя: Проведение комплексного анализа воронки привлечения ЗПИФ = 100% за III квартал."
+            },
+            "rawValue": 1
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая корректировка пользователя: Проведение комплексного анализа воронки оттока ЗПИФ = 100% за III квартал."
+            },
+            "rawValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая корректировка пользователя: Проведение комплексного анализа воронки оттока БПИФ = 100% за III квартал."
+            },
+            "rawValue": 1
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Мероприятия по работе с отклонениями по воронке оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя: Мероприятия по работе с отклонениями по воронке оттока БПИФ = 0% за III квартал."
+            }
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "Прямая корректировка пользователя: Проведение комплексного анализа воронки привлечения БПИФ = 50% за III квартал."
+            },
+            "rawValue": 0.5
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Составлен перечень инициатив по привлечению",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя: составлен перечень инициатив по привлечению БПИФ = 0 за III квартал."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки привлечения",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая корректировка пользователя: Проведение комплексного анализа воронки привлечения ОПИФ = 100% за III квартал."
+            }
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Составлен перечень инициатив по привлечению",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя: Составлен перечень инициатив по привлечению ОПИФ = 0% за III квартал."
+            }
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Проведение комплексного анализа воронки оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямая корректировка пользователя: Проведение комплексного анализа воронки оттока ОПИФ = 100% за III квартал."
+            }
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ОПИФ",
+            "sourceMetricName": "Мероприятия по работе с отклонениями по воронке оттока",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "note": "Прямая корректировка пользователя: Мероприятия по работе с отклонениями по воронке оттока ОПИФ = 0% за III квартал."
+            }
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "teams": 13,
+    "facts": 32
+  }
+}

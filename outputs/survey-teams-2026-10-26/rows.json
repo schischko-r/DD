@@ -1,0 +1,2543 @@
+[
+  {
+    "unit": "CBP",
+    "name": "Автокредит",
+    "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+    "sourceId": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+    "sourceName": "Автокредит",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Вклады+НС",
+    "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+    "sourceId": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+    "sourceName": "Вклады+НС",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Конверсия",
+    "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+    "sourceId": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+    "sourceName": "Конверсия",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Кредитный потенциал",
+    "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+    "sourceId": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+    "sourceName": "Кредитный потенциал",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Монеты",
+    "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+    "sourceId": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+    "sourceName": "Монеты",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Образовательный кредит",
+    "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+    "sourceId": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+    "sourceName": "Образовательный кредит",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Объект Авто",
+    "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+    "sourceId": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+    "sourceName": "Объект Авто",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "ОМС",
+    "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+    "sourceId": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+    "sourceName": "ОМС",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Потребительский кредит",
+    "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+    "sourceId": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+    "sourceName": "Потребительский кредит",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Сейфы",
+    "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+    "sourceId": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+    "sourceName": "Сейфы",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "Слитки",
+    "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+    "sourceId": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+    "sourceName": "Слитки",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "BNPL",
+    "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+    "sourceId": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+    "sourceName": "BNPL",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CBP",
+    "name": "POS-кредиты",
+    "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+    "sourceId": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+    "sourceName": "POS-кредиты",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "Дети/подростки",
+    "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+    "sourceId": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+    "sourceName": "Дети",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "Зрелость",
+    "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+    "sourceId": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+    "sourceName": "Зрелость",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "МВС",
+    "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+    "sourceId": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+    "sourceName": "МВС",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "Молодежь",
+    "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+    "sourceId": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+    "sourceName": "Молодежь",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "Пакет услуг СберПервый",
+    "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+    "sourceId": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+    "sourceName": "Пакет услуг СберПервый",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "Пакет услуг СберПремьер",
+    "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+    "sourceId": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+    "sourceName": "Пакет услуг СберПремьер",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "Рабочий возраст",
+    "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+    "sourceId": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+    "sourceName": "Рабочий возраст",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "СберПрайм",
+    "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+    "sourceId": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+    "sourceName": "СберПрайм",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "СберСпасибо",
+    "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+    "sourceId": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+    "sourceName": "СберСпасибо",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "PB",
+    "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+    "sourceId": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+    "sourceName": "PB",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "CX",
+    "name": "Top Affluent",
+    "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+    "sourceId": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+    "sourceName": "Top Affluent",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Вжух",
+    "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+    "sourceId": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+    "sourceName": "SberPay Вжух",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Дебетовая карта",
+    "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+    "sourceId": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+    "sourceName": "Дебетовая карта",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Детская карта",
+    "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+    "sourceId": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+    "sourceName": "Детская карта",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Зарплатный проект #B2B",
+    "id": "salary-b2b",
+    "sourceId": null,
+    "sourceName": null,
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Зарплатный проект #B2C",
+    "id": "salary-b2c",
+    "sourceId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+    "sourceName": "Зарплатный продукт",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Интернет-Эквайринг",
+    "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+    "sourceId": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+    "sourceName": "Интернет-Эквайринг",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Кредитные карты",
+    "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+    "sourceId": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+    "sourceName": "Кредитные карты",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Оплата улыбкой",
+    "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+    "sourceId": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+    "sourceName": "Оплата улыбкой",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Пенсионный продукт",
+    "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+    "sourceId": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+    "sourceName": "Пенсионный продукт",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Переводы по РФ",
+    "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+    "sourceId": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+    "sourceName": "Переводы по РФ",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Платежи",
+    "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+    "sourceId": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+    "sourceName": "Платежи",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Сберчаевые #B2B",
+    "id": "full-sber-tips-b2b¦Сберчаевые #B2B",
+    "sourceId": null,
+    "sourceName": null,
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Сберчаевые #B2C",
+    "id": "full-sber-tips-b2c¦Сберчаевые #B2C",
+    "sourceId": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+    "sourceName": "СберЧаевые",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Торговый Эквайринг",
+    "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+    "sourceId": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+    "sourceName": "Торговый Эквайринг",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Трансграничные переводы #B2B",
+    "id": "full-cross-border-transfers-b2b¦Трансграничные переводы #B2B",
+    "sourceId": null,
+    "sourceName": null,
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Трансграничные переводы #B2C",
+    "id": "full-cross-border-transfers-b2c¦Трансграничные переводы #B2C",
+    "sourceId": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+    "sourceName": "Трансграничные переводы",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Трансграничный эквайринг #B2B",
+    "id": "full-cross-border-acquiring-b2b¦Трансграничный эквайринг #B2B",
+    "sourceId": null,
+    "sourceName": null,
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "?",
+        "light": "?",
+        "color": null,
+        "reason": "B2B: заполнение «?» по указанию пользователя"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "Трансграничный эквайринг #B2C",
+    "id": "full-cross-border-acquiring-b2c¦Трансграничный эквайринг #B2C",
+    "sourceId": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+    "sourceName": "Трансграничный эквайринг",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "SberPay Ecom",
+    "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+    "sourceId": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+    "sourceName": "SberPay Ecom",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DB",
+    "name": "SberPay NFC",
+    "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+    "sourceId": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+    "sourceName": "SberPay NFC",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DP",
+    "name": "СберИнвестор",
+    "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+    "sourceId": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+    "sourceName": "СберИнвестор",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DP",
+    "name": "СберKids",
+    "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+    "sourceId": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+    "sourceName": "СберKids",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DP",
+    "name": "СБОЛ",
+    "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+    "sourceId": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+    "sourceName": "СБОЛ",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "DP",
+    "name": "Уведомления",
+    "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+    "sourceId": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+    "sourceName": "Уведомления",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "Data",
+    "name": "Единый личный кабинет (ЕЛК)",
+    "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+    "sourceId": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+    "sourceName": "Единый личный кабинет (ЕЛК)",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "Data",
+    "name": "Персональная рекомендация (кампейнинг)",
+    "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+    "sourceId": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+    "sourceName": "Персональная рекомендация",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "Data",
+    "name": "Почта, Диск, Календарь",
+    "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+    "sourceId": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+    "sourceName": "Почта, Диск, Календарь",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "Data",
+    "name": "SberID",
+    "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+    "sourceId": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+    "sourceName": "SberID",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "PC",
+    "name": "Выписки, справки",
+    "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+    "sourceId": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+    "sourceName": "Выписки, справки",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "PC",
+    "name": "Колл-центр",
+    "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+    "sourceId": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+    "sourceName": "Колл-центр",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "PC",
+    "name": "Телемаркетинг",
+    "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+    "sourceId": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+    "sourceName": "Телемаркетинг",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "PC",
+    "name": "Чат",
+    "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+    "sourceId": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+    "sourceName": "Чат",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Метрика отсутствует в карточке DDI"
+      }
+    ]
+  },
+  {
+    "unit": "ДомКлик",
+    "name": "Много денег (НКПЗН)",
+    "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+    "sourceId": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+    "sourceName": "Много денег (НКПЗН)",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "ДомКлик",
+    "name": "Сделка вторичка",
+    "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+    "sourceId": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+    "sourceName": "Сделка вторичка",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "ДомКлик",
+    "name": "Сделка ИЖС",
+    "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+    "sourceId": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+    "sourceName": "Сделка ИЖС",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "ДомКлик",
+    "name": "Сделка с Первичным жильём",
+    "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+    "sourceId": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+    "sourceName": "Сделка с Первичным жильём",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "БПИФ",
+    "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+    "sourceId": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+    "sourceName": "БПИФ",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "Брокерский счет",
+    "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+    "sourceId": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+    "sourceName": "Брокерский счет",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ВЗР",
+    "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+    "sourceId": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+    "sourceName": "ВЗР",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ДСЖ КК",
+    "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+    "sourceId": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+    "sourceName": "ДСЖ КК",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ДСЖ ПК",
+    "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+    "sourceId": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+    "sourceName": "ДСЖ ПК",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "Залоговое страхование (корпоративное страхование)",
+    "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+    "sourceId": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+    "sourceName": "Залоговое страхование (корпоративное страхование)",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ЗЛС",
+    "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+    "sourceId": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+    "sourceName": "ЗЛС",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ЗПИФ",
+    "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+    "sourceId": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+    "sourceName": "ЗПИФ",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ИнвестКопилка",
+    "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+    "sourceId": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+    "sourceName": "ИнвестКопилка",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ИСЖ",
+    "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+    "sourceId": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+    "sourceName": "ИСЖ",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "КАСКО",
+    "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+    "sourceId": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+    "sourceName": "КАСКО",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "Личная защита Плюс",
+    "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+    "sourceId": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+    "sourceName": "Личная защита Плюс",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "НСЖ",
+    "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+    "sourceId": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+    "sourceName": "НСЖ",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ОПИФ",
+    "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+    "sourceId": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+    "sourceName": "ОПИФ",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ОСАГО",
+    "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+    "sourceId": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+    "sourceName": "ОСАГО",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ПДС",
+    "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+    "sourceId": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+    "sourceName": "ПДС",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "СберСова",
+    "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+    "sourceId": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+    "sourceName": "СберСова",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Нерелевантно",
+        "light": "Серый",
+        "color": "gray",
+        "reason": "Неприменимо в DDI"
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "Страхование жизни",
+    "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+    "sourceId": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+    "sourceName": "Страхование жизни",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "Страхование залога",
+    "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+    "sourceId": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+    "sourceName": "Страхование залога",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Зелёный",
+        "color": "green",
+        "value": 0.5,
+        "max": 0.5
+      }
+    ]
+  },
+  {
+    "unit": "УБ",
+    "name": "ЦФА",
+    "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+    "sourceId": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+    "sourceName": "ЦФА",
+    "metrics": [
+      {
+        "code": "attract.nalichie_self_service",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      },
+      {
+        "code": "attract.campaign_launches",
+        "relevance": "Релевантно",
+        "light": "Красный",
+        "color": "red",
+        "value": 0,
+        "max": 0.5
+      }
+    ]
+  }
+]

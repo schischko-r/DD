@@ -1,0 +1,13 @@
+{
+  "csvProvenanceVerified": true,
+  "allChangedCellsBackedByFacts": true,
+  "answerClassificationVerified": true,
+  "chikinaExcluded": true,
+  "fills": 53,
+  "categories": {
+    "1": 27,
+    "0.5": 17,
+    "0": 9
+  },
+  "mismatchesPreserved": 14
+}

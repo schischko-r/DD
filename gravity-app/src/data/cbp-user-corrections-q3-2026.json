@@ -1,0 +1,918 @@
+{
+  "period": "III кв. 2026",
+  "scope": "cbp-user-corrections",
+  "unit": "CBP",
+  "source": {
+    "origin": "userConfirmedCbpCorrections20261102",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "period": "III кв. 2026",
+    "input": "user-provided-table",
+    "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней."
+  },
+  "products": [
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_monitoring": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 2,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Цели выведены на мониторинг",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_monitoring"
+          }
+        },
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 3,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "goals.po_forecast": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 4,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Прогноз по целям",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_forecast"
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 5,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Алерты",
+            "userMetric": "Оповещения по бизнес-метрикам",
+            "userAssessment": "0,0%",
+            "metricCode": "alerts.business_metrics"
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 6,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Возврат клиентов",
+            "userAssessment": "не релевантно",
+            "metricCode": "mehaniki.vozvrat_klientov"
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 7,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Допродажи (up-sell)",
+            "userAssessment": "0,0%",
+            "metricCode": "mehaniki.doprodazhi_up_sell"
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 8,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Гипотезы и инициативы",
+            "userMetric": "Discovery >=40% бэклога",
+            "userAssessment": "0,0%",
+            "metricCode": "hyp.discovery_40_backlog"
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 9,
+            "sourceName": "Автокредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Гипотезы и инициативы",
+            "userMetric": "Оценка исследований >=7,5",
+            "userAssessment": "0,0%",
+            "metricCode": "hyp.datadriven_rating_7_5"
+          }
+        }
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 10,
+            "sourceName": "Вклады+НС",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.25,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 11,
+            "sourceName": "Вклады+НС",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Проведение комплексного анализа воронки оттока",
+            "userAssessment": "25,0%",
+            "metricCode": "churn.funnel_analysis"
+          }
+        },
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 12,
+            "sourceName": "Вклады+НС",
+            "sourceUnit": "CBP",
+            "userBlock": "Клиентский опыт",
+            "userMetric": "CX Score",
+            "userAssessment": "50,0%",
+            "metricCode": "cx.score"
+          }
+        }
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 13,
+            "sourceName": "Конверсия",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 14,
+            "sourceName": "Конверсия",
+            "sourceUnit": "CBP",
+            "userBlock": "Гипотезы и инициативы",
+            "userMetric": "Оценка исследований >=7,5",
+            "userAssessment": "50,0%",
+            "metricCode": "hyp.datadriven_rating_7_5"
+          }
+        }
+      }
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 15,
+            "sourceName": "Монеты",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 16,
+            "sourceName": "Монеты",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Проведение комплексного анализа воронки оттока",
+            "userAssessment": "0,0%",
+            "metricCode": "churn.funnel_analysis"
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 17,
+            "sourceName": "Монеты",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Возврат клиентов",
+            "userAssessment": "50,0%",
+            "metricCode": "mehaniki.vozvrat_klientov"
+          }
+        },
+        "mehaniki.cross_sell.during": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 18,
+            "sourceName": "Монеты",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Cross-sell во время продажи",
+            "userAssessment": "100,0%",
+            "metricCode": "mehaniki.cross_sell.during"
+          }
+        }
+      }
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 19,
+            "sourceName": "Образовательный кредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 20,
+            "sourceName": "Образовательный кредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Возврат клиентов",
+            "userAssessment": "не релевантно",
+            "metricCode": "mehaniki.vozvrat_klientov"
+          }
+        }
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 21,
+            "sourceName": "ОМС",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 22,
+            "sourceName": "ОМС",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка привлечения",
+            "userMetric": "Полнота отчета",
+            "userAssessment": "50,0%",
+            "metricCode": "attract.report_completeness"
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 23,
+            "sourceName": "ОМС",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка привлечения",
+            "userMetric": "Проведение комплексного анализа воронки привлечения",
+            "userAssessment": "50,0%",
+            "metricCode": "attract.funnel_analysis"
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 24,
+            "sourceName": "ОМС",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Полнота отчета",
+            "userAssessment": "50,0%",
+            "metricCode": "churn.report_completeness"
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 25,
+            "sourceName": "ОМС",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Проведение комплексного анализа воронки оттока",
+            "userAssessment": "50,0%",
+            "metricCode": "churn.funnel_analysis"
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 26,
+            "sourceName": "ОМС",
+            "sourceUnit": "CBP",
+            "userBlock": "Гипотезы и инициативы",
+            "userMetric": "Оценка исследований >=7,5",
+            "userAssessment": "0,0%",
+            "metricCode": "hyp.datadriven_rating_7_5"
+          }
+        }
+      }
+    },
+    {
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 27,
+            "sourceName": "Потребительский кредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 28,
+            "sourceName": "Потребительский кредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Проведение комплексного анализа воронки оттока",
+            "userAssessment": "50,0%",
+            "metricCode": "churn.funnel_analysis"
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 29,
+            "sourceName": "Потребительский кредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Возврат клиентов",
+            "userAssessment": "не релевантно",
+            "metricCode": "mehaniki.vozvrat_klientov"
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 30,
+            "sourceName": "Потребительский кредит",
+            "sourceUnit": "CBP",
+            "userBlock": "Гипотезы и инициативы",
+            "userMetric": "Discovery >=40% бэклога",
+            "userAssessment": "50,0%",
+            "metricCode": "hyp.discovery_40_backlog"
+          }
+        }
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 31,
+            "sourceName": "Сейфы",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка привлечения",
+            "userMetric": "Полнота отчета",
+            "userAssessment": "100,0%",
+            "metricCode": "attract.report_completeness"
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 32,
+            "sourceName": "Сейфы",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Настроена отчетность",
+            "userAssessment": "50,0%",
+            "metricCode": "churn.nastroena_otchetnostь"
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 33,
+            "sourceName": "Сейфы",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Полнота отчета",
+            "userAssessment": "0,0%",
+            "metricCode": "churn.report_completeness"
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 34,
+            "sourceName": "Сейфы",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Возврат клиентов",
+            "userAssessment": "50,0%",
+            "metricCode": "mehaniki.vozvrat_klientov"
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 35,
+            "sourceName": "Сейфы",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Удержание клиентов",
+            "userAssessment": "50,0%",
+            "metricCode": "mehaniki.uderzhanie_klientov"
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 36,
+            "sourceName": "Сейфы",
+            "sourceUnit": "CBP",
+            "userBlock": "Гипотезы и инициативы",
+            "userMetric": "Оценка исследований >=7,5",
+            "userAssessment": "0,0%",
+            "metricCode": "hyp.datadriven_rating_7_5"
+          }
+        }
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 37,
+            "sourceName": "Слитки",
+            "sourceUnit": "CBP",
+            "userBlock": "Знание ключевых метрик",
+            "userMetric": "Знание об отчетности в Навигаторе",
+            "userAssessment": "0,0%",
+            "metricCode": "general.navigator_reporting_knowledge"
+          }
+        },
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 38,
+            "sourceName": "Слитки",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 39,
+            "sourceName": "Слитки",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Проведение комплексного анализа воронки оттока",
+            "userAssessment": "0,0%",
+            "metricCode": "churn.funnel_analysis"
+          }
+        }
+      }
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 40,
+            "sourceName": "BNPL",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "attract.campaign_launches": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 41,
+            "sourceName": "BNPL",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка привлечения",
+            "userMetric": "Запуски кампаний за квартал",
+            "userAssessment": "100,0%",
+            "metricCode": "attract.campaign_launches"
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 42,
+            "sourceName": "BNPL",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Полнота отчета",
+            "userAssessment": "50,0%",
+            "metricCode": "churn.report_completeness"
+          }
+        },
+        "mehaniki.cross_sell.during": {
+          "rawValue": 1.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 43,
+            "sourceName": "BNPL",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Cross-sell во время продажи",
+            "userAssessment": "100,0%",
+            "metricCode": "mehaniki.cross_sell.during"
+          }
+        }
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 44,
+            "sourceName": "POS-кредиты",
+            "sourceUnit": "CBP",
+            "userBlock": "Знание ключевых метрик",
+            "userMetric": "Знание об отчетности в Навигаторе",
+            "userAssessment": "50,0%",
+            "metricCode": "general.navigator_reporting_knowledge"
+          }
+        },
+        "goals.po_factor_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 45,
+            "sourceName": "POS-кредиты",
+            "sourceUnit": "CBP",
+            "userBlock": "Цели — итоговые метрики",
+            "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+            "userAssessment": "50,0%",
+            "metricCode": "goals.po_factor_analysis"
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.0,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 46,
+            "sourceName": "POS-кредиты",
+            "sourceUnit": "CBP",
+            "userBlock": "Воронка оттока",
+            "userMetric": "Полнота отчета",
+            "userAssessment": "0,0%",
+            "metricCode": "churn.report_completeness"
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "inputRows": 45,
+    "teams": 11,
+    "notApplicable": 3
+  }
+}

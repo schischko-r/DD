@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Много денег (НКПЗН)",
+    "url": "https://jira.sberned.ru/secure/RapidBoard.jspa?rapidView=1645&view=planning.nodetail&quickFilter=10170&issueLimit=100#",
+    "type": "Продукт"
+  },
+  {
+    "name": "Объект Авто",
+    "url": "https://sbertrack.sberbank.ru/swtr/units/all?space=CI8LDDG1KY&tenant=default&spaces=%5B%7B%22label%22%3A%22Аналитика+%5C%22АВТО%5C%22%22%2C%22value%22%3A%22CI8LDDG1KY%22%7D%5D",
+    "type": "Продукт"
+  },
+  {
+    "name": "Пакет услуг СберПервый",
+    "url": "https://sbertrack.sberbank.ru/swtr/board/b5380d96-6b2a-4846-9a42-ac7e877607cf?space=PSDA&tenant=default&spaces=%5B%7B%22label%22%3A%22Premium_Solutions_DA%22%2C%22value%22%3A%22PSDA%22%7D%5D",
+    "type": "Продукт"
+  },
+  {
+    "name": "Переводы по РФ",
+    "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=35578&projectKey=DBB2DTANLC&quickFilter=178597#",
+    "type": "Продукт"
+  },
+  {
+    "name": "Переводы подарков",
+    "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+    "type": "Продукт"
+  },
+  {
+    "name": "Сберчаевые #B2C",
+    "url": "https://jira.sberbank.ru/issues/?jql=project%20%3D%20VOTSLHGUWJ%20AND%20assignee%20in%20(%2220652724%22)%20ORDER%20BY%20priority%20DESC%2C%20updated%20DESC",
+    "type": "Продукт"
+  },
+  {
+    "name": "Сделка ИЖС",
+    "url": "https://jira.sberned.ru/secure/RapidBoard.jspa?rapidView=1647&view=planning.nodetail&quickFilter=9261&issueLimit=100#",
+    "type": "Продукт"
+  },
+  {
+    "name": "Сделка вторичка",
+    "url": "https://jira.sberned.ru/secure/RapidBoard.jspa?rapidView=1645&view=planning.nodetail&quickFilter=9019&issueLimit=100#",
+    "type": "Продукт"
+  },
+  {
+    "name": "Сделка с Первичным жильём",
+    "url": "https://jira.sberned.ru/projects/PRIMA/issues/PRIMA-2045?filter=allopenissues",
+    "type": "Продукт"
+  },
+  {
+    "name": "SberPay Вжух",
+    "url": "https://jira.sberbank.ru/projects/DBB2DTANLC/issues/DBB2DTANLC-6262?filter=allopenissues",
+    "type": "Продукт"
+  },
+  {
+    "name": "КАСКО",
+    "url": "https://jira.delta.sbrf.ru/secure/RapidBoard.jspa?rapidView=34057&projectKey=BSAVTO&view=planning.nodetail&quickFilter=191517&issueLimit=100#",
+    "type": "Продукт"
+  },
+  {
+    "name": "ОСАГО",
+    "url": "https://jira.delta.sbrf.ru/secure/RapidBoard.jspa?rapidView=34057&projectKey=BSAVTO&view=planning.nodetail&quickFilter=191517&issueLimit=100#",
+    "type": "Продукт"
+  },
+  {
+    "name": "Личная защита Плюс",
+    "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=KPDS&rapidView=21722#",
+    "type": "Продукт"
+  },
+  {
+    "name": "Оплата улыбкой",
+    "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+    "type": "Продукт"
+  },
+  {
+    "name": "Молодежь",
+    "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=41166&projectKey=SDRSA",
+    "type": "Сегмент"
+  },
+  {
+    "name": "Рабочий возраст",
+    "url": "https://sbertrack.sberbank.ru/swtr/units/all?space=NLTKRBCHVZRST",
+    "type": "Сегмент"
+  },
+  {
+    "name": "Top Affluent",
+    "url": "https://sbertrack.sberbank.ru/swtr/board/b5380d96-6b2a-4846-9a42-ac7e877607cf?space=PSDA&tenant=default&spaces=%5B%7B%22label%22%3A%22Premium_Solutions_DA%22%2C%22value%22%3A%22PSDA%22%7D%5D",
+    "type": "Сегмент"
+  },
+  {
+    "name": "Единый личный кабинет (ЕЛК)",
+    "url": "https://jira.sberbank.ru/browse/SID-76026?jql=component%20%3D%20%22SberID_Data%26Analytic%22%20AND%20labels%20%3D%20sberid_elk",
+    "type": "Канал"
+  },
+  {
+    "name": "Персональная рекомендация (кампейнинг)",
+    "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=40123&projectKey=INSIGHT#",
+    "type": "Канал"
+  }
+]

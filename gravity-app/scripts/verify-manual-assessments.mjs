@@ -1,10 +1,17 @@
+import {applyMetricApplicabilityAssessments} from '../src/domain/metricApplicability.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {buildTeamProfileProducts} from '../src/domain/teamProfileSelection.js';
 import {excludeRemovedTeams, isDdIndexMetric} from '../src/domain/report.js';
 import {buildDdiPeriodProducts, Q3_DB_TEAMS} from '../src/domain/quarterProfiles.js';
+import {applyGoalsFinalScores, GOALS_FINAL_COUNTERPARTS} from '../src/domain/goalsFinalScores.js';
 import {navigatorKnowledgeFraction, isInvestKopilkaNavigatorOverride, isDirectNavigatorOverride} from '../src/domain/navigatorKnowledge.js';
+
+// Check automatic stages independently of the final, explicitly scoped corrections.
+const buildAutomaticPeriodProducts = (products, period, assessments, ...args) =>
+  buildDdiPeriodProducts(products, period, assessments.filter(item => !['ub-workbook-corrections', 'cbp-user-corrections', 'cx-user-corrections'].includes(item?.scope)), ...args);
+
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const input = process.env.DDI_REPORT_DATA_PATH || path.join(root, 'public/report-data.json');
@@ -18,26 +25,38 @@ const overlays = overlayList[1].split(',').map((key) => {
   if (!name) throw new Error(`Cannot resolve Q3 assessment: ${key.trim()}`);
   return {name, data: JSON.parse(fs.readFileSync(path.join(root, 'src/data', name), 'utf8'))};
 });
-const required = ['smile-attract-analysis-q3-2026.json', 'smile-markets-zero-q3-2026.json', 'working-age-fot-knowledge-q3-2026.json', 'monthly-excel-reporting-q3-2026.json', 'data-quality-survey-q3-2026.json', 'iszh-funnel-completeness-q3-2026.json', 'nszh-funnel-completeness-q3-2026.json', 'ab-tests-insurance-visibility-q3-2026.json', 'cfa-attract-completeness-q3-2026.json', 'cfa-attract-benchmarks-q3-2026.json', 'corporate-churn-completeness-q3-2026.json', 'campaigning-data-quality-q3-2026.json', 'campaigning-alerts-q3-2026.json', 'campaigning-performance-q3-2026.json', 'campaigning-quarter-retention-q3-2026.json', 'po-goals-survey-assessments-q3-2026.json', 'po-goals-template-q3-2026.json', 'goals-informational-q3-2026.json', 'goals-tribe-assessments-q3-2026.json', 'goals-tribe-applicability-q3-2026.json', 'corporate-flexible-conditions-applicability-q3-2026.json', 'domclick-self-service-q3-2026.json', 'cx-score-metrics-q3-2026.json', 'crosssell-after-purchase-scores-q3-2026.json',
-  'research-metrics-q3-2026.json', 'selected-metrics-carry-forward-q3-2026.json', 'ux-score-metrics-q3-2026.json',
+const required = ['ub-workbook-corrections-q3-2026.json', 'crossborder-acquiring-reporting-applicability-q3-2026.json', 'smile-attract-analysis-q3-2026.json', 'smile-markets-zero-q3-2026.json', 'working-age-fot-knowledge-q3-2026.json', 'monthly-excel-reporting-q3-2026.json', 'data-quality-survey-q3-2026.json', 'iszh-funnel-completeness-q3-2026.json', 'nszh-funnel-completeness-q3-2026.json', 'ab-tests-insurance-visibility-q3-2026.json', 'cfa-attract-completeness-q3-2026.json', 'cfa-attract-benchmarks-q3-2026.json', 'corporate-churn-completeness-q3-2026.json', 'campaigning-data-quality-q3-2026.json', 'campaigning-alerts-q3-2026.json', 'campaigning-performance-q3-2026.json', 'campaigning-quarter-retention-q3-2026.json', 'po-goals-survey-assessments-q3-2026.json', 'po-goals-template-q3-2026.json', 'goals-informational-q3-2026.json', 'goals-tribe-assessments-q3-2026.json', 'goals-final-scores-q3-2026.json', 'goals-tribe-applicability-q3-2026.json', 'corporate-flexible-conditions-applicability-q3-2026.json', 'domclick-self-service-q3-2026.json', 'cx-score-metrics-q3-2026.json', 'crosssell-after-purchase-scores-q3-2026.json', 'crosssell-during-purchase-scores-q3-2026.json',
+  'research-metrics-q3-2026.json', 'research-metric-corrections-q3-2026.json', 'selected-metrics-carry-forward-q3-2026.json', 'ux-score-metrics-q3-2026.json',
   'campaign-missing-zero-q3-2026.json', 'campaign-user-assessments-q3-2026.json', 'user-metric-assessments-q3-2026.json',
-  'funnel-user-assessments-q3-2026.json', 'metric-applicability-q3-2026.json', 'mechanics-user-assessments-q3-2026.json',
+  'funnel-user-assessments-q3-2026.json', 'funnel-link-quality-assessment-q3-2026.json', 'goals-metric-corrections-q3-2026.json', 'metric-applicability-q3-2026.json', 'mechanics-user-assessments-q3-2026.json',
   'alerts-carry-forward-q3-2026.json', 'discovery-metrics-q3-2026.json', 'regularity-user-assessments-q3-2026.json',
   'navigator-market-knowledge-q3-2026.json', 'goals-user-carry-forward-q3-2026.json',
-  'funnel-additional-user-assessments-q3-2026.json', 'knowledge-user-assessments-q3-2026.json', 'chat-entry-actions-q3-2026.json', 'ab-tests-user-assessments-q3-2026.json'];
+  'funnel-additional-user-assessments-q3-2026.json', 'knowledge-user-assessments-q3-2026.json', 'chat-entry-actions-q3-2026.json', 'ab-tests-user-assessments-q3-2026.json', 'cx-user-corrections-q3-2026.json'];
 for (const name of required) {
   if (!overlays.some((overlay) => overlay.name === name)) throw new Error(`Manual assessment is disconnected: ${name}`);
 }
 if (!overlays.some(({name}) => name === 'reporting-absence-user-q3-2026.json')) {
   throw new Error('Reporting absence rule is disconnected from App.jsx');
 }
-const products = buildTeamProfileProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data));
+const automaticAssessments = overlays.map((item) => item.data)
+  .filter((item) => !['cbp-user-corrections', 'cx-user-corrections'].includes(item.scope));
+const products = applyMetricApplicabilityAssessments(buildTeamProfileProducts(source.products, 'III кв. 2026', automaticAssessments),
+  'III кв. 2026', automaticAssessments, true);
+const goalsFinalAssessment = overlays.find(({data}) => data.scope === 'goals-final-scores')?.data;
+const finalScoreProducts = goalsFinalAssessment
+  ? products.filter((product) => goalsFinalAssessment.products.some((row) => row.name === product.name && row.unit === product.unit))
+  : products;
+const finalGoalProducts = goalsFinalAssessment
+  ? applyGoalsFinalScores(finalScoreProducts, 'III кв. 2026', [goalsFinalAssessment]) : products;
 const factKey = (team, code) => JSON.stringify([team.id, team.name, team.unit, team.type, code]);
 // An explicit assessment supersedes the historical carry-forward value, which remains in its source file.
 const explicitFunnelFacts = new Set(overlays.filter(({data}) => data.scope === 'funnel-user-assessment'
   && data.period === 'III кв. 2026').flatMap(({data}) => (data.products || []).flatMap((team) =>
   Object.entries(team.metrics || {}).filter(([, fact]) => [0, 0.5, 1].includes(fact.rawValue))
     .map(([code]) => factKey(team, code)))));
+const funnelLinkQualityFacts = new Map(overlays.filter(({data}) => data.scope === 'funnel-link-quality-assessment'
+  && data.period === 'III кв. 2026').flatMap(({data}) => (data.products || []).flatMap((team) =>
+    Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
 const explicitMechanicsFacts = new Set(overlays.filter(({data}) => data.scope === 'mechanics-user-assessment'
   && data.period === 'III кв. 2026').flatMap(({data}) => (data.products || []).flatMap((team) =>
   Object.entries(team.metrics || {}).filter(([, fact]) => [0, 0.5, 1].includes(fact.rawValue))
@@ -57,10 +76,20 @@ const explicitCampaignFacts = new Set(overlays.filter(({data}) => data.scope ===
 const goalsTribeFacts = new Map(overlays.filter(({data}) => data.source?.origin === 'userConfirmedGoalsTribeTable')
   .flatMap(({data}) => (data.products || []).flatMap((team) =>
     Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
+const goalsMetricCorrections = new Map(overlays.filter(({data}) => data.source?.origin === 'userConfirmedGoalsMetricCorrection')
+  .flatMap(({data}) => (data.products || []).flatMap((team) =>
+    Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
+const researchMetricCorrections = new Map(overlays.filter(({data}) => data.source?.origin === 'userConfirmedResearchMetricCorrection')
+  .flatMap(({data}) => (data.products || []).flatMap((team) =>
+    Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
 const errors = [];
 const latestCorrectionFacts = new Map(overlays.filter(({data}) =>
   data.period === 'III кв. 2026' && ['userConfirmedAutoAttractCorrection20261031',
-    'userConfirmedInsuranceFunnelBatch20261031', 'userConfirmedDirectNavigatorAssessment'].includes(data.source?.origin))
+    'userConfirmedInsuranceFunnelBatch20261031', 'userConfirmedDirectNavigatorAssessment',
+    'userConfirmedDomclickCxScore20261102', 'userConfirmedDomclickCampaignScore',
+    'userConfirmedDomclickNavigatorReporting20261102', 'userConfirmedAdditionalFunnelAssessment',
+    'userConfirmedFunnelAssessment', 'userConfirmedDepositsChurnCompleteness20261030',
+    'userConfirmedPCFinalScore20261102', 'userConfirmedQ3ScoreCorrection'].includes(data.source?.origin))
   .flatMap(({data}) => (data.products || []).flatMap((team) =>
     Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
 const navigatorZeroMarketFacts = new Map(overlays.filter(({data}) => data.scope === 'key-metrics-assessment'
@@ -87,14 +116,60 @@ const maximumSurveyFacts = new Map(overlays.flatMap(({data}) => (data.products |
     || (fact.source?.origin === 'userConfirmedQuarterRetention' && fact.source?.policy === 'fullProductKnowledge'
       && ['general.klienty_s_produktom', 'general.mau_produkta'].includes(code) && fact.rawValue === 1))
     && fact.source?.confirmedBy === 'user').map(([code, fact]) => [factKey(team, code), fact]))));
+const hiddenReportingFacts = new Set(overlays.filter(({data}) => data.scope === 'metric-applicability-assessment'
+  && data.period === 'III кв. 2026' && data.source?.origin === 'userConfirmedCrossborderAcquiringReportingNotApplicable')
+  .flatMap(({data}) => data.products.flatMap(team => Object.entries(team.metrics)
+    .filter(([, fact]) => fact.applicable === false && fact.hiddenFromProfile === true)
+    .map(([code]) => factKey(team, code)))));
 let checked = 0;
-for (const {name, data} of overlays.filter((item) => item.data.scope && item.data.scope !== 'reporting-format-assessment')) {
+for (const {name, data} of overlays.filter((item) => item.data.scope && !['reporting-format-assessment', 'ub-workbook-corrections', 'cbp-user-corrections', 'cx-user-corrections'].includes(item.data.scope))) {
+  if (data.scope === 'goals-final-scores') {
+    if (data.products?.length !== finalGoalProducts.length) errors.push(`${name}: final goals roster is incomplete`);
+    for (const row of data.products || []) {
+      const product = finalGoalProducts.find((item) => item.name === row.name && item.unit === row.unit);
+      const block = product?.metrics.find((item) => item.code === 'goals');
+      if (!block) {errors.push(`${name}: missing final goals product ${row.unit} / ${row.name}`); continue;}
+      for (const [baseCode, poCode] of Object.entries(GOALS_FINAL_COUNTERPARTS)) {
+        const finalMetric = block.metrics.find((metric) => metric.code === poCode);
+        const ltMetric = block.metrics.find((metric) => metric.code === baseCode);
+        const poMetric = block.goalsPoLevelMetrics?.find((metric) => metric.code === poCode);
+        const finalApplicable = row.final[baseCode] !== null;
+        if (!finalMetric || finalMetric.value !== row.final[baseCode]
+          || finalMetric.max_value !== (finalApplicable ? 1 : 0)
+          || finalMetric.is_applicabble_flg !== finalApplicable) {
+          errors.push(`${name}: ${row.name} / ${baseCode}: final goals score was lost`);
+        }
+        const ltApplicable = row.lulT[baseCode] !== null;
+        const poApplicable = row.po[poCode] !== null;
+        if (!ltMetric || ltMetric.value !== row.lulT[baseCode] || ltMetric.max_value !== (ltApplicable ? 1 : 0)
+          || ltMetric.is_applicabble_flg !== ltApplicable || ltMetric.dd_calculation_flg !== 0
+          || ltMetric.excluded_from_index !== true) errors.push(`${name}: ${row.name} / ${baseCode}: LULt score was lost`);
+        if (!poMetric || poMetric.value !== row.po[poCode] || poMetric.max_value !== (poApplicable ? 1 : 0)
+          || poMetric.is_applicabble_flg !== poApplicable || poMetric.dd_calculation_flg !== 0
+          || poMetric.excluded_from_index !== true) errors.push(`${name}: ${row.name} / ${poCode}: PO detail score was lost`);
+        checked++;
+      }
+    }
+    continue;
+  }
   for (const team of excludeRemovedTeams({products: data.products || []}).products) {
     const product = products.find((p) => p.id.replace(/::empty::.*/, '') === team.id
       && ['name', 'unit', 'type'].every((key) => p[key] === team[key]));
     if (!product) {errors.push(`${name}: missing team ${team.unit} / ${team.name}`); continue;}
     const metrics = product.metrics.flatMap((block) => block.metrics || []);
     for (const [code, fact] of Object.entries(team.metrics || {})) {
+      if (hiddenReportingFacts.has(factKey(team, code))) {
+        const metric = metrics.find(item => item.code === code);
+        if (!metric || metric.value !== null || metric.max_value !== 0 || metric.is_applicabble_flg !== false
+          || metric.excluded_from_index !== true || metric.hidden_from_profile !== true) {
+          errors.push(`${name}: ${team.name} / ${code}: latest hidden reporting applicability was lost`);
+        }
+        checked++;
+        continue;
+      }
+      const researchCorrection = researchMetricCorrections.get(factKey(team, code));
+      if (data.scope === 'research-assessment' && researchCorrection && researchCorrection !== fact) continue;
+      if (data.scope === 'funnel-user-assessment' && funnelLinkQualityFacts.has(factKey(team, code))) continue;
       const latestCorrectionFact = latestCorrectionFacts.get(factKey(team, code));
       if (latestCorrectionFact && latestCorrectionFact !== fact) continue;
       if (data.scope === 'goals-information-assessment') {
@@ -112,6 +187,16 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
           && product.id === team.id && ['name', 'unit', 'type'].every((key) => product[key] === team[key]));
         const old = prior?.metrics.flatMap((block) => block.metrics).find((metric) => metric.code === code);
         const metric = metrics.find((metric) => metric.code === code);
+        const correction = metric?.source?.correction;
+        if (correction?.origin === 'userConfirmedQ3ScoreCorrection' && correction.confirmedBy === 'user'
+          && correction.period === 'III кв. 2026') {
+          if (!old || !metric || metric.value !== correction.rawValue * metric.max_value
+            || metric.max_value !== old.max_value || metric.is_applicabble_flg === false) {
+            errors.push(`${name}: ${team.name} / ${code}: explicit Q3 score correction was lost`);
+          }
+          checked++;
+          continue;
+        }
         const segmentFloor = fact.source?.policy === 'segmentMechanicsNonDecreasing';
         const proposed = fact.source?.proposedRawValue;
         const expected = old && segmentFloor ? Math.max(old.value, proposed * old.max_value) : old?.value;
@@ -119,14 +204,17 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
         if (!old || !metric || metric.value !== expected || metric.max_value !== old.max_value
           || metric.is_applicabble_flg === false || !(metric.max_value > 0)
           || fact.source?.sourceValue !== old.value || fact.source?.sourceMaxValue !== old.max_value
-          || fact.rawValue !== expectedRaw || (segmentFloor && ![0, 0.5, 1].includes(proposed))) {
+          || fact.rawValue !== expectedRaw || (segmentFloor && ![0, 0.5, 0.75, 1].includes(proposed))) {
           errors.push(`${name}: ${team.name} / ${code}: exact Q2 retention was lost`);
         }
         checked++;
         continue;
       }
       const goalsTribeFact = goalsTribeFacts.get(factKey(team, code));
-      if (goalsTribeFact && goalsTribeFact !== fact) continue;
+      const goalsMetricCorrection = goalsMetricCorrections.get(factKey(team, code));
+      if (data.source?.origin === 'userConfirmedGoalsTribeTable' && goalsMetricCorrection) continue;
+      if (goalsMetricCorrection && goalsMetricCorrection !== fact) continue;
+      if (goalsTribeFact && goalsTribeFact !== fact && !goalsMetricCorrection) continue;
       const navigatorZeroMarketFact = latestCorrectionFact ? null : navigatorZeroMarketFacts.get(factKey(team, code));
       if (navigatorZeroMarketFact && navigatorZeroMarketFact !== fact) continue;
       const maximumSurveyFact = latestCorrectionFact ? null : maximumSurveyFacts.get(factKey(team, code));
@@ -144,9 +232,14 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
         && Number.isInteger(ratio?.selected) && Number.isInteger(ratio?.available)
         && ratio.available > 0 && ratio.selected >= 0 && ratio.selected <= ratio.available
         && fact.rawValue === ratio.selected / ratio.available;
+      const isUserConfirmedQuarterCorrection = Number.isFinite(fact.rawValue) && fact.rawValue >= 0 && fact.rawValue <= 1
+        && fact.source?.correction?.origin === 'userConfirmedQ3ScoreCorrection'
+        && fact.source.correction.confirmedBy === 'user'
+        && fact.source.correction.period === 'III кв. 2026';
       const isPerformanceQuarter = data.scope === 'performance-assessment' && fact.rawValue === 0.25
         && ['rezulьtativnostь.cr_vypolneniya', 'rezulьtativnostь.dop_npv_vypolneniya', 'rezulьtativnostь.delьta_cltv_vypolneniya'].includes(code);
-      if (!isCompletenessFraction && !isPerformanceQuarter && ![0, 0.5, 1].includes(fact.rawValue) && !(data.scope === 'ab-tests-assessment'
+      if (!isCompletenessFraction && !isUserConfirmedQuarterCorrection && !isPerformanceQuarter
+        && ![0, 0.5, 1].includes(fact.rawValue) && !(data.scope === 'ab-tests-assessment'
         && code === 'hyp.ab_tests' && fact.rawValue === 0.25)) continue;
       if (data.scope === 'funnel-reporting-carry-forward'
         && (explicitFunnelFacts.has(factKey(team, code)) || explicitRegularityFacts.has(factKey(team, code)))) continue;
@@ -156,12 +249,20 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
       const metric = metrics.find((item) => item.code === code);
       const expected = metric && metric.is_applicabble_flg !== false && metric.max_value > 0
         ? data.scope === 'ab-tests-assessment' && code === 'hyp.ab_tests'
-          ? fact.rawValue : fact.rawValue * metric.max_value : null;
+          ? fact.rawValue : data.scope === 'crosssell-during-purchase-assessment' && code === 'mehaniki.cross_sell'
+            ? Math.min(metric.max_value, fact.rawValue * metric.max_value / 2
+              + (metric.crossSellComponents?.after?.value || 0))
+            : fact.rawValue * metric.max_value : null;
       if (!metric || metric.value !== expected) errors.push(`${name}: ${team.name} / ${code}: expected ${expected}, got ${metric?.value}`);
       if (data.scope === 'performance-assessment' && (!metric || metric.max_value !== 1 || metric.is_applicabble_flg !== true)) {
         errors.push(`${name}: ${team.name} / ${code}: performance maximum must stay 1`);
       }
-      if (data.scope === 'cx-score-assessment' && (!metric || metric.max_value !== 1 || metric.is_applicabble_flg !== true)) {
+      const explicitlyRemovedCxScore = data.scope === 'cx-score-assessment' && code === 'cx.score'
+        && overlays.some((overlay) => overlay.data.scope === 'metric-applicability-assessment'
+          && overlay.data.products?.some((row) => row.id === team.id && row.name === team.name
+            && row.unit === team.unit && row.type === team.type && row.metrics?.[code]?.applicable === false));
+      if (data.scope === 'cx-score-assessment' && !explicitlyRemovedCxScore
+        && (!metric || metric.max_value !== 1 || metric.is_applicabble_flg !== true)) {
         errors.push(`${name}: ${team.name}: CX Score must remain applicable with maximum 1`);
       }
       if (data.scope === 'ab-tests-assessment' && (code !== 'hyp.ab_tests' || !metric || metric.max_value !== (fact.rawValue === 0.25 ? 0.25 : 1)
@@ -169,8 +270,17 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
         errors.push(`${name}: ${team.name}: explicit A/B assessment must preserve the Q3 assessment maximum`);
       }
       if (data.scope === 'funnel-user-assessment' && fact.applicabilityOverride
-        && (!metric || metric.max_value !== 0.5 || metric.is_applicabble_flg !== true)) {
+        && (!metric || metric.max_value !== fact.applicabilityOverride.maxValue || metric.is_applicabble_flg !== true)) {
         errors.push(`${name}: ${team.name} / ${code}: explicit Q3 reporting applicability was lost`);
+      }
+      checked++;
+    }
+    if (data.scope === 'crosssell-during-purchase-assessment') {
+      const metric = metrics.find((item) => item.code === 'mehaniki.cross_sell');
+      if (!metric || metric.max_value !== 1 || metric.is_applicabble_flg !== true
+        || (metric.crossSellComponents?.during?.source?.origin || metric.source?.origin)
+          !== 'userConfirmedCrossSellDuringPurchase') {
+        errors.push(`${name}: ${team.name}: during-purchase Cross-sell assessment or applicability was lost`);
       }
       checked++;
     }
@@ -185,33 +295,62 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && item.dat
     }
   }
 }
-const poAssessments = overlays.filter(({data}) => data.scope === 'po-goals-assessment')
-  .flatMap(({data}) => data.products || []);
-for (const product of products) {
-  const poAssessment = poAssessments.find(team => team.id === product.id.replace(/::empty::.*/, '')
-    && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
-  const metrics = product.metrics.flatMap(block => block.metrics);
-  for (const code of ['goals.po_monitoring', 'goals.po_forecast', 'goals.po_factor_analysis']) {
-    const metric = metrics.find(metric => metric.code === code);
-    const fact = poAssessment?.metrics?.[code];
-    const expectedValue = fact?.rawValue ?? null;
-    const notApplicable = fact?.applicable === false;
-    if (!metric || metric.value !== expectedValue || metric.max_value !== (notApplicable ? 0 : 1) || metric.dd_calculation_flg !== 1
-      || metric.excluded_from_index !== notApplicable || metric.is_applicabble_flg !== !notApplicable
-      || (notApplicable && metric.hidden_from_profile !== true)) {
-      errors.push(`${product.name} / ${code}: PO goals must retain their confirmed scores and remain indexed`);
-    }
-  }
-}
 if (errors.length) throw new Error(`Manual DDI assessments would be lost; build stopped:\n${errors.join('\n')}`);
 const salary = JSON.parse(fs.readFileSync(path.join(root, 'src/data/salary-products-q3-2026.json'), 'utf8'));
 if (!/buildDdiPeriodProducts\(data\?\.products/.test(app)) throw new Error('Quarter-specific roster is disconnected from App.jsx');
 const reportingPath = path.join(root, 'src/data/reporting-regularity-missing-q3-2026.json');
 const reportingMissing = JSON.parse(fs.readFileSync(reportingPath, 'utf8'));
-if (!/salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026\)/.test(app)) throw new Error('Missing reporting assessments are disconnected from App.jsx');
+if (!/salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026,\s*backlog\.status === 'ready' \? backlog\.data : null\)/.test(app)) throw new Error('Reporting or Discovery decomposition assessments are disconnected from App.jsx');
 const actionMissing = JSON.parse(fs.readFileSync(path.join(root, 'src/data/funnel-action-missing-q3-2026.json'), 'utf8'));
-const beforeReportingFill = buildDdiPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing);
-const finalProducts = buildDdiPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing, actionMissing);
+const beforeReportingFill = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing);
+const finalProducts = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing, actionMissing);
+const keyWorkbook = overlays.find(({data}) => data.scope === 'key-metrics-assessment'
+  && data.period === 'III кв. 2026' && data.source?.file === 'Ключевые метрики Продукта Баллы.xlsx')?.data;
+const sameWorkbookTeam = (a, b) => String(a.id).replace(/::empty::.*/, '') === String(b.id).replace(/::empty::.*/, '')
+  && ['name', 'unit', 'type'].every((key) => a[key] === b[key]);
+function expectedWorkbookValue(product, metric) {
+  if (!keyWorkbook?.source.metricCodes.includes(metric?.code) || metric.is_applicabble_flg === false || !(metric.max_value > 0)) return undefined;
+  const directQ3Correction = overlays.find(({data}) => data.scope === 'q3-score-correction')?.data.products
+    ?.find((team) => sameWorkbookTeam(team, product))?.metrics?.[metric.code];
+  if (directQ3Correction?.source?.correction?.origin === 'userConfirmedQ3ScoreCorrection'
+    && directQ3Correction.source.correction.confirmedBy === 'user'
+    && directQ3Correction.source.correction.period === 'III кв. 2026') {
+    return {value: directQ3Correction.rawValue * metric.max_value};
+  }
+  if (isDirectNavigatorOverride(product, metric) && metric.source.priorityOverWorkbook === true) {
+    return {value: metric.source.rawValue * metric.max_value};
+  }
+  if (metric.code === 'general.navigator_reporting_knowledge' && metric.source?.origin === 'userConfirmedKeyMetricsAccuracyCap') {
+    return {value: 0.5 * metric.max_value};
+  }
+  const priors = source.products.filter((old) => old.period === 'II кв. 2026' && sameWorkbookTeam(old, product));
+  const team = [...keyWorkbook.products, ...(keyWorkbook.additionalTeamAssessments || [])].find((item) => sameWorkbookTeam(item, product));
+  const pending = keyWorkbook.pending.some((item) => sameWorkbookTeam(item, product) && item.metricCode === metric.code);
+  const restored = keyWorkbook.pending.find((item) => sameWorkbookTeam(item, product) && item.metricCode === metric.code)?.restoredAssessment;
+  if (restored) return {value: restored.rawValue * metric.max_value};
+  if (priors.length !== 1 && !team && !pending) return undefined;
+  if (pending) return {value: null};
+  const fact = team?.metrics[metric.code];
+  if (fact?.source?.origin === 'keyMetricsWorkbookAssessment' && [0, 1].includes(fact.rawValue)) return {value: fact.rawValue * metric.max_value};
+  if (product.name === 'ДСЖ ПК' && product.unit === 'УБ' && metric.code === 'general.navigator_reporting_knowledge') {
+    return {value: navigatorKnowledgeFraction(product.metrics.flatMap(block => block.metrics)) * metric.max_value};
+  }
+  if (product.salaryCohorts) {
+    const pair = Object.values(product.salaryCohorts).map((cohort) => cohort.metrics.find((block) => block.code === 'general')?.metrics.find((item) => item.code === metric.code));
+    if (pair.length !== 2 || pair.some((item) => !item || item.max_value !== metric.max_value)) return undefined;
+    return {value: pair.every((item) => Number.isFinite(item.value)) ? (pair[0].value + pair[1].value) / 2 : null};
+  }
+  if (priors.length !== 1) return undefined;
+  const old = priors[0].metrics.find((block) => block.code === 'general')?.metrics.find((item) => item.code === metric.code);
+  return {value: old?.is_applicabble_flg !== false && old?.max_value > 0 && Number.isFinite(old.value)
+    && old.value >= 0 && old.value <= old.max_value ? old.value / old.max_value * metric.max_value : null};
+}
+for (const product of finalProducts) {
+  for (const metric of product.metrics.filter((block) => block.code === 'general').flatMap((block) => block.metrics)) {
+    const expected = expectedWorkbookValue(product, metric);
+    if (expected && metric.value !== expected.value) throw new Error(`Final workbook priority lost: ${product.name} / ${metric.code}`);
+  }
+}
 for (const product of finalProducts) {
   const metrics = product.metrics.flatMap((block) => block.metrics);
   const navigator = metrics.find((metric) => metric.code === 'general.navigator_reporting_knowledge');
@@ -227,10 +366,16 @@ const dbNames = finalProducts.filter((p) => p.unit === 'DB').map((p) => p.name).
 for (const product of finalProducts) {
   const metrics = product.metrics.flatMap((block) => block.metrics);
   const navigator = metrics.find((metric) => metric.code === 'general.navigator_reporting_knowledge');
+  if (expectedWorkbookValue(product, navigator)) continue; // Validated against the workbook and Q2 above.
   const fraction = navigatorKnowledgeFraction(metrics);
+  const uncappedNavigatorValue = fraction === null ? null : fraction * navigator?.max_value;
+  const expectedNavigatorValue = navigator?.source?.origin === 'userConfirmedKeyMetricsAccuracyCap'
+    && Number.isFinite(uncappedNavigatorValue)
+    ? Math.min(uncappedNavigatorValue, Number(navigator.source.rawValue) * Number(navigator.max_value))
+    : uncappedNavigatorValue;
   if (!isInvestKopilkaNavigatorOverride(product, navigator) && !isDirectNavigatorOverride(product, navigator)
     && fraction !== undefined && navigator?.is_applicabble_flg !== false && navigator?.max_value > 0
-    && navigator.value !== (fraction === null ? null : fraction * navigator.max_value)) {
+    && navigator.value !== expectedNavigatorValue) {
     throw new Error(`Navigator knowledge hierarchy lost: ${product.name}`);
   }
 }
@@ -242,11 +387,23 @@ for (const child of salary.products) {
   const metrics = product.metrics.flatMap((b) => b.metrics);
   for (const [code, fact] of Object.entries(child.metrics)) {
     const metric = metrics.find((m) => m.code === code);
-    const expected = fact.rawValue === null ? null : fact.rawValue * metric?.max_value;
+    const workbookExpected = expectedWorkbookValue(product, metric);
+    const expected = workbookExpected ? workbookExpected.value : fact.rawValue === null ? null : fact.rawValue * metric?.max_value;
     if (!metric || metric.value !== expected) throw new Error(`Salary assessment lost: ${child.name} / ${code}`);
   }
   for (const code of child.unassignedAggregateMetricCodes || []) {
     const metric = metrics.find((m) => m.code === code);
+    const crossSellDuringFact = code === 'mehaniki.cross_sell'
+      ? overlays.find(({data}) => data.scope === 'crosssell-during-purchase-assessment')?.data.products
+        .find((team) => team.id === child.baseTeamId)?.metrics?.[code] : null;
+    if (crossSellDuringFact) {
+      if (metric?.crossSellComponents?.during?.value !== crossSellDuringFact.rawValue * metric.max_value / 2
+        || metric.crossSellComponents?.during?.source?.origin !== 'userConfirmedCrossSellDuringPurchase'
+        || metric.crossSellComponents?.after?.rawValue !== child.crossSellAfterPurchase?.rawValue) {
+        throw new Error(`Confirmed during/after-purchase Cross-sell was lost: ${child.name}`);
+      }
+      continue;
+    }
     if (!metric || metric.crossSellComponents?.during?.value !== 0
       || metric.crossSellComponents?.during?.source?.origin !== 'userConfirmedCrossSellMissingAsZero'
       || metric.crossSellComponents?.during?.source?.previousSource?.origin !== 'salarySplitUnassignedAggregate'
@@ -263,12 +420,22 @@ if (!combinedSalary?.salaryCohorts?.b2b || !combinedSalary?.salaryCohorts?.b2c
   || combinedSalary.name !== 'Зарплатный продукт') throw new Error('Combined salary product or cohort history was lost');
 for (const block of combinedSalary.metrics.filter((item) => ['general', 'attract', 'churn', 'mehaniki', 'hyp'].includes(item.code))) {
   for (const metric of block.metrics) {
+    if (block.code === 'general') {
+      const expected = expectedWorkbookValue(combinedSalary, metric);
+      if (expected) {
+        if (metric.value !== expected.value) throw new Error(`Combined salary workbook priority lost: ${metric.code}`);
+        continue;
+      }
+    }
     const pair = ['b2b', 'b2c'].map((key) => combinedSalary.salaryCohorts[key].metrics.flatMap((item) => item.metrics)
       .find((item) => item.code === metric.code));
     const eligible = pair.every((item) => item && item.is_applicabble_flg !== false && item.max_value > 0)
       && pair[0].max_value === pair[1].max_value;
     const expected = eligible && pair.every((item) => Number.isFinite(item.value)) ? (pair[0].value + pair[1].value) / 2 : null;
-    if (metric.value !== expected || metric.source?.origin !== 'salaryCohortAverage') {
+    const isConfirmedCrossSellOverride = metric.code === 'mehaniki.cross_sell'
+      && metric.source?.origin === 'crossSellComponentSum'
+      && metric.crossSellComponents?.during?.source?.origin === 'userConfirmedCrossSellDuringPurchase';
+    if (metric.value !== expected || (metric.source?.origin !== 'salaryCohortAverage' && !isConfirmedCrossSellOverride)) {
       throw new Error(`Combined salary mean was lost: ${metric.code}`);
     }
   }
@@ -307,7 +474,9 @@ for (const team of reportingMissing.products || []) {
   for (const [code, fact] of Object.entries(team.metrics || {})) {
     const metric = product.metrics.flatMap((b) => b.metrics).find((m) => m.code === code);
     const effectiveFact = latestCorrectionFacts.get(factKey(team, code)) || reportingFormatFacts.get(factKey(team, code)) || fact;
-    if (!metric || metric.value !== effectiveFact.rawValue * metric.max_value) {
+    if (!metric || (hiddenReportingFacts.has(factKey(team, code))
+      ? metric.value !== null || metric.is_applicabble_flg !== false || metric.hidden_from_profile !== true
+      : metric.value !== effectiveFact.rawValue * metric.max_value)) {
       throw new Error(`Missing reporting fill lost: ${team.name} / ${code}`);
     }
     reportingFilled++;
@@ -320,19 +489,30 @@ for (const team of actionMissing.products || []) {
   if (!product) throw new Error(`Missing funnel action team: ${team.name}`);
   for (const [code, fact] of Object.entries(team.metrics || {})) {
     const metric = product.metrics.flatMap((b) => b.metrics).find((m) => m.code === code);
+    const directFact = overlays.filter(({data}) => data.period === 'III кв. 2026' && data.scope === 'funnel-user-assessment')
+      .flatMap(({data}) => data.products || []).filter(record => sameWorkbookTeam(record, product) && record.metrics?.[code])
+      .at(-1)?.metrics[code];
+    const latestCorrectionFact = latestCorrectionFacts.get(factKey(team, code));
+    const expectedRaw = latestCorrectionFact ? latestCorrectionFact.rawValue
+      : directFact?.source?.confirmedBy === 'user' && [0, .5, 1].includes(directFact.rawValue)
+        ? directFact.rawValue : fact.rawValue;
     if (!['attract.initiatives_list', 'churn.deviation_actions'].includes(code)
-      || ![0, 1].includes(fact.rawValue) || !metric || metric.value !== fact.rawValue * metric.max_value) {
+      || ![0, 1].includes(fact.rawValue) || !metric || metric.value !== expectedRaw * metric.max_value) {
       throw new Error(`Funnel action fill lost: ${team.name} / ${code}`);
     }
     actionsFilled++;
   }
 }
 const absenceAssessments = overlays.filter(({data}) => data.scope === 'reporting-absence-assessment');
-const beforeAbsence = buildDdiPeriodProducts(source.products, 'III кв. 2026',
-  overlays.filter(({data}) => data.scope !== 'reporting-absence-assessment').map(({data}) => data), salary, reportingMissing, actionMissing);
+const absenceInputs = overlays.filter(({data}) => !data.applyAfterReporting);
+const beforeAbsence = buildAutomaticPeriodProducts(source.products, 'III кв. 2026',
+  absenceInputs.filter(({data}) => data.scope !== 'reporting-absence-assessment').map(({data}) => data), salary, reportingMissing, actionMissing);
+const afterAbsence = buildAutomaticPeriodProducts(source.products, 'III кв. 2026',
+  absenceInputs.map(({data}) => data), salary, reportingMissing, actionMissing);
+const absenceAssessmentProducts = afterAbsence.flatMap(product => [product, ...Object.values(product.salaryCohorts || {})]);
 const beforeAbsenceTeams = beforeAbsence.flatMap(product => [product, ...Object.values(product.salaryCohorts || {})]);
 let absenceChanges = 0;
-for (const product of finalAssessmentProducts) {
+for (const product of absenceAssessmentProducts) {
   const oldProduct = beforeAbsenceTeams.find(team => team.id === product.id && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
   if (!oldProduct) throw new Error(`Reporting absence rule changed the roster: ${product.name}`);
   const facts = absenceAssessments.flatMap(({data}) => data.products || []).filter(team =>
@@ -356,7 +536,7 @@ for (const product of finalAssessmentProducts) {
   }
 }
 const exclusionAssessments = overlays.filter(({data}) => data.scope === 'metric-index-exclusion-assessment');
-const beforeExclusions = buildDdiPeriodProducts(source.products, 'III кв. 2026',
+const beforeExclusions = buildAutomaticPeriodProducts(source.products, 'III кв. 2026',
   overlays.filter(({data}) => data.scope !== 'metric-index-exclusion-assessment').map(({data}) => data), salary, reportingMissing, actionMissing);
 let excludedMetrics = 0;
 for (const product of finalProducts) {
@@ -387,7 +567,197 @@ for (const product of finalProducts) {
 }
 console.log(`Index exclusions preserved: ${excludedMetrics}; scores and rubric maxima unchanged.`);
 console.log(`Reporting absence rule: ${absenceChanges} values changed; positive reporting and unrelated metrics preserved.`);
+
+const ubWorkbookAssessment = overlays.find(({data}) => data.scope === 'ub-workbook-corrections')?.data;
+const actualFinalProducts = buildDdiPeriodProducts(source.products, 'III кв. 2026', overlays.map(item => item.data)
+  .filter(item => !['cbp-user-corrections', 'cx-user-corrections'].includes(item.scope)), salary, reportingMissing, actionMissing);
+let ubWorkbookChecked = 0;
+for (const product of actualFinalProducts) {
+  const prior = finalProducts.find(team => team.id === product.id);
+  const record = ubWorkbookAssessment?.products.find(team => team.id === product.id.replace(/::empty::.*/, '')
+    && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
+  if (!record) {
+    if (JSON.stringify(product) !== JSON.stringify(prior)) throw new Error(`UB workbook changed an unselected team: ${product.name}`);
+    continue;
+  }
+  if (product.unit !== 'УБ') throw new Error(`UB workbook includes another unit: ${product.name}`);
+  for (const metric of product.metrics.flatMap(block => block.metrics)) {
+    const old = prior.metrics.flatMap(block => block.metrics).find(item => item.code === metric.code);
+    const fact = record.metrics[metric.code];
+    const during = metric.code === 'mehaniki.cross_sell' && record.metrics[metric.code + '.during'];
+    const after = metric.code === 'mehaniki.cross_sell' && record.metrics[metric.code + '.after'];
+    if (!fact && !during && !after) {
+      if (JSON.stringify(metric) !== JSON.stringify(old)) throw new Error(`UB workbook changed an unselected metric: ${product.name} / ${metric.code}`);
+      continue;
+    }
+    if (fact?.applicable === false) {
+      if (metric.value !== null || metric.max_value !== 0 || metric.is_applicabble_flg !== false || !metric.excluded_from_index) {
+        throw new Error(`UB workbook non-applicability lost: ${product.name} / ${metric.code}`);
+      }
+      ubWorkbookChecked++;
+    } else if (fact) {
+      const laterCorrection = old.source?.origin === 'userConfirmedQ3ScoreCorrection'
+        && old.source.confirmedBy === 'user' && old.source.correction?.period === 'III кв. 2026';
+      const laterCampaign = old.source?.origin === 'userConfirmedCampaignPresence20261102';
+      if (laterCorrection || laterCampaign ? JSON.stringify(metric) !== JSON.stringify(old)
+        : metric.value !== fact.rawValue * old.max_value || metric.max_value !== old.max_value
+          || metric.source?.cell !== fact.source.cell) throw new Error(`UB workbook correction lost: ${product.name} / ${metric.code}`);
+      ubWorkbookChecked++;
+    } else {
+      for (const [key, part] of [['during', during], ['after', after]]) {
+        const actual = metric.crossSellComponents[key];
+        if (part) {
+          if (actual.value !== part.rawValue * metric.max_value / 2 || actual.source?.cell !== part.source.cell) {
+            throw new Error(`UB workbook Cross-sell component lost: ${product.name} / ${key}`);
+          }
+          ubWorkbookChecked++;
+        } else if (JSON.stringify(actual) !== JSON.stringify(old.crossSellComponents[key])) {
+          throw new Error(`UB workbook changed another Cross-sell component: ${product.name} / ${key}`);
+        }
+      }
+    }
+  }
+}
+if (ubWorkbookChecked !== ubWorkbookAssessment?.counts.corrections || ubWorkbookChecked !== 50) {
+  throw new Error(`UB workbook correction coverage changed: ${ubWorkbookChecked}`);
+}
+console.log(`UB workbook: ${ubWorkbookChecked} F-column corrections verified; all unselected teams and metrics preserved.`);
+const cbpAssessment = overlays.find(({data}) => data.scope === 'cbp-user-corrections')?.data;
+if (cbpAssessment) {
+  if (cbpAssessment.period !== 'III кв. 2026' || cbpAssessment.unit !== 'CBP'
+    || cbpAssessment.source?.origin !== 'userConfirmedCbpCorrections20261102'
+    || cbpAssessment.source.confirmedBy !== 'user') throw new Error('CBP correction source is invalid');
+  const cbpFinalProducts = buildDdiPeriodProducts(source.products, 'III кв. 2026', overlays.map(item => item.data)
+    .filter(item => item.scope !== 'cx-user-corrections'), salary, reportingMissing, actionMissing);
+  let cbpChecked = 0;
+  for (const product of cbpFinalProducts) {
+    const prior = actualFinalProducts.find(team => team.id === product.id);
+    const records = cbpAssessment.products.filter(team => team.id === product.id.replace(/::empty::.*/, '')
+      && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
+    if (!records.length) {
+      if (JSON.stringify(product) !== JSON.stringify(prior)) throw new Error(`CBP correction changed another team: ${product.name}`);
+      continue;
+    }
+    if (records.length !== 1 || product.unit !== 'CBP' || product.type !== 'Продукт') throw new Error(`CBP correction identity is invalid: ${product.name}`);
+    const record = records[0];
+    for (const metric of product.metrics.flatMap(block => block.metrics)) {
+      const old = prior.metrics.flatMap(block => block.metrics).find(item => item.code === metric.code);
+      const fact = record.metrics[metric.code] || (metric.code === 'mehaniki.cross_sell' && record.metrics[metric.code + '.during']);
+      if (!fact) {
+        if (JSON.stringify(metric) !== JSON.stringify(old)) throw new Error(`CBP correction changed another metric: ${product.name} / ${metric.code}`);
+        continue;
+      }
+      if (fact.source?.confirmedBy !== 'user' || fact.source.origin !== 'userConfirmedCbpCorrections20261102'
+        || fact.source.period !== 'III кв. 2026' || fact.source.sourceUnit !== 'CBP'
+        || !Number.isInteger(fact.source.inputRow)) throw new Error(`CBP correction fact is invalid: ${product.name} / ${metric.code}`);
+      if (fact.applicable === false) {
+        if (metric.value !== null || metric.max_value !== 0 || metric.is_applicabble_flg !== false || metric.dd_calculation_flg !== 0
+          || !metric.excluded_from_index) throw new Error(`CBP non-applicability lost: ${product.name} / ${metric.code}`);
+      } else if (metric.code === 'mehaniki.cross_sell') {
+        const after = metric.crossSellComponents?.after;
+        const expected = after?.applicable === false ? fact.rawValue * old.max_value / 2
+          : Math.min(old.max_value, fact.rawValue * old.max_value / 2 + after?.value);
+        if (metric.crossSellComponents?.during?.value !== fact.rawValue * old.max_value / 2
+          || JSON.stringify(after) !== JSON.stringify(old.crossSellComponents?.after) || metric.value !== expected) {
+          throw new Error(`CBP Cross-sell component lost: ${product.name}`);
+        }
+      } else if (metric.value !== fact.rawValue * old.max_value || metric.max_value !== old.max_value
+        || metric.source?.inputRow !== fact.source.inputRow) throw new Error(`CBP correction lost: ${product.name} / ${metric.code}`);
+      const baseGoal = Object.keys(GOALS_FINAL_COUNTERPARTS).find(code => GOALS_FINAL_COUNTERPARTS[code] === metric.code);
+      if (baseGoal) {
+        const block = product.metrics.find(item => item.code === 'goals');
+        const oldBlock = prior.metrics.find(item => item.code === 'goals');
+        if (block.goalsFinalScores[baseGoal] !== fact.rawValue || metric.source?.level !== 'final'
+          || JSON.stringify(block.goalsPoLevelMetrics) !== JSON.stringify(oldBlock.goalsPoLevelMetrics)) throw new Error(`CBP final goals metadata lost: ${product.name}`);
+      }
+      cbpChecked++;
+    }
+    const expectedMax = product.metrics.flatMap(block => block.metrics).filter(isDdIndexMetric).reduce((sum, metric) => sum + metric.max_value, 0);
+    if (product.indexMaxPoints !== expectedMax) throw new Error(`CBP correction denominator is inconsistent: ${product.name}`);
+  }
+  if (cbpChecked !== 45) throw new Error(`CBP correction coverage changed: ${cbpChecked}`);
+  console.log(`CBP corrections: ${cbpChecked} user rows verified; unrelated teams and metrics preserved.`);
+}
+const cxAssessment = overlays.find(({data}) => data.scope === 'cx-user-corrections')?.data;
+if (cxAssessment) {
+  if (cxAssessment.period !== 'III кв. 2026' || cxAssessment.unit !== 'CX'
+    || cxAssessment.source?.origin !== 'userConfirmedCxCorrections20261102'
+    || cxAssessment.source.confirmedBy !== 'user') throw new Error('CX correction source is invalid');
+  const cxFinalProducts = buildDdiPeriodProducts(source.products, 'III кв. 2026', overlays.map(item => item.data)
+    .filter(item => item.scope !== 'cbp-user-corrections'), salary, reportingMissing, actionMissing);
+  let cxChecked = 0;
+  for (const product of cxFinalProducts) {
+    const prior = actualFinalProducts.find(team => team.id === product.id);
+    const records = cxAssessment.products.filter(team => team.id === product.id.replace(/::empty::.*/, '')
+      && ['name', 'unit', 'type'].every(key => team[key] === product[key]));
+    if (!records.length) {
+      if (JSON.stringify(product) !== JSON.stringify(prior)) throw new Error(`CX correction changed another team: ${product.name}`);
+      continue;
+    }
+    if (records.length !== 1 || product.unit !== 'CX') throw new Error(`CX correction identity is invalid: ${product.name}`);
+    const record = records[0];
+    for (const [code, fact] of Object.entries(record.metrics)) {
+      const metric = product.metrics.flatMap(block => block.metrics).find(item => item.code === code);
+      if (!metric && product.name === 'СберСпасибо' && code === 'churn.benchmarks' && fact.applicable === false) {
+        cxChecked++;
+        continue;
+      }
+      if (!metric) throw new Error(`CX correction metric is missing: ${product.name} / ${code}`);
+      const old = prior.metrics.flatMap(block => block.metrics).find(item => item.code === code);
+      if (fact.source?.confirmedBy !== 'user' || fact.source.origin !== 'userConfirmedCxCorrections20261102'
+        || fact.source.period !== 'III кв. 2026' || fact.source.sourceUnit !== 'CX'
+        || !Number.isInteger(fact.source.inputRow)) throw new Error(`CX correction fact is invalid: ${product.name} / ${code}`);
+      if (fact.applicable === false) {
+        if (metric.value !== null || metric.max_value !== 0 || metric.is_applicabble_flg !== false || metric.dd_calculation_flg !== 0
+          || !metric.excluded_from_index) throw new Error(`CX non-applicability lost: ${product.name} / ${code}`);
+      } else if (!old || metric.value !== fact.rawValue * old.max_value || metric.max_value !== old.max_value
+        || metric.source?.inputRow !== fact.source.inputRow) throw new Error(`CX correction lost: ${product.name} / ${code}`);
+      const baseGoal = Object.keys(GOALS_FINAL_COUNTERPARTS).find(code => GOALS_FINAL_COUNTERPARTS[code] === metric.code);
+      if (baseGoal) {
+        const block = product.metrics.find(item => item.code === 'goals');
+        const oldBlock = prior.metrics.find(item => item.code === 'goals');
+        if (block.goalsFinalScores[baseGoal] !== fact.rawValue || metric.source?.level !== 'final'
+          || JSON.stringify(block.goalsPoLevelMetrics) !== JSON.stringify(oldBlock.goalsPoLevelMetrics)) {
+          throw new Error(`CX final goals metadata lost: ${product.name}`);
+        }
+      }
+      cxChecked++;
+    }
+    const expectedMax = product.metrics.flatMap(block => block.metrics).filter(isDdIndexMetric).reduce((sum, metric) => sum + metric.max_value, 0);
+    if (product.indexMaxPoints !== expectedMax) throw new Error(`CX correction denominator is inconsistent: ${product.name}`);
+  }
+  if (cxChecked !== 51) throw new Error(`CX correction coverage changed: ${cxChecked}`);
+  console.log(`CX corrections: ${cxChecked} user rows verified; unrelated teams and metrics preserved.`);
+}
 console.log(`Funnel action blanks filled: ${actionsFilled}; existing scores preserved.`);
 console.log(`Reporting blanks filled: ${reportingFilled}; existing scores preserved.`);
 console.log(`Manual Q3 assessments preserved: ${checked} values checked across ${products.length} teams.`);
 console.log(`Q3 roster preserved: ${finalProducts.length} teams; Daily Banking: ${dbNames.length}.`);
+
+const backlogForDiscovery = JSON.parse(fs.readFileSync(path.join(root, 'public/backlog-data.json'), 'utf8'));
+const allAssessments = overlays.map(item => item.data);
+const beforeDiscoveryBacklog = buildDdiPeriodProducts(source.products, 'III кв. 2026', allAssessments, salary, reportingMissing, actionMissing);
+const afterDiscoveryBacklog = buildDdiPeriodProducts(source.products, 'III кв. 2026', allAssessments, salary, reportingMissing, actionMissing, backlogForDiscovery);
+let discoveryBacklogChecked = 0;
+for (let i = 0; i < afterDiscoveryBacklog.length; i++) {
+  const product = structuredClone(afterDiscoveryBacklog[i]), prior = beforeDiscoveryBacklog[i];
+  for (let bi = 0; bi < product.metrics.length; bi++) for (let mi = 0; mi < product.metrics[bi].metrics.length; mi++) {
+    const metric = product.metrics[bi].metrics[mi];
+    if (metric.source?.origin !== 'userConfirmedDiscoveryBacklogPriority20261102') continue;
+    const proof = metric.source, old = prior.metrics[bi].metrics[mi];
+    const expected = proof.discoveryCount * 100 >= proof.createdCount * 40 ? 1
+      : proof.discoveryCount * 100 >= proof.createdCount * 20 ? .5 : 0;
+    if (metric.code !== 'hyp.discovery_40_backlog' || metric.value !== expected * old.max_value
+      || metric.max_value !== old.max_value || metric.is_applicabble_flg !== old.is_applicabble_flg) {
+      throw new Error(`Discovery decomposition rule failed: ${product.name}`);
+    }
+    product.metrics[bi].metrics[mi] = old;
+    discoveryBacklogChecked++;
+  }
+  if (JSON.stringify(product) !== JSON.stringify(prior)) throw new Error(`Discovery decomposition changed another field: ${product.name}`);
+}
+for (const [name, expected] of [['PB', 0], ['Пакет услуг СберПремьер', .5], ['МВС', .5]]) {
+  const metric = afterDiscoveryBacklog.find(p => p.name === name)?.metrics.flatMap(b => b.metrics).find(m => m.code === 'hyp.discovery_40_backlog');
+  if (!metric || metric.value !== expected * metric.max_value) throw new Error(`Discovery decomposition priority lost: ${name}`);
+}
+console.log(`Discovery: ${discoveryBacklogChecked} Q3 decomposition assessments verified; all other fields preserved.`);

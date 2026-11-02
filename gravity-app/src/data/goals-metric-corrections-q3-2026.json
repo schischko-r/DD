@@ -1,0 +1,34 @@
+{
+  "period": "III кв. 2026",
+  "scope": "goals-assessment",
+  "source": {
+    "origin": "userConfirmedGoalsMetricCorrection",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "description": "Точечная корректировка оценки факторного анализа целей уровня ЛЮ/ЛТ."
+  },
+  "products": [
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "goals.factor_analysis_l1_l2": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedGoalsMetricCorrection",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "sourceFile": "gravity-app/src/data/goals-tribe-assessments-q3-2026.json",
+            "sourceTribe": "Развитие сервисных технологий в каналах",
+            "sourceMetricName": "Факторный анализ - драйверы 1-2 ур.",
+            "metricCode": "goals.factor_analysis_l1_l2",
+            "correctedFromRawValue": 1,
+            "rule": "По прямому указанию пользователя оценка целей уровня ЛЮ/ЛТ установлена в 50%."
+          }
+        }
+      }
+    }
+  ]
+}

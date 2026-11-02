@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сценарии оттока</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Токены те же, что у prolongation.html: страница открывается листом поверх
+   неё и должна читаться как её продолжение. */
+:root {
+  --sans: 'Inter', Arial, sans-serif;
+  --canvas: #fafafa;
+  --surface: #ffffff;
+  --brand: #239ee2;
+  --info-light: rgba(35, 158, 226, .1);
+  --line: rgba(0, 0, 0, .1);
+  --line-hover: rgba(0, 0, 0, .15);
+  --ink: rgba(0, 0, 0, .85);
+  --ink-soft: rgba(0, 0, 0, .5);
+  --ink-hint: rgba(0, 0, 0, .3);
+  --link: #147fb9;
+  --good: #1f9c53;
+  --bad: rgb(233, 3, 58);
+  --promo: #8b5cf6;
+  --service: #239ee2;
+  --other: #e08800;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--canvas); color: var(--ink);
+  font-family: var(--sans); font-size: 13px; line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 4px; }
+
+.content { padding: 28px 32px 56px; }
+.content-inner { max-width: 1160px; margin: 0 auto; }
+
+.page-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.page-title { margin: 0; font-size: 24px; font-weight: 600; line-height: 1.15; }
+.page-sub { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
+.synthetic {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+  padding: 3px 9px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  background: rgba(224, 136, 0, .12); color: #7a4a00;
+}
+
+.switch {
+  display: inline-flex; gap: 2px; padding: 2px;
+  border: 1px solid var(--line); border-radius: 7px; background: rgba(0, 0, 0, .03);
+}
+.switch button {
+  padding: 4px 11px; border: 0; border-radius: 5px; background: none;
+  font-size: 12px; color: var(--ink-soft); cursor: pointer; white-space: nowrap;
+}
+.switch button:hover { color: var(--ink); }
+.switch button[aria-selected="true"] {
+  background: var(--surface); color: var(--ink); font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .08);
+}
+
+.card {
+  margin-top: 16px; padding: 16px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+}
+.card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.card-head h2 { margin: 0; font-size: 14px; font-weight: 700; }
+.card-head .total { font-size: 12px; color: var(--ink-soft); }
+.card-head .total b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* ── прогрессбар: весь отток = 100%, сегменты — сценарии ─────────────── */
+.bar {
+  margin-top: 14px; display: flex; height: 40px; gap: 2px;
+  border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, .04);
+}
+.bar button {
+  position: relative; min-width: 0; padding: 0 10px; border: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: flex-start;
+  font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden;
+  transition: opacity .15s, filter .15s;
+}
+.bar button:hover { filter: brightness(1.05); }
+.bar.has-pick button:not([aria-pressed="true"]) { opacity: .35; }
+.bar button span { overflow: hidden; text-overflow: ellipsis; }
+
+.legend {
+  margin: 12px 0 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px;
+}
+.legend button {
+  width: 100%; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center; gap: 9px; padding: 7px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  text-align: left; cursor: pointer; font-size: 12px;
+}
+.legend button:hover { border-color: var(--line-hover); }
+.legend button[aria-pressed="true"] { border-color: var(--brand); background: var(--info-light); }
+.legend i { width: 10px; height: 10px; border-radius: 3px; }
+.legend b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend small { display: block; font-size: 11px; color: var(--ink-soft); }
+
+.empty {
+  margin-top: 16px; padding: 28px 16px; text-align: center;
+  border: 1px dashed var(--line-hover); border-radius: 8px;
+  color: var(--ink-soft); font-size: 12px;
+}
+
+/* ── детализация сценария ────────────────────────────────────────────── */
+.detail-head { display: flex; align-items: center; gap: 10px; }
+.detail-head i { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
+.detail-head h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.detail-head span { font-size: 12px; color: var(--ink-soft); }
+.detail-sub { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
+
+.detail-grid {
+  margin-top: 16px; display: grid; gap: 16px;
+  grid-template-columns: minmax(0, 1fr) 300px;
+}
+.detail-grid.is-open { grid-template-columns: minmax(0, 1fr) 300px 320px; }
+
+.chart-box { min-width: 0; }
+.chart-title { font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+.chart-title span { font-weight: 400; color: var(--ink-soft); }
+.hist { position: relative; }
+.hist svg { display: block; width: 100%; height: auto; overflow: visible; }
+.hist .bar-rect { cursor: default; transition: opacity .15s; }
+.hist .bar-rect:hover { opacity: .85; }
+.hist-tip {
+  position: absolute; z-index: 3; pointer-events: none; white-space: nowrap;
+  transform: translate(-50%, -100%); margin-top: -8px;
+  padding: 6px 9px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); box-shadow: 0 4px 14px rgba(0, 0, 0, .12);
+  font-size: 11px; line-height: 1.4;
+}
+.hist-tip[hidden] { display: none; }
+.hist-tip i { display: block; font-style: normal; color: var(--ink-hint); font-size: 10px; }
+.hist-tip b { font-variant-numeric: tabular-nums; }
+.chart-note { margin-top: 6px; font-size: 11px; color: var(--ink-hint); }
+
+.cards { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.cards-title {
+  font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-hint);
+}
+.tile {
+  padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); text-align: left; width: 100%;
+}
+button.tile { cursor: pointer; }
+button.tile:hover { border-color: var(--line-hover); }
+button.tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 0 0 0 1px var(--promo) inset; }
+.tile-label { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 11px; color: var(--ink-soft); }
+.tile-label em { font-style: normal; color: var(--promo); font-weight: 600; font-size: 11px; white-space: nowrap; }
+.tile-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 1px; }
+.tile-value { font-size: 22px; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.delta {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 7px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; background: rgba(0, 0, 0, .04); color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.delta.is-good { color: var(--good); background: rgba(31, 156, 83, .1); }
+.delta.is-bad { color: var(--bad); background: rgba(233, 3, 58, .08); }
+.spark { display: block; width: 100%; height: 34px; margin-top: 8px; }
+.tile-foot { margin-top: 3px; display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-hint); }
+
+.sub-rows { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.sub-rows li { display: grid; gap: 4px; }
+.sub-rows .row-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; }
+.sub-rows .row-head span { color: var(--ink-soft); }
+.sub-rows .row-head b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.sub-rows .row-meta { display: flex; justify-content: flex-end; }
+.track { height: 6px; border-radius: 3px; background: rgba(0, 0, 0, .05); overflow: hidden; }
+.track i { display: block; height: 100%; border-radius: 3px; }
+
+/* ── санки промо ─────────────────────────────────────────────────────── */
+.sankey-box {
+  min-width: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); animation: slide-in .2s ease-out;
+}
+@keyframes slide-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .sankey-box { animation: none; } }
+.sankey-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.sankey-head b { font-size: 12px; font-weight: 600; }
+.sankey-close {
+  padding: 2px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); font-size: 11px; cursor: pointer; color: var(--ink-soft);
+}
+.sankey-close:hover { border-color: var(--line-hover); color: var(--ink); }
+.sankey-box svg { display: block; width: 100%; height: auto; margin-top: 10px; }
+.sankey-box svg text { font-family: var(--sans); }
+.sankey-note { margin-top: 8px; font-size: 11px; color: var(--ink-hint); }
+
+.page-note { margin: 12px 0 0; font-size: 10px; color: var(--ink-hint); }
+
+@media (max-width: 1080px) {
+  .detail-grid, .detail-grid.is-open { grid-template-columns: minmax(0, 1fr) 300px; }
+  .detail-grid.is-open .sankey-box { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .content { padding: 20px 14px 40px; }
+  .detail-grid, .detail-grid.is-open { grid-template-columns: minmax(0, 1fr); }
+  .bar { height: 32px; }
+}
+</style>
+</head>
+<body>
+<main class="content">
+  <div class="content-inner">
+    <header class="page-head">
+      <div>
+        <h1 class="page-title">Сценарии оттока</h1>
+        <p class="page-sub" id="pageSub">Куда уходят деньги из вкладов после пролонгации</p>
+        <span class="synthetic">Синтетические данные · макет</span>
+      </div>
+      <div class="switch" id="measureSwitch" role="tablist" aria-label="Единица измерения"></div>
+    </header>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Отток = 100%</h2>
+        <span class="total" id="total"></span>
+      </div>
+      <div class="bar" id="bar" role="group" aria-label="Декомпозиция оттока по сценариям"></div>
+      <ul class="legend" id="legend"></ul>
+    </section>
+
+    <section id="detail"></section>
+
+    <p class="page-note" id="pageNote"></p>
+  </div>
+</main>
+
+<script>
+// Вид при открытии подставляет prolongation.html (разрез, период, объём
+// оттока). Открытая напрямую страница живёт на значениях по умолчанию.
+const VIEW = /*__SCENARIO_VIEW__*/null || {};
+
+// ── синтетика ─────────────────────────────────────────────────────────────
+// Все числа ниже выдуманы для макета. Когда появится выгрузка, заменить
+// SCENARIOS на данные из книги — разметка и расчёты от них не зависят.
+const MEASURES = [
+  {id: 'clnt', label: 'Клиенты'},
+  {id: 'rur', label: 'Объёмы (руб)'},
+];
+const DEFAULT_TOTAL = {rur: 219.48, clnt: 299379};    // июнь 2026 из книги метрик
+const HORIZONS = ['t+1', 't+3', 't+7', 't+14', 't+30'];
+const MONTHS = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн'];
+
+const SCENARIOS = [
+  {
+    id: 'partial', name: 'Частичное закрытие вклада', color: '#4DA2F1', ink: '#fff',
+    about: 'Клиент снимает часть суммы и оставляет вклад работать',
+    share: {rur: 34, clnt: 29},
+    // Накопленная доля оттока сценария к дню t+N.
+    curve: [0.18, 0.34, 0.52, 0.74, 1],
+    service: [84, 85, 86, 86, 87, 88.4],
+    promoNs: [27, 28, 30, 31, 31, 32.5],
+    promoDep: [30, 30, 31, 33, 34, 35.2],
+    oms: [4.1, 4.3, 4.8, 5.0, 5.4, 5.9],
+    invest: [7.2, 7.5, 7.1, 7.9, 8.3, 8.8],
+  },
+  {
+    id: 'm2m', name: 'Вывод M2M в другие банки', color: '#FF3D64', ink: '#fff',
+    about: 'Перевод между своими счетами в другой банк — чаще всего за ставкой',
+    share: {rur: 27, clnt: 21},
+    curve: [0.31, 0.55, 0.73, 0.88, 1],
+    service: [81, 82, 82, 83, 84, 83.1],
+    promoNs: [22, 23, 23, 24, 25, 24.1],
+    promoDep: [33, 34, 36, 37, 37, 38.6],
+    oms: [2.1, 2.4, 2.2, 2.6, 2.8, 3.0],
+    invest: [4.5, 4.4, 4.9, 5.1, 5.0, 5.4],
+  },
+  {
+    id: 'invest', name: 'Вывод в инвестиции', color: '#8AD554', ink: 'rgba(0,0,0,.8)',
+    about: 'Деньги уходят на брокерский счёт или в ПИФы',
+    share: {rur: 16, clnt: 9},
+    curve: [0.22, 0.41, 0.6, 0.8, 1],
+    service: [86, 87, 88, 88, 89, 90.2],
+    promoNs: [18, 19, 19, 20, 21, 21.7],
+    promoDep: [24, 25, 25, 26, 27, 26.4],
+    oms: [6.2, 6.8, 7.1, 7.4, 7.9, 8.5],
+    invest: [14.0, 15.1, 16.2, 16.8, 18.0, 19.3],
+  },
+  {
+    id: 'loans', name: 'Закрытие кредитов', color: '#FFC636', ink: 'rgba(0,0,0,.8)',
+    about: 'Досрочное погашение ипотеки или потребкредита',
+    share: {rur: 13, clnt: 15},
+    curve: [0.09, 0.2, 0.38, 0.63, 1],
+    service: [83, 84, 84, 85, 85, 86.0],
+    promoNs: [25, 25, 26, 26, 27, 27.8],
+    promoDep: [28, 28, 29, 29, 30, 29.5],
+    oms: [1.8, 2.0, 2.1, 2.1, 2.4, 2.5],
+    invest: [3.1, 3.0, 3.3, 3.2, 3.6, 3.7],
+  },
+  {
+    id: 'pos', name: 'POS-оборот', color: '#BA74B3', ink: '#fff',
+    about: 'Остаток тратится покупками по карте',
+    share: {rur: 10, clnt: 26},
+    curve: [0.06, 0.15, 0.31, 0.57, 1],
+    service: [79, 80, 80, 81, 82, 82.4],
+    promoNs: [31, 32, 33, 33, 34, 35.1],
+    promoDep: [19, 20, 20, 21, 21, 20.6],
+    oms: [1.2, 1.3, 1.3, 1.5, 1.6, 1.7],
+    invest: [1.9, 2.0, 2.2, 2.1, 2.4, 2.6],
+  },
+];
+
+const state = {
+  measure: MEASURES.some((m) => m.id === VIEW.measure) ? VIEW.measure : 'clnt',
+  pick: null,
+  sankey: false,
+};
+const PERIOD_LABEL = (VIEW.period && VIEW.period.label) || 'Июнь 2026';
+const TOTAL = {...DEFAULT_TOTAL, ...(VIEW.total || {})};
+
+// ── утилиты ───────────────────────────────────────────────────────────────
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const el = (tag, className, text) => {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+};
+const svgEl = (tag, attrs = {}) => {
+  const node = document.createElementNS(SVG_NS, tag);
+  Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+  return node;
+};
+const ru = (value, digits = 0) => new Intl.NumberFormat('ru-RU', {
+  minimumFractionDigits: digits, maximumFractionDigits: digits,
+}).format(value);
+const isMoney = () => state.measure === 'rur';
+function amount(value) {
+  if (isMoney()) return `${ru(value, value < 10 ? 2 : 1)} млрд ₽`;
+  return value >= 1000 ? `${ru(value / 1000, 1)} тыс.` : ru(value);
+}
+function axisAmount(value) {
+  if (isMoney()) return ru(value, value < 10 && value !== 0 ? 1 : 0);
+  return value >= 1000 ? `${ru(value / 1000, value < 10000 ? 1 : 0)}к` : ru(value);
+}
+const last = (list) => list[list.length - 1];
+function delta(series) {
+  const d = last(series) - series[series.length - 2];
+  const chip = el('span', 'delta' + (d > 0.05 ? ' is-good' : d < -0.05 ? ' is-bad' : ''));
+  chip.textContent = `${d > 0.05 ? '↑' : d < -0.05 ? '↓' : '→'} ${d > 0 ? '+' : ''}${ru(d, 1)} п.п. м/м`;
+  return chip;
+}
+function niceMax(value) {
+  const pow = 10 ** Math.floor(Math.log10(value));
+  const step = [1, 2, 2.5, 5, 10].find((s) => s * pow >= value / 4) * pow;
+  return {max: Math.ceil(value / step) * step, step};
+}
+
+// ── мини-спарклайн ────────────────────────────────────────────────────────
+function spark(series, color) {
+  const W = 232, H = 34, pad = 4;
+  const min = Math.min(...series), max = Math.max(...series);
+  const span = max - min || 1;
+  const x = (i) => pad + i * (W - pad * 2) / (series.length - 1);
+  const y = (v) => pad + (1 - (v - min) / span) * (H - pad * 2);
+  const pts = series.map((v, i) => `${x(i)},${y(v)}`);
+  const svg = svgEl('svg', {class: 'spark', viewBox: `0 0 ${W} ${H}`, preserveAspectRatio: 'none',
+    role: 'img', 'aria-label': series.map((v, i) => `${MONTHS[i]}: ${ru(v, 1)}%`).join('; ')});
+  svg.append(svgEl('path', {d: `M${x(0)},${H} L${pts.join(' L')} L${x(series.length - 1)},${H} Z`,
+    fill: color, 'fill-opacity': '.1'}));
+  svg.append(svgEl('polyline', {points: pts.join(' '), fill: 'none', stroke: color, 'stroke-opacity': '.55',
+    'stroke-width': 2, 'stroke-linejoin': 'round', 'vector-effect': 'non-scaling-stroke'}));
+  const lx = x(series.length - 1), ly = y(last(series));
+  svg.append(svgEl('circle', {cx: lx, cy: ly, r: 3.5, fill: color}));
+  const title = svgEl('title');
+  title.textContent = svg.getAttribute('aria-label');
+  svg.append(title);
+  return svg;
+}
+
+// ── переключатель разреза ────────────────────────────────────────────────
+function renderSwitch() {
+  const host = document.getElementById('measureSwitch');
+  host.innerHTML = '';
+  MEASURES.forEach((m) => {
+    const b = el('button', null, m.label);
+    b.type = 'button';
+    b.setAttribute('role', 'tab');
+    b.setAttribute('aria-selected', String(m.id === state.measure));
+    b.addEventListener('click', () => { state.measure = m.id; render(); });
+    host.append(b);
+  });
+}
+
+// ── прогрессбар 100% ──────────────────────────────────────────────────────
+function sorted() {
+  return SCENARIOS.slice().sort((a, b) => b.share[state.measure] - a.share[state.measure]);
+}
+function pick(id) {
+  state.pick = state.pick === id ? null : id;
+  state.sankey = false;
+  render();
+  if (state.pick) document.getElementById('detail').scrollIntoView({behavior: 'smooth', block: 'nearest'});
+}
+
+function renderBar() {
+  const total = TOTAL[state.measure];
+  document.getElementById('total').innerHTML =
+    `Весь отток за ${PERIOD_LABEL.toLowerCase()}: <b>${amount(total)}</b>`;
+  const bar = document.getElementById('bar');
+  const legend = document.getElementById('legend');
+  bar.innerHTML = '';
+  legend.innerHTML = '';
+  bar.classList.toggle('has-pick', !!state.pick);
+
+  sorted().forEach((s) => {
+    const share = s.share[state.measure];
+    const seg = el('button');
+    seg.type = 'button';
+    seg.style.flex = `${share} 1 0`;
+    seg.style.background = s.color;
+    seg.style.color = s.ink;
+    seg.title = `${s.name}: ${share}% · ${amount(total * share / 100)}`;
+    seg.setAttribute('aria-pressed', String(state.pick === s.id));
+    seg.setAttribute('aria-label', seg.title);
+    // Подпись внутри только если сегмент достаточно широкий — остальное в легенде.
+    seg.append(el('span', null, share >= 12 ? `${s.name} · ${share}%` : `${share}%`));
+    seg.addEventListener('click', () => pick(s.id));
+    bar.append(seg);
+
+    const li = el('li');
+    const item = el('button');
+    item.type = 'button';
+    item.setAttribute('aria-pressed', String(state.pick === s.id));
+    const dot = el('i');
+    dot.style.background = s.color;
+    const name = el('span', null, s.name);
+    name.append(el('small', null, amount(total * share / 100)));
+    item.append(dot, name, el('b', null, `${share}%`));
+    item.addEventListener('click', () => pick(s.id));
+    li.append(item);
+    legend.append(li);
+  });
+}
+
+// ── гистограмма: накопленный отток к t+N ─────────────────────────────────
+function histogram(s, width = 560) {
+  const total = TOTAL[state.measure] * s.share[state.measure] / 100;
+  const values = s.curve.map((c) => total * c);
+  const wrap = el('div', 'hist');
+  const W = Math.max(320, Math.round(width)), H = 300, L = 48, R = 8, T = 18, B = 28;
+  const {max, step} = niceMax(Math.max(...values));
+  const svg = svgEl('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': HORIZONS.map((h, i) => `${h}: ${amount(values[i])}`).join('; ')});
+  const y = (v) => T + (1 - v / max) * (H - T - B);
+  for (let v = 0; v <= max + 1e-9; v += step) {
+    svg.append(svgEl('line', {x1: L, x2: W - R, y1: y(v), y2: y(v),
+      stroke: v === 0 ? 'rgba(0,0,0,.2)' : 'rgba(0,0,0,.06)', 'vector-effect': 'non-scaling-stroke'}));
+    const t = svgEl('text', {x: L - 8, y: y(v) + 4, 'text-anchor': 'end', 'font-size': 10, fill: 'rgba(0,0,0,.4)'});
+    t.textContent = axisAmount(v);
+    svg.append(t);
+  }
+  const slot = (W - L - R) / HORIZONS.length;
+  const bw = Math.min(64, slot * 0.56);
+  const tip = el('div', 'hist-tip');
+  tip.hidden = true;
+
+  values.forEach((v, i) => {
+    const cx = L + slot * (i + 0.5);
+    const rect = svgEl('rect', {class: 'bar-rect', x: cx - bw / 2, y: y(v), width: bw,
+      height: Math.max(0, y(0) - y(v)), rx: 4, fill: s.color});
+    svg.append(rect);
+    const label = svgEl('text', {x: cx, y: y(v) - 6, 'text-anchor': 'middle', 'font-size': 11,
+      'font-weight': 600, fill: 'rgba(0,0,0,.75)'});
+    label.textContent = `${Math.round(s.curve[i] * 100)}%`;
+    svg.append(label);
+    const tick = svgEl('text', {x: cx, y: H - 8, 'text-anchor': 'middle', 'font-size': 11, fill: 'rgba(0,0,0,.55)'});
+    tick.textContent = HORIZONS[i];
+    svg.append(tick);
+
+    rect.addEventListener('pointerenter', () => {
+      tip.innerHTML = '';
+      tip.append(el('i', null, `${HORIZONS[i]} после пролонгации`), el('b', null, amount(v)),
+        document.createTextNode(` · ${Math.round(s.curve[i] * 100)}% оттока сценария`));
+      const box = svg.getBoundingClientRect();
+      tip.style.left = `${cx / W * box.width}px`;
+      tip.style.top = `${y(v) / H * box.height}px`;
+      tip.hidden = false;
+    });
+    rect.addEventListener('pointerleave', () => { tip.hidden = true; });
+  });
+  wrap.append(svg, tip);
+  return wrap;
+}
+
+// ── карточки покрытия ─────────────────────────────────────────────────────
+function coverageTile({label, series, color, button, extra}) {
+  const card = el(button ? 'button' : 'div', 'tile');
+  if (button) card.type = 'button';
+  const head = el('div', 'tile-label');
+  head.append(el('span', null, label));
+  if (extra) head.append(extra);
+  const row = el('div', 'tile-row');
+  row.append(el('span', 'tile-value', `${ru(last(series), 1)}%`), delta(series));
+  const foot = el('div', 'tile-foot');
+  foot.append(el('span', null, MONTHS[0]), el('span', null, MONTHS[MONTHS.length - 1]));
+  card.append(head, row, spark(series, color), foot);
+  return card;
+}
+
+function subRow(label, series, color) {
+  const li = el('li');
+  const head = el('div', 'row-head');
+  head.append(el('span', null, label), el('b', null, `${ru(last(series), 1)}%`));
+  const track = el('div', 'track');
+  const fill = el('i');
+  fill.style.width = `${Math.min(100, last(series))}%`;
+  fill.style.background = color;
+  track.append(fill);
+  const meta = el('div', 'row-meta');
+  meta.append(delta(series));
+  li.append(head, track, meta);
+  return li;
+}
+
+function renderCards(s) {
+  const box = el('div', 'cards');
+  box.append(el('div', 'cards-title', 'Покрытие коммуникациями'));
+
+  box.append(coverageTile({label: 'Сервисные', series: s.service, color: 'var(--service)'}));
+
+  // Промо = НС + Вклад: в синтетике предложения не пересекаются, поэтому
+  // сумма честная. На реальных данных здесь нужен union из куба.
+  const promo = s.promoNs.map((v, i) => v + s.promoDep[i]);
+  const hintText = el('em', null, state.sankey ? 'Свернуть ←' : 'Раскрыть →');
+  const promoTile = coverageTile({label: 'Промо', series: promo, color: 'var(--promo)',
+    button: true, extra: hintText});
+  promoTile.setAttribute('aria-expanded', String(state.sankey));
+  promoTile.setAttribute('aria-controls', 'sankey');
+  promoTile.addEventListener('click', () => { state.sankey = !state.sankey; renderDetail(); });
+  box.append(promoTile);
+
+  const other = el('div', 'tile');
+  const oHead = el('div', 'tile-label');
+  oHead.append(el('span', null, 'Промо других продуктов'));
+  const rows = el('ul', 'sub-rows');
+  rows.append(subRow('Предлагаем ОМС', s.oms, 'var(--other)'),
+    subRow('Предлагаем инвестиции', s.invest, 'var(--other)'));
+  other.append(oHead, rows);
+  box.append(other);
+  return box;
+}
+
+// ── санки: отток сценария → промо → НС / Вклад ───────────────────────────
+function sankey(s) {
+  const box = el('div', 'sankey-box');
+  box.id = 'sankey';
+  const head = el('div', 'sankey-head');
+  head.append(el('b', null, 'Промо: что предлагаем'));
+  const close = el('button', 'sankey-close', 'Свернуть');
+  close.type = 'button';
+  close.addEventListener('click', () => { state.sankey = false; renderDetail(); });
+  head.append(close);
+  box.append(head);
+
+  const ns = last(s.promoNs), dep = last(s.promoDep);
+  const promo = ns + dep, none = 100 - promo;
+  const W = 300, H = 250, nw = 10, gap = 10, top = 10;
+  const usable = H - top * 2 - gap;
+  const k = usable / 100;
+  const svg = svgEl('svg', {viewBox: `0 0 ${W} ${H}`, role: 'img',
+    'aria-label': `Отток сценария 100%: промо ${ru(promo, 1)}% (НС ${ru(ns, 1)}%, вклад ${ru(dep, 1)}%), без промо ${ru(none, 1)}%`});
+
+  const x0 = 4, x1 = 128, x2 = W - 124;
+  // Узлы: источник целиком, середина — промо / без промо, справа — НС / Вклад.
+  const src = {y: top, h: usable + gap};
+  const pr = {y: top, h: promo * k};
+  const no = {y: top + promo * k + gap, h: none * k};
+  const nsN = {y: top, h: ns * k};
+  const depN = {y: top + ns * k + gap, h: dep * k};
+
+  const link = (xa, ya, ha, xb, yb, hb, color, opacity) => {
+    const mx = (xa + xb) / 2;
+    svg.append(svgEl('path', {
+      d: `M${xa},${ya} C${mx},${ya} ${mx},${yb} ${xb},${yb} L${xb},${yb + hb} C${mx},${yb + hb} ${mx},${ya + ha} ${xa},${ya + ha} Z`,
+      fill: color, 'fill-opacity': opacity,
+    }));
+  };
+  link(x0 + nw, src.y, promo * k, x1, pr.y, pr.h, 'var(--promo)', .22);
+  link(x0 + nw, src.y + promo * k + gap, none * k, x1, no.y, no.h, '#000', .06);
+  link(x1 + nw, pr.y, ns * k, x2, nsN.y, nsN.h, '#4DA2F1', .3);
+  link(x1 + nw, pr.y + ns * k, dep * k, x2, depN.y, depN.h, '#8AD554', .4);
+
+  const node = (x, n, color) => svg.append(svgEl('rect', {x, y: n.y, width: nw, height: Math.max(n.h, 1), rx: 2, fill: color}));
+  node(x0, src, s.color);
+  node(x1, pr, 'var(--promo)');
+  node(x1, no, 'rgba(0,0,0,.25)');
+  node(x2, nsN, '#4DA2F1');
+  node(x2, depN, '#8AD554');
+
+  const text = (x, y, main, sub, anchor = 'start') => {
+    const t = svgEl('text', {x, y, 'text-anchor': anchor, 'font-size': 11, fill: 'rgba(0,0,0,.8)'});
+    const a = svgEl('tspan', {'font-weight': 600});
+    a.textContent = main;
+    const b = svgEl('tspan', {x, dy: 13, fill: 'rgba(0,0,0,.5)'});
+    b.textContent = sub;
+    t.append(a, b);
+    svg.append(t);
+  };
+  text(x1 - 6, pr.y + pr.h / 2 - 2, 'Промо', `${ru(promo, 1)}%`, 'end');
+  text(x1 - 6, no.y + no.h / 2 - 2, 'Без промо', `${ru(none, 1)}%`, 'end');
+  text(x2 + nw + 6, nsN.y + nsN.h / 2 - 2, 'Предлагаем НС', `${ru(ns, 1)}% покрытия`);
+  text(x2 + nw + 6, depN.y + depN.h / 2 - 2, 'Предлагаем Вклад', `${ru(dep, 1)}% покрытия`);
+  box.append(svg);
+
+  const rows = el('ul', 'sub-rows');
+  rows.append(subRow('Предлагаем НС', s.promoNs, '#4DA2F1'), subRow('Предлагаем Вклад', s.promoDep, '#8AD554'));
+  box.append(rows);
+  box.append(el('div', 'sankey-note', 'Доли от клиентов сценария. В макете предложения НС и Вклада не пересекаются.'));
+  return box;
+}
+
+// ── детализация ───────────────────────────────────────────────────────────
+function renderDetail() {
+  const host = document.getElementById('detail');
+  host.innerHTML = '';
+  const s = SCENARIOS.find((x) => x.id === state.pick);
+  if (!s) {
+    host.append(el('div', 'empty', 'Нажмите на сценарий в полосе или легенде — покажем, как быстро уходят деньги и чем их покрываем'));
+    return;
+  }
+  const card = el('section', 'card');
+  const head = el('div', 'detail-head');
+  const dot = el('i');
+  dot.style.background = s.color;
+  const share = s.share[state.measure];
+  head.append(dot, el('h2', null, s.name),
+    el('span', null, `${share}% оттока · ${amount(TOTAL[state.measure] * share / 100)}`));
+  card.append(head, el('p', 'detail-sub', s.about));
+
+  const grid = el('div', 'detail-grid' + (state.sankey ? ' is-open' : ''));
+  const chart = el('div', 'chart-box');
+  const title = el('div', 'chart-title', 'Отток по дням после пролонгации ');
+  title.append(el('span', null, isMoney() ? '· оборот, млрд ₽, накопленно' : '· клиенты, накопленно'));
+  chart.append(title, el('div', 'hist'),
+    el('div', 'chart-note', 'Столбец t+N — сколько из оттока сценария ушло к N-му дню. t+30 = весь отток сценария.'));
+  grid.append(chart, renderCards(s));
+  if (state.sankey) grid.append(sankey(s));
+  card.append(grid);
+  host.append(card);
+  // Ширину берём уже с экрана: иначе viewBox растягивает подписи вместе
+  // со столбцами, и на широком листе шрифт оси вырастает вдвое.
+  drawHistogram();
+}
+
+function drawHistogram() {
+  const s = SCENARIOS.find((x) => x.id === state.pick);
+  const slot = document.querySelector('.chart-box .hist');
+  if (!s || !slot) return;
+  slot.replaceWith(histogram(s, slot.parentElement.clientWidth));
+}
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(drawHistogram, 120);
+});
+
+function render() {
+  renderSwitch();
+  renderBar();
+  renderDetail();
+  document.getElementById('pageSub').textContent =
+    `Куда уходят деньги из вкладов после пролонгации · ${PERIOD_LABEL}`;
+  document.getElementById('pageNote').textContent =
+    'Доли сценариев, динамика по дням и покрытие — синтетика для согласования макета. '
+    + 'Объём оттока — факт из книги метрик (outflow-report-metrics.xlsx). '
+    + 'Дельты покрытия — п.п. к предыдущему месяцу, микрочарт — последние 6 месяцев.';
+}
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && state.sankey) { state.sankey = false; renderDetail(); }
+});
+
+render();
+</script>
+</body>
+</html>

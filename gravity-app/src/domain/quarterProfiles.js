@@ -2,11 +2,19 @@ import {excludeRemovedTeams, isDdIndexMetric} from './report.js';
 import {buildTeamProfileProducts} from './teamProfileSelection.js';
 import {applyReportingRegularity, applyReportingMissingAssessments, applyReportingFormatAssessments} from './reportingRegularity.js';
 import {applyFunnelActionAssessments} from './funnelActionAssessments.js';
-import {applyCrossSellMissingZeros} from './crossSellDecomposition.js';
+import {applyCrossSellDuringPurchaseScores, applyCrossSellMissingZeros} from './crossSellDecomposition.js';
 import {mergeSalaryCohorts} from './salaryCohortAverage.js';
+import {applyGoalsFinalScores} from './goalsFinalScores.js';
 import {applyNavigatorKnowledge} from './navigatorKnowledge.js';
 import {applyReportingAbsenceAssessments} from './reportingAbsence.js';
 import {applyMetricIndexExclusionAssessments} from './indexExclusion.js';
+import {applyPCFinalScores} from './pcFinalScores.js';
+import {applyKeyMetricsWorkbookPriority} from './keyMetricsWorkbookPriority.js';
+import {applyMetricApplicabilityAssessments} from './metricApplicability.js';
+import {applyUbWorkbookCorrections} from './ubWorkbookCorrections.js';
+import {applyDiscoveryBacklog} from './discoveryBacklog.js';
+import {applyCampaignSelfService} from './campaignSelfService.js';
+import {applyCbpUserCorrections} from './cbpUserCorrections.js';
 
 export const Q3_DB_TEAMS = [
   'Зарплатный продукт', 'Пенсионный продукт', 'SberPay NFC',
@@ -66,13 +74,18 @@ export function buildDdiCohortProducts(products, period, overlays, salaryConfig,
   const assessed = applyCrossSellMissingZeros(applyFunnelActionAssessments(reported, period, actionAssessment, products), period);
   const hasAbsenceAssessment = (Array.isArray(overlays) ? overlays : [overlays]).some((assessment) =>
     assessment?.period === period && assessment.scope === 'reporting-absence-assessment');
-  if (!hasAbsenceAssessment) return assessed;
+  if (!hasAbsenceAssessment) return applyKeyMetricsWorkbookPriority(assessed, period, overlays, products);
   // Resolve each cohort before averaging, using the same effective reporting format as the final profile.
-  return applyReportingAbsenceAssessments(applyReportingFormatAssessments(assessed, period, overlays), period, overlays);
+  return applyKeyMetricsWorkbookPriority(applyReportingAbsenceAssessments(applyReportingFormatAssessments(assessed, period, overlays), period, overlays), period, overlays, products);
 }
 
-export function buildDdiPeriodProducts(products, period, overlays, salaryConfig, reportingAssessment = null, actionAssessment = null) {
+export function buildDdiPeriodProducts(products, period, overlays, salaryConfig, reportingAssessment = null, actionAssessment = null, backlog = null) {
   const assessed = applyReportingFormatAssessments(applyNavigatorKnowledge(mergeSalaryCohorts(buildDdiCohortProducts(products, period, overlays, salaryConfig, reportingAssessment, actionAssessment),
     period, salaryConfig, products), period), period, overlays);
-  return applyMetricIndexExclusionAssessments(assessed, period, overlays);
+  const finalScores = applyPCFinalScores(applyGoalsFinalScores(applyMetricIndexExclusionAssessments(assessed, period, overlays), period, overlays), period, overlays);
+  const assessments = Array.isArray(overlays) ? overlays : [overlays];
+  const crossSellDuring = assessments.find((item) => item?.scope === 'crosssell-during-purchase-assessment');
+  const applicable = applyMetricApplicabilityAssessments(applyKeyMetricsWorkbookPriority(applyCrossSellDuringPurchaseScores(finalScores, period, crossSellDuring), period, overlays, products),
+    period, assessments.filter(Boolean), true);
+  return applyDiscoveryBacklog(applyCbpUserCorrections(applyCampaignSelfService(applyUbWorkbookCorrections(applicable, period, assessments), period), period, assessments), period, backlog);
 }

@@ -45,7 +45,7 @@
       "general.yau_produkta",
       "general.znanie_produktov_sputnikov"
     ],
-    "rule": "Для всего блока general всех типов команд: числовой факт файла 0/1 применяется явно; только отсутствующие в файле пары с Q2=100% переносятся. Текстовые и конфликтующие строки присутствуют в файле, поэтому не дают ни нуля, ни переноса. Применимость и максимумы не изменяются. #B2B не отбрасывается.",
+    "rule": "Для всего блока general всех типов команд: числовые баллы файла 0/1 имеют приоритет над прежними оценками; только отсутствующие в файле пары переносятся из II квартала с любым валидным баллом, включая 0 и дробные оценки. Текстовые и конфликтующие строки остаются без оценки. Применимость и максимумы сохраняются. Новые зарплатные когорты сопоставляются по точному названию, без выдуманного индивидуального Q2.",
     "aliases": {
       "сберчаевые #b2c": "СберЧаевые",
       "трансграничные переводы #b2c": "Трансграничные переводы",
@@ -53,6 +53,56 @@
       "вжух": "SberPay Вжух"
     }
   },
+  "additionalTeamAssessments": [
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2b",
+      "name": "Зарплатный продукт #B2B",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "general.klienty_s_produktom": {
+          "rawValue": 1,
+          "source": {
+            "origin": "keyMetricsWorkbookAssessment",
+            "file": "Ключевые метрики Продукта Баллы.xlsx",
+            "sheet": "Лист1",
+            "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт #B2B",
+            "confirmedBy": "user",
+            "userprovided": true,
+            "mappingRule": "exactSalaryCohortName",
+            "sourceMetricName": "Клиенты с продуктом",
+            "sourceRows": [
+              6
+            ],
+            "cell": "C6",
+            "points": 1
+          }
+        },
+        "general.mau_produkta": {
+          "rawValue": 0,
+          "source": {
+            "origin": "keyMetricsWorkbookAssessment",
+            "file": "Ключевые метрики Продукта Баллы.xlsx",
+            "sheet": "Лист1",
+            "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт #B2B",
+            "confirmedBy": "user",
+            "userprovided": true,
+            "mappingRule": "exactSalaryCohortName",
+            "sourceMetricName": "MAU продукта",
+            "sourceRows": [
+              7
+            ],
+            "cell": "C7",
+            "points": 0
+          }
+        }
+      }
+    }
+  ],
   "products": [
     {
       "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
@@ -10217,7 +10267,28 @@
       ],
       "reason": "presentNonNumericScore",
       "status": "pending",
-      "carryBlocked": true
+      "carryBlocked": true,
+      "restoredAssessment": {
+        "rawValue": 1,
+        "source": {
+          "origin": "userConfirmedMarketHoleRecovery20261102",
+          "confirmedBy": "user",
+          "date": "2026-11-02",
+          "period": "III кв. 2026",
+          "reason": "Восстановление прежней оценки вместо пропуска «Нет в ЕКМ» по указанию пользователя для БПИФ и ЦФА. Только две метрики объёма рынка; остальные строки не меняются.",
+          "previousAssessmentSource": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Объем целевого рынка в России",
+            "rawValue": 1,
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousAssessmentSource": null
+          }
+        }
+      }
     },
     {
       "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
@@ -10233,7 +10304,28 @@
       ],
       "reason": "presentNonNumericScore",
       "status": "pending",
-      "carryBlocked": true
+      "carryBlocked": true,
+      "restoredAssessment": {
+        "rawValue": 1,
+        "source": {
+          "origin": "userConfirmedMarketHoleRecovery20261102",
+          "confirmedBy": "user",
+          "date": "2026-11-02",
+          "period": "III кв. 2026",
+          "reason": "Восстановление прежней оценки вместо пропуска «Нет в ЕКМ» по указанию пользователя для БПИФ и ЦФА. Только две метрики объёма рынка; остальные строки не меняются.",
+          "previousAssessmentSource": {
+            "origin": "userConfirmedBpifKnowledge20261031",
+            "confirmedBy": "user",
+            "date": "2026-10-31",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Объем целевого рынка в Сбере",
+            "rawValue": 1,
+            "previousValue": null,
+            "previousMaxValue": 0.2,
+            "previousAssessmentSource": null
+          }
+        }
+      }
     },
     {
       "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
@@ -10281,7 +10373,23 @@
       ],
       "reason": "presentNonNumericScore",
       "status": "pending",
-      "carryBlocked": true
+      "carryBlocked": true,
+      "restoredAssessment": {
+        "rawValue": 0,
+        "source": {
+          "origin": "userConfirmedMarketHoleRecovery20261102",
+          "confirmedBy": "user",
+          "date": "2026-11-02",
+          "period": "III кв. 2026",
+          "reason": "Восстановление прежней оценки вместо пропуска «Нет в ЕКМ» по указанию пользователя для БПИФ и ЦФА. Только две метрики объёма рынка; остальные строки не меняются.",
+          "previousAssessmentSource": {
+            "file": "gravity-app/public/report-data.json",
+            "period": "II кв. 2026",
+            "sourceValue": 0,
+            "sourceMaxValue": 0.2
+          }
+        }
+      }
     },
     {
       "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
@@ -10297,7 +10405,23 @@
       ],
       "reason": "presentNonNumericScore",
       "status": "pending",
-      "carryBlocked": true
+      "carryBlocked": true,
+      "restoredAssessment": {
+        "rawValue": 0,
+        "source": {
+          "origin": "userConfirmedMarketHoleRecovery20261102",
+          "confirmedBy": "user",
+          "date": "2026-11-02",
+          "period": "III кв. 2026",
+          "reason": "Восстановление прежней оценки вместо пропуска «Нет в ЕКМ» по указанию пользователя для БПИФ и ЦФА. Только две метрики объёма рынка; остальные строки не меняются.",
+          "previousAssessmentSource": {
+            "file": "gravity-app/public/report-data.json",
+            "period": "II кв. 2026",
+            "sourceValue": 0,
+            "sourceMaxValue": 0.2
+          }
+        }
+      }
     },
     {
       "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",

@@ -1,0 +1,267 @@
+{
+  "q2Unchanged": true,
+  "legacy77SnapshotReproducedWithoutLaterOverlays": true,
+  "currentOther75ProfilesExact": true,
+  "mergedRoster": 76,
+  "mergedDbRoster": 16,
+  "originalCohortsExact": true,
+  "fiveBlocksVerified": [
+    "general",
+    "attract",
+    "churn",
+    "mehaniki",
+    "hyp"
+  ],
+  "allHypothesisMetricsVerified": 3,
+  "averagedMetricCount": 31,
+  "verified": [
+    {
+      "block": "general",
+      "code": "general.obъem_celevogo_rynka_v_rossii",
+      "b2b": 0.2,
+      "b2c": 0.2,
+      "mean": 0.2,
+      "max": 0.2
+    },
+    {
+      "block": "general",
+      "code": "general.obъem_celevogo_rynka_v_sbere",
+      "b2b": 0.2,
+      "b2c": 0.2,
+      "mean": 0.2,
+      "max": 0.2
+    },
+    {
+      "block": "general",
+      "code": "general.klienty_s_produktom",
+      "b2b": 0.2,
+      "b2c": 0.2,
+      "mean": 0.2,
+      "max": 0.2
+    },
+    {
+      "block": "general",
+      "code": "general.mau_produkta",
+      "b2b": 0,
+      "b2c": 0.2,
+      "mean": 0.1,
+      "max": 0.2
+    },
+    {
+      "block": "general",
+      "code": "general.znanie_produktov_sputnikov",
+      "b2b": 0.1,
+      "b2c": 0.1,
+      "mean": 0.1,
+      "max": 0.1
+    },
+    {
+      "block": "general",
+      "code": "general.navigator_reporting_knowledge",
+      "b2b": 0.5,
+      "b2c": 0.5,
+      "mean": 0.5,
+      "max": 0.5
+    },
+    {
+      "block": "attract",
+      "code": "attract.nastroena_otchetnostь",
+      "b2b": 0.25,
+      "b2c": 0.5,
+      "mean": 0.375,
+      "max": 0.5
+    },
+    {
+      "block": "attract",
+      "code": "attract.regulyarnostь",
+      "b2b": 0.5,
+      "b2c": 1,
+      "mean": 0.75,
+      "max": 1
+    },
+    {
+      "block": "attract",
+      "code": "attract.report_completeness",
+      "b2b": 0.25,
+      "b2c": 0.25,
+      "mean": 0.25,
+      "max": 0.5
+    },
+    {
+      "block": "attract",
+      "code": "attract.funnel_analysis",
+      "b2b": 0.5,
+      "b2c": 1,
+      "mean": 0.75,
+      "max": 1
+    },
+    {
+      "block": "attract",
+      "code": "attract.initiatives_list",
+      "b2b": 0,
+      "b2c": 1,
+      "mean": 0.5,
+      "max": 1
+    },
+    {
+      "block": "attract",
+      "code": "attract.benchmarks",
+      "b2b": 0,
+      "b2c": 0,
+      "mean": 0,
+      "max": 0.5
+    },
+    {
+      "block": "attract",
+      "code": "attract.campaign_launches",
+      "b2b": 0.5,
+      "b2c": 0.5,
+      "mean": 0.5,
+      "max": 0.5
+    },
+    {
+      "block": "attract",
+      "code": "attract.chernoviki_v_sbol_70",
+      "b2b": 0.5,
+      "b2c": 0.5,
+      "mean": 0.5,
+      "max": 1
+    },
+    {
+      "block": "attract",
+      "code": "attract.nalichie_self_service",
+      "b2b": 0.5,
+      "b2c": 0.5,
+      "mean": 0.5,
+      "max": 0.5
+    },
+    {
+      "block": "attract",
+      "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+      "b2b": 0.5,
+      "b2c": 0.5,
+      "mean": 0.5,
+      "max": 0.5
+    },
+    {
+      "block": "churn",
+      "code": "churn.nastroena_otchetnostь",
+      "b2b": 0,
+      "b2c": 0.5,
+      "mean": 0.25,
+      "max": 0.5
+    },
+    {
+      "block": "churn",
+      "code": "churn.regulyarnostь",
+      "b2b": 0,
+      "b2c": 1,
+      "mean": 0.5,
+      "max": 1
+    },
+    {
+      "block": "churn",
+      "code": "churn.report_completeness",
+      "b2b": 0,
+      "b2c": 0,
+      "mean": 0,
+      "max": 0.5
+    },
+    {
+      "block": "churn",
+      "code": "churn.funnel_analysis",
+      "b2b": 0,
+      "b2c": 1,
+      "mean": 0.5,
+      "max": 1
+    },
+    {
+      "block": "churn",
+      "code": "churn.deviation_actions",
+      "b2b": 0,
+      "b2c": 1,
+      "mean": 0.5,
+      "max": 1
+    },
+    {
+      "block": "churn",
+      "code": "churn.benchmarks",
+      "b2b": 0,
+      "b2c": 0,
+      "mean": 0,
+      "max": 0.5
+    },
+    {
+      "block": "mehaniki",
+      "code": "mehaniki.vozvrat_klientov",
+      "b2b": null,
+      "b2c": null,
+      "mean": null,
+      "max": 1
+    },
+    {
+      "block": "mehaniki",
+      "code": "mehaniki.uderzhanie_klientov",
+      "b2b": 1,
+      "b2c": 1,
+      "mean": 1,
+      "max": 1
+    },
+    {
+      "block": "mehaniki",
+      "code": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+      "b2b": 0.5,
+      "b2c": 0.5,
+      "mean": 0.5,
+      "max": 1
+    },
+    {
+      "block": "mehaniki",
+      "code": "mehaniki.cross_sell",
+      "b2b": 0.25,
+      "b2c": 0.25,
+      "mean": 0.25,
+      "max": 1
+    },
+    {
+      "block": "mehaniki",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "b2b": 0,
+      "b2c": 0,
+      "mean": 0,
+      "max": 1
+    },
+    {
+      "block": "mehaniki",
+      "code": "mehaniki.monitoring_mehanik",
+      "b2b": 0.25,
+      "b2c": 0.25,
+      "mean": 0.25,
+      "max": 0.25
+    },
+    {
+      "block": "hyp",
+      "code": "hyp.discovery_40_backlog",
+      "b2b": 0,
+      "b2c": 0.5,
+      "mean": 0.25,
+      "max": 1
+    },
+    {
+      "block": "hyp",
+      "code": "hyp.datadriven_rating_7_5",
+      "b2b": 1,
+      "b2c": 1,
+      "mean": 1,
+      "max": 1
+    },
+    {
+      "block": "hyp",
+      "code": "hyp.extra_initiatives",
+      "b2b": 0,
+      "b2c": 0,
+      "mean": 0,
+      "max": 1
+    }
+  ]
+}

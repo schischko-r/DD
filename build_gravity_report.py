@@ -20,6 +20,7 @@ DEFAULT_LEGACY_OUTPUT = ROOT / "final_report_from_excel.html"
 DEFAULT_DATA_OUTPUT = ROOT / "gravity-app" / "public" / "report-data.json"
 DEFAULT_BACKLOG_INPUT = ROOT / "sbertrack_all_full_history_to_export.xlsx"
 DEFAULT_BACKLOG_ADDITIONAL_INPUT = ROOT / "tickets_final.xlsx"
+DEFAULT_BACKLOG_SURVEY_INPUT = ROOT / "output (1).xlsx"
 DEFAULT_BACKLOG_DATA = ROOT / "gravity-app" / "public" / "backlog-data.json"
 DEFAULT_MATURITY_DATA = ROOT / "gravity-app" / "public" / "data-maturity.json"
 DEFAULT_INITIATIVES_DATA = ROOT / "gravity-app" / "public" / "initiatives-backlog.json"
@@ -136,9 +137,9 @@ def build(args: argparse.Namespace) -> None:
         ]
         additional_backlogs = args.backlog_additional_input
         if additional_backlogs is None:
-            additional_backlogs = [DEFAULT_BACKLOG_ADDITIONAL_INPUT] if (
-                args.backlog_input.resolve() == DEFAULT_BACKLOG_INPUT.resolve() and DEFAULT_BACKLOG_ADDITIONAL_INPUT.is_file()
-            ) else []
+            additional_backlogs = [candidate for candidate in
+                (DEFAULT_BACKLOG_ADDITIONAL_INPUT, DEFAULT_BACKLOG_SURVEY_INPUT)
+                if candidate.is_file()] if args.backlog_input.resolve() == DEFAULT_BACKLOG_INPUT.resolve() else []
         for additional_backlog in additional_backlogs:
             backlog_command.extend(['--additional-input', str(additional_backlog)])
         backlog_command.extend(['--output', str(args.backlog_data)])

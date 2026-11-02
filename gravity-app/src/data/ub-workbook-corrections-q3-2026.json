@@ -1,0 +1,1155 @@
+{
+  "period": "III кв. 2026",
+  "scope": "ub-workbook-corrections",
+  "unit": "УБ",
+  "source": {
+    "origin": "userConfirmedUbWorkbookCorrections",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+    "sha256": "b0c48e48604211405416d09968206ab5e1bd016f98b8949872ca4d8663fc4d1a",
+    "sheet": "Метрики",
+    "column": "F",
+    "columnLabel": "Корректировка",
+    "unitFilter": "УБ",
+    "rule": "Только непустые корректировки столбца F юнита УБ. Остальные строки и юниты не импортируются."
+  },
+  "products": [
+    {
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "metrics": {
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F202",
+            "sourceUnit": "УБ",
+            "sourceTeam": "БПИФ",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Настроена отчетность",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F206",
+            "sourceUnit": "УБ",
+            "sourceTeam": "БПИФ",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F212",
+            "sourceUnit": "УБ",
+            "sourceTeam": "БПИФ",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Настроена отчетность",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F216",
+            "sourceUnit": "УБ",
+            "sourceTeam": "БПИФ",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Мероприятия по работе с отклонениями",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F220",
+            "sourceUnit": "УБ",
+            "sourceTeam": "БПИФ",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Возврат клиентов",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F237",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Брокерский счет",
+            "sourceBlock": "Знание ключевых метрик",
+            "sourceMetric": "Знание об отчетности в Навигаторе",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F250",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Брокерский счет",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Проведение комплексного анализа воронки привлечения",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F251",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Брокерский счет",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F265",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Брокерский счет",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Возврат клиентов",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F266",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Брокерский счет",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Удержание клиентов",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.cross_sell.after": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F269",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Брокерский счет",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Cross-sell после оформления",
+            "rawCorrection": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F282",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ВЗР",
+            "sourceBlock": "Знание ключевых метрик",
+            "sourceMetric": "Знание об отчетности в Навигаторе",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F299",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ВЗР",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Черновики в СБОЛ >=70%",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F307",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ВЗР",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Наличие бенчмарков",
+            "rawCorrection": 0
+          }
+        },
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F321",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ВЗР",
+            "sourceBlock": "Клиентский опыт",
+            "sourceMetric": "CX Score",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F360",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ДСЖ КК",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Допродажи (up-sell)",
+            "rawCorrection": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "metrics": {
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F391",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ДСЖ ПК",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Наличие успешных бизнес-запусков",
+            "rawCorrection": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "metrics": {
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F430",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Залоговое страхование (корпоративное страхование)",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Проведение комплексного анализа воронки привлечения",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F439",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Залоговое страхование (корпоративное страхование)",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Полнота отчета",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F440",
+            "sourceUnit": "УБ",
+            "sourceTeam": "Залоговое страхование (корпоративное страхование)",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Проведение комплексного анализа воронки оттока",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F473",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ЗЛС",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Полнота отчета",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F484",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ЗЛС",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Проведение комплексного анализа воронки оттока",
+            "rawCorrection": 0.5
+          }
+        },
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F500",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ЗЛС",
+            "sourceBlock": "Клиентский опыт",
+            "sourceMetric": "CX Score",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "metrics": {
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F520",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ЗПИФ",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "metrics": {
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F561",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Настроена отчетность",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.regulyarnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F562",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Регулярность",
+            "rawCorrection": 1
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F564",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Проведение комплексного анализа воронки привлечения",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F565",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F574",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Проведение комплексного анализа воронки оттока",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F575",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Мероприятия по работе с отклонениями",
+            "rawCorrection": 0.5
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F577",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Алерты",
+            "sourceMetric": "Оповещения по бизнес-метрикам",
+            "rawCorrection": 0
+          }
+        },
+        "mehaniki.cross_sell.during": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F582",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Cross-sell во время продажи",
+            "rawCorrection": 1
+          }
+        },
+        "mehaniki.cross_sell.after": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F583",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИнвестКопилка",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Cross-sell после оформления",
+            "rawCorrection": 0
+          }
+        }
+      }
+    },
+    {
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "metrics": {
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F610",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ИСЖ",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "metrics": {
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F655",
+            "sourceUnit": "УБ",
+            "sourceTeam": "КАСКО",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "metrics": {
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F745",
+            "sourceUnit": "УБ",
+            "sourceTeam": "НСЖ",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.benchmarks": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F746",
+            "sourceUnit": "УБ",
+            "sourceTeam": "НСЖ",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Наличие бенчмарков",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.benchmarks": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F756",
+            "sourceUnit": "УБ",
+            "sourceTeam": "НСЖ",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Наличие бенчмарков",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F759",
+            "sourceUnit": "УБ",
+            "sourceTeam": "НСЖ",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Возврат клиентов",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F760",
+            "sourceUnit": "УБ",
+            "sourceTeam": "НСЖ",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Удержание клиентов",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.cross_sell.during": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F762",
+            "sourceUnit": "УБ",
+            "sourceTeam": "НСЖ",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Cross-sell во время продажи",
+            "rawCorrection": 1
+          }
+        },
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F770",
+            "sourceUnit": "УБ",
+            "sourceTeam": "НСЖ",
+            "sourceBlock": "Клиентский опыт",
+            "sourceMetric": "CX Score",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "metrics": {
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F790",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ОПИФ",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "metrics": {
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F834",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ОСАГО",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Проведение комплексного анализа воронки привлечения",
+            "rawCorrection": 0.5
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F835",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ОСАГО",
+            "sourceBlock": "Воронка привлечения",
+            "sourceMetric": "Составлен перечень инициатив по привлечению",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F844",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ОСАГО",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Проведение комплексного анализа воронки оттока",
+            "rawCorrection": 0.5
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F854",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ОСАГО",
+            "sourceBlock": "Механики",
+            "sourceMetric": "Допродажи (up-sell)",
+            "rawCorrection": "не релевантно"
+          }
+        }
+      }
+    },
+    {
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F866",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ПДС",
+            "sourceBlock": "Знание ключевых метрик",
+            "sourceMetric": "Знание об отчетности в Навигаторе",
+            "rawCorrection": 0.5
+          }
+        },
+        "churn.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F889",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ПДС",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Проведение комплексного анализа воронки оттока",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    },
+    {
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "metrics": {
+        "churn.deviation_actions": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedUbWorkbookCorrections",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+            "sheet": "Метрики",
+            "column": "F",
+            "columnLabel": "Корректировка",
+            "cell": "F1068",
+            "sourceUnit": "УБ",
+            "sourceTeam": "ЦФА",
+            "sourceBlock": "Воронка оттока",
+            "sourceMetric": "Мероприятия по работе с отклонениями",
+            "rawCorrection": 0.5
+          }
+        }
+      }
+    }
+  ],
+  "pending": [],
+  "counts": {
+    "teams": 16,
+    "corrections": 50,
+    "pending": 0
+  },
+  "importedCells": [
+    "F202",
+    "F206",
+    "F212",
+    "F216",
+    "F220",
+    "F237",
+    "F250",
+    "F251",
+    "F265",
+    "F266",
+    "F269",
+    "F282",
+    "F299",
+    "F307",
+    "F321",
+    "F360",
+    "F391",
+    "F430",
+    "F439",
+    "F440",
+    "F473",
+    "F484",
+    "F500",
+    "F520",
+    "F561",
+    "F562",
+    "F564",
+    "F565",
+    "F574",
+    "F575",
+    "F577",
+    "F582",
+    "F583",
+    "F610",
+    "F655",
+    "F745",
+    "F746",
+    "F756",
+    "F759",
+    "F760",
+    "F762",
+    "F770",
+    "F790",
+    "F834",
+    "F835",
+    "F844",
+    "F854",
+    "F866",
+    "F889",
+    "F1068"
+  ]
+}

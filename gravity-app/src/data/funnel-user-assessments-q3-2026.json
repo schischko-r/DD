@@ -3596,7 +3596,7 @@
           }
         },
         "attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedFunnelAssessment",
             "confirmedBy": "user",
@@ -3612,7 +3612,7 @@
           }
         },
         "attract.report_completeness": {
-          "rawValue": 1.0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedFunnelAssessment",
             "confirmedBy": "user",

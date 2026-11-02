@@ -27,12 +27,13 @@ test('respondent-specific mechanics assign exactly three cohort values and avera
   for (const key of ['b2b', 'b2c']) {
     const child = merged.salaryCohorts[key], old = prior.salaryCohorts[key];
     const record = salary.products.find((product) => product.cohort.toLowerCase() === key);
-    assert.equal(Object.keys(record.metrics).length, 15);
+    assert.equal(Object.keys(record.metrics).length, 16);
     assert.equal(record.resetMetricCodes.includes(codes[0]), false);
     for (const metric of metrics(child)) {
       const previous = metrics(old).find((item) => item.code === metric.code);
       if (!codes.includes(metric.code)) {assert.deepEqual(metric, previous); continue;}
-      assert.equal(metric.value, metric.code === codes[0] || key === 'b2b' ? 1 : 0);
+      assert.equal(metric.value, metric.code === codes[0] ? .5 : key === 'b2b' ? 1 : 0);
+      if (metric.code === codes[0]) assert.equal(metric.source.userOverride.rawValue, .5);
       assert.equal(metric.max_value, previous.max_value);
       assert.equal(metric.previousValue, undefined);
       assert.equal(metric.source.questionId, 'upsell');
@@ -45,7 +46,7 @@ test('respondent-specific mechanics assign exactly three cohort values and avera
   }
   assert.equal(changes, 3);
   assert.equal(salary.pending.some((record) => record.code === codes[0]), false);
-  assert.deepEqual(codes.map((code) => metrics(merged).find((metric) => metric.code === code).value), [1, .5]);
+  assert.deepEqual(codes.map((code) => metrics(merged).find((metric) => metric.code === code).value), [.5, .5]);
   assert.equal(merged.indexMaxPoints, prior.indexMaxPoints);
   assert.deepEqual(metrics(merged).filter((metric) => !codes.includes(metric.code)), metrics(prior).filter((metric) => !codes.includes(metric.code)));
   for (const product of after.filter((product) => product !== merged)) assert.deepEqual(product, before.find((previous) => previous.id === product.id));

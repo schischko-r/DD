@@ -1,0 +1,12 @@
+{
+  "fetchedAt": "2026-10-27T06:35:11.038346+00:00",
+  "requestsCompleted": 128,
+  "roundId": "r12-20261025T051526Z",
+  "apiGeneratedAt": "2026-10-27T06:34:19.787695+00:00",
+  "products": 127,
+  "markers": 112,
+  "market": 125,
+  "marketDetails": 125,
+  "snapshot": "/Users/roman/Documents/Codex/DD-dev/outputs/crosssell-refresh-2026-10-27T063419Z/crosssell_export.json",
+  "backup": "/Users/roman/Documents/Codex/DD-dev/outputs/crosssell-refresh-2026-10-27T063419Z/crosssell_export.before.json"
+}

@@ -3,13 +3,13 @@
   "scope": "crosssell-after-purchase-assessment",
   "source": {
     "origin": "userConfirmed",
-    "confirmedAt": "2026-10-29",
+    "confirmedAt": "2026-11-02",
     "uniqueTeams": 54,
-    "rule": "Cross-sell total = 50% during-purchase component + 50% after-purchase component; only the total is counted in DDI.",
-    "halfPointTeams": 18,
+    "rule": "Cross-sell total = 50% during-purchase component + 50% after-purchase component; only the total is counted in DDI. After-purchase assessment is binary (0 or 100%): all former 50% scores are confirmed as 100% by the user on 2026-11-02.",
+    "halfPointTeams": 0,
     "zeroTeams": 16,
     "notApplicableTeams": 1,
-    "fullPointTeams": 19
+    "fullPointTeams": 37
   },
   "products": [
     {
@@ -17,12 +17,14 @@
       "name": "Страхование залога",
       "unit": "УБ",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Страхование залога"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Страхование залога",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -30,12 +32,14 @@
       "name": "Страхование жизни",
       "unit": "УБ",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Страхование жизни"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Страхование жизни",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -43,12 +47,14 @@
       "name": "Слитки",
       "unit": "CBP",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Слитки"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Слитки",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -56,12 +62,14 @@
       "name": "Сделка с Первичным жильём",
       "unit": "ДомКлик",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Сделка с Первичным жильём"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Сделка с Первичным жильём",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -69,12 +77,14 @@
       "name": "Сделка ИЖС",
       "unit": "ДомКлик",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Сделка ИЖС"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Сделка ИЖС",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -82,12 +92,14 @@
       "name": "СберЧаевые",
       "unit": "DB",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Сберчаевые #B2C"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Сберчаевые #B2C",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -95,12 +107,14 @@
       "name": "СберСова",
       "unit": "УБ",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "СберСова"
+        "confirmedAt": "2026-11-02",
+        "inputName": "СберСова",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -108,12 +122,14 @@
       "name": "Переводы по РФ",
       "unit": "DB",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Переводы по РФ"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Переводы по РФ",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -121,12 +137,14 @@
       "name": "Пенсионный продукт",
       "unit": "DB",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Пенсионный продукт"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Пенсионный продукт",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -134,12 +152,14 @@
       "name": "Пакет услуг СберПремьер",
       "unit": "CX",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Пакет услуг СберПремьер"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Пакет услуг СберПремьер",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -147,12 +167,14 @@
       "name": "Кредитные карты",
       "unit": "DB",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Кредитные карты"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Кредитные карты",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -160,12 +182,14 @@
       "name": "КАСКО",
       "unit": "УБ",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "КАСКО"
+        "confirmedAt": "2026-11-02",
+        "inputName": "КАСКО",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -173,12 +197,14 @@
       "name": "ЗЛС",
       "unit": "УБ",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "ЗЛС"
+        "confirmedAt": "2026-11-02",
+        "inputName": "ЗЛС",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -186,12 +212,14 @@
       "name": "Зарплатный продукт",
       "unit": "DB",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Зарплатный продукт"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Зарплатный продукт",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -199,12 +227,14 @@
       "name": "Залоговое страхование (корпоративное страхование)",
       "unit": "УБ",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Залоговое страхование (корпоративное страхование)"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Залоговое страхование (корпоративное страхование)",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -212,12 +242,14 @@
       "name": "Детская карта",
       "unit": "DB",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Детская карта"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Детская карта",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -225,12 +257,14 @@
       "name": "ВЗР",
       "unit": "УБ",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "ВЗР"
+        "confirmedAt": "2026-11-02",
+        "inputName": "ВЗР",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {
@@ -238,12 +272,14 @@
       "name": "Автокредит",
       "unit": "CBP",
       "type": "Продукт",
-      "postPurchaseValue": 0.5,
+      "postPurchaseValue": 1,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Автокредит"
+        "confirmedAt": "2026-11-02",
+        "inputName": "Автокредит",
+        "previousPostPurchaseValue": 0.5,
+        "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
       }
     },
     {

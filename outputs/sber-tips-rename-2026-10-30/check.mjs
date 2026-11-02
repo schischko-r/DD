@@ -1,0 +1,12 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import {displayProductName} from '../../gravity-app/src/domain/report.js';
+assert.equal(displayProductName('Сберчаевые #B2B'),'Сберчаевые #B2B');
+assert.equal(displayProductName('Сберчаевые #B2C'),'СберЧаевые #B2C');
+const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1440,height:1000}});const errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto('http://127.0.0.1:4178/');await p.waitForSelector('.dashboard-period');await p.locator('[aria-label="Профиль команды"]').click();await p.waitForSelector('.detail-header h1');
+const choose=async(s,n)=>{await p.locator(s).click();await p.getByRole('option',{name:n,exact:true}).click();};
+await choose('.detail-team-unit-filter [role="combobox"]','DB');await choose('.detail-team-select [role="combobox"]','СберЧаевые #B2C');
+assert.equal(await p.locator('.detail-header h1').textContent(),'СберЧаевые #B2C');
+await choose('.detail-period-filter [role="combobox"]','II кв. 2026');assert.equal(await p.locator('.detail-header h1').textContent(),'СберЧаевые #B2C');
+await p.locator('[aria-label="Декомпозиция бэклога"]').click();await p.getByRole('combobox',{name:'Команда',exact:true}).click();assert.equal(await p.getByRole('option',{name:'СберЧаевые #B2C',exact:true}).count(),1);assert.equal(await p.getByRole('option',{name:'СберЧаевые',exact:true}).count(),0);assert.deepEqual(errors,[]);await b.close();console.log('PASS: canonical display in both quarters and selector; B2B untouched; consoleclean.');

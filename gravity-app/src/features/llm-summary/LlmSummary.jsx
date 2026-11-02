@@ -68,6 +68,7 @@ function CrossSellFeedbackCount({count}) {
 
 export function RecommendationBody({item, useText = false, hideRejectedCrossSellCandidates = false}) {
   const hasCrossSellSummary = item.skill_key === 'cross_sell' && item.api_seen_around_n != null;
+  const registryLinkCount = Number.isFinite(Number(item.outgoing_link_count)) ? Number(item.outgoing_link_count) : null;
   const marketPresentation = item.skill_key === 'cross_sell'
     ? crossSellMarketPresentation(item, {hideRejectedCandidates: hideRejectedCrossSellCandidates})
     : null;
@@ -84,6 +85,7 @@ export function RecommendationBody({item, useText = false, hideRejectedCrossSell
   const hasSeenInValue = item.api_seen_in_n != null && Number.isFinite(Number(item.api_seen_in_n));
   if (hasSeenOutValue && hasSeenInValue && Number(item.api_seen_out_n) === 0 && Number(item.api_seen_in_n) === 0) {
     return <div className="crosssell-summary">
+      {registryLinkCount != null && <p>В реестре связей продукта: {crossSellCount(registryLinkCount)} (предлагаемые, реализованные и отклонённые).</p>}
       <p>Потенциальных cross-sell связок: {crossSellCount(item.api_potential_n)}.</p>
       <CrossSellFeedbackCount count={waitingDecisionCount} />
       <CrossSellNextSteps />
@@ -92,6 +94,7 @@ export function RecommendationBody({item, useText = false, hideRejectedCrossSell
   const hasSeenOut = Number(item.api_seen_out_n) > 0;
   const hasSeenIn = Number(item.api_seen_in_n) > 0;
   return <div className="crosssell-summary">
+    {registryLinkCount != null && <p>В реестре связей продукта: {crossSellCount(registryLinkCount)} (предлагаемые, реализованные и отклонённые).</p>}
     <p>Всего в клиентских путях найдено <em>{crossSellCountPhrase(item.api_seen_around_n, ['сценарий', 'сценария', 'сценариев'])} кросс-продаж</em>.</p>
     {(hasSeenOut || hasSeenIn) && <><p>Из них:</p><ul>
       {hasSeenOut && <li>{crossSellCountPhrase(item.api_seen_out_n, ['связка', 'связки', 'связок'])} — кросс-селл с другими продуктами в рамках сценариев вашего продукта.</li>}

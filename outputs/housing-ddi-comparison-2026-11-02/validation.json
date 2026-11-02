@@ -1,0 +1,39 @@
+{
+  "output": "/Users/roman/Documents/Codex/DD-dev/outputs/housing-ddi-comparison-2026-11-02/DDI_Первичка_Вторичка_III_квартал_2026.xlsx",
+  "period": "III кв. 2026",
+  "teams": [
+    "Сделка с Первичным жильём",
+    "Сделка вторичка"
+  ],
+  "metrics": 41,
+  "blocks": 8,
+  "summary": [
+    [
+      "DDI",
+      0.77,
+      0.88,
+      10.999999999999998
+    ],
+    [
+      "Набрано баллов",
+      19,
+      22.25,
+      3.25
+    ],
+    [
+      "Максимум баллов",
+      24.75,
+      25.25,
+      0.5
+    ],
+    [
+      "Метрик в DDI",
+      34,
+      35,
+      1
+    ]
+  ],
+  "errorScan": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}",
+  "recalculation": "blank -> unavailable; zero -> numeric; original restored",
+  "sourceMatched": true
+}

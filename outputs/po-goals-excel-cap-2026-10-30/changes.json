@@ -1,0 +1,98 @@
+[
+  {
+    "team": "Вклады+НС",
+    "code": "goals.po_monitoring",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "Вклады+НС",
+    "code": "goals.po_factor_analysis",
+    "before": 1,
+    "after": 0
+  },
+  {
+    "team": "Дебетовая карта",
+    "code": "goals.po_monitoring",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "Дебетовая карта",
+    "code": "goals.po_forecast",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "Дебетовая карта",
+    "code": "goals.po_factor_analysis",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "СберЧаевые",
+    "code": "goals.po_forecast",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "СберЧаевые",
+    "code": "goals.po_factor_analysis",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "Автокредит",
+    "code": "goals.po_monitoring",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "Автокредит",
+    "code": "goals.po_forecast",
+    "before": 1,
+    "after": 0
+  },
+  {
+    "team": "Автокредит",
+    "code": "goals.po_factor_analysis",
+    "before": 1,
+    "after": 0
+  },
+  {
+    "team": "Кредитные карты",
+    "code": "goals.po_factor_analysis",
+    "before": 1,
+    "after": 0
+  },
+  {
+    "team": "СберПрайм",
+    "code": "goals.po_monitoring",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "СберПрайм",
+    "code": "goals.po_forecast",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "СберПрайм",
+    "code": "goals.po_factor_analysis",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "Уведомления",
+    "code": "goals.po_monitoring",
+    "before": 1,
+    "after": 0.5
+  },
+  {
+    "team": "Уведомления",
+    "code": "goals.po_factor_analysis",
+    "before": 1,
+    "after": 0.5
+  }
+]

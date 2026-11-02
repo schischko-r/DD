@@ -118,7 +118,8 @@ test('runtime applies only the verified No records after prior overlays and pres
   const salary = read('../data/salary-products-q3-2026.json');
   const reporting = read('../data/reporting-regularity-missing-q3-2026.json');
   const actions = read('../data/funnel-action-missing-q3-2026.json');
-  const build = (batches) => buildDdiPeriodProducts(source, period, batches, salary, reporting, actions);
+  // Validate absence scoring before later explicit reporting removals hide its inputs.
+  const build = (batches) => buildDdiPeriodProducts(source, period, batches.filter(item => !item.applyAfterReporting), salary, reporting, actions);
   const before = build(overlays.filter((item) => item.scope !== 'reporting-absence-assessment'));
   const after = build(overlays);
   const assessment = read('../data/reporting-absence-user-q3-2026.json');

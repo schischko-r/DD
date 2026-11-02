@@ -55,27 +55,51 @@
       "type": "Продукт",
       "metrics": {
         "attract.campaign_launches": {
-          "rawValue": 0,
+          "rawValue": 1,
           "source": {
-            "origin": "userConfirmedCampaignAssessment",
-            "period": "III кв. 2026",
+            "origin": "userConfirmedCampaignPresence20261102",
             "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
             "sourceName": "ДСЖ КК",
             "metricCode": "attract.campaign_launches",
-            "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+            "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+            "previousAssessment": {
+              "rawValue": 0,
+              "source": {
+                "origin": "userConfirmedCampaignAssessment",
+                "period": "III кв. 2026",
+                "confirmedBy": "user",
+                "confirmedAt": "2026-10-29",
+                "sourceName": "ДСЖ КК",
+                "metricCode": "attract.campaign_launches",
+                "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+              }
+            }
           }
         },
         "attract.nalichie_self_service": {
-          "rawValue": 0,
+          "rawValue": 1,
           "source": {
-            "origin": "userConfirmedCampaignAssessment",
-            "period": "III кв. 2026",
+            "origin": "userConfirmedCampaignPresence20261102",
             "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
             "sourceName": "ДСЖ КК",
             "metricCode": "attract.nalichie_self_service",
-            "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+            "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+            "previousAssessment": {
+              "rawValue": 0,
+              "source": {
+                "origin": "userConfirmedCampaignAssessment",
+                "period": "III кв. 2026",
+                "confirmedBy": "user",
+                "confirmedAt": "2026-10-29",
+                "sourceName": "ДСЖ КК",
+                "metricCode": "attract.nalichie_self_service",
+                "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+              }
+            }
           }
         },
         "attract.nalichie_uspeshnyh_biznes_zapuskov": {
@@ -88,6 +112,267 @@
             "sourceName": "ДСЖ КК",
             "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
             "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1."
+          }
+        }
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "attract.campaign_launches",
+            "rawValue": 1
+          }
+        },
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "rawValue": 1
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "rawValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "rawValue": 1
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "rawValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "rawValue": 1
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "rawValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.chernoviki_v_sbol_70": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "metricCode": "attract.chernoviki_v_sbol_70",
+            "rawValue": 1
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCampaignScore",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная оценка пользователя для ДомКлика за III квартал; 100% означает полный максимум метрики.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "rawValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignPresence20261102",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "metricCode": "attract.campaign_launches",
+            "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+            "previousAssessment": null
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignPresence20261102",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "metricCode": "attract.nalichie_self_service",
+            "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+            "previousAssessment": null
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignPresence20261102",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "reason": "Последнее прямое указание пользователя: успешные бизнес-запуски ЗПИФ = 100%."
+          }
+        }
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignPresence20261102",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ВЗР",
+            "metricCode": "attract.campaign_launches",
+            "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+            "previousAssessment": null
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignPresence20261102",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ВЗР",
+            "metricCode": "attract.nalichie_self_service",
+            "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+            "previousAssessment": null
+          }
+        }
+      }
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignPresence20261102",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ ПК",
+            "metricCode": "attract.nalichie_self_service",
+            "reason": "По последнему уточнению пользователя у ДСЖ ПК Self-service и успешные бизнес-запуски = 100%. Запуски кампаний остаются неприменимыми."
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCampaignPresence20261102",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ ПК",
+            "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "reason": "По последнему уточнению пользователя у ДСЖ ПК Self-service и успешные бизнес-запуски = 100%. Запуски кампаний остаются неприменимыми."
           }
         }
       }

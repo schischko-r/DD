@@ -1,0 +1,134 @@
+{
+  "q2Unchanged": true,
+  "unlistedMetricObjectsUnchanged": 2793,
+  "abVerified": 28,
+  "funnelVerified": 3,
+  "distribution": {
+    "0": 1,
+    "1": 21,
+    "0.25": 4,
+    "0.5": 2
+  },
+  "added": [
+    "Персональная рекомендация|Data|Канал|hyp.ab_tests"
+  ],
+  "changed": [
+    "Брокерский счет|УБ|Продукт|hyp.ab_tests",
+    "Вклады+НС|CBP|Продукт|hyp.ab_tests",
+    "Дебетовая карта|DB|Продукт|hyp.ab_tests",
+    "Много денег (НКПЗН)|ДомКлик|Продукт|churn.report_completeness",
+    "Переводы по РФ|DB|Продукт|hyp.ab_tests",
+    "Платежи|DB|Продукт|hyp.ab_tests",
+    "Сделка ИЖС|ДомКлик|Продукт|attract.funnel_analysis",
+    "Сделка ИЖС|ДомКлик|Продукт|hyp.ab_tests",
+    "Сделка вторичка|ДомКлик|Продукт|hyp.ab_tests",
+    "Сделка с Первичным жильём|ДомКлик|Продукт|churn.funnel_analysis",
+    "Сделка с Первичным жильём|ДомКлик|Продукт|hyp.ab_tests",
+    "Автокредит|CBP|Продукт|hyp.ab_tests",
+    "Выписки, справки|PC|Продукт|hyp.ab_tests",
+    "Кредитные карты|DB|Продукт|hyp.ab_tests",
+    "СберПрайм|CX|Продукт|hyp.ab_tests",
+    "POS-кредиты|CBP|Продукт|hyp.ab_tests",
+    "СберСпасибо|CX|Продукт|hyp.ab_tests",
+    "Дети|CX|Сегмент|hyp.ab_tests",
+    "Зрелость|CX|Сегмент|hyp.ab_tests",
+    "Колл-центр|PC|Канал|hyp.ab_tests",
+    "МВС|CX|Сегмент|hyp.ab_tests",
+    "СберKids|DP|Канал|hyp.ab_tests",
+    "Телемаркетинг|PC|Канал|hyp.ab_tests",
+    "Чат|PC|Канал|hyp.ab_tests",
+    "СБОЛ|DP|Канал|hyp.ab_tests",
+    "СберИнвестор|DP|Канал|hyp.ab_tests",
+    "Уведомления|DP|Канал|hyp.ab_tests",
+    "Рабочий возраст|CX|Сегмент|hyp.ab_tests",
+    "Top Affluent|CX|Сегмент|hyp.ab_tests",
+    "SberID|Data|Продукт|hyp.ab_tests"
+  ],
+  "denominatorChanges": [
+    {
+      "name": "Сделка ИЖС",
+      "delta": 1
+    },
+    {
+      "name": "Автокредит",
+      "delta": 1
+    },
+    {
+      "name": "POS-кредиты",
+      "delta": 1
+    },
+    {
+      "name": "Персональная рекомендация",
+      "delta": 1
+    }
+  ],
+  "fullyFilledCount": 10,
+  "fullyFilled": [
+    {
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "score": 63
+    },
+    {
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "score": 63
+    },
+    {
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "score": 76
+    },
+    {
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "score": 71
+    },
+    {
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "score": 50
+    },
+    {
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "score": 53
+    },
+    {
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "score": 72
+    },
+    {
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "score": 61
+    },
+    {
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "score": 67
+    },
+    {
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "score": 46
+    }
+  ],
+  "bnplScore": 46,
+  "bnplDelta": {
+    "value": -8,
+    "previousScore": 54,
+    "previousPeriod": "II кв. 2026"
+  }
+}

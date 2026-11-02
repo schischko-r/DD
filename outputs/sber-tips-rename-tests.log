@@ -1,0 +1,502 @@
+TAP version 13
+# Subtest: shared insurance and payment datasets match every explicit member without duplicating the dataset
+ok 1 - shared insurance and payment datasets match every explicit member without duplicating the dataset
+  ---
+  duration_ms: 2.898208
+  type: 'test'
+  ...
+# Subtest: canonical legacy aliases are supported while commas do not infer arbitrary shared memberships
+ok 2 - canonical legacy aliases are supported while commas do not infer arbitrary shared memberships
+  ---
+  duration_ms: 0.922709
+  type: 'test'
+  ...
+# Subtest: the shipped eleven datasets each contain Q3 and each shared member resolves to one shared board
+ok 3 - the shipped eleven datasets each contain Q3 and each shared member resolves to one shared board
+  ---
+  duration_ms: 5.718417
+  type: 'test'
+  ...
+# Subtest: fifteen individual options reference the original eleven datasets without copying aggregates or splitting ordinary comma names
+ok 4 - fifteen individual options reference the original eleven datasets without copying aggregates or splitting ordinary comma names
+  ---
+  duration_ms: 7.959208
+  type: 'test'
+  ...
+# Subtest: outflow report action belongs only to the deposits and savings analysis metric
+ok 5 - outflow report action belongs only to the deposits and savings analysis metric
+  ---
+  duration_ms: 0.686583
+  type: 'test'
+  ...
+# Subtest: report selectors preserve score and group fallbacks
+ok 6 - report selectors preserve score and group fallbacks
+  ---
+  duration_ms: 0.146625
+  type: 'test'
+  ...
+# Subtest: next maturity uplift uses the first whole percent of the next level
+ok 7 - next maturity uplift uses the first whole percent of the next level
+  ---
+  duration_ms: 0.361333
+  type: 'test'
+  ...
+# Subtest: report percentage helpers clamp and aggregate values
+ok 8 - report percentage helpers clamp and aggregate values
+  ---
+  duration_ms: 0.087417
+  type: 'test'
+  ...
+# Subtest: display copy uses the hyphenated up-sell spelling
+ok 9 - display copy uses the hyphenated up-sell spelling
+  ---
+  duration_ms: 0.278666
+  type: 'test'
+  ...
+# Subtest: card product names are synchronized in the frontend only
+ok 10 - card product names are synchronized in the frontend only
+  ---
+  duration_ms: 0.132458
+  type: 'test'
+  ...
+# Subtest: recommendation uplifts add up to the remaining displayed index
+ok 11 - recommendation uplifts add up to the remaining displayed index
+  ---
+  duration_ms: 0.238
+  type: 'test'
+  ...
+# Subtest: recommendation card aggregates hidden uplift into the displayed total
+ok 12 - recommendation card aggregates hidden uplift into the displayed total
+  ---
+  duration_ms: 0.1375
+  type: 'test'
+  ...
+# Subtest: DD index metrics exclude display-only and inapplicable rows
+ok 13 - DD index metrics exclude display-only and inapplicable rows
+  ---
+  duration_ms: 0.290417
+  type: 'test'
+  ...
+# Subtest: metric deviations include only applicable DD index gaps
+ok 14 - metric deviations include only applicable DD index gaps
+  ---
+  duration_ms: 0.333875
+  type: 'test'
+  ...
+# Subtest: radar percentage omits inapplicable blocks without hiding real zero scores
+ok 15 - radar percentage omits inapplicable blocks without hiding real zero scores
+  ---
+  duration_ms: 0.125583
+  type: 'test'
+  ...
+# Subtest: report presentation helpers preserve stable output
+ok 16 - report presentation helpers preserve stable output
+  ---
+  duration_ms: 1.18425
+  type: 'test'
+  ...
+# Subtest: fully inapplicable metric subgroups are removed
+ok 17 - fully inapplicable metric subgroups are removed
+  ---
+  duration_ms: 1.326166
+  type: 'test'
+  ...
+# Subtest: fully inapplicable metric groups are removed unless a digest is connected
+ok 18 - fully inapplicable metric groups are removed unless a digest is connected
+  ---
+  duration_ms: 0.118959
+  type: 'test'
+  ...
+# Subtest: key metrics and mechanics hide inapplicable metric rows
+ok 19 - key metrics and mechanics hide inapplicable metric rows
+  ---
+  duration_ms: 0.087959
+  type: 'test'
+  ...
+# Subtest: campaigning links require an applicable campaign metric
+ok 20 - campaigning links require an applicable campaign metric
+  ---
+  duration_ms: 1.101667
+  type: 'test'
+  ...
+# Subtest: campaign skills are routed to their exact metrics
+ok 21 - campaign skills are routed to their exact metrics
+  ---
+  duration_ms: 0.295708
+  type: 'test'
+  ...
+# Subtest: draft link requires an applicable drafts metric
+ok 22 - draft link requires an applicable drafts metric
+  ---
+  duration_ms: 0.1345
+  type: 'test'
+  ...
+# Subtest: reports require an applicable linked metric
+ok 23 - reports require an applicable linked metric
+  ---
+  duration_ms: 0.110583
+  type: 'test'
+  ...
+# Subtest: overview reports require at least one applicable metric in their block
+ok 24 - overview reports require at least one applicable metric in their block
+  ---
+  duration_ms: 0.039
+  type: 'test'
+  ...
+# Subtest: cross-sell digital trace state comes from Product Lens data
+ok 25 - cross-sell digital trace state comes from Product Lens data
+  ---
+  duration_ms: 0.18675
+  type: 'test'
+  ...
+# Subtest: cross-sell analytics uses the product deeplink already resolved by the export
+ok 26 - cross-sell analytics uses the product deeplink already resolved by the export
+  ---
+  duration_ms: 0.099167
+  type: 'test'
+  ...
+# Subtest: cross-sell analytics finds a nested tool and has no title-page fallback
+ok 27 - cross-sell analytics finds a nested tool and has no title-page fallback
+  ---
+  duration_ms: 0.048625
+  type: 'test'
+  ...
+# Subtest: cross-sell analytics preserves the product deeplink resolved by the export
+ok 28 - cross-sell analytics preserves the product deeplink resolved by the export
+  ---
+  duration_ms: 0.035708
+  type: 'test'
+  ...
+# Subtest: cross-sell preview uses the current product recommendation and LossHunter product deeplink
+ok 29 - cross-sell preview uses the current product recommendation and LossHunter product deeplink
+  ---
+  duration_ms: 0.187542
+  type: 'test'
+  ...
+# Subtest: cross-sell preview is unavailable without either recommendation or product deeplink
+ok 30 - cross-sell preview is unavailable without either recommendation or product deeplink
+  ---
+  duration_ms: 0.083125
+  type: 'test'
+  ...
+# Subtest: team help audience distinguishes products, segments, and channel types
+ok 31 - team help audience distinguishes products, segments, and channel types
+  ---
+  duration_ms: 0.075125
+  type: 'test'
+  ...
+# Subtest: backlog decomposition is a dedicated sidebar view with its own data source
+ok 32 - backlog decomposition is a dedicated sidebar view with its own data source
+  ---
+  duration_ms: 1.202542
+  type: 'test'
+  ...
+# Subtest: backlog can return to the selected team profile with exact normalized name matching
+ok 33 - backlog can return to the selected team profile with exact normalized name matching
+  ---
+  duration_ms: 0.180833
+  type: 'test'
+  ...
+# Subtest: backlog CTA is available for every team represented in backlog data and opens that team
+ok 34 - backlog CTA is available for every team represented in backlog data and opens that team
+  ---
+  duration_ms: 0.4875
+  type: 'test'
+  ...
+# Subtest: page uses Gravity UI stacked bars with a Created-only grouping switch
+ok 35 - page uses Gravity UI stacked bars with a Created-only grouping switch
+  ---
+  duration_ms: 0.250834
+  type: 'test'
+  ...
+# Subtest: dashboard defaults to the latest available quarter and labels partial periods
+ok 36 - dashboard defaults to the latest available quarter and labels partial periods
+  ---
+  duration_ms: 0.128792
+  type: 'test'
+  ...
+# Subtest: quarter filter keeps history through the selected quarter and hides later months
+ok 37 - quarter filter keeps history through the selected quarter and hides later months
+  ---
+  duration_ms: 1.193375
+  type: 'test'
+  ...
+# Subtest: created KPI uses the selected-quarter total while mini charts remain monthly
+ok 38 - created KPI uses the selected-quarter total while mini charts remain monthly
+  ---
+  duration_ms: 0.3055
+  type: 'test'
+  ...
+# Subtest: dashboard insights consume the backend quarter schema and enforce the 40 percent goal
+ok 39 - dashboard insights consume the backend quarter schema and enforce the 40 percent goal
+  ---
+  duration_ms: 19.19275
+  type: 'test'
+  ...
+# Subtest: insights use Created as the shared denominator
+ok 40 - insights use Created as the shared denominator
+  ---
+  duration_ms: 0.601792
+  type: 'test'
+  ...
+# Subtest: scenario focus recommendations use high share or team time in work above the benchmark
+ok 41 - scenario focus recommendations use high share or team time in work above the benchmark
+  ---
+  duration_ms: 1.39575
+  type: 'test'
+  ...
+# Subtest: scenario focus recommendations collapse identical toolkits and recalculate their metrics
+ok 42 - scenario focus recommendations collapse identical toolkits and recalculate their metrics
+  ---
+  duration_ms: 0.258583
+  type: 'test'
+  ...
+# Subtest: scenario values use regular body text
+ok 43 - scenario values use regular body text
+  ---
+  duration_ms: 0.069667
+  type: 'test'
+  ...
+# Subtest: grouped OpenCode recommendation explains the Claude equivalent
+ok 44 - grouped OpenCode recommendation explains the Claude equivalent
+  ---
+  duration_ms: 0.040041
+  type: 'test'
+  ...
+# Subtest: recommendations render their heading only once
+ok 45 - recommendations render their heading only once
+  ---
+  duration_ms: 0.057833
+  type: 'test'
+  ...
+# Subtest: scenario focus recommendations exclude manual updates, BI bugfixes and employee training
+ok 46 - scenario focus recommendations exclude manual updates, BI bugfixes and employee training
+  ---
+  duration_ms: 0.203041
+  type: 'test'
+  ...
+# Subtest: unmapped scenarios retain only their quality recommendation
+ok 47 - unmapped scenarios retain only their quality recommendation
+  ---
+  duration_ms: 0.160125
+  type: 'test'
+  ...
+# Subtest: scenario focus recommendations require a high share when benchmark data is unavailable
+ok 48 - scenario focus recommendations require a high share when benchmark data is unavailable
+  ---
+  duration_ms: 0.0965
+  type: 'test'
+  ...
+# Subtest: scenario focus recommendations preserve approved resources and exclude unapproved regulator exports
+ok 49 - scenario focus recommendations preserve approved resources and exclude unapproved regulator exports
+  ---
+  duration_ms: 0.096917
+  type: 'test'
+  ...
+# Subtest: quarter dashboard exposes goal, KPI and evidence panels in a compact layout
+ok 50 - quarter dashboard exposes goal, KPI and evidence panels in a compact layout
+  ---
+  duration_ms: 2.244125
+  type: 'test'
+  ...
+# Subtest: dashboard header keeps Gravity UI filters beside the title like the team card
+ok 51 - dashboard header keeps Gravity UI filters beside the title like the team card
+  ---
+  duration_ms: 7.985333
+  type: 'test'
+  ...
+# Subtest: KPI and recommendations are composed from neutral Gravity UI primitives
+ok 52 - KPI and recommendations are composed from neutral Gravity UI primitives
+  ---
+  duration_ms: 0.9875
+  type: 'test'
+  ...
+# Subtest: KPI mini charts show history only through the selected quarter with a quarter reference line
+ok 53 - KPI mini charts show history only through the selected quarter with a quarter reference line
+  ---
+  duration_ms: 0.8565
+  type: 'test'
+  ...
+# Subtest: top scenarios use a horizontal Gravity UI bar chart for Created counts
+ok 54 - top scenarios use a horizontal Gravity UI bar chart for Created counts
+  ---
+  duration_ms: 0.333791
+  type: 'test'
+  ...
+# Subtest: quarter and grouping filters retain native Gravity Select chrome
+ok 55 - quarter and grouping filters retain native Gravity Select chrome
+  ---
+  duration_ms: 0.324042
+  type: 'test'
+  ...
+# Subtest: backlog dashboard keeps component chrome strictly inside Gravity UI
+ok 56 - backlog dashboard keeps component chrome strictly inside Gravity UI
+  ---
+  duration_ms: 0.327917
+  type: 'test'
+  ...
+# Subtest: team selector switches complete datasets and preserves top-level fallback
+ok 57 - team selector switches complete datasets and preserves top-level fallback
+  ---
+  duration_ms: 0.396666
+  type: 'test'
+  ...
+# Subtest: stacked Created chart shows history only through the selected quarter with a quarter stack reference line
+ok 58 - stacked Created chart shows history only through the selected quarter with a quarter stack reference line
+  ---
+  duration_ms: 0.391417
+  type: 'test'
+  ...
+# Subtest: structure chart category filter offers contextual categories and filters a selected category
+ok 59 - structure chart category filter offers contextual categories and filters a selected category
+  ---
+  duration_ms: 0.286667
+  type: 'test'
+  ...
+# Subtest: structure chart marks only the Discovery direction with an accessible green check
+ok 60 - structure chart marks only the Discovery direction with an accessible green check
+  ---
+  duration_ms: 0.399458
+  type: 'test'
+  ...
+# Subtest: Created semantics remain explicit alongside selected-quarter delivery quality KPIs
+ok 61 - Created semantics remain explicit alongside selected-quarter delivery quality KPIs
+  ---
+  duration_ms: 0.280291
+  type: 'test'
+  ...
+# Subtest: KPI charts use their declared Created or completed-task cohorts
+ok 62 - KPI charts use their declared Created or completed-task cohorts
+  ---
+  duration_ms: 0.21025
+  type: 'test'
+  ...
+# Subtest: Discovery hint lists the directions counted in the calculation ahead of the rest
+ok 63 - Discovery hint lists the directions counted in the calculation ahead of the rest
+  ---
+  duration_ms: 0.155042
+  type: 'test'
+  ...
+# Subtest: Discovery hint lists the scenarios behind the counted direction
+ok 64 - Discovery hint lists the scenarios behind the counted direction
+  ---
+  duration_ms: 0.080917
+  type: 'test'
+  ...
+# Subtest: Discovery hint nests scenarios under the counted direction only
+ok 65 - Discovery hint nests scenarios under the counted direction only
+  ---
+  duration_ms: 0.211167
+  type: 'test'
+  ...
+# Subtest: Discovery hint supports several counted directions and reports absent ones
+ok 66 - Discovery hint supports several counted directions and reports absent ones
+  ---
+  duration_ms: 0.0975
+  type: 'test'
+  ...
+# Subtest: Discovery hint tolerates a quarter without direction breakdown
+ok 67 - Discovery hint tolerates a quarter without direction breakdown
+  ---
+  duration_ms: 0.038292
+  type: 'test'
+  ...
+# Subtest: Discovery goal card exposes a round info button opening a click popover
+ok 68 - Discovery goal card exposes a round info button opening a click popover
+  ---
+  duration_ms: 0.152291
+  type: 'test'
+  ...
+# Subtest: sub-hour cycle time renders as «< 1 часа» instead of a zero reading
+ok 69 - sub-hour cycle time renders as «< 1 часа» instead of a zero reading
+  ---
+  duration_ms: 0.04
+  type: 'test'
+  ...
+# Subtest: ИнвестКопилка carries a data notice about the May spike, and no other team does
+ok 70 - ИнвестКопилка carries a data notice about the May spike, and no other team does
+  ---
+  duration_ms: 0.182375
+  type: 'test'
+  ...
+# Subtest: the May spike the notice describes is real in the shipped backlog data
+ok 71 - the May spike the notice describes is real in the shipped backlog data
+  ---
+  duration_ms: 2.883291
+  type: 'test'
+  ...
+# Subtest: App shares the Summary unit filter with the team profile
+ok 72 - App shares the Summary unit filter with the team profile
+  ---
+  duration_ms: 2.428625
+  type: 'test'
+  ...
+# Subtest: team profile unit filter limits the team selector with its controlled value
+ok 73 - team profile unit filter limits the team selector with its controlled value
+  ---
+  duration_ms: 0.418
+  type: 'test'
+  ...
+# Subtest: opening a Dashboard product synchronizes the lifted unit before showing its profile
+ok 74 - opening a Dashboard product synchronizes the lifted unit before showing its profile
+  ---
+  duration_ms: 0.218583
+  type: 'test'
+  ...
+# Subtest: both Summary views use the same lifted unit filter
+ok 75 - both Summary views use the same lifted unit filter
+  ---
+  duration_ms: 0.448375
+  type: 'test'
+  ...
+# Subtest: team profile controls stay beside the heading without overlapping
+ok 76 - team profile controls stay beside the heading without overlapping
+  ---
+  duration_ms: 0.7425
+  type: 'test'
+  ...
+# Subtest: team profile removes the replaced AI recommendations section toggle
+ok 77 - team profile removes the replaced AI recommendations section toggle
+  ---
+  duration_ms: 0.400459
+  type: 'test'
+  ...
+# Subtest: profile and Dashboard share the lifted period and scope profile data to that period
+ok 78 - profile and Dashboard share the lifted period and scope profile data to that period
+  ---
+  duration_ms: 0.985458
+  type: 'test'
+  ...
+# Subtest: profile presents controlled period, unit and team selectors in that order
+ok 79 - profile presents controlled period, unit and team selectors in that order
+  ---
+  duration_ms: 0.256125
+  type: 'test'
+  ...
+# Subtest: profile alone uses period-scoped title rows and missing scores stay unavailable
+ok 80 - profile alone uses period-scoped title rows and missing scores stay unavailable
+  ---
+  duration_ms: 0.426417
+  type: 'test'
+  ...
+# Subtest: Dashboard and profile share the period catalog and keep an empty quarter explicitly empty
+ok 81 - Dashboard and profile share the period catalog and keep an empty quarter explicitly empty
+  ---
+  duration_ms: 2.671583
+  type: 'test'
+  ...
+# Subtest: display-only profile products are memoized without filling the actual Dashboard cohort
+ok 82 - display-only profile products are memoized without filling the actual Dashboard cohort
+  ---
+  duration_ms: 0.180167
+  type: 'test'
+  ...
+1..82
+# tests 82
+# suites 0
+# pass 82
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 156.540334

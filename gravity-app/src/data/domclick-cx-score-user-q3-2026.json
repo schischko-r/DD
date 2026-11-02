@@ -2,19 +2,115 @@
   "period": "III кв. 2026",
   "scope": "cx-score-assessment",
   "source": {
-    "origin": "userConfirmedDomclickCxScore20261031", "confirmedBy": "user", "date": "2026-10-31",
-    "rule": "Последнее уточнение пользователя: НКПЗН и первичке CX Score = 0.5, как у вторички. Предварительно предложенная 1 не применяется."
+    "origin": "userConfirmedDomclickCxScore20261102",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "rule": "Пользователь указал CX Score = 100% для четырёх перечисленных продуктов ДомКлика в III квартале."
   },
   "products": [
     {
       "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
-      "name": "Много денег (НКПЗН)", "unit": "ДомКлик", "type": "Продукт",
-      "metrics": {"cx.score": {"rawValue": 0.5, "source": {"origin": "userConfirmedDomclickCxScore20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "inputAlias": "нкдзп", "rawValue": 0.5}}}
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCxScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputAlias": "Много денег (НКПЗН)",
+            "rawValue": 1,
+            "reason": "Пользователь указал CX Score = 100% за III квартал.",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "cx.score",
+            "previousAssessmentSource": {
+              "origin": "userConfirmedDomclickCxScore20261031",
+              "confirmedBy": "user",
+              "date": "2026-10-31",
+              "period": "III кв. 2026",
+              "inputAlias": "нкдзп",
+              "rawValue": 0.5
+            }
+          }
+        }
+      }
     },
     {
       "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
-      "name": "Сделка с Первичным жильём", "unit": "ДомКлик", "type": "Продукт",
-      "metrics": {"cx.score": {"rawValue": 0.5, "source": {"origin": "userConfirmedDomclickCxScore20261031", "confirmedBy": "user", "date": "2026-10-31", "period": "III кв. 2026", "inputAlias": "первичка", "rawValue": 0.5}}}
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCxScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputAlias": "Сделка с Первичным жильём",
+            "rawValue": 1,
+            "reason": "Пользователь указал CX Score = 100% за III квартал.",
+            "sourceName": "Сделка с Первичным жильём",
+            "metricCode": "cx.score",
+            "previousAssessmentSource": {
+              "origin": "userConfirmedDomclickCxScore20261031",
+              "confirmedBy": "user",
+              "date": "2026-10-31",
+              "period": "III кв. 2026",
+              "inputAlias": "первичка",
+              "rawValue": 0.5
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCxScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "inputAlias": "Сделка вторичка",
+            "reason": "Пользователь указал CX Score = 100% за III квартал.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "metricCode": "cx.score",
+            "rawValue": 1
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDomclickCxScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "inputAlias": "Сделка ИЖС",
+            "reason": "Пользователь указал CX Score = 100% за III квартал.",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "metricCode": "cx.score",
+            "rawValue": 1
+          }
+        }
+      }
     }
   ]
 }

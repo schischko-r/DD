@@ -1,0 +1,215 @@
+{
+  "period": "III кв. 2026",
+  "scope": "metric-applicability-assessment",
+  "source": {
+    "origin": "userConfirmedCrossborderAcquiringReportingNotApplicable",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "period": "III кв. 2026",
+    "rule": "Последнее указание пользователя: отчётность в привлечении и оттоке трансграничного эквайринга за III квартал неприменима и скрыта; остальные метрики и II квартал сохраняются."
+  },
+  "products": [
+    {
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "metrics": {
+        "attract.nastroena_otchetnostь": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedCrossborderAcquiringReportingNotApplicable",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "rule": "Последнее указание пользователя: отчётность в привлечении и оттоке трансграничного эквайринга за III квартал неприменима и скрыта; остальные метрики и II квартал сохраняются.",
+            "metricCode": "attract.nastroena_otchetnostь",
+            "previousAssessment": {
+              "value": 0,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "source": {
+                "origin": "userConfirmedFunnelAssessment",
+                "confirmedBy": "user",
+                "date": "2026-10-30",
+                "period": "III кв. 2026",
+                "sourceName": "Трансграничный эквайринг #B2C",
+                "sourceMetricName": "Настроена отчетность",
+                "question": "Настроена ли регулярная отчётность по воронке привлечения?",
+                "sourceRows": [
+                  318
+                ],
+                "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+                "rawValue": 0
+              }
+            }
+          }
+        },
+        "attract.regulyarnostь": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedCrossborderAcquiringReportingNotApplicable",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "rule": "Последнее указание пользователя: отчётность в привлечении и оттоке трансграничного эквайринга за III квартал неприменима и скрыта; остальные метрики и II квартал сохраняются.",
+            "metricCode": "attract.regulyarnostь",
+            "previousAssessment": {
+              "value": 0,
+              "max_value": 1,
+              "is_applicabble_flg": true,
+              "source": {
+                "origin": "userConfirmedReportingMissingRule",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 38,
+                "surveyId": "ddi-product-full-cross-border-acquiring-b2c",
+                "completedAt": "2026-10-21T11:30:19.048Z",
+                "respondent": "Забегаев Михаил Евгеньевич",
+                "originalTeamId": "full-cross-border-acquiring-b2c¦Трансграничный эквайринг #B2C",
+                "originalTeamName": "Трансграничный эквайринг #B2C",
+                "questionId": "attractConfigured",
+                "answer": "Затрудняюсь ответить",
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 34
+                },
+                "reportFormat": "unavailable",
+                "reportEvidence": null,
+                "rule": "Автоматическая отчётность: наличие=1, регулярность=1; по запросу: наличие=1, регулярность=0.5; Нет/Затрудняюсь ответить: оба=0. Заполняются только отсутствующие оценки; ранее выставленные значения сохраняются.",
+                "rawValue": 0
+              }
+            }
+          }
+        },
+        "attract.report_completeness": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedCrossborderAcquiringReportingNotApplicable",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "rule": "Последнее указание пользователя: отчётность в привлечении и оттоке трансграничного эквайринга за III квартал неприменима и скрыта; остальные метрики и II квартал сохраняются.",
+            "metricCode": "attract.report_completeness",
+            "previousAssessment": {
+              "value": 0.25,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "source": {
+                "origin": "userConfirmedMissingFunnelFill20261031",
+                "confirmedBy": "user",
+                "date": "2026-10-31",
+                "period": "III кв. 2026",
+                "sourceName": "Трансграничный эквайринг #B2C",
+                "sourceMetricName": "Полнота отчета",
+                "inputRow": 6,
+                "inputColumn": "last",
+                "previousValue": null,
+                "rule": "По указанию пользователя последнее число строки применяется только к пустой оценке. Ранее заполненные оценки, включая ноль, сохраняются.",
+                "rawValue": 0.5
+              }
+            }
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedCrossborderAcquiringReportingNotApplicable",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "rule": "Последнее указание пользователя: отчётность в привлечении и оттоке трансграничного эквайринга за III квартал неприменима и скрыта; остальные метрики и II квартал сохраняются.",
+            "metricCode": "churn.nastroena_otchetnostь",
+            "previousAssessment": {
+              "value": 0,
+              "max_value": 0.5,
+              "is_applicabble_flg": true,
+              "source": {
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 38,
+                "surveyId": "ddi-product-full-cross-border-acquiring-b2c",
+                "completedAt": "2026-10-21T11:30:19.048Z",
+                "originalTeamId": "full-cross-border-acquiring-b2c¦Трансграничный эквайринг #B2C",
+                "originalTeamName": "Трансграничный эквайринг #B2C",
+                "questionId": "churnConfigured",
+                "answer": "Нет",
+                "questionSource": {
+                  "sheet": "Продукты (2)",
+                  "row": 57
+                },
+                "origin": "userConfirmedReportingAbsenceRule20261031",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "reportingCode": "churn.nastroena_otchetnostь",
+                "reportingValue": 0,
+                "rawValue": 0,
+                "previousAssessmentValue": 0,
+                "previousAssessmentSource": {
+                  "origin": "userConfirmedFunnelAssessment",
+                  "confirmedBy": "user",
+                  "date": "2026-10-30",
+                  "period": "III кв. 2026",
+                  "sourceName": "Трансграничный эквайринг #B2C",
+                  "sourceMetricName": "Настроена отчетность",
+                  "question": "Настроена ли регулярная отчётность по воронке оттока?",
+                  "sourceRows": [
+                    316
+                  ],
+                  "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+                  "baselineApplicable": false,
+                  "baselineMax": 0,
+                  "rawValue": 0
+                },
+                "rule": "Ответ «Нет» при отсутствующей или нулевой оценке настроенной отчётности: отчётность, бенчмарки, регулярность и полнота отчёта = 0. Положительная оценка отчётности защищает весь блок."
+              }
+            }
+          }
+        },
+        "churn.regulyarnostь": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedCrossborderAcquiringReportingNotApplicable",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "rule": "Последнее указание пользователя: отчётность в привлечении и оттоке трансграничного эквайринга за III квартал неприменима и скрыта; остальные метрики и II квартал сохраняются.",
+            "metricCode": "churn.regulyarnostь",
+            "previousAssessment": {
+              "value": null,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "source": null
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedCrossborderAcquiringReportingNotApplicable",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "rule": "Последнее указание пользователя: отчётность в привлечении и оттоке трансграничного эквайринга за III квартал неприменима и скрыта; остальные метрики и II квартал сохраняются.",
+            "metricCode": "churn.report_completeness",
+            "previousAssessment": {
+              "value": null,
+              "max_value": 0,
+              "is_applicabble_flg": false,
+              "source": null
+            }
+          }
+        }
+      }
+    }
+  ],
+  "applyAfterReporting": true
+}

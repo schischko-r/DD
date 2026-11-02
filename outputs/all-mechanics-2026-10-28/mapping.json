@@ -1,0 +1,2120 @@
+{
+  "sourceFiles": [
+    {
+      "file": "questionare-uplifts(5).csv",
+      "sha256": "751ad2fcab18d4d7a3b4baa6d0d906632624bc7dee2a474ba0182e81bae1d07c",
+      "recordRows": 405,
+      "respondentBlocks": 9,
+      "mechanicsRows": 55
+    },
+    {
+      "file": "questionare-uplifts(6).csv",
+      "sha256": "55513264be7c353bbddc33a986ab1b584c39bb2b4c477b8344d9a7b60daa37e4",
+      "recordRows": 256,
+      "respondentBlocks": 6,
+      "mechanicsRows": 34
+    },
+    {
+      "file": "questionare-uplifts(7).csv",
+      "sha256": "f26a1fb1975099c18854579b11828ffec4a15f253d84c82b527c9748acaa2307",
+      "recordRows": 3125,
+      "respondentBlocks": 64,
+      "mechanicsRows": 373
+    }
+  ],
+  "orphans": [
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block19:row874",
+      "sourceRow": 903,
+      "targetMetric": "Мониторинг механик",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Трансграничные переводы #B2C",
+        "Участник": "kesidorova@sberbank.ru",
+        "ФИО": "Сидорова Ксения Евгеньевна",
+        "Метрика": "",
+        "Вопрос": "Опишите метрики, которые вы используете для мониторинга и оценки эффективности работы механики",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "",
+        "Ответ участника": "конверсия в открытие, в целевое действие, retention",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block19:row874",
+      "sourceRow": 904,
+      "targetMetric": "Cross-sell",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Трансграничные переводы #B2C",
+        "Участник": "kesidorova@sberbank.ru",
+        "ФИО": "Сидорова Ксения Евгеньевна",
+        "Метрика": "",
+        "Вопрос": "Настроена ли у вас механика Cross-sell после оформления продукта?",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Да; Нет; Затрудняюсь ответить",
+        "Ответ участника": "Нет",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block23:row1053",
+      "sourceRow": 1076,
+      "targetMetric": "Мониторинг механик",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Сберчаевые #B2C",
+        "Участник": "yusegubin@sberbank.ru",
+        "ФИО": "Губин Юрий Сергеевич",
+        "Метрика": "",
+        "Вопрос": "Опишите метрики, которые вы используете для мониторинга и оценки эффективности работы механики",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "",
+        "Ответ участника": "Оборот, конверсия, доля рынка, комдоход.",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block23:row1053",
+      "sourceRow": 1077,
+      "targetMetric": "Cross-sell",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Сберчаевые #B2C",
+        "Участник": "yusegubin@sberbank.ru",
+        "ФИО": "Губин Юрий Сергеевич",
+        "Метрика": "",
+        "Вопрос": "Настроена ли у вас механика Cross-sell после оформления продукта?",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "На финишном экране проведения операции Клиентам доступны акции и предлоожения банка и Партнеров.",
+        "Варианты ответа": "Да; Нет; Затрудняюсь ответить",
+        "Ответ участника": "Да",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block36:row1696",
+      "sourceRow": 1720,
+      "targetMetric": "Мониторинг механик",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Трансграничный эквайринг #B2C",
+        "Участник": "16643181",
+        "ФИО": "Забегаев Михаил Евгеньевич",
+        "Метрика": "",
+        "Вопрос": "Опишите метрики, которые вы используете для мониторинга и оценки эффективности работы механики",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "",
+        "Ответ участника": "Оборот, mau, анализ жалоб клиентов",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block36:row1696",
+      "sourceRow": 1721,
+      "targetMetric": "Cross-sell",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Трансграничный эквайринг #B2C",
+        "Участник": "16643181",
+        "ФИО": "Забегаев Михаил Евгеньевич",
+        "Метрика": "",
+        "Вопрос": "Настроена ли у вас механика Cross-sell после оформления продукта?",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Да; Нет; Затрудняюсь ответить",
+        "Ответ участника": "Нет",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block63:row3044",
+      "sourceRow": 3070,
+      "targetMetric": "Мониторинг механик",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Трансграничный эквайринг #B2B",
+        "Участник": "mvchikina",
+        "ФИО": "(тест Штаб DB B2C) Чикина Мария",
+        "Метрика": "",
+        "Вопрос": "Опишите метрики, которые вы используете для мониторинга и оценки эффективности работы механики",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "",
+        "Ответ участника": "gg",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block63:row3044",
+      "sourceRow": 3071,
+      "targetMetric": "Cross-sell",
+      "candidateMainRows": [],
+      "rawRow": {
+        "Команда": "Трансграничный эквайринг #B2B",
+        "Участник": "mvchikina",
+        "ФИО": "(тест Штаб DB B2C) Чикина Мария",
+        "Метрика": "",
+        "Вопрос": "Настроена ли у вас механика Cross-sell после оформления продукта?",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "Здесь не хватает ссылки на LossHunter с опросом по cross-sell.",
+        "Варианты ответа": "Да; Нет; Затрудняюсь ответить",
+        "Ответ участника": "Да",
+        "Единица измерения": "",
+        "Комментарий": ""
+      },
+      "resolution": "Included as separate followup row with blank prior score"
+    }
+  ],
+  "ambiguousMappings": [],
+  "genericRows": [
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block3:row78",
+      "sourceRow": 109,
+      "rawRow": {
+        "Команда": "Телемаркетинг",
+        "Участник": "sudakov-ns",
+        "ФИО": "Судаков Николай",
+        "Метрика": "",
+        "Вопрос": "Какие механики настроены по вашему каналу? (Телемаркетинг)",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Автоматизации (распределения очередей / сплитов /лидов); Наилучшего времени звонка; Персонализация скриптов; Контроля качества речи; Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Что-то еще? Напишите",
+        "Единица измерения": "",
+        "Комментарий": "Контроль качества как людей, так и агентов, подсказки операторам от copilot, автоматические отправки предложений, суммаризация диалогов"
+      }
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block4:row113",
+      "sourceRow": 163,
+      "rawRow": {
+        "Команда": "СБОЛ",
+        "Участник": "apashk",
+        "ФИО": "Баринова Ксения",
+        "Метрика": "",
+        "Вопрос": "Какие механики настроены по вашему каналу?",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Удержание клиентов; Возврат клиентов; Персонализация интерфейса, контента и рекомендаций; Стимулирование клиента (геймификация, пуши, побуждающие рассылки и тд); Обучающие механики (подсказки, пошаговое знакомство и тд); Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Что-то еще? Напишите",
+        "Единица измерения": "",
+        "Комментарий": "все уже выделено"
+      }
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block1:row2",
+      "sourceRow": 47,
+      "rawRow": {
+        "Команда": "Рабочий возраст",
+        "Участник": "elena_sirotkina",
+        "ФИО": "Сироткина Елена",
+        "Метрика": "",
+        "Вопрос": "Какие продуктовые механики настроены по вашему сегменту? (только для возрастных",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Персонализации клиентского опыта; Привлечение клиентов; Удержание клиентов; Реагирования на жизненные события; Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Низкая автоматизация отчетности, долгие сроки; Технические ограничения BI-платформы; Трудоемкий процесс вывода витрин; Отсутствие алертов, нет авто-мониторинга",
+        "Единица измерения": "",
+        "Комментарий": ""
+      }
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block2:row50",
+      "sourceRow": 92,
+      "rawRow": {
+        "Команда": "Top Affluent",
+        "Участник": "arobebagdasaryan@sberbank.ru",
+        "ФИО": "Багдасарян Артем Робертович",
+        "Метрика": "",
+        "Вопрос": "Какие продуктовые механики настроены по вашему сегменту? (только для возрастных",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Персонализации клиентского опыта; Привлечение клиентов; Удержание клиентов; Реагирования на жизненные события; Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Нехватка аналитических ресурсов (DA/DS/DE); Инструментарий платформы A/B; Технические ограничения BI-платформы",
+        "Единица измерения": "",
+        "Комментарий": ""
+      }
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block3:row95",
+      "sourceRow": 139,
+      "rawRow": {
+        "Команда": "МВС",
+        "Участник": "iskorikov@sberbank.ru",
+        "ФИО": "Кориков Иван Сергеевич",
+        "Метрика": "",
+        "Вопрос": "Какие продуктовые механики настроены по вашему сегменту? (только для возрастных",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Персонализации клиентского опыта; Привлечение клиентов; Удержание клиентов; Реагирования на жизненные события; Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Низкая автоматизация отчетности, долгие сроки; Трудоемкий процесс вывода витрин; Отсутствие алертов, нет авто-мониторинга; Низкое качество данных",
+        "Единица измерения": "",
+        "Комментарий": ""
+      }
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block4:row142",
+      "sourceRow": 179,
+      "rawRow": {
+        "Команда": "Зрелость",
+        "Участник": "serebryanikov.a.o@sberbank.ru",
+        "ФИО": "Серебряников Антон Олегович",
+        "Метрика": "",
+        "Вопрос": "Какие продуктовые механики настроены по вашему сегменту? (только для возрастных",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Персонализации клиентского опыта; Привлечение клиентов; Удержание клиентов; Реагирования на жизненные события; Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Нехватка аналитических ресурсов (DA/DS/DE)",
+        "Единица измерения": "",
+        "Комментарий": ""
+      }
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block5:row180",
+      "sourceRow": 217,
+      "rawRow": {
+        "Команда": "Молодежь",
+        "Участник": "rlkalashnikov@sberbank.ru",
+        "ФИО": "Калашников Роман Леонидович",
+        "Метрика": "",
+        "Вопрос": "Какие продуктовые механики настроены по вашему сегменту? (только для возрастных",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Персонализации клиентского опыта; Привлечение клиентов; Удержание клиентов; Реагирования на жизненные события; Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Отсутствие алертов, нет авто-мониторинга; Трудоемкий процесс вывода витрин; Низкое качество данных",
+        "Единица измерения": "",
+        "Комментарий": ""
+      }
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block6:row220",
+      "sourceRow": 255,
+      "rawRow": {
+        "Команда": "Дети/подростки",
+        "Участник": "rlkalashnikov@sberbank.ru",
+        "ФИО": "Калашников Роман Леонидович",
+        "Метрика": "",
+        "Вопрос": "Какие продуктовые механики настроены по вашему сегменту? (только для возрастных",
+        "Балл, который был": "",
+        "Балл, который получается": "",
+        "Аплифт": "",
+        "Подтверждение": "",
+        "Варианты ответа": "Персонализации клиентского опыта; Привлечение клиентов; Удержание клиентов; Реагирования на жизненные события; Что-то еще? Напишите; Затрудняюсь ответить",
+        "Ответ участника": "Трудоемкий процесс вывода витрин; Низкое качество данных; Отсутствие алертов, нет авто-мониторинга",
+        "Единица измерения": "",
+        "Комментарий": ""
+      }
+    }
+  ],
+  "unclassifiedMechanicsQuestions": [],
+  "respondentBlocks": [
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block1:row2",
+      "startRow": 2,
+      "endRow": 40,
+      "team": "Персональная рекомендация (кампейнинг)",
+      "participant": "komarov.i.ale@sberbank.ru",
+      "respondent": "Комаров Иван Алексеевич",
+      "mainMetricRows": [
+        24,
+        25
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block2:row41",
+      "startRow": 41,
+      "endRow": 77,
+      "team": "Колл-центр",
+      "participant": "arku",
+      "respondent": "Аркуша Наталья Евгеньевна",
+      "mainMetricRows": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block3:row78",
+      "startRow": 78,
+      "endRow": 112,
+      "team": "Телемаркетинг",
+      "participant": "sudakov-ns",
+      "respondent": "Судаков Николай",
+      "mainMetricRows": [
+        96,
+        97,
+        98,
+        99,
+        100,
+        101
+      ],
+      "genericRows": [
+        109
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block4:row113",
+      "startRow": 113,
+      "endRow": 167,
+      "team": "СБОЛ",
+      "participant": "apashk",
+      "respondent": "Баринова Ксения",
+      "mainMetricRows": [
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153
+      ],
+      "genericRows": [
+        163
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block5:row168",
+      "startRow": 168,
+      "endRow": 220,
+      "team": "СберKids",
+      "participant": "apashk",
+      "respondent": "Беликов Дмитрий",
+      "mainMetricRows": [
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block6:row221",
+      "startRow": 221,
+      "endRow": 269,
+      "team": "СберИнвестор",
+      "participant": "apashk",
+      "respondent": "Героник Екатерина",
+      "mainMetricRows": [
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block7:row270",
+      "startRow": 270,
+      "endRow": 321,
+      "team": "Уведомления",
+      "participant": "apashk",
+      "respondent": "Самойлов Дмитрий Сергеевич",
+      "mainMetricRows": [
+        303,
+        304,
+        305,
+        306,
+        307,
+        308,
+        309
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block8:row322",
+      "startRow": 322,
+      "endRow": 360,
+      "team": "Чат",
+      "participant": "eugenerzn@gmail.com",
+      "respondent": "Савин Евгений Юрьевич",
+      "mainMetricRows": [
+        342,
+        343,
+        344,
+        345,
+        346,
+        347
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "sourceBlockId": "questionare-uplifts(5).csv:block9:row361",
+      "startRow": 361,
+      "endRow": 406,
+      "team": "Единый личный кабинет (ЕЛК)",
+      "participant": "nkalinova",
+      "respondent": "Калинова Наталья Михайловна",
+      "mainMetricRows": [
+        384,
+        385,
+        386,
+        387,
+        388,
+        389,
+        390
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block1:row2",
+      "startRow": 2,
+      "endRow": 49,
+      "team": "Рабочий возраст",
+      "participant": "elena_sirotkina",
+      "respondent": "Сироткина Елена",
+      "mainMetricRows": [
+        23,
+        24,
+        25,
+        26,
+        27
+      ],
+      "genericRows": [
+        47
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block2:row50",
+      "startRow": 50,
+      "endRow": 94,
+      "team": "Top Affluent",
+      "participant": "arobebagdasaryan@sberbank.ru",
+      "respondent": "Багдасарян Артем Робертович",
+      "mainMetricRows": [
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ],
+      "genericRows": [
+        92
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block3:row95",
+      "startRow": 95,
+      "endRow": 141,
+      "team": "МВС",
+      "participant": "iskorikov@sberbank.ru",
+      "respondent": "Кориков Иван Сергеевич",
+      "mainMetricRows": [
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120
+      ],
+      "genericRows": [
+        139
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block4:row142",
+      "startRow": 142,
+      "endRow": 179,
+      "team": "Зрелость",
+      "participant": "serebryanikov.a.o@sberbank.ru",
+      "respondent": "Серебряников Антон Олегович",
+      "mainMetricRows": [
+        160,
+        161,
+        162,
+        163,
+        164
+      ],
+      "genericRows": [
+        179
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block5:row180",
+      "startRow": 180,
+      "endRow": 219,
+      "team": "Молодежь",
+      "participant": "rlkalashnikov@sberbank.ru",
+      "respondent": "Калашников Роман Леонидович",
+      "mainMetricRows": [
+        198,
+        199,
+        200,
+        201,
+        202
+      ],
+      "genericRows": [
+        217
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "sourceBlockId": "questionare-uplifts(6).csv:block6:row220",
+      "startRow": 220,
+      "endRow": 257,
+      "team": "Дети/подростки",
+      "participant": "rlkalashnikov@sberbank.ru",
+      "respondent": "Калашников Роман Леонидович",
+      "mainMetricRows": [
+        238,
+        239,
+        240,
+        241,
+        242
+      ],
+      "genericRows": [
+        255
+      ]
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block1:row2",
+      "startRow": 2,
+      "endRow": 48,
+      "team": "Оплата улыбкой",
+      "participant": "login",
+      "respondent": "Коняшин Артем Алексеевич",
+      "mainMetricRows": [
+        29,
+        30,
+        31,
+        32,
+        33,
+        34
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block2:row49",
+      "startRow": 49,
+      "endRow": 90,
+      "team": "SberID",
+      "participant": "avaleryevorobyev",
+      "respondent": "Воробьев Александр Валерьевич",
+      "mainMetricRows": [
+        68,
+        69,
+        70,
+        71,
+        72,
+        73
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block3:row91",
+      "startRow": 91,
+      "endRow": 137,
+      "team": "Зарплатный продукт",
+      "participant": "sautkin.a.yu@sberbank.ru",
+      "respondent": "Сауткин Андрей ",
+      "mainMetricRows": [
+        118,
+        119,
+        120,
+        121,
+        122,
+        123
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block4:row138",
+      "startRow": 138,
+      "endRow": 189,
+      "team": "ОСАГО",
+      "participant": "mimozhak",
+      "respondent": "Можак Максим Игоревич",
+      "mainMetricRows": [
+        165,
+        166,
+        167,
+        168,
+        169,
+        170
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block5:row190",
+      "startRow": 190,
+      "endRow": 237,
+      "team": "Сделка ИЖС",
+      "participant": "dlchernov@domclick.ru",
+      "respondent": "Чернов Дмитрий Леонидович",
+      "mainMetricRows": [
+        217,
+        218,
+        219,
+        220,
+        221,
+        222
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block6:row238",
+      "startRow": 238,
+      "endRow": 285,
+      "team": "Много денег (НКПЗН)",
+      "participant": "adspivakov@domclick.ru",
+      "respondent": "Спиваков Андрей",
+      "mainMetricRows": [
+        265,
+        266,
+        267,
+        268,
+        269,
+        270
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block7:row286",
+      "startRow": 286,
+      "endRow": 335,
+      "team": "Дебетовая карта",
+      "participant": "svvyakovlev1@yandex.ru",
+      "respondent": "Яковлев Сергей Викторович",
+      "mainMetricRows": [
+        313,
+        314,
+        315,
+        316,
+        317,
+        318
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block8:row336",
+      "startRow": 336,
+      "endRow": 386,
+      "team": "Образовательный кредит",
+      "participant": "samble95",
+      "respondent": "Семенов Тимофей Александрович ",
+      "mainMetricRows": [
+        363,
+        364,
+        365,
+        366,
+        367,
+        368
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block9:row387",
+      "startRow": 387,
+      "endRow": 434,
+      "team": "Объект Авто",
+      "participant": "mpmishchenko",
+      "respondent": "Мищенко Максим Павлович",
+      "mainMetricRows": [
+        414,
+        415,
+        416,
+        417,
+        418,
+        419
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block10:row435",
+      "startRow": 435,
+      "endRow": 485,
+      "team": "ОМС",
+      "participant": "vmskvortsov",
+      "respondent": "Скворцов Виталий Михайлович",
+      "mainMetricRows": [
+        462,
+        463,
+        464,
+        465,
+        466,
+        467
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block11:row486",
+      "startRow": 486,
+      "endRow": 531,
+      "team": "Слитки",
+      "participant": "bigbrother",
+      "respondent": "Григорьев Алексей Владимирович",
+      "mainMetricRows": [
+        513,
+        514,
+        515,
+        516,
+        517,
+        518
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block12:row532",
+      "startRow": 532,
+      "endRow": 579,
+      "team": "ОМС",
+      "participant": "bigbrother",
+      "respondent": "Григорьев Алексей Владимирович",
+      "mainMetricRows": [
+        559,
+        560,
+        561,
+        562,
+        563,
+        564
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block13:row580",
+      "startRow": 580,
+      "endRow": 628,
+      "team": "Слитки",
+      "participant": "vmskvortsov",
+      "respondent": "Скворцов Виталий Михайлович",
+      "mainMetricRows": [
+        607,
+        608,
+        609,
+        610,
+        611,
+        612
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block14:row629",
+      "startRow": 629,
+      "endRow": 678,
+      "team": "Интернет-Эквайринг",
+      "participant": "vedernikova",
+      "respondent": "Кравченко Т.В (Ведерникова Ю.А.)",
+      "mainMetricRows": [
+        656,
+        657,
+        658,
+        659,
+        660,
+        661
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block15:row679",
+      "startRow": 679,
+      "endRow": 727,
+      "team": "Пакет услуг СберПервый",
+      "participant": "amalentsev@sberbank.ru",
+      "respondent": "Аленцев Александр Михайлович",
+      "mainMetricRows": [
+        706,
+        707,
+        708,
+        709,
+        710,
+        711
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block16:row728",
+      "startRow": 728,
+      "endRow": 777,
+      "team": "Сделка с Первичным жильём",
+      "participant": "pkilin",
+      "respondent": "Ильин Павел Константинович",
+      "mainMetricRows": [
+        755,
+        756,
+        757,
+        758,
+        759,
+        760
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block17:row778",
+      "startRow": 778,
+      "endRow": 822,
+      "team": "Выписки, справки",
+      "participant": "avkrasilnikov@sberbank.ru",
+      "respondent": "Красильников Антон Владимирович",
+      "mainMetricRows": [
+        803,
+        804,
+        805,
+        806,
+        807,
+        808
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block18:row823",
+      "startRow": 823,
+      "endRow": 873,
+      "team": "SberPay Ecom",
+      "participant": "vedernikova",
+      "respondent": "Ведерникова Ю А",
+      "mainMetricRows": [
+        850,
+        851,
+        852,
+        853,
+        854,
+        855
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block19:row874",
+      "startRow": 874,
+      "endRow": 908,
+      "team": "Трансграничные переводы #B2C",
+      "participant": "kesidorova@sberbank.ru",
+      "respondent": "Сидорова Ксения Евгеньевна",
+      "mainMetricRows": [
+        891,
+        892,
+        893
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block20:row909",
+      "startRow": 909,
+      "endRow": 955,
+      "team": "Почта, Диск, Календарь",
+      "participant": "dbelozerov",
+      "respondent": "Белозеров Дмитрий Александрович",
+      "mainMetricRows": [
+        934,
+        935,
+        936,
+        937,
+        938,
+        939
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block21:row956",
+      "startRow": 956,
+      "endRow": 1002,
+      "team": "SberPay Ecom",
+      "participant": "mvchikina",
+      "respondent": "чикина м",
+      "mainMetricRows": [
+        983,
+        984,
+        985,
+        986,
+        987,
+        988
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block22:row1003",
+      "startRow": 1003,
+      "endRow": 1052,
+      "team": "СберПрайм",
+      "participant": "agfomicheva@sberbank.ru",
+      "respondent": "Фомичева Анна Геннадьевна",
+      "mainMetricRows": [
+        1030,
+        1031,
+        1032,
+        1033,
+        1034,
+        1035
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block23:row1053",
+      "startRow": 1053,
+      "endRow": 1082,
+      "team": "Сберчаевые #B2C",
+      "participant": "yusegubin@sberbank.ru",
+      "respondent": "Губин Юрий Сергеевич",
+      "mainMetricRows": [
+        1068,
+        1069,
+        1070
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block24:row1083",
+      "startRow": 1083,
+      "endRow": 1136,
+      "team": "НСЖ",
+      "participant": "volobuev.a.nikolae@sberbank.ru",
+      "respondent": "Волобуев Андрей Николаевич",
+      "mainMetricRows": [
+        1110,
+        1111,
+        1112,
+        1113,
+        1114,
+        1115
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block25:row1137",
+      "startRow": 1137,
+      "endRow": 1187,
+      "team": "ИСЖ",
+      "participant": "ooklycheva@sberbank.ru",
+      "respondent": "Клычева Олеся Олеговна ",
+      "mainMetricRows": [
+        1164,
+        1165,
+        1166,
+        1167,
+        1168,
+        1169
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block26:row1188",
+      "startRow": 1188,
+      "endRow": 1236,
+      "team": "BNPL",
+      "participant": "avadullin@sberbank.ru",
+      "respondent": "Адуллин Антон Викторович",
+      "mainMetricRows": [
+        1215,
+        1216,
+        1217,
+        1218,
+        1219,
+        1220
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block27:row1237",
+      "startRow": 1237,
+      "endRow": 1286,
+      "team": "POS-кредиты",
+      "participant": "avadullin@sberbank.ru",
+      "respondent": "Адуллин Антон Викторович",
+      "mainMetricRows": [
+        1263,
+        1264,
+        1265,
+        1266,
+        1267,
+        1268
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block28:row1287",
+      "startRow": 1287,
+      "endRow": 1340,
+      "team": "ВЗР",
+      "participant": "igormartusenko",
+      "respondent": "Мартусенко Игорь Викторович",
+      "mainMetricRows": [
+        1314,
+        1315,
+        1316,
+        1317,
+        1318,
+        1319
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block29:row1341",
+      "startRow": 1341,
+      "endRow": 1392,
+      "team": "Автокредит",
+      "participant": "elena_easy",
+      "respondent": "Бажанова Елена Олеговна",
+      "mainMetricRows": [
+        1368,
+        1369,
+        1370,
+        1371,
+        1372,
+        1373
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block30:row1393",
+      "startRow": 1393,
+      "endRow": 1442,
+      "team": "Сделка вторичка",
+      "participant": "sakomarov",
+      "respondent": "Комаров Сергей Андреевич",
+      "mainMetricRows": [
+        1420,
+        1421,
+        1422,
+        1423,
+        1424,
+        1425
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block31:row1443",
+      "startRow": 1443,
+      "endRow": 1493,
+      "team": "Вжух",
+      "participant": "drozhzhina.v.y@sberbank.ru",
+      "respondent": "Дрожжина Валентина Юрьевна",
+      "mainMetricRows": [
+        1470,
+        1471,
+        1472,
+        1473,
+        1474,
+        1475
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block32:row1494",
+      "startRow": 1494,
+      "endRow": 1546,
+      "team": "Пакет услуг СберПремьер",
+      "participant": "dianakozlova",
+      "respondent": "Козлова Диана Леонидовна ",
+      "mainMetricRows": [
+        1521,
+        1522,
+        1523,
+        1524,
+        1525,
+        1526
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block33:row1547",
+      "startRow": 1547,
+      "endRow": 1595,
+      "team": "Платежи",
+      "participant": "ryyurkovskiy@sber.ru",
+      "respondent": "Юрковский Роберт",
+      "mainMetricRows": [
+        1574,
+        1575,
+        1576,
+        1577,
+        1578,
+        1579
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block34:row1596",
+      "startRow": 1596,
+      "endRow": 1646,
+      "team": "Брокерский счет",
+      "participant": "sultanov.r.r@sberbank.ru",
+      "respondent": "Султанов Руслан Рафисович",
+      "mainMetricRows": [
+        1623,
+        1624,
+        1625,
+        1626,
+        1627,
+        1628
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block35:row1647",
+      "startRow": 1647,
+      "endRow": 1695,
+      "team": "Кредитные карты",
+      "participant": "azat",
+      "respondent": "Сайфуллин Азат Шавкатович",
+      "mainMetricRows": [
+        1674,
+        1675,
+        1676,
+        1677,
+        1678,
+        1679
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block36:row1696",
+      "startRow": 1696,
+      "endRow": 1725,
+      "team": "Трансграничный эквайринг #B2C",
+      "participant": "16643181",
+      "respondent": "Забегаев Михаил Евгеньевич",
+      "mainMetricRows": [
+        1711,
+        1712,
+        1713
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block37:row1726",
+      "startRow": 1726,
+      "endRow": 1773,
+      "team": "Монеты",
+      "participant": "alphariusx@gmail.com",
+      "respondent": "Лазарев Никита Игоревич",
+      "mainMetricRows": [
+        1753,
+        1754,
+        1755,
+        1756,
+        1757,
+        1758
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block38:row1774",
+      "startRow": 1774,
+      "endRow": 1825,
+      "team": "ДСЖ КК",
+      "participant": "natalya.emchenko@gmail.com",
+      "respondent": "Большакова Наталья Сергеевна",
+      "mainMetricRows": [
+        1801,
+        1802,
+        1803,
+        1804,
+        1805,
+        1806
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block39:row1826",
+      "startRow": 1826,
+      "endRow": 1876,
+      "team": "Сейфы",
+      "participant": "krasnov.i.k@sberbank.ru",
+      "respondent": "Краснов Игорь Константинович",
+      "mainMetricRows": [
+        1853,
+        1854,
+        1855,
+        1856,
+        1857,
+        1858
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block40:row1877",
+      "startRow": 1877,
+      "endRow": 1928,
+      "team": "Страхование залога",
+      "participant": "kykazakova@sberbank.ru",
+      "respondent": "Казакова Кристина Юрьевна",
+      "mainMetricRows": [
+        1904,
+        1905,
+        1906,
+        1907,
+        1908,
+        1909
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block41:row1929",
+      "startRow": 1929,
+      "endRow": 1980,
+      "team": "ЗПИФ",
+      "participant": "olga",
+      "respondent": "Зырянская Валерия",
+      "mainMetricRows": [
+        1956,
+        1957,
+        1958,
+        1959,
+        1960,
+        1961
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block42:row1981",
+      "startRow": 1981,
+      "endRow": 2031,
+      "team": "ОПИФ",
+      "participant": "elena",
+      "respondent": "Клочкова Ольга",
+      "mainMetricRows": [
+        2008,
+        2009,
+        2010,
+        2011,
+        2012,
+        2013
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block43:row2032",
+      "startRow": 2032,
+      "endRow": 2080,
+      "team": "СберСпасибо",
+      "participant": "emsavitskiy@sberbank.ru",
+      "respondent": "Савицкий Евгений Михайлович",
+      "mainMetricRows": [
+        2059,
+        2060,
+        2061,
+        2062,
+        2063,
+        2064
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block44:row2081",
+      "startRow": 2081,
+      "endRow": 2131,
+      "team": "Зарплатный продукт",
+      "participant": "alexknz@bk.ru",
+      "respondent": "Королева Александра Дмитриевна",
+      "mainMetricRows": [
+        2108,
+        2109,
+        2110,
+        2111,
+        2112,
+        2113
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block45:row2132",
+      "startRow": 2132,
+      "endRow": 2182,
+      "team": "SberPay NFC",
+      "participant": "mamankov.m.s@sberbank.ru",
+      "respondent": "Маманков Максим Сергеевич",
+      "mainMetricRows": [
+        2159,
+        2160,
+        2161,
+        2162,
+        2163,
+        2164
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block46:row2183",
+      "startRow": 2183,
+      "endRow": 2235,
+      "team": "Детская карта",
+      "participant": "evander@mail.ru",
+      "respondent": "Фомин Андрей Евгеньевич",
+      "mainMetricRows": [
+        2210,
+        2211,
+        2212,
+        2213,
+        2214,
+        2215
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block47:row2236",
+      "startRow": 2236,
+      "endRow": 2285,
+      "team": "Кредитный потенциал",
+      "participant": "rodina",
+      "respondent": "Родина Марина Анатольевна",
+      "mainMetricRows": [
+        2263,
+        2264,
+        2265,
+        2266,
+        2267,
+        2268
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block48:row2286",
+      "startRow": 2286,
+      "endRow": 2336,
+      "team": "ПДС",
+      "participant": "avnorenko1@sberbank.ru",
+      "respondent": "Норенко Александра Викторовна",
+      "mainMetricRows": [
+        2313,
+        2314,
+        2315,
+        2316,
+        2317,
+        2318
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block49:row2337",
+      "startRow": 2337,
+      "endRow": 2386,
+      "team": "Переводы по РФ",
+      "participant": "nevelich.d.i@sberbank.ru",
+      "respondent": "Невелич Дмитрий Игоревич",
+      "mainMetricRows": [
+        2364,
+        2365,
+        2366,
+        2367,
+        2368,
+        2369
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block50:row2387",
+      "startRow": 2387,
+      "endRow": 2437,
+      "team": "БПИФ",
+      "participant": "rosuleymanov@sberbank.ru",
+      "respondent": "Сулейманов Расим",
+      "mainMetricRows": [
+        2414,
+        2415,
+        2416,
+        2417,
+        2418,
+        2419
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block51:row2438",
+      "startRow": 2438,
+      "endRow": 2491,
+      "team": "Залоговое страхование (корпоративное страхование)",
+      "participant": "makartseva",
+      "respondent": "Дубинина Татьяна Валерьевна",
+      "mainMetricRows": [
+        2465,
+        2466,
+        2467,
+        2468,
+        2469,
+        2470
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block52:row2492",
+      "startRow": 2492,
+      "endRow": 2537,
+      "team": "Конверсия",
+      "participant": "connector888",
+      "respondent": "Савенков Илья Игоревич",
+      "mainMetricRows": [
+        2519,
+        2520,
+        2521,
+        2522,
+        2523,
+        2524
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block53:row2538",
+      "startRow": 2538,
+      "endRow": 2586,
+      "team": "Вклады+НС",
+      "participant": "annaromanenko77@gmail.com",
+      "respondent": "Тырсина Ю.И.",
+      "mainMetricRows": [
+        2565,
+        2566,
+        2567,
+        2568,
+        2569,
+        2570
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block54:row2587",
+      "startRow": 2587,
+      "endRow": 2636,
+      "team": "ЦФА",
+      "participant": "illarionov.a.and@sberbank.ru",
+      "respondent": "Илларионов Артем Андреевич",
+      "mainMetricRows": [
+        2613,
+        2614,
+        2615,
+        2616,
+        2617,
+        2618,
+        2619
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block55:row2637",
+      "startRow": 2637,
+      "endRow": 2686,
+      "team": "КАСКО",
+      "participant": "sipugin.n.a",
+      "respondent": "Сипугин Николай Александрович",
+      "mainMetricRows": [
+        2664,
+        2665,
+        2666,
+        2667,
+        2668,
+        2669
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block56:row2687",
+      "startRow": 2687,
+      "endRow": 2738,
+      "team": "ЗЛС",
+      "participant": "nkorp",
+      "respondent": "Корпачева Надежда Олеговна",
+      "mainMetricRows": [
+        2713,
+        2714,
+        2715,
+        2716,
+        2717,
+        2718
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block57:row2739",
+      "startRow": 2739,
+      "endRow": 2790,
+      "team": "ИнвестКопилка",
+      "participant": "katrinkorobova@yandex.ru",
+      "respondent": "Коробова Екатерина Вадимовна ",
+      "mainMetricRows": [
+        2766,
+        2767,
+        2768,
+        2769,
+        2770,
+        2771
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block58:row2791",
+      "startRow": 2791,
+      "endRow": 2839,
+      "team": "СберСова",
+      "participant": "kireeva.nat.nik@sberbank.ru",
+      "respondent": "Киреева Наталья Николавена",
+      "mainMetricRows": [
+        2818,
+        2819,
+        2820,
+        2821,
+        2822,
+        2823
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block59:row2840",
+      "startRow": 2840,
+      "endRow": 2891,
+      "team": "Пенсионный продукт",
+      "participant": "icmuzz",
+      "respondent": "Мерзликин Иван Сергеевич",
+      "mainMetricRows": [
+        2867,
+        2868,
+        2869,
+        2870,
+        2871,
+        2872
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block60:row2892",
+      "startRow": 2892,
+      "endRow": 2939,
+      "team": "Личная защита Плюс",
+      "participant": "ekaterina_gorbunova",
+      "respondent": "Горбунова Екатерина Эдуардовна",
+      "mainMetricRows": [
+        2919,
+        2920,
+        2921,
+        2922,
+        2923,
+        2924
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block61:row2940",
+      "startRow": 2940,
+      "endRow": 2991,
+      "team": "Потребительский кредит",
+      "participant": "jeff",
+      "respondent": "Ефанов Евгений Вячеславович",
+      "mainMetricRows": [
+        2967,
+        2968,
+        2969,
+        2970,
+        2971,
+        2972
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block62:row2992",
+      "startRow": 2992,
+      "endRow": 3043,
+      "team": "ДСЖ ПК",
+      "participant": "olgak",
+      "respondent": "Кузнецова Ольга Сергеевна",
+      "mainMetricRows": [
+        3019,
+        3020,
+        3021,
+        3022,
+        3023,
+        3024
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block63:row3044",
+      "startRow": 3044,
+      "endRow": 3073,
+      "team": "Трансграничный эквайринг #B2B",
+      "participant": "mvchikina",
+      "respondent": "(тест Штаб DB B2C) Чикина Мария",
+      "mainMetricRows": [
+        3061,
+        3062,
+        3063
+      ],
+      "genericRows": []
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "sourceBlockId": "questionare-uplifts(7).csv:block64:row3074",
+      "startRow": 3074,
+      "endRow": 3126,
+      "team": "Страхование жизни",
+      "participant": "lukyanova-ys",
+      "respondent": "Лукьянова Юлия Сергеевна ",
+      "mainMetricRows": [
+        3101,
+        3102,
+        3103,
+        3104,
+        3105,
+        3106
+      ],
+      "genericRows": []
+    }
+  ],
+  "previousReturn33Audit": [
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "mainRow": 200,
+      "team": "СберKids",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(5).csv",
+      "mainRow": 303,
+      "team": "Уведомления",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "mainRow": 71,
+      "team": "Top Affluent",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(6).csv",
+      "mainRow": 116,
+      "team": "МВС",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 118,
+      "team": "Зарплатный продукт",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 217,
+      "team": "Сделка ИЖС",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 265,
+      "team": "Много денег (НКПЗН)",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 313,
+      "team": "Дебетовая карта",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 462,
+      "team": "ОМС",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 607,
+      "team": "Слитки",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 706,
+      "team": "Пакет услуг СберПервый",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 891,
+      "team": "Трансграничные переводы #B2C",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1110,
+      "team": "НСЖ",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1164,
+      "team": "ИСЖ",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1314,
+      "team": "ВЗР",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1521,
+      "team": "Пакет услуг СберПремьер",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1574,
+      "team": "Платежи",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1623,
+      "team": "Брокерский счет",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1753,
+      "team": "Монеты",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1801,
+      "team": "ДСЖ КК",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1853,
+      "team": "Сейфы",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 1956,
+      "team": "ЗПИФ",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2108,
+      "team": "Зарплатный продукт",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2210,
+      "team": "Детская карта",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2364,
+      "team": "Переводы по РФ",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2414,
+      "team": "БПИФ",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2465,
+      "team": "Залоговое страхование (корпоративное страхование)",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2713,
+      "team": "ЗЛС",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2766,
+      "team": "ИнвестКопилка",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2867,
+      "team": "Пенсионный продукт",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 2919,
+      "team": "Личная защита Плюс",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 3019,
+      "team": "ДСЖ ПК",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    },
+    {
+      "sourceFile": "questionare-uplifts(7).csv",
+      "mainRow": 3101,
+      "team": "Страхование жизни",
+      "present": true,
+      "generalCommentEqual": true,
+      "specificCommentEqual": true
+    }
+  ],
+  "mechanicsLabels": [
+    "Возврат клиентов",
+    "Удержание клиентов",
+    "Гибкое изменение условий продукта",
+    "Cross-sell",
+    "Допродажи (up-sell)",
+    "Мониторинг механик",
+    "Наличие собственных механик",
+    "Персонализация клиентского опыта",
+    "Привлечение клиентов",
+    "Реагирование на жизненные события",
+    "Автоматизации",
+    "Информирования клиента",
+    "Персонализация",
+    "Контроля качества речи",
+    "Удержания клиента",
+    "Повышение уровня клиента",
+    "Персонализация интерфейса/контента",
+    "Стимулирование клиента",
+    "Обучающие механики",
+    "Наилучшего времени звонка",
+    "Аутентификация",
+    "Сессия и доступ",
+    "Онбординг и кросс-канальность",
+    "Безопасность и контроль"
+  ],
+  "counts": {
+    "rows": 470,
+    "mainMetricRows": 462,
+    "supplementalFollowupRows": 8,
+    "teams": 75,
+    "metrics": 24,
+    "prior": 349,
+    "answer": 113,
+    "orphans": 8,
+    "ambiguousMappings": 0,
+    "unclassifiedMechanicsQuestions": 0,
+    "previousReturn33Present": 33,
+    "previousReturn33ExactComments": 33,
+    "sourceRecordIdsUnique": 470,
+    "multipleSpecificRows": 0
+  },
+  "definitions": {
+    "rowNumbering": "Номер CSV-записи с заголовком в строке1; многострочные поля не разбиваются на отдельные ответы.",
+    "respondentScope": "Связи устанавливаются только внутри непрерывного блока с одной и той же тройкой Команда/Участник/ФИО в одном исходном файле.",
+    "oldScore": "Берётся только из поля Балл, который был основной строки метрики. Конечное число сохраняется числом; исходные текстовые обозначения шкалы сохраняются буквально. У восьми дополнительных строк без основной метрики прежний балл пустой.",
+    "generalComment": "Комментарий основной строки метрики; если пуст, только комментарий явно общего вопроса о настроенных механиках с пустой Метрикой из того же блока.",
+    "specificComment": "Исходный комментарий соответствующего подвопроса о работе конкретной механики. Поля Ответ и Подтверждение сохраняются отдельно; в комментарии не подмешиваются.",
+    "orphans": "Восемь допвопросов без основной строки сохранены отдельными строками в итоговом JSON с пустым прежним баллом; не потеряны и не приписаны другой метрике.",
+    "scoring": "Извлечение для Excel-отчёта. Баллы DDI не рассчитываются и не изменяются."
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "gravity-app/src/data/mechanics-metrics-q3-2026.json": "0f064e22e79afaee78b8906ddc7aec522efab2a89fc31edf9533a8230a021818",
+  "gravity-app/src/data/goals-metrics-q3-2026.json": "8e5a179d21e967e45c79083fcf7d313c5a1990aead109237210d92429f595d2e",
+  "gravity-app/src/data/key-metrics-q3-2026.json": "9229b890261955b21af442bdd7df049768b516c605b93efeeceff3912577db1a",
+  "gravity-app/src/data/crosssell-after-purchase-scores-q3-2026.json": "cbb9d61d67f9f026c084e3ada6247c74c1f0f388d26a593a71b472f56183779f",
+  "gravity-app/src/data/draft-metrics-q3-2026.json": "54475a8d2314ad8f2cf1330bfc16e35eae45e4001a1655b5c4975a2e8c6ef81e",
+  "gravity-app/src/data/crosssell-metrics-q3-2026.json": "47668e17f8516c46e9fe5ff7f06d3638bb4001d68319dbb9c9700e661501d76f",
+  "gravity-app/src/data/campaign-metrics-q3-2026.json": "f884aadb1df37da6ba5ee713bfed6367dbd13b60435e208c6ae55db2836c1748",
+  "gravity-app/src/data/research-metrics-q3-2026.json": "c5eeec18a6b41258baa5783579b7bfb69be50b7c5f11cce16d1d0a5f817b6819",
+  "gravity-app/src/data/cx-score-metrics-q3-2026.json": "50404b27f388c6ab00d66f64909724b95e3eb88262ee3d905799657f729004a5",
+  "gravity-app/src/data/selected-metrics-carry-forward-q3-2026.json": "af375335609a85807b2274b8aa02e6956d15f27f143bbbd27ca1784fede6de23",
+  "gravity-app/src/data/ux-score-metrics-q3-2026.json": "792ecfd7acfaa72c54cc44e7c26194d6d55960262f755545d2c0211b95f2b3b5",
+  "gravity-app/src/data/funnel-reporting-metrics-q3-2026.json": "ec28da4b7717ca02827594e793a4aa249d6f42fea08bc67dde790bed8d5bd1da",
+  "gravity-app/src/data/crosssell-after-purchase-q3-2026.json": "8097bb99703b41d5c16ae08781c56fca7a8c7218b0503ad01cab020a36fbfadf",
+  "gravity-app/src/app/App.jsx": "68adf973fc34664df954112937f1396ff7c3a7b80f3f0ff4cc88497c9d659d14",
+  "gravity-app/src/domain/teamProfileSelection.js": "befc1e40b9388cc5a69f68f5f961213a2e62084ee3cd4ffdb66adc8eb5334217",
+  "gravity-app/src/domain/cxScoreAssessment.js": "f892058734ee9c0018b05bc71b043e2074e4bb1af39bbf4a55cd2f1e62c46520",
+  "gravity-app/src/pages/TeamProfilePage.jsx": "e21d5dc48bb55831d373fe8c48763ef3e8d160b6813f36c0ce6f98a53fd6015c",
+  "gravity-app/src/styles.css": "df95b2ac591bc9be053869ed90a94e077a440971c3fd4b92f40c5941da491afb",
+  "gravity-app/public/report-data.json": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b",
+  "gravity-app/public/backlog-data.json": "5c53c343644bf3afd2b9db63215200411591b2fdcbbd736788c7be8055bb1c01"
+}

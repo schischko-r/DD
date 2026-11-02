@@ -867,31 +867,41 @@ function PageState({type}) {
   return <main className="content dashboard-page backlog-page"><Flex className="backlog-page-state" alignItems="center" justifyContent="center" gap="3"><Icon data={type === 'error' ? CircleInfo : ChartColumn} size={24} /><Flex direction="column" gap="1"><Text variant="subheader-1">{type === 'error' ? 'Данные бэклога пока недоступны' : 'Нет данных для отображения'}</Text><Text color="secondary">{type === 'error' ? 'Остальные разделы приложения продолжают работать.' : 'Для построения дашборда нужны квартальные данные.'}</Text></Flex></Flex></main>;
 }
 
-export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, initialTeamKey = ''}) {
+export function BacklogDecompositionPage({data, products = [], status = 'ready', onOpenTeam, initialTeamKey = ''}) {
   const [grouping, setGrouping] = useState('directions');
   const [categoryFilter, setCategoryFilter] = useState('');
   const teams = useMemo(() => getTeamDatasets(data || {}), [data]);
-  const teamFilterOptions = useMemo(() => getBacklogTeamFilterOptions(teams), [teams]);
+  const teamFilterOptions = useMemo(() => getBacklogTeamFilterOptions(teams, products), [teams, products]);
+  const [selectedUnit, setSelectedUnit] = useState(() => initialTeamKey ? findBacklogTeamFilterOption(teamFilterOptions, initialTeamKey)?.unit || '' : '');
+  const unitOptions = useMemo(() => [...new Set(teamFilterOptions.map((option) => option.unit).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ru')).map((unit) => ({value: unit, content: unit})), [teamFilterOptions]);
+  const scopedTeamOptions = useMemo(() => teamFilterOptions.filter((option) => !selectedUnit || option.unit === selectedUnit), [teamFilterOptions, selectedUnit]);
   const [selectedTeamKey, setSelectedTeamKey] = useState(() => findBacklogTeamFilterOption(teamFilterOptions, initialTeamKey)?.value || '');
   const appliedInitialTeamKey = useRef(null);
+  const appliedInitialTeamUnit = useRef(null);
   useEffect(() => {
     const requestedTeamKey = String(initialTeamKey || '');
-    if (requestedTeamKey !== appliedInitialTeamKey.current) {
+    const requestedOption = teamFilterOptions.find((option) => option.value === requestedTeamKey || option.teamKey === requestedTeamKey);
+    if (requestedTeamKey !== appliedInitialTeamKey.current || (requestedTeamKey && requestedOption && requestedOption.unit !== appliedInitialTeamUnit.current)) {
       if (requestedTeamKey && teamFilterOptions.some((option) => option.value === requestedTeamKey || option.teamKey === requestedTeamKey)) {
         appliedInitialTeamKey.current = requestedTeamKey;
-        const requestedOption = findBacklogTeamFilterOption(teamFilterOptions, requestedTeamKey);
+        appliedInitialTeamUnit.current = requestedOption.unit;
+        setSelectedUnit(requestedOption.unit || '');
         if (selectedTeamKey !== requestedOption.value) setSelectedTeamKey(requestedOption.value);
         return;
       }
       if (!requestedTeamKey) {
         appliedInitialTeamKey.current = '';
+        appliedInitialTeamUnit.current = null;
+        setSelectedUnit('');
         const defaultTeamKey = teamFilterOptions[0]?.value || '';
         if (selectedTeamKey !== defaultTeamKey) setSelectedTeamKey(defaultTeamKey);
         return;
       }
     }
-    if (!teamFilterOptions.some((option) => option.value === selectedTeamKey)) setSelectedTeamKey(teamFilterOptions[0]?.value || '');
-  }, [initialTeamKey, selectedTeamKey, teamFilterOptions]);
+    const availableOptions = scopedTeamOptions.length ? scopedTeamOptions : teamFilterOptions;
+    if (selectedUnit && !scopedTeamOptions.length) setSelectedUnit('');
+    if (!availableOptions.some((option) => option.value === selectedTeamKey)) setSelectedTeamKey(availableOptions[0]?.value || '');
+  }, [initialTeamKey, selectedTeamKey, selectedUnit, scopedTeamOptions, teamFilterOptions]);
   const selectedTeamOption = findBacklogTeamFilterOption(teamFilterOptions, selectedTeamKey);
   const team = selectTeamDataset(data || {}, selectedTeamOption?.teamKey);
   const months = Array.isArray(team?.months) ? team.months : [];
@@ -911,7 +921,7 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
   }, [categoryFilter, categoryFilterOptions]);
   const chartData = useMemo(() => buildBacklogChartData(visibleMonths, grouping, selectedMonths, categoryFilter, discoveryDirectionLabel), [categoryFilter, discoveryDirectionLabel, grouping, selectedMonths, visibleMonths]);
   const dashboard = useMemo(() => buildDashboardInsights(quarter), [quarter]);
-  const teamOptions = useMemo(() => teamFilterOptions.map(({value, content}) => ({value, content: displayProductName(content)})), [teamFilterOptions]);
+  const teamOptions = useMemo(() => scopedTeamOptions.map(({value, content}) => ({value, content: displayProductName(content)})), [scopedTeamOptions]);
   const quarterOptions = useMemo(() => quarters.map((item) => ({value: quarterKey(item), content: quarterLabel(item)})), [quarters]);
   const scenarioFocus = useMemo(() => buildScenarioFocusRecommendations(quarters), [quarters]);
   const updateTeam = (value) => {
@@ -921,6 +931,13 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
     const nextQuarters = Array.isArray(nextTeam?.quarters) && nextTeam.quarters.length ? nextTeam.quarters : fallbackQuarters(nextMonths);
     setSelectedTeamKey(nextOption?.value || '');
     if (nextTeam?.key !== team?.key) setSelectedQuarterKey(quarterKey(selectQuarter(nextQuarters)));
+  };
+
+  const updateUnit = (value) => {
+    const nextUnit = value[0] || '';
+    setSelectedUnit(nextUnit);
+    const availableOptions = teamFilterOptions.filter((option) => !nextUnit || option.unit === nextUnit);
+    if (!availableOptions.some((option) => option.value === selectedTeamKey)) updateTeam([availableOptions[0]?.value || '']);
   };
 
   if (status === 'loading') return <PageState type="loading" />;
@@ -973,9 +990,13 @@ export function BacklogDecompositionPage({data, status = 'ready', onOpenTeam, in
           {freshness && <Flex alignItems="center" gap="2"><Icon data={CircleInfo} size={16} /><Text variant="caption-2" color="secondary">Данные на {freshness}</Text></Flex>}
         </Flex>
         <Flex className="backlog-header-controls" alignItems="flex-end" gap="3">
+          <Flex className="backlog-filter-control backlog-unit-control" direction="column" gap="1">
+            <Text variant="caption-2" color="secondary">Юнит</Text>
+            <Select value={selectedUnit ? [selectedUnit] : []} options={[{value: '', content: 'Все юниты'}, ...unitOptions]} onUpdate={updateUnit} placeholder="Все юниты" size="l" width="max" popupWidth="fit" aria-label="Юнит" />
+          </Flex>
           <Flex className="backlog-filter-control backlog-team-control" direction="column" gap="1">
             <Text variant="caption-2" color="secondary">Команда</Text>
-            <Select value={selectedTeamOption ? [selectedTeamOption.value] : []} options={teamOptions} onUpdate={updateTeam} size="l" width="max" popupWidth="fit" popupPlacement="bottom-end" aria-label="Команда" />
+            <Select filterable filterPlaceholder="Найти команду" value={selectedTeamOption ? [selectedTeamOption.value] : []} options={teamOptions} onUpdate={updateTeam} size="l" width="max" popupWidth="fit" popupPlacement="bottom-end" aria-label="Команда" />
           </Flex>
           <Flex className="backlog-filter-control" direction="column" gap="1">
             <Text variant="caption-2" color="secondary">Квартал</Text>

@@ -1,0 +1,6 @@
+{
+  "products": 67,
+  "ddiRule": "gravity-app/src/domain/report.js:isCrossSellDigitallyConfirmed",
+  "ddiOnes": 30,
+  "ddiZeros": 37
+}

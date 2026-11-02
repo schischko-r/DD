@@ -254,6 +254,7 @@ class GravityBuildCrosssellTest(unittest.TestCase):
     def test_full_build_rebuilds_backlog_data_from_source_by_default(self) -> None:
         args = report.parse_args([])
         self.assertEqual(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT.name, "tickets_final.xlsx")
+        self.assertEqual(report.DEFAULT_BACKLOG_SURVEY_INPUT.name, "output (1).xlsx")
 
         with patch.object(report, "run") as run:
             report.build(args)
@@ -267,6 +268,8 @@ class GravityBuildCrosssellTest(unittest.TestCase):
                 str(report.DEFAULT_BACKLOG_INPUT),
                 "--additional-input",
                 str(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT),
+                "--additional-input",
+                str(report.DEFAULT_BACKLOG_SURVEY_INPUT),
                 "--output",
                 str(report.DEFAULT_BACKLOG_DATA),
             ],
@@ -288,6 +291,25 @@ class GravityBuildCrosssellTest(unittest.TestCase):
                 str(report.DEFAULT_INITIATIVES_DATA),
             ],
         )
+
+    def test_explicit_backlog_sources_replace_optional_defaults(self) -> None:
+        args = report.parse_args(['--backlog-additional-input', '/tmp/explicit-backlog.xlsx'])
+        with patch.object(report, 'run') as run:
+            report.build(args)
+        command = next(call.args[0] for call in run.call_args_list if call.args[0][1] == str(report.ROOT / 'build_backlog_data.py'))
+        self.assertEqual(command.count('--additional-input'), 1)
+        self.assertIn('/tmp/explicit-backlog.xlsx', command)
+        self.assertNotIn(str(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT), command)
+        self.assertNotIn(str(report.DEFAULT_BACKLOG_SURVEY_INPUT), command)
+
+    def test_absent_optional_survey_export_keeps_existing_default_backlog_source(self) -> None:
+        args = report.parse_args([])
+        with patch.object(report.Path, 'is_file', lambda candidate: candidate != report.DEFAULT_BACKLOG_SURVEY_INPUT), patch.object(report, 'run') as run:
+            report.build(args)
+        command = next(call.args[0] for call in run.call_args_list if call.args[0][1] == str(report.ROOT / 'build_backlog_data.py'))
+        self.assertEqual(command.count('--additional-input'), 1)
+        self.assertIn(str(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT), command)
+        self.assertNotIn(str(report.DEFAULT_BACKLOG_SURVEY_INPUT), command)
 
     def test_api_reports_are_streamed_from_the_download_directory_into_standalone(self) -> None:
         args = report.parse_args([])

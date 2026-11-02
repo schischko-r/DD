@@ -60,7 +60,7 @@ test('sidebar puts generated HTML pages and backlog below one divider in the mai
   for (const id of ['dashboard', 'detail', 'about']) {
     assert.match(appSource, new RegExp(`id: '${id}'`));
   }
-  assert.match(appSource, /import \{Spin\} from '@gravity-ui\/uikit'/);
+  assert.match(appSource, /import \{[^}]*\bSpin\b[^}]*\} from '@gravity-ui\/uikit'/);
   assert.match(appSource, /import \{AsideHeader\} from '@gravity-ui\/navigation'/);
   assert.match(appSource, /BACKLOG_DECOMPOSITION_ENABLED = import\.meta\.env\.VITE_BACKLOG_DECOMPOSITION_ENABLED !== 'false'/);
   assert.match(appSource, /id: 'skills-divider',[\s\S]*?type: 'divider'/);

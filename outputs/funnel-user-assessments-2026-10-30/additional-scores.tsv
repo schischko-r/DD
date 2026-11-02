@@ -1,0 +1,30 @@
+product	direction	kind	value
+Единый личный кабинет (ЕЛК)	usage	reporting	1
+Единый личный кабинет (ЕЛК)	usage	completeness	0.5
+Единый личный кабинет (ЕЛК)	usage	analysis	0.5
+Колл-центр	entry	reporting	1
+Колл-центр	entry	completeness	1
+Колл-центр	entry	analysis	1
+Персональная рекомендация (кампейнинг)	metrics	reporting	0.5
+Персональная рекомендация (кампейнинг)	metrics	analysis	0.5
+Почта, Диск, Календарь	usage	analysis	1
+Почта, Диск, Календарь	usage	completeness	1
+СберИнвестор	onboarding	reporting	1
+СберИнвестор	onboarding	completeness	0.5
+СберИнвестор	onboarding	analysis	0.5
+СберKids	onboarding	reporting	0.5
+СберKids	onboarding	completeness	0.5
+СберKids	onboarding	analysis	0.5
+СБОЛ	onboarding	completeness	0.5
+СБОЛ	onboarding	analysis	0.5
+Телемаркетинг	sales	reporting	1
+Телемаркетинг	sales	completeness	1
+Телемаркетинг	sales	analysis	1
+Уведомления	onboarding	completeness	1
+Уведомления	onboarding	analysis	0
+Чат	entry	reporting	1
+Чат	entry	completeness	1
+Чат	entry	analysis	1
+SberID	usage	reporting	1
+SberID	usage	completeness	0.5
+SberID	usage	analysis	1

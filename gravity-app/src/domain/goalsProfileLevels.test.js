@@ -18,10 +18,10 @@ test('indexed empty PO goals are distinct from informational LT metrics, preserv
   assert.equal(display.name, 'Цели'); assert.equal(display.goalsLevels, true);
   assert.equal(display.metrics.length, 6);
   assert.deepEqual(display.metrics.slice(0, 3).map(({metric_subgroup, ...metric}) => metric), block.metrics);
-  assert.ok(display.metrics.slice(0, 3).every(m => m.metric_subgroup === 'Уровня ЛЮ/ЛТ'));
+  assert.ok(display.metrics.slice(0, 3).every(m => m.metric_subgroup === 'Уровень ЛЮ/ЛТ'));
   const po = display.metrics.slice(3);
   assert.deepEqual(po.map(m => m.code), ['goals.po_monitoring', 'goals.po_factor_analysis', 'goals.po_forecast']);
-  assert.ok(po.every(m => m.metric_subgroup === 'Уровня PO' && m.value === null && isDdIndexMetric(m) && !isInformationalMetric(m)));
+  assert.ok(po.every(m => m.metric_subgroup === 'Уровень PO' && m.value === null && isDdIndexMetric(m) && !isInformationalMetric(m)));
   assert.equal(result.indexMaxPoints, 3);
   assert.equal(completeBlockPercent(result.metrics[0]), null);
   assert.equal(completeProductPercent(result), null);

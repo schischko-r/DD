@@ -37,6 +37,6 @@ export function applyPoGoalsTemplate(products, period, overlays) {
 export function goalsProfileLevels(block, period) {
   if (period !== 'III кв. 2026' || block.code !== 'goals') return block;
   return {...block, name: 'Цели', goalsLevels: true, metrics: (block.metrics || []).map(metric => ({
-    ...metric, metric_subgroup: PO_GOAL_CODES.has(metric.code) ? 'Уровня PO' : 'Уровня ЛЮ/ЛТ',
+    ...metric, metric_subgroup: PO_GOAL_CODES.has(metric.code) ? 'Уровень PO' : 'Уровень ЛЮ/ЛТ',
   }))};
 }

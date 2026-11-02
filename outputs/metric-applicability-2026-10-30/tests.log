@@ -1,0 +1,892 @@
+TAP version 13
+# Subtest: prebuild verifies actual manual assessments and rejects a rebuilt source missing an assessed team
+ok 1 - prebuild verifies actual manual assessments and rejects a rebuilt source missing an assessed team
+  ---
+  duration_ms: 1131.667542
+  type: 'test'
+  ...
+# Subtest: shared insurance and payment datasets match every explicit member without duplicating the dataset
+ok 2 - shared insurance and payment datasets match every explicit member without duplicating the dataset
+  ---
+  duration_ms: 1.204083
+  type: 'test'
+  ...
+# Subtest: canonical legacy aliases are supported while commas do not infer arbitrary shared memberships
+ok 3 - canonical legacy aliases are supported while commas do not infer arbitrary shared memberships
+  ---
+  duration_ms: 1.856875
+  type: 'test'
+  ...
+# Subtest: the shipped eleven datasets each contain Q3 and each shared member resolves to one shared board
+ok 4 - the shipped eleven datasets each contain Q3 and each shared member resolves to one shared board
+  ---
+  duration_ms: 9.144583
+  type: 'test'
+  ...
+# Subtest: fifteen individual options reference the original eleven datasets without copying aggregates or splitting ordinary comma names
+ok 5 - fifteen individual options reference the original eleven datasets without copying aggregates or splitting ordinary comma names
+  ---
+  duration_ms: 6.087917
+  type: 'test'
+  ...
+# Subtest: 43 product matches preserve all 129 literal source cells and previous-quarter provenance
+ok 6 - 43 product matches preserve all 129 literal source cells and previous-quarter provenance
+  ---
+  duration_ms: 1.306708
+  type: 'test'
+  ...
+# Subtest: overlay scales 114 applicable values by original maxima, keeps four positive conflicts unknown, and never changes Q2
+ok 7 - overlay scales 114 applicable values by original maxima, keeps four positive conflicts unknown, and never changes Q2
+  ---
+  duration_ms: 260.147959
+  type: 'test'
+  ...
+# Subtest: binary one means the full fractional rubric maximum rather than an invented one point
+ok 8 - binary one means the full fractional rubric maximum rather than an invented one point
+  ---
+  duration_ms: 0.269208
+  type: 'test'
+  ...
+# Subtest: actual growth requires a positive comparable included metric and a complete index denominator
+ok 9 - actual growth requires a positive comparable included metric and a complete index denominator
+  ---
+  duration_ms: 0.246167
+  type: 'test'
+  ...
+# Subtest: deposits have exactly one actual Q3 growth of 1.9 index points and never change Q2 scores
+ok 10 - deposits have exactly one actual Q3 growth of 1.9 index points and never change Q2 scores
+  ---
+  duration_ms: 296.119792
+  type: 'test'
+  ...
+# Subtest: digital trace quarter matches the assessment except successful business launches use the previous quarter
+ok 11 - digital trace quarter matches the assessment except successful business launches use the previous quarter
+  ---
+  duration_ms: 0.558083
+  type: 'test'
+  ...
+# Subtest: 43 applicable blanks across 17 teams become explicit Q3 zeros, preserving every other score and Q2
+ok 12 - 43 applicable blanks across 17 teams become explicit Q3 zeros, preserving every other score and Q2
+  ---
+  duration_ms: 586.598875
+  type: 'test'
+  ...
+# Subtest: explicit campaign assessments preserve prior corrections and update DСЖ КК only in Q3
+ok 13 - explicit campaign assessments preserve prior corrections and update DСЖ КК only in Q3
+  ---
+  duration_ms: 325.336667
+  type: 'test'
+  ...
+# Subtest: a complete block includes explicit zero scores and uses rubric weights
+ok 14 - a complete block includes explicit zero scores and uses rubric weights
+  ---
+  duration_ms: 0.819208
+  type: 'test'
+  ...
+# Subtest: missing applicable scores keep a block unknown without treating null as zero
+ok 15 - missing applicable scores keep a block unknown without treating null as zero
+  ---
+  duration_ms: 0.162083
+  type: 'test'
+  ...
+# Subtest: non-applicable, excluded and informational metrics do not block a completed index block
+ok 16 - non-applicable, excluded and informational metrics do not block a completed index block
+  ---
+  duration_ms: 0.087708
+  type: 'test'
+  ...
+# Subtest: decomposition is restricted to the Cross-sell metric in Q3
+ok 17 - decomposition is restricted to the Cross-sell metric in Q3
+  ---
+  duration_ms: 0.470958
+  type: 'test'
+  ...
+# Subtest: survey answers attach only to the same product and Q3 without changing metric scores
+ok 18 - survey answers attach only to the same product and Q3 without changing metric scores
+  ---
+  duration_ms: 283.750667
+  type: 'test'
+  ...
+# Subtest: zero, missing, unknown and conflicting answers stay distinct
+ok 19 - zero, missing, unknown and conflicting answers stay distinct
+  ---
+  duration_ms: 0.222208
+  type: 'test'
+  ...
+# Subtest: confirmed after-purchase scores restore 18 Q2 teams and only the sum is indexed
+ok 20 - confirmed after-purchase scores restore 18 Q2 teams and only the sum is indexed
+  ---
+  duration_ms: 489.968416
+  type: 'test'
+  ...
+# Subtest: component sum is bounded, does not invent missing scores or enable inapplicable metrics, and cannot be applied twice
+ok 21 - component sum is bounded, does not invent missing scores or enable inapplicable metrics, and cannot be applied twice
+  ---
+  duration_ms: 0.393375
+  type: 'test'
+  ...
+# Subtest: two components have equal weight in the total
+ok 22 - two components have equal weight in the total
+  ---
+  duration_ms: 0.1845
+  type: 'test'
+  ...
+# Subtest: not applicable and zero after purchase remain distinct, without changing the during component
+ok 23 - not applicable and zero after purchase remain distinct, without changing the during component
+  ---
+  duration_ms: 114.678375
+  type: 'test'
+  ...
+# Subtest: Q3 cross-sell preserves own observations and also credits more than one incoming observation
+ok 24 - Q3 cross-sell preserves own observations and also credits more than one incoming observation
+  ---
+  duration_ms: 11.357709
+  type: 'test'
+  ...
+# Subtest: Q3 applies 21 half scores and 39 zeros without changing maxima, NA, Q2 or other overlay metrics
+ok 25 - Q3 applies 21 half scores and 39 zeros without changing maxima, NA, Q2 or other overlay metrics
+  ---
+  duration_ms: 481.723042
+  type: 'test'
+  ...
+# Subtest: fractional cross-sell fact scales the existing rubric and cannot enable fractional facts for other metrics
+ok 26 - fractional cross-sell fact scales the existing rubric and cannot enable fractional facts for other metrics
+  ---
+  duration_ms: 0.389042
+  type: 'test'
+  ...
+# Subtest: fresh cross-sell recommendations and preview use the same API snapshot as the scoring evidence
+ok 27 - fresh cross-sell recommendations and preview use the same API snapshot as the scoring evidence
+  ---
+  duration_ms: 157.899541
+  type: 'test'
+  ...
+# Subtest: 40 user assessments affect only Q3 CX Score, with unit maxima and unchanged UX and Q2
+ok 28 - 40 user assessments affect only Q3 CX Score, with unit maxima and unchanged UX and Q2
+  ---
+  duration_ms: 568.8475
+  type: 'test'
+  ...
+# Subtest: assessment helper enforces the exact period, scope and full team identity
+ok 29 - assessment helper enforces the exact period, scope and full team identity
+  ---
+  duration_ms: 170.333083
+  type: 'test'
+  ...
+# Subtest: draft source preserves all 43 workbook rows and the user-confirmed deposits override separately
+ok 30 - draft source preserves all 43 workbook rows and the user-confirmed deposits override separately
+  ---
+  duration_ms: 2.858209
+  type: 'test'
+  ...
+# Subtest: combined draft and campaign overlays preserve Q2, authorized Q3 draft maxima and all 129 campaign source facts
+ok 31 - combined draft and campaign overlays preserve Q2, authorized Q3 draft maxima and all 129 campaign source facts
+  ---
+  duration_ms: 294.13975
+  type: 'test'
+  ...
+# Subtest: Q3 draft max is one for applicable products including unknown facts; Q2 and NA retain their rubric
+ok 32 - Q3 draft max is one for applicable products including unknown facts; Q2 and NA retain their rubric
+  ---
+  duration_ms: 149.9915
+  type: 'test'
+  ...
+# Subtest: 15 user-confirmed absolute draft points use the authorized Q3 maximum and auditable raw Excel facts
+ok 33 - 15 user-confirmed absolute draft points use the authorized Q3 maximum and auditable raw Excel facts
+  ---
+  duration_ms: 144.447667
+  type: 'test'
+  ...
+# Subtest: Q3 recommendations retain exact Q2 wording, group and difficulty while updating only current value, max and gap
+ok 34 - Q3 recommendations retain exact Q2 wording, group and difficulty while updating only current value, max and gap
+  ---
+  duration_ms: 176.79875
+  type: 'test'
+  ...
+# Subtest: 143 exact fully earned Q2 reporting facts carry to 52 teams including informational regularity
+ok 35 - 143 exact fully earned Q2 reporting facts carry to 52 teams including informational regularity
+  ---
+  duration_ms: 2.304041
+  type: 'test'
+  ...
+# Subtest: only eligible reporting scores change; Q2, fractional maxima, other Q3 facts and unknown partial/NA scores remain intact
+ok 36 - only eligible reporting scores change; Q2, fractional maxima, other Q3 facts and unknown partial/NA scores remain intact
+  ---
+  duration_ms: 478.884917
+  type: 'test'
+  ...
+# Subtest: reporting scope permits exactly six reporting codes across types and cannot import research or campaign facts
+ok 37 - reporting scope permits exactly six reporting codes across types and cannot import research or campaign facts
+  ---
+  duration_ms: 0.897292
+  type: 'test'
+  ...
+# Subtest: explicit Q3 funnel scores override earlier facts using existing weights, leaving Q2 and all other metrics intact
+ok 38 - explicit Q3 funnel scores override earlier facts using existing weights, leaving Q2 and all other metrics intact
+  ---
+  duration_ms: 559.142667
+  type: 'test'
+  ...
+# Subtest: every source instruction is accounted for and all three excluded teams remain excluded
+ok 39 - every source instruction is accounted for and all three excluded teams remain excluded
+  ---
+  duration_ms: 1.800375
+  type: 'test'
+  ...
+# Subtest: normalized fractions use the correct funnels, including nonstandard reporting weights and channel aliases
+ok 40 - normalized fractions use the correct funnels, including nonstandard reporting weights and channel aliases
+  ---
+  duration_ms: 124.116834
+  type: 'test'
+  ...
+# Subtest: the funnel scope rejects unrelated codes and identity mismatches; explicit zeros supersede carry-forward
+ok 41 - the funnel scope rejects unrelated codes and identity mismatches; explicit zeros supersede carry-forward
+  ---
+  duration_ms: 2.767292
+  type: 'test'
+  ...
+# Subtest: all 74 matched teams retain exact source workbook C/D/E values, mapping and duplicate-row provenance
+ok 42 - all 74 matched teams retain exact source workbook C/D/E values, mapping and duplicate-row provenance
+  ---
+  duration_ms: 7.992875
+  type: 'test'
+  ...
+# Subtest: 222 goal facts apply literally without changing maxima, previous overlays, Q2 or source recommendations; pending teams stay unknown
+ok 43 - 222 goal facts apply literally without changing maxima, previous overlays, Q2 or source recommendations; pending teams stay unknown
+  ---
+  duration_ms: 450.837375
+  type: 'test'
+  ...
+# Subtest: goals scope projects exactly three goal metrics across all team types and cannot change maxima or import unrelated data
+ok 44 - goals scope projects exactly three goal metrics across all team types and cannot change maxima or import unrelated data
+  ---
+  duration_ms: 3.838833
+  type: 'test'
+  ...
+# Subtest: the delta artifact compares only the three goals with Q2 using the effective Q3 index denominator
+ok 45 - the delta artifact compares only the three goals with Q2 using the effective Q3 index denominator
+  ---
+  duration_ms: 146.237667
+  type: 'test'
+  ...
+# Subtest: the half-score exception affects only the exact 47 Q2-half/workbook-zero facts while preserving literal Excel zeros
+ok 46 - the half-score exception affects only the exact 47 Q2-half/workbook-zero facts while preserving literal Excel zeros
+  ---
+  duration_ms: 23.817
+  type: 'test'
+  ...
+# Subtest: all 190 source rows and exact safe name/metric mappings are retained; B2B and unresolved duplicate/text rows never silently map
+ok 47 - all 190 source rows and exact safe name/metric mappings are retained; B2B and unresolved duplicate/text rows never silently map
+  ---
+  duration_ms: 9.422459
+  type: 'test'
+  ...
+# Subtest: only absent fully earned applicable Q2 pairs carry; explicit zeros override full or half scores without a goals-style floor
+ok 48 - only absent fully earned applicable Q2 pairs carry; explicit zeros override full or half scores without a goals-style floor
+  ---
+  duration_ms: 10.224958
+  type: 'test'
+  ...
+# Subtest: 388 applicable scores and two diagnostic-only NA facts, preserving Q2, rubrics, maxima, recommendations and every unrelated Q3 metric
+ok 49 - 388 applicable scores and two diagnostic-only NA facts, preserving Q2, rubrics, maxima, recommendations and every unrelated Q3 metric
+  ---
+  duration_ms: 380.141792
+  type: 'test'
+  ...
+# Subtest: key-metric scope projects only actual general codes in the general block and rejects fractions, unrelated data or max overrides
+ok 50 - key-metric scope projects only actual general codes in the general block and rejects fractions, unrelated data or max overrides
+  ---
+  duration_ms: 0.566167
+  type: 'test'
+  ...
+# Subtest: the carry overlay accounts for all 213 eligible Q2 mechanics as 195 carry facts and 18 explicit Q3 conflicts, including fractional maxima
+ok 51 - the carry overlay accounts for all 213 eligible Q2 mechanics as 195 carry facts and 18 explicit Q3 conflicts, including fractional maxima
+  ---
+  duration_ms: 2.54075
+  type: 'test'
+  ...
+# Subtest: full mechanics retain their Q2 values/maxima and recommendations while partial and NA stay unknown, with no other changes
+ok 52 - full mechanics retain their Q2 values/maxima and recommendations while partial and NA stay unknown, with no other changes
+  ---
+  duration_ms: 360.795
+  type: 'test'
+  ...
+# Subtest: explicit Q3 cross-sell facts, including zeros, win over prior full mechanics and all other Q3 metrics remain intact
+ok 53 - explicit Q3 cross-sell facts, including zeros, win over prior full mechanics and all other Q3 metrics remain intact
+  ---
+  duration_ms: 288.085834
+  type: 'test'
+  ...
+# Subtest: mechanics scope stays inside mechanics for every team type and never imports unrelated facts or max overrides
+ok 54 - mechanics scope stays inside mechanics for every team type and never imports unrelated facts or max overrides
+  ---
+  duration_ms: 0.475416
+  type: 'test'
+  ...
+# Subtest: only corporate collateral insurance loses two Q3 criteria and two denominator points; Q2 is unchanged
+ok 55 - only corporate collateral insurance loses two Q3 criteria and two denominator points; Q2 is unchanged
+  ---
+  duration_ms: 533.792
+  type: 'test'
+  ...
+# Subtest: applicability assessments require exact identity, Q3 and allowed mechanic codes
+ok 56 - applicability assessments require exact identity, Q3 and allowed mechanic codes
+  ---
+  duration_ms: 0.251167
+  type: 'test'
+  ...
+# Subtest: only inapplicable campaign criteria are hidden in Q3; blanks, zeros and Q2 remain visible
+ok 57 - only inapplicable campaign criteria are hidden in Q3; blanks, zeros and Q2 remain visible
+  ---
+  duration_ms: 0.482708
+  type: 'test'
+  ...
+# Subtest: DU is absent from report rows and both quarter selectors without altering other teams
+ok 58 - DU is absent from report rows and both quarter selectors without altering other teams
+  ---
+  duration_ms: 177.125875
+  type: 'test'
+  ...
+# Subtest: outflow report action belongs only to the deposits and savings analysis metric
+ok 59 - outflow report action belongs only to the deposits and savings analysis metric
+  ---
+  duration_ms: 0.755291
+  type: 'test'
+  ...
+# Subtest: report selectors preserve score and group fallbacks
+ok 60 - report selectors preserve score and group fallbacks
+  ---
+  duration_ms: 0.155875
+  type: 'test'
+  ...
+# Subtest: next maturity uplift uses the first whole percent of the next level
+ok 61 - next maturity uplift uses the first whole percent of the next level
+  ---
+  duration_ms: 0.390792
+  type: 'test'
+  ...
+# Subtest: report percentage helpers clamp and aggregate values
+ok 62 - report percentage helpers clamp and aggregate values
+  ---
+  duration_ms: 0.089292
+  type: 'test'
+  ...
+# Subtest: display copy uses the hyphenated up-sell spelling
+ok 63 - display copy uses the hyphenated up-sell spelling
+  ---
+  duration_ms: 0.292292
+  type: 'test'
+  ...
+# Subtest: card product names are synchronized in the frontend only
+ok 64 - card product names are synchronized in the frontend only
+  ---
+  duration_ms: 0.113791
+  type: 'test'
+  ...
+# Subtest: recommendation uplifts add up to the remaining displayed index
+ok 65 - recommendation uplifts add up to the remaining displayed index
+  ---
+  duration_ms: 0.187541
+  type: 'test'
+  ...
+# Subtest: recommendation card aggregates hidden uplift into the displayed total
+ok 66 - recommendation card aggregates hidden uplift into the displayed total
+  ---
+  duration_ms: 0.087667
+  type: 'test'
+  ...
+# Subtest: DD index metrics exclude display-only and inapplicable rows
+ok 67 - DD index metrics exclude display-only and inapplicable rows
+  ---
+  duration_ms: 0.253458
+  type: 'test'
+  ...
+# Subtest: metric deviations include only applicable DD index gaps
+ok 68 - metric deviations include only applicable DD index gaps
+  ---
+  duration_ms: 0.32325
+  type: 'test'
+  ...
+# Subtest: radar percentage omits inapplicable blocks without hiding real zero scores
+ok 69 - radar percentage omits inapplicable blocks without hiding real zero scores
+  ---
+  duration_ms: 0.118625
+  type: 'test'
+  ...
+# Subtest: report presentation helpers preserve stable output
+ok 70 - report presentation helpers preserve stable output
+  ---
+  duration_ms: 5.302917
+  type: 'test'
+  ...
+# Subtest: fully inapplicable metric subgroups are removed
+ok 71 - fully inapplicable metric subgroups are removed
+  ---
+  duration_ms: 0.137417
+  type: 'test'
+  ...
+# Subtest: fully inapplicable metric groups are removed unless a digest is connected
+ok 72 - fully inapplicable metric groups are removed unless a digest is connected
+  ---
+  duration_ms: 0.085708
+  type: 'test'
+  ...
+# Subtest: key metrics and mechanics hide inapplicable metric rows
+ok 73 - key metrics and mechanics hide inapplicable metric rows
+  ---
+  duration_ms: 0.081334
+  type: 'test'
+  ...
+# Subtest: campaigning links require an applicable campaign metric
+ok 74 - campaigning links require an applicable campaign metric
+  ---
+  duration_ms: 0.204625
+  type: 'test'
+  ...
+# Subtest: campaign skills are routed to their exact metrics
+ok 75 - campaign skills are routed to their exact metrics
+  ---
+  duration_ms: 0.26425
+  type: 'test'
+  ...
+# Subtest: draft link requires an applicable drafts metric
+ok 76 - draft link requires an applicable drafts metric
+  ---
+  duration_ms: 0.121041
+  type: 'test'
+  ...
+# Subtest: reports require an applicable linked metric
+ok 77 - reports require an applicable linked metric
+  ---
+  duration_ms: 0.099791
+  type: 'test'
+  ...
+# Subtest: overview reports require at least one applicable metric in their block
+ok 78 - overview reports require at least one applicable metric in their block
+  ---
+  duration_ms: 0.035792
+  type: 'test'
+  ...
+# Subtest: cross-sell digital trace state comes from Product Lens data
+ok 79 - cross-sell digital trace state comes from Product Lens data
+  ---
+  duration_ms: 0.182166
+  type: 'test'
+  ...
+# Subtest: cross-sell analytics uses the product deeplink already resolved by the export
+ok 80 - cross-sell analytics uses the product deeplink already resolved by the export
+  ---
+  duration_ms: 0.097
+  type: 'test'
+  ...
+# Subtest: cross-sell analytics finds a nested tool and has no title-page fallback
+ok 81 - cross-sell analytics finds a nested tool and has no title-page fallback
+  ---
+  duration_ms: 0.04875
+  type: 'test'
+  ...
+# Subtest: cross-sell analytics preserves the product deeplink resolved by the export
+ok 82 - cross-sell analytics preserves the product deeplink resolved by the export
+  ---
+  duration_ms: 0.034166
+  type: 'test'
+  ...
+# Subtest: cross-sell preview uses the current product recommendation and LossHunter product deeplink
+ok 83 - cross-sell preview uses the current product recommendation and LossHunter product deeplink
+  ---
+  duration_ms: 0.19125
+  type: 'test'
+  ...
+# Subtest: cross-sell preview is unavailable without either recommendation or product deeplink
+ok 84 - cross-sell preview is unavailable without either recommendation or product deeplink
+  ---
+  duration_ms: 0.080375
+  type: 'test'
+  ...
+# Subtest: team help audience distinguishes products, segments, and channel types
+ok 85 - team help audience distinguishes products, segments, and channel types
+  ---
+  duration_ms: 0.070041
+  type: 'test'
+  ...
+# Subtest: a score names its level on the same thresholds the next-level hint uses
+ok 86 - a score names its level on the same thresholds the next-level hint uses
+  ---
+  duration_ms: 0.695042
+  type: 'test'
+  ...
+# Subtest: all 39 user rows retain literal averages and authoritative last-column scores, including four pending rows
+ok 87 - all 39 user rows retain literal averages and authoritative last-column scores, including four pending rows
+  ---
+  duration_ms: 1.28
+  type: 'test'
+  ...
+# Subtest: research facts apply across all 82 included teams without changing Q2, maxima or other Q3 metrics
+ok 88 - research facts apply across all 82 included teams without changing Q2, maxima or other Q3 metrics
+  ---
+  duration_ms: 272.806708
+  type: 'test'
+  ...
+# Subtest: only the named research metric may cross the product-only overlay boundary
+ok 89 - only the named research metric may cross the product-only overlay boundary
+  ---
+  duration_ms: 0.555084
+  type: 'test'
+  ...
+# Subtest: nine user-approved Q2 ones and 38 missing Q2 zeros are carried without inventing Q3 averages
+ok 90 - nine user-approved Q2 ones and 38 missing Q2 zeros are carried without inventing Q3 averages
+  ---
+  duration_ms: 77.973625
+  type: 'test'
+  ...
+# Subtest: both selected metrics preserve every applicable Q2 value, including zeros, halves and fractional maxima
+ok 91 - both selected metrics preserve every applicable Q2 value, including zeros, halves and fractional maxima
+  ---
+  duration_ms: 299.173042
+  type: 'test'
+  ...
+# Subtest: the selected carry scope cannot import unrelated metrics, recommendations or new weights
+ok 92 - the selected carry scope cannot import unrelated metrics, recommendations or new weights
+  ---
+  duration_ms: 0.71675
+  type: 'test'
+  ...
+# Subtest: Q3 radar uses complete block scores and B2C from the same quarter, including real zeros
+ok 93 - Q3 radar uses complete block scores and B2C from the same quarter, including real zeros
+  ---
+  duration_ms: 1.060833
+  type: 'test'
+  ...
+# Subtest: incomplete and inapplicable blocks stay unknown, without suppressing complete axes
+ok 94 - incomplete and inapplicable blocks stay unknown, without suppressing complete axes
+  ---
+  duration_ms: 0.197917
+  type: 'test'
+  ...
+# Subtest: Q2 radar keeps existing aggregation and cannot use Q3 benchmarks
+ok 95 - Q2 radar keeps existing aggregation and cannot use Q3 benchmarks
+  ---
+  duration_ms: 0.093334
+  type: 'test'
+  ...
+# Subtest: period change selects the same team identity with its new ID and quarter-specific metric payload
+ok 96 - period change selects the same team identity with its new ID and quarter-specific metric payload
+  ---
+  duration_ms: 1.370833
+  type: 'test'
+  ...
+# Subtest: same ID cannot select another team or confuse identically named product and segment
+ok 97 - same ID cannot select another team or confuse identically named product and segment
+  ---
+  duration_ms: 0.220791
+  type: 'test'
+  ...
+# Subtest: missing team falls back inside the retained unit and resets a unit absent from the new quarter
+ok 98 - missing team falls back inside the retained unit and resets a unit absent from the new quarter
+  ---
+  duration_ms: 0.168709
+  type: 'test'
+  ...
+# Subtest: unit changes cannot keep a team outside the chosen unit or select another period
+ok 99 - unit changes cannot keep a team outside the chosen unit or select another period
+  ---
+  duration_ms: 0.655208
+  type: 'test'
+  ...
+# Subtest: default and cleared period choose a valid quarter and deposits within the selected scope
+ok 100 - default and cleared period choose a valid quarter and deposits within the selected scope
+  ---
+  duration_ms: 0.301833
+  type: 'test'
+  ...
+# Subtest: unavailable and empty periods expose an empty profile instead of stale team data
+ok 101 - unavailable and empty periods expose an empty profile instead of stale team data
+  ---
+  duration_ms: 0.09925
+  type: 'test'
+  ...
+# Subtest: quarter-scoped title rows give the selected team its own score and group
+ok 102 - quarter-scoped title rows give the selected team its own score and group
+  ---
+  duration_ms: 0.242833
+  type: 'test'
+  ...
+# Subtest: legacy unlabelled title scores stay compatible only when the source quarter is unambiguous
+ok 103 - legacy unlabelled title scores stay compatible only when the source quarter is unambiguous
+  ---
+  duration_ms: 0.149917
+  type: 'test'
+  ...
+# Subtest: shared period catalog adds empty Q3 once, deduplicates and preserves other actual periods
+ok 104 - shared period catalog adds empty Q3 once, deduplicates and preserves other actual periods
+  ---
+  duration_ms: 0.331042
+  type: 'test'
+  ...
+# Subtest: display-only empty quarter keeps team and metric structure while dropping all previous assessment content
+ok 105 - display-only empty quarter keeps team and metric structure while dropping all previous assessment content
+  ---
+  duration_ms: 1.457833
+  type: 'test'
+  ...
+# Subtest: placeholder team selectors retain all distinct identities but actual data stays authoritative
+ok 106 - placeholder team selectors retain all distinct identities but actual data stays authoritative
+  ---
+  duration_ms: 1.320291
+  type: 'test'
+  ...
+# Subtest: empty-quarter profiles retain sanitized reference URLs and date participant links without treating them as measurements
+ok 107 - empty-quarter profiles retain sanitized reference URLs and date participant links without treating them as measurements
+  ---
+  duration_ms: 0.717
+  type: 'test'
+  ...
+# Subtest: travel insurance has the new name in both quarters without losing identity or API facts
+ok 108 - travel insurance has the new name in both quarters without losing identity or API facts
+  ---
+  duration_ms: 276.730625
+  type: 'test'
+  ...
+# Subtest: user assessments apply weighted scores to exact teams in Q3 and preserve all unrelated metrics and Q2
+ok 109 - user assessments apply weighted scores to exact teams in Q3 and preserve all unrelated metrics and Q2
+  ---
+  duration_ms: 289.771
+  type: 'test'
+  ...
+# Subtest: half scores and uplifts use existing weights; unanswered conflicts do not become assessments
+ok 110 - half scores and uplifts use existing weights; unanswered conflicts do not become assessments
+  ---
+  duration_ms: 56.560667
+  type: 'test'
+  ...
+# Subtest: manual scope rejects other codes, mismatched identity and modifications to Q2
+ok 111 - manual scope rejects other codes, mismatched identity and modifications to Q2
+  ---
+  duration_ms: 1.5585
+  type: 'test'
+  ...
+# Subtest: four exact DP channels receive the explicit Q3 UX scores with no CX or UX-alert substitution
+ok 112 - four exact DP channels receive the explicit Q3 UX scores with no CX or UX-alert substitution
+  ---
+  duration_ms: 0.899417
+  type: 'test'
+  ...
+# Subtest: only the four UX values change while Q2, prior overlays, maxima, rubric and source-exact recommendations stay intact
+ok 113 - only the four UX values change while Q2, prior overlays, maxima, rubric and source-exact recommendations stay intact
+  ---
+  duration_ms: 246.082875
+  type: 'test'
+  ...
+# Subtest: UX scope accepts fractional UX only and rejects unrelated facts, maxima and mismatched identities
+ok 114 - UX scope accepts fractional UX only and rejects unrelated facts, maxima and mismatched identities
+  ---
+  duration_ms: 0.648209
+  type: 'test'
+  ...
+# Subtest: team profile labels goals and CX blocks for their audience
+ok 115 - team profile labels goals and CX blocks for their audience
+  ---
+  duration_ms: 2.126916
+  type: 'test'
+  ...
+# Subtest: key metrics source help explains PO survey verification against dashboard data
+ok 116 - key metrics source help explains PO survey verification against dashboard data
+  ---
+  duration_ms: 0.271167
+  type: 'test'
+  ...
+# Subtest: regularity is nested under reporting in every block that groups it there
+ok 117 - regularity is nested under reporting in every block that groups it there
+  ---
+  duration_ms: 0.258917
+  type: 'test'
+  ...
+# Subtest: every Регулярность in the shipped report is grouped so the indent reaches it
+ok 118 - every Регулярность in the shipped report is grouped so the indent reaches it
+  ---
+  duration_ms: 37.98375
+  type: 'test'
+  ...
+# Subtest: data quality metric reuses the centralized KКД instruction from backlog recommendations
+ok 119 - data quality metric reuses the centralized KКД instruction from backlog recommendations
+  ---
+  duration_ms: 0.190083
+  type: 'test'
+  ...
+# Subtest: industrial data metric reuses FeatureStore and materials from backlog recommendations
+ok 120 - industrial data metric reuses FeatureStore and materials from backlog recommendations
+  ---
+  duration_ms: 0.076167
+  type: 'test'
+  ...
+# Subtest: business metrics analytics action follows the DD metric grid instead of AI recommendations
+ok 121 - business metrics analytics action follows the DD metric grid instead of AI recommendations
+  ---
+  duration_ms: 0.288042
+  type: 'test'
+  ...
+# Subtest: draft AI action suppresses the duplicate generic Drafts skill link
+ok 122 - draft AI action suppresses the duplicate generic Drafts skill link
+  ---
+  duration_ms: 0.094833
+  type: 'test'
+  ...
+# Subtest: metric rows retain actual growth and their current value without a potential-uplift duplicate
+ok 123 - metric rows retain actual growth and their current value without a potential-uplift duplicate
+  ---
+  duration_ms: 0.285625
+  type: 'test'
+  ...
+# Subtest: manually filled zeros do not claim digital-trace verification
+ok 124 - manually filled zeros do not claim digital-trace verification
+  ---
+  duration_ms: 0.343
+  type: 'test'
+  ...
+# Subtest: general block guidance applies to every incomplete metric in that block only
+ok 125 - general block guidance applies to every incomplete metric in that block only
+  ---
+  duration_ms: 0.189667
+  type: 'test'
+  ...
+# Subtest: only explicitly described attraction and goals metrics receive guidance
+ok 126 - only explicitly described attraction and goals metrics receive guidance
+  ---
+  duration_ms: 0.307042
+  type: 'test'
+  ...
+# Subtest: only explicitly described churn metrics receive exact churn guidance, including PB quarters
+ok 127 - only explicitly described churn metrics receive exact churn guidance, including PB quarters
+  ---
+  duration_ms: 0.858334
+  type: 'test'
+  ...
+# Subtest: six new uplift recommendations are bound to their exact churn, hypothesis, and CX metrics
+ok 128 - six new uplift recommendations are bound to their exact churn, hypothesis, and CX metrics
+  ---
+  duration_ms: 2.1255
+  type: 'test'
+  ...
+# Subtest: business metric alerts guidance is bound to the exact alerts block and metric
+ok 129 - business metric alerts guidance is bound to the exact alerts block and metric
+  ---
+  duration_ms: 0.101875
+  type: 'test'
+  ...
+# Subtest: digital-trace notes are exact and present only for the specified metrics
+ok 130 - digital-trace notes are exact and present only for the specified metrics
+  ---
+  duration_ms: 0.126875
+  type: 'test'
+  ...
+# Subtest: recommendation mapping and note confirmation stay available for completed metrics
+ok 131 - recommendation mapping and note confirmation stay available for completed metrics
+  ---
+  duration_ms: 0.177583
+  type: 'test'
+  ...
+# Subtest: metric names remain plain and recommendations stay in the recommendations section
+ok 132 - metric names remain plain and recommendations stay in the recommendations section
+  ---
+  duration_ms: 0.2365
+  type: 'test'
+  ...
+# Subtest: recommendation notes use the shared accessible digital-trace confirmation beside uplift
+ok 133 - recommendation notes use the shared accessible digital-trace confirmation beside uplift
+  ---
+  duration_ms: 0.079917
+  type: 'test'
+  ...
+# Subtest: uplift precedes digital-trace state indicators and the value in both detail modes
+ok 134 - uplift precedes digital-trace state indicators and the value in both detail modes
+  ---
+  duration_ms: 0.170041
+  type: 'test'
+  ...
+# Subtest: actual uplift is filled green, with fixed value and confirmation columns
+ok 135 - actual uplift is filled green, with fixed value and confirmation columns
+  ---
+  duration_ms: 0.233333
+  type: 'test'
+  ...
+# Subtest: compact metric status stays aligned with its copy on narrow screens
+ok 136 - compact metric status stays aligned with its copy on narrow screens
+  ---
+  duration_ms: 0.243167
+  type: 'test'
+  ...
+# Subtest: App shares the Summary unit filter with the team profile
+ok 137 - App shares the Summary unit filter with the team profile
+  ---
+  duration_ms: 2.6355
+  type: 'test'
+  ...
+# Subtest: team profile unit filter limits the team selector with its controlled value
+ok 138 - team profile unit filter limits the team selector with its controlled value
+  ---
+  duration_ms: 0.505959
+  type: 'test'
+  ...
+# Subtest: opening a Dashboard product synchronizes the lifted unit before showing its profile
+ok 139 - opening a Dashboard product synchronizes the lifted unit before showing its profile
+  ---
+  duration_ms: 0.36325
+  type: 'test'
+  ...
+# Subtest: both Summary views use the same lifted unit filter
+ok 140 - both Summary views use the same lifted unit filter
+  ---
+  duration_ms: 0.528584
+  type: 'test'
+  ...
+# Subtest: team profile controls stay beside the heading without overlapping
+ok 141 - team profile controls stay beside the heading without overlapping
+  ---
+  duration_ms: 0.903708
+  type: 'test'
+  ...
+# Subtest: team profile removes the replaced AI recommendations section toggle
+ok 142 - team profile removes the replaced AI recommendations section toggle
+  ---
+  duration_ms: 0.875792
+  type: 'test'
+  ...
+# Subtest: profile and Dashboard share the lifted period and scope profile data to that period
+ok 143 - profile and Dashboard share the lifted period and scope profile data to that period
+  ---
+  duration_ms: 0.783292
+  type: 'test'
+  ...
+# Subtest: profile presents controlled period, unit and team selectors in that order
+ok 144 - profile presents controlled period, unit and team selectors in that order
+  ---
+  duration_ms: 0.517584
+  type: 'test'
+  ...
+# Subtest: profile alone uses period-scoped title rows and missing scores stay unavailable
+ok 145 - profile alone uses period-scoped title rows and missing scores stay unavailable
+  ---
+  duration_ms: 0.677042
+  type: 'test'
+  ...
+# Subtest: Dashboard and profile share the period catalog and keep an empty quarter explicitly empty
+ok 146 - Dashboard and profile share the period catalog and keep an empty quarter explicitly empty
+  ---
+  duration_ms: 1.721958
+  type: 'test'
+  ...
+# Subtest: display-only profile products are memoized without filling the actual Dashboard cohort
+ok 147 - display-only profile products are memoized without filling the actual Dashboard cohort
+  ---
+  duration_ms: 0.351875
+  type: 'test'
+  ...
+1..147
+# tests 147
+# suites 0
+# pass 147
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2485.384458

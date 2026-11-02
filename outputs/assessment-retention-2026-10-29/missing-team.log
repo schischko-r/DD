@@ -1,0 +1,19 @@
+file:///Users/roman/Documents/Codex/DD-dev/gravity-app/scripts/verify-manual-assessments.mjs:55
+if (errors.length) throw new Error(`Manual DDI assessments would be lost; build stopped:\n${errors.join('\n')}`);
+                         ^
+
+Error: Manual DDI assessments would be lost; build stopped:
+mechanics-metrics-q3-2026.json: missing team УБ / НСЖ
+crosssell-after-purchase-scores-q3-2026.json: missing team УБ / НСЖ
+research-metrics-q3-2026.json: missing team УБ / НСЖ
+funnel-reporting-metrics-q3-2026.json: missing team УБ / НСЖ
+goals-metrics-q3-2026.json: missing team УБ / НСЖ
+key-metrics-q3-2026.json: missing team УБ / НСЖ
+selected-metrics-carry-forward-q3-2026.json: missing team УБ / НСЖ
+cx-score-metrics-q3-2026.json: missing team УБ / НСЖ
+    at file:///Users/roman/Documents/Codex/DD-dev/gravity-app/scripts/verify-manual-assessments.mjs:55:26
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.23.1

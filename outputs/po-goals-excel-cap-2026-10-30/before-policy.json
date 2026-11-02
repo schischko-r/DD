@@ -1,0 +1,17 @@
+{
+  "period": "III кв. 2026",
+  "source": {
+    "origin": "userConfirmedPoGoalsCombinedRule",
+    "confirmedBy": "user",
+    "date": "2026-10-30",
+    "confirmedClarifications": "Нерелевантные ЛЮ/ЛТ означают нерелевантные PO. В B2B зарплатного продукта неизвестный источник считать 0, объединять с B2C средним: мониторинг PO 0.5."
+  },
+  "directSurveyScope": "All UB teams and only Commission Products tribe in CBP",
+  "otherTeamsRule": "Keep positive LT score. If LT score is zero, use independent PO survey score: full with dashboard=1, Excel=0.5, partial/no=0.",
+  "maximumSurveyTeams": [
+    "ОМС",
+    "Слитки"
+  ],
+  "notApplicableLtPolicy": "exclude",
+  "salarySurveyPolicy": "averageWithUnknownZero"
+}

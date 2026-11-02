@@ -1,0 +1,508 @@
+{
+  "q2": 83,
+  "q3": 76,
+  "summaryRows": 83,
+  "metricRows": 3279,
+  "completeQ3": 36,
+  "output": "/Users/roman/Documents/Codex/DD-dev/outputs/ddi-q2-q3-2026-10-30/DDI_II_III_кварталы_2026.xlsx",
+  "controls": [
+    {
+      "name": "Много денег (НКПЗН)",
+      "score2": 66,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "Сделка вторичка",
+      "score2": 74,
+      "score3": 84,
+      "missing": 0
+    },
+    {
+      "name": "Сделка ИЖС",
+      "score2": 53,
+      "score3": 58,
+      "missing": 0
+    },
+    {
+      "name": "Сделка с Первичным жильём",
+      "score2": 69,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "БПИФ",
+      "score2": 52,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "Брокерский счет",
+      "score2": 42,
+      "score3": 70,
+      "missing": 0
+    },
+    {
+      "name": "ВЗР",
+      "score2": 56,
+      "score3": 86,
+      "missing": 0
+    },
+    {
+      "name": "ДСЖ КК",
+      "score2": 56,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "ДСЖ ПК",
+      "score2": 55,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "ДУ",
+      "score2": 36,
+      "score3": null,
+      "missing": null
+    },
+    {
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "score2": 40,
+      "score3": 74,
+      "missing": 0
+    },
+    {
+      "name": "ЗЛС",
+      "score2": 54,
+      "score3": 80,
+      "missing": 0
+    },
+    {
+      "name": "ЗПИФ",
+      "score2": 65,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "ИнвестКопилка",
+      "score2": 50,
+      "score3": 81,
+      "missing": 0
+    },
+    {
+      "name": "ИСЖ",
+      "score2": 46,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "КАСКО",
+      "score2": 63,
+      "score3": 71,
+      "missing": 0
+    },
+    {
+      "name": "Личная защита Плюс",
+      "score2": 61,
+      "score3": 53,
+      "missing": 0
+    },
+    {
+      "name": "НСЖ",
+      "score2": 43,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "ОПИФ",
+      "score2": 62,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "ОСАГО",
+      "score2": 61,
+      "score3": 87,
+      "missing": 0
+    },
+    {
+      "name": "ПДС",
+      "score2": 53,
+      "score3": 75,
+      "missing": 0
+    },
+    {
+      "name": "СберСова",
+      "score2": 47,
+      "score3": 69,
+      "missing": 0
+    },
+    {
+      "name": "Страхование жизни",
+      "score2": 44,
+      "score3": 70,
+      "missing": 0
+    },
+    {
+      "name": "Страхование залога",
+      "score2": 54,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "ЦФА",
+      "score2": 27,
+      "score3": null,
+      "missing": 4
+    },
+    {
+      "name": "Автокредит",
+      "score2": 40,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "Вклады+НС",
+      "score2": 37,
+      "score3": 67,
+      "missing": 0
+    },
+    {
+      "name": "Конверсия",
+      "score2": 44,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "Кредитный потенциал",
+      "score2": 66,
+      "score3": 68,
+      "missing": 0
+    },
+    {
+      "name": "Монеты",
+      "score2": 52,
+      "score3": 48,
+      "missing": 0
+    },
+    {
+      "name": "Образовательный кредит",
+      "score2": 58,
+      "score3": 58,
+      "missing": 0
+    },
+    {
+      "name": "Объект Авто",
+      "score2": 34,
+      "score3": 60,
+      "missing": 0
+    },
+    {
+      "name": "ОМС",
+      "score2": 57,
+      "score3": 77,
+      "missing": 0
+    },
+    {
+      "name": "Потребительский кредит",
+      "score2": 77,
+      "score3": 83,
+      "missing": 0
+    },
+    {
+      "name": "Сейфы",
+      "score2": 48,
+      "score3": 54,
+      "missing": 0
+    },
+    {
+      "name": "Слитки",
+      "score2": 30,
+      "score3": null,
+      "missing": 5
+    },
+    {
+      "name": "BNPL",
+      "score2": 54,
+      "score3": 53,
+      "missing": 0
+    },
+    {
+      "name": "POS-кредиты",
+      "score2": 54,
+      "score3": 62,
+      "missing": 0
+    },
+    {
+      "name": "Дети",
+      "score2": 54,
+      "score3": null,
+      "missing": 4
+    },
+    {
+      "name": "Зрелость",
+      "score2": 38,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "МВС",
+      "score2": 41,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "Молодежь",
+      "score2": 48,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "Пакет услуг СберПервый",
+      "score2": 43,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "Пакет услуг СберПремьер",
+      "score2": 58,
+      "score3": 79,
+      "missing": 0
+    },
+    {
+      "name": "Рабочий возраст",
+      "score2": 62,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "СберПрайм",
+      "score2": 61,
+      "score3": 76,
+      "missing": 0
+    },
+    {
+      "name": "СберСпасибо",
+      "score2": 68,
+      "score3": 74,
+      "missing": 0
+    },
+    {
+      "name": "PB",
+      "score2": 52,
+      "score3": 73,
+      "missing": 0
+    },
+    {
+      "name": "Top Affluent",
+      "score2": 53,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "Единый личный кабинет (ЕЛК)",
+      "score2": 46,
+      "score3": null,
+      "missing": 4
+    },
+    {
+      "name": "Персональная рекомендация",
+      "score2": 60,
+      "score3": 78,
+      "missing": 0
+    },
+    {
+      "name": "Почта, Диск, Календарь",
+      "score2": 52,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "SberID",
+      "score2": 75,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "Военная пенсия",
+      "score2": 28,
+      "score3": null,
+      "missing": null
+    },
+    {
+      "name": "Дебетовая карта",
+      "score2": 57,
+      "score3": 84,
+      "missing": 0
+    },
+    {
+      "name": "Детская карта",
+      "score2": 38,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "Зарплатный продукт",
+      "score2": 30,
+      "score3": 61,
+      "missing": 0
+    },
+    {
+      "name": "Интернет-Эквайринг",
+      "score2": 37,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "Как зарплатный",
+      "score2": 37,
+      "score3": null,
+      "missing": null
+    },
+    {
+      "name": "Кредитные карты",
+      "score2": 60,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "Оплата улыбкой",
+      "score2": 66,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "Пенсионный продукт",
+      "score2": 33,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "Переводы по РФ",
+      "score2": 68,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "Переводы подарков",
+      "score2": 37,
+      "score3": null,
+      "missing": null
+    },
+    {
+      "name": "Платежи",
+      "score2": 41,
+      "score3": 78,
+      "missing": 0
+    },
+    {
+      "name": "СберЧаевые",
+      "score2": 38,
+      "score3": null,
+      "missing": 7
+    },
+    {
+      "name": "Сценарии оплаты",
+      "score2": 51,
+      "score3": null,
+      "missing": null
+    },
+    {
+      "name": "Торговый Эквайринг",
+      "score2": 63,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "Трансграничные переводы",
+      "score2": 38,
+      "score3": null,
+      "missing": 3
+    },
+    {
+      "name": "Трансграничный эквайринг",
+      "score2": 34,
+      "score3": null,
+      "missing": 5
+    },
+    {
+      "name": "Транспортный эквайринг",
+      "score2": 24,
+      "score3": null,
+      "missing": null
+    },
+    {
+      "name": "Школьные сервисы",
+      "score2": 36,
+      "score3": null,
+      "missing": null
+    },
+    {
+      "name": "SberPay Вжух",
+      "score2": 40,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "SberPay Ecom",
+      "score2": 44,
+      "score3": 44,
+      "missing": 0
+    },
+    {
+      "name": "SberPay NFC",
+      "score2": 77,
+      "score3": 84,
+      "missing": 0
+    },
+    {
+      "name": "СберИнвестор",
+      "score2": 46,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "СберKids",
+      "score2": 58,
+      "score3": null,
+      "missing": 1
+    },
+    {
+      "name": "СБОЛ",
+      "score2": 60,
+      "score3": 78,
+      "missing": 0
+    },
+    {
+      "name": "Уведомления",
+      "score2": 53,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "Выписки, справки",
+      "score2": 56,
+      "score3": 67,
+      "missing": 0
+    },
+    {
+      "name": "Колл-центр",
+      "score2": 90,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "Телемаркетинг",
+      "score2": 84,
+      "score3": null,
+      "missing": 2
+    },
+    {
+      "name": "Чат",
+      "score2": 72,
+      "score3": 86,
+      "missing": 0
+    }
+  ]
+}

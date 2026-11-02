@@ -1,0 +1,81 @@
+{
+  "q2Unchanged": true,
+  "metricSetUnchanged": true,
+  "allOtherMetricObjectsUnchanged": true,
+  "priorFiniteUnchanged": 2326,
+  "notApplicableUnchanged": 228,
+  "newFills": 2,
+  "manualOriginAndOriginalApiPreserved": true,
+  "changes": [
+    {
+      "name": "Зарплатный продукт #B2C",
+      "value": 0.25,
+      "max": 1,
+      "during": {
+        "value": 0,
+        "source": {
+          "origin": "userConfirmedCrossSellMissingAsZero",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "previousSource": {
+            "origin": "salarySplitUnassignedAggregate",
+            "period": "III кв. 2026",
+            "inheritedFromTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "reason": "Источник не разделён на B2C/B2B"
+          },
+          "rule": "Отсутствующее значение компонента Cross-sell в III квартале принимается за 0; это ручное правило, не подтверждение LossHunter."
+        }
+      },
+      "after": {
+        "value": 0.25,
+        "rawValue": 0.5,
+        "applicable": true,
+        "source": {
+          "origin": "salarySplitSharedManualAssessment",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+          "answer": "Да",
+          "confirmation": "СберМобайл",
+          "respondent": "Королева Александра Дмитриевна",
+          "rule": "Ранее явно заданная ручная оценка 0.5 для общего продукта сохраняется как общая; обе анкеты отвечают Да. Это не новая оценка 1 из факта ответа Да."
+        }
+      }
+    },
+    {
+      "name": "Зарплатный продукт #B2B",
+      "value": 0.25,
+      "max": 1,
+      "during": {
+        "value": 0,
+        "source": {
+          "origin": "userConfirmedCrossSellMissingAsZero",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "previousSource": {
+            "origin": "salarySplitUnassignedAggregate",
+            "period": "III кв. 2026",
+            "inheritedFromTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+            "reason": "Источник не разделён на B2C/B2B"
+          },
+          "rule": "Отсутствующее значение компонента Cross-sell в III квартале принимается за 0; это ручное правило, не подтверждение LossHunter."
+        }
+      },
+      "after": {
+        "value": 0.25,
+        "rawValue": 0.5,
+        "applicable": true,
+        "source": {
+          "origin": "salarySplitSharedManualAssessment",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+          "answer": "Да",
+          "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+          "respondent": "Сауткин Андрей",
+          "rule": "Ранее явно заданная ручная оценка 0.5 для общего продукта сохраняется как общая; обе анкеты отвечают Да. Это не новая оценка 1 из факта ответа Да."
+        }
+      }
+    }
+  ]
+}

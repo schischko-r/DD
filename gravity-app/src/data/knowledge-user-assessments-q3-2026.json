@@ -26,10 +26,36 @@
           }
         }
       }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDirectNavigatorAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "teamId": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+            "teamName": "Сделка вторичка",
+            "unit": "ДомКлик",
+            "type": "Продукт",
+            "rule": "Прямая оценка пользователя за III квартал: 100% знания об отчетности в Навигаторе.",
+            "priorityOverWorkbook": true,
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "metricCode": "general.navigator_reporting_knowledge",
+            "rawValue": 1
+          }
+        }
+      }
     }
   ],
   "counts": {
-    "teams": 1,
-    "facts": 1
+    "teams": 2,
+    "facts": 2
   }
 }

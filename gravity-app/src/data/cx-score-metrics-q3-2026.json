@@ -24,6 +24,48 @@
   },
   "products": [
     {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "BNPL",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "pos-кредиты тоже 0.5",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Пользователь дополнительно указал CX Score 0,5 для POS-кредитов за III квартал."
+          }
+        }
+      }
+    },
+    {
       "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
       "name": "SberID",
       "unit": "Data",
@@ -37,69 +79,6 @@
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "SberID",
-            "metricCode": "cx.score",
-            "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
-      "name": "СБОЛ",
-      "unit": "DP",
-      "type": "Канал",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 1,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "СБОЛ",
-            "metricCode": "cx.score",
-            "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
-      "name": "Конверсия",
-      "unit": "CBP",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 1,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "Конверсия",
-            "metricCode": "cx.score",
-            "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
-      "name": "ВЗР",
-      "unit": "УБ",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 1,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "страхование путешественников",
             "metricCode": "cx.score",
             "points": 1,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
@@ -171,63 +150,21 @@
       }
     },
     {
-      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
-      "name": "Оплата улыбкой",
-      "unit": "DB",
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
             "origin": "userProvidedAssessment",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "SberPay (все)",
+            "sourceName": "Аавтокредит",
             "metricCode": "cx.score",
-            "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
-      "name": "СберИнвестор",
-      "unit": "DP",
-      "type": "Канал",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 1,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "СберИнвестор",
-            "metricCode": "cx.score",
-            "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
-      "name": "ЗЛС",
-      "unit": "УБ",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 1,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "ЗЛС",
-            "metricCode": "cx.score",
-            "points": 1,
+            "points": 0.5,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
           }
         }
@@ -255,8 +192,50 @@
       }
     },
     {
-      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
-      "name": "Переводы по РФ",
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "страхование путешественников",
+            "metricCode": "cx.score",
+            "points": 1,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "вклад",
+            "metricCode": "cx.score",
+            "points": 0,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
       "unit": "DB",
       "type": "Продукт",
       "metrics": {
@@ -267,28 +246,7 @@
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "Переводы",
-            "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
-      "name": "СберKids",
-      "unit": "DP",
-      "type": "Канал",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0.5,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "Сберкидс",
+            "sourceName": "Дебетовая карта",
             "metricCode": "cx.score",
             "points": 0.5,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
@@ -318,8 +276,113 @@
       }
     },
     {
-      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
-      "name": "Сейфы",
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ЗЛС",
+            "metricCode": "cx.score",
+            "points": 1,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ИСЖ",
+            "metricCode": "cx.score",
+            "points": 0,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "КАСКО",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Конверсия",
+            "metricCode": "cx.score",
+            "points": 1,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Кредитная карта",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
       "unit": "CBP",
       "type": "Продукт",
       "metrics": {
@@ -330,9 +393,114 @@
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "Сейфы",
+            "sourceName": "Кредитный потенциал",
             "metricCode": "cx.score",
             "points": 0.5,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "нсж исж 0",
+            "metricCode": "cx.score",
+            "points": 0,
+            "reason": "Пользователь явно указал CX Score 0 для НСЖ и ИСЖ за III квартал."
+          }
+        }
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ОМС",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ОПИФ",
+            "metricCode": "cx.score",
+            "points": 0,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "ОСАГО",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "SberPay (все)",
+            "metricCode": "cx.score",
+            "points": 1,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
           }
         }
@@ -381,9 +549,9 @@
       }
     },
     {
-      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
-      "name": "Дебетовая карта",
-      "unit": "DB",
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
       "type": "Продукт",
       "metrics": {
         "cx.score": {
@@ -393,7 +561,7 @@
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "Дебетовая карта",
+            "sourceName": "СберПремьер",
             "metricCode": "cx.score",
             "points": 0.5,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
@@ -402,22 +570,22 @@
       }
     },
     {
-      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
-      "name": "ОСАГО",
-      "unit": "УБ",
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
+            "origin": "userConfirmedQ3ScoreCorrection",
             "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "ОСАГО",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "sourceName": "Переводы по РФ",
             "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "rawValue": 1,
+            "reason": "Прямая корректировка пользователя из таблицы оценок III квартала: CX Score = 100%."
           }
         }
       }
@@ -444,8 +612,8 @@
       }
     },
     {
-      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
-      "name": "BNPL",
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "name": "Потребительский кредит",
       "unit": "CBP",
       "type": "Продукт",
       "metrics": {
@@ -456,9 +624,93 @@
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "BNPL",
+            "sourceName": "Потребительский кредит",
             "metricCode": "cx.score",
             "points": 0.5,
+            "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита."
+          }
+        }
+      }
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Почта, Диск, Календарь",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Прямая оценка пользователя за III квартал."
+          }
+        }
+      }
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "СБОЛ",
+            "metricCode": "cx.score",
+            "points": 1,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "Сберкидс",
+            "metricCode": "cx.score",
+            "points": 0.5,
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+          }
+        }
+      }
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userProvidedAssessment",
+            "period": "III кв. 2026",
+            "confirmedBy": "user",
+            "confirmedAt": "2026-10-29",
+            "sourceName": "СберИнвестор",
+            "metricCode": "cx.score",
+            "points": 1,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
           }
         }
@@ -486,51 +738,30 @@
       }
     },
     {
-      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
-      "name": "Страхование жизни",
-      "unit": "УБ",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0.5,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "Ипотечное страхование жизни",
-            "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
-      "name": "Пакет услуг СберПремьер",
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
       "unit": "CX",
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 0,
           "source": {
             "origin": "userProvidedAssessment",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "СберПремьер",
+            "sourceName": "спасибо",
             "metricCode": "cx.score",
-            "points": 0.5,
+            "points": 0,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
           }
         }
       }
     },
     {
-      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
-      "name": "ОМС",
-      "unit": "CBP",
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
       "type": "Продукт",
       "metrics": {
         "cx.score": {
@@ -540,70 +771,7 @@
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "ОМС",
-            "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
-      "name": "Автокредит",
-      "unit": "CBP",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0.5,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "Аавтокредит",
-            "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
-      "name": "КАСКО",
-      "unit": "УБ",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0.5,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "КАСКО",
-            "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
-      "name": "Кредитные карты",
-      "unit": "DB",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0.5,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "Кредитная карта",
+            "sourceName": "Сделка ИЖС",
             "metricCode": "cx.score",
             "points": 0.5,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
@@ -633,29 +801,8 @@
       }
     },
     {
-      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
-      "name": "Сделка ИЖС",
-      "unit": "ДомКлик",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0.5,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "Сделка ИЖС",
-            "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
-      "name": "Кредитный потенциал",
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
       "unit": "CBP",
       "type": "Продукт",
       "metrics": {
@@ -666,7 +813,7 @@
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "Кредитный потенциал",
+            "sourceName": "Сейфы",
             "metricCode": "cx.score",
             "points": 0.5,
             "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
@@ -675,127 +822,22 @@
       }
     },
     {
-      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
-      "name": "Вклады+НС",
-      "unit": "CBP",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "вклад",
-            "metricCode": "cx.score",
-            "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
-      "name": "СберСпасибо",
-      "unit": "CX",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "спасибо",
-            "metricCode": "cx.score",
-            "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
-      "name": "ИСЖ",
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
       "unit": "УБ",
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "ИСЖ",
-            "metricCode": "cx.score",
-            "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
-      "name": "ОПИФ",
-      "unit": "УБ",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "ОПИФ",
-            "metricCode": "cx.score",
-            "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
-          }
-        }
-      }
-    },
-    {
-      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
-      "name": "Трансграничные переводы",
-      "unit": "DB",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
           "rawValue": 0.5,
           "source": {
             "origin": "userProvidedAssessment",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "Трансгран переводы тоже переводы",
+            "sourceName": "Ипотечное страхование жизни",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Пользователь уточнил, что оценка 0,5 для переводов распространяется также на Трансграничные переводы."
-          }
-        }
-      }
-    },
-    {
-      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
-      "name": "POS-кредиты",
-      "unit": "CBP",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0.5,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "pos-кредиты тоже 0.5",
-            "metricCode": "cx.score",
-            "points": 0.5,
-            "reason": "Пользователь дополнительно указал CX Score 0,5 для POS-кредитов за III квартал."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
           }
         }
       }
@@ -822,9 +864,9 @@
       }
     },
     {
-      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
-      "name": "Потребительский кредит",
-      "unit": "CBP",
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
       "type": "Продукт",
       "metrics": {
         "cx.score": {
@@ -834,31 +876,10 @@
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
-            "sourceName": "Потребительский кредит",
+            "sourceName": "Трансгран переводы тоже переводы",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита."
-          }
-        }
-      }
-    },
-    {
-      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
-      "name": "НСЖ",
-      "unit": "УБ",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "rawValue": 0,
-          "source": {
-            "origin": "userProvidedAssessment",
-            "period": "III кв. 2026",
-            "confirmedBy": "user",
-            "confirmedAt": "2026-10-29",
-            "sourceName": "нсж исж 0",
-            "metricCode": "cx.score",
-            "points": 0,
-            "reason": "Пользователь явно указал CX Score 0 для НСЖ и ИСЖ за III квартал."
+            "reason": "Пользователь уточнил, что оценка 0,5 для переводов распространяется также на Трансграничные переводы."
           }
         }
       }

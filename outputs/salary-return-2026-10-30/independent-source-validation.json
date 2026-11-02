@@ -1,0 +1,30 @@
+{
+  "allFourFactsSourceVerified": true,
+  "sourceShaVerified": true,
+  "validated": [
+    {
+      "cohort": "B2C",
+      "code": "mehaniki.vozvrat_klientov",
+      "csvRow": 46,
+      "rawValue": 1
+    },
+    {
+      "cohort": "B2C",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "csvRow": 46,
+      "rawValue": 0
+    },
+    {
+      "cohort": "B2B",
+      "code": "mehaniki.vozvrat_klientov",
+      "csvRow": 5,
+      "rawValue": 1
+    },
+    {
+      "cohort": "B2B",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "csvRow": 5,
+      "rawValue": 1
+    }
+  ]
+}

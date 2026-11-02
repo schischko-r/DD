@@ -9,7 +9,8 @@ export function applyCxScoreAssessments(products, period, overlays, baselineProd
   const assessments = overlays.filter((item) => item.scope === 'cx-score-assessment' && item.period === period);
   if (!assessments.length) return products;
   return products.map((product) => {
-    const team = assessments.flatMap((item) => item.products || []).find((team) => matches(team, product));
+    // Later Q3 overlays contain explicit corrections and must supersede the original assessment.
+    const team = assessments.flatMap((item) => item.products || []).findLast((team) => matches(team, product));
     const fact = team?.metrics?.[code];
     if (![0, 0.5, 1].includes(fact?.rawValue)) return product;
     const priorProduct = baselineProducts.find((candidate) => matches(candidate, product));

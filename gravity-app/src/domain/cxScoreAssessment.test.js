@@ -13,22 +13,25 @@ const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\
 const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map((key) => read(`../data/${imports.get(key.trim())}`));
 const metrics = (product) => product.metrics.flatMap((block) => block.metrics);
 
-test('40 user assessments affect only Q3 CX Score, with unit maxima and unchanged UX and Q2', () => {
+test('41 user assessments affect only Q3 CX Score, with unit maxima and unchanged UX and Q2', () => {
   const snapshot = JSON.stringify({source, overlays});
-  assert.equal(overlay.products.length, 40);
-  assert.equal(new Set(overlay.products.map((p) => p.id)).size, 40);
-  assert.deepEqual([1, 0.5, 0].map((value) => overlay.products.filter((p) => p.metrics['cx.score'].rawValue === value).length), [10, 25, 5]);
+  assert.equal(overlay.products.length, 41);
+  assert.equal(new Set(overlay.products.map((p) => p.id)).size, 41);
+  assert.deepEqual([1, 0.5, 0].map((value) => overlay.products.filter((p) => p.metrics['cx.score'].rawValue === value).length), [10, 26, 5]);
   // Isolate the original batch while keeping later direct CX assessments in both runs.
   const before = buildTeamProfileProducts(source, overlay.period, overlays.filter((o) =>
     o.scope !== overlay.scope || o.source?.origin !== overlay.source.origin));
   const after = buildTeamProfileProducts(source, overlay.period, overlays);
+  const effectiveAssessments = overlays.filter((o) => o.scope === overlay.scope && o.period === overlay.period)
+    .flatMap((o) => o.products || []);
   for (let i = 0; i < after.length; i++) {
     const current = after[i], old = before[i];
     const fact = overlay.products.find((p) => p.id === current.id.replace(/::empty::.*/, ''));
     if (!fact) {assert.deepEqual(current, old); continue;}
     const result = metrics(current).filter((m) => m.code === 'cx.score');
+    const effectiveFact = effectiveAssessments.findLast((p) => p.id === fact.id);
     assert.equal(result.length, 1);
-    assert.equal(result[0].value, fact.metrics['cx.score'].rawValue);
+    assert.equal(result[0].value, effectiveFact?.metrics?.['cx.score']?.rawValue ?? fact.metrics['cx.score'].rawValue);
     assert.equal(result[0].max_value, 1);
     assert.equal(isDdIndexMetric(result[0]), true);
     assert.equal(current.indexMaxPoints, metrics(current).filter(isDdIndexMetric).reduce((sum, m) => sum + m.max_value, 0));

@@ -1,0 +1,1457 @@
+{
+  "period": "III кв. 2026",
+  "rule": "Use supplied score columns; zero denominators are not applicable per latest user correction; no app data changed. Triples are monitoring/forecast/factor analysis. Unit and LU totals are not used as tribe rows.",
+  "teams": 76,
+  "counts": {
+    "same": 76,
+    "different": 0,
+    "provisional": 0,
+    "unresolved": 0
+  },
+  "results": [
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "tribe": "ДИиН",
+      "mappedTribe": "ДИиН",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Брокерский счет",
+      "unit": "УБ",
+      "tribe": "ДББ",
+      "mappedTribe": "ДББ",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Вклады+НС",
+      "unit": "CBP",
+      "tribe": "Сбережения клиентов",
+      "mappedTribe": "Сбережения клиентов",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ДСЖ КК",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Дебетовая карта",
+      "unit": "DB",
+      "tribe": "Кошелёк клиента",
+      "mappedTribe": "Кошелёк клиента",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Детская карта",
+      "unit": "DB",
+      "tribe": "Кошелёк клиента",
+      "mappedTribe": "Кошелёк клиента",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ЗПИФ",
+      "unit": "УБ",
+      "tribe": "ДИиН",
+      "mappedTribe": "ДИиН",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Зарплатный продукт",
+      "unit": "DB",
+      "tribe": "Социальные и зарплатные решения",
+      "mappedTribe": "Социальные и зарплатные решения",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        null,
+        1
+      ],
+      "expected": [
+        0,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ИСЖ",
+      "unit": "УБ",
+      "tribe": "ДИиН",
+      "mappedTribe": "ДИиН",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ИнвестКопилка",
+      "unit": "УБ",
+      "tribe": "РИБ",
+      "mappedTribe": "РИБ",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Интернет-Эквайринг",
+      "unit": "DB",
+      "tribe": "Эквайринг",
+      "mappedTribe": "Эквайринг",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Конверсия",
+      "unit": "CBP",
+      "tribe": "Комиссионные продукты",
+      "mappedTribe": "Комиссионные продукты",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "tribe": "Сделка со вторичным жильём",
+      "mappedTribe": "Вторичка",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Монеты",
+      "unit": "CBP",
+      "tribe": "Комиссионные продукты",
+      "mappedTribe": "Комиссионные продукты",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "НСЖ",
+      "unit": "УБ",
+      "tribe": "ДИиН",
+      "mappedTribe": "ДИиН",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ОПИФ",
+      "unit": "УБ",
+      "tribe": "ДИиН",
+      "mappedTribe": "ДИиН",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Объект Авто",
+      "unit": "CBP",
+      "tribe": "Авто",
+      "mappedTribe": "Авто",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ПДС",
+      "unit": "УБ",
+      "tribe": "ДИиН",
+      "mappedTribe": "ДИиН",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "tribe": "Премиальный сегмент",
+      "mappedTribe": "Премиальный сегмент",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "tribe": "Массовый высокодоходный сегмент",
+      "mappedTribe": "МВС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Пенсионный продукт",
+      "unit": "DB",
+      "tribe": "Социальные и зарплатные решения",
+      "mappedTribe": "Социальные и зарплатные решения",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        null,
+        1
+      ],
+      "expected": [
+        0,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Переводы по РФ",
+      "unit": "DB",
+      "tribe": "Переводы",
+      "mappedTribe": "Переводы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        0,
+        1
+      ],
+      "expected": [
+        0,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Платежи",
+      "unit": "DB",
+      "tribe": "Платежи",
+      "mappedTribe": "Платежи",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "tribe": "Альтернативные платежные методы",
+      "mappedTribe": "Альтернативные платежные методы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "tribe": "Индивидуальное жилищное строительство",
+      "mappedTribe": "ИЖС",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "tribe": "Сделка со вторичным жильём",
+      "mappedTribe": "Вторичка",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "tribe": "Сделка с первичным жильём",
+      "mappedTribe": "Первичка",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Сейфы",
+      "unit": "CBP",
+      "tribe": "Комиссионные продукты",
+      "mappedTribe": "Комиссионные продукты",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Страхование залога",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Торговый Эквайринг",
+      "unit": "DB",
+      "tribe": "Эквайринг",
+      "mappedTribe": "Эквайринг",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Трансграничные переводы",
+      "unit": "DB",
+      "tribe": "Переводы",
+      "mappedTribe": "Переводы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        0,
+        1
+      ],
+      "expected": [
+        0,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Трансграничный эквайринг",
+      "unit": "DB",
+      "tribe": "Альтернативные платежные методы",
+      "mappedTribe": "Альтернативные платежные методы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ЦФА",
+      "unit": "УБ",
+      "tribe": "РИБ",
+      "mappedTribe": "РИБ",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "SberPay Ecom",
+      "unit": "DB",
+      "tribe": "Альтернативные платежные методы",
+      "mappedTribe": "Альтернативные платежные методы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "SberPay Вжух",
+      "unit": "DB",
+      "tribe": "Альтернативные платежные методы",
+      "mappedTribe": "Альтернативные платежные методы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Автокредит",
+      "unit": "CBP",
+      "tribe": "Авто",
+      "mappedTribe": "Авто",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ВЗР",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Выписки, справки",
+      "unit": "PC",
+      "tribe": "Клиентские документы",
+      "mappedTribe": "Клиентские документы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        null,
+        1
+      ],
+      "expected": [
+        1,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ДСЖ ПК",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ЗЛС",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "tribe": "ЦКС",
+      "mappedTribe": "ЦКС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Кредитные карты",
+      "unit": "DB",
+      "tribe": "Кредитные карты",
+      "mappedTribe": "Кредитные карты",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        null,
+        1
+      ],
+      "expected": [
+        0,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ОМС",
+      "unit": "CBP",
+      "tribe": "Комиссионные продукты",
+      "mappedTribe": "Комиссионные продукты",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "СберСова",
+      "unit": "УБ",
+      "tribe": "УППБ",
+      "mappedTribe": "УППБ",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Слитки",
+      "unit": "CBP",
+      "tribe": "Комиссионные продукты",
+      "mappedTribe": "Комиссионные продукты",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Страхование жизни",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Кредитный потенциал",
+      "unit": "CBP",
+      "tribe": "Кредитный потенциал",
+      "mappedTribe": "Кредитный потенциал",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Образовательный кредит",
+      "unit": "CBP",
+      "tribe": "Потребительское кредитование",
+      "mappedTribe": "Потребительское кредитование",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "КАСКО",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "ОСАГО",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "СберПрайм",
+      "unit": "CX",
+      "tribe": "Прайм",
+      "mappedTribe": "Прайм",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "POS-кредиты",
+      "unit": "CBP",
+      "tribe": "Товарное кредитование",
+      "mappedTribe": "Товарное кредитование",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Личная защита Плюс",
+      "unit": "УБ",
+      "tribe": "ДЗСПиС",
+      "mappedTribe": "ДЗСПиС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "SberPay NFC",
+      "unit": "DB",
+      "tribe": "Альтернативные платежные методы",
+      "mappedTribe": "Альтернативные платежные методы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Оплата улыбкой",
+      "unit": "DB",
+      "tribe": "Альтернативные платежные методы",
+      "mappedTribe": "Альтернативные платежные методы",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Потребительский кредит",
+      "unit": "CBP",
+      "tribe": "Потребительское кредитование",
+      "mappedTribe": "Потребительское кредитование",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "СберСпасибо",
+      "unit": "CX",
+      "tribe": "Лояльность",
+      "mappedTribe": "Лояльность",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "BNPL",
+      "unit": "CBP",
+      "tribe": "Товарное кредитование",
+      "mappedTribe": "Товарное кредитование",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Дети",
+      "unit": "CX",
+      "tribe": "Дети и Молодежь",
+      "mappedTribe": "Дети и Молодежь",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Зрелость",
+      "unit": "CX",
+      "tribe": "Зрелость",
+      "mappedTribe": "Почтенный возраст",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Колл-центр",
+      "unit": "PC",
+      "tribe": "Развитие сервиса в каналах",
+      "mappedTribe": "Развитие сервисных технологий в каналах",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        null,
+        1
+      ],
+      "expected": [
+        1,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "МВС",
+      "unit": "CX",
+      "tribe": "Массовый высокодоходный сегмент",
+      "mappedTribe": "МВС",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Молодежь",
+      "unit": "CX",
+      "tribe": "Дети и Молодежь",
+      "mappedTribe": "Дети и Молодежь",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "СберKids",
+      "unit": "DP",
+      "tribe": "СберKids",
+      "mappedTribe": "СберKids",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        0,
+        1,
+        1
+      ],
+      "expected": [
+        0,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Телемаркетинг",
+      "unit": "PC",
+      "tribe": "Развитие продаж в каналах",
+      "mappedTribe": "Развитие сервисных технологий в каналах",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        null,
+        1
+      ],
+      "expected": [
+        1,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Чат",
+      "unit": "PC",
+      "tribe": "Платформа Phygital",
+      "mappedTribe": "Платформа Phygital",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        null,
+        1
+      ],
+      "expected": [
+        1,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "СБОЛ",
+      "unit": "DP",
+      "tribe": "СБОЛ",
+      "mappedTribe": "СБОЛ",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "СберИнвестор",
+      "unit": "DP",
+      "tribe": "СберИнвестор",
+      "mappedTribe": "СберИнвестор",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Уведомления",
+      "unit": "DP",
+      "tribe": "Уведомления",
+      "mappedTribe": "Уведомления",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        null,
+        1
+      ],
+      "expected": [
+        1,
+        null,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Рабочий возраст",
+      "unit": "CX",
+      "tribe": "Рабочий возраст",
+      "mappedTribe": "Рабочий возраст",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "PB",
+      "unit": "CX",
+      "tribe": "Управление частным капиталом",
+      "mappedTribe": "Управление частным капиталом",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Top Affluent",
+      "unit": "CX",
+      "tribe": "Премиальный сегмент",
+      "mappedTribe": "Премиальный сегмент",
+      "mapping": "catalogTribe",
+      "status": "same",
+      "actual": [
+        1,
+        0,
+        1
+      ],
+      "expected": [
+        1,
+        0,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "SberID",
+      "unit": "Data",
+      "tribe": "Аутентификация клиентов",
+      "mappedTribe": "Sber ID",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "tribe": "Аутентификация клиентов",
+      "mappedTribe": "Sber ID",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "tribe": "Аутентификация клиентов",
+      "mappedTribe": "Sber ID",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        1,
+        1
+      ],
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "mismatches": []
+    },
+    {
+      "team": "Персональная рекомендация",
+      "unit": "Data",
+      "tribe": "Аутентификация клиентов",
+      "mappedTribe": "SberCampaigning",
+      "mapping": "confirmedAlias",
+      "status": "same",
+      "actual": [
+        1,
+        null,
+        null
+      ],
+      "expected": [
+        1,
+        null,
+        null
+      ],
+      "mismatches": []
+    }
+  ]
+}

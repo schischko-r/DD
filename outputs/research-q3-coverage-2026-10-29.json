@@ -1,0 +1,576 @@
+[
+  {
+    "name": "БПИФ",
+    "unit": "УБ",
+    "value": 0,
+    "average": 7,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Брокерский счет",
+    "unit": "УБ",
+    "value": 0,
+    "average": 7.333333333,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Вклады+НС",
+    "unit": "CBP",
+    "value": 1,
+    "average": 7.75,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Военная пенсия",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "ДСЖ КК",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Дебетовая карта",
+    "unit": "DB",
+    "value": 1,
+    "average": 8,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Детская карта",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "ЗПИФ",
+    "unit": "УБ",
+    "value": 0,
+    "average": 7,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Зарплатный продукт",
+    "unit": "DB",
+    "value": 1,
+    "average": 8,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "ИСЖ",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "ИнвестКопилка",
+    "unit": "УБ",
+    "value": 0,
+    "average": 7,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Интернет-Эквайринг",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Конверсия",
+    "unit": "CBP",
+    "value": 1,
+    "average": 8,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Много денег (НКПЗН)",
+    "unit": "ДомКлик",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "Монеты",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "НСЖ",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "ОПИФ",
+    "unit": "УБ",
+    "value": 1,
+    "average": 7.5,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Объект Авто",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "ПДС",
+    "unit": "УБ",
+    "value": 1,
+    "average": 7.5,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Пакет услуг СберПервый",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Пакет услуг СберПремьер",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Пенсионный продукт",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Переводы по РФ",
+    "unit": "DB",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "Переводы подарков",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Платежи",
+    "unit": "DB",
+    "value": 1,
+    "average": 9,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "СберЧаевые",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Сделка ИЖС",
+    "unit": "ДомКлик",
+    "value": 1,
+    "average": 8.333333333,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Сделка вторичка",
+    "unit": "ДомКлик",
+    "value": 1,
+    "average": 8.2,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Сделка с Первичным жильём",
+    "unit": "ДомКлик",
+    "value": 1,
+    "average": 8.2,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Сейфы",
+    "unit": "CBP",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "Страхование залога",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Сценарии оплаты",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Торговый Эквайринг",
+    "unit": "DB",
+    "value": 1,
+    "average": 8,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Трансграничные переводы",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Трансграничный эквайринг",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Транспортный эквайринг",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "ЦФА",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Школьные сервисы",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "SberPay Ecom",
+    "unit": "DB",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "Вжух",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Автокредит",
+    "unit": "CBP",
+    "value": 1,
+    "average": 9,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Страхование путешественников",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Выписки, справки",
+    "unit": "PC",
+    "value": 0,
+    "average": 7.333333333,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "ДСЖ ПК",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "ЗЛС",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Залоговое страхование (корпоративное страхование)",
+    "unit": "УБ",
+    "value": 0,
+    "average": 7,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Как зарплатный",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Кредитная карта",
+    "unit": "DB",
+    "value": 1,
+    "average": 8.25,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "ОМС",
+    "unit": "CBP",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "СберСова",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Слитки",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Страхование жизни",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Кредитный потенциал",
+    "unit": "CBP",
+    "value": 1,
+    "average": 8.083333333,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Образовательный кредит",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "КАСКО",
+    "unit": "УБ",
+    "value": 0,
+    "average": 7.333333333,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "ОСАГО",
+    "unit": "УБ",
+    "value": 1,
+    "average": 9,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "СберПрайм",
+    "unit": "CX",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "POS-кредиты",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Личная защита Плюс",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "SberPay NFC",
+    "unit": "DB",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "Оплата улыбкой",
+    "unit": "DB",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "Потребительский кредит",
+    "unit": "CBP",
+    "value": 1,
+    "average": 7.75,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "СберСпасибо",
+    "unit": "CX",
+    "value": 1,
+    "average": 7.818181818,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "BNPL",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Дети",
+    "unit": "CX",
+    "value": 1,
+    "average": 7.5,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Зрелость",
+    "unit": "CX",
+    "value": 0,
+    "average": 7.333333333,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Колл-центр",
+    "unit": "PC",
+    "value": 1,
+    "average": 7.571428571,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "МВС",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Молодежь",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "СберKids",
+    "unit": "DP",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Телемаркетинг",
+    "unit": "PC",
+    "value": 1,
+    "average": 8.142857143,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Чат",
+    "unit": "PC",
+    "value": 1,
+    "average": 8,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "СБОЛ",
+    "unit": "DP",
+    "value": 1,
+    "average": 7.571428571,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "СберИнвестор",
+    "unit": "DP",
+    "value": 1,
+    "average": 7.625,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Уведомления",
+    "unit": "DP",
+    "value": 1,
+    "average": 8,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Рабочий возраст",
+    "unit": "CX",
+    "value": 1,
+    "average": 7.666666667,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "PB",
+    "unit": "CX",
+    "value": 1,
+    "average": 7.5,
+    "origin": "userProvidedTable"
+  },
+  {
+    "name": "Top Affluent",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "SberID",
+    "unit": "Data",
+    "value": 1,
+    "average": null,
+    "origin": "priorQuarterCarryForward"
+  },
+  {
+    "name": "Единый личный кабинет (ЕЛК)",
+    "unit": "Data",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Почта, Диск, Календарь",
+    "unit": "Data",
+    "value": null,
+    "average": null,
+    "origin": null
+  },
+  {
+    "name": "Персональная рекомендация",
+    "unit": "Data",
+    "value": 1,
+    "average": 7.652173913,
+    "origin": "userProvidedTable"
+  }
+]

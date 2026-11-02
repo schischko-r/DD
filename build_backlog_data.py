@@ -172,7 +172,7 @@ class TeamTickets:
     excluded_before_history_start: int
     excluded_after_history_end: int
     terminal_without_resolved: int
-    member_teams: tuple[str, ...] = ()
+    member_teams: tuple[str | dict[str, object], ...] = ()
 
 
 def _cell_column(reference: str) -> int:
@@ -393,9 +393,64 @@ TEAM_LABEL_ALIASES = {
     'персональная рекомендация (кампейнинг)': 'Персональная рекомендация',
 }
 SHARED_TEAM_MEMBERS = {
+    'Top Affluent': ('Top Affluent', 'Пакет услуг СберПервый'),
     'КАСКО, ОСАГО': ('КАСКО', 'ОСАГО'),
     'Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой':
         ('Переводы по РФ', 'Переводы подарков', 'SberPay Вжух', 'Оплата улыбкой'),
+    # These Q3 answers point to the same unfiltered workspace/board as the
+    # existing Q2 owner. Keep one physical ticket dataset and expose its members.
+    'Объект Авто': ('Объект Авто', {
+        'name': 'Автокредит', 'unit': 'CBP', 'type': 'Продукт', 'period': 'III кв. 2026',
+        'mappingEvidence': {
+            'origin': 'surveySharedBacklog',
+            'identity': 'sbertrack.sberbank.ru/space/CI8LDDG1KY',
+            'previous': {'period': 'II кв. 2026', 'team': 'Объект Авто',
+                         'file': 'gravity-app/src/deposits-survey/previous-backlogs.js',
+                         'teamId': 'a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто',
+                         'savedCell': 'AX139'},
+            'current': {'period': 'III кв. 2026',
+                        'file': 'ddi_3q_response/questionare-responses(11).csv',
+                        'row': 31, 'answer': 'backlog',
+                        'url': 'https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=CI8LDDG1KY&tenant=default'},
+            'rule': 'Одинаковое пространство без продуктового фильтра; связь добавлена только для III квартала.',
+        },
+    }),
+    'Личная защита Плюс': ('Личная защита Плюс', {
+        'name': 'Залоговое страхование (корпоративное страхование)',
+        'unit': 'УБ', 'type': 'Продукт', 'period': 'III кв. 2026',
+        'mappingEvidence': {
+            'origin': 'surveySharedBacklog',
+            'identity': 'jira.sberbank.ru/board/21722/project/KPDS',
+            'previous': {'period': 'II кв. 2026', 'team': 'Личная защита Плюс',
+                         'file': 'gravity-app/src/deposits-survey/previous-backlogs.js',
+                         'teamId': '715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс',
+                         'savedCell': 'EU139'},
+            'current': {'period': 'III кв. 2026',
+                        'file': 'ddi_3q_response/questionare-responses(11).csv',
+                        'row': 53, 'answer': 'backlog',
+                        'url': 'https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=KPDS&rapidView=21722#'},
+            'rule': 'Одинаковая доска и проект без quickFilter; связь добавлена только для III квартала.',
+        },
+    }),
+    'МВС, Пакет услуг СберПремьер': (
+        {'name': 'МВС', 'unit': 'CX', 'type': 'Сегмент'},
+        {'name': 'Пакет услуг СберПремьер', 'unit': 'CX', 'type': 'Продукт'},
+    ),
+    'СберПрайм': ({'name': 'СберПрайм', 'unit': 'CX', 'type': 'Продукт'},),
+    'PB': ({'name': 'PB', 'unit': 'CX', 'type': 'Сегмент'},),
+}
+
+# Explicit spaces from the III-quarter survey answers, not inferred name aliases.
+ISSUE_PREFIX_TEAM_MAPPINGS = {
+    'AMNS': {'team': 'МВС, Пакет услуг СберПремьер',
+             'source': 'ddi_3q_response/questionare-responses(11).csv:34; questionare-responses(12).csv:5',
+             'answer': 'backlog', 'space': 'AMNS', 'period': 'III кв. 2026'},
+    'PRIME': {'team': 'СберПрайм',
+              'source': 'ddi_3q_response/questionare-responses(11).csv:24',
+              'answer': 'backlog', 'space': 'PRIME', 'period': 'III кв. 2026'},
+    'PBDTNLSS': {'team': 'PB',
+                 'source': 'ddi_3q_response/questionare-responses(12).csv:2',
+                 'answer': 'discoveryBacklogComment', 'space': 'PBDTNLSS', 'period': 'III кв. 2026'},
 }
 
 
@@ -420,6 +475,14 @@ def read_ticket_sources(path: Path, additional_inputs: list[Path] | None = None)
     audit = {'baselineFile': path.name, 'baselineRows': len(rows), 'additionalSources': []}
     if not additional_inputs:
         return rows, date_1904, audit
+    # Some exports put a scenario display label in direction. Reuse only an
+    # unambiguous parent from the original source; never infer by majority vote.
+    scenario_parents: defaultdict[str, set[str]] = defaultdict(set)
+    for row in rows:
+        scenario = _normalize_scenario(row['scenario'])[0]
+        direction = row['direction'].strip()
+        if scenario != 'unknown' and direction and direction != UNKNOWN_DIRECTION_LABEL:
+            scenario_parents[scenario].add(direction)
     owners: dict[str, str] = {}
     merged = []
     cross_team_duplicates = 0
@@ -440,7 +503,48 @@ def read_ticket_sources(path: Path, additional_inputs: list[Path] | None = None)
                   'skippedAdditionalDuplicateIssueKeys': 0, 'acceptedCancelledRows': 0,
                   'acceptedTerminalWithoutResolvedRows': 0, 'acceptedResearchDirectionRows': 0,
                   'invalidNonterminalResolvedDates': 0, 'byTeam': {}}
+        counts.update(mappedMissingTeamRows=0, unresolvedMissingTeamRows=0,
+                      mappedMissingTeamByPrefix={}, unresolvedMissingTeamByPrefix={},
+                      directionNormalizationRows=0, directionNormalizationByScenario={},
+                      ambiguousDirectionRows=0, missingTeamMappingEvidence={},
+                      unknownScenarioDirectionRows=0, unknownScenarioOriginalDirections={})
         for row in incoming:
+            if not row['team'].strip():
+                prefix = row['Issue key'].strip().split('-', 1)[0].upper()
+                mapping = ISSUE_PREFIX_TEAM_MAPPINGS.get(prefix)
+                if not mapping:
+                    counts['unresolvedMissingTeamRows'] += 1
+                    by_prefix = counts['unresolvedMissingTeamByPrefix']
+                    by_prefix[prefix or '(empty)'] = by_prefix.get(prefix or '(empty)', 0) + 1
+                    continue
+                row = dict(row, team=mapping['team'])
+                counts['mappedMissingTeamRows'] += 1
+                by_prefix = counts['mappedMissingTeamByPrefix']
+                by_prefix[prefix] = by_prefix.get(prefix, 0) + 1
+                counts['missingTeamMappingEvidence'][prefix] = mapping
+                scenario = _normalize_scenario(row['scenario'])[0]
+                raw_direction = ' '.join(row['direction'].replace('\\n', ' ').split())
+                scenario_label = SCENARIO_LABELS.get(scenario)
+                if scenario == 'unknown':
+                    row['direction'] = UNKNOWN_DIRECTION_LABEL
+                    counts['unknownScenarioDirectionRows'] += 1
+                    unknown_labels = counts['unknownScenarioOriginalDirections']
+                    unknown_labels[raw_direction or '(empty)'] = unknown_labels.get(raw_direction or '(empty)', 0) + 1
+                if scenario != 'unknown' and raw_direction.casefold() == str(scenario_label).casefold():
+                    parents = scenario_parents.get(scenario, set())
+                    if len(parents) == 1:
+                        direction = next(iter(parents))
+                        if row['direction'] != direction:
+                            row['direction'] = direction
+                            counts['directionNormalizationRows'] += 1
+                            details = counts['directionNormalizationByScenario'].setdefault(scenario, {
+                                'originalDirection': raw_direction, 'direction': direction,
+                                'rule': 'Unique canonical-scenario parent from the original baseline workbook',
+                                'rows': 0,
+                            })
+                            details['rows'] += 1
+                    elif len(parents) > 1:
+                        counts['ambiguousDirectionRows'] += 1
             label = _normalize_team(row['team'])[1]
             team_counts = counts['byTeam'].setdefault(label, {'inputRows': 0, 'acceptedRows': 0,
                 'skippedExistingIssueKeys': 0, 'skippedAdditionalDuplicateIssueKeys': 0,

@@ -1,0 +1,896 @@
+{
+  "sourceFiles": [
+    {
+      "file": "/Users/roman/Documents/Codex/DD-dev/sbertrack_all_full_history_to_export.xlsx",
+      "sha256": "33e536f65fd8500df74f8034f7957f528e728b7fbabe58b325269ec1619d0cf9"
+    },
+    {
+      "file": "tickets_final.xlsx",
+      "sha256": "d5ae39a8fdf2878ea6717a74692bea5b3822d07595137b57e064a0e3743833c6"
+    }
+  ],
+  "policy": {
+    "merge": "Canonical baseline wins globally by stripped/casefolded physical issue key; final replaces previous additional file, never merged with prior generated JSON.",
+    "historyStart": "2026-02-01",
+    "historyEnd": "2026-09-30",
+    "frozenHistoricalThrough": "2026-06-30",
+    "pastAdditionalRows": "273 new source Q2 rows are retained in overall ticket metadata and, when open, Q3 start-backlog calculations. Frozen Q1/Q2 monthly/quarterly snapshots remain from canonical baseline; no new historical periods were inserted.",
+    "statuses": "Existing cancelled and terminal status sets unchanged; no invented resolution date; Closed is not silently reclassified.",
+    "invalidResolved": "Only accepted additional nonterminal rows with Resolved<Created have Resolved treated as unknown. Baseline/direct parser and terminal/other invalid dates remain strict.",
+    "privateAudit": "Original issue keys and timestamps of the two date anomalies appear only in this audit; public JSON exposes counters only."
+  },
+  "counts": {
+    "baselineRows": 12890,
+    "baselineUniqueKeys": 12890,
+    "additionalRows": 3834,
+    "additionalUniqueKeys": 3834,
+    "overlap": 1073,
+    "acceptedNew": 2761,
+    "acceptedByCreatedWindow": {
+      "Q3": {
+        "acceptedRows": 2140,
+        "nonCancelled": 2081,
+        "cancelled": 59
+      },
+      "afterQ3": {
+        "acceptedRows": 348,
+        "nonCancelled": 329,
+        "cancelled": 19
+      },
+      "Q2": {
+        "acceptedRows": 273,
+        "nonCancelled": 253,
+        "cancelled": 20
+      }
+    },
+    "invalidNonterminalResolvedDates": 2,
+    "beforeIncludedTickets": 8491,
+    "afterIncludedTickets": 8742,
+    "beforeQ3Created": 3188,
+    "afterQ3Created": 3186,
+    "datasets": 11
+  },
+  "importAudit": {
+    "baselineFile": "sbertrack_all_full_history_to_export.xlsx",
+    "baselineRows": 12890,
+    "additionalSources": [
+      {
+        "file": "tickets_final.xlsx",
+        "sha256": "d5ae39a8fdf2878ea6717a74692bea5b3822d07595137b57e064a0e3743833c6",
+        "inputRows": 3834,
+        "acceptedRows": 2761,
+        "skippedExistingIssueKeys": 1073,
+        "skippedAdditionalDuplicateIssueKeys": 0,
+        "acceptedCancelledRows": 98,
+        "acceptedTerminalWithoutResolvedRows": 974,
+        "acceptedResearchDirectionRows": 83,
+        "invalidNonterminalResolvedDates": 2,
+        "byTeam": {
+          "КАСКО, ОСАГО": {
+            "inputRows": 134,
+            "acceptedRows": 134,
+            "skippedExistingIssueKeys": 0,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 16,
+            "acceptedTerminalWithoutResolvedRows": 0,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "Объект Авто": {
+            "inputRows": 1117,
+            "acceptedRows": 489,
+            "skippedExistingIssueKeys": 628,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 6,
+            "acceptedTerminalWithoutResolvedRows": 322,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой": {
+            "inputRows": 110,
+            "acceptedRows": 110,
+            "skippedExistingIssueKeys": 0,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 2,
+            "acceptedTerminalWithoutResolvedRows": 5,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "Персональная рекомендация": {
+            "inputRows": 15,
+            "acceptedRows": 15,
+            "skippedExistingIssueKeys": 0,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 0,
+            "acceptedTerminalWithoutResolvedRows": 0,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "Личная защита Плюс": {
+            "inputRows": 22,
+            "acceptedRows": 22,
+            "skippedExistingIssueKeys": 0,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 0,
+            "acceptedTerminalWithoutResolvedRows": 0,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "Рабочий возраст": {
+            "inputRows": 705,
+            "acceptedRows": 291,
+            "skippedExistingIssueKeys": 414,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 27,
+            "acceptedTerminalWithoutResolvedRows": 175,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "Top Affluent": {
+            "inputRows": 643,
+            "acceptedRows": 612,
+            "skippedExistingIssueKeys": 31,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 45,
+            "acceptedTerminalWithoutResolvedRows": 466,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "Молодежь": {
+            "inputRows": 113,
+            "acceptedRows": 113,
+            "skippedExistingIssueKeys": 0,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 0,
+            "acceptedTerminalWithoutResolvedRows": 0,
+            "invalidNonterminalResolvedDates": 0
+          },
+          "SberID": {
+            "inputRows": 961,
+            "acceptedRows": 961,
+            "skippedExistingIssueKeys": 0,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 1,
+            "acceptedTerminalWithoutResolvedRows": 6,
+            "invalidNonterminalResolvedDates": 2
+          },
+          "СберЧаевые": {
+            "inputRows": 14,
+            "acceptedRows": 14,
+            "skippedExistingIssueKeys": 0,
+            "skippedAdditionalDuplicateIssueKeys": 0,
+            "acceptedCancelledRows": 1,
+            "acceptedTerminalWithoutResolvedRows": 0,
+            "invalidNonterminalResolvedDates": 0
+          }
+        }
+      }
+    ],
+    "baselineDistinctTickets": 12890,
+    "baselineCrossTeamDuplicateRows": 0
+  },
+  "dateAnomalies": [
+    {
+      "file": "tickets_final.xlsx",
+      "sourceRow": 3158,
+      "issueKey": "SID-79279",
+      "team": "SberID",
+      "status": "To Do",
+      "createdRaw": "46253.40694444445",
+      "resolvedRaw": "46098",
+      "createdParsed": "2026-08-19T09:46:00",
+      "resolvedParsed": "2026-03-17T00:00:00",
+      "action": "Resolved treated as unknown only for accepted additional nonterminal row; ticket retained with other fields unchanged."
+    },
+    {
+      "file": "tickets_final.xlsx",
+      "sourceRow": 3783,
+      "issueKey": "SID-81821",
+      "team": "SberID",
+      "status": "Code Review",
+      "createdRaw": "46294.41944444444",
+      "resolvedRaw": "46239",
+      "createdParsed": "2026-09-29T10:03:59.999999",
+      "resolvedParsed": "2026-08-05T00:00:00",
+      "action": "Resolved treated as unknown only for accepted additional nonterminal row; ticket retained with other fields unchanged."
+    }
+  ],
+  "frozenHistoricalComparisons": [
+    {
+      "team": "Top Affluent",
+      "periodType": "months",
+      "period": "2026-02",
+      "unchanged": true
+    },
+    {
+      "team": "Top Affluent",
+      "periodType": "months",
+      "period": "2026-03",
+      "unchanged": true
+    },
+    {
+      "team": "Top Affluent",
+      "periodType": "months",
+      "period": "2026-04",
+      "unchanged": true
+    },
+    {
+      "team": "Top Affluent",
+      "periodType": "months",
+      "period": "2026-05",
+      "unchanged": true
+    },
+    {
+      "team": "Top Affluent",
+      "periodType": "months",
+      "period": "2026-06",
+      "unchanged": true
+    },
+    {
+      "team": "Top Affluent",
+      "periodType": "quarters",
+      "period": "2026-Q1",
+      "unchanged": true
+    },
+    {
+      "team": "Top Affluent",
+      "periodType": "quarters",
+      "period": "2026-Q2",
+      "unchanged": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "periodType": "months",
+      "period": "2026-02",
+      "unchanged": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "periodType": "months",
+      "period": "2026-03",
+      "unchanged": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "periodType": "months",
+      "period": "2026-04",
+      "unchanged": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "periodType": "months",
+      "period": "2026-05",
+      "unchanged": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "periodType": "months",
+      "period": "2026-06",
+      "unchanged": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "periodType": "quarters",
+      "period": "2026-Q1",
+      "unchanged": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "periodType": "quarters",
+      "period": "2026-Q2",
+      "unchanged": true
+    },
+    {
+      "team": "Объект Авто",
+      "periodType": "months",
+      "period": "2026-02",
+      "unchanged": true
+    },
+    {
+      "team": "Объект Авто",
+      "periodType": "months",
+      "period": "2026-03",
+      "unchanged": true
+    },
+    {
+      "team": "Объект Авто",
+      "periodType": "months",
+      "period": "2026-04",
+      "unchanged": true
+    },
+    {
+      "team": "Объект Авто",
+      "periodType": "months",
+      "period": "2026-05",
+      "unchanged": true
+    },
+    {
+      "team": "Объект Авто",
+      "periodType": "months",
+      "period": "2026-06",
+      "unchanged": true
+    },
+    {
+      "team": "Объект Авто",
+      "periodType": "quarters",
+      "period": "2026-Q1",
+      "unchanged": true
+    },
+    {
+      "team": "Объект Авто",
+      "periodType": "quarters",
+      "period": "2026-Q2",
+      "unchanged": true
+    },
+    {
+      "team": "Рабочий возраст",
+      "periodType": "months",
+      "period": "2026-02",
+      "unchanged": true
+    },
+    {
+      "team": "Рабочий возраст",
+      "periodType": "months",
+      "period": "2026-03",
+      "unchanged": true
+    },
+    {
+      "team": "Рабочий возраст",
+      "periodType": "months",
+      "period": "2026-04",
+      "unchanged": true
+    },
+    {
+      "team": "Рабочий возраст",
+      "periodType": "months",
+      "period": "2026-05",
+      "unchanged": true
+    },
+    {
+      "team": "Рабочий возраст",
+      "periodType": "months",
+      "period": "2026-06",
+      "unchanged": true
+    },
+    {
+      "team": "Рабочий возраст",
+      "periodType": "quarters",
+      "period": "2026-Q1",
+      "unchanged": true
+    },
+    {
+      "team": "Рабочий возраст",
+      "periodType": "quarters",
+      "period": "2026-Q2",
+      "unchanged": true
+    }
+  ],
+  "newHistoricalPeriods": [],
+  "teamQ3Changes": [
+    {
+      "key": "sberchai",
+      "team": "СберЧаевые",
+      "beforeIncludedTickets": 14,
+      "afterIncludedTickets": 13,
+      "deltaIncludedTickets": -1,
+      "beforeQ3": {
+        "createdCount": 14,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 14,
+        "startBacklogCount": 0,
+        "endBacklogCount": 14,
+        "discoveryCount": 2,
+        "discoveryShare": 14.29,
+        "unknownCount": 0,
+        "unknownShare": 0.0,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 13,
+        "resolvedCount": 12,
+        "createdResolvedCount": 12,
+        "createdOpenCount": 1,
+        "startBacklogCount": 0,
+        "endBacklogCount": 1,
+        "discoveryCount": 2,
+        "discoveryShare": 15.38,
+        "unknownCount": 0,
+        "unknownShare": 0.0,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": -1,
+        "resolvedCount": 12,
+        "createdResolvedCount": 12,
+        "createdOpenCount": -13,
+        "startBacklogCount": 0,
+        "endBacklogCount": -13,
+        "discoveryCount": 0,
+        "discoveryShare": 1.09,
+        "unknownCount": 0,
+        "unknownShare": 0.0,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "sberid",
+      "team": "SberID",
+      "beforeIncludedTickets": 960,
+      "afterIncludedTickets": 960,
+      "deltaIncludedTickets": 0,
+      "beforeQ3": {
+        "createdCount": 960,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 960,
+        "startBacklogCount": 0,
+        "endBacklogCount": 960,
+        "discoveryCount": 19,
+        "discoveryShare": 1.98,
+        "unknownCount": 878,
+        "unknownShare": 91.46,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 960,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 960,
+        "startBacklogCount": 0,
+        "endBacklogCount": 960,
+        "discoveryCount": 71,
+        "discoveryShare": 7.4,
+        "unknownCount": 246,
+        "unknownShare": 25.62,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 0,
+        "endBacklogCount": 0,
+        "discoveryCount": 52,
+        "discoveryShare": 5.42,
+        "unknownCount": -632,
+        "unknownShare": -65.84,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "top-affluent",
+      "team": "Top Affluent",
+      "beforeIncludedTickets": 293,
+      "afterIncludedTickets": 544,
+      "deltaIncludedTickets": 251,
+      "beforeQ3": {
+        "createdCount": 257,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 257,
+        "startBacklogCount": 13,
+        "endBacklogCount": 270,
+        "discoveryCount": 64,
+        "discoveryShare": 24.9,
+        "unknownCount": 9,
+        "unknownShare": 3.5,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 257,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 257,
+        "startBacklogCount": 264,
+        "endBacklogCount": 521,
+        "discoveryCount": 81,
+        "discoveryShare": 31.52,
+        "unknownCount": 0,
+        "unknownShare": 0.0,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 251,
+        "endBacklogCount": 251,
+        "discoveryCount": 17,
+        "discoveryShare": 6.62,
+        "unknownCount": -9,
+        "unknownShare": -3.5,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "investkopilka",
+      "team": "ИнвестКопилка",
+      "beforeIncludedTickets": 4923,
+      "afterIncludedTickets": 4923,
+      "deltaIncludedTickets": 0,
+      "beforeQ3": {
+        "createdCount": 791,
+        "resolvedCount": 221,
+        "createdResolvedCount": 126,
+        "createdOpenCount": 665,
+        "startBacklogCount": 4003,
+        "endBacklogCount": 4573,
+        "discoveryCount": 58,
+        "discoveryShare": 7.33,
+        "unknownCount": 58,
+        "unknownShare": 7.33,
+        "medianCycleTimeDays": 6.3,
+        "cycleTimeSampleCount": 211
+      },
+      "afterQ3": {
+        "createdCount": 791,
+        "resolvedCount": 221,
+        "createdResolvedCount": 126,
+        "createdOpenCount": 665,
+        "startBacklogCount": 4003,
+        "endBacklogCount": 4573,
+        "discoveryCount": 58,
+        "discoveryShare": 7.33,
+        "unknownCount": 58,
+        "unknownShare": 7.33,
+        "medianCycleTimeDays": 6.3,
+        "cycleTimeSampleCount": 211
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 0,
+        "endBacklogCount": 0,
+        "discoveryCount": 0,
+        "discoveryShare": 0.0,
+        "unknownCount": 0,
+        "unknownShare": 0.0,
+        "medianCycleTimeDays": 0.0,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "kasko-osago",
+      "team": "КАСКО, ОСАГО",
+      "beforeIncludedTickets": 119,
+      "afterIncludedTickets": 118,
+      "deltaIncludedTickets": -1,
+      "beforeQ3": {
+        "createdCount": 119,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 119,
+        "startBacklogCount": 0,
+        "endBacklogCount": 119,
+        "discoveryCount": 5,
+        "discoveryShare": 4.2,
+        "unknownCount": 82,
+        "unknownShare": 68.91,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 118,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 118,
+        "startBacklogCount": 0,
+        "endBacklogCount": 118,
+        "discoveryCount": 16,
+        "discoveryShare": 13.56,
+        "unknownCount": 14,
+        "unknownShare": 11.86,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": -1,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": -1,
+        "startBacklogCount": 0,
+        "endBacklogCount": -1,
+        "discoveryCount": 11,
+        "discoveryShare": 9.36,
+        "unknownCount": -68,
+        "unknownShare": -57.05,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "lichnaya-zaschita-plyus",
+      "team": "Личная защита Плюс",
+      "beforeIncludedTickets": 22,
+      "afterIncludedTickets": 22,
+      "deltaIncludedTickets": 0,
+      "beforeQ3": {
+        "createdCount": 22,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 22,
+        "startBacklogCount": 0,
+        "endBacklogCount": 22,
+        "discoveryCount": 0,
+        "discoveryShare": 0.0,
+        "unknownCount": 8,
+        "unknownShare": 36.36,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 22,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 22,
+        "startBacklogCount": 0,
+        "endBacklogCount": 22,
+        "discoveryCount": 0,
+        "discoveryShare": 0.0,
+        "unknownCount": 1,
+        "unknownShare": 4.55,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 0,
+        "endBacklogCount": 0,
+        "discoveryCount": 0,
+        "discoveryShare": 0.0,
+        "unknownCount": -7,
+        "unknownShare": -31.81,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "molodezh",
+      "team": "Молодежь",
+      "beforeIncludedTickets": 113,
+      "afterIncludedTickets": 113,
+      "deltaIncludedTickets": 0,
+      "beforeQ3": {
+        "createdCount": 113,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 113,
+        "startBacklogCount": 0,
+        "endBacklogCount": 113,
+        "discoveryCount": 20,
+        "discoveryShare": 17.7,
+        "unknownCount": 22,
+        "unknownShare": 19.47,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 113,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 113,
+        "startBacklogCount": 0,
+        "endBacklogCount": 113,
+        "discoveryCount": 40,
+        "discoveryShare": 35.4,
+        "unknownCount": 15,
+        "unknownShare": 13.27,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 0,
+        "endBacklogCount": 0,
+        "discoveryCount": 20,
+        "discoveryShare": 17.7,
+        "unknownCount": -7,
+        "unknownShare": -6.2,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "obekt-avto",
+      "team": "Объект Авто",
+      "beforeIncludedTickets": 1285,
+      "afterIncludedTickets": 1287,
+      "deltaIncludedTickets": 2,
+      "beforeQ3": {
+        "createdCount": 461,
+        "resolvedCount": 97,
+        "createdResolvedCount": 68,
+        "createdOpenCount": 393,
+        "startBacklogCount": 354,
+        "endBacklogCount": 718,
+        "discoveryCount": 34,
+        "discoveryShare": 7.38,
+        "unknownCount": 183,
+        "unknownShare": 39.7,
+        "medianCycleTimeDays": 2.3,
+        "cycleTimeSampleCount": 94
+      },
+      "afterQ3": {
+        "createdCount": 461,
+        "resolvedCount": 97,
+        "createdResolvedCount": 68,
+        "createdOpenCount": 393,
+        "startBacklogCount": 356,
+        "endBacklogCount": 720,
+        "discoveryCount": 44,
+        "discoveryShare": 9.54,
+        "unknownCount": 154,
+        "unknownShare": 33.41,
+        "medianCycleTimeDays": 2.3,
+        "cycleTimeSampleCount": 94
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 2,
+        "endBacklogCount": 2,
+        "discoveryCount": 10,
+        "discoveryShare": 2.16,
+        "unknownCount": -29,
+        "unknownShare": -6.29,
+        "medianCycleTimeDays": 0.0,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+      "team": "Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой",
+      "beforeIncludedTickets": 108,
+      "afterIncludedTickets": 108,
+      "deltaIncludedTickets": 0,
+      "beforeQ3": {
+        "createdCount": 108,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 108,
+        "startBacklogCount": 0,
+        "endBacklogCount": 108,
+        "discoveryCount": 30,
+        "discoveryShare": 27.78,
+        "unknownCount": 13,
+        "unknownShare": 12.04,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 108,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 108,
+        "startBacklogCount": 0,
+        "endBacklogCount": 108,
+        "discoveryCount": 49,
+        "discoveryShare": 45.37,
+        "unknownCount": 1,
+        "unknownShare": 0.93,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 0,
+        "endBacklogCount": 0,
+        "discoveryCount": 19,
+        "discoveryShare": 17.59,
+        "unknownCount": -12,
+        "unknownShare": -11.11,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "personalnaya-rekomendatsiya",
+      "team": "Персональная рекомендация",
+      "beforeIncludedTickets": 15,
+      "afterIncludedTickets": 15,
+      "deltaIncludedTickets": 0,
+      "beforeQ3": {
+        "createdCount": 15,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 15,
+        "startBacklogCount": 0,
+        "endBacklogCount": 15,
+        "discoveryCount": 3,
+        "discoveryShare": 20.0,
+        "unknownCount": 8,
+        "unknownShare": 53.33,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "afterQ3": {
+        "createdCount": 15,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 15,
+        "startBacklogCount": 0,
+        "endBacklogCount": 15,
+        "discoveryCount": 2,
+        "discoveryShare": 13.33,
+        "unknownCount": 2,
+        "unknownShare": 13.33,
+        "medianCycleTimeDays": null,
+        "cycleTimeSampleCount": 0
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 0,
+        "endBacklogCount": 0,
+        "discoveryCount": -1,
+        "discoveryShare": -6.67,
+        "unknownCount": -6,
+        "unknownShare": -40.0,
+        "cycleTimeSampleCount": 0
+      }
+    },
+    {
+      "key": "rabochii-vozrast",
+      "team": "Рабочий возраст",
+      "beforeIncludedTickets": 639,
+      "afterIncludedTickets": 639,
+      "deltaIncludedTickets": 0,
+      "beforeQ3": {
+        "createdCount": 328,
+        "resolvedCount": 132,
+        "createdResolvedCount": 91,
+        "createdOpenCount": 237,
+        "startBacklogCount": 96,
+        "endBacklogCount": 292,
+        "discoveryCount": 99,
+        "discoveryShare": 30.18,
+        "unknownCount": 9,
+        "unknownShare": 2.74,
+        "medianCycleTimeDays": 0.0,
+        "cycleTimeSampleCount": 130
+      },
+      "afterQ3": {
+        "createdCount": 328,
+        "resolvedCount": 132,
+        "createdResolvedCount": 91,
+        "createdOpenCount": 237,
+        "startBacklogCount": 96,
+        "endBacklogCount": 292,
+        "discoveryCount": 138,
+        "discoveryShare": 42.07,
+        "unknownCount": 4,
+        "unknownShare": 1.22,
+        "medianCycleTimeDays": 0.0,
+        "cycleTimeSampleCount": 130
+      },
+      "numericDeltaQ3": {
+        "createdCount": 0,
+        "resolvedCount": 0,
+        "createdResolvedCount": 0,
+        "createdOpenCount": 0,
+        "startBacklogCount": 0,
+        "endBacklogCount": 0,
+        "discoveryCount": 39,
+        "discoveryShare": 11.89,
+        "unknownCount": -5,
+        "unknownShare": -1.52,
+        "medianCycleTimeDays": 0.0,
+        "cycleTimeSampleCount": 0
+      }
+    }
+  ],
+  "publicIssueKeysAbsent": true
+}

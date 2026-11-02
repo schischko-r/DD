@@ -1,0 +1,15 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import {metricDomId} from '../../gravity-app/src/domain/report.js';
+const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1440,height:1000}});const errors=[];p.on('pageerror',e=>errors.push(e.message));
+await p.goto('http://127.0.0.1:4178/');await p.waitForSelector('.dashboard-period');await p.locator('[aria-label="Профиль команды"]').click();await p.waitForSelector('.detail-header h1');
+const choose=async(s,n)=>{await p.locator(s).click();await p.getByRole('option',{name:n,exact:true}).click();};
+const select=async(u,n)=>{await choose('.detail-team-unit-filter [role="combobox"]',u);await choose('.detail-team-select [role="combobox"]',n);await p.getByRole('button',{name:'Подробно',exact:true}).click();};
+const value=async(c,v)=>assert.equal((await p.locator(`[id="${metricDomId(c)}"] .metric-status-label`).textContent()).trim(),v);
+await select('CBP','Вклады+НС');await value('alerts.system_failures','100%');
+await select('DP','СберKids');await value('alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui','100%');await value('alerts.business_metrics','0%');await value('mehaniki.vozvrat_klientov','100%');
+await select('DB','Трансграничные переводы');await value('alerts.system_failures','50%');
+await select('DB','Трансграничный эквайринг');await value('alerts.system_failures','50%');
+await p.setViewportSize({width:390,height:844});assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));
+await choose('.detail-period-filter [role="combobox"]','II кв. 2026');await value('alerts.system_failures','100%');
+assert.deepEqual(errors,[]);await b.close();console.log('PASS: carried Q3 alerts100; explicit0/50preserved; mechanicsstill100; Q2/mobile.');

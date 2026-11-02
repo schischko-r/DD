@@ -139,6 +139,156 @@
           }
         }
       }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Механика «Возврат клиентов» нерелевантна для этого продукта по указанию пользователя."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Метрика «Допродажи» нерелевантна для продукта по указанию пользователя."
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Механика «Возврат клиентов» нерелевантна для этого продукта по указанию пользователя."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Метрика «Допродажи» нерелевантна для продукта по указанию пользователя."
+          }
+        }
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Механика «Возврат клиентов» нерелевантна для этого продукта по указанию пользователя."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Метрика «Допродажи» нерелевантна для продукта по указанию пользователя."
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.vozvrat_klientov": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Механика «Возврат клиентов» нерелевантна для этого продукта по указанию пользователя."
+          }
+        },
+        "mehaniki.doprodazhi_up_sell": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "Метрика «Допродажи» нерелевантна для продукта по указанию пользователя."
+          }
+        }
+      }
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "CX Score убран из профиля и расчета по прямому указанию пользователя."
+          }
+        }
+      }
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "applicable": false,
+          "hiddenFromProfile": true,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "reason": "CX Score убран из профиля и расчета по прямому указанию пользователя."
+          }
+        }
+      }
     }
   ]
 }

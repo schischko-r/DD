@@ -55,7 +55,7 @@ function recommendation(blockCode, blockName, metricCode, metricName, metricPerc
 test('team profile labels goals and CX blocks for their audience', () => {
   const {teamProfileBlockTitle} = blockTitleContext.blockTitleApi;
   assert.equal(teamProfileBlockTitle({code: 'goals', name: 'Цели'}), 'Цели уровня ЛЮ/ЛТ');
-  assert.equal(teamProfileBlockTitle({code: 'goals', name: 'Цели', goalsLevels: true}), 'Цели');
+  assert.equal(teamProfileBlockTitle({code: 'goals', name: 'Цели', goalsLevels: true}), 'Цели/ФА/Прогнозы');
   assert.equal(teamProfileBlockTitle({name: 'Цели'}), 'Цели уровня ЛЮ/ЛТ');
   assert.equal(teamProfileBlockTitle({code: 'cx', name: 'Клиентский опыт', metrics: [{name: 'CX Score'}]}), 'CX Score');
   assert.equal(teamProfileBlockTitle({name: 'Клиентский опыт', metrics: [{name: 'CX Score'}]}), 'CX Score');
@@ -151,6 +151,13 @@ test('metric rows retain actual growth and their current value without a potenti
   assert.doesNotMatch(metricRowSource, /indexUpliftBadge|MetricUpliftBadge|indexUpliftTitle/);
   assert.match(metricRowSource, /const actualGrowthBadge = <MetricActualGrowthBadge/);
   assert.match(metricRowSource, /metric-status-label/);
+});
+
+test('block header delta is larger and omits the DDI suffix while metric deltas keep it', () => {
+  assert.match(profileSource, /function MetricActualGrowthBadge\(\{growth, blockHeader = false\}\)/);
+  assert.match(profileSource, /blockHeader \? '' : ' к DDI'/);
+  assert.match(profileSource, /MetricActualGrowthBadge growth=\{growth\} blockHeader/);
+  assert.match(stylesSource, /\.metric-actual-growth-block \.metric-index-uplift-text\s*\{ font-size: 14px;/);
 });
 
 test('manually filled zeros do not claim digital-trace verification', () => {
@@ -380,7 +387,7 @@ test('recommendation mapping and note confirmation stay available for completed 
 });
 
 test('metric names remain plain and recommendations stay in the recommendations section', () => {
-  assert.match(metricRowSource, /const metricName = <b>\{displayText\(metric.name\)\}<\/b>;/);
+  assert.match(metricRowSource, /const metricName = <b>\{displayText\(nameOverride \|\| metric.name\)\}<\/b>;/);
   assert.doesNotMatch(metricRowSource, /MetricRecommendationTrigger|metric-name-recommendation-trigger/);
   assert.match(profileSource, /Рекомендации и фокусы для повышения DD-индекса/);
 });
@@ -433,12 +440,29 @@ test('uplift precedes digital-trace state indicators and the value in both detai
   assert.match(valueGroupStyles, /justify-content:\s*end;/);
 });
 
-test('actual uplift is filled green, with fixed value and confirmation columns', () => {
+test('actual metric changes show directional arrows and positive or negative DDI badges', () => {
   const styles = stylesSource.match(/\.metric-index-uplift\s*\{[^}]+\}/s)?.[0] || '';
   assert.match(styles, /--_--bg-color:\s*var\(--g-color-base-positive-light\);/);
   assert.match(styles, /box-shadow:\s*none;/);
+  assert.match(profileSource, /delta > 0 \? 'up' : delta < 0 \? 'down' : 'flat'/);
+  assert.match(profileSource, /index-quarter-delta-\$\{direction === 'up' \? 'positive' : 'negative'\}/);
+  assert.match(profileSource, /direction === 'up' && <span className="metric-actual-growth-sparkles"/);
+  assert.match(profileSource, /className="index-quarter-delta-direction"/);
+  assert.match(stylesSource, /\.metric-index-uplift \.g-label__content\s*\{[^}]*display:\s*inline-flex/s);
+  assert.match(stylesSource, /\.index-quarter-delta-positive \.index-quarter-delta-direction\s*\{ border-bottom: 6px solid currentColor;/);
+  assert.match(stylesSource, /\.index-quarter-delta-negative \.index-quarter-delta-direction\s*\{ border-top: 6px solid currentColor;/);
+  assert.match(profileSource, /blockHeader \? '' : ' к DDI'/);
+  assert.match(profileSource, /metric-index-uplift-\$\{direction\}/);
+  assert.match(stylesSource, /\.metric-index-uplift-down\s*\{[^}]*g-color-base-danger-light/s);
   assert.match(stylesSource, /\.metric-row-status \.metric-value-group\s*\{ grid-template-columns: max-content 18px minmax\(64px, max-content\);/);
   assert.match(stylesSource, /\.metric-value-group > \.metric-status-label, \.metric-value-group > \.metric-value-label\s*\{ grid-column: 3; grid-row: 1;/);
+});
+
+test('quarter delta caption aligns its text baseline with the triangular badge label', () => {
+  assert.match(stylesSource, /\.index-quarter-delta\s*\{[^}]*align-items:\s*baseline;/s);
+  assert.match(stylesSource, /\.index-quarter-delta-badge\s*\{[^}]*align-items:\s*baseline;/s);
+  assert.match(stylesSource, /\.index-quarter-delta-badge \.index-quarter-delta-direction\s*\{[^}]*align-self:\s*center;/s);
+  assert.match(stylesSource, /\.index-quarter-delta-caption\s*\{[^}]*line-height:\s*1\.2;/s);
 });
 
 test('compact metric status stays aligned with its copy on narrow screens', () => {

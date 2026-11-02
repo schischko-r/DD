@@ -1,0 +1,441 @@
+{
+  "metrics": [
+    {
+      "code": "attract.campaign_launches",
+      "count": 6,
+      "teams": [
+        {
+          "name": "ЗПИФ",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B25",
+            "columnLabel": "Сумма по полю launches_q3",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "Пенсионный продукт",
+          "unit": "DB",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B42",
+            "columnLabel": "Сумма по полю launches_q3",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "Страхование залога",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B58",
+            "columnLabel": "Сумма по полю launches_q3",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "Образовательный кредит",
+          "unit": "CBP",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B35",
+            "columnLabel": "Сумма по полю launches_q3",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "КАСКО",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B27",
+            "columnLabel": "Сумма по полю launches_q3",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "BNPL",
+          "unit": "CBP",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "B3",
+            "columnLabel": "Сумма по полю launches_q3",
+            "rawValue": 0
+          }
+        }
+      ],
+      "fullToMissing": [
+        {
+          "name": "ИСЖ",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "Много денег (НКПЗН)",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "ОПИФ",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "Сценарии оплаты",
+          "unit": "DB",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "Залоговое страхование (корпоративное страхование)",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "Как зарплатный",
+          "unit": "DB",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "Страхование жизни",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "Личная защита Плюс",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        }
+      ]
+    },
+    {
+      "code": "attract.chernoviki_v_sbol_70",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Трансграничные переводы",
+          "unit": "DB",
+          "type": "Продукт",
+          "q2Value": 1,
+          "q2Max": 1,
+          "q3Value": 0,
+          "q3Max": 1,
+          "source": {
+            "file": "Книга4(1).xlsx",
+            "sheet": "Лист1",
+            "cell": "B42",
+            "columnLabel": "max_coverage_q3",
+            "cells": [
+              {
+                "file": "Книга4(1).xlsx",
+                "sheet": "Лист1",
+                "cell": "B42",
+                "nameCell": "A42",
+                "columnLabel": "max_coverage_q3",
+                "sourceName": "Трансграничные переводы",
+                "rawValue": 0
+              }
+            ],
+            "mapping": "exact",
+            "rawValue": 0
+          }
+        }
+      ],
+      "fullToMissing": [
+        {
+          "name": "Много денег (НКПЗН)",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 1,
+          "q2Max": 1,
+          "q3Value": null,
+          "q3Max": 1
+        },
+        {
+          "name": "Сделка ИЖС",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 1,
+          "q2Max": 1,
+          "q3Value": null,
+          "q3Max": 1
+        },
+        {
+          "name": "Сделка вторичка",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 1,
+          "q2Max": 1,
+          "q3Value": null,
+          "q3Max": 1
+        },
+        {
+          "name": "Сделка с Первичным жильём",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 1,
+          "q2Max": 1,
+          "q3Value": null,
+          "q3Max": 1
+        }
+      ]
+    },
+    {
+      "code": "attract.nalichie_self_service",
+      "count": 1,
+      "teams": [
+        {
+          "name": "ЗПИФ",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "C25",
+            "columnLabel": "Сумма по полю self_service_q3",
+            "rawValue": 0
+          }
+        }
+      ],
+      "fullToMissing": [
+        {
+          "name": "ОПИФ",
+          "unit": "УБ",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        },
+        {
+          "name": "Сценарии оплаты",
+          "unit": "DB",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        }
+      ]
+    },
+    {
+      "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+      "count": 5,
+      "teams": [
+        {
+          "name": "Пакет услуг СберПервый",
+          "unit": "CX",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D39",
+            "columnLabel": "Сумма по полю successful_business_q2",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "Пакет услуг СберПремьер",
+          "unit": "CX",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D40",
+            "columnLabel": "Сумма по полю successful_business_q2",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "Сделка ИЖС",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D63",
+            "columnLabel": "Сумма по полю successful_business_q2",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "Сделка вторичка",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D62",
+            "columnLabel": "Сумма по полю successful_business_q2",
+            "rawValue": 0
+          }
+        },
+        {
+          "name": "Сделка с Первичным жильём",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": 0,
+          "q3Max": 0.5,
+          "source": {
+            "file": "Книга3(2).xlsx",
+            "sheet": "Лист1",
+            "cell": "D64",
+            "columnLabel": "Сумма по полю successful_business_q2",
+            "rawValue": 0
+          }
+        }
+      ],
+      "fullToMissing": [
+        {
+          "name": "Много денег (НКПЗН)",
+          "unit": "ДомКлик",
+          "type": "Продукт",
+          "q2Value": 0.5,
+          "q2Max": 0.5,
+          "q3Value": null,
+          "q3Max": 0.5
+        }
+      ]
+    }
+  ],
+  "uniqueTeams": [
+    {
+      "name": "ЗПИФ",
+      "unit": "УБ"
+    },
+    {
+      "name": "Пенсионный продукт",
+      "unit": "DB"
+    },
+    {
+      "name": "Страхование залога",
+      "unit": "УБ"
+    },
+    {
+      "name": "Образовательный кредит",
+      "unit": "CBP"
+    },
+    {
+      "name": "КАСКО",
+      "unit": "УБ"
+    },
+    {
+      "name": "BNPL",
+      "unit": "CBP"
+    },
+    {
+      "name": "Трансграничные переводы",
+      "unit": "DB"
+    },
+    {
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX"
+    },
+    {
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX"
+    },
+    {
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик"
+    },
+    {
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик"
+    },
+    {
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик"
+    }
+  ]
+}

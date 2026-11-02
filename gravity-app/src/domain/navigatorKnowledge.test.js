@@ -2,10 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {navigatorKnowledgeFraction, applyNavigatorKnowledge, isInvestKopilkaNavigatorOverride, isDirectNavigatorOverride} from './navigatorKnowledge.js';
-import {buildDdiPeriodProducts, buildDdiCohortProducts} from './quarterProfiles.js';
-import {mergeSalaryCohorts} from './salaryCohortAverage.js';
-import {applyReportingFormatAssessments} from './reportingRegularity.js';
-import {applyMetricIndexExclusionAssessments} from './indexExclusion.js';
+import {buildDdiPeriodProducts} from './quarterProfiles.js';
 
 const metric = (code, value, max_value = 1) => ({code, value, max_value, is_applicabble_flg: true});
 const inputs = (mau, market, satellite) => [metric('general.mau_produkta', mau, 0.2),
@@ -15,7 +12,7 @@ const inputs = (mau, market, satellite) => [metric('general.mau_produkta', mau, 
 test('all eight knowledge combinations follow MAU/market gates and the satellite half score', () => {
   for (const mau of [0, 1]) for (const market of [0, 1]) for (const satellite of [0, 1]) {
     assert.equal(navigatorKnowledgeFraction(inputs(mau * 0.2, market * 0.2, satellite * 0.2)),
-      !mau || !market ? 0 : satellite ? 1 : 0.5);
+      !mau ? 0 : !market ? 0.5 : satellite ? 1 : 0.5);
   }
 });
 
@@ -28,10 +25,11 @@ test('unknowns remain unknown, absent prerequisites are not zero, and platform M
   assert.equal(navigatorKnowledgeFraction([...missing, metric('general.mau_ios', 1)]), undefined);
 });
 
-test('fully known Major clients grant full Navigator knowledge even with absent or failing older prerequisites', () => {
+test('known Major clients remain usable without applicable MAU but cannot override an explicit unknown MAU', () => {
   const code = 'general.kol_vo_major_klientov';
   assert.equal(navigatorKnowledgeFraction([metric(code, 0.3, 0.3)]), 1);
-  assert.equal(navigatorKnowledgeFraction([...inputs(0, 0, 0), metric(code, 0.3, 0.3)]), 1);
+  assert.equal(navigatorKnowledgeFraction([...inputs(0, 0, 0), metric(code, 0.3, 0.3)]), 0);
+  assert.equal(navigatorKnowledgeFraction([...inputs(0.2, 0, 0), metric(code, 0.3, 0.3)]), 0.5);
   for (const major of [metric(code, null, 0.3), metric(code, 0, 0.3), metric(code, 0.15, 0.3),
     {...metric(code, 0.3, 0.3), is_applicabble_flg: false}, metric(code, 0, 0)]) {
     assert.equal(navigatorKnowledgeFraction([...inputs(0.2, 0.2, 0), major]), 0.5);
@@ -62,7 +60,23 @@ test('weighted target, recommendations, Q2, immutability and idempotence are pre
   assert.equal(JSON.stringify(product), before);
 });
 
-test('current application pipeline uses final knowledge inputs and VZR drafts are zero', () => {
+test('full Navigator reporting knowledge is capped at 50% when any known key metric has an error', () => {
+  const target = metric('general.navigator_reporting_knowledge', 0.5, 0.5);
+  const product = {period: 'III кв. 2026', metrics: [{metrics: [...inputs(0.2, 0.2, 0.2),
+    metric('general.obъem_celevogo_rynka_v_sbere', 0, 0.2), target]}]};
+  const result = applyNavigatorKnowledge([product], 'III кв. 2026')[0];
+  const assessed = result.metrics[0].metrics.find(item => item.code === target.code);
+  assert.equal(assessed.value, 0.25);
+  assert.equal(assessed.source.origin, 'userConfirmedKeyMetricsAccuracyCap');
+  assert.deepEqual(assessed.source.errorMetricCodes, ['general.obъem_celevogo_rynka_v_sbere']);
+  assert.deepEqual(applyNavigatorKnowledge([result], 'III кв. 2026'), [result]);
+  const missing = {...product, metrics: [{metrics: [...inputs(0.2, 0.2, 0.2),
+    metric('general.obъem_celevogo_rynka_v_sbere', null, 0.2), target]}]};
+  assert.equal(applyNavigatorKnowledge([missing], 'III кв. 2026')[0].metrics[0].metrics
+    .find(item => item.code === target.code).value, 0.5);
+});
+
+test('current profiles keep final Excel priority while the derived Navigator rule changes no other metrics', () => {
   const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url)));
   const source = read('../../public/report-data.json').products;
   const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
@@ -71,23 +85,31 @@ test('current application pipeline uses final knowledge inputs and VZR drafts ar
   const salary = read('../data/salary-products-q3-2026.json');
   const reporting = read('../data/reporting-regularity-missing-q3-2026.json');
   const actions = read('../data/funnel-action-missing-q3-2026.json');
-  const prior = applyMetricIndexExclusionAssessments(applyReportingFormatAssessments(mergeSalaryCohorts(buildDdiCohortProducts(source, 'III кв. 2026', overlays, salary, reporting, actions), 'III кв. 2026', salary, source), 'III кв. 2026', overlays), 'III кв. 2026', overlays);
   const result = buildDdiPeriodProducts(source, 'III кв. 2026', overlays, salary, reporting, actions);
+  const derived = applyNavigatorKnowledge(result, 'III кв. 2026');
   for (let i = 0; i < result.length; i++) {
-    const old = prior[i].metrics.flatMap(b => b.metrics);
     for (const m of result[i].metrics.flatMap(b => b.metrics)) {
-      const original = old.find(entry => entry.code === m.code);
-      if (m.code !== 'general.navigator_reporting_knowledge') assert.deepEqual(m, original);
-      else {
-        assert.equal(m.max_value, original.max_value);
-        assert.equal(m.is_applicabble_flg, original.is_applicabble_flg);
-      }
+      const recalculated = derived[i].metrics.flatMap(b => b.metrics).find(entry => entry.code === m.code);
+      if (m.code !== 'general.navigator_reporting_knowledge') assert.deepEqual(recalculated, m);
+      else assert.equal(recalculated.max_value, m.max_value);
     }
   }
+  const secondaryNavigator = result.find(p => p.name === 'Сделка вторичка').metrics.flatMap(b => b.metrics)
+    .find(m => m.code === 'general.navigator_reporting_knowledge');
+  assert.equal(secondaryNavigator.value, secondaryNavigator.max_value);
   const vzr = result.find(p => p.name === 'ВЗР').metrics.flatMap(b => b.metrics);
-  assert.equal(vzr.find(m => m.code === 'attract.chernoviki_v_sbol_70').value, 0);
-  assert.equal(result.find(p => p.name === 'Брокерский счет').metrics.flatMap(b => b.metrics)
-    .find(m => m.code === 'general.navigator_reporting_knowledge').value, 0);
+  assert.equal(vzr.find(m => m.code === 'attract.chernoviki_v_sbol_70').value, 0.5, 'Explicit Excel F299 wins');
+  const broker = result.find(p => p.name === 'Брокерский счет').metrics.flatMap(b => b.metrics)
+    .find(m => m.code === 'general.navigator_reporting_knowledge');
+  assert.equal(broker.value / broker.max_value, 0.5, 'Explicit Excel F237 wins');
+  assert.equal(broker.source.cell, 'F237');
+  for (const [name, expected] of [['Брокерский счет', 0], ['Дебетовая карта', 0], ['ВЗР', 0],
+    ['Трансграничный эквайринг', 0.5], ['SberPay NFC', 0.5]]) {
+    const navigator = derived.find(p => p.name === name).metrics.flatMap(b => b.metrics)
+      .find(m => m.code === 'general.navigator_reporting_knowledge');
+    assert.equal(navigator.value / navigator.max_value, expected,
+      `${name}: zero for unknown MAU, half for known MAU and unknown market, before final Excel priority`);
+  }
   assert.deepEqual(buildDdiPeriodProducts(source, 'II кв. 2026', overlays, salary, reporting, actions), source);
 });
 
@@ -122,7 +144,11 @@ test('a direct confirmed CFA Navigator score overrides the hierarchy only for it
     metrics: [{code: 'general', metrics: [...inputs(0, 0, 0), target]}]};
   const snapshot = JSON.stringify(product);
   assert.equal(isDirectNavigatorOverride(product, target), true);
-  assert.deepEqual(applyNavigatorKnowledge([product], config.period), [product]);
+  const assessed = applyNavigatorKnowledge([product], config.period)[0];
+  assert.equal(assessed.metrics[0].metrics.at(-1).value, 0,
+    'An explicit zero MAU gives zero before final Excel overrides');
+  assert.equal(assessed.metrics[0].metrics.at(-1).source.origin, 'userConfirmedNavigatorKnowledgeHierarchy');
+  assert.deepEqual(applyNavigatorKnowledge([assessed], config.period), [assessed]);
   for (const patch of [{id: 'other'}, {name: 'other'}, {unit: 'DB'}, {type: 'Канал'}, {period: 'II кв. 2026'}]) {
     assert.equal(isDirectNavigatorOverride({...product, ...patch}, target), false);
   }

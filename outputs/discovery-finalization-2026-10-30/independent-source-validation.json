@@ -1,0 +1,12 @@
+{
+  "decompositionFactsVerified": 11,
+  "surveyFactsVerified": 58,
+  "salaryB2cVerified": true,
+  "explicitSberIdPriorityVerified": true,
+  "conflictingTeamsVerified": [
+    "ОМС",
+    "Слитки"
+  ],
+  "csvHashesVerified": true,
+  "backlogQ3AndSharedGroupsVerified": true
+}

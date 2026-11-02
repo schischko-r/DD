@@ -1,0 +1,22 @@
+<div id="ddi-onboarding-drivers">
+  <style>
+    #ddi-onboarding-drivers {color:var(--foreground);padding:12px 0;}
+    #ddi-onboarding-drivers .drivers-row {display:grid;grid-template-columns:125px minmax(100px,1fr) 62px;gap:10px;align-items:center;margin:18px 0;}
+    #ddi-onboarding-drivers .drivers-scale {position:relative;height:20px;background:color-mix(in srgb,var(--muted) 50%,transparent);}
+    #ddi-onboarding-drivers .drivers-scale::after {content:"";position:absolute;top:-4px;bottom:-4px;left:50%;width:1px;background:var(--border);}
+    #ddi-onboarding-drivers .drivers-bar {position:absolute;height:100%;background:var(--purple);}
+    #ddi-onboarding-drivers .drivers-positive {background:var(--green);}
+    #ddi-onboarding-drivers .drivers-value {text-align:right;}
+    #ddi-onboarding-drivers .drivers-axis {display:flex;justify-content:space-between;grid-column:2;}
+    @media(max-width:400px){#ddi-onboarding-drivers .drivers-row{grid-template-columns:105px minmax(70px,1fr) 53px;gap:6px;}}
+  </style>
+  <h3>Вклад команд в изменение онбординга</h3>
+  <div class="text-small">Средний балл блока, п.п. · II → III квартал · расчёт от 28 октября</div>
+  <div role="img" aria-label="Вклад в изменение среднего балла онбординга: СберKids минус 4,17 п.п., Уведомления минус 2,08 п.п., СберИнвестор 0, СБОЛ плюс 2,08 п.п. Сумма минус 4,17 п.п.">
+    <div class="drivers-row"><span>СберKids</span><div class="drivers-scale"><span class="drivers-bar" style="left:8.333333%;width:41.666667%"></span></div><span class="drivers-value tabular-nums">−4,17</span></div>
+    <div class="drivers-row"><span>Уведомления</span><div class="drivers-scale"><span class="drivers-bar" style="left:29.166667%;width:20.833333%"></span></div><span class="drivers-value tabular-nums">−2,08</span></div>
+    <div class="drivers-row"><span>СберИнвестор</span><div class="drivers-scale"></div><span class="drivers-value tabular-nums">0</span></div>
+    <div class="drivers-row"><span>СБОЛ</span><div class="drivers-scale"><span class="drivers-bar drivers-positive" style="left:50%;width:20.833333%"></span></div><span class="drivers-value tabular-nums">+2,08</span></div>
+    <div class="drivers-row text-small"><div class="drivers-axis"><span>−5</span><span>0</span><span>+5</span></div></div>
+  </div>
+</div>

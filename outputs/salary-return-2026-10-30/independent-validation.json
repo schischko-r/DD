@@ -1,0 +1,113 @@
+{
+  "q2Unchanged": true,
+  "other75TeamsExact": true,
+  "parentScoreChanges": 2,
+  "nestedScoreChanges": 3,
+  "maxUnchanged": 24.15,
+  "score": 52,
+  "delta": {
+    "value": 22,
+    "previousScore": 30,
+    "previousPeriod": "II кв. 2026"
+  },
+  "nested": [
+    {
+      "cohort": "b2b",
+      "code": "mehaniki.vozvrat_klientov",
+      "value": 1,
+      "source": {
+        "origin": "salarySplitSurveyAssessment",
+        "confirmedBy": "user",
+        "period": "III кв. 2026",
+        "date": "2026-10-30",
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 5,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-27T08:33:29.644Z",
+        "respondent": "Сауткин Андрей",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт",
+        "questionId": "upsell",
+        "answer": [
+          "Допродажи (upsell)",
+          "Возврат клиентов"
+        ],
+        "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+      }
+    },
+    {
+      "cohort": "b2b",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "value": 1,
+      "source": {
+        "origin": "salarySplitSurveyAssessment",
+        "confirmedBy": "user",
+        "period": "III кв. 2026",
+        "date": "2026-10-30",
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 5,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-27T08:33:29.644Z",
+        "respondent": "Сауткин Андрей",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт",
+        "questionId": "upsell",
+        "answer": [
+          "Допродажи (upsell)",
+          "Возврат клиентов"
+        ],
+        "rule": "Последнее указание пользователя: выбранные Допродажи (upsell) = 1; не выбраны = 0. Оценка относится только к этому респонденту."
+      }
+    },
+    {
+      "cohort": "b2c",
+      "code": "mehaniki.vozvrat_klientov",
+      "value": 1,
+      "source": {
+        "origin": "salarySplitSurveyAssessment",
+        "confirmedBy": "user",
+        "period": "III кв. 2026",
+        "date": "2026-10-30",
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 46,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-20T15:43:33.270Z",
+        "respondent": "Королева Александра Дмитриевна",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт",
+        "questionId": "upsell",
+        "answer": [
+          "Возврат клиентов"
+        ],
+        "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+      }
+    },
+    {
+      "cohort": "b2c",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "value": 0,
+      "source": {
+        "origin": "salarySplitSurveyAssessment",
+        "confirmedBy": "user",
+        "period": "III кв. 2026",
+        "date": "2026-10-30",
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 46,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-20T15:43:33.270Z",
+        "respondent": "Королева Александра Дмитриевна",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт",
+        "questionId": "upsell",
+        "answer": [
+          "Возврат клиентов"
+        ],
+        "rule": "Последнее указание пользователя: выбранные Допродажи (upsell) = 1; не выбраны = 0. Оценка относится только к этому респонденту."
+      }
+    }
+  ]
+}

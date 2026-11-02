@@ -1,0 +1,16 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import {metricDomId} from '../../gravity-app/src/domain/report.js';
+const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1440,height:1000}});const errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:4178');await p.waitForSelector('.dashboard-period');await p.locator('[aria-label="Профиль команды"]').click();
+const choose=async(s,n)=>{await p.locator(s).click();await p.getByRole('option',{name:n,exact:true}).click();await p.getByRole('option',{name:n,exact:true}).waitFor({state:'hidden'});};
+const select=async(u,n)=>{await choose('.detail-team-unit-filter [role="combobox"]',u);await choose('.detail-team-select [role="combobox"]',n);await p.getByRole('button',{name:'Подробно',exact:true}).click();};
+await choose('.detail-period-filter [role="combobox"]','III кв. 2026');
+const card=()=>p.locator('.metric-block').filter({has:p.getByRole('heading',{name:'Цели',exact:true})});
+const codes=['goals.po_monitoring','goals.po_forecast','goals.po_factor_analysis'];
+const check=async(values)=>{for(let i=0;i<3;i++){const row=card().locator(`[id="${metricDomId(codes[i])}"]`);const v=values[i];if(v===null)assert.equal((await row.locator('.metric-value-label').textContent()).trim(),'—');else assert.equal((await row.locator('.metric-status-label').textContent()).trim(),`${v*100}%`);assert.equal(await row.locator('.metric-info-icon').count(),0);}};
+await select('УБ','БПИФ');await check([1,1,1]);assert.equal(await card().getByText('Информационные метрики — не входят в индекс',{exact:true}).count(),1);await card().screenshot({path:'outputs/po-goals-scoring-2026-10-30/ub-desktop.png'});
+await select('CBP','Конверсия');await check([1,1,0]);await card().screenshot({path:'outputs/po-goals-scoring-2026-10-30/commission-desktop.png'});
+await p.setViewportSize({width:390,height:844});await card().screenshot({path:'outputs/po-goals-scoring-2026-10-30/mobile.png'});
+await select('CBP','ОМС');await check([1,1,null]);await select('CBP','Слитки');await check([1,1,null]);
+await select('CBP','Автокредит');await check([null,null,null]);assert.equal(await card().getByText('Информационные метрики — не входят в индекс',{exact:true}).count(),0);
+await choose('.detail-period-filter [role="combobox"]','II кв. 2026');await p.getByRole('button',{name:'Подробно',exact:true}).click();assert.equal(await p.locator(`[id="${metricDomId(codes[0])}"]`).count(),0);assert.deepEqual(errors,[]);await b.close();console.log('PASS: UB/Commission PO scores visible and indexed, LT informational, two FA conflicts blank, other CBP PO blank, Q2 unchanged, mobile and console clean');

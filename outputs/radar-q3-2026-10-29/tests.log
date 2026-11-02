@@ -1,0 +1,262 @@
+TAP version 13
+# Subtest: a complete block includes explicit zero scores and uses rubric weights
+ok 1 - a complete block includes explicit zero scores and uses rubric weights
+  ---
+  duration_ms: 0.493917
+  type: 'test'
+  ...
+# Subtest: missing applicable scores keep a block unknown without treating null as zero
+ok 2 - missing applicable scores keep a block unknown without treating null as zero
+  ---
+  duration_ms: 0.141458
+  type: 'test'
+  ...
+# Subtest: non-applicable, excluded and informational metrics do not block a completed index block
+ok 3 - non-applicable, excluded and informational metrics do not block a completed index block
+  ---
+  duration_ms: 0.081584
+  type: 'test'
+  ...
+# Subtest: Q3 radar uses complete block scores and B2C from the same quarter, including real zeros
+ok 4 - Q3 radar uses complete block scores and B2C from the same quarter, including real zeros
+  ---
+  duration_ms: 0.977542
+  type: 'test'
+  ...
+# Subtest: incomplete and inapplicable blocks stay unknown, without suppressing complete axes
+ok 5 - incomplete and inapplicable blocks stay unknown, without suppressing complete axes
+  ---
+  duration_ms: 0.186667
+  type: 'test'
+  ...
+# Subtest: Q2 radar keeps existing aggregation and cannot use Q3 benchmarks
+ok 6 - Q2 radar keeps existing aggregation and cannot use Q3 benchmarks
+  ---
+  duration_ms: 0.086792
+  type: 'test'
+  ...
+# Subtest: user assessments apply weighted scores to exact teams in Q3 and preserve all unrelated metrics and Q2
+ok 7 - user assessments apply weighted scores to exact teams in Q3 and preserve all unrelated metrics and Q2
+  ---
+  duration_ms: 143.616291
+  type: 'test'
+  ...
+# Subtest: half scores and uplifts use existing weights; unanswered conflicts do not become assessments
+ok 8 - half scores and uplifts use existing weights; unanswered conflicts do not become assessments
+  ---
+  duration_ms: 41.07325
+  type: 'test'
+  ...
+# Subtest: manual scope rejects other codes, mismatched identity and modifications to Q2
+ok 9 - manual scope rejects other codes, mismatched identity and modifications to Q2
+  ---
+  duration_ms: 1.238625
+  type: 'test'
+  ...
+# Subtest: team profile labels goals and CX blocks for their audience
+ok 10 - team profile labels goals and CX blocks for their audience
+  ---
+  duration_ms: 2.351959
+  type: 'test'
+  ...
+# Subtest: key metrics source help explains PO survey verification against dashboard data
+ok 11 - key metrics source help explains PO survey verification against dashboard data
+  ---
+  duration_ms: 0.258875
+  type: 'test'
+  ...
+# Subtest: regularity is nested under reporting in every block that groups it there
+ok 12 - regularity is nested under reporting in every block that groups it there
+  ---
+  duration_ms: 0.239334
+  type: 'test'
+  ...
+# Subtest: every Регулярность in the shipped report is grouped so the indent reaches it
+ok 13 - every Регулярность in the shipped report is grouped so the indent reaches it
+  ---
+  duration_ms: 27.662292
+  type: 'test'
+  ...
+# Subtest: data quality metric reuses the centralized KКД instruction from backlog recommendations
+ok 14 - data quality metric reuses the centralized KКД instruction from backlog recommendations
+  ---
+  duration_ms: 0.167917
+  type: 'test'
+  ...
+# Subtest: industrial data metric reuses FeatureStore and materials from backlog recommendations
+ok 15 - industrial data metric reuses FeatureStore and materials from backlog recommendations
+  ---
+  duration_ms: 0.091375
+  type: 'test'
+  ...
+# Subtest: business metrics analytics action follows the DD metric grid instead of AI recommendations
+ok 16 - business metrics analytics action follows the DD metric grid instead of AI recommendations
+  ---
+  duration_ms: 0.30025
+  type: 'test'
+  ...
+# Subtest: draft AI action suppresses the duplicate generic Drafts skill link
+ok 17 - draft AI action suppresses the duplicate generic Drafts skill link
+  ---
+  duration_ms: 0.088583
+  type: 'test'
+  ...
+# Subtest: metric rows retain actual growth and their current value without a potential-uplift duplicate
+ok 18 - metric rows retain actual growth and their current value without a potential-uplift duplicate
+  ---
+  duration_ms: 0.269292
+  type: 'test'
+  ...
+# Subtest: manually filled zeros do not claim digital-trace verification
+ok 19 - manually filled zeros do not claim digital-trace verification
+  ---
+  duration_ms: 0.307458
+  type: 'test'
+  ...
+# Subtest: general block guidance applies to every incomplete metric in that block only
+ok 20 - general block guidance applies to every incomplete metric in that block only
+  ---
+  duration_ms: 0.183041
+  type: 'test'
+  ...
+# Subtest: only explicitly described attraction and goals metrics receive guidance
+ok 21 - only explicitly described attraction and goals metrics receive guidance
+  ---
+  duration_ms: 0.640792
+  type: 'test'
+  ...
+# Subtest: only explicitly described churn metrics receive exact churn guidance, including PB quarters
+ok 22 - only explicitly described churn metrics receive exact churn guidance, including PB quarters
+  ---
+  duration_ms: 0.168209
+  type: 'test'
+  ...
+# Subtest: six new uplift recommendations are bound to their exact churn, hypothesis, and CX metrics
+ok 23 - six new uplift recommendations are bound to their exact churn, hypothesis, and CX metrics
+  ---
+  duration_ms: 0.254083
+  type: 'test'
+  ...
+# Subtest: business metric alerts guidance is bound to the exact alerts block and metric
+ok 24 - business metric alerts guidance is bound to the exact alerts block and metric
+  ---
+  duration_ms: 0.064667
+  type: 'test'
+  ...
+# Subtest: digital-trace notes are exact and present only for the specified metrics
+ok 25 - digital-trace notes are exact and present only for the specified metrics
+  ---
+  duration_ms: 0.108333
+  type: 'test'
+  ...
+# Subtest: recommendation mapping and note confirmation stay available for completed metrics
+ok 26 - recommendation mapping and note confirmation stay available for completed metrics
+  ---
+  duration_ms: 0.137583
+  type: 'test'
+  ...
+# Subtest: metric names remain plain and recommendations stay in the recommendations section
+ok 27 - metric names remain plain and recommendations stay in the recommendations section
+  ---
+  duration_ms: 0.221708
+  type: 'test'
+  ...
+# Subtest: recommendation notes use the shared accessible digital-trace confirmation beside uplift
+ok 28 - recommendation notes use the shared accessible digital-trace confirmation beside uplift
+  ---
+  duration_ms: 0.069
+  type: 'test'
+  ...
+# Subtest: uplift precedes digital-trace state indicators and the value in both detail modes
+ok 29 - uplift precedes digital-trace state indicators and the value in both detail modes
+  ---
+  duration_ms: 0.160791
+  type: 'test'
+  ...
+# Subtest: actual uplift is filled green, with fixed value and confirmation columns
+ok 30 - actual uplift is filled green, with fixed value and confirmation columns
+  ---
+  duration_ms: 0.22425
+  type: 'test'
+  ...
+# Subtest: compact metric status stays aligned with its copy on narrow screens
+ok 31 - compact metric status stays aligned with its copy on narrow screens
+  ---
+  duration_ms: 0.231875
+  type: 'test'
+  ...
+# Subtest: App shares the Summary unit filter with the team profile
+ok 32 - App shares the Summary unit filter with the team profile
+  ---
+  duration_ms: 2.021
+  type: 'test'
+  ...
+# Subtest: team profile unit filter limits the team selector with its controlled value
+ok 33 - team profile unit filter limits the team selector with its controlled value
+  ---
+  duration_ms: 0.223833
+  type: 'test'
+  ...
+# Subtest: opening a Dashboard product synchronizes the lifted unit before showing its profile
+ok 34 - opening a Dashboard product synchronizes the lifted unit before showing its profile
+  ---
+  duration_ms: 0.102667
+  type: 'test'
+  ...
+# Subtest: both Summary views use the same lifted unit filter
+ok 35 - both Summary views use the same lifted unit filter
+  ---
+  duration_ms: 0.417458
+  type: 'test'
+  ...
+# Subtest: team profile controls stay beside the heading without overlapping
+ok 36 - team profile controls stay beside the heading without overlapping
+  ---
+  duration_ms: 0.322542
+  type: 'test'
+  ...
+# Subtest: team profile removes the replaced AI recommendations section toggle
+ok 37 - team profile removes the replaced AI recommendations section toggle
+  ---
+  duration_ms: 0.428125
+  type: 'test'
+  ...
+# Subtest: profile and Dashboard share the lifted period and scope profile data to that period
+ok 38 - profile and Dashboard share the lifted period and scope profile data to that period
+  ---
+  duration_ms: 0.658958
+  type: 'test'
+  ...
+# Subtest: profile presents controlled period, unit and team selectors in that order
+ok 39 - profile presents controlled period, unit and team selectors in that order
+  ---
+  duration_ms: 0.222875
+  type: 'test'
+  ...
+# Subtest: profile alone uses period-scoped title rows and missing scores stay unavailable
+ok 40 - profile alone uses period-scoped title rows and missing scores stay unavailable
+  ---
+  duration_ms: 0.374792
+  type: 'test'
+  ...
+# Subtest: Dashboard and profile share the period catalog and keep an empty quarter explicitly empty
+ok 41 - Dashboard and profile share the period catalog and keep an empty quarter explicitly empty
+  ---
+  duration_ms: 1.233375
+  type: 'test'
+  ...
+# Subtest: display-only profile products are memoized without filling the actual Dashboard cohort
+ok 42 - display-only profile products are memoized without filling the actual Dashboard cohort
+  ---
+  duration_ms: 0.135708
+  type: 'test'
+  ...
+1..42
+# tests 42
+# suites 0
+# pass 42
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 307.412

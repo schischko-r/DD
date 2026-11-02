@@ -1,0 +1,30 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {metricDomId} from '../../gravity-app/src/domain/report.js';
+const ux=JSON.parse(fs.readFileSync(new URL('../../gravity-app/src/data/ux-score-metrics-q3-2026.json',import.meta.url)));
+const browser=await chromium.launch({headless:true});
+const page=await browser.newPage({viewport:{width:1440,height:1000}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4178/');
+await page.waitForSelector('.dashboard-period');
+await page.locator('[aria-label="Профиль команды"]').click();
+await page.waitForSelector('.detail-header h1');
+await page.getByRole('button',{name:'Подробно',exact:true}).click();
+const choose=async(selector,name)=>{await page.locator(selector).click();await page.getByRole('option',{name,exact:true}).click();};
+for(const [unit,name,value] of [['Data','SberID',100],['DP','СБОЛ',100],['DP','СберИнвестор',100],['DP','СберKids',50],['УБ','ИСЖ',0],['УБ','ПДС',50],['DB','SberPay NFC',100],['УБ','Страхование жизни',50]]){
+ await choose('.detail-team-unit-filter [role="combobox"]',unit);
+ await choose('.detail-team-select [role="combobox"]',name);
+ const cx=page.locator(`[id="${metricDomId('cx.score')}"]`);
+ await cx.waitFor();assert.equal(await cx.count(),1);
+ assert.equal((await cx.locator('.metric-status-label').textContent()).trim(),`${value}%`);
+ const priorUx=ux.products.find(p=>p.name===name);
+ if(priorUx)assert.equal((await page.locator(`[id="${metricDomId('cx.uh_score')}"] .metric-status-label`).textContent()).trim(),`${priorUx.metrics['cx.uh_score'].rawValue*100}%`);
+ if(name==='СберKids')await cx.screenshot({path:new URL('./kids-cx.png',import.meta.url).pathname});
+}
+await choose('.detail-period-filter [role="combobox"]','II кв. 2026');
+await page.waitForFunction(()=>document.querySelector('.detail-period-filter')?.textContent.includes('II кв. 2026'));
+assert.equal(await page.locator(`[id="${metricDomId('cx.score')}"] .metric-status-label`).count(),0,'Q2 keeps the originally inapplicable CX metric hidden');
+assert.deepEqual(errors,[]);
+console.log('PASS Q3 CX 100/50/0, newly activated products, separate CX/unchanged UX for DP channels, Q2 remains not applicable.');
+await browser.close();

@@ -1,0 +1,63 @@
+Loaded environment: /Users/roman/Documents/Codex/DD-dev/outputs/assessment-retention-2026-10-29/build.env
+Python runtime: /Users/roman/Documents/Codex/DD-dev/.venv/bin/python (PYTHON)
+{
+  "html": "outputs/assessment-retention-2026-10-29/legacy.html",
+  "crosssell_source": {
+    "mode": "local_file",
+    "request_enabled": false,
+    "request_attempted": false,
+    "downloaded": false,
+    "download_error": "",
+    "cache_path": "/Users/roman/Documents/Codex/DD-dev/crosssell_export.json",
+    "local_cache_used": true
+  },
+  "excel_rows_with_metric_group": 3186,
+  "template_rows_skipped": 0,
+  "benchmark_rows_split": 75,
+  "named_benchmark_rows_split": 0,
+  "product_metric_rows": 3261,
+  "products": 83,
+  "units": 8,
+  "aggregated_metrics": 3046,
+  "products_with_links": 0,
+  "upload_informational_rows_skipped": 0,
+  "visibility_hidden_rows": 309,
+  "upload_goal_duplicate_rows_skipped": 0,
+  "flg_included_rows": 3035,
+  "flg_display_only_rows": 151,
+  "flg_excluded_metrics": 153,
+  "flat_metric_names_disambiguated": 0,
+  "channel_metrics_excluded_from_index": 20,
+  "master_dash_enrichment_notices": 72,
+  "title_rows": 83,
+  "title_units": 8,
+  "title_types": 3,
+  "upload_source": "/Users/roman/Documents/Codex/DD-dev/flat_table.xlsx",
+  "upload_sheets": [
+    {
+      "sheet": "Лист1",
+      "header_row": 1,
+      "metric_pairs": 0,
+      "entities": 83,
+      "rows": 3497,
+      "skipped_entities": 0
+    }
+  ],
+  "upload_flat_rows": 3497,
+  "roadmap_items": 230,
+  "roadmap_profiles_with_items": 63,
+  "roadmap_unmatched_profiles": [],
+  "ai_skills_enabled": true,
+  "crosssell_enabled": true,
+  "crosssell_matched_products": 63,
+  "crosssell_matched_markers": 62,
+  "crosssell_catalog_fallbacks": 1,
+  "crosssell_manual_validation_count": 1,
+  "crosssell_unmatched_dd_products": [
+    "Сценарии оплаты",
+    "Трансграничный эквайринг",
+    "SberID",
+    "Почта, Диск, Календарь"
+  ]
+}
+outputs/assessment-retention-2026-10-29/backlog-data.json: 6408 tickets, 4 teams

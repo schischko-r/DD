@@ -1,0 +1,1162 @@
+{
+  "period": "III кв. 2026",
+  "scope": "pc-final-score-assessment",
+  "source": {
+    "origin": "userConfirmedPCFinalScore20261102",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "rule": "Использовать корректировку, если заполнена; иначе «Новый балл — III кв. 2026». Пустые значения не применяются. PC-оценки перенесены во внутренний набор данных."
+  },
+  "counts": {
+    "teams": 4,
+    "sourceRows": 149,
+    "selectedRows": 108,
+    "goalRows": 28,
+    "metricRows": 80,
+    "correctionRows": 7
+  },
+  "products": [
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "goals": {
+        "final": {
+          "goals.monitored": 1,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "lulT": {
+          "goals.monitored": 1,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "po": {
+          "goals.po_monitoring": 1,
+          "goals.po_factor_analysis": 0,
+          "goals.po_forecast": 1
+        }
+      },
+      "metrics": {
+        "general.klienty_s_produktom": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Клиенты с продуктом",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.mau_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "MAU продукта",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Знание продуктов спутников",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Знание об отчетности в Навигаторе",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "attract.nastroena_otchetnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка привлечения",
+            "inputMetric": "Настроена отчетность",
+            "selectedValue": 0.5,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "attract.regulyarnostь": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка привлечения",
+            "inputMetric": "Регулярность",
+            "selectedValue": 0.5,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "attract.report_completeness": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка привлечения",
+            "inputMetric": "Полнота отчета",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются.",
+            "correctionValue": 1,
+            "newScoreValue": 0.5
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка привлечения",
+            "inputMetric": "Проведение комплексного анализа воронки привлечения",
+            "selectedValue": 0.5,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "attract.initiatives_list": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка привлечения",
+            "inputMetric": "Составлен перечень инициатив по привлечению",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "attract.benchmarks": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка привлечения",
+            "inputMetric": "Наличие бенчмарков",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по бизнес-метрикам",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по системным сбоям",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.gibkoe_izmenenie_usloviy_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Гибкое изменение условий продукта",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.monitoring_mehanik": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Мониторинг механик",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Discovery >=40% бэклога",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются.",
+            "correctionValue": 1,
+            "newScoreValue": 1
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Оценка исследований >=7,5",
+            "selectedValue": 0,
+            "rule": "Прямая корректировка пользователя за III квартал: 0 по оценке исследований.",
+            "correctionValue": 0,
+            "newScoreValue": 0
+          }
+        },
+        "hyp.ab_tests": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "A/B-тесты",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.extra_initiatives": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Доп. инициативы сверх БП",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        }
+      },
+      "crossSellDuring": {
+        "rawValue": 0,
+        "source": {
+          "origin": "userConfirmedPCFinalScore20261102",
+          "confirmedBy": "user",
+          "date": "2026-11-02",
+          "period": "III кв. 2026",
+          "inputBlock": "Механики",
+          "inputMetric": "Cross-sell во время продажи",
+          "selectedValue": 0,
+          "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+        }
+      }
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "goals": {
+        "final": {
+          "goals.monitored": 1,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "lulT": {
+          "goals.monitored": 1,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "po": {
+          "goals.po_monitoring": 1,
+          "goals.po_factor_analysis": 1,
+          "goals.po_forecast": 1
+        }
+      },
+      "metrics": {
+        "general.kolichestvo_obrascheniy": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Количество обращений",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.fcr": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "FCR",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Знание об отчетности в Навигаторе",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Настроена отчетность",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.regulyarnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Регулярность",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.polnota_otcheta": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Полнота отчета",
+            "selectedValue": 0.5,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются.",
+            "correctionValue": 0.5,
+            "newScoreValue": 1
+          }
+        },
+        "voronka_vhoda_v_kanal.provedenie_analiza_voronki_vhoda_v_kanal": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Проведение комплексного анализа воронки входа в канал",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Мероприятия по работе с отклонениями",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.nalichie_benchmarkov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Наличие бенчмарков",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по бизнес-метрикам",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по системным сбоям",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.avtomatizacii": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Автоматизации",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.informirovaniya_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Информирования клиента",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.personalizaciya": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Персонализация",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.kontrolya_kachestva_rechi": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Контроля качества речи",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.uderzhaniya_klienta": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Удержания клиента",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Discovery >=40% бэклога",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Оценка исследований >=7,5",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.ab_tests": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "A/B-тесты",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.extra_initiatives": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Доп. инициативы сверх БП",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "goals": {
+        "final": {
+          "goals.monitored": 0.5,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "lulT": {
+          "goals.monitored": 0,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "po": {
+          "goals.po_monitoring": 1,
+          "goals.po_factor_analysis": 1,
+          "goals.po_forecast": 1
+        }
+      },
+      "metrics": {
+        "general.kolichestvo_obrascheniy": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Количество обращений",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.obschiy_obъem_ishodyaschego_trafika": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Общий объем исходящего трафика",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Знание об отчетности в Навигаторе",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.cr_v_prodazhu": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "CR в продажу",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_prodazh.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка продаж",
+            "inputMetric": "Настроена отчетность",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_prodazh.regulyarnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка продаж",
+            "inputMetric": "Регулярность",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_prodazh.polnota_otcheta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка продаж",
+            "inputMetric": "Полнота отчета",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_prodazh.provedenie_analiza_voronki_prodazh": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка продаж",
+            "inputMetric": "Проведение комплексного анализа воронки продаж",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка продаж",
+            "inputMetric": "Мероприятия по работе с отклонениями",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_prodazh.nalichie_benchmarkov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка продаж",
+            "inputMetric": "Наличие бенчмарков",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по бизнес-метрикам",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по системным сбоям",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.avtomatizacii": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Автоматизации",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.personalizaciya": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Персонализация",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.kontrolya_kachestva_rechi": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Контроля качества речи",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.nailuchshego_vremeni_zvonka": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Наилучшего времени звонка",
+            "selectedValue": 0.5,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Discovery >=40% бэклога",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Оценка исследований >=7,5",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.ab_tests": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "A/B-тесты",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.extra_initiatives": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Доп. инициативы сверх БП",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        }
+      }
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "goals": {
+        "final": {
+          "goals.monitored": 1,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "lulT": {
+          "goals.monitored": 1,
+          "goals.factor_analysis_l1_l2": 1
+        },
+        "po": {
+          "goals.po_monitoring": 1,
+          "goals.po_factor_analysis": 1,
+          "goals.po_forecast": 1
+        }
+      },
+      "metrics": {
+        "general.kolichestvo_obrascheniy": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Количество обращений",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.fcr": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "FCR",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Знание ключевых метрик",
+            "inputMetric": "Знание об отчетности в Навигаторе",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Настроена отчетность",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.regulyarnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Регулярность",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.polnota_otcheta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Полнота отчета",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.provedenie_analiza_voronki_vhoda_v_kanal": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Проведение комплексного анализа воронки входа в канал",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Мероприятия по работе с отклонениями",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "voronka_vhoda_v_kanal.nalichie_benchmarkov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Воронка входа в канал",
+            "inputMetric": "Наличие бенчмарков",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.business_metrics": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по бизнес-метрикам",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "alerts.system_failures": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Алерты",
+            "inputMetric": "Оповещения по системным сбоям",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.nalichie_sobstvennyh_mehanik": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Наличие собственных механик",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.avtomatizacii": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Автоматизации",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.informirovaniya_klienta": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Информирования клиента",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.personalizaciya": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Персонализация",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.kontrolya_kachestva_rechi": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Контроля качества речи",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "mehaniki.uderzhaniya_klienta": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Механики",
+            "inputMetric": "Удержания клиента",
+            "selectedValue": 0.5,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются.",
+            "correctionValue": 0.5,
+            "newScoreValue": 1
+          }
+        },
+        "hyp.discovery_40_backlog": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Discovery >=40% бэклога",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.datadriven_rating_7_5": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Оценка исследований >=7,5",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.ab_tests": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "A/B-тесты",
+            "selectedValue": 1,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        },
+        "hyp.extra_initiatives": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedPCFinalScore20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "inputBlock": "Гипотезы и инициативы",
+            "inputMetric": "Доп. инициативы сверх БП",
+            "selectedValue": 0,
+            "rule": "Корректировка, если заполнена; иначе Новый балл — III кв. 2026. Пустые значения не применяются."
+          }
+        }
+      }
+    }
+  ]
+}

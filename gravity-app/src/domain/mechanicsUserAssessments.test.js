@@ -55,7 +55,7 @@ test('all literal rows are accounted for; conflicting return scores stay unchang
   assert.deepEqual(manual.pending.map((p) => p.name).sort(), ['Зарплатный продукт', 'ОМС', 'Слитки']);
   for (const row of manual.sourceRows.filter((r) => r.status === 'applied')) {
     const fact = manual.products.find((p) => p.id === row.id).metrics[row.metricCode];
-    assert.equal(fact.rawValue, row.rawValue);
+    assert.equal(fact.source.previousAssessment?.rawValue ?? fact.rawValue, row.rawValue);
     assert.ok(fact.source.sourceRows.includes(row.row));
   }
   const before = buildTeamProfileProducts(source, manual.period, overlays.filter((o) => o.scope !== manual.scope));

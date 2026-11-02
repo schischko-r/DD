@@ -1,0 +1,19 @@
+{
+  "csvProvenanceVerified": true,
+  "allChangedCellsBackedByFacts": true,
+  "answerClassificationVerified": true,
+  "chikinaExcluded": true,
+  "fills": 132,
+  "byValue": {
+    "1": 88,
+    "0": 44
+  },
+  "byCode": {
+    "attract.initiatives_list": 67,
+    "churn.deviation_actions": 65
+  },
+  "missingReasonFacts": 0,
+  "yesWithoutProofAccepted": 0,
+  "pendingReasonsVerified": 6,
+  "mismatchesPreserved": 0
+}

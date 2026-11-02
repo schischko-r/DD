@@ -1,0 +1,346 @@
+{
+  "sourceCells": 50,
+  "unit": "УБ",
+  "changes": 41,
+  "unauthorized": [],
+  "holes": [
+    {
+      "team": "ОСАГО",
+      "unit": "УБ",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "before": 1,
+      "now": null,
+      "authorized": true
+    }
+  ],
+  "diffs": [
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "code": "attract.nastroena_otchetnostь",
+      "before": 0.5,
+      "now": 0.25,
+      "authorized": true
+    },
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "code": "churn.nastroena_otchetnostь",
+      "before": 0.5,
+      "now": 0.25,
+      "authorized": true
+    },
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "code": "churn.deviation_actions",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "code": "mehaniki.vozvrat_klientov",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "Брокерский счет",
+      "unit": "УБ",
+      "code": "attract.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "Брокерский счет",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "Брокерский счет",
+      "unit": "УБ",
+      "code": "mehaniki.vozvrat_klientov",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "Брокерский счет",
+      "unit": "УБ",
+      "code": "mehaniki.uderzhanie_klientov",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "Брокерский счет",
+      "unit": "УБ",
+      "code": "mehaniki.cross_sell",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ДСЖ КК",
+      "unit": "УБ",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "before": 1,
+      "now": 0,
+      "authorized": true
+    },
+    {
+      "team": "ЗПИФ",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ИСЖ",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "unit": "УБ",
+      "code": "attract.nastroena_otchetnostь",
+      "before": 0.5,
+      "now": 0.25,
+      "authorized": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "unit": "УБ",
+      "code": "attract.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "unit": "УБ",
+      "code": "churn.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "unit": "УБ",
+      "code": "churn.deviation_actions",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ИнвестКопилка",
+      "unit": "УБ",
+      "code": "alerts.business_metrics",
+      "before": 1,
+      "now": 0,
+      "authorized": true
+    },
+    {
+      "team": "НСЖ",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "НСЖ",
+      "unit": "УБ",
+      "code": "attract.benchmarks",
+      "before": 0.5,
+      "now": 0.25,
+      "authorized": true
+    },
+    {
+      "team": "НСЖ",
+      "unit": "УБ",
+      "code": "churn.benchmarks",
+      "before": 0.5,
+      "now": 0.25,
+      "authorized": true
+    },
+    {
+      "team": "НСЖ",
+      "unit": "УБ",
+      "code": "mehaniki.vozvrat_klientov",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "НСЖ",
+      "unit": "УБ",
+      "code": "mehaniki.uderzhanie_klientov",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "НСЖ",
+      "unit": "УБ",
+      "code": "cx.score",
+      "before": 0,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ОПИФ",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ПДС",
+      "unit": "УБ",
+      "code": "churn.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ЦФА",
+      "unit": "УБ",
+      "code": "churn.deviation_actions",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ВЗР",
+      "unit": "УБ",
+      "code": "churn.benchmarks",
+      "before": 0.5,
+      "now": 0,
+      "authorized": true
+    },
+    {
+      "team": "ВЗР",
+      "unit": "УБ",
+      "code": "cx.score",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ЗЛС",
+      "unit": "УБ",
+      "code": "attract.report_completeness",
+      "before": 0.5,
+      "now": 0.25,
+      "authorized": true
+    },
+    {
+      "team": "ЗЛС",
+      "unit": "УБ",
+      "code": "churn.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ЗЛС",
+      "unit": "УБ",
+      "code": "cx.score",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "code": "attract.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "code": "churn.report_completeness",
+      "before": 0.5,
+      "now": 0.25,
+      "authorized": true
+    },
+    {
+      "team": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "code": "churn.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "КАСКО",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ОСАГО",
+      "unit": "УБ",
+      "code": "attract.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ОСАГО",
+      "unit": "УБ",
+      "code": "attract.initiatives_list",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ОСАГО",
+      "unit": "УБ",
+      "code": "churn.funnel_analysis",
+      "before": 1,
+      "now": 0.5,
+      "authorized": true
+    },
+    {
+      "team": "ОСАГО",
+      "unit": "УБ",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "before": 1,
+      "now": null,
+      "authorized": true
+    }
+  ]
+}

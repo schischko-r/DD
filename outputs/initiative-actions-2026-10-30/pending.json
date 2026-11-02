@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Выписки, справки",
+    "unit": "PC",
+    "type": "Продукт",
+    "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+    "code": "churn.deviation_actions",
+    "metricName": "Мероприятия по работе с отклонениями",
+    "blockCode": "churn",
+    "reason": "not_applicable"
+  },
+  {
+    "name": "ОМС",
+    "unit": "CBP",
+    "type": "Продукт",
+    "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+    "code": "attract.initiatives_list",
+    "metricName": "Составлен перечень инициатив по привлечению",
+    "blockCode": "attract",
+    "reason": "conflicting_responses",
+    "sources": [
+      {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 12,
+        "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+        "completedAt": "2026-10-22T15:05:13.803Z",
+        "respondent": "Скворцов Виталий Михайлович",
+        "originalTeamId": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "originalTeamName": "ОМС",
+        "questionId": "attractDeviations",
+        "answer": "Да",
+        "questionSource": {
+          "sheet": "Продукты (2)",
+          "row": 84
+        },
+        "evidence": "https://jira.delta.sbrf.ru/projects/OMS/issues/",
+        "evidenceFormat": "jira"
+      },
+      {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 14,
+        "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+        "completedAt": "2026-10-22T14:53:25.651Z",
+        "respondent": "Григорьев Алексей Владимирович",
+        "originalTeamId": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "originalTeamName": "ОМС",
+        "questionId": "attractDeviations",
+        "answer": "Нет",
+        "questionSource": {
+          "sheet": "Продукты (2)",
+          "row": 84
+        },
+        "evidence": null,
+        "evidenceFormat": null
+      }
+    ]
+  },
+  {
+    "name": "ОМС",
+    "unit": "CBP",
+    "type": "Продукт",
+    "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+    "code": "churn.deviation_actions",
+    "metricName": "Мероприятия по работе с отклонениями",
+    "blockCode": "churn",
+    "reason": "conflicting_responses",
+    "sources": [
+      {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 12,
+        "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+        "completedAt": "2026-10-22T15:05:13.803Z",
+        "respondent": "Скворцов Виталий Михайлович",
+        "originalTeamId": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "originalTeamName": "ОМС",
+        "questionId": "deviations",
+        "answer": "Да",
+        "questionSource": {
+          "sheet": "Продукты (2)",
+          "row": 88
+        },
+        "evidence": "https://jira.delta.sbrf.ru/projects/OMS/issues/",
+        "evidenceFormat": "jira"
+      },
+      {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 14,
+        "surveyId": "ddi-product-8ad8f20e-b44c-5259-82a7-497fc20b63e0",
+        "completedAt": "2026-10-22T14:53:25.651Z",
+        "respondent": "Григорьев Алексей Владимирович",
+        "originalTeamId": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "originalTeamName": "ОМС",
+        "questionId": "deviations",
+        "answer": "Нет",
+        "questionSource": {
+          "sheet": "Продукты (2)",
+          "row": 88
+        },
+        "evidence": null,
+        "evidenceFormat": null
+      }
+    ]
+  },
+  {
+    "name": "СберСова",
+    "unit": "УБ",
+    "type": "Продукт",
+    "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+    "code": "churn.deviation_actions",
+    "metricName": "Мероприятия по работе с отклонениями",
+    "blockCode": "churn",
+    "reason": "not_applicable"
+  },
+  {
+    "name": "СберСпасибо",
+    "unit": "CX",
+    "type": "Продукт",
+    "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+    "code": "churn.deviation_actions",
+    "metricName": "Мероприятия по работе с отклонениями",
+    "blockCode": "churn",
+    "reason": "not_applicable"
+  },
+  {
+    "name": "Единый личный кабинет (ЕЛК)",
+    "unit": "Data",
+    "type": "Канал",
+    "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+    "code": "churn.deviation_actions",
+    "metricName": "Мероприятия по работе с отклонениями",
+    "blockCode": "churn",
+    "reason": "not_applicable"
+  }
+]

@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: Savins explicit yes restores only the Chat entry actions score with all four source links and unchanged Q2
+ok 1 - Savins explicit yes restores only the Chat entry actions score with all four source links and unchanged Q2
+  ---
+  duration_ms: 371.838334
+  type: 'test'
+  ...
+# Subtest: the Chat manual Navigator score fills exactly one Q3 blank at its existing half-point maximum
+ok 2 - the Chat manual Navigator score fills exactly one Q3 blank at its existing half-point maximum
+  ---
+  duration_ms: 425.542209
+  type: 'test'
+  ...
+# Subtest: Q2 restores DU in УБ and stays byte-for-byte unchanged; Q3 has precisely the 17 requested DB teams
+ok 3 - Q2 restores DU in УБ and stays byte-for-byte unchanged; Q3 has precisely the 17 requested DB teams
+  ---
+  duration_ms: 217.430959
+  type: 'test'
+  ...
+# Subtest: salary survey scores belong to the named cohort; shared values retain provenance and no per-cohort Q2 is invented
+ok 4 - salary survey scores belong to the named cohort; shared values retain provenance and no per-cohort Q2 is invented
+  ---
+  duration_ms: 158.619667
+  type: 'test'
+  ...
+# Subtest: all Q3 full reporting implies full regularity; Payments explicit regularity and applicability survive
+ok 5 - all Q3 full reporting implies full regularity; Payments explicit regularity and applicability survive
+  ---
+  duration_ms: 61.426958
+  type: 'test'
+  ...
+# Subtest: source-backed blank fills preserve every assigned Q3 score and distinguish on-request regularity
+ok 6 - source-backed blank fills preserve every assigned Q3 score and distinguish on-request regularity
+  ---
+  duration_ms: 121.557209
+  type: 'test'
+  ...
+# Subtest: loading the report with an empty source does not require salary cohorts before data arrives
+ok 7 - loading the report with an empty source does not require salary cohorts before data arrives
+  ---
+  duration_ms: 1.424042
+  type: 'test'
+  ...
+# Subtest: one salary product averages all metrics in exactly five blocks after child scoring and preserves both cohorts in full
+ok 8 - one salary product averages all metrics in exactly five blocks after child scoring and preserves both cohorts in full
+  ---
+  duration_ms: 493.074583
+  type: 'test'
+  ...
+# Subtest: the entire hypothesis block averages, and a missing applicable cohort score never becomes zero
+ok 9 - the entire hypothesis block averages, and a missing applicable cohort score never becomes zero
+  ---
+  duration_ms: 0.321167
+  type: 'test'
+  ...
+# Subtest: respondent-specific mechanics assign exactly three cohort values and average the two merged metrics without changing anything else
+ok 10 - respondent-specific mechanics assign exactly three cohort values and average the two merged metrics without changing anything else
+  ---
+  duration_ms: 533.804166
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 781.22375

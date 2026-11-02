@@ -49,6 +49,33 @@
           }
         }
       }
+    },
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "dannye.promyshlenye_dannye": {
+          "rawValue": 0.75,
+          "source": {
+            "origin": "userConfirmedMetricAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Персональная рекомендация",
+            "sourceMetricName": "Промышленные данные",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "rawValue": 0.75,
+              "note": "Прямая оценка пользователя: промышленные данные = 75% за III квартал."
+            }
+          }
+        }
+      }
     }
   ]
 }

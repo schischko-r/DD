@@ -283,32 +283,41 @@
           }
         },
         "hyp.discovery_40_backlog": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт #B2C",
+            "sourceMetricName": "Discovery >=40% бэклога",
+            "rule": "Прямая корректировка пользователя: Discovery >=40% бэклога = 0 для обоих зарплатных когорт.",
+            "previousAssessmentSource": {
+              "origin": "salarySplitSurveyAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-10-30",
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 46,
+              "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+              "completedAt": "2026-10-20T15:43:33.270Z",
+              "respondent": "Королева Александра Дмитриевна",
+              "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+              "originalTeamName": "Зарплатный продукт",
+              "questionId": "discovery",
+              "answer": "От 20 до 39%",
+              "rule": "Подтверждённое пользователем правило: Нет аналитиков/Затрудняюсь/Меньше 20% = 0. Ответ 20–39% = 0.5 независимо от места бэклога. Оценка относится только к этому респонденту."
+            }
+          }
+        },
+        "mehaniki.vozvrat_klientov": {
           "rawValue": 0.5,
           "source": {
             "origin": "salarySplitSurveyAssessment",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-10-30",
-            "file": "questionare-responses(11).csv",
-            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
-            "csvRow": 46,
-            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
-            "completedAt": "2026-10-20T15:43:33.270Z",
-            "respondent": "Королева Александра Дмитриевна",
-            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
-            "originalTeamName": "Зарплатный продукт",
-            "questionId": "discovery",
-            "answer": "От 20 до 39%",
-            "rule": "Подтверждённое пользователем правило: Нет аналитиков/Затрудняюсь/Меньше 20% = 0. Ответ 20–39% = 0.5 независимо от места бэклога. Оценка относится только к этому респонденту."
-          }
-        },
-        "mehaniki.vozvrat_klientov": {
-          "rawValue": 1,
-          "source": {
-            "origin": "salarySplitSurveyAssessment",
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-10-30",
+            "date": "2026-11-02",
             "file": "questionare-responses(11).csv",
             "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
             "csvRow": 46,
@@ -321,7 +330,35 @@
             "answer": [
               "Возврат клиентов"
             ],
-            "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+            "rule": "Прямая корректировка пользователя: возврат клиентов у зарплатного продукта B2B и B2C за III квартал = 0,5. Исходные ответы респондентов сохранены; остальные оценки не меняются.",
+            "previousAssessment": {
+              "rawValue": 1,
+              "source": {
+                "origin": "salarySplitSurveyAssessment",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "date": "2026-10-30",
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 46,
+                "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+                "completedAt": "2026-10-20T15:43:33.270Z",
+                "respondent": "Королева Александра Дмитриевна",
+                "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+                "originalTeamName": "Зарплатный продукт",
+                "questionId": "upsell",
+                "answer": [
+                  "Возврат клиентов"
+                ],
+                "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+              }
+            },
+            "userOverride": {
+              "rawValue": 0.5,
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "reason": "Последнее указание: возврат/реактивация оттекающих клиентов зарплатного продукта у обоих сегментов = 0,5."
+            }
           }
         },
         "mehaniki.doprodazhi_up_sell": {
@@ -345,11 +382,24 @@
             ],
             "rule": "Последнее указание пользователя: выбранные Допродажи (upsell) = 1; не выбраны = 0. Оценка относится только к этому респонденту."
           }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedSalaryMetricCorrection",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "cohort": "B2C",
+            "metricCode": "mehaniki.uderzhanie_klientov",
+            "previousAssessment": null,
+            "reason": "Последнее уточнение пользователя: удержание зарплатного B2B = 0, B2C = 0,5; общее среднее = 0,25."
+          }
         }
       },
       "resetMetricCodes": [],
       "crossSellAfterPurchase": {
-        "rawValue": 0.5,
+        "rawValue": 1,
         "applicable": true,
         "source": {
           "origin": "salarySplitSharedManualAssessment",
@@ -359,7 +409,9 @@
           "answer": "Да",
           "confirmation": "СберМобайл",
           "respondent": "Королева Александра Дмитриевна",
-          "rule": "Ранее явно заданная ручная оценка 0.5 для общего продукта сохраняется как общая; обе анкеты отвечают Да. Это не новая оценка 1 из факта ответа Да."
+          "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+          "confirmedAt": "2026-11-02",
+          "previousPostPurchaseValue": 0.5
         }
       },
       "unassignedAggregateMetricCodes": [
@@ -654,30 +706,39 @@
         "hyp.discovery_40_backlog": {
           "rawValue": 0,
           "source": {
-            "origin": "salarySplitSurveyAssessment",
+            "origin": "userConfirmedQ3ScoreCorrection",
             "confirmedBy": "user",
+            "date": "2026-11-02",
             "period": "III кв. 2026",
-            "date": "2026-10-30",
-            "file": "questionare-responses(11).csv",
-            "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
-            "csvRow": 5,
-            "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
-            "completedAt": "2026-10-27T08:33:29.644Z",
-            "respondent": "Сауткин Андрей",
-            "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
-            "originalTeamName": "Зарплатный продукт",
-            "questionId": "discovery",
-            "answer": "Нет аналитиков",
-            "rule": "Подтверждённое пользователем правило: Нет аналитиков/Затрудняюсь/Меньше 20% = 0. Ответ 20–39% = 0.5 независимо от места бэклога. Оценка относится только к этому респонденту."
+            "sourceName": "Зарплатный продукт #B2B",
+            "sourceMetricName": "Discovery >=40% бэклога",
+            "rule": "Прямая корректировка пользователя: Discovery >=40% бэклога = 0 для обоих зарплатных когорт.",
+            "previousAssessmentSource": {
+              "origin": "salarySplitSurveyAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-10-30",
+              "file": "questionare-responses(11).csv",
+              "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+              "csvRow": 5,
+              "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+              "completedAt": "2026-10-27T08:33:29.644Z",
+              "respondent": "Сауткин Андрей",
+              "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+              "originalTeamName": "Зарплатный продукт",
+              "questionId": "discovery",
+              "answer": "Нет аналитиков",
+              "rule": "Подтверждённое пользователем правило: Нет аналитиков/Затрудняюсь/Меньше 20% = 0. Ответ 20–39% = 0.5 независимо от места бэклога. Оценка относится только к этому респонденту."
+            }
           }
         },
         "mehaniki.vozvrat_klientov": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
             "origin": "salarySplitSurveyAssessment",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-10-30",
+            "date": "2026-11-02",
             "file": "questionare-responses(11).csv",
             "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
             "csvRow": 5,
@@ -691,7 +752,36 @@
               "Допродажи (upsell)",
               "Возврат клиентов"
             ],
-            "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+            "rule": "Прямая корректировка пользователя: возврат клиентов у зарплатного продукта B2B и B2C за III квартал = 0,5. Исходные ответы респондентов сохранены; остальные оценки не меняются.",
+            "previousAssessment": {
+              "rawValue": 1,
+              "source": {
+                "origin": "salarySplitSurveyAssessment",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "date": "2026-10-30",
+                "file": "questionare-responses(11).csv",
+                "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+                "csvRow": 5,
+                "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+                "completedAt": "2026-10-27T08:33:29.644Z",
+                "respondent": "Сауткин Андрей",
+                "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+                "originalTeamName": "Зарплатный продукт",
+                "questionId": "upsell",
+                "answer": [
+                  "Допродажи (upsell)",
+                  "Возврат клиентов"
+                ],
+                "rule": "Последнее указание пользователя: выставить баллы по ответам каждого респондента. Выбрано Возврат клиентов = 1; не выбрано = 0. Прежняя неопределённость общих ручных 0/1 разрешена."
+              }
+            },
+            "userOverride": {
+              "rawValue": 0.5,
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "reason": "Последнее указание: возврат/реактивация оттекающих клиентов зарплатного продукта у обоих сегментов = 0,5."
+            }
           }
         },
         "mehaniki.doprodazhi_up_sell": {
@@ -716,11 +806,35 @@
             ],
             "rule": "Последнее указание пользователя: выбранные Допродажи (upsell) = 1; не выбраны = 0. Оценка относится только к этому респонденту."
           }
+        },
+        "mehaniki.uderzhanie_klientov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedSalaryMetricCorrection",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-02",
+            "cohort": "B2B",
+            "metricCode": "mehaniki.uderzhanie_klientov",
+            "previousAssessment": {
+              "rawValue": 0.5,
+              "source": {
+                "origin": "userConfirmedSalaryMetricCorrection",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "date": "2026-11-02",
+                "cohort": "B2B",
+                "metricCode": "mehaniki.uderzhanie_klientov",
+                "reason": "Последнее уточнение пользователя заменяет промежуточный ноль: удержание клиентов зарплатного B2B = 0,5. B2C не менять."
+              }
+            },
+            "reason": "Последнее уточнение пользователя: удержание зарплатного B2B = 0, B2C = 0,5; общее среднее = 0,25."
+          }
         }
       },
       "resetMetricCodes": [],
       "crossSellAfterPurchase": {
-        "rawValue": 0.5,
+        "rawValue": 1,
         "applicable": true,
         "source": {
           "origin": "salarySplitSharedManualAssessment",
@@ -730,7 +844,9 @@
           "answer": "Да",
           "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
           "respondent": "Сауткин Андрей",
-          "rule": "Ранее явно заданная ручная оценка 0.5 для общего продукта сохраняется как общая; обе анкеты отвечают Да. Это не новая оценка 1 из факта ответа Да."
+          "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+          "confirmedAt": "2026-11-02",
+          "previousPostPurchaseValue": 0.5
         }
       },
       "unassignedAggregateMetricCodes": [

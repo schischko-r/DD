@@ -1,0 +1,34 @@
+{
+  "period": "III кв. 2026",
+  "scope": "funnel-link-quality-assessment",
+  "source": {
+    "origin": "userConfirmedFunnelLinkQualityAssessment",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "rule": "Если единственные приложенные подтверждения к полноте отчета относятся только к Clickstream или только к CJ/CJXplorer, оценка равна 0.25 балла. Здесь хранятся только оценки, которые пришлось изменить; уже выставленные 0.25 не дублируются."
+  },
+  "products": [
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedFunnelLinkQualityAssessment",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "sourceMetricName": "Полнота отчета",
+            "question": "Какие метрики вы мониторите в рамках воронки привлечения по вашему продукту?",
+            "evidenceLinks": [
+              "https://clickstream.sberbank.ru/frontend/sbol/reports/funnels/33400"
+            ],
+            "rule": "Единственное приложенное подтверждение — Clickstream; оценка установлена в 0.25 балла из 0.5."
+          }
+        }
+      }
+    }
+  ]
+}

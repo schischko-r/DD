@@ -14,13 +14,48 @@
       "type": "Продукт",
       "metrics": {
         "churn.report_completeness": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
-            "origin": "userConfirmedAdditionalFunnelAssessment",
+            "origin": "userConfirmedFunnelAssessment",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-10-30",
-            "rule": "Прямая оценка пользователя для указанной команды и метрики за III квартал."
+            "date": "2026-11-02",
+            "rule": "Прямая корректировка пользователя: значение задано как доля от максимума метрики.",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная корректировка балла пользователем для ДомКлика за III квартал.",
+            "sourceMetricName": "churn.report_completeness",
+            "sourceName": "Много денег (НКПЗН)",
+            "metricCode": "churn.report_completeness",
+            "rawValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedAdditionalFunnelAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-10-30",
+              "rule": "Прямая оценка пользователя для указанной команды и метрики за III квартал."
+            },
+            "correctionOrigin": "userConfirmedDomclickMetricCorrections",
+            "userCorrection": {
+              "origin": "userConfirmedDomclickMetricCorrections",
+              "date": "2026-11-02"
+            }
+          }
+        },
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedFunnelAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Много денег (НКПЗН)",
+            "rule": "Прямая корректировка пользователя: значение задано как доля от максимума метрики.",
+            "userCorrection": {
+              "origin": "userConfirmedDomclickMetricCorrections",
+              "date": "2026-11-02"
+            },
+            "sourceMetricName": "attract.funnel_analysis",
+            "rawValue": 0.5
           }
         }
       }
@@ -32,13 +67,31 @@
       "type": "Продукт",
       "metrics": {
         "attract.funnel_analysis": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
-            "origin": "userConfirmedAdditionalFunnelAssessment",
+            "origin": "userConfirmedFunnelAssessment",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-10-30",
-            "rule": "Прямая оценка пользователя для указанной команды и метрики за III квартал."
+            "date": "2026-11-02",
+            "rule": "Прямая корректировка пользователя: значение задано как доля от максимума метрики.",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная корректировка балла пользователем для ДомКлика за III квартал.",
+            "sourceMetricName": "attract.funnel_analysis",
+            "sourceName": "Сделка ИЖС",
+            "metricCode": "attract.funnel_analysis",
+            "rawValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedAdditionalFunnelAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-10-30",
+              "rule": "Прямая оценка пользователя для указанной команды и метрики за III квартал."
+            },
+            "correctionOrigin": "userConfirmedDomclickMetricCorrections",
+            "userCorrection": {
+              "origin": "userConfirmedDomclickMetricCorrections",
+              "date": "2026-11-02"
+            }
           }
         }
       }
@@ -52,11 +105,138 @@
         "churn.funnel_analysis": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userConfirmedAdditionalFunnelAssessment",
+            "origin": "userConfirmedFunnelAssessment",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-10-30",
-            "rule": "Прямая оценка пользователя для указанной команды и метрики за III квартал."
+            "date": "2026-11-02",
+            "rule": "Прямая корректировка пользователя: значение задано как доля от максимума метрики.",
+            "confirmedAt": "2026-11-02",
+            "reason": "Явная корректировка балла пользователем для ДомКлика за III квартал.",
+            "sourceMetricName": "churn.funnel_analysis",
+            "sourceName": "Сделка с Первичным жильём",
+            "metricCode": "churn.funnel_analysis",
+            "rawValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedAdditionalFunnelAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-10-30",
+              "rule": "Прямая оценка пользователя для указанной команды и метрики за III квартал."
+            },
+            "correctionOrigin": "userConfirmedDomclickMetricCorrections",
+            "userCorrection": {
+              "origin": "userConfirmedDomclickMetricCorrections",
+              "date": "2026-11-02"
+            }
+          }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedFunnelAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "rule": "Прямая корректировка пользователя: значение задано как доля от максимума метрики.",
+            "userCorrection": {
+              "origin": "userConfirmedDomclickMetricCorrections",
+              "date": "2026-11-02"
+            },
+            "sourceMetricName": "churn.nastroena_otchetnostь",
+            "rawValue": 1,
+            "reason": "Прямая оценка пользователя за III квартал: 100%."
+          },
+          "applicabilityOverride": {
+            "applicable": true,
+            "maxValue": 0.5,
+            "source": "explicit-user-assessment"
+          }
+        },
+        "churn.regulyarnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedFunnelAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "rule": "Прямая корректировка пользователя: значение задано как доля от максимума метрики.",
+            "userCorrection": {
+              "origin": "userConfirmedDomclickMetricCorrections",
+              "date": "2026-11-02"
+            },
+            "sourceMetricName": "churn.regulyarnostь",
+            "rawValue": 1,
+            "reason": "Прямая оценка пользователя за III квартал: 100%."
+          },
+          "applicabilityOverride": {
+            "applicable": true,
+            "maxValue": 1,
+            "source": "explicit-user-assessment"
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedAdditionalFunnelAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка с Первичным жильём",
+            "sourceMetricName": "Полнота отчета по воронке оттока",
+            "rawValue": 0.5,
+            "reason": "Прямая оценка пользователя за III квартал: 50%."
+          },
+          "applicabilityOverride": {
+            "applicable": true,
+            "maxValue": 0.5,
+            "source": "explicit-user-assessment"
+          }
+        }
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "attract.funnel_analysis": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedFunnelAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка вторичка",
+            "rule": "Прямая корректировка пользователя: значение задано как доля от максимума метрики.",
+            "userCorrection": {
+              "origin": "userConfirmedDomclickMetricCorrections",
+              "date": "2026-11-02"
+            },
+            "sourceMetricName": "attract.funnel_analysis",
+            "rawValue": 0.5
+          }
+        }
+      }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "attract.initiatives_list": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedAdditionalFunnelAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "sourceName": "Пакет услуг СберПремьер",
+            "sourceMetricName": "Составлен перечень инициатив по привлечению",
+            "rule": "Последнее прямое указание пользователя: перечень инициатив по привлечению СберПремьер за III квартал = 0,5. Остальные оценки, максимумы, применимость и II квартал сохраняются."
           }
         }
       }

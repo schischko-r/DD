@@ -2,6 +2,8 @@
 // assessment regressions. Exclude them only when reproducing those old stages;
 // current-runtime tests, including the salary merge, still use every App overlay.
 const postSnapshotExternalFiles = new Set([
+  'ub-workbook-corrections-q3-2026.json',
+  'crossborder-acquiring-reporting-applicability-q3-2026.json',
   'trade-acquiring-alerts-user-q3-2026.json',
   'telemarketing-mechanics-user-q3-2026.json',
   'notification-retention-user-q3-2026.json',

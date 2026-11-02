@@ -1,0 +1,33 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {metricDomId} from '../../gravity-app/src/domain/report.js';
+import {buildTeamProfileProducts} from '../../gravity-app/src/domain/teamProfileSelection.js';
+const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url)));
+const source=read('../../gravity-app/public/report-data.json').products;
+const app=readFileSync(new URL('../../gravity-app/src/app/App.jsx',import.meta.url),'utf8');
+const imports=new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m=>[m[1],m[2]]));
+const overlays=app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(k=>read(`../../gravity-app/src/data/${imports.get(k.trim())}`));
+const before=buildTeamProfileProducts(source,'III кв. 2026',overlays.filter(o=>o.scope!=='mechanics-user-assessment'));
+const browser=await chromium.launch({headless:true});const page=await browser.newPage({viewport:{width:1440,height:1000}});
+const errors=[];page.on('pageerror',e=>errors.push(e.message));
+await page.goto('http://127.0.0.1:4178/');await page.waitForSelector('.dashboard-period');
+await page.locator('[aria-label="Профиль команды"]').click();await page.waitForSelector('.detail-header h1');
+const choose=async(s,n)=>{await page.locator(s).click();await page.getByRole('option',{name:n,exact:true}).click();};
+const row=c=>page.locator(`[id="${metricDomId(c)}"]`);
+const value=async(c,v)=>assert.equal((await row(c).locator(v==='—'?'.metric-value-label':'.metric-status-label').textContent()).trim(),v);
+const select=async(u,n)=>{await choose('.detail-team-unit-filter [role="combobox"]',u);await choose('.detail-team-select [role="combobox"]',n);await page.getByRole('button',{name:'Подробно',exact:true}).click();};
+await select('DP','СберKids');await value('mehaniki.vozvrat_klientov','100%');await value('mehaniki.uderzhanie_klientov','100%');
+await select('DB','Детская карта');await value('mehaniki.vozvrat_klientov','50%');await value('mehaniki.doprodazhi_up_sell','0%');
+await select('Data','Единый личный кабинет (ЕЛК)');await value('mehaniki.personalizaciya_interfeysa_kontenta','50%');await value('mehaniki.stimulirovanie_klienta','0%');
+await select('PC','Чат');for(const[c,v]of [['mehaniki.informirovaniya_klienta','0%'],['mehaniki.personalizaciya','100%'],['mehaniki.kontrolya_kachestva_rechi','0%'],['mehaniki.uderzhaniya_klienta','100%']])await value(c,v);
+for(const[u,n]of [['DB','Зарплатный продукт'],['CBP','ОМС'],['CBP','Слитки']]){
+ await select(u,n);const m=before.find(p=>p.name===n).metrics.flatMap(b=>b.metrics).find(m=>m.code==='mehaniki.vozvrat_klientov');
+ await value(m.code,m.value===null?'—':`${Math.round(m.value/m.max_value*100)}%`);
+}
+await select('УБ','Залоговое страхование (корпоративное страхование)');
+for(const c of ['mehaniki.vozvrat_klientov','mehaniki.uderzhanie_klientov'])assert.equal(await row(c).count(),0);
+await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth));
+await select('DP','СберKids');await choose('.detail-period-filter [role="combobox"]','II кв. 2026');
+const prior=source.find(p=>p.name==='СберKids').metrics.flatMap(b=>b.metrics).find(m=>m.code==='mehaniki.vozvrat_klientov');await value(prior.code,`${Math.round(prior.value/prior.max_value*100)}%`);
+assert.deepEqual(errors,[]);await browser.close();console.log('PASS: 0/50/100 mechanics, PC and channel codes, 3pendingunchanged, corporateNApreserved, Q2/mobile.');

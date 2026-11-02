@@ -1,0 +1,2390 @@
+[
+  {
+    "meta": {
+      "schema_version": 1,
+      "status": "ok",
+      "source": "https://cjxplorer.com",
+      "generated_at": "2026-10-19T01:40:01.124300+00:00",
+      "age_hours": 11.3,
+      "stale_days": 14,
+      "stale_rule": "сценарий устарел, если последний прогон старше 14 дней (порог задан порталом, поле stale_days)",
+      "products": 161,
+      "portfolio": {
+        "avg_rating": 82,
+        "avg_rating_delta": 2,
+        "with_critical": 97,
+        "covered": 161,
+        "total": 403,
+        "stale": 144
+      }
+    },
+    "product": {
+      "id": "488aa37a-9c92-5af7-82a7-0ea5a158a902",
+      "name": "Вклад",
+      "url": "https://cjxplorer.com/products/488aa37a-9c92-5af7-82a7-0ea5a158a902",
+      "category": "banking",
+      "sub_type": [
+        "deposit"
+      ],
+      "rating": {
+        "now": 74,
+        "prev": 74,
+        "delta": 0,
+        "trend": [
+          59,
+          85,
+          65,
+          74,
+          89
+        ],
+        "place": 4,
+        "of_orgs": 5,
+        "leader_org": "Сбер",
+        "leader_gap": 0.22,
+        "by_org": [
+          {
+            "org": "Сбербанк",
+            "is_own": true,
+            "rating": 74
+          }
+        ]
+      },
+      "quality": {
+        "own_org": "Сбербанк",
+        "own_app": "СберБанк Онлайн",
+        "criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь",
+            "own_score": 1.83,
+            "market_median": 1.8,
+            "leader_score": 1.87,
+            "leader_org": "Сбер",
+            "own_rank": 2
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность",
+            "own_score": null,
+            "market_median": 1.83,
+            "leader_score": 2.0,
+            "leader_org": "Сбер",
+            "own_rank": null
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса",
+            "own_score": 1.83,
+            "market_median": 1.8,
+            "leader_score": 1.87,
+            "leader_org": "Сбербанк",
+            "own_rank": 2
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования",
+            "own_score": 2.0,
+            "market_median": 1.87,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость",
+            "own_score": 1.83,
+            "market_median": 1.5,
+            "leader_score": 2.0,
+            "leader_org": "Сбер",
+            "own_rank": 2
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя",
+            "own_score": null,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбер",
+            "own_rank": null
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность",
+            "own_score": null,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбер",
+            "own_rank": null
+          }
+        ],
+        "model_criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь"
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность"
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса"
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования"
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость"
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя"
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность"
+          }
+        ],
+        "own_position": {
+          "rank": 4,
+          "total": 5,
+          "percentile": 25,
+          "score": 1.52,
+          "rating": 76,
+          "leader_gap": 0.22,
+          "leader_org": "Сбер"
+        },
+        "columns": [
+          {
+            "org": "Сбер",
+            "app": "Сбер",
+            "is_own": false,
+            "rank": 1,
+            "score": 1.74,
+            "rating": 87,
+            "run_count": 1,
+            "journey_covered": 1,
+            "journey_total": 8,
+            "last_run_at": "2026-09-09T12:27:38.382486+00:00",
+            "stale": false,
+            "unverified": true,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 1.43,
+                "runs": 1
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.8,
+                "runs": 1
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 1.8,
+                "runs": 1
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 1.5,
+                "runs": 1
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": null,
+                "runs": 0
+              }
+            ]
+          },
+          {
+            "org": "Сбер",
+            "app": "Сбер",
+            "is_own": false,
+            "rank": 2,
+            "score": 1.72,
+            "rating": 86,
+            "run_count": 1,
+            "journey_covered": 1,
+            "journey_total": 8,
+            "last_run_at": "2026-09-18T07:49:13.894391+00:00",
+            "stale": false,
+            "unverified": true,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 1.87,
+                "runs": 1
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 1.5,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.29,
+                "runs": 1
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 1.57,
+                "runs": 1
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 1.93,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 2.0,
+                "runs": 1
+              }
+            ]
+          },
+          {
+            "org": "Сбербанк",
+            "app": "СберБанк Онлайн",
+            "is_own": false,
+            "rank": 3,
+            "score": 1.72,
+            "rating": 86,
+            "run_count": 1,
+            "journey_covered": 1,
+            "journey_total": 8,
+            "last_run_at": "2026-09-23T18:54:19.065499+00:00",
+            "stale": false,
+            "unverified": true,
+            "eval_model_version": "excel-v3",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 1.5,
+                "runs": 1
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.87,
+                "runs": 1
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 1.87,
+                "runs": 1
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 1.08,
+                "runs": 1
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 2.0,
+                "runs": 1
+              }
+            ]
+          },
+          {
+            "org": "Сбербанк",
+            "app": "СберБанк Онлайн",
+            "is_own": true,
+            "rank": 4,
+            "score": 1.52,
+            "rating": 76,
+            "run_count": 3,
+            "journey_covered": 3,
+            "journey_total": 8,
+            "last_run_at": "2026-06-25T21:06:41.363918+00:00",
+            "stale": true,
+            "unverified": false,
+            "eval_model_version": "2026.06-evidence-v5",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 1.83,
+                "runs": 3
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": null,
+                "runs": 0
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.83,
+                "runs": 3
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 2.0,
+                "runs": 3
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 1.83,
+                "runs": 3
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": null,
+                "runs": 0
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": null,
+                "runs": 0
+              }
+            ]
+          },
+          {
+            "org": "Т-Банк",
+            "app": "Т-Банк",
+            "is_own": false,
+            "rank": 5,
+            "score": 0.74,
+            "rating": 37,
+            "run_count": 2,
+            "journey_covered": 2,
+            "journey_total": 8,
+            "last_run_at": "2026-08-12T09:31:03.495512+00:00",
+            "stale": false,
+            "unverified": false,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 1.8,
+                "runs": 2
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 1.66,
+                "runs": 2
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.45,
+                "runs": 2
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 2.0,
+                "runs": 2
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 0.68,
+                "runs": 2
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 2
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 1.33,
+                "runs": 2
+              }
+            ]
+          }
+        ],
+        "uncovered_orgs": [
+          {
+            "org": "МТС Банк",
+            "app": "МТС Банк",
+            "unverified": false
+          },
+          {
+            "org": "Ozon Банк",
+            "app": "Ozon Банк",
+            "unverified": false
+          },
+          {
+            "org": "ВТБ",
+            "app": "ВТБ Онлайн",
+            "unverified": false
+          },
+          {
+            "org": "Альфа-Банк",
+            "app": "Альфа-Мобайл",
+            "unverified": false
+          },
+          {
+            "org": "Газпромбанк",
+            "app": "Газпромбанк",
+            "unverified": false
+          },
+          {
+            "org": "ПСБ",
+            "app": "ПСБ",
+            "unverified": false
+          },
+          {
+            "org": "Райффайзен Банк",
+            "app": "Райффайзен Онлайн",
+            "unverified": false
+          },
+          {
+            "org": "Росбанк",
+            "app": "Росбанк Онлайн",
+            "unverified": false
+          },
+          {
+            "org": "МКБ",
+            "app": "МКБ Онлайн",
+            "unverified": false
+          },
+          {
+            "org": "Уралсиб",
+            "app": "Уралсиб Онлайн",
+            "unverified": false
+          },
+          {
+            "org": "Хоум Банк",
+            "app": "Хоум Банк",
+            "unverified": false
+          }
+        ],
+        "below_min_cohort": false,
+        "eval_model_version": "2026.06-evidence-v5",
+        "mixed_eval_versions": true,
+        "eval_versions": [
+          "2026.06-evidence-v5",
+          "excel-v2",
+          "excel-v3"
+        ],
+        "portal_flags": {
+          "covered_apps": 5,
+          "stale_apps": 1,
+          "unverified_apps": 3
+        }
+      },
+      "issues": {
+        "accepted": true,
+        "items": [
+          {
+            "severity": "crit",
+            "criterion": "Сквозной клиентский путь",
+            "text": "Сервисное информирование об автопролонгации вклада. После поступления коммуникации для изучения более подробной информации клиенту нужно выйти из сообщений, найти СБОЛ, зайти в СБОЛ, перейти в таб накопления и найти вклад по которому произошла пролонгация",
+            "recommendation": "В сервисную коммункиацию добавить ссылку на карточку продукта для переход в СБОЛ и изучение информации",
+            "journey": "Закрыть вклад",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 1",
+            "run_url": "https://cjxplorer.com/runs/c6733ce9-ca97-4767-b239-839b632e2eb9"
+          },
+          {
+            "severity": "crit",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Невыгодная пролонгация. Клиент после автоматической пролонгации под невыгодный процент видит, что можно было самостоятельно перевести деньги на новый вклад под более высокую ставку",
+            "recommendation": "В табе накоплений добавить кнопку - разместить вклад под более выгодный процент",
+            "journey": "Вклад после пролонгации",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 3",
+            "run_url": "https://cjxplorer.com/runs/f76abb59-89ca-4c1c-aacb-85daf4f6445f"
+          },
+          {
+            "severity": "crit",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Процентная ставка. клиент не понимает почему ему делали автопролонгацию под невыгодный процент",
+            "recommendation": "добавить кнопку переложить деньги под более выгодный процент",
+            "journey": "Вклад после пролонгации",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 4",
+            "run_url": "https://cjxplorer.com/runs/f76abb59-89ca-4c1c-aacb-85daf4f6445f"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Долгая загрузка меню действий. Загрузка меню действий с вкладом занимает 2,1 секунды для простого списка из 6 пунктов.",
+            "recommendation": "Оптимизировать загрузку меню действий или предзагружать его при открытии карточки вклада",
+            "journey": "Закрыть вклад",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 6",
+            "run_url": "https://cjxplorer.com/runs/c6733ce9-ca97-4767-b239-839b632e2eb9"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Длительная загрузка экранов. Перед экранами 5 и 6 зафиксированы задержки загрузки 11.3 и 7.6 секунд соответственно, что существенно замедляет процесс оформления.",
+            "recommendation": "Оптимизировать загрузку данных или добавить индикатор прогресса с информативным текстом",
+            "journey": "Открыть вклад онлайн",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 5, 6",
+            "run_url": "https://cjxplorer.com/runs/864fdce5-bddd-483a-a76c-b93014ec2da2"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Перегруженный экран с условиями. Экран 6 требует 10 прокруток для изучения, что указывает на избыточный объём информации на одном экране.",
+            "recommendation": "Разбить информацию на несколько экранов или использовать сворачиваемые блоки для группировки условий",
+            "journey": "Открыть вклад онлайн",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 6",
+            "run_url": "https://cjxplorer.com/runs/864fdce5-bddd-483a-a76c-b93014ec2da2"
+          },
+          {
+            "severity": "info",
+            "criterion": "service",
+            "text": "Отвлекающий баннер на главном. На главном экране после закрытия вклада показан баннер 'Усиливаем привычку' с предложением накоплений.",
+            "recommendation": "Убрать маркетинговые баннеры сразу после завершения сервисных операций",
+            "journey": "Закрыть вклад",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 14",
+            "run_url": "https://cjxplorer.com/runs/c6733ce9-ca97-4767-b239-839b632e2eb9"
+          }
+        ]
+      },
+      "scenarios": {
+        "runs_total": 10,
+        "scenarios_with_runs": 5,
+        "stale_scenarios": 5,
+        "stale_days": 14,
+        "items": [
+          {
+            "journey": "Открыть вклад онлайн",
+            "runs": 6,
+            "last_run_at": "2026-09-23T18:54:19.065499+00:00",
+            "age_days": 25,
+            "stale": true,
+            "apps": [
+              "Сбер",
+              "Сбербанк"
+            ],
+            "platforms": [
+              "Web",
+              "iOS"
+            ],
+            "rating_avg": 82,
+            "validated": 3
+          },
+          {
+            "journey": "Вклад после пролонгации",
+            "runs": 1,
+            "last_run_at": "2026-06-24T18:12:27.594839+00:00",
+            "age_days": 116,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "iOS"
+            ],
+            "rating_avg": 65,
+            "validated": 1
+          },
+          {
+            "journey": "Закрытие досрочное",
+            "runs": 1,
+            "last_run_at": "2026-08-12T03:32:42.592430+00:00",
+            "age_days": 67,
+            "stale": true,
+            "apps": [
+              "Т-Банк"
+            ],
+            "platforms": [
+              "iOS"
+            ],
+            "rating_avg": 58,
+            "validated": 0
+          },
+          {
+            "journey": "Закрыть вклад",
+            "runs": 1,
+            "last_run_at": "2026-06-25T13:46:24.275263+00:00",
+            "age_days": 115,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "iOS"
+            ],
+            "rating_avg": 74,
+            "validated": 1
+          },
+          {
+            "journey": "Шеринг с близкими",
+            "runs": 1,
+            "last_run_at": "2026-08-12T09:31:03.495512+00:00",
+            "age_days": 67,
+            "stale": true,
+            "apps": [
+              "Т-Банк"
+            ],
+            "platforms": [
+              "Web"
+            ],
+            "rating_avg": 16,
+            "validated": 0
+          }
+        ],
+        "journeys_total": 8,
+        "journeys_covered": 3
+      },
+      "counts": {
+        "critical": 3,
+        "friction": 30,
+        "last_run_at": "2026-06-25T21:06:41.363918+00:00"
+      }
+    }
+  },
+  {
+    "meta": {
+      "schema_version": 1,
+      "status": "ok",
+      "source": "https://cjxplorer.com",
+      "generated_at": "2026-10-19T01:40:01.124300+00:00",
+      "age_hours": 11.3,
+      "stale_days": 14,
+      "stale_rule": "сценарий устарел, если последний прогон старше 14 дней (порог задан порталом, поле stale_days)",
+      "products": 161,
+      "portfolio": {
+        "avg_rating": 82,
+        "avg_rating_delta": 2,
+        "with_critical": 97,
+        "covered": 161,
+        "total": 403,
+        "stale": 144
+      }
+    },
+    "product": {
+      "id": "ec07db61-b5a3-538c-87f0-1ff5a7dcd60b",
+      "name": "Накопительный счет Премиум",
+      "url": "https://cjxplorer.com/products/ec07db61-b5a3-538c-87f0-1ff5a7dcd60b",
+      "category": "banking",
+      "sub_type": [
+        "savings"
+      ],
+      "rating": {
+        "now": 79,
+        "prev": 74,
+        "delta": 5,
+        "trend": [
+          76,
+          70,
+          74,
+          97
+        ],
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null,
+        "leader_gap": null,
+        "by_org": [
+          {
+            "org": "Сбербанк",
+            "is_own": true,
+            "rating": 79
+          }
+        ]
+      },
+      "quality": {
+        "own_org": "Сбербанк",
+        "own_app": "СберБанк Онлайн",
+        "criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь",
+            "own_score": 1.88,
+            "market_median": 1.88,
+            "leader_score": 1.88,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса",
+            "own_score": 1.62,
+            "market_median": 1.62,
+            "leader_score": 1.62,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования",
+            "own_score": 1.62,
+            "market_median": 1.62,
+            "leader_score": 1.62,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          }
+        ],
+        "model_criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь"
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность"
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса"
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования"
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость"
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя"
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность"
+          }
+        ],
+        "own_position": {},
+        "columns": [
+          {
+            "org": "Сбербанк",
+            "app": "СберБанк Онлайн",
+            "is_own": true,
+            "rank": 1,
+            "score": 1.58,
+            "rating": 79,
+            "run_count": 4,
+            "journey_covered": 4,
+            "journey_total": 5,
+            "last_run_at": "2026-07-21T00:19:35.361891+00:00",
+            "stale": true,
+            "unverified": false,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 1.88,
+                "runs": 4
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.62,
+                "runs": 4
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 1.62,
+                "runs": 4
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 2.0,
+                "runs": 4
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 2.0,
+                "runs": 1
+              }
+            ]
+          }
+        ],
+        "uncovered_orgs": [
+          {
+            "org": "Яндекс Банк",
+            "app": "Яндекс Банк",
+            "unverified": false
+          },
+          {
+            "org": "Т-Банк",
+            "app": "Т-Банк",
+            "unverified": false
+          },
+          {
+            "org": "Ozon Банк",
+            "app": "Ozon Банк",
+            "unverified": false
+          },
+          {
+            "org": "ВТБ",
+            "app": "ВТБ Онлайн",
+            "unverified": false
+          },
+          {
+            "org": "Альфа-Банк",
+            "app": "Альфа-Мобайл",
+            "unverified": false
+          },
+          {
+            "org": "МКБ",
+            "app": "МКБ Онлайн",
+            "unverified": false
+          }
+        ],
+        "below_min_cohort": true,
+        "eval_model_version": "excel-v2",
+        "mixed_eval_versions": false,
+        "eval_versions": [
+          "excel-v2"
+        ],
+        "portal_flags": {
+          "covered_apps": 1,
+          "stale_apps": 1,
+          "unverified_apps": 0
+        }
+      },
+      "issues": {
+        "accepted": true,
+        "items": [
+          {
+            "severity": "crit",
+            "criterion": "Эффективность и удобство использования",
+            "text": "После закрытия нельзя сразу перейти в таб накопления. Проблема клиента, он после закрытия не может сразу проверить список всех активных продуктов",
+            "recommendation": "Добавить переход в таб накопления",
+            "journey": "Закрытие",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 12",
+            "run_url": "https://cjxplorer.com/runs/36bd92f4-64b8-4bd8-852d-845d6a2e5bd0"
+          },
+          {
+            "severity": "mid",
+            "criterion": "",
+            "text": "Альтернативные способы пополнения. Клиент не может пополнить накопительный счет с карты другого банка или бонусами спасибо",
+            "recommendation": "Добавить возможность пополнить счет с карты или другого счета в другом банке или бонусами спасибо",
+            "journey": "Оформление после рекомендации AI в гигачате",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 8, 9",
+            "run_url": "https://cjxplorer.com/runs/a2cda479-7b39-425b-9f7f-c6356c425293"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Условия и стоимость",
+            "text": "Надбавка за инвестиции. Клиент не погруженный в специфику продуктов инвестирования может не понять о каких именно продуктах идет речь и нет проверки об уже оформленных инвестиционных продуктах по которым для выполнения условий по надбавке нужно пополнить счет",
+            "recommendation": "",
+            "journey": "Оформление после рекомендации AI в гигачате",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 5",
+            "run_url": "https://cjxplorer.com/runs/a2cda479-7b39-425b-9f7f-c6356c425293"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Долгий затык в чат-боте. Клиент проводит 22 секунды на экране с рекомендацией чат-бота, что указывает на сложность восприятия информации или неочевидность следующего шага",
+            "recommendation": "Упростить интерфейс чат-бота: добавить явные кнопки действий вместо текстового поля, выделить ключевую информацию",
+            "journey": "Оформление после рекомендации AI в гигачате",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 4",
+            "run_url": "https://cjxplorer.com/runs/a2cda479-7b39-425b-9f7f-c6356c425293"
+          },
+          {
+            "severity": "mid",
+            "criterion": "",
+            "text": "Экран 6 Нет кнопки управлять списаниями. Нет кнопки управлять списаниями",
+            "recommendation": "Добавить кнопку проверить настроенные списания",
+            "journey": "Закрытие",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 6",
+            "run_url": "https://cjxplorer.com/runs/36bd92f4-64b8-4bd8-852d-845d6a2e5bd0"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Список счетов списания смешивает платёжные счета и вклады. На экранах 8-9 в модальном окне «Откуда списать деньги» единым списком показаны платёжный счёт и вклады/накопительные счета (СберВклад Премиум, Накопительный счет Премиум разных номеров, «Мама и я др», Сберегательный счет), при этом платёжный счёт по умолчанию уже выбран (подсвечен зелёным).",
+            "recommendation": "Скрывать выбор счёта списания по умолчанию для минимальных сумм открытия (1 ₽), используя платёжный счёт автоматически, и показывать возможность изменить источник только по явному действию клиента (например, ссылка «Изменить счёт списания»).",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 8",
+            "run_url": "https://cjxplorer.com/runs/7eb343b2-f86f-41d2-866f-76f5d471e7b2"
+          },
+          {
+            "severity": "info",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Заметная загрузка документа. Загрузка договора занимает 4.3 секунды, что может создавать ощущение медлительности системы",
+            "recommendation": "Оптимизировать скорость загрузки документов или добавить индикатор прогресса",
+            "journey": "Оформление после рекомендации AI в гигачате",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 11, 12",
+            "run_url": "https://cjxplorer.com/runs/a2cda479-7b39-425b-9f7f-c6356c425293"
+          }
+        ]
+      },
+      "scenarios": {
+        "runs_total": 4,
+        "scenarios_with_runs": 4,
+        "stale_scenarios": 4,
+        "stale_days": 14,
+        "items": [
+          {
+            "journey": "Закрытие",
+            "runs": 1,
+            "last_run_at": "2026-06-22T10:29:27.012623+00:00",
+            "age_days": 118,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "iOS"
+            ],
+            "rating_avg": 74,
+            "validated": 1
+          },
+          {
+            "journey": "Оформление",
+            "runs": 1,
+            "last_run_at": "2026-07-21T00:19:35.361891+00:00",
+            "age_days": 90,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "Web"
+            ],
+            "rating_avg": 97,
+            "validated": 1
+          },
+          {
+            "journey": "Оформление после рекомендации AI в гигачате",
+            "runs": 1,
+            "last_run_at": "2026-06-22T10:18:58.542892+00:00",
+            "age_days": 118,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "Web"
+            ],
+            "rating_avg": 76,
+            "validated": 1
+          },
+          {
+            "journey": "Шеринг с близкими",
+            "runs": 1,
+            "last_run_at": "2026-06-22T10:24:07.675645+00:00",
+            "age_days": 118,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "iOS"
+            ],
+            "rating_avg": 70,
+            "validated": 1
+          }
+        ],
+        "journeys_total": 5,
+        "journeys_covered": 4
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 29,
+        "last_run_at": "2026-07-21T00:19:35.361891+00:00"
+      }
+    }
+  },
+  {
+    "meta": {
+      "schema_version": 1,
+      "status": "ok",
+      "source": "https://cjxplorer.com",
+      "generated_at": "2026-10-19T01:40:01.124300+00:00",
+      "age_hours": 11.3,
+      "stale_days": 14,
+      "stale_rule": "сценарий устарел, если последний прогон старше 14 дней (порог задан порталом, поле stale_days)",
+      "products": 161,
+      "portfolio": {
+        "avg_rating": 82,
+        "avg_rating_delta": 2,
+        "with_critical": 97,
+        "covered": 161,
+        "total": 403,
+        "stale": 144
+      }
+    },
+    "product": {
+      "id": "55a8af79-ff14-4b05-9fb5-4c91d6800247",
+      "name": "Вклад Молодежный",
+      "url": "https://cjxplorer.com/products/55a8af79-ff14-4b05-9fb5-4c91d6800247",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 55,
+        "prev": 62,
+        "delta": -7,
+        "trend": [
+          42,
+          62,
+          62
+        ],
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null,
+        "leader_gap": null,
+        "by_org": [
+          {
+            "org": "Сбербанк",
+            "is_own": true,
+            "rating": 55
+          }
+        ]
+      },
+      "quality": {
+        "own_org": "Сбербанк",
+        "own_app": "СберБанк Онлайн",
+        "criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь",
+            "own_score": 1.5,
+            "market_median": 1.5,
+            "leader_score": 1.5,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность",
+            "own_score": null,
+            "market_median": null,
+            "leader_score": null,
+            "leader_org": null,
+            "own_rank": null
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса",
+            "own_score": 1.5,
+            "market_median": 1.5,
+            "leader_score": 1.5,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования",
+            "own_score": 1.6,
+            "market_median": 1.6,
+            "leader_score": 1.6,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость",
+            "own_score": 1.0,
+            "market_median": 1.0,
+            "leader_score": 1.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя",
+            "own_score": null,
+            "market_median": null,
+            "leader_score": null,
+            "leader_org": null,
+            "own_rank": null
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность",
+            "own_score": null,
+            "market_median": null,
+            "leader_score": null,
+            "leader_org": null,
+            "own_rank": null
+          }
+        ],
+        "model_criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь"
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность"
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса"
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования"
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость"
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя"
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность"
+          }
+        ],
+        "own_position": {},
+        "columns": [
+          {
+            "org": "Сбербанк",
+            "app": "СберБанк Онлайн",
+            "is_own": true,
+            "rank": 1,
+            "score": 1.11,
+            "rating": 56,
+            "run_count": 3,
+            "journey_covered": 3,
+            "journey_total": 3,
+            "last_run_at": "2026-06-25T17:47:59.328411+00:00",
+            "stale": true,
+            "unverified": false,
+            "eval_model_version": "2026.06-evidence-v5",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 1.5,
+                "runs": 3
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": null,
+                "runs": 0
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.5,
+                "runs": 3
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 1.6,
+                "runs": 3
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 1.0,
+                "runs": 3
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": null,
+                "runs": 0
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": null,
+                "runs": 0
+              }
+            ]
+          }
+        ],
+        "uncovered_orgs": [],
+        "below_min_cohort": true,
+        "eval_model_version": "2026.06-evidence-v5",
+        "mixed_eval_versions": false,
+        "eval_versions": [
+          "2026.06-evidence-v5"
+        ],
+        "portal_flags": {
+          "covered_apps": 1,
+          "stale_apps": 1,
+          "unverified_apps": 0
+        }
+      },
+      "issues": {
+        "accepted": true,
+        "items": [
+          {
+            "severity": "crit",
+            "criterion": "informing",
+            "text": "Витрина вкладов не сегментирована под подростка. На витрине вкладов первыми показаны нерелевантные сегменту продукты — валютные вклады (юани до 1,5%, рупии 3,5–5,1%, дирхамы до 0,01%). Ассортимент не персонализирован под подростка/молодёжь: релевантный молодёжный вклад теряется ниже, что усложняет выбор и провоцирует метания по каталогу.",
+            "recommendation": "Сегментировать витрину: показывать релевантные сегменту продукты первыми, убирать непрофильные (например, валютные); заменить раскладку каталога подбором под задачу (агент-помощник).",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 6, 7",
+            "run_url": "https://cjxplorer.com/runs/7ef8a4c0-32a5-4827-85c5-4713935957da"
+          },
+          {
+            "severity": "crit",
+            "criterion": "Сквозной клиентский путь",
+            "text": "Недостаток средств на источнике не валидируется. Источник списания (платёжный счёт ** 4835) содержит 108,59 ₽, при этом оформляется вклад на 10 000 ₽. Система не предупреждает о недостатке средств и позволяет нажать «Продолжить» без апфронт-проверки баланса, что ведёт к отказу на последующем шаге.",
+            "recommendation": "Валидировать достаточность средств на выбранном источнике списания до шага подтверждения; при недостатке — показывать предупреждение и предлагать другой источник или сумму.",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 17",
+            "run_url": "https://cjxplorer.com/runs/7ef8a4c0-32a5-4827-85c5-4713935957da"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Отсутствие объяснения типов вкладов. На витрине показаны разные типы вкладов с разными ставками (до 1.5%, 3.5-5.1%, до 0.01%, 6.5-12.5%), но нет объяснения различий между ними и рекомендаций по выбору.",
+            "recommendation": "Добавить краткие описания под каждым типом вклада или кнопку \"Помочь выбрать\" с подбором по целям клиента",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 6, 7",
+            "run_url": "https://cjxplorer.com/runs/7ef8a4c0-32a5-4827-85c5-4713935957da"
+          },
+          {
+            "severity": "mid",
+            "criterion": "service",
+            "text": "Долгая загрузка экранов до 15 секунд. На каждом этапе загрузка экранов от 3 до 15 сек",
+            "recommendation": "",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 5",
+            "run_url": "https://cjxplorer.com/runs/7ef8a4c0-32a5-4827-85c5-4713935957da"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Путаница в навигации по вкладам. Зафиксированы множественные возвраты между экранами каталога вкладов, раздела \"Накопления\" и калькулятора, что указывает на сложность навигации и выбора продукта.",
+            "recommendation": "Добавить единый фильтр/сортировку вкладов на витрине и возможность сравнения нескольких вкладов на одном экране",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 6, 8",
+            "run_url": "https://cjxplorer.com/runs/7ef8a4c0-32a5-4827-85c5-4713935957da"
+          },
+          {
+            "severity": "mid",
+            "criterion": "conversion",
+            "text": "Перегруженный экран оформления. Финальный экран содержит более 3 элементов для принятия решения: сумма, срок, две опции выплат, три надбавки с иконками. Это повышает когнитивную нагрузку.",
+            "recommendation": "Вынести надбавки в отдельный раздел 'Как увеличить ставку' с раскрытием по клику, оставив на основном экране только ключевые параметры",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 9",
+            "run_url": "https://cjxplorer.com/runs/057d808c-e05a-4553-a71f-cd6af85fed48"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Несоответствие предзаполненной суммы балансу. На экране конструктора вклада сумма предзаполнена как 10 000 ₽, хотя ГигаЧат определил свободный остаток в 100 ₽",
+            "recommendation": "Предзаполнять сумму исходя из реального свободного остатка клиента или ближайшего минимального порога вклада",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 4",
+            "run_url": "https://cjxplorer.com/runs/4ee033e5-902e-4db7-a0d7-506c9f544d72"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Сквозной клиентский путь",
+            "text": "Резкая смена контекста в чат-боте. Переход из каталога вкладов в ГигаЧат выглядит как смена приложения - другой интерфейс и брендинг. Клиент может не понять, что это часть единого пути подбора вклада.",
+            "recommendation": "Добавить переходный экран или сообщение 'Сейчас ГигаЧат поможет подобрать оптимальный вклад' перед открытием чата",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 7",
+            "run_url": "https://cjxplorer.com/runs/057d808c-e05a-4553-a71f-cd6af85fed48"
+          },
+          {
+            "severity": "info",
+            "criterion": "Условия и стоимость",
+            "text": "Ставка без численного значения. Вклад 'Ключевой' описан как 'Ставка ЦБ минус 2%' без указания текущего численного значения итоговой ставки",
+            "recommendation": "Показать расчёт: 'Ставка ЦБ (21%) − 2% = 19% годовых'",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 5",
+            "run_url": "https://cjxplorer.com/runs/4ee033e5-902e-4db7-a0d7-506c9f544d72"
+          },
+          {
+            "severity": "info",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Две отрицательные метрики без пояснения. На главном экране показаны две разные отрицательные метрики рядом (динамика баланса −3 025,01 ₽ и доходность −133,60 ₽ / −3,79%) без пояснения, что именно каждая из них измеряет",
+            "recommendation": "Добавить подписи 'Изменение остатка' и 'Инвестиционная доходность' под соответствующими значениями",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 1",
+            "run_url": "https://cjxplorer.com/runs/4ee033e5-902e-4db7-a0d7-506c9f544d72"
+          },
+          {
+            "severity": "info",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Нет таблицы сравнения вкладов. Продукты показаны списком с разными ставками и условиями, но полноценной таблицы сравнения нет. Клиент вынужден открывать каждый вклад отдельно для сопоставления",
+            "recommendation": "Добавить кнопку 'Сравнить' с таблицей ключевых параметров: ставка, минимальная сумма, срок, возможность пополнения/снятия",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 2, 5",
+            "run_url": "https://cjxplorer.com/runs/4ee033e5-902e-4db7-a0d7-506c9f544d72"
+          },
+          {
+            "severity": "info",
+            "criterion": "service",
+            "text": "Офлайн-зависимость для несовершеннолетних. Для клиентов младше 18 лет снятие средств свыше 200 000 руб. в месяц и снятие валюты возможно только в офисе банка.",
+            "recommendation": "Рассмотреть возможность увеличения онлайн-лимитов для несовершеннолетних или добавить видеоидентификацию для повышенных лимитов",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 13",
+            "run_url": "https://cjxplorer.com/runs/7ef8a4c0-32a5-4827-85c5-4713935957da"
+          },
+          {
+            "severity": "info",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Обрезанное условие надбавки. Третья надбавка в таблице ГигаЧата обрезана и не видна полностью — текст уходит за нижний край видимой области",
+            "recommendation": "Увеличить высоту блока таблицы или добавить прокрутку внутри блока для отображения всех условий",
+            "journey": "Оформление",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 3",
+            "run_url": "https://cjxplorer.com/runs/4ee033e5-902e-4db7-a0d7-506c9f544d72"
+          }
+        ]
+      },
+      "scenarios": {
+        "runs_total": 3,
+        "scenarios_with_runs": 1,
+        "stale_scenarios": 1,
+        "stale_days": 14,
+        "items": [
+          {
+            "journey": "Оформление",
+            "runs": 3,
+            "last_run_at": "2026-06-25T17:47:59.328411+00:00",
+            "age_days": 115,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "Android",
+              "Web",
+              "iOS"
+            ],
+            "rating_avg": 55,
+            "validated": 3
+          }
+        ],
+        "journeys_total": 3,
+        "journeys_covered": 3
+      },
+      "counts": {
+        "critical": 2,
+        "friction": 22,
+        "last_run_at": "2026-06-25T17:47:59.328411+00:00"
+      }
+    }
+  },
+  {
+    "meta": {
+      "schema_version": 1,
+      "status": "ok",
+      "source": "https://cjxplorer.com",
+      "generated_at": "2026-10-19T01:40:01.124300+00:00",
+      "age_hours": 11.3,
+      "stale_days": 14,
+      "stale_rule": "сценарий устарел, если последний прогон старше 14 дней (порог задан порталом, поле stale_days)",
+      "products": 161,
+      "portfolio": {
+        "avg_rating": 82,
+        "avg_rating_delta": 2,
+        "with_critical": 97,
+        "covered": 161,
+        "total": 403,
+        "stale": 144
+      }
+    },
+    "product": {
+      "id": "928f75cf-cbb5-444f-8a2d-589f054fb8ff",
+      "name": "Вклад Лучший %",
+      "url": "https://cjxplorer.com/products/928f75cf-cbb5-444f-8a2d-589f054fb8ff",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 98,
+        "prev": null,
+        "delta": null,
+        "trend": [
+          98
+        ],
+        "place": 1,
+        "of_orgs": 2,
+        "leader_org": "Сбербанк",
+        "leader_gap": 0.0,
+        "by_org": [
+          {
+            "org": "Сбербанк",
+            "is_own": true,
+            "rating": 98
+          }
+        ]
+      },
+      "quality": {
+        "own_org": "Сбербанк",
+        "own_app": "СберБанк Онлайн",
+        "criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность",
+            "own_score": 2.0,
+            "market_median": 1.9,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса",
+            "own_score": 1.76,
+            "market_median": 1.88,
+            "leader_score": 2.0,
+            "leader_org": "Сбер",
+            "own_rank": 2
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования",
+            "own_score": 2.0,
+            "market_median": 1.96,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          }
+        ],
+        "model_criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь"
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность"
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса"
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования"
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость"
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя"
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность"
+          }
+        ],
+        "own_position": {
+          "rank": 1,
+          "total": 2,
+          "percentile": 100,
+          "score": 1.96,
+          "rating": 98,
+          "leader_gap": 0.0,
+          "leader_org": "Сбербанк"
+        },
+        "columns": [
+          {
+            "org": "Сбербанк",
+            "app": "СберБанк Онлайн",
+            "is_own": true,
+            "rank": 1,
+            "score": 1.96,
+            "rating": 98,
+            "run_count": 1,
+            "journey_covered": 1,
+            "journey_total": 1,
+            "last_run_at": "2026-07-22T09:33:22.199738+00:00",
+            "stale": false,
+            "unverified": false,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.76,
+                "runs": 1
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 2.0,
+                "runs": 1
+              }
+            ]
+          },
+          {
+            "org": "Сбер",
+            "app": "Сбер",
+            "is_own": false,
+            "rank": 2,
+            "score": 1.96,
+            "rating": 98,
+            "run_count": 1,
+            "journey_covered": 1,
+            "journey_total": 1,
+            "last_run_at": "2026-09-09T12:37:17.258528+00:00",
+            "stale": false,
+            "unverified": true,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 1.8,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 1.93,
+                "runs": 1
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 2.0,
+                "runs": 1
+              }
+            ]
+          }
+        ],
+        "uncovered_orgs": [],
+        "below_min_cohort": false,
+        "eval_model_version": "excel-v2",
+        "mixed_eval_versions": false,
+        "eval_versions": [
+          "excel-v2"
+        ],
+        "portal_flags": {
+          "covered_apps": 2,
+          "stale_apps": 0,
+          "unverified_apps": 1
+        }
+      },
+      "issues": {
+        "accepted": true,
+        "items": [
+          {
+            "severity": "info",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Нет прогнозного дохода в рублях при выборе срока. На экране выбора срока (экран 7) клиент видит список из 12 вариантов с процентными ставками (например, 1 месяц — 12,6%, 4 месяца — 13,6%, 1 год — 10,1%), но не видит прогнозный доход в рублях для своей суммы (100 000 ₽). Трактовка: клиенту приходится самостоятельно считать или полагаться на абстрактные проценты, что затрудняет осознанный выбор срока. Риск: клиент выбирает срок, ориентируясь только на ставку, не понимая реальной разницы в доходе.",
+            "recommendation": "Добавить в каждую строку списка сроков прогнозный доход в рублях для текущей суммы вклада (например: «4 месяца 13,6% ≈ +4 530 ₽»).",
+            "journey": "Пополнить вклад",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 7",
+            "run_url": "https://cjxplorer.com/runs/3fe13b83-55e2-42d7-9b64-f591c706c23c"
+          }
+        ]
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "scenarios_with_runs": 1,
+        "stale_scenarios": 1,
+        "stale_days": 14,
+        "items": [
+          {
+            "journey": "Пополнить вклад",
+            "runs": 2,
+            "last_run_at": "2026-09-09T12:37:17.258528+00:00",
+            "age_days": 39,
+            "stale": true,
+            "apps": [
+              "Сбер",
+              "Сбербанк"
+            ],
+            "platforms": [
+              "Web",
+              "iOS"
+            ],
+            "rating_avg": 98,
+            "validated": 1
+          }
+        ],
+        "journeys_total": 1,
+        "journeys_covered": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 8,
+        "last_run_at": "2026-07-22T09:33:22.199738+00:00"
+      }
+    }
+  },
+  {
+    "meta": {
+      "schema_version": 1,
+      "status": "ok",
+      "source": "https://cjxplorer.com",
+      "generated_at": "2026-10-19T01:40:01.124300+00:00",
+      "age_hours": 11.3,
+      "stale_days": 14,
+      "stale_rule": "сценарий устарел, если последний прогон старше 14 дней (порог задан порталом, поле stale_days)",
+      "products": 161,
+      "portfolio": {
+        "avg_rating": 82,
+        "avg_rating_delta": 2,
+        "with_critical": 97,
+        "covered": 161,
+        "total": 403,
+        "stale": 144
+      }
+    },
+    "product": {
+      "id": "905c7ac6-cc50-458f-8598-03793bd531e8",
+      "name": "Вклад Сбер Акционер",
+      "url": "https://cjxplorer.com/products/905c7ac6-cc50-458f-8598-03793bd531e8",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 100,
+        "prev": null,
+        "delta": null,
+        "trend": [
+          100
+        ],
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null,
+        "leader_gap": null,
+        "by_org": [
+          {
+            "org": "Сбербанк",
+            "is_own": true,
+            "rating": 100
+          }
+        ]
+      },
+      "quality": {
+        "own_org": "Сбербанк",
+        "own_app": "СберБанк Онлайн",
+        "criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса",
+            "own_score": 1.78,
+            "market_median": 1.78,
+            "leader_score": 1.78,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования",
+            "own_score": 1.6,
+            "market_median": 1.6,
+            "leader_score": 1.6,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость",
+            "own_score": 1.34,
+            "market_median": 1.34,
+            "leader_score": 1.34,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          }
+        ],
+        "model_criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь"
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность"
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса"
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования"
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость"
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя"
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность"
+          }
+        ],
+        "own_position": {},
+        "columns": [
+          {
+            "org": "Сбербанк",
+            "app": "СберБанк Онлайн",
+            "is_own": true,
+            "rank": 1,
+            "score": 1.58,
+            "rating": 79,
+            "run_count": 1,
+            "journey_covered": 1,
+            "journey_total": 1,
+            "last_run_at": "2026-08-13T13:36:52.446094+00:00",
+            "stale": false,
+            "unverified": false,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.78,
+                "runs": 1
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 1.6,
+                "runs": 1
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 1.34,
+                "runs": 1
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 2.0,
+                "runs": 1
+              }
+            ]
+          }
+        ],
+        "uncovered_orgs": [],
+        "below_min_cohort": true,
+        "eval_model_version": "excel-v2",
+        "mixed_eval_versions": false,
+        "eval_versions": [
+          "excel-v2"
+        ],
+        "portal_flags": {
+          "covered_apps": 1,
+          "stale_apps": 0,
+          "unverified_apps": 0
+        }
+      },
+      "issues": {
+        "accepted": true,
+        "items": [
+          {
+            "severity": "mid",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Способ выплаты процентов нельзя выбрать до подтверждения. На экране подтверждения (экран 9) поле «Проценты выплачиваются» содержит значение «На вклад. Вы можете изменить способ выплаты процентов на странице открытого вклада». Изменить параметр до подтверждения невозможно — требуется дополнительное действие уже после открытия вклада. Клиент лишён возможности настроить важный параметр в рамках текущего пути.",
+            "recommendation": "Добавить на экран 9 (или на экран настройки условий, экран 3) возможность выбора способа выплаты процентов (на вклад / на текущий счёт) до нажатия «Подтвердить».",
+            "journey": "Открыть вклад онлайн",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 9",
+            "run_url": "https://cjxplorer.com/runs/e9e083fa-3b8e-58c8-accc-043fadc8af86"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Подсказка о 260 000 ₽ не адаптируется к введённой сумме. На экране 7 клиент ввёл сумму 100 000 ₽, однако блок «Максимальная ставка на новые деньги при открытии вклада от 260 000 ₽» остаётся видимым без изменений и без указания конкретного действия для её достижения. Подсказка статична и создаёт ощущение неоптимальных условий, не предлагая пути исправления для данной суммы.",
+            "recommendation": "При сумме ниже 260 000 ₽ скрывать или адаптировать подсказку: показывать разницу до порога («Добавьте ещё X ₽, чтобы получить максимальную ставку») либо убирать блок, если клиент осознанно выбирает сумму ниже порога.",
+            "journey": "Открыть вклад онлайн",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 7",
+            "run_url": "https://cjxplorer.com/runs/e9e083fa-3b8e-58c8-accc-043fadc8af86"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Эффективность и удобство использования",
+            "text": "Нет персонализированного статуса надбавки за акции. На экране 5 шторка «До +0,6% за акции Сбера» показывает таблицу порогов (от 200 акций — 0,2% и т.д.) и сообщает «надбавка подключится не позднее 10 рабочих дней». Система не показывает, сколько акций Сбера у клиента на брокерском счёте сейчас и какая надбавка применима к нему. Клиент не может оценить реальную итоговую ставку и вынужден самостоятельно сопоставлять свой портфель с таблицей.",
+            "recommendation": "В шторке «До +0,6% за акции Сбера» подставлять текущее количество акций клиента и выделять применимый к нему уровень надбавки: «У вас X акций → ваша надбавка Y%».",
+            "journey": "Открыть вклад онлайн",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 5",
+            "run_url": "https://cjxplorer.com/runs/e9e083fa-3b8e-58c8-accc-043fadc8af86"
+          },
+          {
+            "severity": "mid",
+            "criterion": "Условия и стоимость",
+            "text": "Отсрочка надбавки за акции раскрывается поздно. Условие «надбавка подключится не позднее 10 рабочих дней» видно только в шторке экрана 5, открываемой дополнительным тапом в конфигураторе. На экране продукта (экран 1) и на экране настройки условий (экран 3) этого условия нет. Клиент, рассчитывающий на ставку с надбавкой за акции, узнаёт об отсрочке уже в процессе оформления.",
+            "recommendation": "На экране 3 в блоке «Как увеличить ставку» добавить краткое предупреждение: «Надбавка за акции подключается в течение 10 рабочих дней с момента открытия вклада».",
+            "journey": "Открыть вклад онлайн",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 5",
+            "run_url": "https://cjxplorer.com/runs/e9e083fa-3b8e-58c8-accc-043fadc8af86"
+          }
+        ]
+      },
+      "scenarios": {
+        "runs_total": 2,
+        "scenarios_with_runs": 1,
+        "stale_scenarios": 1,
+        "stale_days": 14,
+        "items": [
+          {
+            "journey": "Открыть вклад онлайн",
+            "runs": 2,
+            "last_run_at": "2026-08-13T13:36:52.446094+00:00",
+            "age_days": 66,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "iOS"
+            ],
+            "rating_avg": 90,
+            "validated": 1
+          }
+        ],
+        "journeys_total": 1,
+        "journeys_covered": 1
+      },
+      "counts": {
+        "critical": 0,
+        "friction": 25,
+        "last_run_at": "2026-08-13T13:36:52.446094+00:00"
+      }
+    }
+  },
+  {
+    "meta": {
+      "schema_version": 1,
+      "status": "ok",
+      "source": "https://cjxplorer.com",
+      "generated_at": "2026-10-19T01:40:01.124300+00:00",
+      "age_hours": 11.3,
+      "stale_days": 14,
+      "stale_rule": "сценарий устарел, если последний прогон старше 14 дней (порог задан порталом, поле stale_days)",
+      "products": 161,
+      "portfolio": {
+        "avg_rating": 82,
+        "avg_rating_delta": 2,
+        "with_critical": 97,
+        "covered": 161,
+        "total": 403,
+        "stale": 144
+      }
+    },
+    "product": {
+      "id": "4661cf50-b37a-45d1-92f4-924c0b883ac1",
+      "name": "Накопительный счет для массовых клиентов",
+      "url": "https://cjxplorer.com/products/4661cf50-b37a-45d1-92f4-924c0b883ac1",
+      "category": "banking",
+      "sub_type": [],
+      "rating": {
+        "now": 90,
+        "prev": null,
+        "delta": null,
+        "trend": [
+          90
+        ],
+        "place": null,
+        "of_orgs": null,
+        "leader_org": null,
+        "leader_gap": null,
+        "by_org": [
+          {
+            "org": "Сбербанк",
+            "is_own": true,
+            "rating": 90
+          }
+        ]
+      },
+      "quality": {
+        "own_org": "Сбербанк",
+        "own_app": "СберБанк Онлайн",
+        "criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса",
+            "own_score": 1.78,
+            "market_median": 1.78,
+            "leader_score": 1.78,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность",
+            "own_score": 2.0,
+            "market_median": 2.0,
+            "leader_score": 2.0,
+            "leader_org": "Сбербанк",
+            "own_rank": 1
+          }
+        ],
+        "model_criteria": [
+          {
+            "key": "cross_path",
+            "name": "Сквозной клиентский путь"
+          },
+          {
+            "key": "consistency",
+            "name": "Согласованность и единство опыта/омниканальность"
+          },
+          {
+            "key": "clarity",
+            "name": "Ясность и доступность информации/Восприятие интерфейса"
+          },
+          {
+            "key": "efficiency",
+            "name": "Эффективность и удобство использования"
+          },
+          {
+            "key": "cost",
+            "name": "Условия и стоимость"
+          },
+          {
+            "key": "value",
+            "name": "Польза и ценность для пользователя"
+          },
+          {
+            "key": "safety_privacy",
+            "name": "Безопасность и приватность"
+          }
+        ],
+        "own_position": {},
+        "columns": [
+          {
+            "org": "Сбербанк",
+            "app": "СберБанк Онлайн",
+            "is_own": true,
+            "rank": 1,
+            "score": 1.81,
+            "rating": 90,
+            "run_count": 1,
+            "journey_covered": 1,
+            "journey_total": 1,
+            "last_run_at": "2026-07-21T09:19:13.837388+00:00",
+            "stale": false,
+            "unverified": false,
+            "eval_model_version": "excel-v2",
+            "by_criterion": [
+              {
+                "key": "cross_path",
+                "name": "Сквозной клиентский путь",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "consistency",
+                "name": "Согласованность и единство опыта/омниканальность",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "clarity",
+                "name": "Ясность и доступность информации/Восприятие интерфейса",
+                "score": 1.78,
+                "runs": 1
+              },
+              {
+                "key": "efficiency",
+                "name": "Эффективность и удобство использования",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "cost",
+                "name": "Условия и стоимость",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "value",
+                "name": "Польза и ценность для пользователя",
+                "score": 2.0,
+                "runs": 1
+              },
+              {
+                "key": "safety_privacy",
+                "name": "Безопасность и приватность",
+                "score": 2.0,
+                "runs": 1
+              }
+            ]
+          }
+        ],
+        "uncovered_orgs": [],
+        "below_min_cohort": true,
+        "eval_model_version": "excel-v2",
+        "mixed_eval_versions": false,
+        "eval_versions": [
+          "excel-v2"
+        ],
+        "portal_flags": {
+          "covered_apps": 1,
+          "stale_apps": 0,
+          "unverified_apps": 0
+        }
+      },
+      "issues": {
+        "accepted": true,
+        "items": [
+          {
+            "severity": "crit",
+            "criterion": "Ясность и доступность информации/Восприятие интерфейса",
+            "text": "Условия максимальной ставки скрыты до подтверждения. Факт: на экране продукта крупно показана «11% Ставка» и блоки надбавок с пометкой «действует», но конкретные условия получения надбавок (СберПрайм+, покупки по картам Сбера от 50 000 ₽ в месяц) раскрываются только на экране подтверждения. Трактовка: к моменту решения «Открыть» клиент не видит, что без выполнения условий ставка падает до базовых 6,5%, и не понимает, какие надбавки уже учтены в его 11%. Риск: клиент открывает счёт с завышенным ожиданием доходности.",
+            "recommendation": "На экране продукта возле «11%» показать разбивку (база 6,5% + надбавки) с конкретными условиями каждой надбавки и пометкой, какие из них уже действуют у клиента.",
+            "journey": "Открыть накопительный счёт",
+            "app": "СберБанк Онлайн",
+            "screen": "Экраны 2, 3",
+            "run_url": "https://cjxplorer.com/runs/b8e7f879-9959-462e-aaa5-ef3c52c527dc"
+          },
+          {
+            "severity": "info",
+            "criterion": "Польза и ценность для пользователя",
+            "text": "Нет подсказки пополнить после открытия. Факт: финальный экран показывает «Открыли счёт 1 ₽» и кнопки «В накопления», «Настроить автонакопления», «Чек», «Оценить», но не подсказывает пополнить счёт, чтобы он начал приносить доход. Трактовка: счёт открыт с 1 ₽ и без пополнения ценность близка к нулю. Риск: клиент завершает путь с пустым счётом, продукт не начинает работать.",
+            "recommendation": "На финальном экране добавить основную кнопку «Пополнить счёт» с подсказкой суммы, чтобы счёт начал приносить доход.",
+            "journey": "Открыть накопительный счёт",
+            "app": "СберБанк Онлайн",
+            "screen": "Экран 11",
+            "run_url": "https://cjxplorer.com/runs/b8e7f879-9959-462e-aaa5-ef3c52c527dc"
+          }
+        ]
+      },
+      "scenarios": {
+        "runs_total": 1,
+        "scenarios_with_runs": 1,
+        "stale_scenarios": 1,
+        "stale_days": 14,
+        "items": [
+          {
+            "journey": "Открыть накопительный счёт",
+            "runs": 1,
+            "last_run_at": "2026-07-21T09:19:13.837388+00:00",
+            "age_days": 89,
+            "stale": true,
+            "apps": [
+              "Сбербанк"
+            ],
+            "platforms": [
+              "iOS"
+            ],
+            "rating_avg": 90,
+            "validated": 1
+          }
+        ],
+        "journeys_total": 1,
+        "journeys_covered": 1
+      },
+      "counts": {
+        "critical": 1,
+        "friction": 11,
+        "last_run_at": "2026-07-21T09:19:13.837388+00:00"
+      }
+    }
+  }
+]

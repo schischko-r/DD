@@ -1,0 +1,4842 @@
+{
+  "summary": {
+    "rawRows": 81,
+    "includedRows": 79,
+    "excludedRows": 2,
+    "mappedTeams": 76,
+    "unmappedRows": 0,
+    "distribution": {
+      "goalsMonitoring": {
+        "Да (включены все цели)": 73,
+        "Частично (мониторинг не по всем целям)": 6
+      },
+      "goalsForecast": {
+        "Частично, <90%": 13,
+        "Да, >90%": 64,
+        "Нет": 2
+      },
+      "goalsFactorAnalysis": {
+        "Да, >90%": 49,
+        "Частично, <90%": 27,
+        "Нет": 3
+      }
+    },
+    "teamsWithoutResponse": [],
+    "repeatedTeams": {
+      "Зарплатный продукт": [
+        {
+          "respondent": "Сауткин Андрей",
+          "completedAt": "2026-10-27T08:33:29.644Z",
+          "answers": {
+            "goalsMonitoring": "Да (включены все цели)",
+            "goalsForecast": "Да, >90%",
+            "goalsFactorAnalysis": "Частично, <90%"
+          }
+        },
+        {
+          "respondent": "Королева Александра Дмитриевна",
+          "completedAt": "2026-10-20T15:43:33.270Z",
+          "answers": {
+            "goalsMonitoring": "Да (включены все цели)",
+            "goalsForecast": "Да, >90%",
+            "goalsFactorAnalysis": "Да, >90%"
+          }
+        }
+      ],
+      "ОМС": [
+        {
+          "respondent": "Скворцов Виталий Михайлович",
+          "completedAt": "2026-10-22T15:05:13.803Z",
+          "answers": {
+            "goalsMonitoring": "Да (включены все цели)",
+            "goalsForecast": "Да, >90%",
+            "goalsFactorAnalysis": "Да, >90%"
+          }
+        },
+        {
+          "respondent": "Григорьев Алексей Владимирович",
+          "completedAt": "2026-10-22T14:53:25.651Z",
+          "answers": {
+            "goalsMonitoring": "Да (включены все цели)",
+            "goalsForecast": "Да, >90%",
+            "goalsFactorAnalysis": "Частично, <90%"
+          }
+        }
+      ],
+      "Слитки": [
+        {
+          "respondent": "Григорьев Алексей Владимирович",
+          "completedAt": "2026-10-22T15:03:31.456Z",
+          "answers": {
+            "goalsMonitoring": "Да (включены все цели)",
+            "goalsForecast": "Да, >90%",
+            "goalsFactorAnalysis": "Частично, <90%"
+          }
+        },
+        {
+          "respondent": "Скворцов Виталий Михайлович",
+          "completedAt": "2026-10-22T14:48:12.117Z",
+          "answers": {
+            "goalsMonitoring": "Да (включены все цели)",
+            "goalsForecast": "Да, >90%",
+            "goalsFactorAnalysis": "Да, >90%"
+          }
+        }
+      ]
+    },
+    "errors": []
+  },
+  "rows": [
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 2,
+      "completedAt": "2026-10-28T12:21:39.602Z",
+      "respondent": "Фисенко Владислав Николаевич",
+      "team": {
+        "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+        "name": "Торговый Эквайринг",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000004934/1000043820",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Торговый Эквайринг",
+      "catalogUnit": "DB",
+      "sourceTribe": "Эквайринг",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 3,
+      "completedAt": "2026-10-28T06:06:25.244Z",
+      "respondent": "Коняшин Артем Алексеевич",
+      "team": {
+        "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+        "name": "Оплата улыбкой",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000617/",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Оплата улыбкой",
+      "catalogUnit": "DB",
+      "sourceTribe": "Альтернативные платежные методы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 4,
+      "completedAt": "2026-10-27T08:58:37.523Z",
+      "respondent": "Воробьев Александр Валерьевич",
+      "team": {
+        "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+        "name": "SberID",
+        "unit": "Data"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Нет",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002350\nhttps://navigator.sigma.sbrf.ru/gdash/1000001827\nhttps://navigator.sigma.sbrf.ru/gdash/1000002965/1000027722\nhttps://navigator.sigma.sbrf.ru/gdash/1000001725\nhttps://navigator.sigma.sbrf.ru/gdash/1000004474/1000059677",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "SberID",
+      "catalogUnit": "Data",
+      "sourceTribe": "Sber ID",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 5,
+      "completedAt": "2026-10-27T08:33:29.644Z",
+      "respondent": "Сауткин Андрей",
+      "team": {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "Затрудняюсь ответить",
+        "goalsDashboardsFormat": "unknown"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Зарплатный продукт",
+      "catalogUnit": "DB",
+      "sourceTribe": "Социальные и зарплатные решения",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      },
+      "cohort": "B2B"
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 6,
+      "completedAt": "2026-10-26T18:26:49.263Z",
+      "respondent": "Можак Максим Игоревич",
+      "team": {
+        "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+        "name": "ОСАГО",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=8\nhttps://свойBI.ru\n",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ОСАГО",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 7,
+      "completedAt": "2026-10-26T15:07:44.013Z",
+      "respondent": "Чернов Дмитрий Леонидович",
+      "team": {
+        "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+        "name": "Сделка ИЖС",
+        "unit": "ДомКлик"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Нет",
+        "goalsDashboards": "https://dashboard.domclick.ru/country/Residential_housing_showcase",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Сделка ИЖС",
+      "catalogUnit": "ДомКлик",
+      "sourceTribe": "ИЖС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 8,
+      "completedAt": "2026-10-23T13:15:57.466Z",
+      "respondent": "Спиваков Андрей",
+      "team": {
+        "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+        "name": "Много денег (НКПЗН)",
+        "unit": "ДомКлик"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "  https://superset.sberned.ru/login/?next=http://superset.sberned.ru/superset/dashboard/198/?native_filters_key%3DwtaC1NdPkgjQDvKQMmg_4e3uoe3OxJzNG-GcLx0_PiAtFlVIY0rTdgoRkfXNiAjR",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Много денег (НКПЗН)",
+      "catalogUnit": "ДомКлик",
+      "sourceTribe": "Вторичка",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 9,
+      "completedAt": "2026-10-23T08:38:08.716Z",
+      "respondent": "Яковлев Сергей Викторович",
+      "team": {
+        "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+        "name": "Дебетовая карта",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "Отчетность в формате Excel",
+        "goalsDashboardsFormat": "excel"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Дебетовая карта",
+      "catalogUnit": "DB",
+      "sourceTribe": "Кошелёк клиента",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 10,
+      "completedAt": "2026-10-23T08:08:20.597Z",
+      "respondent": "Семенов Тимофей Александрович",
+      "team": {
+        "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+        "name": "Образовательный кредит",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000141",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Образовательный кредит",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Потребительское кредитование",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 11,
+      "completedAt": "2026-10-23T06:39:58.035Z",
+      "respondent": "Мищенко Максим Павлович",
+      "team": {
+        "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+        "name": "Объект Авто",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://clickstream.sberbank.ru/frontend/sbol/reports/events/22727\nhttps://navigator.sigma.sbrf.ru/gdash/1000002504/1000023292?intervaldat=8%3B20261014%3B20261020&v_flag_autocode=1\nhttps://navigator.sigma.sbrf.ru/gdash/1000004121?v_object_correct=1",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Объект Авто",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Авто",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 12,
+      "completedAt": "2026-10-22T15:05:13.803Z",
+      "respondent": "Скворцов Виталий Михайлович",
+      "team": {
+        "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "name": "ОМС",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://qlik.sigma.sbrf.ru/qs_cib_dgr/scim_sigma/sense/app/5eff03df-5129-4849-87cf-f854d4303f91/overview",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ОМС",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Комиссионные продукты",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 13,
+      "completedAt": "2026-10-22T15:03:31.456Z",
+      "respondent": "Григорьев Алексей Владимирович",
+      "team": {
+        "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+        "name": "Слитки",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002550/1000032387?n_group_type=0",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Слитки",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Комиссионные продукты",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 14,
+      "completedAt": "2026-10-22T14:53:25.651Z",
+      "respondent": "Григорьев Алексей Владимирович",
+      "team": {
+        "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+        "name": "ОМС",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002550/1000032387?n_group_type=0",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ОМС",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Комиссионные продукты",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 15,
+      "completedAt": "2026-10-22T14:48:12.117Z",
+      "respondent": "Скворцов Виталий Михайлович",
+      "team": {
+        "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+        "name": "Слитки",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://qlik.sigma.sbrf.ru/qs_cib_dgr/scim_sigma/sense/app/5eff03df-5129-4849-87cf-f854d4303f91/overview",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Слитки",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Комиссионные продукты",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 16,
+      "completedAt": "2026-10-22T14:45:25.379Z",
+      "respondent": "Кравченко Т.В (Ведерникова Ю.А.)",
+      "team": {
+        "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+        "name": "Интернет-Эквайринг",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Частично (мониторинг не по всем целям)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002545/1000035893",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Интернет-Эквайринг",
+      "catalogUnit": "DB",
+      "sourceTribe": "Эквайринг",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 17,
+      "completedAt": "2026-10-22T14:36:37.554Z",
+      "respondent": "Аленцев Александр Михайлович",
+      "team": {
+        "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+        "name": "Пакет услуг СберПервый",
+        "unit": "CX"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000204/1000031249?vBundle=%D0%9D%D0%BE%D0%B2%D1%8B%D0%B9%20%D0%A1%D0%911%20(4%20%D0%B8%205%20%D1%83%D1%80%D0%BE%D0%B2%D0%B5%D0%BD%D1%8C)%7C%7C%7C%D0%A1%D0%B1%D0%B5%D1%80%D0%9F%D0%B5%D1%80%D0%B2%D1%8B%D0%B9\nhttps://navigator.sigma.sbrf.ru/gdash/1000000135/1000032266",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Пакет услуг СберПервый",
+      "catalogUnit": "CX",
+      "sourceTribe": "Премиальный сегмент",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 18,
+      "completedAt": "2026-10-22T13:09:53.022Z",
+      "respondent": "Ильин Павел Константинович",
+      "team": {
+        "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+        "name": "Сделка с Первичным жильём",
+        "unit": "ДомКлик"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://dashboard.domclick.ru/new_flat/Prima_Mort?tab_place=1",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Сделка с Первичным жильём",
+      "catalogUnit": "ДомКлик",
+      "sourceTribe": "Первичка",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 19,
+      "completedAt": "2026-10-22T12:37:46.172Z",
+      "respondent": "Красильников Антон Владимирович",
+      "team": {
+        "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+        "name": "Выписки, справки",
+        "unit": "PC"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000001946\nhttps://navigator.sigma.sbrf.ru/gdash/12228?sSet3=Phygital%20Channels",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Выписки, справки",
+      "catalogUnit": "PC",
+      "sourceTribe": "Клиентские документы",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 20,
+      "completedAt": "2026-10-22T11:06:46.489Z",
+      "respondent": "Ведерникова Ю А",
+      "team": {
+        "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+        "name": "SberPay Ecom",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Частично (мониторинг не по всем целям)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002545/1000032670",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "SberPay Ecom",
+      "catalogUnit": "DB",
+      "sourceTribe": "Альтернативные платежные методы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 21,
+      "completedAt": "2026-10-22T11:03:08.241Z",
+      "respondent": "Сидорова Ксения Евгеньевна",
+      "team": {
+        "id": "full-cross-border-transfers-b2c¦Трансграничные переводы #B2C",
+        "name": "Трансграничные переводы #B2C",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000005360",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Трансграничные переводы",
+      "catalogUnit": "DB",
+      "sourceTribe": "Переводы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 22,
+      "completedAt": "2026-10-22T10:08:32.320Z",
+      "respondent": "Белозеров Дмитрий Александрович",
+      "team": {
+        "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+        "name": "Почта, Диск, Календарь",
+        "unit": "Data"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Частично (мониторинг не по всем целям)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://superset.sdisk.ru/",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Почта, Диск, Календарь",
+      "catalogUnit": "Data",
+      "sourceTribe": "Sber ID",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 24,
+      "completedAt": "2026-10-22T09:42:59.080Z",
+      "respondent": "Фомичева Анна Геннадьевна",
+      "team": {
+        "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+        "name": "СберПрайм",
+        "unit": "CX"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "Отчетность в формате Excel",
+        "goalsDashboardsFormat": "excel"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "СберПрайм",
+      "catalogUnit": "CX",
+      "sourceTribe": "Прайм",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 25,
+      "completedAt": "2026-10-22T06:26:05.429Z",
+      "respondent": "Губин Юрий Сергеевич",
+      "team": {
+        "id": "full-sber-tips-b2c¦Сберчаевые #B2C",
+        "name": "Сберчаевые #B2C",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "Отчетность в формате Excel",
+        "goalsDashboardsFormat": "excel"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "СберЧаевые",
+      "catalogUnit": "DB",
+      "sourceTribe": "Альтернативные платежные методы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 26,
+      "completedAt": "2026-10-21T16:56:41.009Z",
+      "respondent": "Волобуев Андрей Николаевич",
+      "team": {
+        "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+        "name": "НСЖ",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000994\nhttps://navigator.sigma.sbrf.ru/gdash/12215/1000034254?dtDate_=2026-08-01&product_name=%D0%9D%D0%A1%D0%96&sSet2=%D0%98%D0%A1%D0%96",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "НСЖ",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДИиН",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 27,
+      "completedAt": "2026-10-21T16:44:10.264Z",
+      "respondent": "Клычева Олеся Олеговна",
+      "team": {
+        "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+        "name": "ИСЖ",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000994\nhttps://navigator.ca.sbrf.ru/gdash/1000003899",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ИСЖ",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДИиН",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 28,
+      "completedAt": "2026-10-21T16:05:23.364Z",
+      "respondent": "Адуллин Антон Викторович",
+      "team": {
+        "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+        "name": "BNPL",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000199?sDynamic=1&sMeasure=1",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "BNPL",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Товарное кредитование",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 29,
+      "completedAt": "2026-10-21T15:53:20.750Z",
+      "respondent": "Адуллин Антон Викторович",
+      "team": {
+        "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+        "name": "POS-кредиты",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000001039?sDynamic=4&sMeasure=1\nhttps://navigator.sigma.sbrf.ru/gdash/1000000580",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "POS-кредиты",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Товарное кредитование",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 30,
+      "completedAt": "2026-10-21T15:24:34.238Z",
+      "respondent": "Мартусенко Игорь Викторович",
+      "team": {
+        "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+        "name": "ВЗР",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://agile.sber.ru/dashboard/#/TeamEffectivenessByTribes?0%5B.%5D=.&0%5BteamPerformanceActiveComponent%5D=team&0%5BAM%5D%5BteamPerformance%5D=true&1%5BAP%5D=2&1%5BFLD%5D=7&1%5BVL%5D%5B0%5D=%5EB2C&1%5BLF%5D=T&2%5BAP%5D=1&2%5BFLD%5D=9&2%5BVL%5D%5B0%5D=3&2%5BLF%5D=T&3%5BAP%5D=1&3%5BFLD%5D=8&3%5BVL%5D%5B0%5D=00EW&3%5BLF%5D=T&4%5BAP%5D=1&4%5BFLD%5D=20&4%5BVL%5D%5B0%5D=%5E00EW0002&4%5BLF%5D=T&5%5BAP%5D=1&5%5BFLD%5D=5&5%5BVL%5D%5B0%5D=%C2%B120263&5%5BLF%5D=T&-&(Цели_OKR_Справа_в_поиске_ввести_Архипова)\nhttps://agile.sber.ru/dashboard/#/OKRGoals?0%5B.%5D=.&0%5BscreenOKRGoals%5D=allGoals&1%5BAP%5D=2&1%5BFLD%5D=5&1%5BVL%5D%5B0%5D=3&1%5BLF%5D=T&2%5BAP%5D=2&2%5BFLD%5D=52&2%5BVL%5D%5B0%5D=00EW&2%5BLF%5D=T&3%5BAP%5D=2&3%5BFLD%5D=52&3%5BVL%5D%5B0%5D=00EW&3%5BLF%5D=T&3%5BSN%5D=selectedGoal&4%5BAP%5D=2&4%5BFLD%5D=7&4%5BVL%5D%5B0%5D=%5EB2C&4%5BLF%5D=T&5%5BAP%5D=2&5%5BFLD%5D=32&5%5BVL%5D%5B0%5D=%5E2026_Q3&5%5BLF%5D=T&-&(тут_светофоры_драйверы)\nhttps://navigator.sigma.sbrf.ru/gdash/1000003899(кнопка_каталог_ДБ_Группа_отчетов_коробочное_страхование)",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ВЗР",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 31,
+      "completedAt": "2026-10-21T15:24:12.239Z",
+      "respondent": "Бажанова Елена Олеговна",
+      "team": {
+        "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+        "name": "Автокредит",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "Отчетность в формате Excel",
+        "goalsDashboardsFormat": "excel"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Автокредит",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Авто",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 32,
+      "completedAt": "2026-10-21T14:29:37.268Z",
+      "respondent": "Комаров Сергей Андреевич",
+      "team": {
+        "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+        "name": "Сделка вторичка",
+        "unit": "ДомКлик"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://dashboard.domclick.ru/flat/secondary_mortgage?tab_place=1",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Сделка вторичка",
+      "catalogUnit": "ДомКлик",
+      "sourceTribe": "Вторичка",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 33,
+      "completedAt": "2026-10-21T14:29:21.720Z",
+      "respondent": "Дрожжина Валентина Юрьевна",
+      "team": {
+        "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+        "name": "Вжух",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000007058/1000056717?byum=M",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "SberPay Вжух",
+      "catalogUnit": "DB",
+      "sourceTribe": "Альтернативные платежные методы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 34,
+      "completedAt": "2026-10-21T13:16:56.836Z",
+      "respondent": "Козлова Диана Леонидовна",
+      "team": {
+        "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+        "name": "Пакет услуг СберПремьер",
+        "unit": "CX"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/12137/1000000442?tab_src=0&tab_pu=0",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Пакет услуг СберПремьер",
+      "catalogUnit": "CX",
+      "sourceTribe": "МВС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 35,
+      "completedAt": "2026-10-21T13:11:17.445Z",
+      "respondent": "Юрковский Роберт",
+      "team": {
+        "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+        "name": "Платежи",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=14068589692\nhttps://confluence.sberbank.ru/pages/viewpage.action?pageId=25192506095",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Платежи",
+      "catalogUnit": "DB",
+      "sourceTribe": "Платежи",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 36,
+      "completedAt": "2026-10-21T12:27:36.569Z",
+      "respondent": "Султанов Руслан Рафисович",
+      "team": {
+        "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+        "name": "Брокерский счет",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000638/1000006237",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Брокерский счет",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДББ",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 37,
+      "completedAt": "2026-10-21T11:39:35.515Z",
+      "respondent": "Сайфуллин Азат Шавкатович",
+      "team": {
+        "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+        "name": "Кредитные карты",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Частично (мониторинг не по всем целям)",
+        "goalsForecast": "Нет",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "Отчетность в формате Excel",
+        "goalsDashboardsFormat": "excel"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Кредитные карты",
+      "catalogUnit": "DB",
+      "sourceTribe": "Кредитные карты",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 38,
+      "completedAt": "2026-10-21T11:30:19.048Z",
+      "respondent": "Забегаев Михаил Евгеньевич",
+      "team": {
+        "id": "full-cross-border-acquiring-b2c¦Трансграничный эквайринг #B2C",
+        "name": "Трансграничный эквайринг #B2C",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Нет",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003338/1000044155",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Трансграничный эквайринг",
+      "catalogUnit": "DB",
+      "sourceTribe": "Альтернативные платежные методы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 39,
+      "completedAt": "2026-10-21T09:14:02.105Z",
+      "respondent": "Лазарев Никита Игоревич",
+      "team": {
+        "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+        "name": "Монеты",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/12004/1000017391",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Монеты",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Комиссионные продукты",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 40,
+      "completedAt": "2026-10-21T08:40:15.217Z",
+      "respondent": "Большакова Наталья Сергеевна",
+      "team": {
+        "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+        "name": "ДСЖ КК",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=6\nhttps://navigator.sigma.sbrf.ru/gdash/1000000766\nhttps://final.omega.sbrf.ru/pl/static-res/finportal_root/services/registry_frontend/model/1024\nhttps://navigator.sigma.sbrf.ru/gdash/12215/45012?sSet3=%D0%A3%D0%91&product_name=%D0%9A%D1%80%D0%B5%D0%B4%D0%B8%D1%82%D0%BD%D0%BE%D0%B5%20%D1%81%D1%82%D1%80%D0%B0%D1%85%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%A4%D0%9B%20%D0%94%D0%A1%D0%96%20%D0%9A%D0%9A",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ДСЖ КК",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 41,
+      "completedAt": "2026-10-21T07:54:34.650Z",
+      "respondent": "Краснов Игорь Константинович",
+      "team": {
+        "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+        "name": "Сейфы",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002200/1000022080?cRent=11&cChannel=%D0%9C%D0%9F%7C%7C%7CWEB\nhttps://navigator.sigma.sbrf.ru/gdash/1000002550/1000032387",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Сейфы",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Комиссионные продукты",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 42,
+      "completedAt": "2026-10-21T07:32:22.991Z",
+      "respondent": "Казакова Кристина Юрьевна",
+      "team": {
+        "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+        "name": "Страхование залога",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=4",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Страхование залога",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 43,
+      "completedAt": "2026-10-20T16:24:10.216Z",
+      "respondent": "Зырянская Валерия",
+      "team": {
+        "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+        "name": "ЗПИФ",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000036056",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ЗПИФ",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДИиН",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 44,
+      "completedAt": "2026-10-20T16:23:45.301Z",
+      "respondent": "Клочкова Ольга",
+      "team": {
+        "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+        "name": "ОПИФ",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000036056",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ОПИФ",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДИиН",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 45,
+      "completedAt": "2026-10-20T15:47:46.238Z",
+      "respondent": "Савицкий Евгений Михайлович",
+      "team": {
+        "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+        "name": "СберСпасибо",
+        "unit": "CX"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003450?vTribe=5",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "СберСпасибо",
+      "catalogUnit": "CX",
+      "sourceTribe": "Лояльность",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 46,
+      "completedAt": "2026-10-20T15:43:33.270Z",
+      "respondent": "Королева Александра Дмитриевна",
+      "team": {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Зарплатный продукт",
+      "catalogUnit": "DB",
+      "sourceTribe": "Социальные и зарплатные решения",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      },
+      "cohort": "B2C"
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 47,
+      "completedAt": "2026-10-20T15:39:44.815Z",
+      "respondent": "Маманков Максим Сергеевич",
+      "team": {
+        "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+        "name": "SberPay NFC",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000115/1000029268?yrcw=SberPay%20NFC&acq=US_ON_US&byum=M",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "SberPay NFC",
+      "catalogUnit": "DB",
+      "sourceTribe": "Альтернативные платежные методы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 48,
+      "completedAt": "2026-10-20T15:24:02.269Z",
+      "respondent": "Фомин Андрей Евгеньевич",
+      "team": {
+        "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+        "name": "Детская карта",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000301/1000023593",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Детская карта",
+      "catalogUnit": "DB",
+      "sourceTribe": "Кошелёк клиента",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 49,
+      "completedAt": "2026-10-20T14:30:31.930Z",
+      "respondent": "Родина Марина Анатольевна",
+      "team": {
+        "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+        "name": "Кредитный потенциал",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000001040/1000010488",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Кредитный потенциал",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Кредитный потенциал",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 50,
+      "completedAt": "2026-10-20T14:01:54.878Z",
+      "respondent": "Норенко Александра Викторовна",
+      "team": {
+        "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+        "name": "ПДС",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000004472/1000039501\nhttps://navigator.sigma.sbrf.ru/gdash/1000003899/1000035532",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ПДС",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДИиН",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 51,
+      "completedAt": "2026-10-20T13:22:49.552Z",
+      "respondent": "Невелич Дмитрий Игоревич",
+      "team": {
+        "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+        "name": "Переводы по РФ",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000004816",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Переводы по РФ",
+      "catalogUnit": "DB",
+      "sourceTribe": "Переводы",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 52,
+      "completedAt": "2026-10-20T13:04:52.744Z",
+      "respondent": "Сулейманов Расим",
+      "team": {
+        "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+        "name": "БПИФ",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000036056",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "БПИФ",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДИиН",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 53,
+      "completedAt": "2026-10-20T11:08:04.084Z",
+      "respondent": "Дубинина Татьяна Валерьевна",
+      "team": {
+        "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+        "name": "Залоговое страхование (корпоративное страхование)",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000911/1000034095?sale_channel=%D0%91%D0%B0%D0%BD%D0%BA&category_=%D0%97%D0%B0%D0%BB%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D0%B5\nhttps://vpokib.ca.sbrf.ru/main/sense/app/a3c31cd0-d83b-4e9f-b40a-7794f80fc4ff/sheet/130bb447-28ba-4bed-a5b3-13c62a51eed9/state/analysis\nhttps://tf.nc.apps.a45pqwee.k8s.ca.sbrf.ru/campaigns-list",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Залоговое страхование (корпоративное страхование)",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ЦКС",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 54,
+      "completedAt": "2026-10-20T10:16:21.905Z",
+      "respondent": "Савенков Илья Игоревич",
+      "team": {
+        "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+        "name": "Конверсия",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003147/1000030976\nhttps://navigator.sigma.sbrf.ru/gdash/1000002550/1000032387?n_group_type=7\nhttps://navigator.sigma.sbrf.ru/gdash/1000000202?level=%D0%9F%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82&tribe=%D0%9A%D0%BE%D0%BC%D0%B8%D1%81%D1%81%D0%B8%D0%BE%D0%BD%D0%BD%D1%8B%D0%B5%2520%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82%D1%8B&unit=Core%2520Banking\n",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Конверсия",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Комиссионные продукты",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 55,
+      "completedAt": "2026-10-20T10:01:56.258Z",
+      "respondent": "Тырсина Ю.И.",
+      "team": {
+        "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+        "name": "Вклады+НС",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "Отчетность в формате Excel",
+        "goalsDashboardsFormat": "excel"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Вклады+НС",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Сбережения клиентов",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 56,
+      "completedAt": "2026-10-20T08:05:11.428Z",
+      "respondent": "Илларионов Артем Андреевич",
+      "team": {
+        "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+        "name": "ЦФА",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Частично (мониторинг не по всем целям)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000001290",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ЦФА",
+      "catalogUnit": "УБ",
+      "sourceTribe": "РИБ",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 57,
+      "completedAt": "2026-10-19T15:41:28.316Z",
+      "respondent": "Сипугин Николай Александрович",
+      "team": {
+        "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+        "name": "КАСКО",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000816/1000051540?SbShtRR=1",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "КАСКО",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 58,
+      "completedAt": "2026-10-19T14:48:00.381Z",
+      "respondent": "Корпачева Надежда Олеговна",
+      "team": {
+        "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+        "name": "ЗЛС",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=7",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ЗЛС",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 59,
+      "completedAt": "2026-10-19T11:55:04.471Z",
+      "respondent": "Коробова Екатерина Вадимовна",
+      "team": {
+        "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+        "name": "ИнвестКопилка",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039649",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ИнвестКопилка",
+      "catalogUnit": "УБ",
+      "sourceTribe": "РИБ",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 60,
+      "completedAt": "2026-10-19T09:58:50.212Z",
+      "respondent": "Киреева Наталья Николавена",
+      "team": {
+        "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+        "name": "СберСова",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000004534/1000040199?period3=m&date_cons3=2026-09-01\nhttps://clickstream.sberbank.ru/frontend/sbersova",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "СберСова",
+      "catalogUnit": "УБ",
+      "sourceTribe": "УППБ",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 61,
+      "completedAt": "2026-10-18T20:59:46.154Z",
+      "respondent": "Мерзликин Иван Сергеевич",
+      "team": {
+        "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+        "name": "Пенсионный продукт",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000001471/1000062595\nhttps://navigator.sigma.sbrf.ru/gdash/1000000495/1000008552",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Пенсионный продукт",
+      "catalogUnit": "DB",
+      "sourceTribe": "Социальные и зарплатные решения",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 62,
+      "completedAt": "2026-10-16T14:32:33.364Z",
+      "respondent": "Горбунова Екатерина Эдуардовна",
+      "team": {
+        "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+        "name": "Личная защита Плюс",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Нет",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000911/1000008931?sale_channel=%D0%91%D0%B0%D0%BD%D0%BA\nhttps://navigator.sigma.sbrf.ru/gdash/1000005385/1000046107?division=%D0%A6%D0%B5%D0%BD%D1%82%D1%80%20%22%D0%9A%D0%BE%D1%80%D0%BF%D0%BE%D1%80%D0%B0%D1%82%D0%B8%D0%B2%D0%BD%D0%BE%D0%B5%20%D1%81%D1%82%D1%80%D0%B0%D1%85%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%22&iteract_point=CSAT%20%D0%9B%D0%B8%D1%87%D0%BD%D0%B0%D1%8F%20%D0%B7%D0%B0%D1%89%D0%B8%D1%82%D0%B0%2B%20(%D0%BA%D1%80%D0%B5%D0%B4%D0%B8%D1%82%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5)&complete=0&method=%D0%A1%D1%80%D0%B5%D0%B4%D0%BD%D0%B5%D0%B5%20%D0%B7%D0%BD%D0%B0%D1%87%D0%B5%D0%BD%D0%B8%D0%B5",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Личная защита Плюс",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 63,
+      "completedAt": "2026-10-16T14:28:45.588Z",
+      "respondent": "Ефанов Евгений Вячеславович",
+      "team": {
+        "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+        "name": "Потребительский кредит",
+        "unit": "CBP"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/11907\nhttps://navigator.sigma.sbrf.ru/gdash/1000000580\nhttps://navigator.sigma.sbrf.ru/gdash/9884",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Потребительский кредит",
+      "catalogUnit": "CBP",
+      "sourceTribe": "Потребительское кредитование",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 64,
+      "completedAt": "2026-10-16T10:57:32.154Z",
+      "respondent": "Кузнецова Ольга Сергеевна",
+      "team": {
+        "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+        "name": "ДСЖ ПК",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=3",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "ДСЖ ПК",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 66,
+      "completedAt": "2026-10-15T12:38:05.068Z",
+      "respondent": "Лукьянова Юлия Сергеевна",
+      "team": {
+        "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+        "name": "Страхование жизни",
+        "unit": "УБ"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=4",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "mappedTeam": "Страхование жизни",
+      "catalogUnit": "УБ",
+      "sourceTribe": "ДЗСПиС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(12).csv",
+      "fileSha256": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "csvRow": 2,
+      "completedAt": "2026-10-28T14:07:15.033Z",
+      "respondent": "Маркарьян Арташес",
+      "team": {
+        "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+        "name": "PB",
+        "unit": "CX",
+        "type": "Сегмент"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003450/1000062270?vMode_pb=1&vTribe=11",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Сегменты",
+          "row": null
+        }
+      },
+      "mappedTeam": "PB",
+      "catalogUnit": "CX",
+      "sourceTribe": "Управление частным капиталом",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(12).csv",
+      "fileSha256": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "csvRow": 3,
+      "completedAt": "2026-10-23T07:50:30.377Z",
+      "respondent": "Сироткина Елена",
+      "team": {
+        "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+        "name": "Рабочий возраст",
+        "unit": "CX",
+        "type": "Сегмент"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003450?vTribe=7",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Сегменты",
+          "row": null
+        }
+      },
+      "mappedTeam": "Рабочий возраст",
+      "catalogUnit": "CX",
+      "sourceTribe": "Рабочий возраст",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(12).csv",
+      "fileSha256": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "csvRow": 4,
+      "completedAt": "2026-10-22T11:21:01.349Z",
+      "respondent": "Багдасарян Артем Робертович",
+      "team": {
+        "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+        "name": "Top Affluent",
+        "unit": "CX",
+        "type": "Сегмент"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000135",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Сегменты",
+          "row": null
+        }
+      },
+      "mappedTeam": "Top Affluent",
+      "catalogUnit": "CX",
+      "sourceTribe": "Премиальный сегмент",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(12).csv",
+      "fileSha256": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "csvRow": 5,
+      "completedAt": "2026-10-21T15:08:46.059Z",
+      "respondent": "Кориков Иван Сергеевич",
+      "team": {
+        "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+        "name": "МВС",
+        "unit": "CX",
+        "type": "Сегмент"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003450/1000062269?vTribe=6&vMetric=LDR.26.015.03&vMetName=%D0%A1%D0%BE%D0%BA%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BE%D0%B1%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D0%B9%20CX%3A%20%D0%A1%D0%B1%D0%B5%D1%80%D0%9F%D1%80%D0%B5%D0%BC%D1%8C%D0%B5%D1%80%2C%20%D1%82%D1%8B%D1%81%20%D1%88%D1%82\nhttps://navigator.sigma.sbrf.ru/gdash/12137/1000001022?sSet_q=2026-09-30T00%3A00%3A00&tab1=0",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Сегменты",
+          "row": null
+        }
+      },
+      "mappedTeam": "МВС",
+      "catalogUnit": "CX",
+      "sourceTribe": "МВС",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(12).csv",
+      "fileSha256": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "csvRow": 6,
+      "completedAt": "2026-10-21T12:26:38.735Z",
+      "respondent": "Серебряников Антон Олегович",
+      "team": {
+        "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+        "name": "Зрелость",
+        "unit": "CX",
+        "type": "Сегмент"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000008504/1000065847?vMetric=prod&vView=2",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Сегменты",
+          "row": null
+        }
+      },
+      "mappedTeam": "Зрелость",
+      "catalogUnit": "CX",
+      "sourceTribe": "Почтенный возраст",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(12).csv",
+      "fileSha256": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "csvRow": 7,
+      "completedAt": "2026-10-20T15:52:59.421Z",
+      "respondent": "Калашников Роман Леонидович",
+      "team": {
+        "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+        "name": "Молодежь",
+        "unit": "CX",
+        "type": "Сегмент"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003450?vTribe=3\nhttps://navigator.sigma.sbrf.ru/gdash/1000008304/1000064629?vMetric=zak_mdk",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Сегменты",
+          "row": null
+        }
+      },
+      "mappedTeam": "Молодежь",
+      "catalogUnit": "CX",
+      "sourceTribe": "Дети и Молодежь",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(12).csv",
+      "fileSha256": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+      "csvRow": 8,
+      "completedAt": "2026-10-20T10:27:33.924Z",
+      "respondent": "Калашников Роман Леонидович",
+      "team": {
+        "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+        "name": "Дети/подростки",
+        "unit": "CX",
+        "type": "Сегмент"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003450?vTribe=3\nhttps://navigator.sigma.sbrf.ru/gdash/1000008304/1000064629?vMetric=zak_mdk",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Сегменты",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Сегменты",
+          "row": null
+        }
+      },
+      "mappedTeam": "Дети",
+      "catalogUnit": "CX",
+      "sourceTribe": "Дети и Молодежь",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 2,
+      "completedAt": "2026-10-27T06:35:41.159Z",
+      "respondent": "Комаров Иван Алексеевич",
+      "team": {
+        "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+        "name": "Персональная рекомендация (кампейнинг)",
+        "unit": "Data",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000004779/1000042017?vp=%D0%92%D1%81%D0%B5\nhttps://navigator.sigma.sbrf.ru/gdash/1000003023/1000028269\nhttps://navigator.sigma.sbrf.ru/gdash/1000000202?level=%D0%9F%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82&period=month&product=%D0%90%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B5%20%D0%BF%D1%80%D0%BE%D0%B4%D0%B0%D0%B6%D0%B8&unit=Data\nhttps://navigator.sigma.sbrf.ru/gdash/1000002443",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Кампейнинг",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Кампейнинг",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Кампейнинг",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Кампейнинг",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Кампейнинг",
+          "row": null
+        }
+      },
+      "mappedTeam": "Персональная рекомендация",
+      "catalogUnit": "Data",
+      "sourceTribe": "SberCampaigning",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": null
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 3,
+      "completedAt": "2026-10-23T11:48:26.920Z",
+      "respondent": "Аркуша Наталья Евгеньевна",
+      "team": {
+        "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+        "name": "Колл-центр",
+        "unit": "PC",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000491/1000027635?period_name=5&flg_gpm=0&type_gross=Gross%20%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%B0\nhttps://navigator.sigma.sbrf.ru/gdash/1000000491/1000009925?period_name=5&flg_gpm=0&type_gross=Gross%20%D1%81%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%B0\nhttps://navigator.sigma.sbrf.ru/gdash/1000001679/1000018298\nhttps://navigator.sigma.sbrf.ru/gdash/1000000111?tribe_name=All&unit_name=PHYGITAL%20CHANNELS\nhttps://navigator.sigma.sbrf.ru/gdash/1000000319",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        }
+      },
+      "mappedTeam": "Колл-центр",
+      "catalogUnit": "PC",
+      "sourceTribe": "Развитие сервисных технологий в каналах",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 4,
+      "completedAt": "2026-10-23T07:52:07.762Z",
+      "respondent": "Судаков Николай",
+      "team": {
+        "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+        "name": "Телемаркетинг",
+        "unit": "PC",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000003084\nhttps://navigator.sigma.sbrf.ru/gdash/1000001598\nhttps://navigator.sigma.sbrf.ru/gdash/1000000747\nhttps://navigator.sigma.sbrf.ru/gdash/1000000877",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        }
+      },
+      "mappedTeam": "Телемаркетинг",
+      "catalogUnit": "PC",
+      "sourceTribe": "Развитие сервисных технологий в каналах",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 5,
+      "completedAt": "2026-10-21T14:34:33.937Z",
+      "respondent": "Баринова Ксения",
+      "team": {
+        "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+        "name": "СБОЛ",
+        "unit": "DP",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000188",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Каналы Digital",
+          "row": null
+        }
+      },
+      "mappedTeam": "СБОЛ",
+      "catalogUnit": "DP",
+      "sourceTribe": "СБОЛ",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 6,
+      "completedAt": "2026-10-20T15:05:25.505Z",
+      "respondent": "Беликов Дмитрий",
+      "team": {
+        "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+        "name": "СберKids",
+        "unit": "DP",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002729",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Каналы Digital",
+          "row": null
+        }
+      },
+      "mappedTeam": "СберKids",
+      "catalogUnit": "DP",
+      "sourceTribe": "СберKids",
+      "currentTribeScores": {
+        "goals.monitored": 0,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 7,
+      "completedAt": "2026-10-20T14:03:00.099Z",
+      "respondent": "Героник Екатерина",
+      "team": {
+        "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+        "name": "СберИнвестор",
+        "unit": "DP",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000000604/1000041109?sSet=5&sPlatform=Android",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Каналы Digital",
+          "row": null
+        }
+      },
+      "mappedTeam": "СберИнвестор",
+      "catalogUnit": "DP",
+      "sourceTribe": "СберИнвестор",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 0,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 8,
+      "completedAt": "2026-10-20T10:44:12.902Z",
+      "respondent": "Самойлов Дмитрий Сергеевич",
+      "team": {
+        "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+        "name": "Уведомления",
+        "unit": "DP",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "Отчетность в формате Excel",
+        "goalsDashboardsFormat": "excel"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Каналы Digital",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Каналы Digital",
+          "row": null
+        }
+      },
+      "mappedTeam": "Уведомления",
+      "catalogUnit": "DP",
+      "sourceTribe": "Уведомления",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 9,
+      "completedAt": "2026-10-20T08:41:40.069Z",
+      "respondent": "Савин Евгений Юрьевич",
+      "team": {
+        "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+        "name": "Чат",
+        "unit": "PC",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000004111/1000042328?period_name=5&is_limited=2&calendar_start=2026-07-01&type_factor_chart=4&calendar_end=2026-09-24&switch_charts_elch=%D0%95%D0%9B%D0%A7%20(%D1%81%20Welcome)%7C%7C%7C%D0%95%D0%9B%D0%A7%20(Welcome)%7C%7C%7C%D0%95%D0%9B%D0%A7%20(%D0%91%D0%B5%D0%B7%20Welcome)&chat_type=%D0%95%D0%9B%D0%A7\nhttps://navigator.sigma.sbrf.ru/gdash/1000001679/1000018314?period_name=2&calendar_start=2026-07-01",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Каналы Phigital",
+          "row": null
+        }
+      },
+      "mappedTeam": "Чат",
+      "catalogUnit": "PC",
+      "sourceTribe": "Платформа Phygital",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": null,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(13).csv",
+      "fileSha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 10,
+      "completedAt": "2026-10-19T09:38:08.317Z",
+      "respondent": "Калинова Наталья Михайловна",
+      "team": {
+        "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+        "name": "Единый личный кабинет (ЕЛК)",
+        "unit": "Data",
+        "type": "Канал"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Частично (мониторинг не по всем целям)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000002960?sGran2=d&sPartnerType2=%D0%92%D1%81%D0%B5%20%D0%BF%D0%B0%D1%80%D1%82%D0%BD%D1%91%D1%80%D1%8B&sDateFrom2=2025-10-14&sDateTo2=2026-10-12",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Data",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Data",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Data",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Data",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Data",
+          "row": null
+        }
+      },
+      "mappedTeam": "Единый личный кабинет (ЕЛК)",
+      "catalogUnit": "Data",
+      "sourceTribe": "Sber ID",
+      "currentTribeScores": {
+        "goals.monitored": 1,
+        "goals.forecast": 1,
+        "goals.factor_analysis_l1_l2": 1
+      }
+    }
+  ],
+  "excluded": [
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 23,
+      "completedAt": "2026-10-22T09:52:50.762Z",
+      "respondent": "чикина м",
+      "team": {
+        "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+        "name": "SberPay Ecom",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Нет"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "reason": "Excluded by earlier user instruction: do not use Chikina answers"
+    },
+    {
+      "file": "ddi_3q_response/questionare-responses(11).csv",
+      "fileSha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 65,
+      "completedAt": "2026-10-16T07:36:12.897Z",
+      "respondent": "(тест Штаб DB B2C) Чикина Мария",
+      "team": {
+        "id": "full-cross-border-acquiring-b2b¦Трансграничный эквайринг #B2B",
+        "name": "Трансграничный эквайринг #B2B",
+        "unit": "DB"
+      },
+      "year": "2026",
+      "quarter": "3",
+      "answers": {
+        "goalsMonitoring": "Частично (мониторинг не по всем целям)",
+        "goalsForecast": "Частично, <90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "examle.ru/report",
+        "goalsDashboardsFormat": "link"
+      },
+      "sources": {
+        "goalsMonitoring": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsForecast": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsFactorAnalysis": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboards": {
+          "sheet": "Продукты (2)",
+          "row": null
+        },
+        "goalsDashboardsFormat": {
+          "sheet": "Продукты (2)",
+          "row": null
+        }
+      },
+      "reason": "Excluded by earlier user instruction: do not use Chikina answers"
+    }
+  ],
+  "comparisonFlags": {
+    "method": "Descriptive contrasts only, no automatic survey score conversion or override. Partial monitoring may still meet the tribe threshold and is not flagged as a binary conflict. All responses, including duplicate teams, retained.",
+    "groups": {
+      "surveyFull_tableZero": [
+        {
+          "team": "Оплата улыбкой",
+          "respondent": "Коняшин Артем Алексеевич",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 3,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Зарплатный продукт",
+          "respondent": "Сауткин Андрей",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 5,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Интернет-Эквайринг",
+          "respondent": "Кравченко Т.В (Ведерникова Ю.А.)",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 16,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Трансграничные переводы",
+          "respondent": "Сидорова Ксения Евгеньевна",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 21,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Трансграничные переводы",
+          "respondent": "Сидорова Ксения Евгеньевна",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 21,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "СберЧаевые",
+          "respondent": "Губин Юрий Сергеевич",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 25,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "POS-кредиты",
+          "respondent": "Адуллин Антон Викторович",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 29,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "SberPay Вжух",
+          "respondent": "Дрожжина Валентина Юрьевна",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 33,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Пакет услуг СберПремьер",
+          "respondent": "Козлова Диана Леонидовна",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 34,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Трансграничный эквайринг",
+          "respondent": "Забегаев Михаил Евгеньевич",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 38,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "СберСпасибо",
+          "respondent": "Савицкий Евгений Михайлович",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 45,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Зарплатный продукт",
+          "respondent": "Королева Александра Дмитриевна",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 46,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "SberPay NFC",
+          "respondent": "Маманков Максим Сергеевич",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 47,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Переводы по РФ",
+          "respondent": "Невелич Дмитрий Игоревич",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 51,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Переводы по РФ",
+          "respondent": "Невелич Дмитрий Игоревич",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 51,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Залоговое страхование (корпоративное страхование)",
+          "respondent": "Дубинина Татьяна Валерьевна",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 53,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Пенсионный продукт",
+          "respondent": "Мерзликин Иван Сергеевич",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 61,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Потребительский кредит",
+          "respondent": "Ефанов Евгений Вячеславович",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 63,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "PB",
+          "respondent": "Маркарьян Арташес",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 2,
+          "file": "ddi_3q_response/questionare-responses(12).csv"
+        },
+        {
+          "team": "МВС",
+          "respondent": "Кориков Иван Сергеевич",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 5,
+          "file": "ddi_3q_response/questionare-responses(12).csv"
+        },
+        {
+          "team": "СберKids",
+          "respondent": "Беликов Дмитрий",
+          "question": "goalsMonitoring",
+          "answer": "Да (включены все цели)",
+          "tableScore": 0,
+          "csvRow": 6,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        },
+        {
+          "team": "СберИнвестор",
+          "respondent": "Героник Екатерина",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": 0,
+          "csvRow": 7,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        }
+      ],
+      "surveyNo_tableFull": [
+        {
+          "team": "SberID",
+          "respondent": "Воробьев Александр Валерьевич",
+          "question": "goalsForecast",
+          "answer": "Нет",
+          "tableScore": 1,
+          "csvRow": 4,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Сделка ИЖС",
+          "respondent": "Чернов Дмитрий Леонидович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Нет",
+          "tableScore": 1,
+          "csvRow": 7,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Трансграничный эквайринг",
+          "respondent": "Забегаев Михаил Евгеньевич",
+          "question": "goalsFactorAnalysis",
+          "answer": "Нет",
+          "tableScore": 1,
+          "csvRow": 38,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Личная защита Плюс",
+          "respondent": "Горбунова Екатерина Эдуардовна",
+          "question": "goalsFactorAnalysis",
+          "answer": "Нет",
+          "tableScore": 1,
+          "csvRow": 62,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        }
+      ],
+      "surveyPartial_tableFull": [
+        {
+          "team": "SberID",
+          "respondent": "Воробьев Александр Валерьевич",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 4,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Зарплатный продукт",
+          "respondent": "Сауткин Андрей",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 5,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Образовательный кредит",
+          "respondent": "Семенов Тимофей Александрович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 10,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Слитки",
+          "respondent": "Григорьев Алексей Владимирович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 13,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "ОМС",
+          "respondent": "Григорьев Алексей Владимирович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 14,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Интернет-Эквайринг",
+          "respondent": "Кравченко Т.В (Ведерникова Ю.А.)",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 16,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Пакет услуг СберПервый",
+          "respondent": "Аленцев Александр Михайлович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 17,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Сделка с Первичным жильём",
+          "respondent": "Ильин Павел Константинович",
+          "question": "goalsForecast",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 18,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Сделка с Первичным жильём",
+          "respondent": "Ильин Павел Константинович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 18,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Выписки, справки",
+          "respondent": "Красильников Антон Владимирович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 19,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "SberPay Ecom",
+          "respondent": "Ведерникова Ю А",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 20,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Трансграничные переводы",
+          "respondent": "Сидорова Ксения Евгеньевна",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 21,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Почта, Диск, Календарь",
+          "respondent": "Белозеров Дмитрий Александрович",
+          "question": "goalsForecast",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 22,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Почта, Диск, Календарь",
+          "respondent": "Белозеров Дмитрий Александрович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 22,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "BNPL",
+          "respondent": "Адуллин Антон Викторович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 28,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "POS-кредиты",
+          "respondent": "Адуллин Антон Викторович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 29,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Автокредит",
+          "respondent": "Бажанова Елена Олеговна",
+          "question": "goalsForecast",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 31,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Автокредит",
+          "respondent": "Бажанова Елена Олеговна",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 31,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Сделка вторичка",
+          "respondent": "Комаров Сергей Андреевич",
+          "question": "goalsForecast",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 32,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Платежи",
+          "respondent": "Юрковский Роберт",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 35,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Кредитные карты",
+          "respondent": "Сайфуллин Азат Шавкатович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 37,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Монеты",
+          "respondent": "Лазарев Никита Игоревич",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 39,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "СберСпасибо",
+          "respondent": "Савицкий Евгений Михайлович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 45,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "ПДС",
+          "respondent": "Норенко Александра Викторовна",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 50,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Конверсия",
+          "respondent": "Савенков Илья Игоревич",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 54,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Вклады+НС",
+          "respondent": "Тырсина Ю.И.",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 55,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "ЦФА",
+          "respondent": "Илларионов Артем Андреевич",
+          "question": "goalsForecast",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 56,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "ЦФА",
+          "respondent": "Илларионов Артем Андреевич",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 56,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "СберСова",
+          "respondent": "Киреева Наталья Николавена",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 60,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Личная защита Плюс",
+          "respondent": "Горбунова Екатерина Эдуардовна",
+          "question": "goalsForecast",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 62,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Потребительский кредит",
+          "respondent": "Ефанов Евгений Вячеславович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 63,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Top Affluent",
+          "respondent": "Багдасарян Артем Робертович",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": 1,
+          "csvRow": 4,
+          "file": "ddi_3q_response/questionare-responses(12).csv"
+        }
+      ],
+      "tableNotApplicable": [
+        {
+          "team": "Зарплатный продукт",
+          "respondent": "Сауткин Андрей",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 5,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Выписки, справки",
+          "respondent": "Красильников Антон Владимирович",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 19,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Кредитные карты",
+          "respondent": "Сайфуллин Азат Шавкатович",
+          "question": "goalsForecast",
+          "answer": "Нет",
+          "tableScore": null,
+          "csvRow": 37,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Зарплатный продукт",
+          "respondent": "Королева Александра Дмитриевна",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 46,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Пенсионный продукт",
+          "respondent": "Мерзликин Иван Сергеевич",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 61,
+          "file": "ddi_3q_response/questionare-responses(11).csv"
+        },
+        {
+          "team": "Персональная рекомендация",
+          "respondent": "Комаров Иван Алексеевич",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 2,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        },
+        {
+          "team": "Персональная рекомендация",
+          "respondent": "Комаров Иван Алексеевич",
+          "question": "goalsFactorAnalysis",
+          "answer": "Частично, <90%",
+          "tableScore": null,
+          "csvRow": 2,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        },
+        {
+          "team": "Колл-центр",
+          "respondent": "Аркуша Наталья Евгеньевна",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 3,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        },
+        {
+          "team": "Телемаркетинг",
+          "respondent": "Судаков Николай",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 4,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        },
+        {
+          "team": "Уведомления",
+          "respondent": "Самойлов Дмитрий Сергеевич",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 8,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        },
+        {
+          "team": "Чат",
+          "respondent": "Савин Евгений Юрьевич",
+          "question": "goalsForecast",
+          "answer": "Да, >90%",
+          "tableScore": null,
+          "csvRow": 9,
+          "file": "ddi_3q_response/questionare-responses(13).csv"
+        }
+      ]
+    }
+  }
+}

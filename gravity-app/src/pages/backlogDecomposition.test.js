@@ -47,11 +47,11 @@ test('backlog can return to the selected team profile with exact normalized name
   assert.match(openTeamSource, /findProductForBacklogTeam\(requestedTeam, data\.products, product\)/);
   assert.doesNotMatch(openTeamSource, /normalizeTeamName|requestedNames|СберЧаевые/);
   assert.match(openTeamSource, /setSelected\(target\);[\s\S]*?setView\('detail'\);[\s\S]*?window\.scrollTo\(0, 0\)/);
-  assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
+  assert.match(appSource, /<BacklogDecompositionPage data=\{backlog\.data\} products=\{summaryData\.products\} status=\{backlog\.status\} onOpenTeam=\{openBacklogTeam\} initialTeamKey=\{backlogTeamKey\} \/>/);
 
   assert.match(pageSource, /import \{ArrowLeft, ChartColumn, Check, CircleFill, CircleInfo\} from '@gravity-ui\/icons'/);
   assert.match(pageSource, /import \{[^}]*Box, Button, Card, DefinitionList, Divider/);
-  assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
+  assert.match(pageSource, /BacklogDecompositionPage\(\{data, products = \[\], status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
   assert.match(pageSource, /\{onOpenTeam && <Box spacing=\{\{mb: 2\}\}><Button view="flat" size="m" onClick=\{\(\) => onOpenTeam\(team, selectedTeamOption\?\.member\)\}><Icon data=\{ArrowLeft\} size=\{16\} \/>Назад к карточке команды<\/Button><\/Box>\}/);
 });
 
@@ -67,7 +67,7 @@ test('backlog CTA is available for every team represented in backlog data and op
   assert.match(appSource, /const openBacklog = \(teamKey = ''\) => \{[\s\S]*?setBacklogTeamKey\(String\(teamKey \|\| ''\)\);[\s\S]*?setView\('backlog'\)/);
   assert.match(appSource, /onBacklog=\{BACKLOG_DECOMPOSITION_ENABLED && productBacklogTeam \? \(\) => openBacklog\(backlogTeamOptionValue\(productBacklogTeam, product\)\) : undefined\}/);
   assert.match(appSource, /initialTeamKey=\{backlogTeamKey\}/);
-  assert.match(pageSource, /BacklogDecompositionPage\(\{data, status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
+  assert.match(pageSource, /BacklogDecompositionPage\(\{data, products = \[\], status = 'ready', onOpenTeam, initialTeamKey = ''\}\)/);
   assert.match(pageSource, /findBacklogTeamFilterOption\(teamFilterOptions, initialTeamKey\)/);
   assert.match(pageSource, /const appliedInitialTeamKey = useRef\(null\)/);
   assert.match(pageSource, /requestedTeamKey !== appliedInitialTeamKey\.current/);
@@ -665,7 +665,7 @@ test('team selector switches complete datasets and preserves top-level fallback'
   assert.match(pageSource, /setSelectedQuarterKey\(quarterKey\(selectQuarter\(nextQuarters\)\)\)/);
   assert.match(pageSource, /Структура и статус задач, созданных в выбранном квартале/);
   assert.match(pageSource, /className="backlog-header-controls"[^>]*alignItems="flex-end"[^>]*gap="3"/);
-  const teamSelectStart = pageSource.indexOf('<Select value={selectedTeamOption ?');
+  const teamSelectStart = pageSource.indexOf('<Select filterable filterPlaceholder="Найти команду" value={selectedTeamOption ?');
   const teamSelect = pageSource.slice(teamSelectStart, pageSource.indexOf('/>', teamSelectStart));
   for (const prop of ['options={teamOptions}', 'onUpdate={updateTeam}', 'size="l"', 'width="max"', 'popupWidth="fit"', 'popupPlacement="bottom-end"', 'aria-label="Команда"']) {
     assert.ok(teamSelect.includes(prop), `team Select keeps ${prop}`);

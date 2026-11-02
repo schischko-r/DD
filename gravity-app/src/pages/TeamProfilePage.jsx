@@ -22,10 +22,12 @@ import {flattenRoadmapItems} from './teamProfileRoadmapGroups.js';
 import {displayProductName, displayText, formatRoadmapUplift, isDepositOutflowAnalysis, nextMaturityLevel, roadmapLevelChanged} from '../domain/report.js';
 import {CJXplorerDialog} from '../features/cjxplorer/CJXplorerDialog.jsx';
 import {CENTRALIZED_KKD_CDO_URL, industrialDataResourcesFor} from './backlogScenarioRecommendations.js';
-import {campaignMetricNoteForPeriod, metricActualGrowth} from '../domain/teamProfileSelection.js';
+import {blockActualGrowth, campaignMetricNoteForPeriod, metricActualGrowth} from '../domain/teamProfileSelection.js';
 import {hasCrossSellDecomposition} from '../domain/crossSellDecomposition.js';
 import {CrossSellDecomposition} from './CrossSellDecomposition.jsx';
 import {displayMetricPercent, metricFutureLabel} from '../domain/metricPresentation.js';
+import {isCampaignSelfServiceConfirmation} from '../domain/campaignSelfService.js';
+import {salaryB2cComparisonBlock} from '../domain/salaryCohortGrowth.js';
 import {goalsProfileLevels} from '../domain/goalsProfileLevels.js';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
@@ -344,7 +346,7 @@ function GoalsHelpContent() {
 export function teamProfileBlockTitle(block) {
   const blockCode = normalizeUpliftBinding(block?.code);
   const blockName = normalizeUpliftBinding(block?.name);
-  if (blockCode === 'goals' || blockName === normalizeUpliftBinding('Цели')) return block?.goalsLevels ? 'Цели' : 'Цели уровня ЛЮ/ЛТ';
+  if (blockCode === 'goals' || blockName === normalizeUpliftBinding('Цели')) return block?.goalsLevels ? 'Цели/ФА/Прогнозы' : 'Цели уровня ЛЮ/ЛТ';
   const isCxBlock = blockCode === 'cx' || [
     normalizeUpliftBinding('Клиентский опыт'),
     normalizeUpliftBinding('CX Score'),
@@ -596,7 +598,7 @@ function DigitalTraceConfirmation({message = 'Подтверждено на Ци
   return <GravityTooltip content={message} openDelay={200}><span className="metric-digital-trace-confirmation" tabIndex={0} aria-label={message}><Icon data={CircleCheckFill} size={16} /></span></GravityTooltip>;
 }
 
-function MetricActualGrowthBadge({growth}) {
+function MetricActualGrowthBadge({growth, blockHeader = false}) {
   const [bursts, setBursts] = useState([]);
   const burstTimers = useRef(new Set());
   const burstSequence = useRef(0);
@@ -609,10 +611,12 @@ function MetricActualGrowthBadge({growth}) {
   }, [growth?.currentPeriod, growth?.previousPeriod, growth?.value, growth?.previousValue]);
   if (!growth) return null;
   const number = (value, digits = 1) => value.toLocaleString('ru-RU', {maximumFractionDigits: digits});
-  const label = growth.indexPctDelta < 0.05 ? '+<0,1 п.п.' : `+${number(growth.indexPctDelta)} п.п.`;
-  const title = 'Рост к прошлому кварталу';
+  const delta = growth.indexPctDelta;
+  const direction = delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat';
+  const label = `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${Math.abs(delta) < 0.05 && delta !== 0 ? '<0,1' : number(Math.abs(delta))} п.п.${blockHeader ? '' : ' к DDI'}`;
+  const title = growth.comparisonLabel || 'Изменение к прошлому кварталу';
   const celebrate = (event) => {
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+    if (growth.indexPctDelta <= 0 || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
     const rect = event.currentTarget.getBoundingClientRect();
@@ -631,7 +635,7 @@ function MetricActualGrowthBadge({growth}) {
     burstTimers.current.add(timer);
   };
   return <>
-    <GravityTooltip content={title} openDelay={200}><button type="button" className="metric-actual-growth-wrap" aria-label={title} onClick={celebrate}><Label className="metric-index-uplift metric-actual-growth" theme="success" size="xs">{label}</Label><span className="metric-actual-growth-sparkles" aria-hidden="true"><Icon data={SparklesFill} size={15} /></span></button></GravityTooltip>
+    <GravityTooltip content={title} openDelay={200}><button type="button" className={`metric-actual-growth-wrap${blockHeader ? ' metric-actual-growth-block' : ''}`} aria-label={title} onClick={celebrate}><Label className={`metric-index-uplift metric-actual-growth metric-index-uplift-${direction} ${direction === 'flat' ? '' : `index-quarter-delta-${direction === 'up' ? 'positive' : 'negative'}`}`} theme={direction === 'down' ? 'danger' : direction === 'up' ? 'success' : 'normal'} size="xs">{direction !== 'flat' && <span className="index-quarter-delta-direction" aria-hidden="true" />}<span className="metric-index-uplift-text">{label}</span></Label>{direction === 'up' && <span className="metric-actual-growth-sparkles" aria-hidden="true"><Icon data={SparklesFill} size={15} /></span>}</button></GravityTooltip>
     {typeof document !== 'undefined' && bursts.map((burst) => createPortal(<div className="metric-growth-confetti" aria-hidden="true" style={{left: burst.x, top: burst.y}}>{burst.particles.map((particle, index) =>
       <span key={index} className="metric-growth-confetti-particle" style={{'--metric-growth-x': `${particle.x}px`, '--metric-growth-y': `${particle.y}px`, '--metric-growth-size': `${particle.size}px`, animationDuration: `${particle.duration}ms`, animationDelay: `${particle.delay}ms`}} />
     )}</div>, document.body, burst.id))}
@@ -644,6 +648,17 @@ function MetricActualGrowthBadge({growth}) {
 function isReportingRegularity(metric) {
   return /^отч[её]тность$/i.test(String(metric?.metric_subgroup || '').trim())
     && /регулярность(?:\s*\(авто\))?$/i.test(String(metric?.name || '').trim());
+}
+
+function metricInfoMessage(metric, product) {
+  if (metric.source?.level === 'Уровень PO') return 'Оценка уровня PO учитывается в итоговой оценке целей.';
+  if (metric.source?.level === 'Уровень ЛЮ/ЛТ') {
+    if (product.unit === 'УБ' || product.tribe === 'Комиссионные продукты') {
+      return 'Метрики уровня ЛЮ/ЛТ информационные и не входят в индекс.';
+    }
+    return 'Оценка уровня ЛЮ/ЛТ учитывается в итоговой оценке целей.';
+  }
+  return 'Информационная метрика, не влияет на расчет';
 }
 
 const CROSS_SELL_UNCONFIRMED_MESSAGE = 'Мы не смогли подтвердить наличие кросс-продаж. При наличии, добавьте видео на платформу CJXplorer, иначе в следующем периоде значение скорректируется.';
@@ -662,10 +677,45 @@ function SalaryCohortControl({block, aggregateBlock, period, value, onUpdate}) {
   </div>;
 }
 
-function MetricGroupEntry({metrics, index, block, product, children}) {
+const GOALS_PO_COUNTERPART = {
+  'goals.monitored': 'goals.po_monitoring',
+  'goals.factor_analysis_l1_l2': 'goals.po_factor_analysis',
+  'goals.forecast': 'goals.po_forecast',
+};
+const GOALS_PO_CODES = new Set(Object.values(GOALS_PO_COUNTERPART));
+
+function GoalsLevelDecomposition({metric, poMetric, product, children, poChild, expanded}) {
+  const disclosure = React.useRef(null);
+  React.useEffect(() => { if (disclosure.current) disclosure.current.open = expanded; }, [expanded]);
+  const applicable = poMetric.is_applicabble_flg !== false;
+  const hasValue = applicable && Number(poMetric.max_value) > 0 && Number.isFinite(poMetric.value);
+  const label = hasValue ? `${displayMetricPercent(product, poMetric)}%`
+    : applicable ? '—' : inapplicableMetricLabel(poMetric);
+  const theme = !hasValue ? 'normal' : poMetric.value >= poMetric.max_value ? 'success' : poMetric.value > 0 ? 'warning' : 'danger';
+  return <details className="cross-sell-decomposition goals-level-decomposition" ref={disclosure}>
+    <summary className="cross-sell-decomposition-summary">
+      <Icon data={ChevronRight} size={14} />
+      <i className={`metric-light metric-light-${theme === 'normal' ? 'default' : theme}`} aria-hidden="true" />
+      <b>{displayText(metric.name)}</b>
+      <Label className={theme === 'normal' ? 'metric-status-label metric-status-label-text' : 'metric-status-label'} size="xs" theme={theme}>{label}</Label>
+    </summary>
+    <div className="cross-sell-decomposition-content">
+      {React.cloneElement(children, {nameOverride: 'Уровень ЛЮ/ЛТ', grouped: false, nested: true})}
+      {React.cloneElement(poChild, {nameOverride: 'Уровень PO', grouped: false, nested: true})}
+    </div>
+  </details>;
+}
+
+function MetricGroupEntry({metrics, index, block, product, children, expanded = false}) {
   const group = metricGroup(metrics[index]);
   const previousGroup = index > 0 ? metricGroup(metrics[index - 1]) : '';
-  const informationalGoals = block.code === 'goals' && group === 'Уровня ЛЮ/ЛТ'
+  const goalsDecomposition = block.code === 'goals' && block.goalsLevels && product.period === 'III кв. 2026';
+  if (goalsDecomposition && GOALS_PO_CODES.has(metrics[index].code)) return null;
+  const poCode = goalsDecomposition ? GOALS_PO_COUNTERPART[metrics[index].code] : null;
+  const poMetric = poCode ? metrics.find((metric) => metric.code === poCode) : null;
+  const poLevelMetric = poCode ? block.goalsPoLevelMetrics?.find((metric) => metric.code === poCode) || poMetric : null;
+  const poChild = poLevelMetric ? React.cloneElement(children, {metric: poLevelMetric}) : null;
+  const informationalGoals = block.code === 'goals' && group === 'Уровень ЛЮ/ЛТ'
     && metrics.filter(metric => metricGroup(metric) === group).every(isInformationalMetric);
   const crossSellResearchAction = researchActionForMetric(metrics[index]);
   const crossSellActions = [
@@ -674,9 +724,12 @@ function MetricGroupEntry({metrics, index, block, product, children}) {
     ...(children.props.aiMetricInsights || []),
     ...(children.props.skillActions || []),
   ];
-  const content = hasCrossSellDecomposition(product, metrics[index])
+  const content = goalsDecomposition && poMetric
+    ? <GoalsLevelDecomposition metric={metrics[index]} poMetric={poMetric} product={product} poChild={poChild} expanded={expanded}>{children}</GoalsLevelDecomposition>
+    : hasCrossSellDecomposition(product, metrics[index])
     ? <CrossSellDecomposition product={product} metric={metrics[index]} highlighted={children.props.highlighted} growthBadge={<MetricActualGrowthBadge growth={metricActualGrowth(metrics[index], children.props.maxIndexPoints, product.period)} />} analytics={crossSellActions.length > 0 ? <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={crossSellActions} /> : null}>{children}</CrossSellDecomposition>
     : children;
+  if (goalsDecomposition) return content;
   return <>{group && group !== previousGroup && <div className={`metric-group-title${informationalGoals ? ' metric-group-title-informational' : ''}`}><span>{group}</span>{informationalGoals && <span className="metric-group-note">Информационные метрики — не входят в индекс</span>}<ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}{content}</>;
 }
 
@@ -687,14 +740,14 @@ function BlockReferenceLinks({referenceLinks = [], participantLinks = [], refere
   </>;
 }
 
-function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruction, instructionLinks = [], library, zeroAction, aiMetricInsight, aiMetricInsights = [], skillActions = [], grouped, nested, digitallyConfirmed, crossSellUnconfirmed, highlighted, onOpenHtmlPageTool, hideAnalytics = false}) {
+function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruction, instructionLinks = [], library, zeroAction, aiMetricInsight, aiMetricInsights = [], skillActions = [], grouped, nested, digitallyConfirmed, crossSellUnconfirmed, highlighted, onOpenHtmlPageTool, hideAnalytics = false, nameOverride}) {
   const futureLabel = metricFutureLabel(product, metric);
   const emptyAbStatus = product.period === 'III кв. 2026' && metric.code === 'hyp.ab_tests'
     && metric.source?.origin !== 'userConfirmedAbTestsAssessment';
   if (!futureLabel && product.isPlaceholder && metric.is_applicabble_flg !== false
     && !(Number.isFinite(metric.value) && Number.isFinite(metric.max_value) && metric.max_value > 0)) {
     return <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${nested ? ' metric-row-nested' : ''}${emptyAbStatus ? ' metric-row-ab-unscored' : ''}`}>
-      <div className="metric-copy"><i className="metric-light metric-light-default" aria-hidden="true" /><div><div className="metric-name-line"><b>{displayText(metric.name)}</b>{isInformationalMetric(metric) && !/^регулярность$/i.test(String(metric.name || '').trim()) && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{(hasCrossSellDecomposition(product, metric) || metric.code.startsWith('goals.po_')) && metric.footer && <span>{displayText(metric.footer)}</span>}</div></div>
+      <div className="metric-copy"><i className="metric-light metric-light-default" aria-hidden="true" /><div><div className="metric-name-line"><b>{displayText(nameOverride || metric.name)}</b>{isInformationalMetric(metric) && !/^регулярность$/i.test(String(metric.name || '').trim()) && <GravityTooltip content={metricInfoMessage(metric, product)} openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label={metricInfoMessage(metric, product)}><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{(hasCrossSellDecomposition(product, metric) || metric.code.startsWith('goals.')) && metric.footer && <span>{displayText(metric.footer)}</span>}</div></div>
       <div className="metric-value"><MechanicsMetricHelp metric={metric} product={product} /><span className="metric-value-label">{emptyAbStatus ? '' : '—'}</span></div>
       {!hideAnalytics && <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={aiMetricInsights} />}
     </div>;
@@ -750,7 +803,7 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
     ? metricUpliftRecommendation(block, metric, value)
     : null;
   const verificationNote = baseMetricRecommendation?.note
-    && !/^userConfirmed/.test(metric.source?.origin || '')
+    && (!/^userConfirmed/.test(metric.source?.origin || '') || isCampaignSelfServiceConfirmation(metric, product.period))
     ? campaignMetricNoteForPeriod(metric.code, product.period, baseMetricRecommendation.note) : null;
   const upliftDigitalTrace = verificationNote
     ? <DigitalTraceConfirmation message={verificationNote} />
@@ -770,13 +823,13 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
       : null;
   const confirmationBadge = upliftDigitalTrace || lossHunterSourceBadge
     || (digitallyConfirmed ? <DigitalTraceConfirmation /> : crossSellUnconfirmed ? <CrossSellUnconfirmedWarning /> : null);
-  const metricName = <b>{displayText(metric.name)}</b>;
+  const metricName = <b>{displayText(nameOverride || metric.name)}</b>;
   const carriedFlexibleConditions = metric.code === 'mehaniki.gibkoe_izmenenie_usloviy_produkta'
     && product.period === 'III кв. 2026' && metric.source?.origin === 'priorQuarterCarryForward'
     && metric.source?.fromPeriod === 'II кв. 2026';
   return (
     <div id={metricDomId(metric.code)} className={`metric-row${detailScore ? '' : ' metric-row-status'}${grouped ? ' metric-row-grouped' : ''}${nested ? ' metric-row-nested' : ''}${isIrrelevant ? ' metric-row-irrelevant' : ''}${isTbd ? ' metric-row-tbd' : ''}${highlighted ? ' metric-row-highlighted' : ''}${emptyAbStatus ? ' metric-row-ab-unscored' : ''}`}>
-      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line">{metricName}{showInformationalBadge && <GravityTooltip content="Информационная метрика, не влияет на расчет" openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label="Информационная метрика, не влияет на расчет"><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{displayText(metric.footer)}</span>}{carriedFlexibleConditions && <span className="metric-carry-forward-note">Оценка сохранена со II квартала.</span>}</div></div>
+      <div className="metric-copy"><i className={`metric-light metric-light-${lightTheme}`} aria-hidden="true" /><div><div className="metric-name-line">{metricName}{showInformationalBadge && <GravityTooltip content={metricInfoMessage(metric, product)} openDelay={200}><span className="metric-info-icon" tabIndex={0} aria-label={metricInfoMessage(metric, product)}><Icon data={CircleInfoFill} size={14} /></span></GravityTooltip>}</div>{metric.footer && <span>{displayText(metric.footer)}</span>}{carriedFlexibleConditions && <span className="metric-carry-forward-note">Оценка сохранена со II квартала.</span>}</div></div>
       <div className="metric-value">{!emptyAbStatus && (detailScore && !futureLabel ? <><div className="metric-value-caption">{mechanicsHelp}<div className="metric-value-group">{actualGrowthBadge}{confirmationBadge}<span className="metric-value-label">{valueLabel}</span></div></div>{metric.is_applicabble_flg !== false && !isTbd && <Progress value={displayValue} theme={theme} size="xs" />}</> : <div className="metric-status-with-confirmation">{mechanicsHelp}<div className="metric-value-group">{actualGrowthBadge}{confirmationBadge}<Label className={status.theme === 'normal' ? 'metric-status-label metric-status-label-text' : 'metric-status-label'} theme={status.theme}>{status.label}</Label></div></div>)}</div>
       {instruction && <MetricInlineAction title="Инструкция" subtitle="по настройке алертов к бизнес-метрикам" href={instruction.button.link} />}
       <MetricInlineResources title="Инструкция к А/В тестам" actions={instructionLinks} />
@@ -1081,7 +1134,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
       </header>
 
       <div className="detail-lens-content">
-      <div className="notice"><div className="notice-copy"><b>{product.isPlaceholder ? hasScore ? 'Оценки заполнены полностью' : hasPartialData ? 'Данные заполнены частично' : 'Данные ещё не добавлены' : 'Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита'}</b>{product.isPlaceholder && <span>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</span>}</div></div>
+      <div className="notice"><div className="notice-copy"><b>Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита</b></div></div>
       <section className="detail-overview">
         <Card className={`index-profile-card tone-${maturityTone}`} view="outlined"><div className={`index-card tone-${maturityTone}${detailScore ? '' : ' index-card-compact'}`}><div className="index-card-title"><span>{displayProductName(product.name)}</span><HelpMark aria-label="Формула Data-Driven Index" popoverProps={HELP_POPOVER_PROPS}><IndexFormulaHelp /></HelpMark></div><div className="index-score"><strong>{hasScore ? `${score}%` : '—'}</strong>{hasScore && <b>/ 100</b>}<em>{maturity}</em></div>{indexDelta && <div className={`index-quarter-delta index-quarter-delta-${indexDelta.value > 0 ? 'positive' : indexDelta.value < 0 ? 'negative' : 'neutral'}`}><span className="index-quarter-delta-badge"><span className="index-quarter-delta-direction" aria-hidden="true" /><strong className="index-quarter-delta-value">{indexDelta.value > 0 ? '+' : indexDelta.value < 0 ? '−' : ''}{Math.abs(indexDelta.value).toLocaleString('ru-RU', {maximumFractionDigits: 1})} <span>п.п.</span></strong></span><span className="index-quarter-delta-caption">ко II кварталу</span></div>}{hasScore && <Progress value={score} theme={maturityTone} size="s" />}<div className="scale"><span>Требуют внимания</span><span>Развивающиеся</span><span>Зрелые</span><span>Лидеры Data Driven</span></div><div className="index-next-level"><Text variant="body-1" color={!hasScore ? 'secondary' : nextLevel ? 'primary' : 'positive'}>{!hasScore ? 'Нет данных об индексе за выбранный период' : nextLevel ? `До уровня «${nextLevel.name}» — ${percentToNextLevel}%` : 'Вы достигли уровня Лидеры Data Driven B2C'}</Text></div><RoadmapUplift key={product.id || product.name} roadmap={product.roadmap} currentLevel={maturity} productName={displayProductName(product.name)} /><div className="index-methodology-footer"><Text variant="body-1" color="secondary">Подробнее о подходе и критериях оценки, тут:</Text><Button view="flat-info" size="s" onClick={onAbout}>Перейти <Icon data={ChevronRight} size={13} /></Button></div>{detailScore && hasScore && <div className="index-points"><Text variant="caption-1" color="secondary">Набрано {earnedPoints.toFixed(2)} баллов из {maxPoints.toFixed(2)}</Text>{nextLevel && <Text variant="caption-1" color="secondary">До следующего уровня — {pointsToNextLevel.toFixed(2)} балла</Text>}</div>}</div><div className="profile-card"><Text variant="subheader-1">Профиль Data-Driven индекса</Text><div className="profile-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarData} outerRadius={compactRadar ? '38%' : '48%'}><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={<ProductRadarTick compact={compactRadar} />} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Radar name="B2C" dataKey="benchmark" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.25} strokeWidth={2} strokeDasharray="4 3" shape={<ApplicableRadarShape />} /><Radar name={profileSeries.label} dataKey="product" stroke={profileSeries.stroke} fill={profileSeries.fill} fillOpacity={0.2} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={profileSeries.fill} dotRadius={2} />} /><Legend iconType="circle" iconSize={7} wrapperStyle={{fontSize: 11, color: 'var(--g-color-text-secondary)'}} /></RadarChart></ResponsiveContainer></div></div></Card>
         <Card className="top-recommendations" view="outlined"><h2>Рекомендации и фокусы для повышения DD-индекса</h2>{product.isPlaceholder && recommendations.length === 0 && <Text color="secondary">{hasPartialData ? 'Нет данных для рекомендаций' : 'Данные ещё не добавлены'}</Text>}{recommendationCard.visible.map((item, index) => { const difficulty = difficultyMeta(item.difficulty); return <button type="button" className="top-recommendation recommendation-action" onClick={() => openRecommendationDetails(item)} key={`${item.block}-${item.recommendation}`}><div className="recommendation-marker"><span>{index + 1}</span><Label theme={difficulty.theme} size="xs">{difficulty.label}</Label></div><div><b>{item.recommendation}</b><small>{item.block}</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{item.indexUplift.toFixed(1)} п.п. индекса</b>{detailScore && <span>+{item.gap.toFixed(2)} балла</span>}</div></div></button>; })}{recommendationCard.hiddenCount > 0 && <button type="button" className="top-recommendation top-recommendation-summary recommendation-action" onClick={() => setRecommendationsOpen(true)}><div className="recommendation-marker"><span>+</span></div><div><b>Остальные рекомендации</b><small>{recommendationCard.hiddenCount} в полном списке</small></div><div className="recommendation-side"><div className="recommendation-uplift"><b>+{recommendationCard.hiddenUplift.toFixed(1)} п.п. индекса</b></div></div></button>}{recommendations.length > 0 && <Button view="flat-info" onClick={() => setRecommendationsOpen(true)}>Все рекомендации <Label size="xs">{recommendations.length}</Label><Icon data={ChevronRight} size={14} /></Button>}</Card>
@@ -1104,7 +1157,8 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
             const cohort = product.salaryToggleBlockCodes?.includes(aggregateBlock.code)
               ? product.salaryCohorts?.[salaryCohortKey] : null;
             const cohortBlock = cohort?.metrics.find((item) => item.code === aggregateBlock.code);
-            const block = cohortBlock ? {...cohortBlock, metrics: cohortBlock.metrics.filter((metric) => !isQ3CampaignMetricHidden(cohort, metric))} : aggregateBlock;
+            const block = cohortBlock ? salaryB2cComparisonBlock(product, cohort,
+              {...cohortBlock, metrics: cohortBlock.metrics.filter((metric) => !isQ3CampaignMetricHidden(cohort, metric))}, baselineProducts) : aggregateBlock;
             const metricProduct = cohortBlock ? cohort : product;
             const templateMetrics = product.isPlaceholder
               ? filterInapplicableMetricSubgroups(filterMetricsForBlock(block, (block.metrics || []).filter(isVisibleMetric)), metricGroup)
@@ -1112,6 +1166,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
             const templateVisibleMetrics = product.isPlaceholder ? (block.metrics || []).filter(isVisibleMetric) : [];
             const templateAllIrrelevant = templateVisibleMetrics.length > 0 && templateVisibleMetrics.every((metric) => metric.is_applicabble_flg === false && metric.code !== 'hyp.ab_tests');
             const templateBlockScore = product.isPlaceholder ? completeBlockPercent(block, metricProduct.period) : null;
+            const templateGrowth = product.isPlaceholder ? blockActualGrowth(block, maxPoints, metricProduct.period) : null;
             const templateStaticLinks = templateMetrics.flatMap((metric) => {
               if (/^hyp\.ab_tests$/i.test(metric.code)) return AB_TEST_INSTRUCTION_LINKS.map((action) => ({label: action.label, url: action.href}));
               if (/^hyp\.datadriven_rating_7_5$/i.test(metric.code)) return [{label: 'Библиотека решений', url: RESEARCH_LIBRARY_URL}];
@@ -1126,16 +1181,18 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
                   <Icon data={open.has(block.code) ? ChevronDown : ChevronRight} size={14} />
                   <div><h3>{teamProfileBlockTitle(block)}</h3></div>
                 </button>
+                {templateGrowth && <div className="dd-metric-block-growth"><MetricActualGrowthBadge growth={templateGrowth} blockHeader /></div>}
                 <div className="dd-metric-block-controls">{cohortBlock && <SalaryCohortControl block={block} aggregateBlock={aggregateBlock} period={product.period} value={salaryCohortKey} onUpdate={(value) => setSalaryCohortSelections((previous) => ({...previous, [block.code]: value}))} />}<div className="dd-metric-block-help"><ProductBlockHelp blockCode={block.code} product={metricProduct} />{(block.code === 'general' || /знание ключевых метрик/i.test(String(block.name || ''))) && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>Расчёт на основании опроса PO с верификацией по цифровым следам: ответы продукта сверяются с данными дашборда по ключевым метрикам.</HelpMark>}</div></div>
                 <div className="dd-metric-block-score">{templateAllIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{templateBlockScore === null ? '—' : `${templateBlockScore}%`}</strong>}</div>
               </div>
-              {open.has(block.code) && <div className="metric-list">{templateMetrics.map((metric, index, metrics) => { const preview = metric.code === 'mehaniki.cross_sell' ? crossSellPreview(product, block) : null; const insights = preview ? [{title: 'Cross-sell', label: 'Доступные связки', onClick: () => setCrossSellPreviewOpen({...preview, metricCriterion: true})}] : []; if (metric.code === 'hyp.discovery_40_backlog' && onBacklog) insights.push({title: 'Декомпозиция бэклога', label: 'Декомпозиция бэклога', tone: 'info', onClick: onBacklog}); return <MetricGroupEntry key={metric.code} metrics={metrics} index={index} block={block} product={metricProduct}><MetricRow block={block} product={metricProduct} metric={metric} detailScore={detailScore} maxIndexPoints={maxPoints} aiMetricInsights={insights} grouped={Boolean(metricGroup(metric))} nested={isReportingRegularity(metric)} /></MetricGroupEntry>; })}</div>}
+              {open.has(block.code) && <div className="metric-list">{templateMetrics.map((metric, index, metrics) => { const preview = metric.code === 'mehaniki.cross_sell' ? crossSellPreview(product, block) : null; const insights = preview ? [{title: 'Cross-sell', label: 'Доступные связки', onClick: () => setCrossSellPreviewOpen({...preview, metricCriterion: true})}] : []; if (metric.code === 'hyp.discovery_40_backlog' && onBacklog) insights.push({title: 'Декомпозиция бэклога', label: 'Декомпозиция бэклога', tone: 'info', onClick: onBacklog}); return <MetricGroupEntry key={metric.code} metrics={metrics} index={index} block={block} product={metricProduct} expanded={detailMode === 'detailed'}><MetricRow block={block} product={metricProduct} metric={metric} detailScore={detailScore} maxIndexPoints={maxPoints} aiMetricInsights={insights} grouped={Boolean(metricGroup(metric))} nested={isReportingRegularity(metric)} /></MetricGroupEntry>; })}</div>}
               {open.has(block.code) && <BlockReferenceLinks referenceLinks={templateReferenceLinks} participantLinks={block.participant_links} referencePeriod={block.referencePeriod} />}
             </Card>;
             const visibleMetrics = (block.metrics || []).filter(isVisibleMetric);
             const blockMetrics = filterMetricsForBlock(block, visibleMetrics);
             const metrics = filterInapplicableMetricSubgroups(blockMetrics, metricGroup);
             const blockScore = blockPercent(block);
+            const growth = blockActualGrowth(block, maxPoints, product.period);
             const allIrrelevant = visibleMetrics.length > 0 && visibleMetrics.every((metric) => metric.is_applicabble_flg === false);
             const isOpen = open.has(block.code);
             const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);
@@ -1154,6 +1211,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
                     <Icon data={isOpen ? ChevronDown : ChevronRight} size={14} />
                     <div><h3>{teamProfileBlockTitle(block)}</h3>{detailScore && <span>Набрано {value.toFixed(2)} баллов из {max.toFixed(2)}</span>}</div>
                   </button>
+                  {growth && <div className="dd-metric-block-growth"><MetricActualGrowthBadge growth={growth} blockHeader /></div>}
                   <div className="dd-metric-block-help">
                     <ProductBlockHelp blockCode={block.code} product={product} />
                     {isKeyMetricsBlock && <HelpMark aria-label="Источник оценки" popoverProps={HELP_POPOVER_PROPS}>Расчёт на основании опроса PO с верификацией по цифровым следам: ответы продукта сверяются с данными дашборда по ключевым метрикам.</HelpMark>}
@@ -1161,7 +1219,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
                   <div className="dd-metric-block-score">{allIrrelevant ? <span className="metric-block-na">Не применимо</span> : <strong>{blockScore}%</strong>}</div>
                 </div>
                 {isOpen && showKeyMetricsDisclaimer && <div className="key-metrics-disclaimer"><Icon data={CircleInfo} size={16} /><span>На базе самооценки в Oprosso. Следующая волна — 3Q26. <strong>Используйте отчёты ниже как ориентир по ключевым метрикам.</strong></span></div>}
-                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) ? {link: RESEARCH_LIBRARY_URL} : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const hasDraftAiInsight = draftAiRecommendations.length > 0 && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code); const skillActions = metricSkillLinks(block, metric).filter((action) => !(hasDraftAiInsight && /^черновики$/i.test(action.label))); let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (hasDraftAiInsight) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = htmlPageAiRecommendations.filter(({tool}) => tool.action?.metricCode === metric.code).map(({tool, context}) => metricAiInsight(tool.action.subject, () => onOpenHtmlPageTool(tool.id, context))); if (hasPilotCampaigns && pilotHtmlTool && /^attract\.nalichie_self_service$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('пилотным кампаниям', openPilotAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && cjxplorerProduct) aiMetricInsights.push({title: 'Оценка CJ', label: 'Оценка CJ', onClick: () => setCjxplorerOpen(true)}); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); const crossSell = /^mehaniki\.cross_sell$/i.test(metric.code) ? crossSellPreview(product, block) : null; if (crossSell) aiMetricInsights.push({title: 'Cross-sell', label: 'Доступные связки', tone: 'info', onClick: () => setCrossSellPreviewOpen(crossSell)}); if (metric.code === 'hyp.discovery_40_backlog' && onBacklog) aiMetricInsights.push({title: 'Декомпозиция бэклога', label: 'Декомпозиция бэклога', tone: 'info', onClick: onBacklog}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); const crossSellUnconfirmed = isCrossSellDigitallyUnconfirmed(product, block, metric); return <MetricGroupEntry key={metric.code} metrics={metrics} index={index} block={block} product={product}><MetricRow block={block} metric={metric} product={product} detailScore={detailScore} maxIndexPoints={maxPoints} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} skillActions={skillActions} grouped={Boolean(group)} nested={isReportingRegularity(metric)} digitallyConfirmed={digitallyConfirmed} crossSellUnconfirmed={crossSellUnconfirmed} highlighted={highlightedMetrics.has(metric.code)} onOpenHtmlPageTool={onOpenHtmlPageTool} /></MetricGroupEntry>; })}</div>}
+                {isOpen && <div className="metric-list">{metrics.map((metric, index) => { const group = metricGroup(metric); const instruction = /^alerts\.business_metrics$/i.test(metric.code) ? instructions[0] : null; const instructionLinks = /^hyp\.ab_tests$/i.test(metric.code) ? AB_TEST_INSTRUCTION_LINKS : []; const library = /^hyp\.datadriven_rating_7_5$/i.test(metric.code) ? {link: RESEARCH_LIBRARY_URL} : null; const zeroAction = /^attract\.nalichie_self_service$/i.test(metric.code) ? firstPilotAction : null; const hasDraftAiInsight = draftAiRecommendations.length > 0 && /^attract\.chernoviki_v_sbol_70$/i.test(metric.code); const skillActions = metricSkillLinks(block, metric).filter((action) => !(hasDraftAiInsight && /^черновики$/i.test(action.label))); let aiMetricInsight = null; if (hasMauAiRecommendation && /\.mau_produkta$/i.test(metric.code)) aiMetricInsight = metricAiInsight('динамике MAU', openMauAiRecommendation); if (hasDraftAiInsight) aiMetricInsight = metricAiInsight('черновикам в СБОЛ', openDraftAiRecommendation); if (campaignFunnelAiRecommendations.length && /^attract\.funnel_analysis$/i.test(metric.code)) aiMetricInsight = metricAiInsight('воронке кампейнинга', openCampaignFunnelAiRecommendation); const aiMetricInsights = htmlPageAiRecommendations.filter(({tool}) => tool.action?.metricCode === metric.code).map(({tool, context}) => metricAiInsight(tool.action.subject, () => onOpenHtmlPageTool(tool.id, context))); if (hasPilotCampaigns && pilotHtmlTool && /^attract\.nalichie_self_service$/i.test(metric.code)) aiMetricInsights.push(metricAiInsight('пилотным кампаниям', openPilotAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && cjxplorerProduct) aiMetricInsights.push({title: 'Оценка CJ', label: 'Оценка CJ', onClick: () => setCjxplorerOpen(true)}); if (/^cx\.score$/i.test(metric.code) && csiAiRecommendations.length) aiMetricInsights.push(metricAiInsight('CSI', openCsiAiRecommendation)); if (/^cx\.score$/i.test(metric.code) && complaintsAiRecommendations.length) aiMetricInsights.push(metricAiInsight('жалобам и обращениям', openComplaintsAiRecommendation)); const crossSell = /^mehaniki\.cross_sell$/i.test(metric.code) ? crossSellPreview(product, block) : null; if (crossSell) aiMetricInsights.push({title: 'Cross-sell', label: 'Доступные связки', tone: 'info', onClick: () => setCrossSellPreviewOpen(crossSell)}); if (metric.code === 'hyp.discovery_40_backlog' && onBacklog) aiMetricInsights.push({title: 'Декомпозиция бэклога', label: 'Декомпозиция бэклога', tone: 'info', onClick: onBacklog}); const digitallyConfirmed = isCrossSellDigitallyConfirmed(product, block, metric); const crossSellUnconfirmed = isCrossSellDigitallyUnconfirmed(product, block, metric); return <MetricGroupEntry key={metric.code} metrics={metrics} index={index} block={block} product={product} expanded={detailMode === 'detailed'}><MetricRow block={block} metric={metric} product={product} detailScore={detailScore} maxIndexPoints={maxPoints} instruction={instruction} instructionLinks={instructionLinks} library={library} zeroAction={zeroAction} aiMetricInsight={aiMetricInsight} aiMetricInsights={aiMetricInsights} skillActions={skillActions} grouped={Boolean(group)} nested={isReportingRegularity(metric)} digitallyConfirmed={digitallyConfirmed} crossSellUnconfirmed={crossSellUnconfirmed} highlighted={highlightedMetrics.has(metric.code)} onOpenHtmlPageTool={onOpenHtmlPageTool} /></MetricGroupEntry>; })}</div>}
                 {isOpen && <BlockReferenceLinks referenceLinks={blockLinks} participantLinks={participantLinks} />}
               </Card>
             );

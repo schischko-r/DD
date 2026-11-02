@@ -130,7 +130,7 @@
           }
         },
         "mehaniki.uderzhanie_klientov": {
-          "rawValue": 1,
+          "rawValue": 0.75,
           "source": {
             "origin": "userConfirmedQuarterRetention",
             "policy": "segmentMechanicsNonDecreasing",
@@ -140,7 +140,7 @@
             "fromPeriod": "II кв. 2026",
             "sourceValue": 1.5,
             "sourceMaxValue": 2,
-            "proposedRawValue": 1
+            "proposedRawValue": 0.75
           }
         }
       }

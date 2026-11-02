@@ -1,0 +1,16 @@
+{
+  "products": 67,
+  "apiProducts": 127,
+  "apiMarkers": 112,
+  "round": "r12-20261019T112116Z",
+  "generatedAt": "2026-10-19T11:24:43.605711+00:00",
+  "ddiRule": "gravity-app/src/domain/report.js:isCrossSellDigitallyConfirmed",
+  "ddiOnes": 30,
+  "ddiZeros": 37,
+  "statusCounts": {
+    "Нет данных": 5,
+    "Нет видео": 33,
+    "Есть": 18,
+    "Не обнаружены": 11
+  }
+}

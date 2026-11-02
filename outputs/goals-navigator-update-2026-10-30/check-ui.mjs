@@ -1,0 +1,8 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import {metricDomId} from '../../gravity-app/src/domain/report.js';
+const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1440,height:1000}});const errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:4178');await p.waitForSelector('.dashboard-period');await p.locator('[aria-label="Профиль команды"]').click();
+const choose=async(s,n)=>{await p.locator(s).click();await p.getByRole('option',{name:n,exact:true}).click();await p.getByRole('option',{name:n,exact:true}).waitFor({state:'hidden'});};
+const select=async(u,n)=>{await choose('.detail-team-unit-filter [role="combobox"]',u);await choose('.detail-team-select [role="combobox"]',n);await p.getByRole('button',{name:'Подробно',exact:true}).click();};
+const check=async(c,v)=>{const r=p.locator(`[id="${metricDomId(c)}"]`);assert.equal((await r.locator('.metric-status-label').textContent()).trim(),v);};
+await select('CBP','BNPL');await check('goals.monitored','100%');await check('goals.factor_analysis_l1_l2','0%');await check('goals.forecast','0%');await check('general.navigator_reporting_knowledge','100%');await select('CBP','Монеты');await check('general.navigator_reporting_knowledge','100%');await select('УБ','Брокерский счет');await check('general.navigator_reporting_knowledge','100%');assert.deepEqual(errors,[]);await b.close();console.log('PASS UI: BNPLgoals100/0/0, NavigatorBNPL/Monety/Broker100, console clean.');

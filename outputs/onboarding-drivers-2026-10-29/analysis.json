@@ -1,0 +1,95 @@
+{
+  "source": "outputs/ddi-uplift-groups-2026-10-28/Аплифты_DDI_группы_и_команды.xlsx",
+  "sourceSnapshot": "questionare-uplifts(5).csv; /tmp/ddi_uplift_results.json; gravity-app/public/report-data.json",
+  "group": {
+    "unit": null,
+    "code": "voronka_onbordinga",
+    "name": "Воронка онбординга",
+    "population": 83,
+    "count": 4,
+    "oldMin": 25,
+    "oldMax": 75,
+    "oldMean": 45.833333333333336,
+    "newMin": 16.666666666666668,
+    "newMax": 75,
+    "newMean": 41.666666666666664,
+    "contrib": -0.021715505359914938
+  },
+  "teams": [
+    {
+      "team": "СберKids",
+      "old": 50.0,
+      "new": 33.33333333333333,
+      "delta": -16.666666666666664,
+      "meanContribution": -4.166666666666666
+    },
+    {
+      "team": "СБОЛ",
+      "old": 33.33333333333333,
+      "new": 41.66666666666667,
+      "delta": 8.333333333333332,
+      "meanContribution": 2.083333333333333
+    },
+    {
+      "team": "СберИнвестор",
+      "old": 75.0,
+      "new": 75.0,
+      "delta": 0.0,
+      "meanContribution": 0.0
+    },
+    {
+      "team": "Уведомления",
+      "old": 25.0,
+      "new": 16.666666666666664,
+      "delta": -8.333333333333332,
+      "meanContribution": -2.083333333333333
+    }
+  ],
+  "changedMetrics": [
+    {
+      "team": "СберKids",
+      "code": "voronka_onbordinga.nastroena_otchetnostь",
+      "metric": "Настроена отчетность",
+      "before": 0,
+      "after": 0.25,
+      "max": 0.5,
+      "meanContribution": 2.083333333333333
+    },
+    {
+      "team": "СберKids",
+      "code": "voronka_onbordinga.polnota_otcheta",
+      "metric": "Полнота отчета",
+      "before": 0,
+      "after": 0.25,
+      "max": 0.5,
+      "meanContribution": 2.083333333333333
+    },
+    {
+      "team": "СберKids",
+      "code": "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami",
+      "metric": "Мероприятия по работе с отклонениями",
+      "before": 1,
+      "after": 0.0,
+      "max": 1,
+      "meanContribution": -8.333333333333332
+    },
+    {
+      "team": "СБОЛ",
+      "code": "voronka_onbordinga.nastroena_otchetnostь",
+      "metric": "Настроена отчетность",
+      "before": 0.25,
+      "after": 0.5,
+      "max": 0.5,
+      "meanContribution": 2.083333333333333
+    },
+    {
+      "team": "Уведомления",
+      "code": "voronka_onbordinga.nastroena_otchetnostь",
+      "metric": "Настроена отчетность",
+      "before": 0.25,
+      "after": 0.0,
+      "max": 0.5,
+      "meanContribution": -2.083333333333333
+    }
+  ]
+}

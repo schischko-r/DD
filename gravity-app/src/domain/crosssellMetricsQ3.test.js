@@ -15,7 +15,7 @@ const metrics=p=>p.metrics.flatMap(b=>b.metrics);
 const pointer=path=>path.split('/').slice(1).reduce((node,key)=>node[key.replaceAll('~1','/').replaceAll('~0','~')],api);
 
 test('Q3 cross-sell preserves own observations and also credits more than one incoming observation',()=>{
-  assert.deepEqual(overlay.counts,{positive:21,zero:39,notApplicable:6,missingMetric:1,products:67,unmatched:4});
+  assert.deepEqual(overlay.counts,{positive:24,zero:36,notApplicable:6,missingMetric:1,products:67,unmatched:4});
   assert.equal(overlay.products.length,67);assert.equal(new Set(overlay.products.map(p=>p.id)).size,67);
   let competitorOnlyZeros=0;
   for(const p of overlay.products){
@@ -50,8 +50,10 @@ test('Q3 cross-sell preserves own observations and also credits more than one in
     for(const item of evidence.evidenceExcluded)assert.deepEqual(item.pair||item.judgement||item.candidate,pointer(item.pointer));
     const applicable=old&&old.is_applicabble_flg!==false&&old.max_value>0;
     const qualifies=targets.size>0||incomingQualifies;
-    assert.equal(p.status,!old?'missingMetric':!applicable?'notApplicable':qualifies?'positive':'zero');
-    if(applicable)assert.equal(p.metrics[code].rawValue,qualifies?.5:0);else assert.deepEqual(p.metrics,{});
+    const userOverride=Boolean(p.metrics[code]?.source?.userOverride);
+    assert.equal(p.status,!old?'missingMetric':!applicable?'notApplicable':qualifies||userOverride?'positive':'zero');
+    if(applicable)assert.equal(p.metrics[code].rawValue,userOverride ? .5 : qualifies ? .5 : 0);else assert.deepEqual(p.metrics,{});
+    if(userOverride)assert.equal(p.metrics[code].source.userOverride.componentPercent,100);
     if(!p.matched){assert.equal(own,null);assert.equal(evidence.link,null);assert.ok(evidence.matchWarning);assert.ok(evidence.zeroMeaning.includes('не утверждение'));}
     if(p.status==='zero'&&own?.pairs?.some(pair=>pair.who?.length))competitorOnlyZeros++;
   }
@@ -80,7 +82,7 @@ test('Q3 applies 21 half scores and 39 zeros without changing maxima, NA, Q2 or 
       else{assert.equal(metric.value,null);assert.equal(metric.source,undefined);if(p.type==='Продукт')na++;}
     }
   }
-  assert.equal(positive,21);assert.equal(zero,39);assert.equal(na,6);
+  assert.equal(positive,24);assert.equal(zero,36);assert.equal(na,6);
   const q2=buildTeamProfileProducts(actual,'II кв. 2026',overlay);assert.equal(q2.length,83);q2.forEach(p=>assert.equal(p,actual.find(t=>t.id===p.id)));
   assert.equal(JSON.stringify(actual),original);assert.equal(JSON.stringify(overlay),raw);
 });

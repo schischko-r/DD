@@ -1,0 +1,151 @@
+
+/* ── внутренняя страница «Сценарии оттока» ────────────────────────────── */
+/* Живёт в этом же документе: открывается вместо основной страницы по
+   #scenarios, классы с префиксом scn-, чтобы не задеть отчёт. */
+.scn-view { --promo: #8b5cf6; --service: #239ee2; --other: #e08800; }
+.scn-view[hidden] { display: none; }
+.scn-back {
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 12px;
+  padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--link); font-size: 12px;
+}
+.scn-back:hover { text-decoration: underline; text-underline-offset: 3px; }
+.scn-synthetic {
+  display: inline-flex; margin-top: 10px; padding: 3px 9px; border-radius: 6px;
+  font-size: 11px; font-weight: 600; background: rgba(224, 136, 0, .12); color: #7a4a00;
+}
+.scn-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.scn-head h2 { margin: 0; font-size: 14px; font-weight: 700; }
+.scn-total { font-size: 12px; color: var(--ink-soft); }
+.scn-total b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.scn-bar {
+  margin-top: 14px; display: flex; height: 40px; gap: 2px;
+  border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, .04);
+}
+.scn-bar button {
+  min-width: 0; padding: 0 10px; border: 0; cursor: pointer;
+  display: flex; align-items: center;
+  font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden;
+  transition: opacity .15s, filter .15s;
+}
+.scn-bar button:hover { filter: brightness(1.05); }
+.scn-bar.has-pick button:not([aria-pressed="true"]) { opacity: .35; }
+.scn-bar button span { overflow: hidden; text-overflow: ellipsis; }
+
+.scn-legend {
+  margin: 12px 0 0; padding: 0; list-style: none;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 6px;
+}
+.scn-legend button {
+  width: 100%; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto;
+  align-items: center; gap: 9px; padding: 7px 10px;
+  border: 1px solid var(--line); border-radius: 8px; background: var(--surface);
+  text-align: left; cursor: pointer; font-size: 12px;
+}
+.scn-legend button:hover { border-color: var(--line-hover); }
+.scn-legend button[aria-pressed="true"] { border-color: var(--brand); background: var(--info-light); }
+.scn-legend i { width: 10px; height: 10px; border-radius: 3px; }
+.scn-legend b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-legend small { display: block; font-size: 11px; color: var(--ink-soft); }
+
+.scn-empty {
+  margin-top: 16px; padding: 28px 16px; text-align: center;
+  border: 1px dashed var(--line-hover); border-radius: 8px;
+  color: var(--ink-soft); font-size: 12px;
+}
+
+.scn-title { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.scn-title i { width: 12px; height: 12px; border-radius: 4px; flex: 0 0 auto; }
+.scn-title h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.scn-title span { font-size: 12px; color: var(--ink-soft); }
+.scn-about { margin: 4px 0 0; font-size: 12px; color: var(--ink-soft); }
+
+.scn-grid { margin-top: 16px; display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr) 300px; }
+.scn-grid.is-open { grid-template-columns: minmax(0, 1fr) 300px 320px; }
+
+/* распределение оттока по дням: интервалы сверху вниз, длина — объём */
+.scn-chart-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+.scn-chart-title span { font-weight: 400; color: var(--ink-soft); }
+.scn-rows { position: relative; display: grid; gap: 10px; }
+.scn-row { display: grid; grid-template-columns: 72px minmax(0, 1fr); align-items: center; gap: 10px; }
+.scn-row-label { font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-row-label small { display: block; font-size: 10px; font-weight: 400; color: var(--ink-hint); }
+.scn-track { position: relative; height: 34px; }
+.scn-grid-lines { position: absolute; inset: 0; pointer-events: none; }
+.scn-grid-lines i { position: absolute; top: 0; bottom: 0; width: 1px; background: rgba(0, 0, 0, .06); }
+.scn-fill {
+  position: absolute; left: 0; top: 0; bottom: 0; border-radius: 0 5px 5px 0;
+  min-width: 2px;
+}
+.scn-fill-label {
+  position: absolute; top: 50%; transform: translateY(-50%); white-space: nowrap;
+  font-size: 12px; font-variant-numeric: tabular-nums; color: var(--ink-soft);
+}
+.scn-fill-label b { color: var(--ink); font-weight: 600; }
+.scn-axis { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 10px; margin-top: 4px; }
+.scn-axis div { position: relative; height: 14px; border-top: 1px solid rgba(0, 0, 0, .2); }
+.scn-axis span {
+  position: absolute; top: 2px; transform: translateX(-50%);
+  font-size: 10px; color: var(--ink-hint); font-variant-numeric: tabular-nums;
+}
+.scn-axis span:first-child { transform: none; }
+.scn-note { margin-top: 10px; font-size: 11px; color: var(--ink-hint); }
+
+.scn-cards { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.scn-cards-title { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-hint); }
+.scn-tile {
+  padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); text-align: left; width: 100%;
+}
+button.scn-tile { cursor: pointer; }
+button.scn-tile:hover { border-color: var(--line-hover); }
+button.scn-tile[aria-expanded="true"] { border-color: var(--promo); box-shadow: 0 0 0 1px var(--promo) inset; }
+.scn-tile-label { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 11px; color: var(--ink-soft); }
+.scn-tile-label em { font-style: normal; color: var(--promo); font-weight: 600; white-space: nowrap; }
+.scn-tile-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 1px; }
+.scn-tile-value { font-size: 22px; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.scn-delta {
+  display: inline-flex; align-items: center; gap: 4px; padding: 2px 7px; border-radius: 999px;
+  font-size: 11px; font-weight: 600; background: rgba(0, 0, 0, .04); color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.scn-delta.is-good { color: var(--good); background: rgba(31, 156, 83, .1); }
+.scn-delta.is-bad { color: var(--bad); background: rgba(233, 3, 58, .08); }
+.scn-spark { display: block; width: 100%; height: 34px; margin-top: 8px; }
+.scn-tile-foot { margin-top: 3px; display: flex; justify-content: space-between; font-size: 10px; color: var(--ink-hint); }
+
+.scn-sub { margin: 8px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.scn-sub li { display: grid; gap: 4px; }
+.scn-sub .row-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12px; }
+.scn-sub .row-head span { color: var(--ink-soft); }
+.scn-sub .row-head b { font-weight: 600; font-variant-numeric: tabular-nums; }
+.scn-sub .row-meta { display: flex; justify-content: flex-end; }
+.scn-mini { height: 6px; border-radius: 3px; background: rgba(0, 0, 0, .05); overflow: hidden; }
+.scn-mini i { display: block; height: 100%; border-radius: 3px; }
+
+.scn-sankey {
+  min-width: 0; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px;
+  background: var(--surface); animation: scn-in .2s ease-out;
+}
+@keyframes scn-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .scn-sankey { animation: none; } }
+.scn-sankey-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.scn-sankey-head b { font-size: 12px; font-weight: 600; }
+.scn-sankey-close {
+  padding: 2px 8px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--surface); font-size: 11px; cursor: pointer; color: var(--ink-soft);
+}
+.scn-sankey-close:hover { border-color: var(--line-hover); color: var(--ink); }
+.scn-sankey svg { display: block; width: 100%; height: auto; margin-top: 10px; }
+.scn-sankey svg text { font-family: var(--sans); }
+.scn-sankey-note { margin-top: 8px; font-size: 11px; color: var(--ink-hint); }
+
+@media (max-width: 1080px) {
+  .scn-grid, .scn-grid.is-open { grid-template-columns: minmax(0, 1fr) 300px; }
+  .scn-grid.is-open .scn-sankey { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .scn-grid, .scn-grid.is-open { grid-template-columns: minmax(0, 1fr); }
+  .scn-bar { height: 32px; }
+}

@@ -1,0 +1,1077 @@
+{
+  "source": {
+    "date": "2026-10-26",
+    "kind": "Текущий DDI: ключевые блоки DD-рейтинга на страницах команд",
+    "teams": 83,
+    "files": [
+      {
+        "path": "gravity-app/public/report-data.json",
+        "sha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b"
+      },
+      {
+        "path": "gravity-app/src/pages/TeamProfilePage.jsx",
+        "sha256": "796046e9f06810f7484cea44413248dddd4825347a0a0a90442ee6c1a3e1d59f"
+      },
+      {
+        "path": "gravity-app/src/features/catalog/Catalog.jsx",
+        "sha256": "b091692e49656fbf0f2acf77659ecd2e51d87e096298ff75f2df9f1b290af8dc"
+      },
+      {
+        "path": "gravity-app/src/domain/report.js",
+        "sha256": "acab2337b726299070bfd8e649818b6643387fc2c60a4874dc0113ae1779594c"
+      },
+      {
+        "path": "gravity-app/src/pages/teamProfileAiSkillNavigation.js",
+        "sha256": "1692131517beb5716e284f3b9d43e236201150695f95257b87e6ef668fe55706"
+      },
+      {
+        "path": "gravity-app/src/features/llm-summary/digestPresentation.js",
+        "sha256": "381ad76e2672b5da4cee2e0ee4a077fa2bd28ba017511b6368128bf1ff13ad35"
+      },
+      {
+        "path": "gravity-app/src/features/llm-summary/LlmSummary.jsx",
+        "sha256": "394e226e92ddeaef068d88971930e10b595134922a3822592daa93c660809367"
+      }
+    ]
+  },
+  "definitions": {
+    "deduplication": "Отображаемое название блока + код метрики + отображаемое название метрики. Команды объединены.",
+    "digital": "true — хотя бы у одного применимого отображения метрики на странице команды имеется метка DigitalTraceConfirmation: metricUpliftRecommendation.note либо isCrossSellDigitallyConfirmed.",
+    "false": "false — цифровая метка не обнаружена в текущем интерфейсе. Это не доказывает отсутствие цифрового источника сбора.",
+    "visibility": "Точные функции текущего UI: isVisibleMetric, filterInapplicableMetricGroups (с сохранением блоков AI-рекомендаций), filterMetricsForBlock, filterInapplicableMetricSubgroups, metricGroup, displayText. Неприменимые метрики учитываются только если UI их отображает; цифровой флаг — только по применимым отображениям."
+  },
+  "counts": {
+    "rows": 127,
+    "digital": 8,
+    "withoutDigitalBadge": 119,
+    "renderedAppearances": 2851,
+    "applicableAppearances": 2771,
+    "digitalAppearances": 464
+  },
+  "rows": [
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.obъem_celevogo_rynka_v_rossii",
+      "name": "Объем целевого рынка в России",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.obъem_celevogo_rynka_v_sbere",
+      "name": "Объем целевого рынка в Сбере",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.klienty_s_produktom",
+      "name": "Клиенты с продуктом",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.mau_produkta",
+      "name": "MAU продукта",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.znanie_produktov_sputnikov",
+      "name": "Знание продуктов спутников",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "digital": false
+    },
+    {
+      "block": "Цели",
+      "blockCode": "goals",
+      "subgroup": "",
+      "code": "goals.monitored",
+      "name": "Цели выведены на мониторинг",
+      "digital": true,
+      "note": "Проверено на цифровых следах в мастер-дешах"
+    },
+    {
+      "block": "Цели",
+      "blockCode": "goals",
+      "subgroup": "",
+      "code": "goals.factor_analysis_l1_l2",
+      "name": "Факторный анализ - драйверы 1-2 ур.",
+      "digital": true,
+      "note": "Проверено на цифровых следах в мастер-дешах"
+    },
+    {
+      "block": "Цели",
+      "blockCode": "goals",
+      "subgroup": "",
+      "code": "goals.forecast",
+      "name": "Прогноз по целям",
+      "digital": true,
+      "note": "Проверено на цифровых следах в мастер-дешах"
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Отчетность",
+      "code": "attract.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Отчетность",
+      "code": "attract.regulyarnostь",
+      "name": "Регулярность",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Отчетность",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Анализ",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Анализ",
+      "code": "attract.initiatives_list",
+      "name": "Составлен перечень инициатив по привлечению",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Анализ",
+      "code": "attract.benchmarks",
+      "name": "Наличие бенчмарков",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Кампейнинг",
+      "code": "attract.campaign_launches",
+      "name": "Запуски кампаний за квартал",
+      "digital": true,
+      "note": "Проверено на цифровых следах за 1Q"
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Кампейнинг",
+      "code": "attract.chernoviki_v_sbol_70",
+      "name": "Черновики в СБОЛ >=70%",
+      "digital": true,
+      "note": "Проверено на цифровых следах"
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Кампейнинг",
+      "code": "attract.nalichie_self_service",
+      "name": "Наличие Self-service",
+      "digital": true,
+      "note": "Проверено на цифровых следах за 1Q"
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Кампейнинг",
+      "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+      "name": "Наличие успешных бизнес-запусков",
+      "digital": true,
+      "note": "Проверено на цифровых следах за 1Q"
+    },
+    {
+      "block": "Воронка оттока",
+      "blockCode": "churn",
+      "subgroup": "Отчетность",
+      "code": "churn.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "digital": false
+    },
+    {
+      "block": "Воронка оттока",
+      "blockCode": "churn",
+      "subgroup": "Отчетность",
+      "code": "churn.regulyarnostь",
+      "name": "Регулярность",
+      "digital": false
+    },
+    {
+      "block": "Воронка оттока",
+      "blockCode": "churn",
+      "subgroup": "Отчетность",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "digital": false
+    },
+    {
+      "block": "Воронка оттока",
+      "blockCode": "churn",
+      "subgroup": "Анализ",
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "digital": false
+    },
+    {
+      "block": "Воронка оттока",
+      "blockCode": "churn",
+      "subgroup": "Анализ",
+      "code": "churn.deviation_actions",
+      "name": "Мероприятия по работе с отклонениями",
+      "digital": false
+    },
+    {
+      "block": "Воронка оттока",
+      "blockCode": "churn",
+      "subgroup": "Анализ",
+      "code": "churn.benchmarks",
+      "name": "Наличие бенчмарков",
+      "digital": false
+    },
+    {
+      "block": "Алерты",
+      "blockCode": "alerts",
+      "subgroup": "",
+      "code": "alerts.business_metrics",
+      "name": "Оповещения по бизнес-метрикам",
+      "digital": false
+    },
+    {
+      "block": "Алерты",
+      "blockCode": "alerts",
+      "subgroup": "",
+      "code": "alerts.system_failures",
+      "name": "Оповещения по системным сбоям",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.vozvrat_klientov",
+      "name": "Возврат клиентов",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+      "name": "Гибкое изменение условий продукта",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.cross_sell",
+      "name": "Cross-sell",
+      "digital": true,
+      "note": "Условная метка: только для продукта и Cross-sell в блоке «Механики», crosssell_marker === true и api_seen_around_n > 0. Встречается хотя бы на одной применимой странице команды; не означает подтверждение для всех команд."
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "name": "Допродажи (up-sell)",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.monitoring_mehanik",
+      "name": "Мониторинг механик",
+      "digital": false
+    },
+    {
+      "block": "Гипотезы и инициативы",
+      "blockCode": "hyp",
+      "subgroup": "",
+      "code": "hyp.discovery_40_backlog",
+      "name": "Discovery >=40% бэклога",
+      "digital": false
+    },
+    {
+      "block": "Гипотезы и инициативы",
+      "blockCode": "hyp",
+      "subgroup": "",
+      "code": "hyp.datadriven_rating_7_5",
+      "name": "Оценка исследований >=7,5",
+      "digital": false
+    },
+    {
+      "block": "Гипотезы и инициативы",
+      "blockCode": "hyp",
+      "subgroup": "",
+      "code": "hyp.ab_tests",
+      "name": "A/B-тесты",
+      "digital": false
+    },
+    {
+      "block": "Гипотезы и инициативы",
+      "blockCode": "hyp",
+      "subgroup": "",
+      "code": "hyp.extra_initiatives",
+      "name": "Доп. инициативы сверх БП",
+      "digital": false
+    },
+    {
+      "block": "Клиентский опыт",
+      "blockCode": "cx",
+      "subgroup": "",
+      "code": "cx.score",
+      "name": "CX Score",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.nalichie_sobstvennyh_mehanik",
+      "name": "Наличие собственных механик",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.aktivnaya_klientskaya_baza",
+      "name": "Активная клиентская база",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.kol_vo_major_klientov",
+      "name": "Кол-во Major клиентов",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.personalizaciya_klientskogo_opyta",
+      "name": "Персонализация клиентского опыта",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.privlechenie_klientov",
+      "name": "Привлечение клиентов",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "name": "Реагирование на жизненные события",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.kol_vo_klientov_s_2_nefin_servisov",
+      "name": "Кол-во клиентов с 2+ нефин. сервисов",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.kolichestvo_obrascheniy",
+      "name": "Количество обращений",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.fcr",
+      "name": "FCR",
+      "digital": false
+    },
+    {
+      "block": "Воронка входа в канал",
+      "blockCode": "voronka_vhoda_v_kanal",
+      "subgroup": "Отчетность",
+      "code": "voronka_vhoda_v_kanal.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "digital": false
+    },
+    {
+      "block": "Воронка входа в канал",
+      "blockCode": "voronka_vhoda_v_kanal",
+      "subgroup": "Отчетность",
+      "code": "voronka_vhoda_v_kanal.regulyarnostь",
+      "name": "Регулярность",
+      "digital": false
+    },
+    {
+      "block": "Воронка входа в канал",
+      "blockCode": "voronka_vhoda_v_kanal",
+      "subgroup": "Отчетность",
+      "code": "voronka_vhoda_v_kanal.polnota_otcheta",
+      "name": "Полнота отчета",
+      "digital": false
+    },
+    {
+      "block": "Воронка входа в канал",
+      "blockCode": "voronka_vhoda_v_kanal",
+      "subgroup": "Анализ",
+      "code": "voronka_vhoda_v_kanal.provedenie_analiza_voronki_vhoda_v_kanal",
+      "name": "Проведение комплексного анализа воронки входа в канал",
+      "digital": false
+    },
+    {
+      "block": "Воронка входа в канал",
+      "blockCode": "voronka_vhoda_v_kanal",
+      "subgroup": "Анализ",
+      "code": "voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "digital": false
+    },
+    {
+      "block": "Воронка входа в канал",
+      "blockCode": "voronka_vhoda_v_kanal",
+      "subgroup": "Анализ",
+      "code": "voronka_vhoda_v_kanal.nalichie_benchmarkov",
+      "name": "Наличие бенчмарков",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.avtomatizacii",
+      "name": "Автоматизации",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.informirovaniya_klienta",
+      "name": "Информирования клиента",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.personalizaciya",
+      "name": "Персонализация",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.kontrolya_kachestva_rechi",
+      "name": "Контроля качества речи",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.uderzhaniya_klienta",
+      "name": "Удержания клиента",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.sredniy_dohoda_na_klienta",
+      "name": "Средний дохода на клиента",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.povyshenie_urovnya_klienta",
+      "name": "Повышение уровня клиента",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.proniknoveniya_kanala_v_akb_sbera",
+      "name": "% проникновения канала в АКБ Сбера",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.mau_u_vashego_kanala",
+      "name": "MAU у вашего канала",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.mau_ios",
+      "name": "MAU IOS",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.mau_android",
+      "name": "MAU Android",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dau_kanala",
+      "name": "DAU канала",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dau_ios",
+      "name": "DAU IOS",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dau_android",
+      "name": "DAU Android",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dau_mau",
+      "name": "DAU/MAU",
+      "digital": false
+    },
+    {
+      "block": "Воронка онбординга",
+      "blockCode": "voronka_onbordinga",
+      "subgroup": "Отчетность",
+      "code": "voronka_onbordinga.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "digital": false
+    },
+    {
+      "block": "Воронка онбординга",
+      "blockCode": "voronka_onbordinga",
+      "subgroup": "Отчетность",
+      "code": "voronka_onbordinga.regulyarnostь",
+      "name": "Регулярность",
+      "digital": false
+    },
+    {
+      "block": "Воронка онбординга",
+      "blockCode": "voronka_onbordinga",
+      "subgroup": "Отчетность",
+      "code": "voronka_onbordinga.polnota_otcheta",
+      "name": "Полнота отчета",
+      "digital": false
+    },
+    {
+      "block": "Воронка онбординга",
+      "blockCode": "voronka_onbordinga",
+      "subgroup": "Анализ",
+      "code": "voronka_onbordinga.provedenie_analiza_voronki_onbordinga",
+      "name": "Проведение комплексного анализа воронки онбординга",
+      "digital": false
+    },
+    {
+      "block": "Воронка онбординга",
+      "blockCode": "voronka_onbordinga",
+      "subgroup": "Анализ",
+      "code": "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "digital": false
+    },
+    {
+      "block": "Алерты",
+      "blockCode": "alerts",
+      "subgroup": "",
+      "code": "alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui",
+      "name": "Оповещения по проблемам, связанным с UX/UI",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.personalizaciya_interfeysa_kontenta",
+      "name": "Персонализация интерфейса/контента",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.stimulirovanie_klienta",
+      "name": "Стимулирование клиента",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.obuchayuschie_mehaniki",
+      "name": "Обучающие механики",
+      "digital": false
+    },
+    {
+      "block": "Клиентский опыт",
+      "blockCode": "cx",
+      "subgroup": "",
+      "code": "cx.uh_score",
+      "name": "UХ Score",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.obschiy_obъem_ishodyaschego_trafika",
+      "name": "Общий объем исходящего трафика",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.cr_v_prodazhu",
+      "name": "CR в продажу",
+      "digital": false
+    },
+    {
+      "block": "Воронка продаж",
+      "blockCode": "voronka_prodazh",
+      "subgroup": "Отчетность",
+      "code": "voronka_prodazh.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "digital": false
+    },
+    {
+      "block": "Воронка продаж",
+      "blockCode": "voronka_prodazh",
+      "subgroup": "Отчетность",
+      "code": "voronka_prodazh.regulyarnostь",
+      "name": "Регулярность",
+      "digital": false
+    },
+    {
+      "block": "Воронка продаж",
+      "blockCode": "voronka_prodazh",
+      "subgroup": "Отчетность",
+      "code": "voronka_prodazh.polnota_otcheta",
+      "name": "Полнота отчета",
+      "digital": false
+    },
+    {
+      "block": "Воронка продаж",
+      "blockCode": "voronka_prodazh",
+      "subgroup": "Анализ",
+      "code": "voronka_prodazh.provedenie_analiza_voronki_prodazh",
+      "name": "Проведение комплексного анализа воронки продаж",
+      "digital": false
+    },
+    {
+      "block": "Воронка продаж",
+      "blockCode": "voronka_prodazh",
+      "subgroup": "Анализ",
+      "code": "voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "digital": false
+    },
+    {
+      "block": "Воронка продаж",
+      "blockCode": "voronka_prodazh",
+      "subgroup": "Анализ",
+      "code": "voronka_prodazh.nalichie_benchmarkov",
+      "name": "Наличие бенчмарков",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.nailuchshego_vremeni_zvonka",
+      "name": "Наилучшего времени звонка",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.mau_web",
+      "name": "MAU Web",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dau_web",
+      "name": "DAU Web",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.kol_vo_poluchateley_zp",
+      "name": "Кол-во получателей ЗП",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dolya_rynka_fot",
+      "name": "Доля рынка ФОТ, %",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.obъem_zachisleniy_fot",
+      "name": "Объем зачислений ФОТ",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dau_produkta",
+      "name": "DAU продукта",
+      "digital": false
+    },
+    {
+      "block": "Воронка использования",
+      "blockCode": "voronka_ispolьzovaniya",
+      "subgroup": "Отчетность",
+      "code": "voronka_ispolьzovaniya.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "digital": false
+    },
+    {
+      "block": "Воронка использования",
+      "blockCode": "voronka_ispolьzovaniya",
+      "subgroup": "Отчетность",
+      "code": "voronka_ispolьzovaniya.ispolьzovanie_regulyarnostь_avto",
+      "name": "Регулярность (авто)",
+      "digital": false
+    },
+    {
+      "block": "Воронка использования",
+      "blockCode": "voronka_ispolьzovaniya",
+      "subgroup": "Отчетность",
+      "code": "voronka_ispolьzovaniya.polnota_otcheta",
+      "name": "Полнота отчета",
+      "digital": false
+    },
+    {
+      "block": "Воронка использования",
+      "blockCode": "voronka_ispolьzovaniya",
+      "subgroup": "Анализ",
+      "code": "voronka_ispolьzovaniya.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya",
+      "name": "Проведение комплексного анализа воронки использования",
+      "digital": false
+    },
+    {
+      "block": "Воронка использования",
+      "blockCode": "voronka_ispolьzovaniya",
+      "subgroup": "Анализ",
+      "code": "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "digital": false
+    },
+    {
+      "block": "Воронка использования",
+      "blockCode": "voronka_ispolьzovaniya",
+      "subgroup": "Анализ",
+      "code": "voronka_ispolьzovaniya.nalichie_benchmarkov",
+      "name": "Наличие бенчмарков",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.autentifikaciya",
+      "name": "Аутентификация",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.sessiya_i_dostup",
+      "name": "Сессия и доступ",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.onbording_i_kross_kanalьnostь",
+      "name": "Онбординг и кросс-канальность",
+      "digital": false
+    },
+    {
+      "block": "Механики",
+      "blockCode": "mehaniki",
+      "subgroup": "",
+      "code": "mehaniki.bezopasnostь_i_kontrolь",
+      "name": "Безопасность и контроль",
+      "digital": false
+    },
+    {
+      "block": "Данные",
+      "blockCode": "dannye",
+      "subgroup": "",
+      "code": "dannye.promyshlenye_dannye",
+      "name": "Промышленые данные",
+      "digital": false
+    },
+    {
+      "block": "Данные",
+      "blockCode": "dannye",
+      "subgroup": "",
+      "code": "dannye.kontrolь_kachestva_dannyh_kkd",
+      "name": "Контроль качества данных (ККД)",
+      "digital": false
+    },
+    {
+      "block": "Воронка использования",
+      "blockCode": "voronka_ispolьzovaniya",
+      "subgroup": "Отчетность",
+      "code": "voronka_ispolьzovaniya.regulyarnostь",
+      "name": "Регулярность",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.yau_produkta",
+      "name": "YAU продукта",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Отчетность",
+      "code": "attract.ispolьzovanie_regulyarnostь_avto",
+      "name": "Регулярность (авто)",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Анализ",
+      "code": "attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya",
+      "name": "Проведение комплексного анализа воронки использования",
+      "digital": false
+    },
+    {
+      "block": "Воронка привлечения",
+      "blockCode": "attract",
+      "subgroup": "Анализ",
+      "code": "attract.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "digital": false
+    },
+    {
+      "block": "Воронка оттока",
+      "blockCode": "churn",
+      "subgroup": "Отчетность",
+      "code": "churn.ispolьzovanie_regulyarnostь_avto",
+      "name": "Регулярность (авто)",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.dop_npv_mlrd_rub",
+      "name": "Доп. NPV, млрд руб.",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.cltv_mlrd_rub",
+      "name": "∆CLTV, млрд руб.",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.or",
+      "name": "OR, %",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.ctr",
+      "name": "CTR, %",
+      "digital": false
+    },
+    {
+      "block": "Знание ключевых метрик",
+      "blockCode": "general",
+      "subgroup": "",
+      "code": "general.cr_kampeyninga",
+      "name": "CR кампейнинга, %",
+      "digital": false
+    },
+    {
+      "block": "Алерты",
+      "blockCode": "alerts",
+      "subgroup": "",
+      "code": "alerts.nastroena_matrica_otkloneniy",
+      "name": "Настроена матрица отклонений",
+      "digital": false
+    },
+    {
+      "block": "Алерты",
+      "blockCode": "alerts",
+      "subgroup": "",
+      "code": "alerts.nastroeny_avtoalerty_po_otkloneniyam",
+      "name": "Настроены автоалерты по отклонениям",
+      "digital": false
+    },
+    {
+      "block": "Результативность",
+      "blockCode": "rezulьtativnostь",
+      "subgroup": "",
+      "code": "rezulьtativnostь.cr_vypolneniya",
+      "name": "CR (% выполнения)",
+      "digital": false
+    },
+    {
+      "block": "Результативность",
+      "blockCode": "rezulьtativnostь",
+      "subgroup": "",
+      "code": "rezulьtativnostь.dop_npv_vypolneniya",
+      "name": "Доп. NPV (% выполнения)",
+      "digital": false
+    },
+    {
+      "block": "Результативность",
+      "blockCode": "rezulьtativnostь",
+      "subgroup": "",
+      "code": "rezulьtativnostь.delьta_cltv_vypolneniya",
+      "name": "Дельта CLTV (% выполнения)",
+      "digital": false
+    },
+    {
+      "block": "Анализ, эффективность",
+      "blockCode": "analiz_effektivnostь",
+      "subgroup": "Отчетность",
+      "code": "analiz_effektivnostь.nastroena_otchetnostь",
+      "name": "Настроена отчетность",
+      "digital": false
+    },
+    {
+      "block": "Анализ, эффективность",
+      "blockCode": "analiz_effektivnostь",
+      "subgroup": "Отчетность",
+      "code": "analiz_effektivnostь.regulyarnostь",
+      "name": "Регулярность",
+      "digital": false
+    },
+    {
+      "block": "Анализ, эффективность",
+      "blockCode": "analiz_effektivnostь",
+      "subgroup": "Анализ",
+      "code": "analiz_effektivnostь.provedenie_kompleksnogo_analiza_po_metrikam",
+      "name": "Проведение комплексного анализа по метрикам",
+      "digital": false
+    },
+    {
+      "block": "Анализ, эффективность",
+      "blockCode": "analiz_effektivnostь",
+      "subgroup": "Анализ",
+      "code": "analiz_effektivnostь.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "digital": false
+    },
+    {
+      "block": "Модели и AI-проникновение",
+      "blockCode": "modeli_i_ai_proniknovenie",
+      "subgroup": "",
+      "code": "modeli_i_ai_proniknovenie.stimulirovanie_klienta",
+      "name": "Стимулирование клиента",
+      "digital": false
+    },
+    {
+      "block": "Модели и AI-проникновение",
+      "blockCode": "modeli_i_ai_proniknovenie",
+      "subgroup": "",
+      "code": "modeli_i_ai_proniknovenie.obuchayuschie_mehaniki",
+      "name": "Обучающие механики",
+      "digital": false
+    }
+  ]
+}

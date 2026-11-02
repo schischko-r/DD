@@ -1,0 +1,39 @@
+{
+  "counts": {
+    "sourceRows": 386,
+    "teams": 73,
+    "facts": 352,
+    "excludedRows": 34,
+    "pendingRows": 0,
+    "applicabilityOverrides": 2,
+    "byMetric": {
+      "churn.funnel_analysis": 59,
+      "churn.nastroena_otchetnostь": 46,
+      "churn.report_completeness": 47,
+      "attract.funnel_analysis": 61,
+      "attract.nastroena_otchetnostь": 56,
+      "attract.report_completeness": 55,
+      "voronka_ispolьzovaniya.nastroena_otchetnostь": 2,
+      "voronka_ispolьzovaniya.polnota_otcheta": 2,
+      "voronka_ispolьzovaniya.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya": 2,
+      "attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya": 1,
+      "voronka_onbordinga.nastroena_otchetnostь": 2,
+      "voronka_onbordinga.polnota_otcheta": 4,
+      "voronka_onbordinga.provedenie_analiza_voronki_onbordinga": 4,
+      "voronka_vhoda_v_kanal.nastroena_otchetnostь": 2,
+      "voronka_vhoda_v_kanal.polnota_otcheta": 2,
+      "voronka_vhoda_v_kanal.provedenie_analiza_voronki_vhoda_v_kanal": 2,
+      "analiz_effektivnostь.nastroena_otchetnostь": 1,
+      "analiz_effektivnostь.provedenie_kompleksnogo_analiza_po_metrikam": 1,
+      "voronka_prodazh.nastroena_otchetnostь": 1,
+      "voronka_prodazh.polnota_otcheta": 1,
+      "voronka_prodazh.provedenie_analiza_voronki_prodazh": 1
+    }
+  },
+  "pending": [],
+  "excludedTeams": [
+    "Зарплатный продукт",
+    "ОМС",
+    "Слитки"
+  ]
+}

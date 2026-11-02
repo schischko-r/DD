@@ -1,0 +1,43 @@
+import fs from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+import assert from 'node:assert/strict';
+import {Workbook,SpreadsheetFile} from '@oai/artifact-tool';
+
+const out=fileURLToPath(new URL('./',import.meta.url));
+const data=JSON.parse(await fs.readFile(out+'metric-pool.json','utf8'));
+const rows=data.rows;
+assert.ok(rows.length>80);
+assert.ok(rows.every(r=>r.block&&r.name&&typeof r.digital==='boolean'));
+const wb=Workbook.create(),s=wb.worksheets.add('Пул метрик DDI');
+s.showGridLines=false;s.tabColor='#163A56';
+const end=rows.length+6;
+s.getRange(`A1:D${end}`).format.font={name:'Arial',size:10,color:'#172B3A'};
+s.getRange(`A1:D${end}`).format.verticalAlignment='center';
+s.getRange('A1').values=[['Полный пул метрик DDI']];
+s.getRange('A1').format.font={name:'Arial',size:15,bold:true,color:'#163A56'};
+s.getRange('A2').values=[['Источник: текущий DDI standalone, страницы команд. Без разбивки по командам.']];
+s.getRange('A3').values=[['Цифровые следы — отметка на карточке есть хотя бы у одной команды; иначе — Не цифровые следы.']];
+s.getRange('A4').values=[['Отсутствие отметки не доказывает отсутствие цифровых источников. Cross-sell подтверждается условно по данным LossHunter.']];
+s.getRange('A2:D4').format.font={name:'Arial',size:10,color:'#53697B'};
+s.getRange(`A6:D${end}`).values=[['Блок','Подблок','Метрика','Маркер'],...rows.map(r=>[r.block,r.subgroup||'',r.name,r.digital?'Цифровые следы':'Не цифровые следы'])];
+const t=s.tables.add(`A6:D${end}`,true,'DDIMetricPool');t.showFilterButton=true;
+s.getRange('A6:D6').format={fill:'#163A56',font:{name:'Arial',size:10,bold:true,color:'#FFFFFF'},horizontalAlignment:'center',verticalAlignment:'center',rowHeight:28};
+s.getRange(`A7:D${end}`).format.wrapText=true;
+s.getRange(`A7:D${end}`).format.rowHeight=38;
+s.getRange(`A1:A${end}`).format.columnWidth=38;
+s.getRange(`B1:B${end}`).format.columnWidth=22;
+s.getRange(`C1:C${end}`).format.columnWidth=76;
+s.getRange(`D1:D${end}`).format.columnWidth=26;
+for(let i=0;i<rows.length;i++) {
+  const row=i+7;
+  if(rows[i].digital)s.getRange(`D${row}`).format={fill:'#E7F3ED',font:{name:'Arial',size:10,bold:true,color:'#206344'}};
+  if(rows[i].name.length>100||rows[i].block.length>60)s.getRange(`A${row}:D${row}`).format.rowHeight=54;
+}
+s.freezePanes.freezeRows(6);
+wb.recalculate();
+assert.equal(s.getRange(`A7:D${end}`).values.length,rows.length);
+console.log((await wb.inspect({kind:'table',range:`'Пул метрик DDI'!A6:D${end}`,include:'values',tableMaxRows:4,tableMaxCols:4,maxChars:1000})).ndjson);
+const preview=await wb.render({sheetName:s.name,range:'A1:D25',scale:1,format:'png'});
+await fs.writeFile(out+'preview.png',new Uint8Array(await preview.arrayBuffer()));
+await (await SpreadsheetFile.exportXlsx(wb)).save(out+'Полный_пул_метрик_DDI.xlsx');
+console.log(JSON.stringify({rows:rows.length,digital:rows.filter(r=>r.digital).length,nonDigital:rows.filter(r=>!r.digital).length}));

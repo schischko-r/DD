@@ -99,16 +99,16 @@ test('Q3 Summary uses current profiles while team profiles preserve unknowns and
     if(close)close.click();else doc.dispatchEvent(new dom.window.KeyboardEvent('keydown',{key:'Escape',code:'Escape',bubbles:true}));
     await new Promise(r=>setTimeout(r,200));assert.ok(!doc.querySelector('[role="dialog"]'),'Recommendations dialog closes');
 
-    const allGains=[...doc.querySelectorAll('.metric-actual-growth')];assert.equal(allGains.length,3,'Drafts, successful business launches and research assessment improved');
+    const allGains=[...doc.querySelectorAll('.metric-actual-growth:not(.metric-index-uplift-negative)')];assert.equal(allGains.length,3,'Drafts, successful business launches and research assessment improved');
     assert.ok(allGains.some(g=>g.closest('.metric-row').id===research.id));
     assert.ok(allGains.some(g=>g.closest('.metric-row').id===draft.id));
     const gains=allGains.filter(g=>g.closest('.metric-row').id===metricDomId('attract.nalichie_uspeshnyh_biznes_zapuskov'));
     assert.ok(gains[0].closest('.metric-row').id===metricDomId('attract.nalichie_uspeshnyh_biznes_zapuskov'));
     assert.match(gains[0].textContent,/1[,.]9/);
     const explanation=gains[0].closest('[aria-label]').getAttribute('aria-label');assert.ok(explanation);
-    assert.equal(explanation,'Рост к прошлому кварталу');
+    assert.equal(explanation,'Изменение к прошлому кварталу');
     const growthButton=gains[0].closest('button');assert.ok(growthButton,'Growth badge is a keyboard-accessible native button');
-    assert.equal(growthButton.getAttribute('aria-label'),'Рост к прошлому кварталу');
+    assert.equal(growthButton.getAttribute('aria-label'),'Изменение к прошлому кварталу');
     assert.equal(doc.querySelectorAll('.metric-growth-confetti').length,0);
     growthButton.click();await pause();
     const burst=doc.querySelector('.metric-growth-confetti');assert.ok(burst,'Click launches the particle burst');
@@ -131,7 +131,9 @@ test('Q3 Summary uses current profiles while team profiles preserve unknowns and
 
 
     assert.equal(doc.querySelectorAll('.metric-action-link,.metric-crosssell-unconfirmed-warning').length,0);
-    assert.ok(doc.querySelector('.notice').textContent.includes('Данные заполнены частично'));
+    assert.equal(doc.querySelector('.notice').textContent,'Значение индекса может корректироваться в зависимости от валидации источников и точечного аудита');
+    assert.equal(doc.querySelectorAll('.notice b').length,1);
+    assert.equal(doc.querySelectorAll('.notice span').length,0);
     for(const score of doc.querySelectorAll('.dd-metric-block-score strong'))assert.equal(score.textContent,'—');
     assert.ok(!doc.querySelector('.detail-page').textContent.includes('Набрано 0.00 баллов из 0.00'));
     const before=doc.querySelector('.detail-header').textContent;await new Promise(r=>setTimeout(r,300));

@@ -1,0 +1,16 @@
+import {chromium} from '/Users/roman/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright/index.mjs';
+import assert from 'node:assert/strict';
+import {metricDomId} from '../../gravity-app/src/domain/report.js';
+const b=await chromium.launch({headless:true});const p=await b.newPage({viewport:{width:1440,height:1000}});const errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://127.0.0.1:4178');await p.waitForSelector('.dashboard-period');await p.locator('[aria-label="Профиль команды"]').click();
+const choose=async(s,n)=>{await p.locator(s).click();await p.getByRole('option',{name:n,exact:true}).click();await p.getByRole('option',{name:n,exact:true}).waitFor({state:'hidden'});};
+const select=async(u,n)=>{await choose('.detail-team-unit-filter [role="combobox"]',u);await choose('.detail-team-select [role="combobox"]',n);await p.getByRole('button',{name:'Подробно',exact:true}).click();};
+await choose('.detail-period-filter [role="combobox"]','III кв. 2026');
+const card=()=>p.locator('.metric-block').filter({has:p.getByRole('heading',{name:'Цели',exact:true})});
+const check=async(code,value)=>{const row=card().locator(`[id="${metricDomId(code)}"]`);if(value===null){assert.equal(await row.count(),0);return;}assert.equal((await row.locator('.metric-status-label').textContent()).trim(),`${value*100}%`);};
+await select('DB','Зарплатный продукт');await check('goals.po_monitoring',.5);await check('goals.po_forecast',null);await check('goals.po_factor_analysis',1);await card().screenshot({path:'outputs/po-goals-fallback-2026-10-30/salary.png'});
+await select('DB','СберЧаевые #B2C');await check('goals.monitored',0);await check('goals.po_monitoring',.5);await card().screenshot({path:'outputs/po-goals-fallback-2026-10-30/excel.png'});
+await select('DB','Переводы по РФ');await check('goals.monitored',0);await check('goals.po_monitoring',1);await check('goals.forecast',0);await check('goals.po_forecast',1);
+await select('CBP','Автокредит');for(const code of ['goals.po_monitoring','goals.po_forecast','goals.po_factor_analysis'])await check(code,1);
+await select('CBP','ОМС');await check('goals.po_factor_analysis',1);await select('CBP','Слитки');await check('goals.po_factor_analysis',1);
+await select('PC','Чат');await check('goals.po_forecast',null);await check('goals.po_monitoring',1);await check('goals.po_factor_analysis',1);await p.setViewportSize({width:390,height:844});await card().screenshot({path:'outputs/po-goals-fallback-2026-10-30/mobile.png'});
+await choose('.detail-period-filter [role="combobox"]','II кв. 2026');await p.getByRole('button',{name:'Подробно',exact:true}).click();assert.equal(await p.locator(`[id="${metricDomId('goals.po_monitoring')}"]`).count(),0);assert.deepEqual(errors,[]);await b.close();console.log('PASS: salary average/NA, Excel half after zero LT, dashboard upgrade after zero LT, positive LT preserved, OMS/Slitki max, irrelevant forecasts hidden, Q2 intact, mobile/console clean');

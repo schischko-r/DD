@@ -1,0 +1,11 @@
+{
+  "output": "/Users/roman/Documents/Codex/DD-dev/outputs/ddi-q2-q3-2026-10-30/DDI_II_III_кварталы_2026_с_подтверждениями.xlsx",
+  "surveyRows": 81,
+  "metricRows": 3279,
+  "withAnswer": 1697,
+  "withProof": 981,
+  "summaryFlags": 26,
+  "metricFlags": 1961,
+  "scorePreservation": true,
+  "errors": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}"
+}

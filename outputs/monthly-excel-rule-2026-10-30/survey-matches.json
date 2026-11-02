@@ -1,0 +1,163 @@
+[
+  {
+    "team": {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент"
+    },
+    "question": "attractConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Серебряников Антон Олегович",
+    "source": "questionare-responses(12).csv",
+    "row": 6
+  },
+  {
+    "team": {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент"
+    },
+    "question": "churnConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Серебряников Антон Олегович",
+    "source": "questionare-responses(12).csv",
+    "row": 6
+  },
+  {
+    "team": {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент"
+    },
+    "question": "attractConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Калашников Роман Леонидович",
+    "source": "questionare-responses(12).csv",
+    "row": 7
+  },
+  {
+    "team": {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент"
+    },
+    "question": "churnConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Калашников Роман Леонидович",
+    "source": "questionare-responses(12).csv",
+    "row": 7
+  },
+  {
+    "team": {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети/подростки",
+      "unit": "CX",
+      "type": "Сегмент"
+    },
+    "question": "churnConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Калашников Роман Леонидович",
+    "source": "questionare-responses(12).csv",
+    "row": 8
+  },
+  {
+    "team": {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB"
+    },
+    "question": "attractConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Яковлев Сергей Викторович",
+    "source": "questionare-responses(11).csv",
+    "row": 9
+  },
+  {
+    "team": {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP"
+    },
+    "question": "attractConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Мищенко Максим Павлович",
+    "source": "questionare-responses(11).csv",
+    "row": 11
+  },
+  {
+    "team": {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX"
+    },
+    "question": "churnConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Аленцев Александр Михайлович",
+    "source": "questionare-responses(11).csv",
+    "row": 17
+  },
+  {
+    "team": {
+      "id": "full-cross-border-transfers-b2c¦Трансграничные переводы #B2C",
+      "name": "Трансграничные переводы #B2C",
+      "unit": "DB"
+    },
+    "question": "attractConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Сидорова Ксения Евгеньевна",
+    "source": "questionare-responses(11).csv",
+    "row": 21
+  },
+  {
+    "team": {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data"
+    },
+    "question": "usageConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Белозеров Дмитрий Александрович",
+    "source": "questionare-responses(11).csv",
+    "row": 22
+  },
+  {
+    "team": {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX"
+    },
+    "question": "attractConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Савицкий Евгений Михайлович",
+    "source": "questionare-responses(11).csv",
+    "row": 45
+  },
+  {
+    "team": {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ"
+    },
+    "question": "churnConfigured",
+    "answer": "Да, автоматическая (monthly/weekly)",
+    "format": "excel",
+    "respondent": "Норенко Александра Викторовна",
+    "source": "questionare-responses(11).csv",
+    "row": 50
+  }
+]

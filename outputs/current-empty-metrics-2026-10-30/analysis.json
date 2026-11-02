@@ -1,0 +1,2032 @@
+{
+  "afterPurchaseMissingAssessment": [],
+  "period": "III кв. 2026",
+  "teamCount": 76,
+  "blankIndexValues": 89,
+  "teamsWithBlankIndexValues": 38,
+  "filledValues": 2684,
+  "notApplicableValues": 242,
+  "blankNonIndexValues": 0,
+  "byBlock": [
+    {
+      "code": "general",
+      "name": "Знание ключевых метрик",
+      "count": 15,
+      "teams": 8
+    },
+    {
+      "code": "churn",
+      "name": "Воронка оттока",
+      "count": 13,
+      "teams": 12
+    },
+    {
+      "code": "hyp",
+      "name": "Гипотезы и инициативы",
+      "count": 5,
+      "teams": 5
+    },
+    {
+      "code": "attract",
+      "name": "Воронка привлечения",
+      "count": 16,
+      "teams": 12
+    },
+    {
+      "code": "cx",
+      "name": "Клиентский опыт",
+      "count": 2,
+      "teams": 2
+    },
+    {
+      "code": "mehaniki",
+      "name": "Механики",
+      "count": 25,
+      "teams": 12
+    },
+    {
+      "code": "alerts",
+      "name": "Алерты",
+      "count": 1,
+      "teams": 1
+    },
+    {
+      "code": "voronka_vhoda_v_kanal",
+      "name": "Воронка входа в канал",
+      "count": 1,
+      "teams": 1
+    },
+    {
+      "code": "voronka_onbordinga",
+      "name": "Воронка онбординга",
+      "count": 2,
+      "teams": 2
+    },
+    {
+      "code": "voronka_prodazh",
+      "name": "Воронка продаж",
+      "count": 1,
+      "teams": 1
+    },
+    {
+      "code": "voronka_ispolьzovaniya",
+      "name": "Воронка использования",
+      "count": 2,
+      "teams": 2
+    },
+    {
+      "code": "dannye",
+      "name": "Данные",
+      "count": 6,
+      "teams": 3
+    }
+  ],
+  "byCode": [
+    {
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 10,
+      "teams": [
+        {
+          "name": "СберЧаевые",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Трансграничные переводы",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Трансграничный эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Дети",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Зрелость",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "МВС",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Молодежь",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Уведомления",
+          "unit": "DP",
+          "type": "Канал"
+        },
+        {
+          "name": "Рабочий возраст",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Top Affluent",
+          "unit": "CX",
+          "type": "Сегмент"
+        }
+      ]
+    },
+    {
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "count": 8,
+      "teams": [
+        {
+          "name": "Интернет-Эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "ОПИФ",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "Пенсионный продукт",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "СберЧаевые",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Страхование залога",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "Трансграничный эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Слитки",
+          "unit": "CBP",
+          "type": "Продукт"
+        },
+        {
+          "name": "Молодежь",
+          "unit": "CX",
+          "type": "Сегмент"
+        }
+      ]
+    },
+    {
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "count": 8,
+      "teams": [
+        {
+          "name": "БПИФ",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "ДСЖ КК",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "ЗПИФ",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "ОПИФ",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "Пенсионный продукт",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Переводы по РФ",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "ДСЖ ПК",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "Слитки",
+          "unit": "CBP",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "count": 8,
+      "teams": [
+        {
+          "name": "БПИФ",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "ЦФА",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "Оплата улыбкой",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Дети",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Колл-центр",
+          "unit": "PC",
+          "type": "Канал"
+        },
+        {
+          "name": "Молодежь",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Рабочий возраст",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Единый личный кабинет (ЕЛК)",
+          "unit": "Data",
+          "type": "Канал"
+        }
+      ]
+    },
+    {
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "count": 5,
+      "teams": [
+        {
+          "name": "СберЧаевые",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Кредитные карты",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Слитки",
+          "unit": "CBP",
+          "type": "Продукт"
+        },
+        {
+          "name": "Оплата улыбкой",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "СберИнвестор",
+          "unit": "DP",
+          "type": "Канал"
+        }
+      ]
+    },
+    {
+      "code": "hyp.ab_tests",
+      "name": "A/B-тесты",
+      "block": "hyp",
+      "blockName": "Гипотезы и инициативы",
+      "count": 5,
+      "teams": [
+        {
+          "name": "Детская карта",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Много денег (НКПЗН)",
+          "unit": "ДомКлик",
+          "type": "Продукт"
+        },
+        {
+          "name": "Пакет услуг СберПервый",
+          "unit": "CX",
+          "type": "Продукт"
+        },
+        {
+          "name": "СберЧаевые",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Трансграничные переводы",
+          "unit": "DB",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "name": "Реагирование на жизненные события",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 4,
+      "teams": [
+        {
+          "name": "Дети",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Зрелость",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "МВС",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Top Affluent",
+          "unit": "CX",
+          "type": "Сегмент"
+        }
+      ]
+    },
+    {
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "count": 3,
+      "teams": [
+        {
+          "name": "Конверсия",
+          "unit": "CBP",
+          "type": "Продукт"
+        },
+        {
+          "name": "SberPay Вжух",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Слитки",
+          "unit": "CBP",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "dannye.kontrolь_kachestva_dannyh_kkd",
+      "name": "Контроль качества данных (ККД)",
+      "block": "dannye",
+      "blockName": "Данные",
+      "count": 3,
+      "teams": [
+        {
+          "name": "SberID",
+          "unit": "Data",
+          "type": "Продукт"
+        },
+        {
+          "name": "Единый личный кабинет (ЕЛК)",
+          "unit": "Data",
+          "type": "Канал"
+        },
+        {
+          "name": "Почта, Диск, Календарь",
+          "unit": "Data",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "dannye.promyshlenye_dannye",
+      "name": "Промышленые данные",
+      "block": "dannye",
+      "blockName": "Данные",
+      "count": 3,
+      "teams": [
+        {
+          "name": "SberID",
+          "unit": "Data",
+          "type": "Продукт"
+        },
+        {
+          "name": "Единый личный кабинет (ЕЛК)",
+          "unit": "Data",
+          "type": "Канал"
+        },
+        {
+          "name": "Почта, Диск, Календарь",
+          "unit": "Data",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "general.obъem_celevogo_rynka_v_rossii",
+      "name": "Объем целевого рынка в России",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "count": 3,
+      "teams": [
+        {
+          "name": "БПИФ",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "ЦФА",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "Оплата улыбкой",
+          "unit": "DB",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "general.obъem_celevogo_rynka_v_sbere",
+      "name": "Объем целевого рынка в Сбере",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "count": 3,
+      "teams": [
+        {
+          "name": "БПИФ",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "ЦФА",
+          "unit": "УБ",
+          "type": "Продукт"
+        },
+        {
+          "name": "Оплата улыбкой",
+          "unit": "DB",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "mehaniki.vozvrat_klientov",
+      "name": "Возврат клиентов",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 3,
+      "teams": [
+        {
+          "name": "СберЧаевые",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Трансграничный эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Слитки",
+          "unit": "CBP",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "mehaniki.doprodazhi_up_sell",
+      "name": "Допродажи (up-sell)",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 3,
+      "teams": [
+        {
+          "name": "СберЧаевые",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Трансграничные переводы",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Трансграничный эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "attract.benchmarks",
+      "name": "Наличие бенчмарков",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "count": 2,
+      "teams": [
+        {
+          "name": "Интернет-Эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "СберЧаевые",
+          "unit": "DB",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "churn.benchmarks",
+      "name": "Наличие бенчмарков",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "count": 2,
+      "teams": [
+        {
+          "name": "Трансграничный эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        },
+        {
+          "name": "Автокредит",
+          "unit": "CBP",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "cx.score",
+      "name": "CX Score",
+      "block": "cx",
+      "blockName": "Клиентский опыт",
+      "count": 2,
+      "teams": [
+        {
+          "name": "Много денег (НКПЗН)",
+          "unit": "ДомКлик",
+          "type": "Продукт"
+        },
+        {
+          "name": "Сделка с Первичным жильём",
+          "unit": "ДомКлик",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "mehaniki.povyshenie_urovnya_klienta",
+      "name": "Повышение уровня клиента",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 2,
+      "teams": [
+        {
+          "name": "МВС",
+          "unit": "CX",
+          "type": "Сегмент"
+        },
+        {
+          "name": "Top Affluent",
+          "unit": "CX",
+          "type": "Сегмент"
+        }
+      ]
+    },
+    {
+      "code": "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "block": "voronka_ispolьzovaniya",
+      "blockName": "Воронка использования",
+      "count": 2,
+      "teams": [
+        {
+          "name": "SberID",
+          "unit": "Data",
+          "type": "Продукт"
+        },
+        {
+          "name": "Единый личный кабинет (ЕЛК)",
+          "unit": "Data",
+          "type": "Канал"
+        }
+      ]
+    },
+    {
+      "code": "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "block": "voronka_onbordinga",
+      "blockName": "Воронка онбординга",
+      "count": 2,
+      "teams": [
+        {
+          "name": "СберKids",
+          "unit": "DP",
+          "type": "Канал"
+        },
+        {
+          "name": "Уведомления",
+          "unit": "DP",
+          "type": "Канал"
+        }
+      ]
+    },
+    {
+      "code": "alerts.business_metrics",
+      "name": "Оповещения по бизнес-метрикам",
+      "block": "alerts",
+      "blockName": "Алерты",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Торговый Эквайринг",
+          "unit": "DB",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "attract.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Почта, Диск, Календарь",
+          "unit": "Data",
+          "type": "Продукт"
+        }
+      ]
+    },
+    {
+      "code": "general.mau_u_vashego_kanala",
+      "name": "MAU у вашего канала",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Единый личный кабинет (ЕЛК)",
+          "unit": "Data",
+          "type": "Канал"
+        }
+      ]
+    },
+    {
+      "code": "mehaniki.monitoring_mehanik",
+      "name": "Мониторинг механик",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Дети",
+          "unit": "CX",
+          "type": "Сегмент"
+        }
+      ]
+    },
+    {
+      "code": "mehaniki.nailuchshego_vremeni_zvonka",
+      "name": "Наилучшего времени звонка",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Телемаркетинг",
+          "unit": "PC",
+          "type": "Канал"
+        }
+      ]
+    },
+    {
+      "code": "mehaniki.privlechenie_klientov",
+      "name": "Привлечение клиентов",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Рабочий возраст",
+          "unit": "CX",
+          "type": "Сегмент"
+        }
+      ]
+    },
+    {
+      "code": "voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "block": "voronka_prodazh",
+      "blockName": "Воронка продаж",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Телемаркетинг",
+          "unit": "PC",
+          "type": "Канал"
+        }
+      ]
+    },
+    {
+      "code": "voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "block": "voronka_vhoda_v_kanal",
+      "blockName": "Воронка входа в канал",
+      "count": 1,
+      "teams": [
+        {
+          "name": "Колл-центр",
+          "unit": "PC",
+          "type": "Канал"
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.obъem_celevogo_rynka_v_rossii",
+      "name": "Объем целевого рынка в России",
+      "value": null,
+      "max": 0.2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.obъem_celevogo_rynka_v_sbere",
+      "name": "Объем целевого рынка в Сбере",
+      "value": null,
+      "max": 0.2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "hyp",
+      "blockName": "Гипотезы и инициативы",
+      "code": "hyp.ab_tests",
+      "name": "A/B-тесты",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.benchmarks",
+      "name": "Наличие бенчмарков",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "block": "hyp",
+      "blockName": "Гипотезы и инициативы",
+      "code": "hyp.ab_tests",
+      "name": "A/B-тесты",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "block": "cx",
+      "blockName": "Клиентский опыт",
+      "code": "cx.score",
+      "name": "CX Score",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "block": "hyp",
+      "blockName": "Гипотезы и инициативы",
+      "code": "hyp.ab_tests",
+      "name": "A/B-тесты",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.benchmarks",
+      "name": "Наличие бенчмарков",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.vozvrat_klientov",
+      "name": "Возврат клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "name": "Допродажи (up-sell)",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "hyp",
+      "blockName": "Гипотезы и инициативы",
+      "code": "hyp.ab_tests",
+      "name": "A/B-тесты",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "block": "cx",
+      "blockName": "Клиентский опыт",
+      "code": "cx.score",
+      "name": "CX Score",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "alerts",
+      "blockName": "Алерты",
+      "code": "alerts.business_metrics",
+      "name": "Оповещения по бизнес-метрикам",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "name": "Допродажи (up-sell)",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "hyp",
+      "blockName": "Гипотезы и инициативы",
+      "code": "hyp.ab_tests",
+      "name": "A/B-тесты",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.benchmarks",
+      "name": "Наличие бенчмарков",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.vozvrat_klientov",
+      "name": "Возврат клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.doprodazhi_up_sell",
+      "name": "Допродажи (up-sell)",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.obъem_celevogo_rynka_v_rossii",
+      "name": "Объем целевого рынка в России",
+      "value": null,
+      "max": 0.2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.obъem_celevogo_rynka_v_sbere",
+      "name": "Объем целевого рынка в Сбере",
+      "value": null,
+      "max": 0.2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.benchmarks",
+      "name": "Наличие бенчмарков",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "block": "churn",
+      "blockName": "Воронка оттока",
+      "code": "churn.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки оттока",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.vozvrat_klientov",
+      "name": "Возврат клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.obъem_celevogo_rynka_v_rossii",
+      "name": "Объем целевого рынка в России",
+      "value": null,
+      "max": 0.2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.obъem_celevogo_rynka_v_sbere",
+      "name": "Объем целевого рынка в Сбере",
+      "value": null,
+      "max": 0.2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "name": "Реагирование на жизненные события",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.monitoring_mehanik",
+      "name": "Мониторинг механик",
+      "value": null,
+      "max": 0.25,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "name": "Реагирование на жизненные события",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "block": "voronka_vhoda_v_kanal",
+      "blockName": "Воронка входа в канал",
+      "code": "voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "name": "Реагирование на жизненные события",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 1.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.povyshenie_urovnya_klienta",
+      "name": "Повышение уровня клиента",
+      "value": null,
+      "max": 2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.report_completeness",
+      "name": "Полнота отчета",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "block": "voronka_onbordinga",
+      "blockName": "Воронка онбординга",
+      "code": "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "block": "voronka_prodazh",
+      "blockName": "Воронка продаж",
+      "code": "voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.nailuchshego_vremeni_zvonka",
+      "name": "Наилучшего времени звонка",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.funnel_analysis",
+      "name": "Проведение комплексного анализа воронки привлечения",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "block": "voronka_onbordinga",
+      "blockName": "Воронка онбординга",
+      "code": "voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.privlechenie_klientov",
+      "name": "Привлечение клиентов",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.reagirovanie_na_zhiznennye_sobytiya",
+      "name": "Реагирование на жизненные события",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.uderzhanie_klientov",
+      "name": "Удержание клиентов",
+      "value": null,
+      "max": 2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "block": "mehaniki",
+      "blockName": "Механики",
+      "code": "mehaniki.povyshenie_urovnya_klienta",
+      "name": "Повышение уровня клиента",
+      "value": null,
+      "max": 2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "block": "voronka_ispolьzovaniya",
+      "blockName": "Воронка использования",
+      "code": "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "block": "dannye",
+      "blockName": "Данные",
+      "code": "dannye.promyshlenye_dannye",
+      "name": "Промышленые данные",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "block": "dannye",
+      "blockName": "Данные",
+      "code": "dannye.kontrolь_kachestva_dannyh_kkd",
+      "name": "Контроль качества данных (ККД)",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.mau_u_vashego_kanala",
+      "name": "MAU у вашего канала",
+      "value": null,
+      "max": 0.2,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "block": "general",
+      "blockName": "Знание ключевых метрик",
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "block": "voronka_ispolьzovaniya",
+      "blockName": "Воронка использования",
+      "code": "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "block": "dannye",
+      "blockName": "Данные",
+      "code": "dannye.promyshlenye_dannye",
+      "name": "Промышленые данные",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "block": "dannye",
+      "blockName": "Данные",
+      "code": "dannye.kontrolь_kachestva_dannyh_kkd",
+      "name": "Контроль качества данных (ККД)",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "block": "attract",
+      "blockName": "Воронка привлечения",
+      "code": "attract.meropriyatiya_po_rabote_s_otkloneniyami",
+      "name": "Мероприятия по работе с отклонениями",
+      "value": null,
+      "max": 1,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "block": "dannye",
+      "blockName": "Данные",
+      "code": "dannye.promyshlenye_dannye",
+      "name": "Промышленые данные",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    },
+    {
+      "team": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "block": "dannye",
+      "blockName": "Данные",
+      "code": "dannye.kontrolь_kachestva_dannyh_kkd",
+      "name": "Контроль качества данных (ККД)",
+      "value": null,
+      "max": 0.5,
+      "informational": false,
+      "excluded": false,
+      "tbd": false
+    }
+  ],
+  "nonIndexRows": []
+}

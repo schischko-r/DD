@@ -1,0 +1,680 @@
+[
+  {
+    "name": "Зарплатный продукт #B2B",
+    "unit": "DB",
+    "type": "Продукт",
+    "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2b",
+    "blockCode": "attract",
+    "reportingCode": "attract.nastroena_otchetnostь",
+    "code": "attract.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 5,
+      "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+      "completedAt": "2026-10-27T08:33:29.644Z",
+      "respondent": "Сауткин Андрей ",
+      "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "originalTeamName": "Зарплатный продукт",
+      "questionId": "attractConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 34
+      },
+      "reportFormat": "link",
+      "reportEvidence": "https://navigator.sigma.sbrf.ru/gdash/1000001471/1000056578?dtdtdtdtdt=Кол-во%20плательщиков%20(ЮЛ)&ilnirrr=Сегмент%20(СБ)&kanalrrr=Основные%20(ЗП)&dtdtdtdtdtr=Кол-во%20получателей%20(ФЛ)"
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "salarySplitSurveyAssessment",
+      "confirmedBy": "user",
+      "period": "III кв. 2026",
+      "date": "2026-10-30",
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 5,
+      "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+      "completedAt": "2026-10-27T08:33:29.644Z",
+      "respondent": "Сауткин Андрей",
+      "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "originalTeamName": "Зарплатный продукт",
+      "questionId": "attractConfigured",
+      "answer": "Да, по запросу",
+      "rule": "Автоматическая отчётность = 1; по запросу = 0.5; отсутствие/затруднение = 0."
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Много денег (НКПЗН)",
+    "unit": "ДомКлик",
+    "type": "Продукт",
+    "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+    "blockCode": "churn",
+    "reportingCode": "churn.nastroena_otchetnostь",
+    "code": "churn.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 8,
+      "surveyId": "ddi-product-1d15a169-21f9-501d-a44f-af2eb7bb3242",
+      "completedAt": "2026-10-23T13:15:57.466Z",
+      "respondent": "Спиваков Андрей",
+      "originalTeamId": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "originalTeamName": "Много денег (НКПЗН)",
+      "questionId": "churnConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 57
+      },
+      "reportFormat": "link",
+      "reportEvidence": "  https://superset.sberned.ru/login/?next=http://superset.sberned.ru/superset/dashboard/198/?native_filters_key%3DwtaC1NdPkgjQDvKQMmg_4e3uoe3OxJzNG-GcLx0_PiAtFlVIY0rTdgoRkfXNiAjR"
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Много денег (НКПЗН)",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "Настроена ли регулярная отчётность по воронке оттока?",
+      "sourceRows": [
+        133
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Монеты",
+    "unit": "CBP",
+    "type": "Продукт",
+    "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+    "blockCode": "attract",
+    "reportingCode": "attract.nastroena_otchetnostь",
+    "code": "attract.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 39,
+      "surveyId": "ddi-product-ac8caf4d-ee9f-5df6-9eea-957009a39b68",
+      "completedAt": "2026-10-21T09:14:02.105Z",
+      "respondent": "Лазарев Никита Игоревич",
+      "originalTeamId": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "originalTeamName": "Монеты",
+      "questionId": "attractConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 34
+      },
+      "reportFormat": "excel",
+      "reportEvidence": null
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Монеты",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "Настроена ли регулярная отчётность по воронке привлечения?",
+      "sourceRows": [
+        141
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "СберЧаевые",
+    "unit": "DB",
+    "type": "Продукт",
+    "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+    "blockCode": "attract",
+    "reportingCode": "attract.nastroena_otchetnostь",
+    "code": "attract.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 0,
+    "expectedValue": 0.0,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 25,
+      "surveyId": "ddi-product-full-sber-tips-b2c",
+      "completedAt": "2026-10-22T06:26:05.429Z",
+      "respondent": "Губин Юрий Сергеевич",
+      "originalTeamId": "full-sber-tips-b2c¦Сберчаевые #B2C",
+      "originalTeamName": "Сберчаевые #B2C",
+      "questionId": "attractConfigured",
+      "answer": "Нет",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 34
+      },
+      "reportFormat": null,
+      "reportEvidence": null
+    },
+    "currentValue": 0.5,
+    "currentRawValue": 1.0,
+    "currentSource": {
+      "origin": "priorQuarterCarryForward",
+      "fromPeriod": "II кв. 2026",
+      "period": "III кв. 2026",
+      "sourceName": "СберЧаевые",
+      "sourceMetricCode": "attract.nastroena_otchetnostь",
+      "sourceMetricName": "Настроена отчетность",
+      "sourceValue": 0.5,
+      "sourceMaxValue": 0.5,
+      "sourceApplicability": true,
+      "confirmedBy": "user",
+      "userprovided": true,
+      "reason": "По явному указанию пользователя переносится полностью набранная оценка отчётности, регулярности или полноты отчёта из II в III квартал. Прежний максимум сохраняется; информационная регулярность также учитывается.",
+      "rawValue": 1
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "СберЧаевые",
+    "unit": "DB",
+    "type": "Продукт",
+    "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+    "blockCode": "attract",
+    "reportingCode": "attract.nastroena_otchetnostь",
+    "code": "attract.regulyarnostь",
+    "metricName": "Регулярность",
+    "maxValue": 1,
+    "expectedRawValue": 0,
+    "expectedValue": 0,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 25,
+      "surveyId": "ddi-product-full-sber-tips-b2c",
+      "completedAt": "2026-10-22T06:26:05.429Z",
+      "respondent": "Губин Юрий Сергеевич",
+      "originalTeamId": "full-sber-tips-b2c¦Сберчаевые #B2C",
+      "originalTeamName": "Сберчаевые #B2C",
+      "questionId": "attractConfigured",
+      "answer": "Нет",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 34
+      },
+      "reportFormat": null,
+      "reportEvidence": null
+    },
+    "currentValue": 1,
+    "currentRawValue": 1.0,
+    "currentSource": {
+      "origin": "priorQuarterCarryForward",
+      "fromPeriod": "II кв. 2026",
+      "period": "III кв. 2026",
+      "sourceName": "СберЧаевые",
+      "sourceMetricCode": "attract.regulyarnostь",
+      "sourceMetricName": "Регулярность",
+      "sourceValue": 1,
+      "sourceMaxValue": 1,
+      "sourceApplicability": true,
+      "confirmedBy": "user",
+      "userprovided": true,
+      "reason": "По явному указанию пользователя переносится полностью набранная оценка отчётности, регулярности или полноты отчёта из II в III квартал. Прежний максимум сохраняется; информационная регулярность также учитывается.",
+      "rawValue": 1
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "СберЧаевые",
+    "unit": "DB",
+    "type": "Продукт",
+    "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+    "blockCode": "churn",
+    "reportingCode": "churn.nastroena_otchetnostь",
+    "code": "churn.regulyarnostь",
+    "metricName": "Регулярность",
+    "maxValue": 1,
+    "expectedRawValue": 0.5,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 25,
+      "surveyId": "ddi-product-full-sber-tips-b2c",
+      "completedAt": "2026-10-22T06:26:05.429Z",
+      "respondent": "Губин Юрий Сергеевич",
+      "originalTeamId": "full-sber-tips-b2c¦Сберчаевые #B2C",
+      "originalTeamName": "Сберчаевые #B2C",
+      "questionId": "churnConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 57
+      },
+      "reportFormat": "excel",
+      "reportEvidence": null
+    },
+    "currentValue": 1,
+    "currentRawValue": 1.0,
+    "currentSource": {
+      "origin": "priorQuarterCarryForward",
+      "fromPeriod": "II кв. 2026",
+      "period": "III кв. 2026",
+      "sourceName": "СберЧаевые",
+      "sourceMetricCode": "churn.regulyarnostь",
+      "sourceMetricName": "Регулярность",
+      "sourceValue": 1,
+      "sourceMaxValue": 1,
+      "sourceApplicability": true,
+      "confirmedBy": "user",
+      "userprovided": true,
+      "reason": "По явному указанию пользователя переносится полностью набранная оценка отчётности, регулярности или полноты отчёта из II в III квартал. Прежний максимум сохраняется; информационная регулярность также учитывается.",
+      "rawValue": 1
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Сделка вторичка",
+    "unit": "ДомКлик",
+    "type": "Продукт",
+    "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+    "blockCode": "churn",
+    "reportingCode": "churn.nastroena_otchetnostь",
+    "code": "churn.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 32,
+      "surveyId": "ddi-product-59417ede-ab71-55f8-a4b0-d3928f8a6647",
+      "completedAt": "2026-10-21T14:29:37.268Z",
+      "respondent": "Комаров Сергей Андреевич",
+      "originalTeamId": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "originalTeamName": "Сделка вторичка",
+      "questionId": "churnConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 57
+      },
+      "reportFormat": "link",
+      "reportEvidence": "https://dashboard.domclick.ru/flat/secondary_mortgage?tab_place=1"
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Сделка вторичка",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "Настроена ли регулярная отчётность по воронке оттока?",
+      "sourceRows": [
+        259
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Выписки, справки",
+    "unit": "PC",
+    "type": "Продукт",
+    "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+    "blockCode": "attract",
+    "reportingCode": "attract.nastroena_otchetnostь",
+    "code": "attract.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 19,
+      "surveyId": "ddi-product-ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f",
+      "completedAt": "2026-10-22T12:37:46.172Z",
+      "respondent": "Красильников Антон Владимирович",
+      "originalTeamId": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "originalTeamName": "Выписки, справки",
+      "questionId": "attractConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 34
+      },
+      "reportFormat": "link",
+      "reportEvidence": "https://navigator.sigma.sbrf.ru/gdash/1000001946\nhttps://uxscore.sigma.sbrf.ru/cards/UXKNOWNTR-293?space=sbol_ux&directory=sbol_mobile&section=sbol_mobile_main&collection=sbol_ux_tribes"
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Выписки, справки",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "Настроена ли регулярная отчётность по воронке привлечения?",
+      "sourceRows": [
+        29
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Страхование жизни",
+    "unit": "УБ",
+    "type": "Продукт",
+    "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+    "blockCode": "churn",
+    "reportingCode": "churn.nastroena_otchetnostь",
+    "code": "churn.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 66,
+      "surveyId": "ddi-product-72c0ced8-4d7d-50e4-845d-8f5d29331ba7",
+      "completedAt": "2026-10-15T12:38:05.068Z",
+      "respondent": "Лукьянова Юлия Сергеевна ",
+      "originalTeamId": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "originalTeamName": "Страхование жизни",
+      "questionId": "churnConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 57
+      },
+      "reportFormat": "link",
+      "reportEvidence": "https://navigator.sigma.sbrf.ru/gdash/1000003175/\nhttps://navigator.sigma.sbrf.ru/gdash/1000003899/1000039655?sSetGroup=4\nhttps://jira.sberbank.ru/browse/SCSELFS-16156"
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Страхование жизни",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "Настроена ли регулярная отчётность по воронке оттока?",
+      "sourceRows": [
+        291
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Оплата улыбкой",
+    "unit": "DB",
+    "type": "Продукт",
+    "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+    "blockCode": "attract",
+    "reportingCode": "attract.nastroena_otchetnostь",
+    "code": "attract.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 3,
+      "surveyId": "ddi-product-11a243e6-5b73-56ad-8ac7-203e0d744062",
+      "completedAt": "2026-10-28T06:06:25.244Z",
+      "respondent": "Коняшин Артем Алексеевич",
+      "originalTeamId": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "originalTeamName": "Оплата улыбкой",
+      "questionId": "attractConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 34
+      },
+      "reportFormat": "unavailable",
+      "reportEvidence": null
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Оплата улыбкой",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "С какой регулярностью настроен мониторинг по воронке привлечения?",
+      "sourceRows": [
+        176
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Оплата улыбкой",
+    "unit": "DB",
+    "type": "Продукт",
+    "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+    "blockCode": "churn",
+    "reportingCode": "churn.nastroena_otchetnostь",
+    "code": "churn.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "questionare-responses(11).csv",
+      "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+      "csvRow": 3,
+      "surveyId": "ddi-product-11a243e6-5b73-56ad-8ac7-203e0d744062",
+      "completedAt": "2026-10-28T06:06:25.244Z",
+      "respondent": "Коняшин Артем Алексеевич",
+      "originalTeamId": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "originalTeamName": "Оплата улыбкой",
+      "questionId": "churnConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Продукты (2)",
+        "row": 57
+      },
+      "reportFormat": "link",
+      "reportEvidence": "https://navigator.sigma.sbrf.ru/gdash/1000000617/"
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Оплата улыбкой",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "С какой регулярностью настроен мониторинг по воронке оттока?",
+      "sourceRows": [
+        174
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "СберKids",
+    "unit": "DP",
+    "type": "Канал",
+    "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+    "blockCode": "voronka_onbordinga",
+    "reportingCode": "voronka_onbordinga.nastroena_otchetnostь",
+    "code": "voronka_onbordinga.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "analysis/1/questionare-responses(9).csv",
+      "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 6,
+      "surveyId": "ddi-channel-194a82fd-fe84-5d51-ad16-91b4e67eae64",
+      "completedAt": "2026-10-20T15:05:25.505Z",
+      "respondent": "Беликов Дмитрий",
+      "originalTeamId": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "originalTeamName": "СберKids",
+      "questionId": "onboardingConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Каналы Digital",
+        "row": 60
+      },
+      "reportFormat": "link",
+      "reportEvidence": "https://clickstream.sberbank.ru/frontend/sberkids"
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "СберKids",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "Настроена ли регулярная отчётность по воронке онбординга?",
+      "sourceRows": [
+        371
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "СберИнвестор",
+    "unit": "DP",
+    "type": "Канал",
+    "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+    "blockCode": "attract",
+    "reportingCode": "attract.nastroena_otchetnostь",
+    "code": "attract.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "analysis/1/questionare-responses(9).csv",
+      "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 7,
+      "surveyId": "ddi-channel-88128c62-fad4-53de-b101-1851df4d4d14",
+      "completedAt": "2026-10-20T14:03:00.099Z",
+      "respondent": "Героник Екатерина",
+      "originalTeamId": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "originalTeamName": "СберИнвестор",
+      "questionId": "attractConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Каналы Digital",
+        "row": 44
+      },
+      "reportFormat": "unavailable",
+      "reportEvidence": null
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "СберИнвестор",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "С какой регулярностью настроен мониторинг по воронке привлечения/оформления?",
+      "sourceRows": [
+        231
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  },
+  {
+    "name": "Уведомления",
+    "unit": "DP",
+    "type": "Канал",
+    "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+    "blockCode": "churn",
+    "reportingCode": "churn.nastroena_otchetnostь",
+    "code": "churn.nastroena_otchetnostь",
+    "metricName": "Настроена отчетность",
+    "maxValue": 0.5,
+    "expectedRawValue": 1,
+    "expectedValue": 0.5,
+    "source": {
+      "file": "analysis/1/questionare-responses(9).csv",
+      "sha256": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501",
+      "csvRow": 8,
+      "surveyId": "ddi-channel-02489dde-00ff-516f-b162-20865c9a7106",
+      "completedAt": "2026-10-20T10:44:12.902Z",
+      "respondent": "Самойлов Дмитрий Сергеевич",
+      "originalTeamId": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "originalTeamName": "Уведомления",
+      "questionId": "churnConfigured",
+      "answer": "Да, по запросу",
+      "questionSource": {
+        "sheet": "Каналы Digital",
+        "row": 75
+      },
+      "reportFormat": "excel",
+      "reportEvidence": null
+    },
+    "currentValue": 0.25,
+    "currentRawValue": 0.5,
+    "currentSource": {
+      "origin": "userConfirmedFunnelAssessment",
+      "confirmedBy": "user",
+      "date": "2026-10-30",
+      "period": "III кв. 2026",
+      "sourceName": "Уведомления",
+      "sourceMetricName": "Настроена отчетность",
+      "question": "С какой регулярностью настроен мониторинг по воронке оттока?",
+      "sourceRows": [
+        320
+      ],
+      "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+      "rawValue": 0.5
+    },
+    "action": "preserve_existing_score"
+  }
+]

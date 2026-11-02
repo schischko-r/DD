@@ -17,6 +17,12 @@ const SCOPED_METRIC_CODES = {
   'ab-tests-assessment': new Set(['hyp.ab_tests']),
   'regularity-user-assessment': new Set(['attract.regulyarnostь', 'churn.regulyarnostь', 'analiz_effektivnostь.regulyarnostь']),
   'discovery-assessment': new Set(['hyp.discovery_40_backlog']),
+  'q3-score-correction': new Set(['attract.report_completeness', 'attract.nastroena_otchetnostь', 'attract.funnel_analysis', 'attract.benchmarks',
+    'attract.initiatives_list', 'attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya', 'churn.nastroena_otchetnostь',
+    'churn.report_completeness', 'churn.funnel_analysis', 'churn.benchmarks', 'churn.deviation_actions',
+    'mehaniki.uderzhanie_klientov', 'mehaniki.doprodazhi_up_sell', 'cx.score', 'hyp.discovery_40_backlog',
+    'general.navigator_reporting_knowledge', 'general.klienty_s_produktom', 'general.mau_produkta',
+    'dannye.promyshlenye_dannye', 'alerts.business_metrics']),
   'alerts-carry-forward': new Set(['alerts.business_metrics', 'alerts.system_failures',
     'alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui', 'alerts.nastroena_matrica_otkloneniy',
     'alerts.nastroeny_avtoalerty_po_otkloneniyam', 'dannye.kontrolь_kachestva_dannyh_kkd']),
@@ -34,7 +40,7 @@ const SCOPED_METRIC_CODES = {
     'voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami',
     'voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami',
     'voronka_onbordinga.meropriyatiya_po_rabote_s_otkloneniyami',
-    'churn.nastroena_otchetnostь', 'churn.report_completeness', 'churn.funnel_analysis',
+    'churn.nastroena_otchetnostь', 'churn.regulyarnostь', 'churn.report_completeness', 'churn.funnel_analysis',
     'attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya',
     'voronka_ispolьzovaniya.nastroena_otchetnostь', 'voronka_ispolьzovaniya.polnota_otcheta',
     'voronka_ispolьzovaniya.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya',
@@ -46,6 +52,9 @@ const SCOPED_METRIC_CODES = {
     'voronka_prodazh.provedenie_analiza_voronki_prodazh',
     'analiz_effektivnostь.nastroena_otchetnostь', 'analiz_effektivnostь.provedenie_kompleksnogo_analiza_po_metrikam',
     'analiz_effektivnostь.meropriyatiya_po_rabote_s_otkloneniyami']),
+  'funnel-link-quality-assessment': new Set(['attract.report_completeness', 'churn.report_completeness',
+    'voronka_ispolьzovaniya.polnota_otcheta', 'voronka_onbordinga.polnota_otcheta',
+    'voronka_vhoda_v_kanal.polnota_otcheta', 'voronka_prodazh.polnota_otcheta']),
   'user-metric-assessment': new Set(['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov',
     'general.navigator_reporting_knowledge',
     'general.kol_vo_klientov_s_2_nefin_servisov', 'general.kol_vo_poluchateley_zp',
@@ -54,9 +63,23 @@ const SCOPED_METRIC_CODES = {
     'alerts.opovescheniya_po_problemam_svyazannym_s_ux_ui', 'alerts.nastroena_matrica_otkloneniy',
     'alerts.nastroeny_avtoalerty_po_otkloneniyam', 'dannye.kontrolь_kachestva_dannyh_kkd', 'dannye.promyshlenye_dannye']),
   'campaign-user-assessment': new Set(['attract.campaign_launches', 'attract.nalichie_self_service',
-    'attract.nalichie_uspeshnyh_biznes_zapuskov']),
+    'attract.nalichie_uspeshnyh_biznes_zapuskov', 'attract.chernoviki_v_sbol_70']),
   'campaign-missing-zero-assessment': new Set(['attract.campaign_launches', 'attract.chernoviki_v_sbol_70',
     'attract.nalichie_self_service', 'attract.nalichie_uspeshnyh_biznes_zapuskov']),
+  'pc-final-score-assessment': new Set(['alerts.business_metrics', 'alerts.system_failures', 'attract.benchmarks',
+    'attract.funnel_analysis', 'attract.initiatives_list', 'attract.nastroena_otchetnostь', 'attract.regulyarnostь',
+    'attract.report_completeness', 'general.cr_v_prodazhu', 'general.fcr', 'general.klienty_s_produktom',
+    'general.kolichestvo_obrascheniy', 'general.mau_produkta', 'general.navigator_reporting_knowledge',
+    'general.obschiy_obъem_ishodyaschego_trafika', 'general.znanie_produktov_sputnikov', 'hyp.ab_tests',
+    'hyp.datadriven_rating_7_5', 'hyp.discovery_40_backlog', 'hyp.extra_initiatives', 'mehaniki.avtomatizacii',
+    'mehaniki.gibkoe_izmenenie_usloviy_produkta', 'mehaniki.informirovaniya_klienta', 'mehaniki.kontrolya_kachestva_rechi',
+    'mehaniki.monitoring_mehanik', 'mehaniki.nailuchshego_vremeni_zvonka', 'mehaniki.nalichie_sobstvennyh_mehanik',
+    'mehaniki.personalizaciya', 'mehaniki.uderzhaniya_klienta', 'voronka_prodazh.meropriyatiya_po_rabote_s_otkloneniyami',
+    'voronka_prodazh.nalichie_benchmarkov', 'voronka_prodazh.nastroena_otchetnostь', 'voronka_prodazh.polnota_otcheta',
+    'voronka_prodazh.provedenie_analiza_voronki_prodazh', 'voronka_prodazh.regulyarnostь',
+    'voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami', 'voronka_vhoda_v_kanal.nalichie_benchmarkov',
+    'voronka_vhoda_v_kanal.nastroena_otchetnostь', 'voronka_vhoda_v_kanal.polnota_otcheta',
+    'voronka_vhoda_v_kanal.provedenie_analiza_voronki_vhoda_v_kanal', 'voronka_vhoda_v_kanal.regulyarnostь']),
   'cx-score-assessment': new Set(['cx.score']),
   'selected-metrics-carry-forward': new Set(['mehaniki.gibkoe_izmenenie_usloviy_produkta', 'hyp.extra_initiatives']),
   'research-assessment': new Set(['hyp.datadriven_rating_7_5']),
@@ -117,7 +140,7 @@ function referenceFieldsForBlock(block, product, measuredMetrics = {}) {
 
 export function buildTeamProfileProducts(products, period, overlay = null) {
   const overlays = (Array.isArray(overlay) ? overlay : [overlay]).filter(Boolean);
-  const scoringOverlays = overlays.filter((item) => !['metric-applicability-assessment', 'metric-index-exclusion-assessment', 'user-confirmed-q2-retention', 'goals-information-assessment', 'po-goals-template', 'po-goals-assessment', 'reporting-format-assessment'].includes(item.scope));
+  const scoringOverlays = overlays.filter((item) => !['metric-applicability-assessment', 'metric-index-exclusion-assessment', 'user-confirmed-q2-retention', 'goals-information-assessment', 'po-goals-template', 'po-goals-assessment', 'goals-final-scores', 'reporting-format-assessment', 'ub-workbook-corrections', 'cbp-user-corrections'].includes(item.scope));
   const periods = getReportPeriods(products);
   const activePeriod = period || periods[0] || '';
   const actual = products.filter((product) => product.period === activePeriod);
@@ -136,7 +159,8 @@ export function buildTeamProfileProducts(products, period, overlay = null) {
     const measuredTeams = scoringOverlays.filter((item) => item.period === activePeriod && (item.scope === 'ux-score-assessment'
       ? normalize(source.type) === 'канал' : normalize(source.type) === 'продукт' || SCOPED_METRIC_CODES[item.scope]))
       .map((item) => {
-        const team = (item.products || []).find((candidate) => candidate.id === source.id && sameTeam(candidate, source));
+        const team = (item.products || []).find((candidate) => String(candidate.id).replace(/::empty::.*/, '')
+          === String(source.id).replace(/::empty::.*/, '') && sameTeam(candidate, source));
         const scopeCodes = SCOPED_METRIC_CODES[item.scope];
         if (!team) return null;
         const metrics = scopeCodes ? Object.fromEntries(Object.entries(team.metrics || {}).filter(([code]) => scopeCodes.has(code))) : team.metrics || {};
@@ -153,20 +177,47 @@ export function buildTeamProfileProducts(products, period, overlay = null) {
       ? {...block, metrics: [...block.metrics, {code: 'churn.benchmarks', name: 'Наличие бенчмарков',
         max_value: 0.5, is_applicabble_flg: true, excluded_from_index: false, dd_calculation_flg: 1}]}
       : block) : source.metrics;
+    const industrialCode = 'dannye.promyshlenye_dannye';
+    if (measuredMetricScopes.get(industrialCode) === 'q3-score-correction'
+      && !sourceMetrics.some((block) => block.metrics.some((metric) => metric.code === industrialCode))) {
+      const templateBlock = products.flatMap((product) => product.metrics || []).find((block) => block.code === 'dannye');
+      const templateMetric = templateBlock?.metrics.find((metric) => metric.code === industrialCode);
+      if (templateMetric) {
+        const metric = {...templateMetric, value: null, max_value: templateMetric.max_value,
+          is_applicabble_flg: true, excluded_from_index: false, dd_calculation_flg: 1};
+        const dataBlock = {...templateBlock, metrics: [metric]};
+        sourceMetrics = sourceMetrics.some((block) => block.code === 'dannye')
+          ? sourceMetrics.map((block) => block.code === 'dannye' ? {...block, metrics: [...block.metrics, metric]} : block)
+          : [...sourceMetrics, dataBlock];
+      }
+    }
+    const crossSellDuringFact = measuredMetricScopes.get('mehaniki.cross_sell') === 'crosssell-during-purchase-assessment'
+      && [0, 1].includes(measuredMetrics['mehaniki.cross_sell']?.rawValue);
+    const activatedCrossSellCodes = new Set();
+    if (crossSellDuringFact) sourceMetrics = sourceMetrics.map((block) => ({...block, metrics: block.metrics.map((metric) => {
+      if (metric.code !== 'mehaniki.cross_sell' || (metric.is_applicabble_flg !== false && Number(metric.max_value) > 0)) return metric;
+      activatedCrossSellCodes.add(metric.code);
+      return {...metric, max_value: 1, is_applicabble_flg: true, excluded_from_index: false, dd_calculation_flg: 1};
+    })}));
     const activatedFunnelCodes = new Set();
-    // These two formerly non-applicable reporting metrics were explicitly assessed for Q3.
-    const requestedFunnelActivation = source.unit === 'DB' && source.type === 'Продукт'
-      ? {'Трансграничные переводы': 'attract.report_completeness',
-        'Трансграничный эквайринг': 'churn.nastroena_otchetnostь'}[source.name] : null;
-    if (requestedFunnelActivation) sourceMetrics = sourceMetrics.map((block) => ({...block,
+    // Only explicitly assessed Q3 funnel metrics may restore a formerly non-applicable rubric.
+    const requestedFunnelActivations = source.type === 'Продукт' && source.unit === 'DB'
+      ? {'Трансграничные переводы': {'attract.report_completeness': 0.5},
+        'Трансграничный эквайринг': {'churn.nastroena_otchetnostь': 0.5}}[source.name] || {}
+      : source.type === 'Продукт' && source.unit === 'ДомКлик' && source.name === 'Сделка с Первичным жильём'
+        ? {'churn.nastroena_otchetnostь': 0.5, 'churn.regulyarnostь': 1, 'churn.report_completeness': 0.5} : {};
+    if (Object.keys(requestedFunnelActivations).length) sourceMetrics = sourceMetrics.map((block) => ({...block,
       metrics: block.metrics.map((metric) => {
         const fact = measuredMetrics[metric.code];
-        if (metric.code !== requestedFunnelActivation || measuredMetricScopes.get(metric.code) !== 'funnel-user-assessment'
+        const activationMax = requestedFunnelActivations[metric.code];
+        if (!activationMax || measuredMetricScopes.get(metric.code) !== 'funnel-user-assessment'
           || ![0, 0.5, 1].includes(fact?.rawValue) || fact.applicabilityOverride?.applicable !== true
-          || fact.applicabilityOverride?.maxValue !== 0.5
+          || fact.applicabilityOverride?.maxValue !== activationMax
           || !(metric.is_applicabble_flg === false || Number(metric.max_value) <= 0)) return metric;
         activatedFunnelCodes.add(metric.code);
-        return {...metric, max_value: 0.5, is_applicabble_flg: true, excluded_from_index: false, dd_calculation_flg: 1};
+        return {...metric, max_value: activationMax, is_applicabble_flg: true,
+          excluded_from_index: metric.excluded_from_index ?? false,
+          dd_calculation_flg: metric.dd_calculation_flg ?? 1};
       }),
     }));
     const crossSellAfterPurchase = activePeriod === 'III кв. 2026'
@@ -197,19 +248,36 @@ export function buildTeamProfileProducts(products, period, overlay = null) {
             && Number.isFinite(fact?.rawValue) && fact.rawValue === completenessRatio.selected / completenessRatio.available;
           const hasPerformanceQuarter = fact?.rawValue === 0.25 && measuredMetricScopes.get(metric.code) === 'performance-assessment'
             && SCOPED_METRIC_CODES['performance-assessment'].has(metric.code);
-          const hasFact = fact && (hasCompletenessFraction || hasPerformanceQuarter || fact.rawValue === 0 || fact.rawValue === 1 || (fact.rawValue === 0.5
+          const hasDiscoveryQuarter = fact?.rawValue === 0.25 && measuredMetricScopes.get(metric.code) === 'discovery-assessment'
+            && metric.code === 'hyp.discovery_40_backlog';
+          const hasDirectQ3Correction = Number.isFinite(fact?.rawValue) && fact.rawValue >= 0 && fact.rawValue <= 1
+            && fact.source?.correction?.origin === 'userConfirmedQ3ScoreCorrection'
+            && fact.source.correction.confirmedBy === 'user' && fact.source.correction.period === activePeriod
+            && SCOPED_METRIC_CODES[measuredMetricScopes.get(metric.code)]?.has(metric.code);
+          const hasDirectNavigatorFact = fact?.rawValue === 0.5
+            && ['key-metrics-assessment', 'q3-score-correction'].includes(measuredMetricScopes.get(metric.code))
+            && metric.code === 'general.navigator_reporting_knowledge'
+            && fact.source?.origin === 'userConfirmedDirectNavigatorAssessment'
+            && fact.source?.confirmedBy === 'user'
+            && fact.source?.teamId === String(source.id).replace(/::empty::.*/, '')
+            && fact.source?.teamName === source.name && fact.source?.unit === source.unit && fact.source?.type === source.type;
+          const hasFact = fact && (hasCompletenessFraction || hasPerformanceQuarter || hasDiscoveryQuarter || hasDirectQ3Correction || hasDirectNavigatorFact || fact.rawValue === 0 || fact.rawValue === 1 || (fact.rawValue === 0.5
             && (['mehaniki.cross_sell', 'attract.chernoviki_v_sbol_70', 'cx.uh_score'].includes(metric.code)
-              || (['goals-assessment', 'selected-metrics-carry-forward', 'user-metric-assessment', 'funnel-user-assessment', 'mechanics-user-assessment', 'discovery-assessment', 'regularity-user-assessment'].includes(measuredMetricScopes.get(metric.code))
+              || (['goals-assessment', 'selected-metrics-carry-forward', 'user-metric-assessment', 'funnel-user-assessment', 'funnel-link-quality-assessment', 'research-assessment', 'mechanics-user-assessment', 'discovery-assessment', 'regularity-user-assessment', 'pc-final-score-assessment', 'q3-score-correction'].includes(measuredMetricScopes.get(metric.code))
                 && SCOPED_METRIC_CODES[measuredMetricScopes.get(metric.code)].has(metric.code)))));
           const applicable = metric.is_applicabble_flg !== false && Number(metric.max_value) > 0;
-          const hasPreviousValue = hasFact && applicable && !activatedFunnelCodes.has(metric.code) && source.period && source.period !== activePeriod
+          const hasPreviousValue = hasFact && applicable && !activatedFunnelCodes.has(metric.code)
+            && !activatedCrossSellCodes.has(metric.code) && source.period && source.period !== activePeriod
             && Number.isFinite(metric.value) && Number.isFinite(Number(metric.max_value))
             && metric.value >= 0 && metric.value <= Number(metric.max_value);
           const rubric = Object.fromEntries(['code', 'name', 'metric_subgroup', 'footer', 'max_value', 'recommendation_difficulty',
             'is_applicabble_flg', 'excluded_from_index', 'dd_calculation_flg']
             .filter((key) => metric[key] !== undefined).map((key) => [key, metric[key]]));
           const maxValue = effectiveMaxFor(metric);
-          const currentValue = hasFact && applicable ? fact.rawValue * Number(maxValue) : null;
+          const crossSellDuringScore = measuredMetricScopes.get(metric.code) === 'crosssell-during-purchase-assessment'
+            && metric.code === 'mehaniki.cross_sell';
+          const currentValue = hasFact && applicable
+            ? fact.rawValue * Number(maxValue) / (crossSellDuringScore ? 2 : 1) : null;
           const recommendationRubric = {
             ...Object.fromEntries(['recommendation', 'recommendations', 'recommendation_group', 'recommendation_groups']
               .filter((key) => metric[key] !== undefined).map((key) => [key, Array.isArray(metric[key]) ? [...metric[key]] : metric[key]])),
@@ -239,13 +307,26 @@ export function metricActualGrowth(metric, maxIndexPoints, currentPeriod) {
   if (!isDdIndexMetric(metric) || !Number.isFinite(metric.value) || !Number.isFinite(metric.previousValue)
     || !Number.isFinite(metric.max_value) || !Number.isFinite(metric.previousMaxValue)
     || metric.max_value <= 0 || metric.max_value !== metric.previousMaxValue
-    || metric.previousValue < 0 || metric.value > metric.max_value || metric.value <= metric.previousValue
+    || metric.previousValue < 0 || metric.value < 0 || metric.value > metric.max_value || metric.value === metric.previousValue
     || !Number.isFinite(maxIndexPoints) || maxIndexPoints <= 0
     || !metric.previousPeriod || !currentPeriod || metric.previousPeriod === currentPeriod) return null;
   const pointsDelta = metric.value - metric.previousValue;
   return {pointsDelta, metricPctDelta: pointsDelta / metric.max_value * 100,
-    indexPctDelta: pointsDelta / maxIndexPoints * 100, previousPeriod: metric.previousPeriod,
+    indexPctDelta: pointsDelta / maxIndexPoints * 100 * (metric.actualGrowthWeight === 0.5 ? 0.5 : 1), previousPeriod: metric.previousPeriod,
+    ...(metric.growthComparisonLabel ? {comparisonLabel: metric.growthComparisonLabel} : {}),
     currentPeriod, previousValue: metric.previousValue, value: metric.value};
+}
+
+export function blockActualGrowth(block, maxIndexPoints, currentPeriod) {
+  const growths = (block?.metrics || []).map((metric) => metricActualGrowth(metric, maxIndexPoints, currentPeriod))
+    .filter(Boolean);
+  if (!growths.length || new Set(growths.map((growth) => growth.previousPeriod)).size !== 1) return null;
+  return {...growths[0],
+    pointsDelta: growths.reduce((sum, growth) => sum + growth.pointsDelta, 0),
+    indexPctDelta: growths.reduce((sum, growth) => sum + growth.indexPctDelta, 0),
+    value: growths.reduce((sum, growth) => sum + growth.value, 0),
+    previousValue: growths.reduce((sum, growth) => sum + growth.previousValue, 0),
+  };
 }
 
 export function buildTeamProfileRadarData(product, products, blocks) {

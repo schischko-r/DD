@@ -1,0 +1,344 @@
+[
+  {
+    "name": "Военная пенсия",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "ДСЖ КК",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Детская карта",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "ИСЖ",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Интернет-Эквайринг",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Монеты",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "НСЖ",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Объект Авто",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Пакет услуг СберПервый",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Пакет услуг СберПремьер",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Пенсионный продукт",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Переводы подарков",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "СберЧаевые",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Страхование залога",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Сценарии оплаты",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Трансграничные переводы",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Трансграничный эквайринг",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Транспортный эквайринг",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "ЦФА",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Школьные сервисы",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Вжух",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Страхование путешественников",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "ДСЖ ПК",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "ЗЛС",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Как зарплатный",
+    "unit": "DB",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "СберСова",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Слитки",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Страхование жизни",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Образовательный кредит",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "POS-кредиты",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Личная защита Плюс",
+    "unit": "УБ",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "BNPL",
+    "unit": "CBP",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "МВС",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Молодежь",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "СберKids",
+    "unit": "DP",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Top Affluent",
+    "unit": "CX",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Единый личный кабинет (ЕЛК)",
+    "unit": "Data",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  },
+  {
+    "name": "Почта, Диск, Календарь",
+    "unit": "Data",
+    "value": null,
+    "average": null,
+    "origin": null,
+    "q2Value": 0,
+    "q2Max": 1
+  }
+]

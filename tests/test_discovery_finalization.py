@@ -26,6 +26,7 @@ def test_explicit_answer_scoring_and_exact_decomposition_thresholds():
     assert explicit(None, None) is None
     assert decomposition(4000, 10000) == 1
     assert decomposition(3999, 10000) == .5
+    assert decomposition(84, 212) == .5  # 39.62% must not round up to the 40% threshold.
     assert decomposition(2000, 10000) == .5
     assert decomposition(1999, 10000) == 0
     assert decomposition(0, 10000) == 0
@@ -60,6 +61,30 @@ def test_saved_backlog_proofs_are_exact_q3_source_records_and_shared_members_sta
     assert source['SberID']['source']['origin'] == 'userConfirmedDiscoveryAssessment'
     assert overlay['pending'] == []
     assert {p['name'] for p in overlay['resolvedConflicts']} == {'ОМС', 'Слитки'}
-    for name in ['ОМС', 'Слитки', 'Пакет услуг СберПервый', 'Единый личный кабинет (ЕЛК)']:
+    for name in ['ОМС', 'Слитки', 'Единый личный кабинет (ЕЛК)']:
         assert source[name]['rawValue'] == 1
         assert source[name]['source']['origin'] == 'userConfirmedDiscoveryManualAssessment'
+    assert source['Пакет услуг СберПервый']['rawValue'] == .5
+    assert source['Пакет услуг СберПервый']['source']['origin'] == 'userConfirmedDiscoveryManualAssessment'
+
+
+def test_premier_and_mvs_use_exact_shared_decomposition_below_forty_percent():
+    _, score = scoring_functions()
+    overlay = json.loads((ROOT / 'gravity-app/src/data/discovery-metrics-q3-2026.json').read_text())
+    backlog = json.loads((ROOT / 'gravity-app/public/backlog-data.json').read_text())
+    selected = [p for p in overlay['products'] if p['name'] in ['Пакет услуг СберПремьер', 'МВС']]
+    assert len(selected) == 2
+    for product in selected:
+        fact = product['metrics']['hyp.discovery_40_backlog']
+        evidence = fact['source']
+        assert evidence['origin'] == 'userConfirmedDiscoveryDecompositionOverride'
+        node = backlog
+        for key in evidence['pointer'].strip('/').split('/'):
+            node = node[int(key)] if isinstance(node, list) else node[key]
+        assert node['key'] == evidence['quarterKey'] == '2026-Q3'
+        assert (node['discoveryCount'], node['createdCount']) == (84, 212)
+        assert fact['rawValue'] == score(84, 212) == .5
+        assert 39.6 < evidence['actualShare'] < 40
+        assert product['name'] in evidence['memberTeams']
+        assert evidence['sharedAssessment'] is True
+        assert evidence['previousAssessment']['source']

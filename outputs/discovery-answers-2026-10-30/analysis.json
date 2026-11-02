@@ -1,0 +1,2838 @@
+{
+  "counts": {
+    "rawResponses": 81,
+    "excludedRespondentResponses": 2,
+    "includedResponses": 79,
+    "mappedTeams": 76,
+    "explicitAnswerResponses": 62,
+    "noAnswerResponses": 17,
+    "teamsWithAnswer": 59,
+    "teamsWithoutAnswer": 17,
+    "positiveTeams": 30,
+    "zeroTeams": 29,
+    "scoreConflicts": 0,
+    "answerDistribution": {
+      "Затрудняюсь ответить": 1,
+      "<нет отдельного ответа>": 17,
+      "От 20 до 39%": 12,
+      "Нет аналитиков": 13,
+      "От 40 до 79%": 24,
+      "Меньше 20%": 4,
+      "Больше 80%": 8
+    },
+    "backlogTypeDistribution": {
+      "<нет отдельного ответа>": 31,
+      "Собственный бэклог в Jira/SberTrack": 22,
+      "Бэклог ведется вне Jira/SberTrack": 18,
+      "Задачи ведет Штаб в Jira/SberTrack": 8
+    },
+    "withBacklogLinkResponses": 22,
+    "withBacklogCommentResponses": 15,
+    "unmatched": 0
+  },
+  "sourceHashes": {
+    "analysis/1/questionare-responses(7).csv": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+    "analysis/1/questionare-responses(8).csv": "f90afdb4aaa23539f403514c017c195beec92f2b0053d2d825b8be8199709e76",
+    "analysis/1/questionare-responses(9).csv": "06ca2e83b45ee9e587528d3fac05aba3f6ef92aa457c26149687d6857072e501"
+  },
+  "excluded": [
+    {
+      "file": "analysis/1/questionare-responses(7).csv",
+      "csvRow": 23,
+      "sourceTeam": "SberPay Ecom",
+      "unit": "DB",
+      "fio": "чикина м",
+      "answer": "От 20 до 39%",
+      "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+      "backlogLink": null,
+      "backlogComment": null
+    },
+    {
+      "file": "analysis/1/questionare-responses(7).csv",
+      "csvRow": 65,
+      "sourceTeam": "Трансграничный эквайринг #B2B",
+      "unit": "DB",
+      "fio": "(тест Штаб DB B2C) Чикина Мария",
+      "answer": "От 40 до 79%",
+      "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+      "backlogLink": null,
+      "backlogComment": null
+    }
+  ],
+  "unmatched": [],
+  "teamsWithoutSurvey": [
+    {
+      "id": "2770002e-6b7e-5753-9915-189d0cf5272f¦Военная пенсия",
+      "name": "Военная пенсия",
+      "unit": "DB",
+      "type": "Продукт"
+    },
+    {
+      "id": "20f8336c-e0cf-5944-9c0e-5f201a9c4561¦Переводы подарков",
+      "name": "Переводы подарков",
+      "unit": "DB",
+      "type": "Продукт"
+    },
+    {
+      "id": "9ab3c21c-493a-54dc-92ec-022aefb84f84¦Сценарии оплаты",
+      "name": "Сценарии оплаты",
+      "unit": "DB",
+      "type": "Продукт"
+    },
+    {
+      "id": "b4d7d4f8-e4c7-5cc2-ada8-9fb3801fb28a¦Транспортный эквайринг",
+      "name": "Транспортный эквайринг",
+      "unit": "DB",
+      "type": "Продукт"
+    },
+    {
+      "id": "8e9b9731-8712-59fd-b654-6aac03844b1c¦Школьные сервисы",
+      "name": "Школьные сервисы",
+      "unit": "DB",
+      "type": "Продукт"
+    },
+    {
+      "id": "e146d7b5-0627-5493-b841-3e87393d585c¦Как зарплатный",
+      "name": "Как зарплатный",
+      "unit": "DB",
+      "type": "Продукт"
+    }
+  ],
+  "teams": [
+    {
+      "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Затрудняюсь ответить"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 2,
+          "sourceTeam": "Торговый Эквайринг",
+          "unit": "DB",
+          "fio": "Фисенко Владислав Николаевич",
+          "answer": "Затрудняюсь ответить",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг",
+          "name": "Торговый Эквайринг",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 3,
+          "sourceTeam": "Оплата улыбкой",
+          "unit": "DB",
+          "fio": "Коняшин Артем Алексеевич",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+          "name": "Оплата улыбкой",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0.5,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 4,
+          "sourceTeam": "SberID",
+          "unit": "Data",
+          "fio": "Воробьев Александр Валерьевич",
+          "answer": "От 20 до 39%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=50951&view=detail",
+          "backlogComment": null,
+          "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+          "name": "SberID",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков",
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 5,
+          "sourceTeam": "Зарплатный продукт",
+          "unit": "DB",
+          "fio": "Сауткин Андрей ",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+          "name": "Зарплатный продукт",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        },
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 46,
+          "sourceTeam": "Зарплатный продукт",
+          "unit": "DB",
+          "fio": "Королева Александра Дмитриевна",
+          "answer": "От 20 до 39%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "Семен Расторопов, Эмил Ахмедов - они получают задачи, которые мы им ставим",
+          "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+          "name": "Зарплатный продукт",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 6,
+          "sourceTeam": "ОСАГО",
+          "unit": "УБ",
+          "fio": "Можак Максим Игоревич",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+          "name": "ОСАГО",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0.5,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 7,
+          "sourceTeam": "Сделка ИЖС",
+          "unit": "ДомКлик",
+          "fio": "Чернов Дмитрий Леонидович",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+          "name": "Сделка ИЖС",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0.5,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 8,
+          "sourceTeam": "Много денег (НКПЗН)",
+          "unit": "ДомКлик",
+          "fio": "Спиваков Андрей",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+          "name": "Много денег (НКПЗН)",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 9,
+          "sourceTeam": "Дебетовая карта",
+          "unit": "DB",
+          "fio": "Яковлев Сергей Викторович",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта",
+          "name": "Дебетовая карта",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 10,
+          "sourceTeam": "Образовательный кредит",
+          "unit": "CBP",
+          "fio": "Семенов Тимофей Александрович ",
+          "answer": "От 20 до 39%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит",
+          "name": "Образовательный кредит",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 11,
+          "sourceTeam": "Объект Авто",
+          "unit": "CBP",
+          "fio": "Мищенко Максим Павлович",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто",
+          "name": "Объект Авто",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 12,
+          "sourceTeam": "ОМС",
+          "unit": "CBP",
+          "fio": "Скворцов Виталий Михайлович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=48675&projectKey=FXPMDATA&view=detail&selectedIssue=FXPMDATA-681&quickFilter=280867#",
+          "backlogComment": null,
+          "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+          "name": "ОМС",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        },
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 14,
+          "sourceTeam": "ОМС",
+          "unit": "CBP",
+          "fio": "Григорьев Алексей Владимирович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+          "name": "ОМС",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 13,
+          "sourceTeam": "Слитки",
+          "unit": "CBP",
+          "fio": "Григорьев Алексей Владимирович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+          "name": "Слитки",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        },
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 15,
+          "sourceTeam": "Слитки",
+          "unit": "CBP",
+          "fio": "Скворцов Виталий Михайлович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=48675&projectKey=FXPMDATA&view=detail&selectedIssue=FXPMDATA-681&quickFilter=280867#",
+          "backlogComment": null,
+          "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки",
+          "name": "Слитки",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Меньше 20%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 16,
+          "sourceTeam": "Интернет-Эквайринг",
+          "unit": "DB",
+          "fio": "Кравченко Т.В (Ведерникова Ю.А.)",
+          "answer": "Меньше 20%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+          "name": "Интернет-Эквайринг",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 17,
+          "sourceTeam": "Пакет услуг СберПервый",
+          "unit": "CX",
+          "fio": "Аленцев Александр Михайлович",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый",
+          "name": "Пакет услуг СберПервый",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0.5,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 18,
+          "sourceTeam": "Сделка с Первичным жильём",
+          "unit": "ДомКлик",
+          "fio": "Ильин Павел Константинович",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+          "name": "Сделка с Первичным жильём",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 19,
+          "sourceTeam": "Выписки, справки",
+          "unit": "PC",
+          "fio": "Красильников Антон Владимирович",
+          "answer": "Больше 80%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.delta.sbrf.ru/projects/PCHA/issues/PCHA-2260?filter=allopenissues",
+          "backlogComment": null,
+          "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки",
+          "name": "Выписки, справки",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Меньше 20%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 20,
+          "sourceTeam": "SberPay Ecom",
+          "unit": "DB",
+          "fio": "Ведерникова Ю А",
+          "answer": "Меньше 20%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom",
+          "name": "SberPay Ecom",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 21,
+          "sourceTeam": "Трансграничные переводы #B2C",
+          "unit": "DB",
+          "fio": "Сидорова Ксения Евгеньевна",
+          "answer": "Больше 80%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "DA в команде, работает по запросам",
+          "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
+          "name": "Трансграничные переводы",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": null,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 22,
+          "sourceTeam": "Почта, Диск, Календарь",
+          "unit": "Data",
+          "fio": "Белозеров Дмитрий Александрович",
+          "answer": "От 20 до 39%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "sberworks",
+          "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь",
+          "name": "Почта, Диск, Календарь",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 24,
+          "sourceTeam": "СберПрайм",
+          "unit": "CX",
+          "fio": "Фомичева Анна Геннадьевна",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/scrum?space=PRIME&tenant=default",
+          "backlogComment": null,
+          "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+          "name": "СберПрайм",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 25,
+          "sourceTeam": "Сберчаевые #B2C",
+          "unit": "DB",
+          "fio": "Губин Юрий Сергеевич",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/projects/VOTSLHGUWJ/issues/VOTSLHGUWJ-176?filter=allopenissues",
+          "backlogComment": null,
+          "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+          "name": "СберЧаевые",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": null,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 26,
+          "sourceTeam": "НСЖ",
+          "unit": "УБ",
+          "fio": "Волобуев Андрей Николаевич",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ",
+          "name": "НСЖ",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 27,
+          "sourceTeam": "ИСЖ",
+          "unit": "УБ",
+          "fio": "Клычева Олеся Олеговна ",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ",
+          "name": "ИСЖ",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 28,
+          "sourceTeam": "BNPL",
+          "unit": "CBP",
+          "fio": "Адуллин Антон Викторович",
+          "answer": "От 20 до 39%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL",
+          "name": "BNPL",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 29,
+          "sourceTeam": "POS-кредиты",
+          "unit": "CBP",
+          "fio": "Адуллин Антон Викторович",
+          "answer": "От 20 до 39%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+          "name": "POS-кредиты",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 30,
+          "sourceTeam": "ВЗР",
+          "unit": "УБ",
+          "fio": "Мартусенко Игорь Викторович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=PRVZR&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%A1%D1%82%D1%80%D0%B0%D1%85%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5+%D0%BF%D1%83%D1%82%D0%B5%D1%88%D0%B5%D1%81%D1%82%D0%B2%D0%B5%D0%BD%D0%BD%D0%B8%D0%BA%D0%BE%D0%B2+%D0%B8+%D0%9F%D0%A3+%28jira%29%22%2C%22value%22%3A%22PRVZR%22%7D%5D&assign_to=%5B%7B%22label%22%3A%22%D0%A1%D1%82%D0%B5%D0%BF%D1%87%D0%B5%D0%BD%D0%BA%D0%BE+%D0%90%D1%80%D1%82%D1%91%D0%BC+%D0%92%D0%B8%D0%BA%D1%82%D0%BE%D1%80%D0%BE%D0%B2%D0%B8%D1%87+%28%D0%AF%29%22%2C%22value%22%3A%2223712784%22%7D%5D",
+          "backlogComment": null,
+          "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+          "name": "ВЗР",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 31,
+          "sourceTeam": "Автокредит",
+          "unit": "CBP",
+          "fio": "Бажанова Елена Олеговна",
+          "answer": "От 20 до 39%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=CI8LDDG1KY&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0+%5C%22%D0%90%D0%92%D0%A2%D0%9E%5C%22%22%2C%22value%22%3A%22CI8LDDG1KY%22%7D%5D",
+          "backlogComment": null,
+          "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+          "name": "Автокредит",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 32,
+          "sourceTeam": "Сделка вторичка",
+          "unit": "ДомКлик",
+          "fio": "Комаров Сергей Андреевич",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка",
+          "name": "Сделка вторичка",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 33,
+          "sourceTeam": "Вжух",
+          "unit": "DB",
+          "fio": "Дрожжина Валентина Юрьевна",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух",
+          "name": "SberPay Вжух",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 34,
+          "sourceTeam": "Пакет услуг СберПремьер",
+          "unit": "CX",
+          "fio": "Козлова Диана Леонидовна ",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=AMNS&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0+%D0%9C%D0%92%D0%A1+%D0%B8+%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5+%D1%81%D0%B5%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%22%2C%22value%22%3A%22AMNS%22%7D%5D",
+          "backlogComment": null,
+          "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+          "name": "Пакет услуг СберПремьер",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 35,
+          "sourceTeam": "Платежи",
+          "unit": "DB",
+          "fio": "Юрковский Роберт",
+          "answer": "От 20 до 39%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи",
+          "name": "Платежи",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 36,
+          "sourceTeam": "Брокерский счет",
+          "unit": "УБ",
+          "fio": "Султанов Руслан Рафисович",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+          "name": "Брокерский счет",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 37,
+          "sourceTeam": "Кредитные карты",
+          "unit": "DB",
+          "fio": "Сайфуллин Азат Шавкатович",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты",
+          "name": "Кредитные карты",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 38,
+          "sourceTeam": "Трансграничный эквайринг #B2C",
+          "unit": "DB",
+          "fio": "Забегаев Михаил Евгеньевич",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+          "name": "Трансграничный эквайринг",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": null,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 39,
+          "sourceTeam": "Монеты",
+          "unit": "CBP",
+          "fio": "Лазарев Никита Игоревич",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "Задачи ведутся в системе \nПОТОК https://potok.sber.ru/\nConfluence https://confluence.sberbank.ru/pages/viewpage.action?pageId=16315384978",
+          "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты",
+          "name": "Монеты",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 40,
+          "sourceTeam": "ДСЖ КК",
+          "unit": "УБ",
+          "fio": "Большакова Наталья Сергеевна",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.delta.sbrf.ru/secure/RapidBoard.jspa?rapidView=22145&projectKey=PRDSJKK&view=planning.nodetail&quickFilter=103735&issueLimit=100#",
+          "backlogComment": null,
+          "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК",
+          "name": "ДСЖ КК",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 41,
+          "sourceTeam": "Сейфы",
+          "unit": "CBP",
+          "fio": "Краснов Игорь Константинович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "Конфлюенс",
+          "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+          "name": "Сейфы",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 42,
+          "sourceTeam": "Страхование залога",
+          "unit": "УБ",
+          "fio": "Казакова Кристина Юрьевна",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/pages/wiki/unit/ZALOGINS-196?space=ZALOGINS&tenant=default&suite=LT_page",
+          "backlogComment": null,
+          "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога",
+          "name": "Страхование залога",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 43,
+          "sourceTeam": "ЗПИФ",
+          "unit": "УБ",
+          "fio": "Зырянская Валерия",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ",
+          "name": "ЗПИФ",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 44,
+          "sourceTeam": "ОПИФ",
+          "unit": "УБ",
+          "fio": "Клочкова Ольга",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ",
+          "name": "ОПИФ",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 45,
+          "sourceTeam": "СберСпасибо",
+          "unit": "CX",
+          "fio": "Савицкий Евгений Михайлович",
+          "answer": "От 20 до 39%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/board/1b97c01f-be10-4b5d-aac0-c894be23c867?space=ANDEP&tenant=default&spaces=%5B%7B%22label%22%3A%22Управление+портфелем+ПЛ%22%2C%22value%22%3A%22ANDEP%22%7D%5D",
+          "backlogComment": null,
+          "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+          "name": "СберСпасибо",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 47,
+          "sourceTeam": "SberPay NFC",
+          "unit": "DB",
+          "fio": "Маманков Максим Сергеевич",
+          "answer": "Больше 80%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "Чикина Мария, Ткаченко Михаил",
+          "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+          "name": "SberPay NFC",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 48,
+          "sourceTeam": "Детская карта",
+          "unit": "DB",
+          "fio": "Фомин Андрей Евгеньевич",
+          "answer": "От 40 до 79%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "Ткаченко Михаил Васильевич, Захаров Александр Евгеньевич, Хромов Степан Алексеевич",
+          "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+          "name": "Детская карта",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 49,
+          "sourceTeam": "Кредитный потенциал",
+          "unit": "CBP",
+          "fio": "Родина Марина Анатольевна",
+          "answer": "От 20 до 39%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "Taska",
+          "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал",
+          "name": "Кредитный потенциал",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Меньше 20%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 50,
+          "sourceTeam": "ПДС",
+          "unit": "УБ",
+          "fio": "Норенко Александра Викторовна",
+          "answer": "Меньше 20%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/pages/wiki/unit/SSLDVNN-1?space=SSLDVNN&tenant=default&suite=wiki_page ",
+          "backlogComment": null,
+          "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС",
+          "name": "ПДС",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 51,
+          "sourceTeam": "Переводы по РФ",
+          "unit": "DB",
+          "fio": "Невелич Дмитрий Игоревич",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ",
+          "name": "Переводы по РФ",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 52,
+          "sourceTeam": "БПИФ",
+          "unit": "УБ",
+          "fio": "Сулейманов Расим",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ",
+          "name": "БПИФ",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 53,
+          "sourceTeam": "Залоговое страхование (корпоративное страхование)",
+          "unit": "УБ",
+          "fio": "Дубинина Татьяна Валерьевна",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=KPDS&rapidView=21722#",
+          "backlogComment": null,
+          "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)",
+          "name": "Залоговое страхование (корпоративное страхование)",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 54,
+          "sourceTeam": "Конверсия",
+          "unit": "CBP",
+          "fio": "Савенков Илья Игоревич",
+          "answer": "Больше 80%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "https://confluence.sberbank.ru/pages/viewpage.action?pageId=21597227614",
+          "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+          "name": "Конверсия",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "Меньше 20%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 55,
+          "sourceTeam": "Вклады+НС",
+          "unit": "CBP",
+          "fio": "Тырсина Ю.И.",
+          "answer": "Меньше 20%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС",
+          "name": "Вклады+НС",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 56,
+          "sourceTeam": "ЦФА",
+          "unit": "УБ",
+          "fio": "Илларионов Артем Андреевич",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА",
+          "name": "ЦФА",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 57,
+          "sourceTeam": "КАСКО",
+          "unit": "УБ",
+          "fio": "Сипугин Николай Александрович",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+          "name": "КАСКО",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0.5,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 58,
+          "sourceTeam": "ЗЛС",
+          "unit": "УБ",
+          "fio": "Корпачева Надежда Олеговна",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/pages/wiki/unit/B0REGAUM0PS1-258?space=B0REGAUM0PS1&tenant=default&suite=wiki_page",
+          "backlogComment": null,
+          "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС",
+          "name": "ЗЛС",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 59,
+          "sourceTeam": "ИнвестКопилка",
+          "unit": "УБ",
+          "fio": "Коробова Екатерина Вадимовна ",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/board/fc08e852-22a0-41c4-bd30-416aade9a5b2?space=INVESTMB&tenant=default&spaces=%5B%7B%22label%22%3A%22InvestMoneyBox%22%2C%22value%22%3A%22INVESTMB%22%7D%5D ",
+          "backlogComment": null,
+          "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка",
+          "name": "ИнвестКопилка",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 60,
+          "sourceTeam": "СберСова",
+          "unit": "УБ",
+          "fio": "Киреева Наталья Николавена",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "бэклог задач ведется в jira pcbltools - это аналог jira только для платформы ШЦП",
+          "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова",
+          "name": "СберСова",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 61,
+          "sourceTeam": "Пенсионный продукт",
+          "unit": "DB",
+          "fio": "Мерзликин Иван Сергеевич",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт",
+          "name": "Пенсионный продукт",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 62,
+          "sourceTeam": "Личная защита Плюс",
+          "unit": "УБ",
+          "fio": "Горбунова Екатерина Эдуардовна",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+          "name": "Личная защита Плюс",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0.5,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 63,
+          "sourceTeam": "Потребительский кредит",
+          "unit": "CBP",
+          "fio": "Ефанов Евгений Вячеславович",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит",
+          "name": "Потребительский кредит",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Нет аналитиков"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 64,
+          "sourceTeam": "ДСЖ ПК",
+          "unit": "УБ",
+          "fio": "Кузнецова Ольга Сергеевна",
+          "answer": "Нет аналитиков",
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+          "name": "ДСЖ ПК",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(7).csv",
+          "csvRow": 66,
+          "sourceTeam": "Страхование жизни",
+          "unit": "УБ",
+          "fio": "Лукьянова Юлия Сергеевна ",
+          "answer": "Больше 80%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "https://whiteboard.sberbank.ru/b/e57313bb-bb62-4fca-aa28-69a890003ad8",
+          "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни",
+          "name": "Страхование жизни",
+          "type": "Продукт",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "reported_discovery_at_least_40_percent=1; other=0",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+      "name": "PB",
+      "unit": "CX",
+      "type": "Сегмент",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(8).csv",
+          "csvRow": 2,
+          "sourceTeam": "PB",
+          "unit": "CX",
+          "fio": "Маркарьян Арташес ",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "https://sbertrack.sberbank.ru/swtr/tasks/board/305e78b9-a5b5-43e2-8538-fdce9c1d98f8?space=PBDTNLSS&tenant=default&spaces=%5B%7B%22label%22%3A%22PB+Data+Analysis%22%2C%22value%22%3A%22PBDTNLSS%22%7D%5D ",
+          "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+          "name": "PB",
+          "type": "Сегмент",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(8).csv",
+          "csvRow": 3,
+          "sourceTeam": "Рабочий возраст",
+          "unit": "CX",
+          "fio": "Сироткина Елена",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+          "name": "Рабочий возраст",
+          "type": "Сегмент",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(8).csv",
+          "csvRow": 4,
+          "sourceTeam": "Top Affluent",
+          "unit": "CX",
+          "fio": "Багдасарян Артем Робертович",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+          "name": "Top Affluent",
+          "type": "Сегмент",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0.5,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(8).csv",
+          "csvRow": 5,
+          "sourceTeam": "МВС",
+          "unit": "CX",
+          "fio": "Кориков Иван Сергеевич",
+          "answer": "От 20 до 39%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=AMNS&tenant=default&spaces=%5B%7B%22label%22%3A%22%D0%90%D0%BD%D0%B0%D0%BB%D0%B8%D1%82%D0%B8%D0%BA%D0%B0+%D0%9C%D0%92%D0%A1+%D0%B8+%D0%9D%D0%BE%D0%B2%D1%8B%D0%B5+%D1%81%D0%B5%D0%B3%D0%BC%D0%B5%D0%BD%D1%82%D1%8B%22%2C%22value%22%3A%22AMNS%22%7D%5D",
+          "backlogComment": null,
+          "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+          "name": "МВС",
+          "type": "Сегмент",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(8).csv",
+          "csvRow": 6,
+          "sourceTeam": "Зрелость",
+          "unit": "CX",
+          "fio": "Серебряников Антон Олегович",
+          "answer": "Больше 80%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "https://onework.sigma.sbrf.ru/swtr/tasks/board/a562f3d8-c549-426f-ab43-421c738df40e?space=CX65NLTCS&tenant=default&spaces=%5B%7B%22label%22%3A%22CX-65-Analytics%22%2C%22value%22%3A%22CX65NLTCS%22%7D%5D",
+          "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+          "name": "Зрелость",
+          "type": "Сегмент",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(8).csv",
+          "csvRow": 7,
+          "sourceTeam": "Молодежь",
+          "unit": "CX",
+          "fio": "Калашников Роман Леонидович",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+          "name": "Молодежь",
+          "type": "Сегмент",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "answers": [
+        "От 20 до 39%"
+      ],
+      "proposedScoresBySurveyRule": [
+        0
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(8).csv",
+          "csvRow": 8,
+          "sourceTeam": "Дети/подростки",
+          "unit": "CX",
+          "fio": "Калашников Роман Леонидович",
+          "answer": "От 20 до 39%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/scrum?space=SDRSAA&tenant=default",
+          "backlogComment": null,
+          "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+          "name": "Дети",
+          "type": "Сегмент",
+          "surveyResult": {
+            "baselineValue": 0.5,
+            "value": 0,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 2,
+          "sourceTeam": "Персональная рекомендация (кампейнинг)",
+          "unit": "Data",
+          "fio": "Комаров Иван Алексеевич",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация",
+          "name": "Персональная рекомендация",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 3,
+          "sourceTeam": "Колл-центр",
+          "unit": "PC",
+          "fio": "Аркуша Наталья Евгеньевна",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.delta.sbrf.ru/secure/RapidBoard.jspa?rapidView=11427#",
+          "backlogComment": null,
+          "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр",
+          "name": "Колл-центр",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 4,
+          "sourceTeam": "Телемаркетинг",
+          "unit": "PC",
+          "fio": "Судаков Николай",
+          "answer": "Больше 80%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.sberbank.ru/secure/RapidBoard.jspa?rapidView=47829&projectKey=PSLS&quickFilter=309543",
+          "backlogComment": null,
+          "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг",
+          "name": "Телемаркетинг",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 5,
+          "sourceTeam": "СБОЛ",
+          "unit": "DP",
+          "fio": "Баринова Ксения",
+          "answer": "От 40 до 79%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "Пашковская, Пашков",
+          "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+          "name": "СБОЛ",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 6,
+          "sourceTeam": "СберKids",
+          "unit": "DP",
+          "fio": "Беликов Дмитрий",
+          "answer": "От 40 до 79%",
+          "backlogType": "Задачи ведет Штаб в Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids",
+          "name": "СберKids",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 7,
+          "sourceTeam": "СберИнвестор",
+          "unit": "DP",
+          "fio": "Героник Екатерина",
+          "answer": "От 40 до 79%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://sbertrack.sberbank.ru/swtr/tasks/units/all?space=B2CNLSSNTR&tenant=default&spaces=%5B%7B%22label%22%3A%22B2C+Analysis+Interns%22%2C%22value%22%3A%22B2CNLSSNTR%22%7D%5D",
+          "backlogComment": null,
+          "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор",
+          "name": "СберИнвестор",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "answers": [
+        "От 40 до 79%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 8,
+          "sourceTeam": "Уведомления",
+          "unit": "DP",
+          "fio": "Самойлов Дмитрий Сергеевич",
+          "answer": "От 40 до 79%",
+          "backlogType": "Бэклог ведется вне Jira/SberTrack",
+          "backlogLink": null,
+          "backlogComment": "таски в друге",
+          "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+          "name": "Уведомления",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "answers": [
+        "Больше 80%"
+      ],
+      "proposedScoresBySurveyRule": [
+        1
+      ],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 9,
+          "sourceTeam": "Чат",
+          "unit": "PC",
+          "fio": "Савин Евгений Юрьевич",
+          "answer": "Больше 80%",
+          "backlogType": "Собственный бэклог в Jira/SberTrack",
+          "backlogLink": "https://jira.delta.sbrf.ru/projects/PCHA/summary",
+          "backlogComment": null,
+          "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+          "name": "Чат",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 1,
+            "value": 1,
+            "maxValue": 1,
+            "source": "survey_self_report",
+            "rule": "discovery; provisional_self_report; accuracy_requires_review",
+            "questionId": "discovery"
+          }
+        }
+      ]
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "answers": [],
+      "proposedScoresBySurveyRule": [],
+      "records": [
+        {
+          "file": "analysis/1/questionare-responses(9).csv",
+          "csvRow": 10,
+          "sourceTeam": "Единый личный кабинет (ЕЛК)",
+          "unit": "Data",
+          "fio": "Калинова Наталья Михайловна",
+          "answer": null,
+          "backlogType": null,
+          "backlogLink": null,
+          "backlogComment": null,
+          "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+          "name": "Единый личный кабинет (ЕЛК)",
+          "type": "Канал",
+          "surveyResult": {
+            "baselineValue": 0,
+            "value": 0,
+            "maxValue": 1,
+            "source": "ddi_baseline",
+            "rule": "ddi_baseline_preserved",
+            "questionId": null
+          }
+        }
+      ]
+    }
+  ]
+}

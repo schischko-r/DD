@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 from datetime import date
 from zipfile import ZIP_DEFLATED, ZipFile
@@ -39,7 +40,7 @@ def _xml_text(value: object) -> str:
     )
 
 
-def _write_minimal_xlsx(path: Path, rows: list[dict[str, object]]) -> None:
+def _write_minimal_xlsx(path: Path, rows: list[dict[str, object]], *, date_1904: bool = False) -> None:
     """Write the tiny OOXML subset needed by pandas/openpyxl, using stdlib only."""
     headers = list(rows[0])
     sheet_rows = [headers, *[[row.get(header, "") for header in headers] for row in rows]]
@@ -84,7 +85,8 @@ def _write_minimal_xlsx(path: Path, rows: list[dict[str, object]]) -> None:
             '<?xml version="1.0" encoding="UTF-8"?>'
             '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" '
             'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
-            '<sheets><sheet name="Tickets" sheetId="1" r:id="rId1"/></sheets></workbook>',
+            + ('<workbookPr date1904="1"/>' if date_1904 else '')
+            + '<sheets><sheet name="Tickets" sheetId="1" r:id="rId1"/></sheets></workbook>',
         )
         archive.writestr(
             "xl/_rels/workbook.xml.rels",
@@ -1312,6 +1314,165 @@ class BuildBacklogDataTest(unittest.TestCase):
         )
 
 class AdditiveBacklogImportTest(unittest.TestCase):
+    def test_missing_product_prefixes_use_confirmed_survey_spaces_without_overwriting_products_or_keys(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base, extra, second = root / 'base.xlsx', root / 'blank-products.xlsx', root / 'second.xlsx'
+            common = {'team': 'Existing owner', 'Created': '2026-04-01', 'Resolved': '',
+                      'Status': 'In Progress', 'direction': 'Аналитика', 'scenario': 'metrics_calculation', 'SP': 3}
+            _write_minimal_xlsx(base, [
+                {**common, 'Issue key': 'AMNS-1'},
+                {**common, 'Issue key': 'BASE-2', 'scenario': 'dashboard_improvements'},
+                {**common, 'Issue key': 'BASE-3', 'scenario': 'dashboard_improvements', 'direction': 'Исследования'},
+            ])
+            incoming = {'product': '', 'Created': '2026-07-10', 'Resolved': '', 'Status': 'Done',
+                        'direction': 'Расчет метрик', 'scenario': 'metrics_calculation', 'story_points': 5}
+            _write_minimal_xlsx(extra, [
+                {**incoming, 'Issue key': 'AMNS-NEW'},
+                {**incoming, 'Issue key': 'PRIME-NEW', 'direction': 'Доработки дешбордов', 'scenario': 'dashboard_improvements'},
+                {**incoming, 'Issue key': 'PBDTNLSS-NEW', 'direction': 'Исследования'},
+                {**incoming, 'Issue key': 'PBDTNLSS-UNKNOWN', 'direction': 'Невозможно разметить', 'scenario': 'Невозможно разметить'},
+                {**incoming, 'Issue key': 'UNKNOWN-NEW', 'Created': 'unparseable'},
+                {**incoming, 'Issue key': 'AMNS-EXPLICIT', 'product': 'Explicit owner'},
+                {**incoming, 'Issue key': ' amns-1 ', 'product': 'Duplicate owner'},
+                {**incoming, 'Issue key': ' amns-new '},
+            ])
+            _write_minimal_xlsx(second, [{**incoming, 'Issue key': 'PRIME-new', 'product': 'Late duplicate'}])
+            sources = backlog.read_tickets(base, additional_inputs=[extra, second])
+            tickets = {ticket.issue_key.strip().casefold(): (source, ticket) for source in sources for ticket in source.tickets}
+            self.assertEqual(len(tickets), 8)
+            self.assertEqual(tickets['amns-1'][0].label, 'Existing owner')
+            self.assertEqual(tickets['amns-explicit'][0].label, 'Explicit owner')
+            self.assertEqual(tickets['amns-new'][0].label, 'МВС, Пакет услуг СберПремьер')
+            self.assertEqual(tickets['prime-new'][0].label, 'СберПрайм')
+            self.assertEqual(tickets['pbdtnlss-new'][0].label, 'PB')
+            self.assertEqual(tickets['pbdtnlss-unknown'][1].direction_key, 'Неизвестно')
+            self.assertEqual(tickets['pbdtnlss-unknown'][1].scenario_key, 'unknown')
+            self.assertNotIn('unknown-new', tickets)
+            self.assertEqual(tickets['amns-new'][1].direction_key, 'Аналитика')
+            self.assertEqual(tickets['prime-new'][1].direction_key, 'Доработки дешбордов', 'Ambiguous parents preserve the source direction')
+            self.assertEqual(tickets['amns-explicit'][1].direction_key, 'Расчет метрик', 'Explicit-product source rows keep their original direction')
+            self.assertIsNone(tickets['amns-new'][1].resolved, 'Done never invents a missing completion date')
+            self.assertEqual(tickets['amns-new'][1].story_points, '5')
+            rows, _, audit = backlog.read_ticket_sources(base, [extra, second])
+            self.assertEqual(len(rows), 8)
+            counts = audit['additionalSources'][0]
+            self.assertEqual(counts['mappedMissingTeamByPrefix'], {'AMNS': 2, 'PRIME': 1, 'PBDTNLSS': 2})
+            self.assertEqual(counts['unresolvedMissingTeamByPrefix'], {'UNKNOWN': 1})
+            self.assertEqual(counts['skippedExistingIssueKeys'], 1)
+            self.assertEqual(counts['skippedAdditionalDuplicateIssueKeys'], 1)
+            self.assertEqual(counts['ambiguousDirectionRows'], 1)
+            self.assertEqual(counts['unknownScenarioDirectionRows'], 1)
+            self.assertEqual(counts['unknownScenarioOriginalDirections'], {'Невозможно разметить': 1})
+            self.assertEqual(counts['directionNormalizationByScenario']['metrics_calculation']['direction'], 'Аналитика')
+            self.assertEqual(counts['missingTeamMappingEvidence']['PRIME']['space'], 'PRIME')
+            self.assertIn(':24', counts['missingTeamMappingEvidence']['PRIME']['source'])
+            self.assertEqual(audit['additionalSources'][1]['skippedAdditionalDuplicateIssueKeys'], 1)
+
+    def test_output_workbook_adds_only_new_physical_tickets_and_preserves_existing_team_snapshots(self):
+        import hashlib
+        root = Path(__file__).resolve().parent
+        base, prior_extra, incoming = (root / name for name in
+            ['sbertrack_all_full_history_to_export.xlsx', 'tickets_final.xlsx', 'output (1).xlsx'])
+        before_hash = hashlib.sha256(incoming.read_bytes()).hexdigest()
+        raw, _ = backlog.read_workbook_rows(incoming)
+        self.assertEqual(len(raw), 2455)
+        self.assertTrue(all(not row['team'] for row in raw))
+        self.assertEqual(len({row['Issue key'].strip().casefold() for row in raw}), 2455)
+        before = backlog.build_payload(base, additional_inputs=[prior_extra])
+        after = backlog.build_payload(base, additional_inputs=[prior_extra, incoming])
+        self.assertEqual(len(before['teams']), 11)
+        self.assertEqual(len(after['teams']), 14)
+        for team in before['teams']:
+            self.assertEqual(next(item for item in after['teams'] if item['key'] == team['key']), team,
+                             'Existing labels, counts, metadata and all historical snapshots remain exact')
+        new = [team for team in after['teams'] if team['key'] not in {item['key'] for item in before['teams']}]
+        self.assertEqual({team['label']: team['meta']['includedTickets'] for team in new},
+                         {'МВС, Пакет услуг СберПремьер': 500, 'СберПрайм': 218, 'PB': 84})
+        self.assertEqual(sum(team['meta']['includedTickets'] for team in after['teams'])
+                         - sum(team['meta']['includedTickets'] for team in before['teams']), 802)
+        self.assertEqual(sum(_quarter(team, '2026-Q3')['createdCount'] for team in new), 424)
+        audit = after['meta']['importAudit']['additionalSources'][-1]
+        self.assertEqual(audit['mappedMissingTeamByPrefix'], {'AMNS': 2010, 'PRIME': 275, 'PBDTNLSS': 170})
+        self.assertEqual(audit['unresolvedMissingTeamRows'], 0)
+        self.assertEqual(audit['skippedExistingIssueKeys'], 0)
+        self.assertEqual(audit['skippedAdditionalDuplicateIssueKeys'], 0)
+        self.assertEqual(audit['unknownScenarioDirectionRows'], 32)
+        sources = backlog.read_tickets(base, additional_inputs=[prior_extra, incoming])
+        keys = [ticket.issue_key.strip().casefold() for team in sources for ticket in team.tickets]
+        self.assertEqual(len(keys), len(set(keys)), 'Shared source membership never duplicates physical tickets')
+        for team in sources:
+            if team.label in {'МВС, Пакет услуг СберПремьер', 'СберПрайм', 'PB'}:
+                self.assertTrue(all(ticket.resolved is None for ticket in team.tickets), 'No completion date is inferred from terminal status')
+        self.assertEqual(hashlib.sha256(incoming.read_bytes()).hexdigest(), before_hash)
+
+    def test_mapped_blank_products_preserve_1904_dates_cutoff_and_frozen_q2(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base, extra = root / 'base.xlsx', root / '1904-extra.xlsx'
+            _write_minimal_xlsx(base, [{'team': 'Existing owner', 'Created': '2026-04-01',
+                'Resolved': '2026-04-02', 'Status': 'Done', 'Issue key': 'BASE-1',
+                'direction': 'Аналитика', 'scenario': 'metrics_calculation', 'SP': 2}])
+            serial = lambda value: str((date.fromisoformat(value) - date(1904, 1, 1)).days)
+            common = {'product': '', 'Resolved': '', 'Status': 'Done', 'direction': 'Расчет метрик',
+                      'scenario': 'metrics_calculation', 'story_points': 3, 'in_progress': ''}
+            _write_minimal_xlsx(extra, [
+                {**common, 'Issue key': 'PRIME-Q2', 'Created': serial('2026-05-01')},
+                {**common, 'Issue key': 'AMNS-Q3', 'Created': serial('2026-09-30'), 'in_progress': serial('2026-10-01')},
+                {**common, 'Issue key': 'PBDTNLSS-AFTER', 'Created': serial('2026-10-01')},
+                {**common, 'Issue key': 'PRIME-BEFORE', 'Created': serial('2026-01-31')},
+            ], date_1904=True)
+            sources = backlog.read_tickets(base, additional_inputs=[extra])
+            tickets = {ticket.issue_key: ticket for source in sources for ticket in source.tickets}
+            self.assertEqual(set(tickets), {'base-1', 'prime-q2', 'amns-q3'})
+            self.assertEqual(tickets['prime-q2'].created.isoformat(), '2026-05-01T00:00:00')
+            self.assertEqual(tickets['amns-q3'].created.isoformat(), '2026-09-30T00:00:00')
+            self.assertIsNone(tickets['amns-q3'].in_progress)
+            self.assertIsNone(tickets['amns-q3'].resolved)
+            historical = backlog.build_payload(base, history_end=date(2026, 6, 30))
+            combined = backlog.build_payload(base, additional_inputs=[extra])
+            for old in historical['teams']:
+                current = next(team for team in combined['teams'] if team['key'] == old['key'])
+                for kind in ('months', 'quarters'):
+                    for snapshot in old[kind]:
+                        self.assertEqual(next(item for item in current[kind] if item['key'] == snapshot['key']), snapshot)
+
+    def test_survey_members_add_only_period_scoped_metadata_without_copying_tickets_or_history(self):
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory) / 'base.xlsx'
+            _write_minimal_xlsx(base, [
+                {'team': team, 'Created': created, 'Resolved': resolved, 'Status': 'Done',
+                 'Issue key': key, 'direction': 'Аналитика', 'scenario': 'metrics_calculation', 'SP': 3}
+                for team, created, resolved, key in [
+                    ('Объект Авто', '2026-04-10', '2026-04-12', 'AUTO-Q2'),
+                    ('Объект Авто', '2026-07-10', '2026-07-12', 'AUTO-Q3'),
+                    ('Личная защита Плюс', '2026-05-10', '2026-05-12', 'LIFE-Q2'),
+                    ('Личная защита Плюс', '2026-08-10', '2026-08-12', 'LIFE-Q3'),
+                ]
+            ])
+            with patch.dict(backlog.SHARED_TEAM_MEMBERS, {
+                'Объект Авто': ('Объект Авто',), 'Личная защита Плюс': ('Личная защита Плюс',),
+            }):
+                before = backlog.build_payload(base)
+            after = backlog.build_payload(base)
+            self.assertEqual([(team['key'], team['label']) for team in after['teams']],
+                             [(team['key'], team['label']) for team in before['teams']])
+            self.assertEqual(len(after['teams']), 2)
+            self.assertEqual(sum(team['meta']['includedTickets'] for team in after['teams']), 4)
+            for team, old in zip(after['teams'], before['teams']):
+                self.assertEqual(team['memberTeams'][0], old['label'])
+                descriptor = team['memberTeams'][1]
+                self.assertEqual(descriptor['period'], 'III кв. 2026')
+                self.assertEqual(descriptor['type'], 'Продукт')
+                self.assertEqual(descriptor['mappingEvidence']['current']['answer'], 'backlog')
+                self.assertEqual(team['meta']['memberTeams'], team['memberTeams'])
+                self.assertEqual(team['months'], old['months'])
+                self.assertEqual(team['quarters'], old['quarters'])
+                self.assertEqual({key: value for key, value in team['meta'].items() if key != 'memberTeams'},
+                                 {key: value for key, value in old['meta'].items() if key != 'memberTeams'})
+            self.assertEqual(backlog.SHARED_TEAM_MEMBERS['КАСКО, ОСАГО'], ('КАСКО', 'ОСАГО'))
+            self.assertEqual(backlog.SHARED_TEAM_MEMBERS['Top Affluent'], ('Top Affluent', 'Пакет услуг СберПервый'))
+
     def test_additive_keys_existing_wins_lowercase_columns_russian_scenarios_and_quarter_bounds(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -1483,10 +1644,11 @@ class AdditiveBacklogImportTest(unittest.TestCase):
                     self.assertEqual(next(s for s in merged[kind] if s['key'] == snapshot['key']), snapshot)
         before = json.loads((root / 'outputs/backlog-final-refresh-2026-10-29/backlog-before.json').read_text())
         self.assertEqual(len(combined['teams']), 11)
-        self.assertEqual(sum(len(t['memberTeams']) for t in combined['teams']), 15)
+        self.assertEqual(sum(len(t['memberTeams']) for t in combined['teams']), 18)
         for team in before['teams']:
             refreshed = next(t for t in combined['teams'] if t['key'] == team['key'])
-            self.assertEqual(refreshed['memberTeams'], team['memberTeams'])
+            self.assertEqual(refreshed['memberTeams'][:len(team['memberTeams'])], team['memberTeams'],
+                             'Existing memberships retain their values and order; new survey members are appended')
             for kind in ('months','quarters'):
                 for snapshot in team[kind]:
                     if snapshot['key'] <= ('2026-06' if kind == 'months' else '2026-Q2'):

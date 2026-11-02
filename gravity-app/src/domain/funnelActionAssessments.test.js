@@ -19,7 +19,7 @@ test('132 source-backed action assessments fill only nulls and preserve every ol
   const snapshot = JSON.stringify({source, salary, reporting, actions, overlays});
   const before = buildDdiPeriodProducts(source, actions.period, overlays, salary, reporting);
   const after = buildDdiPeriodProducts(source, actions.period, overlays, salary, reporting, actions);
-  let changes = 0;
+  let changes = 0, preserved = 0;
   for (let i = 0; i < before.length; i++) {
     const old = before[i], current = after[i];
     assert.equal(current.indexMaxPoints, old.indexMaxPoints);
@@ -27,6 +27,11 @@ test('132 source-backed action assessments fill only nulls and preserve every ol
     for (const [index, metric] of metrics(current).entries()) {
       const prior = metrics(old)[index], fact = facts?.metrics[metric.code];
       if (!fact) assert.deepEqual(metric, prior);
+      else if (Number.isFinite(prior.value)) {
+        assert.deepEqual(metric, prior, 'explicit manual scores are preserved by missing-only fill');
+        assert.equal(prior.source.confirmedBy, 'user');
+        preserved++;
+      }
       else {
         assert.equal(prior.value, null);
         assert.equal(metric.value, fact.rawValue * prior.max_value);
@@ -37,7 +42,10 @@ test('132 source-backed action assessments fill only nulls and preserve every ol
       }
     }
   }
-  assert.equal(changes, 132);
+  assert.equal(changes + preserved, 132);
+  assert.ok(preserved >= 1);
+  const premier = after.find(product => product.name === 'Пакет услуг СберПремьер');
+  assert.equal(metrics(premier).find(metric => metric.code === 'attract.initiatives_list').value, .5);
   assert.deepEqual(buildDdiPeriodProducts(source, 'II кв. 2026', overlays, salary, reporting, actions), source);
   assert.equal(JSON.stringify({source, salary, reporting, actions, overlays}), snapshot);
 });

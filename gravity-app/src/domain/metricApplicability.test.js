@@ -16,13 +16,17 @@ test('only explicitly assessed teams lose their requested Q3 criteria and denomi
   const snapshot = JSON.stringify({source, overlays});
   const before = buildTeamProfileProducts(source, manual.period, overlays.filter((o) => o.scope !== manual.scope));
   const after = buildTeamProfileProducts(source, manual.period, overlays);
-  assert.deepEqual(manual.products.map(p=>p.name).sort(),['Залоговое страхование (корпоративное страхование)','КАСКО','ОСАГО','Личная защита Плюс','ЦФА'].sort());
+  assert.deepEqual(manual.products.map(p=>p.name).sort(),['Залоговое страхование (корпоративное страхование)','КАСКО','ОСАГО','Личная защита Плюс','ЦФА',
+    'Много денег (НКПЗН)','Сделка вторичка','Сделка ИЖС','Сделка с Первичным жильём','Оплата улыбкой','Трансграничные переводы'].sort());
   for (let i = 0; i < after.length; i++) {
     const current = after[i], prior = before[i];
     const team=manual.products.find(p=>p.name===current.name);
     if (!team) {assert.deepEqual(current, prior); continue;}
     const removed=metrics(prior).filter(m=>team.metrics[m.code]).reduce((sum,m)=>sum+Number(m.max_value),0);
-    assert.equal(removed,current.name==='Залоговое страхование (корпоративное страхование)'?3:1);
+    const expectedRemoved=current.name==='Залоговое страхование (корпоративное страхование)'?3
+      : ['Много денег (НКПЗН)','Сделка вторичка','Сделка ИЖС'].includes(current.name)?2
+        : current.name==='Сделка с Первичным жильём'?1:1;
+    assert.equal(removed,expectedRemoved);
     assert.equal(current.indexMaxPoints, prior.indexMaxPoints - removed);
     for (const m of metrics(current)) {
       if (!team.metrics[m.code]) {assert.deepEqual(m, metrics(prior).find((p) => p.code === m.code)); continue;}

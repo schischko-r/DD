@@ -1,0 +1,84 @@
+{
+  "period": "III кв. 2026",
+  "scope": "research-assessment",
+  "source": {
+    "origin": "userConfirmedResearchMetricCorrection",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "description": "Точечная корректировка оценок исследований за III квартал по прямому указанию пользователя."
+  },
+  "products": [
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0.5, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0.5, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    },
+    {
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC",
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 0, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+      }
+    }
+  ]
+}

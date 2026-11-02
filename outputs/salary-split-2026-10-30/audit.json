@@ -1,0 +1,3992 @@
+{
+  "source": {
+    "file": "questionare-responses(11).csv",
+    "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+    "date": "2026-10-30",
+    "confirmedBy": "user",
+    "respondentMapping": {
+      "B2B": "Сауткин Андрей",
+      "B2C": "Королева Александра Дмитриевна"
+    },
+    "baseTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+    "rule": "Q2 keeps the unsplit product. Q3 clones only its rubric/shared confirmed assessments, then applies respondent-specific overrides. Shared assessments retain original provenance. Null rawValue explicitly clears the inherited value. Individual Q2 baselines must not be invented for the new cohorts."
+  },
+  "q2Rubric": {
+    "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+    "type": "Продукт",
+    "name": "Зарплатный продукт",
+    "unit": "DB",
+    "period": "II кв. 2026",
+    "product_group_uuid": "5b9f9018-3e0e-5955-a174-bf90b2474b58",
+    "links": {},
+    "metrics": [
+      {
+        "type": "block",
+        "code": "general",
+        "name": "Знание ключевых метрик",
+        "tools": [
+          {
+            "name": "Навык «Ключевые метрики»",
+            "traffic_light": "green",
+            "button": {
+              "type": "general",
+              "label": "Перейти",
+              "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052527"
+            },
+            "footer": "Общий светофор",
+            "ai_tool_key": "client_metrics"
+          }
+        ],
+        "metrics": [
+          {
+            "code": "general.obъem_celevogo_rynka_v_rossii",
+            "name": "Объем целевого рынка в России",
+            "footer": "Оценка потенциального объема клиентов в России",
+            "value": 0.2,
+            "max_value": 0.2,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Знание метрик и инструментов",
+            "recommendations": [
+              "Знание метрик и инструментов"
+            ],
+            "recommendation_group": 1,
+            "recommendation_groups": [
+              1
+            ],
+            "recommendation_difficulty": 1,
+            "recommendation_items": [
+              {
+                "recommendation": "Знание метрик и инструментов",
+                "group": 1,
+                "recommendation_difficulty": 1,
+                "value": 0.2,
+                "max_value": 0.2,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 1.0
+          },
+          {
+            "code": "general.obъem_celevogo_rynka_v_sbere",
+            "name": "Объем целевого рынка в Сбере",
+            "footer": "Оценка потенциального объема клиентов в Сбере",
+            "value": 0.2,
+            "max_value": 0.2,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Знание метрик и инструментов",
+            "recommendations": [
+              "Знание метрик и инструментов"
+            ],
+            "recommendation_group": 1,
+            "recommendation_groups": [
+              1
+            ],
+            "recommendation_difficulty": 1,
+            "recommendation_items": [
+              {
+                "recommendation": "Знание метрик и инструментов",
+                "group": 1,
+                "recommendation_difficulty": 1,
+                "value": 0.2,
+                "max_value": 0.2,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 2.0
+          },
+          {
+            "code": "general.klienty_s_produktom",
+            "name": "Клиенты с продуктом",
+            "footer": "Фактическая база клиентов продукта",
+            "value": 0.2,
+            "max_value": 0.2,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Знание метрик и инструментов",
+            "recommendations": [
+              "Знание метрик и инструментов"
+            ],
+            "recommendation_group": 1,
+            "recommendation_groups": [
+              1
+            ],
+            "recommendation_difficulty": 1,
+            "recommendation_items": [
+              {
+                "recommendation": "Знание метрик и инструментов",
+                "group": 1,
+                "recommendation_difficulty": 1,
+                "value": 0.2,
+                "max_value": 0.2,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 3.0
+          },
+          {
+            "code": "general.mau_produkta",
+            "name": "MAU продукта",
+            "footer": "Активная месячная аудитория продукта",
+            "value": 0.2,
+            "max_value": 0.2,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Знание метрик и инструментов",
+            "recommendations": [
+              "Знание метрик и инструментов"
+            ],
+            "recommendation_group": 1,
+            "recommendation_groups": [
+              1
+            ],
+            "recommendation_difficulty": 1,
+            "recommendation_items": [
+              {
+                "recommendation": "Знание метрик и инструментов",
+                "group": 1,
+                "recommendation_difficulty": 1,
+                "value": 0.2,
+                "max_value": 0.2,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 4.0
+          },
+          {
+            "code": "general.znanie_produktov_sputnikov",
+            "name": "Знание продуктов спутников",
+            "footer": "Понимание связанных продуктов и сценариев",
+            "value": 0.1,
+            "max_value": 0.1,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Знание метрик и инструментов",
+            "recommendations": [
+              "Знание метрик и инструментов"
+            ],
+            "recommendation_group": 1,
+            "recommendation_groups": [
+              1
+            ],
+            "recommendation_difficulty": 1,
+            "recommendation_items": [
+              {
+                "recommendation": "Знание метрик и инструментов",
+                "group": 1,
+                "recommendation_difficulty": 1,
+                "value": 0.1,
+                "max_value": 0.1,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 12.0
+          },
+          {
+            "code": "general.navigator_reporting_knowledge",
+            "name": "Знание об отчетности в Навигаторе",
+            "footer": "Понимание доступной отчетности и регулярного мониторинга",
+            "value": 0.5,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Знание метрик и инструментов",
+            "recommendations": [
+              "Знание метрик и инструментов"
+            ],
+            "recommendation_group": 1,
+            "recommendation_groups": [
+              1
+            ],
+            "recommendation_difficulty": 1,
+            "recommendation_items": [
+              {
+                "recommendation": "Знание метрик и инструментов",
+                "group": 1,
+                "recommendation_difficulty": 1,
+                "value": 0.5,
+                "max_value": 0.5,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 13.0
+          }
+        ],
+        "actions": [
+          {
+            "label": "Воронки активности продуктов",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/12215/1000034254"
+          },
+          {
+            "label": "Продукты-спутники",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/12215/1000030917"
+          }
+        ]
+      },
+      {
+        "type": "block",
+        "code": "goals",
+        "name": "Цели",
+        "tools": [
+          {
+            "name": "Навык «Цели»",
+            "traffic_light": "gray",
+            "button": {
+              "type": "general",
+              "label": "TBD",
+              "link": ""
+            },
+            "footer_dynamic": "",
+            "footer": ""
+          }
+        ],
+        "metrics": [
+          {
+            "code": "goals.monitored",
+            "name": "Цели выведены на мониторинг",
+            "footer": "Регулярное обновление в Навигаторе",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Обогащение целей в Навигаторе",
+            "recommendations": [
+              "Обогащение целей в Навигаторе"
+            ],
+            "recommendation_group": 2,
+            "recommendation_groups": [
+              2
+            ],
+            "recommendation_difficulty": 2,
+            "recommendation_items": [
+              {
+                "recommendation": "Обогащение целей в Навигаторе",
+                "group": 2,
+                "recommendation_difficulty": 2,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 1.0
+          },
+          {
+            "code": "goals.factor_analysis_l1_l2",
+            "name": "Факторный анализ - драйверы 1-2 ур.",
+            "footer": "Драйверы согласно модели бизнес-планирования выведены в Навигатор",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
+            "recommendations": [
+              "Декомпозировать значения целей на драйверы, вывести в Навигатор"
+            ],
+            "recommendation_group": 7,
+            "recommendation_groups": [
+              7
+            ],
+            "recommendation_difficulty": 7,
+            "recommendation_items": [
+              {
+                "recommendation": "Декомпозировать значения целей на драйверы, вывести в Навигатор",
+                "group": 7,
+                "recommendation_difficulty": 7,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 2.0
+          },
+          {
+            "code": "goals.forecast",
+            "name": "Прогноз по целям",
+            "footer": "Прогноз выведен в Навигатор",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
+            "recommendations": [
+              "Сформировать прогнозные значения, вывести в Навигатор"
+            ],
+            "recommendation_group": 8,
+            "recommendation_groups": [
+              8
+            ],
+            "recommendation_difficulty": 8,
+            "recommendation_items": [
+              {
+                "recommendation": "Сформировать прогнозные значения, вывести в Навигатор",
+                "group": 8,
+                "recommendation_difficulty": 8,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 3.0
+          }
+        ],
+        "actions": [
+          {
+            "label": "Отчет \"Цели в мастер-деше\"",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000003127",
+            "notice": "Для обогащения мастер-деша обратитесь в штаб Юнита"
+          }
+        ],
+        "digital_goals_value": 0,
+        "digital_goals_max": 0
+      },
+      {
+        "type": "block",
+        "code": "attract",
+        "name": "Воронка привлечения",
+        "tools": [
+          {
+            "name": "Группа навыков «Привлечение»",
+            "traffic_light": "red",
+            "buttons": [
+              {
+                "name": "Пилотные кампании",
+                "traffic_light": "yellow",
+                "button": {
+                  "type": "general",
+                  "label": "Перейти",
+                  "link": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
+                },
+                "ai_tool_key": "pilots"
+              },
+              {
+                "name": "Воронка кампейнинга",
+                "traffic_light": "yellow",
+                "button": {
+                  "type": "general",
+                  "label": "Перейти",
+                  "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000049944"
+                },
+                "ai_tool_key": "funnel"
+              },
+              {
+                "name": "Воронка оформления в СБОЛ",
+                "traffic_light": "yellow",
+                "button": {
+                  "type": "general",
+                  "label": "Перейти",
+                  "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768"
+                },
+                "ai_tool_key": "clickstream_funnel"
+              },
+              {
+                "name": "Черновики",
+                "traffic_light": "red",
+                "button": {
+                  "type": "general",
+                  "label": "Перейти",
+                  "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000052525"
+                },
+                "footer": "Общий светофор",
+                "ai_tool_key": "drafts"
+              },
+              {
+                "name": "Поиск по пилотам",
+                "traffic_light": "yellow",
+                "button": {
+                  "type": "general",
+                  "label": "Перейти",
+                  "link": "https://navigator.sigma.sbrf.ru/gdash/1000004321/1000048795"
+                }
+              }
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "code": "attract.nastroena_otchetnostь",
+            "name": "Настроена отчетность",
+            "footer": "по воронке привлечения",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Настроить мониторинг по воронке привлечения",
+            "recommendations": [
+              "Настроить мониторинг по воронке привлечения"
+            ],
+            "recommendation_group": 2,
+            "recommendation_groups": [
+              2
+            ],
+            "recommendation_difficulty": 2,
+            "recommendation_items": [
+              {
+                "recommendation": "Настроить мониторинг по воронке привлечения",
+                "group": 2,
+                "recommendation_difficulty": 2,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Отчетность",
+            "sort": 1.0
+          },
+          {
+            "code": "attract.regulyarnostь",
+            "name": "Регулярность",
+            "footer": "Автоматически (daily / weekly) или по запросу",
+            "value": 0.5,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "yellow",
+            "recommendation": "Автоматизировать расчет воронки привлечения",
+            "recommendations": [
+              "Автоматизировать расчет воронки привлечения"
+            ],
+            "recommendation_group": 4,
+            "recommendation_groups": [
+              4
+            ],
+            "recommendation_difficulty": 4,
+            "recommendation_items": [
+              {
+                "recommendation": "Автоматизировать расчет воронки привлечения",
+                "group": 4,
+                "recommendation_difficulty": 4,
+                "value": 0.5,
+                "max_value": 1,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": true,
+            "dd_calculation_flg": 0,
+            "metric_subgroup": "Отчетность",
+            "sort": 1.1
+          },
+          {
+            "code": "attract.report_completeness",
+            "name": "Полнота отчета",
+            "footer": "Источники, CR, объемы, сегменты",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Обогатить метриками мониторинг по воронке привлечения",
+            "recommendations": [
+              "Обогатить метриками мониторинг по воронке привлечения"
+            ],
+            "recommendation_group": 3,
+            "recommendation_groups": [
+              3
+            ],
+            "recommendation_difficulty": 3,
+            "recommendation_items": [
+              {
+                "recommendation": "Обогатить метриками мониторинг по воронке привлечения",
+                "group": 3,
+                "recommendation_difficulty": 3,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Отчетность",
+            "sort": 1.2
+          },
+          {
+            "code": "attract.funnel_analysis",
+            "name": "Проведение комплексного анализа воронки привлечения",
+            "footer": "Оценка эффективности, поиск точек роста",
+            "value": 0.5,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "yellow",
+            "recommendation": "Провести анализ привлечения, выявить точки роста",
+            "recommendations": [
+              "Провести анализ привлечения, выявить точки роста"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Провести анализ привлечения, выявить точки роста",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0.5,
+                "max_value": 1,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Анализ",
+            "sort": 4.0
+          },
+          {
+            "code": "attract.initiatives_list",
+            "name": "Составлен перечень инициатив по привлечению",
+            "footer": "План действий по росту",
+            "value": 1,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Сформировать перечень инициатив",
+            "recommendations": [
+              "Сформировать перечень инициатив"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Сформировать перечень инициатив",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 1,
+                "max_value": 1,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Анализ",
+            "sort": 5.0
+          },
+          {
+            "code": "attract.benchmarks",
+            "name": "Наличие бенчмарков",
+            "footer": "Цели / динамика / рынок",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
+            "recommendations": [
+              "Сформировать бенчмарки по продуктовым метрикам"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Анализ",
+            "sort": 6.0
+          },
+          {
+            "code": "attract.campaign_launches",
+            "name": "Запуски кампаний за квартал",
+            "footer": "Self-service / кампейнинг, успешность",
+            "value": 0.5,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Развитие кампейнинга",
+            "recommendations": [
+              "Развитие кампейнинга"
+            ],
+            "recommendation_group": 2,
+            "recommendation_groups": [
+              2
+            ],
+            "recommendation_difficulty": 2,
+            "recommendation_items": [
+              {
+                "recommendation": "Развитие кампейнинга",
+                "group": 2,
+                "recommendation_difficulty": 2,
+                "value": 0.5,
+                "max_value": 0.5,
+                "gap": 0
+              }
+            ],
+            "zero_button": {
+              "type": "metric",
+              "label": "Запустить первый пилот Self-Service",
+              "link": "https://mapp.sberbank.ru/raspredelennyicampaigning/page/94034"
+            },
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Кампейнинг",
+            "sort": 6.0
+          },
+          {
+            "code": "attract.chernoviki_v_sbol_70",
+            "name": "Черновики в СБОЛ >=70%",
+            "footer": "Покрытие черновиков коммуникациями",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Увеличить покрытие черновиков",
+            "recommendations": [
+              "Увеличить покрытие черновиков"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Увеличить покрытие черновиков",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Кампейнинг",
+            "sort": 7.0
+          },
+          {
+            "code": "attract.nalichie_self_service",
+            "name": "Наличие Self-service",
+            "footer": "Self-service / кампейнинг, успешность",
+            "value": 0.5,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Развитие кампейнинга",
+            "recommendations": [
+              "Развитие кампейнинга"
+            ],
+            "recommendation_group": 4,
+            "recommendation_groups": [
+              4
+            ],
+            "recommendation_difficulty": 4,
+            "recommendation_items": [
+              {
+                "recommendation": "Развитие кампейнинга",
+                "group": 4,
+                "recommendation_difficulty": 4,
+                "value": 0.5,
+                "max_value": 0.5,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Кампейнинг",
+            "sort": 10.0
+          },
+          {
+            "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+            "name": "Наличие успешных бизнес-запусков",
+            "footer": "Self-service / кампейнинг, успешность",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Развитие кампейнинга",
+            "recommendations": [
+              "Развитие кампейнинга"
+            ],
+            "recommendation_group": 6,
+            "recommendation_groups": [
+              6
+            ],
+            "recommendation_difficulty": 6,
+            "recommendation_items": [
+              {
+                "recommendation": "Развитие кампейнинга",
+                "group": 6,
+                "recommendation_difficulty": 6,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Кампейнинг",
+            "sort": 11.0
+          }
+        ],
+        "actions": [
+          {
+            "label": "Отчет \"Пилотные кампании\"",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000003057"
+          },
+          {
+            "label": "Отчет \"Воронки из коммуникации в продажу\"",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000000687"
+          }
+        ]
+      },
+      {
+        "type": "block",
+        "code": "churn",
+        "name": "Воронка оттока",
+        "tools": [
+          {
+            "name": "Навык «Анализ оттока»",
+            "traffic_light": "gray",
+            "button": {
+              "type": "general",
+              "label": "TBD",
+              "link": ""
+            },
+            "footer": "Общий светофор",
+            "variant": "gray"
+          }
+        ],
+        "metrics": [
+          {
+            "code": "churn.nastroena_otchetnostь",
+            "name": "Настроена отчетность",
+            "footer": "по воронке оттока",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Настроить мониторинг по воронке оттока",
+            "recommendations": [
+              "Настроить мониторинг по воронке оттока"
+            ],
+            "recommendation_group": 2,
+            "recommendation_groups": [
+              2
+            ],
+            "recommendation_difficulty": 2,
+            "recommendation_items": [
+              {
+                "recommendation": "Настроить мониторинг по воронке оттока",
+                "group": 2,
+                "recommendation_difficulty": 2,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Отчетность",
+            "sort": 1.0
+          },
+          {
+            "code": "churn.regulyarnostь",
+            "name": "Регулярность",
+            "footer": "Автоматически (daily / weekly) или по запросу",
+            "value": 0.5,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "yellow",
+            "recommendation": "Автоматизировать расчет воронки оттока",
+            "recommendations": [
+              "Автоматизировать расчет воронки оттока"
+            ],
+            "recommendation_group": 4,
+            "recommendation_groups": [
+              4
+            ],
+            "recommendation_difficulty": 4,
+            "recommendation_items": [
+              {
+                "recommendation": "Автоматизировать расчет воронки оттока",
+                "group": 4,
+                "recommendation_difficulty": 4,
+                "value": 0.5,
+                "max_value": 1,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": true,
+            "dd_calculation_flg": 0,
+            "metric_subgroup": "Отчетность",
+            "sort": 1.1
+          },
+          {
+            "code": "churn.report_completeness",
+            "name": "Полнота отчета",
+            "footer": "Retention, CR, удержание",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Обогатить метриками мониторинг по воронке оттока",
+            "recommendations": [
+              "Обогатить метриками мониторинг по воронке оттока"
+            ],
+            "recommendation_group": 3,
+            "recommendation_groups": [
+              3
+            ],
+            "recommendation_difficulty": 3,
+            "recommendation_items": [
+              {
+                "recommendation": "Обогатить метриками мониторинг по воронке оттока",
+                "group": 3,
+                "recommendation_difficulty": 3,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Отчетность",
+            "sort": 1.2
+          },
+          {
+            "code": "churn.funnel_analysis",
+            "name": "Проведение комплексного анализа воронки оттока",
+            "footer": "Оценка причин и узких мест",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Провести анализ оттока, выявить точки роста",
+            "recommendations": [
+              "Провести анализ оттока, выявить точки роста"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Провести анализ оттока, выявить точки роста",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Анализ",
+            "sort": 4.0
+          },
+          {
+            "code": "churn.deviation_actions",
+            "name": "Мероприятия по работе с отклонениями",
+            "footer": "План действий по отклонениям",
+            "value": 1,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Сформировать список мероприятий по снижению оттока",
+            "recommendations": [
+              "Сформировать список мероприятий по снижению оттока"
+            ],
+            "recommendation_group": 4,
+            "recommendation_groups": [
+              4
+            ],
+            "recommendation_difficulty": 4,
+            "recommendation_items": [
+              {
+                "recommendation": "Сформировать список мероприятий по снижению оттока",
+                "group": 4,
+                "recommendation_difficulty": 4,
+                "value": 1,
+                "max_value": 1,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Анализ",
+            "sort": 5.0
+          },
+          {
+            "code": "churn.benchmarks",
+            "name": "Наличие бенчмарков",
+            "footer": "Цели / динамика / рынок",
+            "value": 0,
+            "max_value": 0.5,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
+            "recommendations": [
+              "Сформировать бенчмарки по продуктовым метрикам"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Сформировать бенчмарки по продуктовым метрикам",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "metric_subgroup": "Анализ",
+            "sort": 6.0
+          }
+        ]
+      },
+      {
+        "type": "block",
+        "code": "alerts",
+        "name": "Алерты",
+        "tools": [
+          {
+            "name": "Инструкция",
+            "traffic_light": "red",
+            "button": {
+              "type": "general",
+              "label": "Перейти",
+              "link": "https://sbervideo.sberbank.ru/meetups/pJ8GgU3POkQ4iouPGdY?t=1365"
+            },
+            "footer": "по настройке алертов по отчету",
+            "variant": "blue",
+            "kind": "instruction",
+            "show_dots": false
+          }
+        ],
+        "metrics": [
+          {
+            "code": "alerts.business_metrics",
+            "name": "Оповещения по бизнес-метрикам",
+            "footer": "Светофоры целей, драйверов, воронок",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Внедрить систему оповещений",
+            "recommendations": [
+              "Внедрить систему оповещений"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Внедрить систему оповещений",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 1.0
+          },
+          {
+            "code": "alerts.system_failures",
+            "name": "Оповещения по системным сбоям",
+            "footer": "Автоалерты по IT-инфраструктуре",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Внедрить систему оповещений",
+            "recommendations": [
+              "Внедрить систему оповещений"
+            ],
+            "recommendation_group": 3,
+            "recommendation_groups": [
+              3
+            ],
+            "recommendation_difficulty": 3,
+            "recommendation_items": [
+              {
+                "recommendation": "Внедрить систему оповещений",
+                "group": 3,
+                "recommendation_difficulty": 3,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 2.0
+          }
+        ]
+      },
+      {
+        "type": "block",
+        "code": "mehaniki",
+        "name": "Механики",
+        "tools": [
+          {
+            "name": "Cross-sell",
+            "kind": "ai",
+            "ai_tool_key": "cross_sell",
+            "ai_tool_product_name": "Зарплатный продукт",
+            "traffic_light": "yellow",
+            "active": "yellow",
+            "button": {
+              "type": "general",
+              "label": "Перейти",
+              "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%B0%D1%80%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82"
+            },
+            "footer": "Product Lens · раунд r12-20260909T112734Z",
+            "crosssell_export": true
+          }
+        ],
+        "metrics": [
+          {
+            "code": "mehaniki.vozvrat_klientov",
+            "name": "Возврат клиентов",
+            "footer": "Реактивация оттекающих клиентов",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Проработать механики реактивации клиентов",
+            "recommendations": [
+              "Проработать механики реактивации клиентов"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Проработать механики реактивации клиентов",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              },
+              {
+                "recommendation": "Проработать механики реактивации клиентов",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 0.5,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 4.0
+          },
+          {
+            "code": "mehaniki.uderzhanie_klientov",
+            "name": "Удержание клиентов",
+            "footer": "Коммуникация + ценность",
+            "value": 1,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Проработать механики удержания клиентов",
+            "recommendations": [
+              "Проработать механики удержания клиентов"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Проработать механики удержания клиентов",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0.5,
+                "max_value": 0.5,
+                "gap": 0
+              },
+              {
+                "recommendation": "Проработать механики удержания клиентов",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0.5,
+                "max_value": 0.5,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 6.0
+          },
+          {
+            "code": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+            "name": "Гибкое изменение условий продукта",
+            "footer": "Возможность изменить набор опций по продукту без IT-разработки",
+            "value": 0.5,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "yellow",
+            "recommendation": "Выстроить процесс гибкого изменения условий без IT",
+            "recommendations": [
+              "Выстроить процесс гибкого изменения условий без IT"
+            ],
+            "recommendation_group": 10,
+            "recommendation_groups": [
+              10
+            ],
+            "recommendation_difficulty": 10,
+            "recommendation_items": [
+              {
+                "recommendation": "Выстроить процесс гибкого изменения условий без IT",
+                "group": 10,
+                "recommendation_difficulty": 10,
+                "value": 0.5,
+                "max_value": 1,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 7.0
+          },
+          {
+            "code": "mehaniki.cross_sell",
+            "name": "Cross-sell",
+            "footer": "В оформлении и после покупки",
+            "value": 0.5,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "yellow",
+            "recommendation": "Проработать механики кросс-продаж",
+            "recommendations": [
+              "Проработать механики кросс-продаж"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Проработать механики кросс-продаж",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0.5,
+                "max_value": 1,
+                "gap": 0.5
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 8.0
+          },
+          {
+            "code": "mehaniki.doprodazhi_up_sell",
+            "name": "Допродажи (up-sell)",
+            "footer": "Переход клиента на более ценный продукт или расширенный пакет услуг",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Настроить мониторинг по ключевым механикам",
+            "recommendations": [
+              "Настроить мониторинг по ключевым механикам"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Настроить мониторинг по ключевым механикам",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 10.0
+          },
+          {
+            "code": "mehaniki.monitoring_mehanik",
+            "name": "Мониторинг механик",
+            "footer": "Настроен по ключевым механикам работы с клиентской базой",
+            "value": 0.25,
+            "max_value": 0.25,
+            "is_applicabble_flg": true,
+            "traffic_light": "green",
+            "recommendation": "Настроить мониторинг по ключевым механикам",
+            "recommendations": [
+              "Настроить мониторинг по ключевым механикам"
+            ],
+            "recommendation_group": 2,
+            "recommendation_groups": [
+              2
+            ],
+            "recommendation_difficulty": 2,
+            "recommendation_items": [
+              {
+                "recommendation": "Настроить мониторинг по ключевым механикам",
+                "group": 2,
+                "recommendation_difficulty": 2,
+                "value": 0.25,
+                "max_value": 0.25,
+                "gap": 0
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 22.0
+          }
+        ]
+      },
+      {
+        "type": "block",
+        "code": "hyp",
+        "name": "Гипотезы и инициативы",
+        "tools": [],
+        "metrics": [
+          {
+            "code": "hyp.discovery_40_backlog",
+            "name": "Discovery >=40% бэклога",
+            "footer": "Доля исследовательских задач DA",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Сфокусировать бэклог аналитиков на research-задачи",
+            "recommendations": [
+              "Сфокусировать бэклог аналитиков на research-задачи"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Сфокусировать бэклог аналитиков на research-задачи",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 1.0
+          },
+          {
+            "code": "hyp.datadriven_rating_7_5",
+            "name": "Оценка исследований >=7,5",
+            "footer": "Средняя оценка проведенных исследований",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Повысить качество проведенных исследований",
+            "recommendations": [
+              "Повысить качество проведенных исследований"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Повысить качество проведенных исследований",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "button": {
+              "type": "metric",
+              "label": "Открыть библиотеку решений",
+              "link": "https://mapp.sberbank.ru/b2cda/page/52475"
+            },
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 2.0
+          },
+          {
+            "code": "hyp.extra_initiatives",
+            "name": "Доп. инициативы сверх БП",
+            "footer": "Наличие доходных/расходных инициатив сверх БП",
+            "value": 0,
+            "max_value": 1,
+            "is_applicabble_flg": true,
+            "traffic_light": "red",
+            "recommendation": "Сформировать перечень инициатив",
+            "recommendations": [
+              "Сформировать перечень инициатив"
+            ],
+            "recommendation_group": 3,
+            "recommendation_groups": [
+              3
+            ],
+            "recommendation_difficulty": 3,
+            "recommendation_items": [
+              {
+                "recommendation": "Сформировать перечень инициатив",
+                "group": 3,
+                "recommendation_difficulty": 3,
+                "value": 0,
+                "max_value": 1,
+                "gap": 1
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 4.0
+          }
+        ],
+        "actions": [
+          {
+            "label": "Отчет \"Черновики\"",
+            "url": "https://navigator.sigma.sbrf.ru/gdash/1000003969"
+          }
+        ]
+      },
+      {
+        "type": "block",
+        "code": "cx",
+        "name": "Клиентский опыт",
+        "tools": [
+          {
+            "name": "Группа навыков «Анализ Score»",
+            "traffic_light": "gray",
+            "buttons": [
+              {
+                "name": "Жалобы и обращения",
+                "traffic_light": "gray",
+                "button": {
+                  "type": "general",
+                  "label": "Перейти",
+                  "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050769"
+                },
+                "ai_tool_key": "complaints"
+              },
+              {
+                "name": "CSI",
+                "traffic_light": "gray",
+                "button": {
+                  "type": "general",
+                  "label": "Перейти",
+                  "link": "https://navigator.sigma.sbrf.ru/gdash/1000005903/1000053756"
+                },
+                "ai_tool_key": "csi"
+              }
+            ]
+          }
+        ],
+        "metrics": [
+          {
+            "code": "cx.score",
+            "name": "CX Score",
+            "footer": "Зеленая зона клиентского пути",
+            "value": 0,
+            "max_value": 0,
+            "is_applicabble_flg": false,
+            "traffic_light": "gray",
+            "recommendation": "Достигнуть целевого CX Score",
+            "recommendations": [
+              "Достигнуть целевого CX Score"
+            ],
+            "recommendation_group": 5,
+            "recommendation_groups": [
+              5
+            ],
+            "recommendation_difficulty": 5,
+            "recommendation_items": [
+              {
+                "recommendation": "Достигнуть целевого CX Score",
+                "group": 5,
+                "recommendation_difficulty": 5,
+                "value": 0,
+                "max_value": 0,
+                "gap": 0
+              }
+            ],
+            "button": {
+              "type": "metric",
+              "label": "Открыть CX Score",
+              "link": "https://navigator.sigma.sbrf.ru/gdash/1000001746"
+            },
+            "buttons": [
+              {
+                "type": "metric",
+                "label": "UX Score",
+                "link": "https://uxscore.sigma.sbrf.ru/"
+              }
+            ],
+            "excluded_from_index": false,
+            "dd_calculation_flg": 1,
+            "sort": 1.0
+          }
+        ],
+        "info": {
+          "type": "losshunter",
+          "variant": "cta",
+          "title": "Аналитика клиентского пути",
+          "button": {
+            "type": "metric",
+            "label": "Перейти",
+            "link": "https://losshunter.ru"
+          },
+          "links": [
+            {
+              "label": "CJXplorer",
+              "link": "https://cjxplorer.com/",
+              "sub": "Целевая платформа CX"
+            },
+            {
+              "label": "LossHunter",
+              "link": "https://losshunter.ru"
+            }
+          ]
+        }
+      }
+    ],
+    "tribe": "Социальные и зарплатные решения",
+    "ai_skill_mappings": [
+      {
+        "skill_key": "csi",
+        "skill_name": "CSI",
+        "block_code": "cx",
+        "ai_products": [
+          "Бюджетники"
+        ],
+        "product_group": "Бюджетники"
+      },
+      {
+        "skill_key": "csi",
+        "skill_name": "CSI",
+        "block_code": "cx",
+        "ai_products": [
+          "Зарплатная карта"
+        ],
+        "product_group": "Зарплатная карта"
+      },
+      {
+        "skill_key": "csi",
+        "skill_name": "CSI",
+        "block_code": "cx",
+        "ai_products": [
+          "Зарплатники"
+        ],
+        "product_group": "Зарплатники"
+      },
+      {
+        "skill_key": "client_metrics",
+        "skill_name": "Навык «Ключевые метрики»",
+        "block_code": "general",
+        "ai_products": [
+          "Зарплатные проекты"
+        ],
+        "product_group": "Зарплатные проекты"
+      },
+      {
+        "skill_key": "csi",
+        "skill_name": "CSI",
+        "block_code": "cx",
+        "ai_products": [
+          "Зарплатный проект"
+        ],
+        "product_group": "Зарплатный проект"
+      },
+      {
+        "skill_key": "funnel",
+        "skill_name": "Воронка кампейнинга",
+        "block_code": "attract",
+        "ai_products": [
+          "Перевод ЗП"
+        ],
+        "product_group": "Перевод ЗП"
+      },
+      {
+        "skill_key": "clickstream_funnel",
+        "skill_name": "Воронка оформления в СБОЛ",
+        "block_code": "attract",
+        "ai_products": [
+          "СКЗ для Пилота Черновики (Штаб)"
+        ],
+        "product_group": "СКЗ для Пилота Черновики (Штаб)"
+      }
+    ],
+    "crosssell_uid": "зарплатный продукт",
+    "crosssell_market": {
+      "findings": 5,
+      "candidates_new": 0,
+      "candidates_in_catalog": 2,
+      "market_side_findings": 3,
+      "runs": 1,
+      "snapshot_date": "27.07.2026"
+    },
+    "crosssell_candidates": [
+      {
+        "key": "зарплатный продукт|зарплатный продукт|ипотека|market",
+        "from": "Зарплатный продукт",
+        "to": "Ипотека",
+        "why": "Рынок уже монетизирует статус скидкой к ставке",
+        "status": "already",
+        "status_label": "Уже есть · такая связка у нас работает",
+        "decided_at": null,
+        "audit": null,
+        "autocut_reason": null
+      },
+      {
+        "key": "зарплатный продукт|зарплатный продукт|пдс|market",
+        "from": "Зарплатный продукт",
+        "to": "ПДС",
+        "why": "Коэффициент государственного софинансирования зависит от официального дохода — считается точнее всего у зарплатного клиента",
+        "status": "already",
+        "status_label": "Уже есть · такая связка у нас работает",
+        "decided_at": null,
+        "audit": {
+          "group": "known",
+          "reason": "Та же пара уже стоит в очереди тем же направлением (у «ПДС», источников 6 против 5) — остаётся один кандидат.",
+          "match": "#617 · Зарплатный продукт → ПДС"
+        },
+        "autocut_reason": null
+      },
+      {
+        "key": "зарплатный продукт|зарплатный продукт|кредитный потенциал|market",
+        "from": "Зарплатный продукт",
+        "to": "Кредитный потенциал",
+        "why": "Подтверждённый доход — готовое основание для предодобренного предложения",
+        "status": "already",
+        "status_label": "Уже есть · такая связка у нас работает",
+        "decided_at": null,
+        "audit": {
+          "group": "mirror",
+          "reason": "Обратное направление уже известно (каталог связок, суждение-рекомендация): для каталога это та же связка, а не новая находка.",
+          "match": "Кредитный потенциал → Зарплатный продукт"
+        },
+        "autocut_reason": null
+      }
+    ],
+    "crosssell_sources": [
+      {
+        "publisher": "Банки.ру",
+        "url": "https://www.banki.ru/products/hypothec/catalogue/ipoteka_pod_6_protsentov/bank/vtb/"
+      },
+      {
+        "publisher": "Лента.ру",
+        "url": "https://lenta.ru/articles/2025/12/18/lgotnaya-ipoteka-programmy/"
+      },
+      {
+        "publisher": "Сравни.ру",
+        "url": "https://www.sravni.ru/debetovye-karty/pensionnye/"
+      },
+      {
+        "publisher": "РБК Инвестиции",
+        "url": "https://www.rbc.ru/quote/news/article/696a119f9a79476b04322455"
+      },
+      {
+        "publisher": "РИА Новости",
+        "url": "https://ria.ru/20260726/oplata-2107032676.html"
+      }
+    ],
+    "metric_recommendations": [
+      {
+        "id": "cross_sell-1",
+        "skill_key": "cross_sell",
+        "skill_name": "Cross-sell",
+        "block_code": "mehaniki",
+        "row_type": "светофор",
+        "is_traffic_light": true,
+        "indicator": "Cross-sell: покрытие и рекомендованные действия",
+        "traffic_light": "yellow",
+        "recommendations": [
+          "Всего в клиентских путях найдено 2 сценария кросс-продаж.",
+          "Из них:",
+          "- 2 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+          "Подтвержденных потенциальных cross-sell связок: 2.",
+          "Связок, ожидающих вашей обратной связи: 9.",
+          "Дальнейшие шаги:",
+          "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+          "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+          "3) Если вы согласны, возьмите в бэклог для проработки."
+        ],
+        "month": "",
+        "is_stale": false,
+        "stale_tooltip": "",
+        "ai_products": [
+          "Зарплатный продукт"
+        ],
+        "product_group": "Зарплатный продукт",
+        "source": "Product Lens",
+        "crosssell_marker": true,
+        "dd_crosssell_value": 0.5,
+        "dd_crosssell_max": 1.0,
+        "api_implemented": 0.0,
+        "api_crosssell_count": 0.0,
+        "api_seen_out_n": 0.0,
+        "api_seen_in_n": 2.0,
+        "api_seen_around_n": 2.0,
+        "api_potential_n": 2.0,
+        "candidates_waiting_decision": 9.0,
+        "crosssell_top_actions": [
+          "Усилить связку «зарплата → предодобренный кредит наличными и кредитка»: для зарплатного клиента это самый быстрый и льготный путь.",
+          "Использовать скидку к ипотечной ставке для зарплатных как крючок перевода зарплаты в банк на этапе заявки на жильё.",
+          "Убрать трение раскрытия: показывать ставку, полную стоимость кредита и лимиты акции явно, а не мелким серым текстом."
+        ],
+        "crosssell_uid": "зарплатный продукт",
+        "crosssell_market": {
+          "findings": 5,
+          "candidates_new": 0,
+          "candidates_in_catalog": 2,
+          "market_side_findings": 3,
+          "runs": 1,
+          "snapshot_date": "27.07.2026"
+        },
+        "crosssell_candidates": [
+          {
+            "key": "зарплатный продукт|зарплатный продукт|ипотека|market",
+            "from": "Зарплатный продукт",
+            "to": "Ипотека",
+            "why": "Рынок уже монетизирует статус скидкой к ставке",
+            "status": "already",
+            "status_label": "Уже есть · такая связка у нас работает",
+            "decided_at": null,
+            "audit": null,
+            "autocut_reason": null
+          },
+          {
+            "key": "зарплатный продукт|зарплатный продукт|пдс|market",
+            "from": "Зарплатный продукт",
+            "to": "ПДС",
+            "why": "Коэффициент государственного софинансирования зависит от официального дохода — считается точнее всего у зарплатного клиента",
+            "status": "already",
+            "status_label": "Уже есть · такая связка у нас работает",
+            "decided_at": null,
+            "audit": {
+              "group": "known",
+              "reason": "Та же пара уже стоит в очереди тем же направлением (у «ПДС», источников 6 против 5) — остаётся один кандидат.",
+              "match": "#617 · Зарплатный продукт → ПДС"
+            },
+            "autocut_reason": null
+          },
+          {
+            "key": "зарплатный продукт|зарплатный продукт|кредитный потенциал|market",
+            "from": "Зарплатный продукт",
+            "to": "Кредитный потенциал",
+            "why": "Подтверждённый доход — готовое основание для предодобренного предложения",
+            "status": "already",
+            "status_label": "Уже есть · такая связка у нас работает",
+            "decided_at": null,
+            "audit": {
+              "group": "mirror",
+              "reason": "Обратное направление уже известно (каталог связок, суждение-рекомендация): для каталога это та же связка, а не новая находка.",
+              "match": "Кредитный потенциал → Зарплатный продукт"
+            },
+            "autocut_reason": null
+          }
+        ],
+        "crosssell_sources": [
+          {
+            "publisher": "Банки.ру",
+            "url": "https://www.banki.ru/products/hypothec/catalogue/ipoteka_pod_6_protsentov/bank/vtb/"
+          },
+          {
+            "publisher": "Лента.ру",
+            "url": "https://lenta.ru/articles/2025/12/18/lgotnaya-ipoteka-programmy/"
+          },
+          {
+            "publisher": "Сравни.ру",
+            "url": "https://www.sravni.ru/debetovye-karty/pensionnye/"
+          },
+          {
+            "publisher": "РБК Инвестиции",
+            "url": "https://www.rbc.ru/quote/news/article/696a119f9a79476b04322455"
+          },
+          {
+            "publisher": "РИА Новости",
+            "url": "https://ria.ru/20260726/oplata-2107032676.html"
+          }
+        ],
+        "requires_manual_validation": false
+      }
+    ],
+    "roadmap": {
+      "current_score": 30.0,
+      "expected_uplift": 0.0,
+      "expected_score": 30.0,
+      "expected_level": "Требуют внимания",
+      "items": [
+        {
+          "source_sheet": "DB",
+          "source_row": 25,
+          "source_product_name": "Зарплатный продукт",
+          "unit": "DB",
+          "profile_name": "Зарплатный продукт",
+          "quarter": "",
+          "development_block": "",
+          "planned_activity": "не нашли опросник",
+          "due_date": "",
+          "expected_uplift": null,
+          "status": ""
+        }
+      ]
+    }
+  },
+  "respondentSurveys": [
+    {
+      "cohort": "B2B",
+      "source": {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 5,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-27T08:33:29.644Z",
+        "respondent": "Сауткин Андрей",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт"
+      },
+      "answers": {
+        "name": "Сауткин Андрей ",
+        "product": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "clients": "1500000",
+        "clientsComment": "ЮЛ",
+        "clientsSource": "Дашборд в Навигаторе",
+        "clientsSourceLink": "https://navigator.sigma.sbrf.ru/gdash/1000001471/1000056578?dtdtdtdtdt=Кол-во%20плательщиков%20(ЮЛ)&ilnirrr=Сегмент%20(СБ)&kanalrrr=Основные%20(ЗП)&dtdtdtdtdtr=Кол-во%20получателей%20(ФЛ)",
+        "mau": null,
+        "mauUnknown": true,
+        "mauSource": "Затрудняюсь ответить",
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Частично, <90%",
+        "goalsDashboards": "Затрудняюсь ответить",
+        "goalsDashboardsFormat": "unknown",
+        "attractConfigured": "Да, по запросу",
+        "attractIncludes": [
+          "Источники привлечения (самоходы, внешние привлечения, кампейнинг, кросс-перетоки)",
+          "Пошаговая воронка (CJM клиентский путь)",
+          "CR (% конверсии)",
+          "Объёмы",
+          "Механики привлечения (кампании, кросс-селл)"
+        ],
+        "benchmarksAttract": "Нет",
+        "attractAnalysis": [
+          "По кампаниям продаж: воронка внутри кампаний, количество достигших целевого действия, оценка результативности кампаний",
+          "Выявление ключевых точек потери клиентов - составлен ТОП-3 факторов и причин"
+        ],
+        "attractDeviations": "Нет",
+        "churnConfigured": "Затрудняюсь ответить",
+        "churnIncludes": [
+          "Затрудняюсь ответить"
+        ],
+        "benchmarksChurn": "Нет",
+        "churnModel": "Не релевантно для моего продукта",
+        "churnAnalysis": [
+          "Затрудняюсь ответить"
+        ],
+        "deviations": "Нет",
+        "systemAlerts": "Да",
+        "alerts": "Да",
+        "alertsComment": "В рамках UX процесса",
+        "upsell": [
+          "Допродажи (upsell)",
+          "Возврат клиентов"
+        ],
+        "mechanics": "В рамках каналов продаж",
+        "returnMechanism": [
+          "Информационная коммуникация",
+          "Создание ценности"
+        ],
+        "crossSellAfter": "Да",
+        "crossSellAfterProduct": "Продукты экосистемы ЮЛ и продукты ФЛ",
+        "discovery": "Нет аналитиков",
+        "support": [
+          "Нехватка аналитических ресурсов (DA/DS/DE)",
+          "Трудоемкий процесс вывода витрин",
+          "Отсутствие Self-Service BI"
+        ],
+        "attractReportFormat": "link",
+        "attractReport": "https://navigator.sigma.sbrf.ru/gdash/1000001471/1000056578?dtdtdtdtdt=Кол-во%20плательщиков%20(ЮЛ)&ilnirrr=Сегмент%20(СБ)&kanalrrr=Основные%20(ЗП)&dtdtdtdtdtr=Кол-во%20получателей%20(ФЛ)"
+      },
+      "resultMetrics": [
+        {
+          "code": "general.obъem_celevogo_rynka_v_rossii",
+          "name": "Объем целевого рынка в России",
+          "baselineValue": 0.2,
+          "value": 0.2,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "general.obъem_celevogo_rynka_v_sbere",
+          "name": "Объем целевого рынка в Сбере",
+          "baselineValue": 0.2,
+          "value": 0.2,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "general.klienty_s_produktom",
+          "name": "Клиенты с продуктом",
+          "baselineValue": 0.2,
+          "value": 0.2,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "answer_present; accuracy_requires_review",
+          "questionId": "clients",
+          "evidence": "Дашборд в Навигаторе: https://navigator.sigma.sbrf.ru/gdash/1000001471/1000056578?dtdtdtdtdt=Кол-во%20плательщиков%20(ЮЛ)&ilnirrr=Сегмент%20(СБ)&kanalrrr=Основные%20(ЗП)&dtdtdtdtdtr=Кол-во%20получателей%20(ФЛ)",
+          "requiresReview": true
+        },
+        {
+          "code": "general.mau_produkta",
+          "name": "MAU продукта",
+          "baselineValue": 0.2,
+          "value": 0,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "answer_present; accuracy_requires_review",
+          "questionId": "mau",
+          "evidence": "Затрудняюсь ответить",
+          "requiresReview": true
+        },
+        {
+          "code": "general.znanie_produktov_sputnikov",
+          "name": "Знание продуктов спутников",
+          "baselineValue": 0.1,
+          "value": 0.1,
+          "maxValue": 0.1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "general.navigator_reporting_knowledge",
+          "name": "Знание об отчетности в Навигаторе",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "goals.monitored",
+          "name": "Цели выведены на мониторинг",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "goals.factor_analysis_l1_l2",
+          "name": "Факторный анализ - драйверы 1-2 ур.",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "goals.forecast",
+          "name": "Прогноз по целям",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.nastroena_otchetnostь",
+          "name": "Настроена отчетность",
+          "baselineValue": 0,
+          "value": 0.25,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "automatic=1; on_request=0.5; other=0",
+          "questionId": "attractConfigured",
+          "evidence": "https://navigator.sigma.sbrf.ru/gdash/1000001471/1000056578?dtdtdtdtdt=Кол-во%20плательщиков%20(ЮЛ)&ilnirrr=Сегмент%20(СБ)&kanalrrr=Основные%20(ЗП)&dtdtdtdtdtr=Кол-во%20получателей%20(ФЛ)",
+          "requiresReview": true
+        },
+        {
+          "code": "attract.regulyarnostь",
+          "name": "Регулярность",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": false,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.report_completeness",
+          "name": "Полнота отчета",
+          "baselineValue": 0,
+          "value": 0.3571,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "selected_positive_elements / available_positive_elements",
+          "questionId": "attractIncludes",
+          "evidence": "https://navigator.sigma.sbrf.ru/gdash/1000001471/1000056578?dtdtdtdtdt=Кол-во%20плательщиков%20(ЮЛ)&ilnirrr=Сегмент%20(СБ)&kanalrrr=Основные%20(ЗП)&dtdtdtdtdtr=Кол-во%20получателей%20(ФЛ)",
+          "requiresReview": true
+        },
+        {
+          "code": "attract.funnel_analysis",
+          "name": "Проведение комплексного анализа воронки привлечения",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "all=1; otherwise selected_analysis_dimensions / available_dimensions",
+          "questionId": "attractAnalysis",
+          "evidence": "https://navigator.sigma.sbrf.ru/gdash/1000001471/1000056578?dtdtdtdtdt=Кол-во%20плательщиков%20(ЮЛ)&ilnirrr=Сегмент%20(СБ)&kanalrrr=Основные%20(ЗП)&dtdtdtdtdtr=Кол-во%20получателей%20(ФЛ)",
+          "requiresReview": true
+        },
+        {
+          "code": "attract.initiatives_list",
+          "name": "Составлен перечень инициатив по привлечению",
+          "baselineValue": 1,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.benchmarks",
+          "name": "Наличие бенчмарков",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; other=0",
+          "questionId": "benchmarksAttract",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "attract.campaign_launches",
+          "name": "Запуски кампаний за квартал",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.chernoviki_v_sbol_70",
+          "name": "Черновики в СБОЛ >=70%",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.nalichie_self_service",
+          "name": "Наличие Self-service",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+          "name": "Наличие успешных бизнес-запусков",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "churn.nastroena_otchetnostь",
+          "name": "Настроена отчетность",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "automatic=1; on_request=0.5; other=0",
+          "questionId": "churnConfigured",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "churn.regulyarnostь",
+          "name": "Регулярность",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": false,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "churn.report_completeness",
+          "name": "Полнота отчета",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "selected_positive_elements / available_positive_elements",
+          "questionId": "churnIncludes",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "churn.funnel_analysis",
+          "name": "Проведение комплексного анализа воронки оттока",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "all=1; otherwise selected_analysis_dimensions / available_dimensions",
+          "questionId": "churnAnalysis",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "churn.deviation_actions",
+          "name": "Мероприятия по работе с отклонениями",
+          "baselineValue": 1,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "churn.benchmarks",
+          "name": "Наличие бенчмарков",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; other=0",
+          "questionId": "benchmarksChurn",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "alerts.business_metrics",
+          "name": "Оповещения по бизнес-метрикам",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; partial=0.5; other=0",
+          "questionId": "alerts",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "alerts.system_failures",
+          "name": "Оповещения по системным сбоям",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; partial=0.5; other=0",
+          "questionId": "systemAlerts",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "mehaniki.vozvrat_klientov",
+          "name": "Возврат клиентов",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "newly_selected_mechanic=1; other=0; previously_confirmed_preserved",
+          "questionId": "upsell",
+          "evidence": "В рамках каналов продаж",
+          "requiresReview": true
+        },
+        {
+          "code": "mehaniki.uderzhanie_klientov",
+          "name": "Удержание клиентов",
+          "baselineValue": 1,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+          "name": "Гибкое изменение условий продукта",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "mehaniki.cross_sell",
+          "name": "Cross-sell",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "mehaniki.doprodazhi_up_sell",
+          "name": "Допродажи (up-sell)",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "newly_selected_mechanic=1; other=0; previously_confirmed_preserved",
+          "questionId": "upsell",
+          "evidence": "В рамках каналов продаж",
+          "requiresReview": true
+        },
+        {
+          "code": "mehaniki.monitoring_mehanik",
+          "name": "Мониторинг механик",
+          "baselineValue": 0.25,
+          "value": 0.25,
+          "maxValue": 0.25,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "hyp.discovery_40_backlog",
+          "name": "Discovery >=40% бэклога",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "reported_discovery_at_least_40_percent=1; other=0",
+          "questionId": "discovery",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "hyp.datadriven_rating_7_5",
+          "name": "Оценка исследований >=7,5",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "hyp.extra_initiatives",
+          "name": "Доп. инициативы сверх БП",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "cx.score",
+          "name": "CX Score",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0,
+          "includedInIndex": false,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        }
+      ]
+    },
+    {
+      "cohort": "B2C",
+      "source": {
+        "file": "questionare-responses(11).csv",
+        "sha256": "c1577545419a94e8b1799711239f5ad606cab87b4dd898b5da6e72242f452ba5",
+        "csvRow": 46,
+        "surveyId": "ddi-product-5b9f9018-3e0e-5955-a174-bf90b2474b58",
+        "completedAt": "2026-10-20T15:43:33.270Z",
+        "respondent": "Королева Александра Дмитриевна",
+        "originalTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "originalTeamName": "Зарплатный продукт"
+      },
+      "answers": {
+        "name": "Королева Александра Дмитриевна",
+        "product": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "clients": "29000000",
+        "clientsSource": "Дашборд в Навигаторе",
+        "clientsSourceLink": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=",
+        "mau": "29000000",
+        "mauComment": "ежемесячно получают ЗП",
+        "mauSource": "Дашборд в Навигаторе",
+        "mauSourceLink": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=",
+        "goalsMonitoring": "Да (включены все цели)",
+        "goalsForecast": "Да, >90%",
+        "goalsFactorAnalysis": "Да, >90%",
+        "goalsDashboards": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=",
+        "goalsDashboardsFormat": "link",
+        "attractConfigured": "Да, автоматическая (monthly/weekly)",
+        "attractIncludes": [
+          "Источники привлечения (самоходы, внешние привлечения, кампейнинг, кросс-перетоки)",
+          "Пошаговая воронка (CJM клиентский путь)",
+          "CR (% конверсии)"
+        ],
+        "benchmarksAttract": "Нет",
+        "attractAnalysis": [
+          "Все перечисленное выше"
+        ],
+        "attractDeviations": "Да",
+        "churnConfigured": "Да, автоматическая (monthly/weekly)",
+        "churnIncludes": [
+          "Затрудняюсь ответить"
+        ],
+        "benchmarksChurn": "Нет",
+        "churnModel": "Да",
+        "churnAnalysis": [
+          "Все перечисленное выше"
+        ],
+        "deviations": "Да",
+        "systemAlerts": "Да",
+        "alerts": "Да",
+        "alertsComment": "ежедневная отчетность в рамках изменения продукта (3 отчета - по изменениям 11/08, СберПрайм ЗП, Мобайлу).",
+        "upsell": [
+          "Возврат клиентов"
+        ],
+        "mechanics": "настроена методология работы с оттоком на предиктиве + при отсутствии ЗП 35 дней приходит автоматический бординг на КАК ЗП. ",
+        "returnMechanism": [
+          "Информационная коммуникация",
+          "Создание ценности"
+        ],
+        "crossSellAfter": "Да",
+        "crossSellAfterProduct": "СберМобайл",
+        "discovery": "От 20 до 39%",
+        "discoveryBacklogType": "Задачи ведет Штаб в Jira/SberTrack",
+        "discoveryBacklogComment": "Семен Расторопов, Эмил Ахмедов - они получают задачи, которые мы им ставим",
+        "support": [
+          "Нехватка аналитических ресурсов (DA/DS/DE)",
+          "Низкая автоматизация отчетности, долгие сроки"
+        ],
+        "attractReportFormat": "link",
+        "attractReport": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=\nhttps://navigator.sigma.sbrf.ru/gdash/1000001471/1000014070",
+        "attractDeviationExampleReportFormat": "other",
+        "attractDeviationExampleReport": "Навигатор - Мастер план https://navigator.sigma.sbrf.ru/gdash/1000006044?isSummary=1",
+        "churnModelReportFormat": "unavailable",
+        "churnModelReportComment": "Моделью оттока, как и ОТТОКОМ с ЗП занимается СХ - Сапегин Олег",
+        "deviationExampleReportFormat": "other",
+        "deviationExampleReport": "У Олега Сапегина - СХ, ответственный за блок ОТТОКА с ЗП"
+      },
+      "resultMetrics": [
+        {
+          "code": "general.obъem_celevogo_rynka_v_rossii",
+          "name": "Объем целевого рынка в России",
+          "baselineValue": 0.2,
+          "value": 0.2,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "general.obъem_celevogo_rynka_v_sbere",
+          "name": "Объем целевого рынка в Сбере",
+          "baselineValue": 0.2,
+          "value": 0.2,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "general.klienty_s_produktom",
+          "name": "Клиенты с продуктом",
+          "baselineValue": 0.2,
+          "value": 0.2,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "answer_present; accuracy_requires_review",
+          "questionId": "clients",
+          "evidence": "Дашборд в Навигаторе: https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=",
+          "requiresReview": true
+        },
+        {
+          "code": "general.mau_produkta",
+          "name": "MAU продукта",
+          "baselineValue": 0.2,
+          "value": 0.2,
+          "maxValue": 0.2,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "answer_present; accuracy_requires_review",
+          "questionId": "mau",
+          "evidence": "Дашборд в Навигаторе: https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=",
+          "requiresReview": true
+        },
+        {
+          "code": "general.znanie_produktov_sputnikov",
+          "name": "Знание продуктов спутников",
+          "baselineValue": 0.1,
+          "value": 0.1,
+          "maxValue": 0.1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "general.navigator_reporting_knowledge",
+          "name": "Знание об отчетности в Навигаторе",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "goals.monitored",
+          "name": "Цели выведены на мониторинг",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "goals.factor_analysis_l1_l2",
+          "name": "Факторный анализ - драйверы 1-2 ур.",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "goals.forecast",
+          "name": "Прогноз по целям",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.nastroena_otchetnostь",
+          "name": "Настроена отчетность",
+          "baselineValue": 0,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "automatic=1; on_request=0.5; other=0",
+          "questionId": "attractConfigured",
+          "evidence": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=\nhttps://navigator.sigma.sbrf.ru/gdash/1000001471/1000014070",
+          "requiresReview": true
+        },
+        {
+          "code": "attract.regulyarnostь",
+          "name": "Регулярность",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": false,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.report_completeness",
+          "name": "Полнота отчета",
+          "baselineValue": 0,
+          "value": 0.2143,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "selected_positive_elements / available_positive_elements",
+          "questionId": "attractIncludes",
+          "evidence": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=\nhttps://navigator.sigma.sbrf.ru/gdash/1000001471/1000014070",
+          "requiresReview": true
+        },
+        {
+          "code": "attract.funnel_analysis",
+          "name": "Проведение комплексного анализа воронки привлечения",
+          "baselineValue": 0.5,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "all=1; otherwise selected_analysis_dimensions / available_dimensions",
+          "questionId": "attractAnalysis",
+          "evidence": "https://navigator.sigma.sbrf.ru/gdash/1000006346#eyJ3aWRnZXRzIjp7IjEwMDA1NTg0NDUiOnsibW9kaWZpZWRSb3dzIjp7IjMwMCI6MH19fX0=\nhttps://navigator.sigma.sbrf.ru/gdash/1000001471/1000014070",
+          "requiresReview": true
+        },
+        {
+          "code": "attract.initiatives_list",
+          "name": "Составлен перечень инициатив по привлечению",
+          "baselineValue": 1,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.benchmarks",
+          "name": "Наличие бенчмарков",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; other=0",
+          "questionId": "benchmarksAttract",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "attract.campaign_launches",
+          "name": "Запуски кампаний за квартал",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.chernoviki_v_sbol_70",
+          "name": "Черновики в СБОЛ >=70%",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.nalichie_self_service",
+          "name": "Наличие Self-service",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+          "name": "Наличие успешных бизнес-запусков",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "churn.nastroena_otchetnostь",
+          "name": "Настроена отчетность",
+          "baselineValue": 0,
+          "value": 0.5,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "automatic=1; on_request=0.5; other=0",
+          "questionId": "churnConfigured",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "churn.regulyarnostь",
+          "name": "Регулярность",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": false,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "churn.report_completeness",
+          "name": "Полнота отчета",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "selected_positive_elements / available_positive_elements",
+          "questionId": "churnIncludes",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "churn.funnel_analysis",
+          "name": "Проведение комплексного анализа воронки оттока",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "all=1; otherwise selected_analysis_dimensions / available_dimensions",
+          "questionId": "churnAnalysis",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "churn.deviation_actions",
+          "name": "Мероприятия по работе с отклонениями",
+          "baselineValue": 1,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "churn.benchmarks",
+          "name": "Наличие бенчмарков",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0.5,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; other=0",
+          "questionId": "benchmarksChurn",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "alerts.business_metrics",
+          "name": "Оповещения по бизнес-метрикам",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; partial=0.5; other=0",
+          "questionId": "alerts",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "alerts.system_failures",
+          "name": "Оповещения по системным сбоям",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "yes=1; partial=0.5; other=0",
+          "questionId": "systemAlerts",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "mehaniki.vozvrat_klientov",
+          "name": "Возврат клиентов",
+          "baselineValue": 0,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "newly_selected_mechanic=1; other=0; previously_confirmed_preserved",
+          "questionId": "upsell",
+          "evidence": "настроена методология работы с оттоком на предиктиве + при отсутствии ЗП 35 дней приходит автоматический бординг на КАК ЗП. ",
+          "requiresReview": true
+        },
+        {
+          "code": "mehaniki.uderzhanie_klientov",
+          "name": "Удержание клиентов",
+          "baselineValue": 1,
+          "value": 1,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+          "name": "Гибкое изменение условий продукта",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "mehaniki.cross_sell",
+          "name": "Cross-sell",
+          "baselineValue": 0.5,
+          "value": 0.5,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "mehaniki.doprodazhi_up_sell",
+          "name": "Допродажи (up-sell)",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "newly_selected_mechanic=1; other=0; previously_confirmed_preserved",
+          "questionId": "upsell",
+          "evidence": "настроена методология работы с оттоком на предиктиве + при отсутствии ЗП 35 дней приходит автоматический бординг на КАК ЗП. ",
+          "requiresReview": true
+        },
+        {
+          "code": "mehaniki.monitoring_mehanik",
+          "name": "Мониторинг механик",
+          "baselineValue": 0.25,
+          "value": 0.25,
+          "maxValue": 0.25,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "hyp.discovery_40_backlog",
+          "name": "Discovery >=40% бэклога",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "survey_self_report",
+          "rule": "reported_discovery_at_least_40_percent=1; other=0",
+          "questionId": "discovery",
+          "evidence": null,
+          "requiresReview": true
+        },
+        {
+          "code": "hyp.datadriven_rating_7_5",
+          "name": "Оценка исследований >=7,5",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "hyp.extra_initiatives",
+          "name": "Доп. инициативы сверх БП",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 1,
+          "includedInIndex": true,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        },
+        {
+          "code": "cx.score",
+          "name": "CX Score",
+          "baselineValue": 0,
+          "value": 0,
+          "maxValue": 0,
+          "includedInIndex": false,
+          "source": "ddi_baseline",
+          "rule": "ddi_baseline_preserved"
+        }
+      ]
+    }
+  ],
+  "parentOverlayFacts": {
+    "mechanics-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "mehaniki.uderzhanie_klientov": {
+            "rawValue": 1,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "fromPeriod": "II кв. 2026",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "mehaniki.uderzhanie_klientov",
+              "sourceMetricName": "Удержание клиентов",
+              "sourceBlockCode": "mehaniki",
+              "sourceBlockName": "Механики",
+              "sourceValue": 1,
+              "sourceMaxValue": 1,
+              "sourceApplicability": true,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пользователь разрешил перенести только полностью набранные метрики блока Механики из II квартала при отсутствии явной оценки III квартала. Максимум и применимость сохраняются."
+            }
+          },
+          "mehaniki.monitoring_mehanik": {
+            "rawValue": 1,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "fromPeriod": "II кв. 2026",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "mehaniki.monitoring_mehanik",
+              "sourceMetricName": "Мониторинг механик",
+              "sourceBlockCode": "mehaniki",
+              "sourceBlockName": "Механики",
+              "sourceValue": 0.25,
+              "sourceMaxValue": 0.25,
+              "sourceApplicability": true,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пользователь разрешил перенести только полностью набранные метрики блока Механики из II квартала при отсутствии явной оценки III квартала. Максимум и применимость сохраняются."
+            }
+          }
+        }
+      }
+    ],
+    "goals-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "goals.monitored": {
+            "rawValue": 0,
+            "source": {
+              "origin": "goalsWorkbookAssessment",
+              "period": "III кв. 2026",
+              "file": "Копия Выведение целей (факт план прогно ФА) 3Q.xlsx",
+              "sheet": "Лист1",
+              "sha256": "cc92a5a45bf1cb15f6e2bc9b8b3de4b9a943071df4f66e7e8bd5f7c58c0cb055",
+              "sourceName": "Зарплатный продукт",
+              "sourceUnit": "Daily Banking B2C",
+              "sourceTribe": "Социальные и зарплатные решения",
+              "sourceRow": 27,
+              "sourceRows": [
+                27
+              ],
+              "cell": "C27",
+              "cells": [
+                {
+                  "cell": "C27",
+                  "rawValue": 0,
+                  "cellType": "n",
+                  "status": "valid",
+                  "metricCode": "goals.monitored"
+                }
+              ],
+              "column": "C",
+              "columnTitle": "Оценка выведения целей",
+              "points": 0,
+              "mappingStatus": "exact",
+              "mappingRule": "Нормализованный юнит и точный нормализованный трайб.",
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пользователь разрешил применить сопоставленные строки файла к DDI. Оценки C/D/E прямо определяют три метрики целей; исходный максимум сохраняется."
+            }
+          },
+          "goals.forecast": {
+            "rawValue": 0,
+            "source": {
+              "origin": "goalsWorkbookAssessment",
+              "period": "III кв. 2026",
+              "file": "Копия Выведение целей (факт план прогно ФА) 3Q.xlsx",
+              "sheet": "Лист1",
+              "sha256": "cc92a5a45bf1cb15f6e2bc9b8b3de4b9a943071df4f66e7e8bd5f7c58c0cb055",
+              "sourceName": "Зарплатный продукт",
+              "sourceUnit": "Daily Banking B2C",
+              "sourceTribe": "Социальные и зарплатные решения",
+              "sourceRow": 27,
+              "sourceRows": [
+                27
+              ],
+              "cell": "D27",
+              "cells": [
+                {
+                  "cell": "D27",
+                  "rawValue": 0,
+                  "cellType": "n",
+                  "status": "valid",
+                  "metricCode": "goals.forecast"
+                }
+              ],
+              "column": "D",
+              "columnTitle": "Оценка наличия прогноза",
+              "points": 0,
+              "mappingStatus": "exact",
+              "mappingRule": "Нормализованный юнит и точный нормализованный трайб.",
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пользователь разрешил применить сопоставленные строки файла к DDI. Оценки C/D/E прямо определяют три метрики целей; исходный максимум сохраняется."
+            }
+          },
+          "goals.factor_analysis_l1_l2": {
+            "rawValue": 0,
+            "source": {
+              "origin": "goalsWorkbookAssessment",
+              "period": "III кв. 2026",
+              "file": "Копия Выведение целей (факт план прогно ФА) 3Q.xlsx",
+              "sheet": "Лист1",
+              "sha256": "cc92a5a45bf1cb15f6e2bc9b8b3de4b9a943071df4f66e7e8bd5f7c58c0cb055",
+              "sourceName": "Зарплатный продукт",
+              "sourceUnit": "Daily Banking B2C",
+              "sourceTribe": "Социальные и зарплатные решения",
+              "sourceRow": 27,
+              "sourceRows": [
+                27
+              ],
+              "cell": "E27",
+              "cells": [
+                {
+                  "cell": "E27",
+                  "rawValue": 0,
+                  "cellType": "n",
+                  "status": "valid",
+                  "metricCode": "goals.factor_analysis_l1_l2"
+                }
+              ],
+              "column": "E",
+              "columnTitle": "Оценка ФА",
+              "points": 0,
+              "mappingStatus": "exact",
+              "mappingRule": "Нормализованный юнит и точный нормализованный трайб.",
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пользователь разрешил применить сопоставленные строки файла к DDI. Оценки C/D/E прямо определяют три метрики целей; исходный максимум сохраняется."
+            }
+          }
+        }
+      }
+    ],
+    "key-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "general.obъem_celevogo_rynka_v_rossii": {
+            "rawValue": 1,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "general.obъem_celevogo_rynka_v_rossii",
+              "sourceMetricName": "Объем целевого рынка в России",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются."
+            }
+          },
+          "general.obъem_celevogo_rynka_v_sbere": {
+            "rawValue": 1,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "general.obъem_celevogo_rynka_v_sbere",
+              "sourceMetricName": "Объем целевого рынка в Сбере",
+              "sourceValue": 0.2,
+              "sourceMaxValue": 0.2,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются."
+            }
+          },
+          "general.klienty_s_produktom": {
+            "rawValue": 1,
+            "source": {
+              "origin": "keyMetricsWorkbookAssessment",
+              "file": "Ключевые метрики Продукта Баллы.xlsx",
+              "sheet": "Лист1",
+              "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricName": "Клиенты с продуктом",
+              "sourceRows": [
+                130
+              ],
+              "cell": "C130",
+              "cells": [
+                {
+                  "sourceRow": 130,
+                  "cell": "C130",
+                  "rawValue": 1,
+                  "cellType": "n",
+                  "sourceName": "Зарплатный продукт",
+                  "sourceMetric": "Клиенты с продуктом",
+                  "note": null
+                }
+              ],
+              "points": 1,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "mappingRule": "normalizedExact",
+              "baselineApplicable": true,
+              "baselineMaxValue": 0.2,
+              "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5."
+            }
+          },
+          "general.mau_produkta": {
+            "rawValue": 1,
+            "source": {
+              "origin": "keyMetricsWorkbookAssessment",
+              "file": "Ключевые метрики Продукта Баллы.xlsx",
+              "sheet": "Лист1",
+              "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricName": "MAU продукта",
+              "sourceRows": [
+                131
+              ],
+              "cell": "C131",
+              "cells": [
+                {
+                  "sourceRow": 131,
+                  "cell": "C131",
+                  "rawValue": 1,
+                  "cellType": "n",
+                  "sourceName": "Зарплатный продукт",
+                  "sourceMetric": "MAU продукта",
+                  "note": null
+                }
+              ],
+              "points": 1,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "mappingRule": "normalizedExact",
+              "baselineApplicable": true,
+              "baselineMaxValue": 0.2,
+              "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5."
+            }
+          },
+          "general.znanie_produktov_sputnikov": {
+            "rawValue": 1,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "general.znanie_produktov_sputnikov",
+              "sourceMetricName": "Знание продуктов спутников",
+              "sourceValue": 0.1,
+              "sourceMaxValue": 0.1,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются."
+            }
+          },
+          "general.navigator_reporting_knowledge": {
+            "rawValue": 1,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "file": "gravity-app/public/report-data.json",
+              "period": "III кв. 2026",
+              "fromPeriod": "II кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "general.navigator_reporting_knowledge",
+              "sourceMetricName": "Знание об отчетности в Навигаторе",
+              "sourceValue": 0.5,
+              "sourceMaxValue": 0.5,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "reason": "Пара команда–метрика отсутствует в файле; полностью набранная применимая оценка Q2 переносится по явному правилу пользователя. Присутствующие текстовые или конфликтующие строки отсутствием не считаются."
+            }
+          }
+        }
+      }
+    ],
+    "crosssell-after-purchase-scores-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "postPurchaseValue": 0.5,
+        "source": {
+          "origin": "userConfirmedPostPurchaseCrossSell",
+          "period": "III кв. 2026",
+          "confirmedAt": "2026-10-29",
+          "inputName": "Зарплатный продукт"
+        }
+      }
+    ],
+    "draft-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "attract.chernoviki_v_sbol_70": {
+            "rawValue": 0.5,
+            "source": {
+              "file": "Книга4(1).xlsx",
+              "sheet": "Лист1",
+              "cell": "B11",
+              "columnLabel": "max_coverage_q3",
+              "cells": [
+                {
+                  "file": "Книга4(1).xlsx",
+                  "sheet": "Лист1",
+                  "cell": "B11",
+                  "nameCell": "A11",
+                  "columnLabel": "max_coverage_q3",
+                  "sourceName": "Зарплатные проекты",
+                  "rawValue": 0
+                }
+              ],
+              "mapping": "explicitAlias",
+              "valueOrigin": "userConfirmedPoints",
+              "override": {
+                "points": 0.5,
+                "derivedRawValue": 0.5,
+                "baselineMaxValue": 0.5,
+                "confirmedBy": "user",
+                "date": "2026-10-27",
+                "reason": "Пользователь явно указал абсолютный балл за III квартал и затем установил Q3 max_value=1 для всех применимых метрик черновиков. rawValue=points/1; baselineMaxValue хранит максимум Q2, исходный Excel в source.cells не изменён.",
+                "maxValue": 1,
+                "effectiveMaxValue": 1
+              }
+            }
+          }
+        }
+      }
+    ],
+    "crosssell-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "status": "positive",
+        "matched": true,
+        "baseline": {
+          "max_value": 1,
+          "is_applicabble_flg": true
+        },
+        "metrics": {
+          "mehaniki.cross_sell": {
+            "rawValue": 0.5,
+            "source": {
+              "file": "crosssell_export.json",
+              "system": "LossHunter",
+              "criterion": "own observed cross-sell OR seen_in_n > 1",
+              "criterionVersion": "own-observed-or-incoming-v3",
+              "criterionDescription": "Собственное видео-наблюдение цели в judgements.seen засчитывается самостоятельно, даже без пары cross-sell/seen. Строгие пары cross-sell/seen также требуют собственного видео-свидетельства. Если все пары той же цели явно имеют nature=activation, самостоятельное judgement не засчитывается. Цели между ветками дедуплицируются. Дополнительно по указанию пользователя засчитывается seen_in_n > 1 в той же сопоставленной строке продукта, без требования собственного исходящего видео.",
+              "ownDefinition": "Та же собственная строка продукта содержит judgements.seen для того же нормализованного target; связанный ev имеет g=vid/cjx, непустые i/fk и идентификатор aid или run. who конкурентов, рыночные ссылки и confirm без собственного видео-свидетельства не считаются подтверждением.",
+              "qualifyingCount": 1,
+              "incomingCount": 2.0,
+              "incomingQualifies": true,
+              "incomingEvidence": {
+                "pointer": "/products_response/products/57/seen_in_n",
+                "value": 2,
+                "rule": "seen_in_n > 1",
+                "confirmedBy": "user"
+              },
+              "matched": true,
+              "catalogName": "Зарплатный продукт",
+              "catalogKey": "зарплатный продукт",
+              "catalogUid": "зарплатный продукт",
+              "pointer": "/products_response/products/57",
+              "evidence": [],
+              "evidenceExcluded": [
+                {
+                  "pointer": "/products_response/products/57/pairs/0",
+                  "pair": {
+                    "target": "Потребительский кредит",
+                    "status": "reco",
+                    "nature": "cross-sell",
+                    "conf": "high",
+                    "why": "Зарплатный клиент — самый прозрачный по доходу заёмщик: банк видит поступления и предлагает кредит наличными по льготной ставке, часто предодобренный. Это ключевой драйвер монетизации зарплатного проекта.",
+                    "who": [
+                      {
+                        "p": "Альфа-Банк",
+                        "m": "Продукт 'Наличными владельцам зарплатных карт' — сниженная ставка держателям зарплатной карты.",
+                        "fl": "Зарплатный продукт → Кредит наличными",
+                        "psrc": "finuslugi.ru"
+                      }
+                    ],
+                    "own": [
+                      "Отдельная витрина 'Предложение для зарплатных клиентов — Кредиты' с льготной ставкой и быстрым решением по подтверждённому доходу."
+                    ],
+                    "src": [
+                      "https://finuslugi.ru/potrebitelskie_kredity/alfa-bank_nalichnymi_vladelcam_zarplatnyh_kart"
+                    ],
+                    "confirm": "open_source"
+                  },
+                  "reason": "Does not satisfy both strict pair fields"
+                },
+                {
+                  "pointer": "/products_response/products/57/pairs/1",
+                  "pair": {
+                    "target": "Кредитные карты",
+                    "status": "reco",
+                    "nature": "cross-sell",
+                    "conf": "high",
+                    "why": "Зарплатным клиентам кредитную карту одобряют быстрее и на лучших условиях (без залога/поручителей) — банк допродаёт кредитный лимит поверх подтверждённого зарплатного потока.",
+                    "who": [],
+                    "own": [
+                      "Зарплатным клиентам — кредитные карты и кредиты на выгодных условиях с минимальным сроком рассмотрения, без залога и поручителей."
+                    ],
+                    "src": [
+                      "https://finuslugi.ru/potrebitelskie_kredity/alfa-bank_nalichnymi_vladelcam_zarplatnyh_kart"
+                    ],
+                    "confirm": "open_source"
+                  },
+                  "reason": "Does not satisfy both strict pair fields"
+                },
+                {
+                  "pointer": "/products_response/products/57/pairs/2",
+                  "pair": {
+                    "target": "Ипотека",
+                    "status": "reco",
+                    "nature": "cross-sell",
+                    "conf": "medium",
+                    "why": "Зарплатным клиентам банк даёт скидку к ставке по ипотеке — подтверждённый доход снижает риск, а долгий кредит намертво привязывает клиента к банку. Сильный якорь удержания.",
+                    "who": [],
+                    "own": [
+                      "Скидка к ипотечной ставке для зарплатных клиентов, доход подтверждается автоматически по поступлениям."
+                    ],
+                    "src": [
+                      "https://finuslugi.ru/potrebitelskie_kredity/alfa-bank_nalichnymi_vladelcam_zarplatnyh_kart"
+                    ],
+                    "confirm": "open_source"
+                  },
+                  "reason": "Does not satisfy both strict pair fields"
+                },
+                {
+                  "pointer": "/market_items_response/зарплатный продукт/candidates/0",
+                  "reason": "Research already verdict is not a pairs nature/status confirmation",
+                  "candidate": {
+                    "key": "зарплатный продукт|зарплатный продукт|ипотека|market",
+                    "from": "Зарплатный продукт",
+                    "to": "Ипотека",
+                    "why": "Рынок уже монетизирует статус скидкой к ставке",
+                    "status": "already",
+                    "status_label": "Уже реализовано · такая связка у нас работает",
+                    "decided_at": null,
+                    "audit": null,
+                    "autocut_reason": null
+                  }
+                },
+                {
+                  "pointer": "/market_items_response/зарплатный продукт/candidates/1",
+                  "reason": "Research already verdict is not a pairs nature/status confirmation",
+                  "candidate": {
+                    "key": "зарплатный продукт|зарплатный продукт|кредитный потенциал|market",
+                    "from": "Зарплатный продукт",
+                    "to": "Кредитный потенциал",
+                    "why": "Подтверждённый доход — готовое основание для предодобренного предложения",
+                    "status": "already",
+                    "status_label": "Уже реализовано · такая связка у нас работает",
+                    "decided_at": null,
+                    "audit": {
+                      "group": "mirror",
+                      "reason": "Обратное направление уже известно (каталог связок, суждение-рекомендация): для каталога это та же связка, а не новая находка.",
+                      "match": "Кредитный потенциал → Зарплатный продукт"
+                    },
+                    "autocut_reason": null
+                  }
+                },
+                {
+                  "pointer": "/market_items_response/зарплатный продукт/candidates/2",
+                  "reason": "Research already verdict is not a pairs nature/status confirmation",
+                  "candidate": {
+                    "key": "зарплатный продукт|зарплатный продукт|пдс|market",
+                    "from": "Зарплатный продукт",
+                    "to": "ПДС",
+                    "why": "Коэффициент государственного софинансирования зависит от официального дохода — считается точнее всего у зарплатного клиента",
+                    "status": "already",
+                    "status_label": "Уже реализовано · такая связка у нас работает",
+                    "decided_at": null,
+                    "audit": {
+                      "group": "known",
+                      "reason": "Та же пара уже стоит в очереди тем же направлением (у «ПДС», источников 6 против 5) — остаётся один кандидат.",
+                      "match": "#617 · Зарплатный продукт → ПДС"
+                    },
+                    "autocut_reason": null
+                  }
+                }
+              ],
+              "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%B0%D1%80%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82",
+              "zeroMeaning": "Нет валидного собственного видео-свидетельства и не выполнено seen_in_n > 1; это не утверждение об отсутствии кроссов вообще.",
+              "matchWarning": null
+            }
+          }
+        },
+        "diagnostics": {
+          "evidenceCount": 0
+        },
+        "crosssellRecommendations": [
+          {
+            "id": "cross_sell-1",
+            "skill_key": "cross_sell",
+            "skill_name": "Cross-sell",
+            "block_code": "mehaniki",
+            "row_type": "светофор",
+            "is_traffic_light": true,
+            "indicator": "Cross-sell: покрытие и рекомендованные действия",
+            "traffic_light": "yellow",
+            "recommendations": [
+              "Всего в клиентских путях найдено 2 сценария кросс-продаж.",
+              "Из них:",
+              "- 2 связки — кросс-селл в сценариях других продуктов с вашим продуктом.",
+              "Подтвержденных потенциальных cross-sell связок: 2.",
+              "Связок, ожидающих вашей обратной связи: 0.",
+              "Дальнейшие шаги:",
+              "1) Ознакомьтесь с рекомендациями на платформе (по кнопке \"Перейти\" выше).",
+              "2) Оцените потенциальные кросс-взаимосвязи и оставьте в каждой карточке обратную связь. Если вы не согласны с предложением агента, сообщите там же в блоке обратной связи.",
+              "3) Если вы согласны, возьмите в бэклог для проработки."
+            ],
+            "month": "",
+            "is_stale": false,
+            "stale_tooltip": "",
+            "ai_products": [
+              "Зарплатный продукт"
+            ],
+            "product_group": "Зарплатный продукт",
+            "source": "Product Lens",
+            "crosssell_marker": true,
+            "dd_crosssell_value": 0.5,
+            "dd_crosssell_max": 1,
+            "api_implemented": 0.0,
+            "api_crosssell_count": 0.0,
+            "api_seen_out_n": 0.0,
+            "api_seen_in_n": 2.0,
+            "api_seen_around_n": 2.0,
+            "api_potential_n": 2.0,
+            "candidates_waiting_decision": 0.0,
+            "crosssell_top_actions": [
+              "Усилить связку «зарплата → предодобренный кредит наличными и кредитка»: для зарплатного клиента это самый быстрый и льготный путь.",
+              "Использовать скидку к ипотечной ставке для зарплатных как крючок перевода зарплаты в банк на этапе заявки на жильё.",
+              "Убрать трение раскрытия: показывать ставку, полную стоимость кредита и лимиты акции явно, а не мелким серым текстом."
+            ],
+            "crosssell_uid": "зарплатный продукт",
+            "crosssell_market": {
+              "findings": 2,
+              "candidates_new": 0,
+              "candidates_in_catalog": 3,
+              "market_side_findings": 2,
+              "runs": 1,
+              "snapshot_date": "27.07.2026"
+            },
+            "crosssell_candidates": [
+              {
+                "key": "зарплатный продукт|зарплатный продукт|ипотека|market",
+                "from": "Зарплатный продукт",
+                "to": "Ипотека",
+                "why": "Рынок уже монетизирует статус скидкой к ставке",
+                "status": "already",
+                "status_label": "Уже реализовано · такая связка у нас работает",
+                "decided_at": null,
+                "audit": null,
+                "autocut_reason": null
+              },
+              {
+                "key": "зарплатный продукт|зарплатный продукт|кредитный потенциал|market",
+                "from": "Зарплатный продукт",
+                "to": "Кредитный потенциал",
+                "why": "Подтверждённый доход — готовое основание для предодобренного предложения",
+                "status": "already",
+                "status_label": "Уже реализовано · такая связка у нас работает",
+                "decided_at": null,
+                "audit": {
+                  "group": "mirror",
+                  "reason": "Обратное направление уже известно (каталог связок, суждение-рекомендация): для каталога это та же связка, а не новая находка.",
+                  "match": "Кредитный потенциал → Зарплатный продукт"
+                },
+                "autocut_reason": null
+              },
+              {
+                "key": "зарплатный продукт|зарплатный продукт|пдс|market",
+                "from": "Зарплатный продукт",
+                "to": "ПДС",
+                "why": "Коэффициент государственного софинансирования зависит от официального дохода — считается точнее всего у зарплатного клиента",
+                "status": "already",
+                "status_label": "Уже реализовано · такая связка у нас работает",
+                "decided_at": null,
+                "audit": {
+                  "group": "known",
+                  "reason": "Та же пара уже стоит в очереди тем же направлением (у «ПДС», источников 6 против 5) — остаётся один кандидат.",
+                  "match": "#617 · Зарплатный продукт → ПДС"
+                },
+                "autocut_reason": null
+              }
+            ],
+            "crosssell_sources": [
+              {
+                "publisher": "Банки.ру",
+                "url": "https://www.banki.ru/products/hypothec/catalogue/ipoteka_pod_6_protsentov/bank/vtb/"
+              },
+              {
+                "publisher": "Лента.ру",
+                "url": "https://lenta.ru/articles/2025/12/18/lgotnaya-ipoteka-programmy/"
+              },
+              {
+                "publisher": "Сравни.ру",
+                "url": "https://www.sravni.ru/debetovye-karty/pensionnye/"
+              },
+              {
+                "publisher": "РБК Инвестиции",
+                "url": "https://www.rbc.ru/quote/news/article/696a119f9a79476b04322455"
+              },
+              {
+                "publisher": "РИА Новости",
+                "url": "https://ria.ru/20260726/oplata-2107032676.html"
+              },
+              {
+                "publisher": "ВТБ",
+                "url": "https://www.vtb.ru/personal/ipoteka/novostrojki/"
+              },
+              {
+                "publisher": "ВТБ",
+                "url": "https://www.vtb.ru/malyj-biznes/zarplatniy-proekt/"
+              }
+            ],
+            "requires_manual_validation": false
+          }
+        ],
+        "crosssellTool": {
+          "name": "Cross-sell",
+          "kind": "ai",
+          "ai_tool_key": "cross_sell",
+          "ai_tool_product_name": "Зарплатный продукт",
+          "traffic_light": "yellow",
+          "active": "yellow",
+          "button": {
+            "type": "general",
+            "label": "Перейти",
+            "link": "https://losshunter.ru/showcase/crosssell/#product=%D0%B7%D0%B0%D1%80%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82"
+          },
+          "footer": "Product Lens · раунд r12-20261025T051526Z",
+          "crosssell_export": true
+        },
+        "crosssell_uid": "зарплатный продукт",
+        "crosssell_market": {
+          "findings": 2,
+          "candidates_new": 0,
+          "candidates_in_catalog": 3,
+          "market_side_findings": 2,
+          "runs": 1,
+          "snapshot_date": "27.07.2026"
+        },
+        "crosssell_candidates": [
+          {
+            "key": "зарплатный продукт|зарплатный продукт|ипотека|market",
+            "from": "Зарплатный продукт",
+            "to": "Ипотека",
+            "why": "Рынок уже монетизирует статус скидкой к ставке",
+            "status": "already",
+            "status_label": "Уже реализовано · такая связка у нас работает",
+            "decided_at": null,
+            "audit": null,
+            "autocut_reason": null
+          },
+          {
+            "key": "зарплатный продукт|зарплатный продукт|кредитный потенциал|market",
+            "from": "Зарплатный продукт",
+            "to": "Кредитный потенциал",
+            "why": "Подтверждённый доход — готовое основание для предодобренного предложения",
+            "status": "already",
+            "status_label": "Уже реализовано · такая связка у нас работает",
+            "decided_at": null,
+            "audit": {
+              "group": "mirror",
+              "reason": "Обратное направление уже известно (каталог связок, суждение-рекомендация): для каталога это та же связка, а не новая находка.",
+              "match": "Кредитный потенциал → Зарплатный продукт"
+            },
+            "autocut_reason": null
+          },
+          {
+            "key": "зарплатный продукт|зарплатный продукт|пдс|market",
+            "from": "Зарплатный продукт",
+            "to": "ПДС",
+            "why": "Коэффициент государственного софинансирования зависит от официального дохода — считается точнее всего у зарплатного клиента",
+            "status": "already",
+            "status_label": "Уже реализовано · такая связка у нас работает",
+            "decided_at": null,
+            "audit": {
+              "group": "known",
+              "reason": "Та же пара уже стоит в очереди тем же направлением (у «ПДС», источников 6 против 5) — остаётся один кандидат.",
+              "match": "#617 · Зарплатный продукт → ПДС"
+            },
+            "autocut_reason": null
+          }
+        ],
+        "crosssell_sources": [
+          {
+            "publisher": "Банки.ру",
+            "url": "https://www.banki.ru/products/hypothec/catalogue/ipoteka_pod_6_protsentov/bank/vtb/"
+          },
+          {
+            "publisher": "Лента.ру",
+            "url": "https://lenta.ru/articles/2025/12/18/lgotnaya-ipoteka-programmy/"
+          },
+          {
+            "publisher": "Сравни.ру",
+            "url": "https://www.sravni.ru/debetovye-karty/pensionnye/"
+          },
+          {
+            "publisher": "РБК Инвестиции",
+            "url": "https://www.rbc.ru/quote/news/article/696a119f9a79476b04322455"
+          },
+          {
+            "publisher": "РИА Новости",
+            "url": "https://ria.ru/20260726/oplata-2107032676.html"
+          },
+          {
+            "publisher": "ВТБ",
+            "url": "https://www.vtb.ru/personal/ipoteka/novostrojki/"
+          },
+          {
+            "publisher": "ВТБ",
+            "url": "https://www.vtb.ru/malyj-biznes/zarplatniy-proekt/"
+          }
+        ]
+      }
+    ],
+    "campaign-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "sourceRow": 22,
+        "sourceName": "Зарплатный продукт",
+        "metrics": {
+          "attract.campaign_launches": {
+            "rawValue": 1,
+            "source": {
+              "file": "Книга3(2).xlsx",
+              "sheet": "Лист1",
+              "cell": "B22",
+              "columnLabel": "Сумма по полю launches_q3"
+            }
+          },
+          "attract.nalichie_self_service": {
+            "rawValue": 1,
+            "source": {
+              "file": "Книга3(2).xlsx",
+              "sheet": "Лист1",
+              "cell": "C22",
+              "columnLabel": "Сумма по полю self_service_q3"
+            }
+          },
+          "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+            "rawValue": 1,
+            "source": {
+              "file": "Книга3(2).xlsx",
+              "sheet": "Лист1",
+              "cell": "D22",
+              "columnLabel": "Сумма по полю successful_business_q2"
+            }
+          }
+        }
+      }
+    ],
+    "research-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "hyp.datadriven_rating_7_5": {
+            "rawValue": 1,
+            "source": {
+              "sourceName": "Зарплатный продукт",
+              "sourceRow": 10,
+              "averageScore": 8.0,
+              "averageScoreText": "8",
+              "lastPoints": 1,
+              "userprovided": true,
+              "period": "III кв. 2026",
+              "origin": "userProvidedTable",
+              "mapping": "normalizedExact"
+            }
+          }
+        }
+      }
+    ],
+    "user-metric-assessments-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "attract.benchmarks": {
+            "rawValue": 0.0,
+            "source": {
+              "origin": "userConfirmedMetricAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-29",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricName": "Бенчмарки по привлечению",
+              "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+            }
+          },
+          "churn.benchmarks": {
+            "rawValue": 0.0,
+            "source": {
+              "origin": "userConfirmedMetricAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-29",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricName": "Бенчмарки по оттокам",
+              "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+            }
+          },
+          "alerts.business_metrics": {
+            "rawValue": 1.0,
+            "source": {
+              "origin": "userConfirmedMetricAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-29",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricName": "Алерты по бизнес-метрикам",
+              "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+            }
+          },
+          "alerts.system_failures": {
+            "rawValue": 0.5,
+            "source": {
+              "origin": "userConfirmedMetricAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-29",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricName": "Алерты по системным-метрикам",
+              "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются."
+            }
+          }
+        }
+      }
+    ],
+    "discovery-metrics-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "hyp.discovery_40_backlog": {
+            "rawValue": 0,
+            "source": {
+              "origin": "userConfirmedDiscoveryAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "questionId": "discovery",
+              "rule": "«Нет аналитиков»/«Затрудняюсь ответить»/доля меньше 20% = 0. Доля 20–39% = 0.5 независимо от места бэклога. Доля от 40% и выбранный Jira/SberTrack = 1; от 40% и бэклог вне Jira/SberTrack = 0.5. Для 11 явно указанных команд без ответа разрешена декомпозиция III квартала: >=40% = 1; >=20% = 0.5; <20% = 0. Конфликтующие анкеты отложены; явный ответ не заменяется декомпозицией.",
+              "responses": [
+                {
+                  "file": "analysis/1/questionare-responses(7).csv",
+                  "csvRow": 5,
+                  "respondent": "Сауткин Андрей ",
+                  "answer": "Нет аналитиков",
+                  "backlogType": null,
+                  "backlogLink": null,
+                  "backlogComment": null,
+                  "rawValue": 0
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "selected-metrics-carry-forward-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "mehaniki.gibkoe_izmenenie_usloviy_produkta": {
+            "rawValue": 0.5,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "fromPeriod": "II кв. 2026",
+              "period": "III кв. 2026",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-10-29",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+              "sourceValue": 0.5,
+              "sourceMaxValue": 1
+            }
+          },
+          "hyp.extra_initiatives": {
+            "rawValue": 0.0,
+            "source": {
+              "origin": "priorQuarterCarryForward",
+              "fromPeriod": "II кв. 2026",
+              "period": "III кв. 2026",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-10-29",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricCode": "hyp.extra_initiatives",
+              "sourceValue": 0,
+              "sourceMaxValue": 1
+            }
+          }
+        }
+      }
+    ],
+    "mechanics-user-assessments-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "metrics": {
+          "mehaniki.doprodazhi_up_sell": {
+            "rawValue": 0.0,
+            "source": {
+              "origin": "userConfirmedMechanicsAssessment",
+              "confirmedBy": "user",
+              "date": "2026-10-30",
+              "period": "III кв. 2026",
+              "sourceName": "Зарплатный продукт",
+              "sourceMetricName": "Допродажи (up-sell)",
+              "sourceRows": [
+                23,
+                79
+              ],
+              "rule": "Оценка 0/0.5/1 умножается на существующий максимум. Новая оценка имеет приоритет над переносом из II квартала; применимость и веса сохраняются."
+            }
+          }
+        }
+      }
+    ],
+    "crosssell-after-purchase-q3-2026.json": [
+      {
+        "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+        "name": "Зарплатный продукт",
+        "unit": "DB",
+        "type": "Продукт",
+        "responses": [
+          {
+            "answer": "Да",
+            "respondent": "Сауткин Андрей",
+            "respondentId": "sautkin.a.yu@sberbank.ru",
+            "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+            "comment": "",
+            "sourceName": "Зарплатный продукт",
+            "sourceRecord": 136
+          },
+          {
+            "answer": "Да",
+            "respondent": "Королева Александра Дмитриевна",
+            "respondentId": "alexknz@bk.ru",
+            "confirmation": "СберМобайл",
+            "comment": "",
+            "sourceName": "Зарплатный продукт",
+            "sourceRecord": 2127
+          }
+        ]
+      }
+    ]
+  },
+  "lossHunter": {
+    "catalogueIndex": 57,
+    "uid": "зарплатный продукт",
+    "seen_in_n": 2,
+    "seen_out_n": 0,
+    "anl_reason": "Продукт заметен как узел кросс-сейла в чужих путях, но путь оформления на кадры не разобран, а условия раскрыты с трениями.",
+    "pairs": [
+      {
+        "target": "Потребительский кредит",
+        "status": "reco",
+        "nature": "cross-sell",
+        "conf": "high",
+        "why": "Зарплатный клиент — самый прозрачный по доходу заёмщик: банк видит поступления и предлагает кредит наличными по льготной ставке, часто предодобренный. Это ключевой драйвер монетизации зарплатного проекта.",
+        "who": [
+          {
+            "p": "Альфа-Банк",
+            "m": "Продукт 'Наличными владельцам зарплатных карт' — сниженная ставка держателям зарплатной карты.",
+            "fl": "Зарплатный продукт → Кредит наличными",
+            "psrc": "finuslugi.ru"
+          }
+        ],
+        "own": [
+          "Отдельная витрина 'Предложение для зарплатных клиентов — Кредиты' с льготной ставкой и быстрым решением по подтверждённому доходу."
+        ],
+        "src": [
+          "https://finuslugi.ru/potrebitelskie_kredity/alfa-bank_nalichnymi_vladelcam_zarplatnyh_kart"
+        ],
+        "confirm": "open_source"
+      },
+      {
+        "target": "Кредитные карты",
+        "status": "reco",
+        "nature": "cross-sell",
+        "conf": "high",
+        "why": "Зарплатным клиентам кредитную карту одобряют быстрее и на лучших условиях (без залога/поручителей) — банк допродаёт кредитный лимит поверх подтверждённого зарплатного потока.",
+        "who": [],
+        "own": [
+          "Зарплатным клиентам — кредитные карты и кредиты на выгодных условиях с минимальным сроком рассмотрения, без залога и поручителей."
+        ],
+        "src": [
+          "https://finuslugi.ru/potrebitelskie_kredity/alfa-bank_nalichnymi_vladelcam_zarplatnyh_kart"
+        ],
+        "confirm": "open_source"
+      },
+      {
+        "target": "Ипотека",
+        "status": "reco",
+        "nature": "cross-sell",
+        "conf": "medium",
+        "why": "Зарплатным клиентам банк даёт скидку к ставке по ипотеке — подтверждённый доход снижает риск, а долгий кредит намертво привязывает клиента к банку. Сильный якорь удержания.",
+        "who": [],
+        "own": [
+          "Скидка к ипотечной ставке для зарплатных клиентов, доход подтверждается автоматически по поступлениям."
+        ],
+        "src": [
+          "https://finuslugi.ru/potrebitelskie_kredity/alfa-bank_nalichnymi_vladelcam_zarplatnyh_kart"
+        ],
+        "confirm": "open_source"
+      }
+    ],
+    "judgements": [
+      {
+        "k": "reco",
+        "t": "Потребительский кредит",
+        "os": 1,
+        "market_sources": [
+          {
+            "from": "Зарплатный продукт",
+            "to": "Потребительский кредит",
+            "kind": "unverified",
+            "sources": [
+              {
+                "u": "https://lenta.ru/articles/2025/12/18/lgotnaya-ipoteka-programmy/",
+                "p": "Лента.ру"
+              }
+            ]
+          },
+          {
+            "from": "Зарплатный продукт",
+            "to": "Кредит наличными",
+            "kind": "unverified",
+            "sources": [
+              {
+                "u": "https://www.sravni.ru/kredity/info/kredit-dlya-zarplatnyx-klientov-vtb/",
+                "p": "Сравни.ру"
+              }
+            ]
+          },
+          {
+            "from": "Зарплатный проект",
+            "to": "Потребительский кредит",
+            "kind": "unverified",
+            "sources": [
+              {
+                "u": "https://brobank.ru/credit-sberbank/",
+                "p": "Brobank"
+              }
+            ]
+          },
+          {
+            "from": "Зарплатный проект",
+            "to": "Потребительский кредит",
+            "kind": "unverified",
+            "sources": [
+              {
+                "u": "https://finuslugi.ru/potrebitelskie_kredity/alfa-bank_nalichnymi_vladelcam_zarplatnyh_kart",
+                "p": "Финуслуги"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "k": "reco",
+        "t": "Кредитные карты",
+        "os": 1,
+        "market_sources": [
+          {
+            "from": "Зарплатный продукт",
+            "to": "Кредитная карта",
+            "kind": "unverified",
+            "sources": [
+              {
+                "u": "https://www.sravni.ru/banki/info/uvelichit-kreditnyj-limit-alfa-bank/",
+                "p": "Сравни.ру"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "k": "reco",
+        "t": "Ипотека",
+        "os": 1,
+        "gl": 1,
+        "market_sources": [
+          {
+            "from": "Зарплатный продукт",
+            "to": "Ипотека",
+            "kind": "exact",
+            "sources": [
+              {
+                "u": "https://www.vtb.ru/personal/ipoteka/novostrojki/",
+                "p": "ВТБ"
+              }
+            ]
+          },
+          {
+            "from": "Зарплатный продукт",
+            "to": "Ипотека",
+            "kind": "finding",
+            "sources": [
+              {
+                "u": "https://www.vtb.ru/personal/ipoteka/stavki-po-ipoteke/",
+                "p": "ВТБ"
+              }
+            ]
+          },
+          {
+            "from": "Зарплатный продукт",
+            "to": "Ипотека",
+            "kind": "finding",
+            "sources": [
+              {
+                "u": "https://alfabank.ru/get-money/mortgage/skolko-nuzhno-zarabatyvat-chtoby-poluchit-ipoteku/",
+                "p": "Альфа-Банк"
+              }
+            ]
+          },
+          {
+            "from": "Зарплатный продукт",
+            "to": "Ипотека",
+            "kind": "finding",
+            "sources": [
+              {
+                "u": "https://www.vtb.ru/personal/ipoteka/novostrojki/",
+                "p": "ВТБ"
+              }
+            ]
+          },
+          {
+            "from": "Зарплатный проект",
+            "to": "Ипотека",
+            "kind": "unverified",
+            "sources": [
+              {
+                "u": "https://brobank.ru/banki/sberbank/zarplatnyj-proekt/",
+                "p": "Brobank"
+              }
+            ]
+          }
+        ],
+        "mf": [
+          0
+        ]
+      }
+    ],
+    "incoming": []
+  },
+  "pending": [
+    {
+      "code": "mehaniki.cross_sell",
+      "component": "during",
+      "teams": [
+        "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2c",
+        "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::b2b"
+      ],
+      "reason": "LossHunter catalogue has only unsplit Зарплатный продукт. Aggregate incoming count is not independently attributable to B2B/B2C.",
+      "apiReference": {
+        "file": "crosssell_export.json",
+        "pointer": "/products_response/products/57",
+        "uid": "зарплатный продукт",
+        "seen_in_n": 2,
+        "seen_out_n": 0
+      },
+      "recommendation": "Leave during score unresolved for both until source attribution is confirmed; descriptions about salary-card consumers suggest B2C but are not explicit cohort metadata."
+    }
+  ]
+}
