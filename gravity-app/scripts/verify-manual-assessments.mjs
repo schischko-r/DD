@@ -1,6 +1,7 @@
 import {applyMetricApplicabilityAssessments} from '../src/domain/metricApplicability.js';
 import fs from 'node:fs';
 import path from 'node:path';
+import {isDeepStrictEqual} from 'node:util';
 import {fileURLToPath} from 'node:url';
 import {buildTeamProfileProducts} from '../src/domain/teamProfileSelection.js';
 import {excludeRemovedTeams, isDdIndexMetric} from '../src/domain/report.js';
@@ -31,7 +32,8 @@ const required = ['ub-workbook-corrections-q3-2026.json', 'crossborder-acquiring
   'funnel-user-assessments-q3-2026.json', 'funnel-link-quality-assessment-q3-2026.json', 'goals-metric-corrections-q3-2026.json', 'metric-applicability-q3-2026.json', 'mechanics-user-assessments-q3-2026.json',
   'alerts-carry-forward-q3-2026.json', 'discovery-metrics-q3-2026.json', 'regularity-user-assessments-q3-2026.json',
   'navigator-market-knowledge-q3-2026.json', 'goals-user-carry-forward-q3-2026.json',
-  'funnel-additional-user-assessments-q3-2026.json', 'knowledge-user-assessments-q3-2026.json', 'chat-entry-actions-q3-2026.json', 'ab-tests-user-assessments-q3-2026.json', 'cx-user-corrections-q3-2026.json'];
+  'funnel-additional-user-assessments-q3-2026.json', 'knowledge-user-assessments-q3-2026.json', 'chat-entry-actions-q3-2026.json', 'ab-tests-user-assessments-q3-2026.json', 'cx-user-corrections-q3-2026.json',
+  'crosssell-final-scores-q3-2026.json'];
 for (const name of required) {
   if (!overlays.some((overlay) => overlay.name === name)) throw new Error(`Manual assessment is disconnected: ${name}`);
 }
@@ -122,7 +124,7 @@ const hiddenReportingFacts = new Set(overlays.filter(({data}) => data.scope === 
     .filter(([, fact]) => fact.applicable === false && fact.hiddenFromProfile === true)
     .map(([code]) => factKey(team, code)))));
 let checked = 0;
-for (const {name, data} of overlays.filter((item) => item.data.scope && !['reporting-format-assessment', 'ub-workbook-corrections', 'cbp-user-corrections', 'cx-user-corrections'].includes(item.data.scope))) {
+for (const {name, data} of overlays.filter((item) => item.data.scope && !['reporting-format-assessment', 'ub-workbook-corrections', 'cbp-user-corrections', 'cx-user-corrections', 'frozen-q3-crosssell-scores'].includes(item.data.scope))) {
   if (data.scope === 'goals-final-scores') {
     if (data.products?.length !== finalGoalProducts.length) errors.push(`${name}: final goals roster is incomplete`);
     for (const row of data.products || []) {
@@ -304,6 +306,37 @@ if (!/salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026,\s
 const actionMissing = JSON.parse(fs.readFileSync(path.join(root, 'src/data/funnel-action-missing-q3-2026.json'), 'utf8'));
 const beforeReportingFill = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing);
 const finalProducts = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing, actionMissing);
+const frozenCrossSell = overlays.find(({data}) => data.scope === 'frozen-q3-crosssell-scores')?.data;
+if (!frozenCrossSell || frozenCrossSell.products?.length !== finalProducts.length) {
+  throw new Error('Frozen Q3 Cross-sell snapshot roster is incomplete');
+}
+const frozenCrossSellMetric = (product) => product.metrics.flatMap((block) => block.metrics || [])
+  .find((metric) => metric.code === 'mehaniki.cross_sell');
+const validateFrozenCrossSellRecord = (product, record, label) => {
+  const metric = frozenCrossSellMetric(product);
+  if (Boolean(metric) !== record.present) errors.push(`${label}: frozen Cross-sell presence changed`);
+  if (!record.present) return;
+  for (const key of ['value', 'max_value', 'is_applicabble_flg', 'excluded_from_index', 'dd_calculation_flg', 'source', 'crossSellComponents', 'recommendation_items']) {
+    if (!isDeepStrictEqual(metric?.[key], record.metric?.[key])) errors.push(`${label}: frozen Cross-sell ${key} changed`);
+  }
+};
+const frozenPresentCount = frozenCrossSell.products.filter((record) => record.present).length;
+if (frozenPresentCount !== 59 || frozenCrossSell.products.length - frozenPresentCount !== 17) {
+  errors.push(`Frozen Q3 Cross-sell expected 59 scored and 17 absent teams, got ${frozenPresentCount} scored and ${frozenCrossSell.products.length - frozenPresentCount} absent`);
+}
+for (const record of frozenCrossSell.products) {
+  const product = finalProducts.find((item) => item.name === record.name && item.unit === record.unit && item.type === record.type);
+  if (!product) {errors.push(`Frozen Q3 Cross-sell missing team ${record.unit} / ${record.name}`); continue;}
+  validateFrozenCrossSellRecord(product, record, `${record.unit} / ${record.name}`);
+  if (record.salaryCohorts) {
+    for (const [key, cohortRecord] of Object.entries(record.salaryCohorts)) {
+      const cohort = product.salaryCohorts?.[key];
+      if (!cohort) {errors.push(`Frozen Q3 Cross-sell missing salary cohort ${key}`); continue;}
+      validateFrozenCrossSellRecord(cohort, cohortRecord ? {present: true, metric: cohortRecord} : {present: false}, `${record.unit} / ${record.name} / ${key}`);
+    }
+  }
+}
+if (errors.length) throw new Error(`Frozen Q3 Cross-sell scores would change; build stopped:\n${errors.filter((error) => error.includes('frozen Cross-sell') || error.includes('Frozen Q3 Cross-sell')).join('\n')}`);
 const keyWorkbook = overlays.find(({data}) => data.scope === 'key-metrics-assessment'
   && data.period === 'III кв. 2026' && data.source?.file === 'Ключевые метрики Продукта Баллы.xlsx')?.data;
 const sameWorkbookTeam = (a, b) => String(a.id).replace(/::empty::.*/, '') === String(b.id).replace(/::empty::.*/, '')

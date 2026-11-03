@@ -15,6 +15,7 @@ import {applyUbWorkbookCorrections} from './ubWorkbookCorrections.js';
 import {applyDiscoveryBacklog} from './discoveryBacklog.js';
 import {applyCampaignSelfService} from './campaignSelfService.js';
 import {applyCbpUserCorrections} from './cbpUserCorrections.js';
+import {applyFrozenCrossSellScores} from './frozenCrossSellScores.js';
 
 export const Q3_DB_TEAMS = [
   'Зарплатный продукт', 'Пенсионный продукт', 'SberPay NFC',
@@ -87,5 +88,7 @@ export function buildDdiPeriodProducts(products, period, overlays, salaryConfig,
   const crossSellDuring = assessments.find((item) => item?.scope === 'crosssell-during-purchase-assessment');
   const applicable = applyMetricApplicabilityAssessments(applyKeyMetricsWorkbookPriority(applyCrossSellDuringPurchaseScores(finalScores, period, crossSellDuring), period, overlays, products),
     period, assessments.filter(Boolean), true);
-  return applyDiscoveryBacklog(applyCbpUserCorrections(applyCampaignSelfService(applyUbWorkbookCorrections(applicable, period, assessments), period), period, assessments), period, backlog);
+  const finalProducts = applyDiscoveryBacklog(applyCbpUserCorrections(applyCampaignSelfService(applyUbWorkbookCorrections(applicable, period, assessments), period), period, assessments), period, backlog);
+  const frozenCrossSell = assessments.find((assessment) => assessment?.scope === 'frozen-q3-crosssell-scores');
+  return applyFrozenCrossSellScores(finalProducts, period, frozenCrossSell);
 }

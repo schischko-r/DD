@@ -59,6 +59,37 @@ node scripts/verify-manual-assessments.mjs
 
 ## Быстрый Запуск
 
+### Обновить копию на другом компьютере
+
+Все расчётные исходники III квартала, включая анкеты и ручные корректировки,
+замороженные оценки Cross-sell, Product Lens-кэш и Excel для декомпозиции тикетов
+(`sbertrack_all_full_history_to_export.xlsx`, `tickets_final.xlsx` и `output (1).xlsx`),
+хранятся в Git. `.env` и учётные данные в репозиторий не входят.
+
+В существующей копии репозитория:
+
+```bash
+git switch dev
+git pull --ff-only origin dev
+python3.11 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+(cd gravity-app && npm ci)
+```
+
+Чтобы пересчитать данные из сохранённых Excel и собрать отчёт локально, не обновляя
+Product Lens из сети и не загружая результат в Qlik:
+
+```bash
+./build_gravity_report.sh --no-update-crosssell --data-only
+./build_gravity_report.sh --html-only
+```
+
+Первая команда обновляет данные отчёта и декомпозицию тикетов из Excel. Вторая
+пересобирает HTML из этих данных и включённых в репозиторий страниц. Для полной
+сборки с обновлением источников настрой локальный `.env` и запускай
+`./build_gravity_report.sh`; этот режим может обновить данные и загрузить HTML в Qlik.
+
 Полная локальная сборка Gravity UI из `flat_table.xlsx` и `prolong.xlsx`, включая
 JSON, свежие HTML-отчёты с настроенного API, Vite bundle и standalone HTML:
 

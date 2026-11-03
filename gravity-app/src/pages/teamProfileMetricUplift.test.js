@@ -446,7 +446,7 @@ test('actual metric changes show directional arrows and positive or negative DDI
   assert.match(styles, /box-shadow:\s*none;/);
   assert.match(profileSource, /delta > 0 \? 'up' : delta < 0 \? 'down' : 'flat'/);
   assert.match(profileSource, /index-quarter-delta-\$\{direction === 'up' \? 'positive' : 'negative'\}/);
-  assert.match(profileSource, /direction === 'up' && <span className="metric-actual-growth-sparkles"/);
+  assert.doesNotMatch(profileSource, /metric-actual-growth-sparkles|SparklesFill/);
   assert.match(profileSource, /className="index-quarter-delta-direction"/);
   assert.match(stylesSource, /\.metric-index-uplift \.g-label__content\s*\{[^}]*display:\s*inline-flex/s);
   assert.match(stylesSource, /\.index-quarter-delta-positive \.index-quarter-delta-direction\s*\{ border-bottom: 6px solid currentColor;/);

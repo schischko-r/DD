@@ -1,0 +1,5156 @@
+{
+  "period": "III кв. 2026",
+  "scope": "frozen-q3-crosssell-scores",
+  "source": {
+    "origin": "frozenQ3CrossSellScores",
+    "description": "Frozen from effective Q3 profile scores after all existing manual corrections and component rules.",
+    "generatedFrom": "gravity-app/public/report-data.json + current III quarter assessments at capture time."
+  },
+  "products": [
+    {
+      "id": "339dfb56-42eb-5f1a-9440-3fd38e3ed81a¦БПИФ::empty::III кв. 2026",
+      "name": "БПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 1,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "БПИФ",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "БПИФ",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет::empty::III кв. 2026",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "userConfirmedUbWorkbookCrossSellSum",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+          "previousAssessmentSource": {
+            "origin": "crossSellComponentSum",
+            "period": "III кв. 2026",
+            "rawValue": 1,
+            "duringSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 2,
+                "incomingCount": 3,
+                "matched": true
+              }
+            },
+            "afterSource": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Брокерский счет",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 2,
+                "incomingCount": 3,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedUbWorkbookCorrections",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+              "sheet": "Метрики",
+              "column": "F",
+              "columnLabel": "Корректировка",
+              "cell": "F269",
+              "sourceUnit": "УБ",
+              "sourceTeam": "Брокерский счет",
+              "sourceBlock": "Механики",
+              "sourceMetric": "Cross-sell после оформления",
+              "rawCorrection": 0
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "7fdb5658-795c-54e1-bc4a-0de761a9f33f¦Вклады+НС::empty::III кв. 2026",
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 7,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Вклады+НС"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 7,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Вклады+НС"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "e1b3b7f3-f7d1-5ce2-9089-0c1cc1e3a7f1¦ДСЖ КК::empty::III кв. 2026",
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": null
+          },
+          "afterSource": {
+            "origin": "userConfirmedCrossSellMissingAsZero",
+            "confirmedBy": "user",
+            "period": "III кв. 2026"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": null
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedCrossSellMissingAsZero",
+              "confirmedBy": "user",
+              "period": "III кв. 2026"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "4ef58f86-536f-5fdc-a364-671f3dc471d2¦Дебетовая карта::empty::III кв. 2026",
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 3,
+              "incomingCount": 3,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Дебетовая карта",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 3,
+                "incomingCount": 3,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Дебетовая карта",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта::empty::III кв. 2026",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 2,
+              "incomingCount": 3,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Детская карта",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 2,
+                "incomingCount": 3,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Детская карта",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "38f23c29-a890-550c-9189-14fbf103a873¦ЗПИФ::empty::III кв. 2026",
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "ЗПИФ",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "ЗПИФ",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт::empty::III кв. 2026",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 1,
+              "incomingCount": 2,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "salaryCohortAverage",
+            "period": "III кв. 2026",
+            "cohorts": {
+              "b2b": {
+                "origin": "salarySplitSharedManualAssessment",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+                "answer": "Да",
+                "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+                "respondent": "Сауткин Андрей",
+                "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+                "confirmedAt": "2026-11-02",
+                "previousPostPurchaseValue": 0.5
+              },
+              "b2c": {
+                "origin": "salarySplitSharedManualAssessment",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+                "answer": "Да",
+                "confirmation": "СберМобайл",
+                "respondent": "Королева Александра Дмитриевна",
+                "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+                "confirmedAt": "2026-11-02",
+                "previousPostPurchaseValue": 0.5
+              }
+            }
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 2,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "salaryCohortAverage",
+              "period": "III кв. 2026",
+              "cohorts": {
+                "b2b": {
+                  "origin": "salarySplitSharedManualAssessment",
+                  "confirmedBy": "user",
+                  "period": "III кв. 2026",
+                  "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+                  "answer": "Да",
+                  "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+                  "respondent": "Сауткин Андрей",
+                  "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+                  "confirmedAt": "2026-11-02",
+                  "previousPostPurchaseValue": 0.5
+                },
+                "b2c": {
+                  "origin": "salarySplitSharedManualAssessment",
+                  "confirmedBy": "user",
+                  "period": "III кв. 2026",
+                  "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+                  "answer": "Да",
+                  "confirmation": "СберМобайл",
+                  "respondent": "Королева Александра Дмитриевна",
+                  "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+                  "confirmedAt": "2026-11-02",
+                  "previousPostPurchaseValue": 0.5
+                }
+              }
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      },
+      "salaryCohorts": {
+        "b2b": {
+          "value": 1,
+          "max_value": 1,
+          "is_applicabble_flg": true,
+          "excluded_from_index": false,
+          "dd_calculation_flg": 1,
+          "source": {
+            "origin": "crossSellComponentSum",
+            "period": "III кв. 2026",
+            "rawValue": 1,
+            "duringSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 2,
+                "matched": true
+              }
+            },
+            "afterSource": {
+              "origin": "salarySplitSharedManualAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+              "answer": "Да",
+              "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+              "respondent": "Сауткин Андрей",
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+              "confirmedAt": "2026-11-02",
+              "previousPostPurchaseValue": 0.5
+            }
+          },
+          "crossSellComponents": {
+            "during": {
+              "value": 0.5,
+              "rawValue": 1,
+              "source": {
+                "origin": "userConfirmedCrossSellDuringPurchase",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+                "lossHunterSnapshot": {
+                  "rawValue": 0.5,
+                  "qualifyingCount": 1,
+                  "incomingCount": 2,
+                  "matched": true
+                }
+              }
+            },
+            "after": {
+              "value": 0.5,
+              "rawValue": 1,
+              "applicable": true,
+              "source": {
+                "origin": "salarySplitSharedManualAssessment",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+                "answer": "Да",
+                "confirmation": "Продукты экосистемы ЮЛ и продукты ФЛ",
+                "respondent": "Сауткин Андрей",
+                "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+                "confirmedAt": "2026-11-02",
+                "previousPostPurchaseValue": 0.5
+              }
+            }
+          },
+          "recommendation_items": [
+            {
+              "recommendation": "Проработать механики кросс-продаж",
+              "group": 5,
+              "recommendation_difficulty": 5,
+              "value": 1,
+              "max_value": 1,
+              "gap": 0
+            }
+          ],
+          "code": "mehaniki.cross_sell"
+        },
+        "b2c": {
+          "value": 1,
+          "max_value": 1,
+          "is_applicabble_flg": true,
+          "excluded_from_index": false,
+          "dd_calculation_flg": 1,
+          "source": {
+            "origin": "crossSellComponentSum",
+            "period": "III кв. 2026",
+            "rawValue": 1,
+            "duringSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 2,
+                "matched": true
+              }
+            },
+            "afterSource": {
+              "origin": "salarySplitSharedManualAssessment",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+              "answer": "Да",
+              "confirmation": "СберМобайл",
+              "respondent": "Королева Александра Дмитриевна",
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+              "confirmedAt": "2026-11-02",
+              "previousPostPurchaseValue": 0.5
+            }
+          },
+          "crossSellComponents": {
+            "during": {
+              "value": 0.5,
+              "rawValue": 1,
+              "source": {
+                "origin": "userConfirmedCrossSellDuringPurchase",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+                "lossHunterSnapshot": {
+                  "rawValue": 0.5,
+                  "qualifyingCount": 1,
+                  "incomingCount": 2,
+                  "matched": true
+                }
+              }
+            },
+            "after": {
+              "value": 0.5,
+              "rawValue": 1,
+              "applicable": true,
+              "source": {
+                "origin": "salarySplitSharedManualAssessment",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "inheritedFrom": "crosssell-after-purchase-scores-q3-2026.json",
+                "answer": "Да",
+                "confirmation": "СберМобайл",
+                "respondent": "Королева Александра Дмитриевна",
+                "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежняя общая оценка 50% заменена на 100% для обеих когорт. Вес компонента в сумме Cross-sell остаётся 50%.",
+                "confirmedAt": "2026-11-02",
+                "previousPostPurchaseValue": 0.5
+              }
+            }
+          },
+          "recommendation_items": [
+            {
+              "recommendation": "Проработать механики кросс-продаж",
+              "group": 5,
+              "recommendation_difficulty": 5,
+              "value": 1,
+              "max_value": 1,
+              "gap": 0
+            }
+          ],
+          "code": "mehaniki.cross_sell"
+        }
+      }
+    },
+    {
+      "id": "a9785203-d57f-51c9-b1eb-16fbcc318e70¦ИСЖ::empty::III кв. 2026",
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "ИСЖ"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "ИСЖ"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "181a8be0-a6c1-5590-819c-b49ae1c80081¦ИнвестКопилка::empty::III кв. 2026",
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "userConfirmedUbWorkbookCrossSellSum",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+          "previousAssessmentSource": {
+            "origin": "crossSellComponentSum",
+            "period": "III кв. 2026",
+            "rawValue": 0.5,
+            "duringSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": null
+            },
+            "afterSource": {
+              "origin": "userConfirmedCrossSellMissingAsZero",
+              "confirmedBy": "user",
+              "period": "III кв. 2026"
+            }
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedUbWorkbookCorrections",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+              "sheet": "Метрики",
+              "column": "F",
+              "columnLabel": "Корректировка",
+              "cell": "F582",
+              "sourceUnit": "УБ",
+              "sourceTeam": "ИнвестКопилка",
+              "sourceBlock": "Механики",
+              "sourceMetric": "Cross-sell во время продажи",
+              "rawCorrection": 1
+            },
+            "applicable": true
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedUbWorkbookCorrections",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+              "sheet": "Метрики",
+              "column": "F",
+              "columnLabel": "Корректировка",
+              "cell": "F583",
+              "sourceUnit": "УБ",
+              "sourceTeam": "ИнвестКопилка",
+              "sourceBlock": "Механики",
+              "sourceMetric": "Cross-sell после оформления",
+              "rawCorrection": 0
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг::empty::III кв. 2026",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Интернет-Эквайринг"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Интернет-Эквайринг"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "501ebceb-0d83-5f78-92bd-5e3507d11097¦Конверсия::empty::III кв. 2026",
+      "name": "Конверсия",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Конверсия"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Конверсия"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)::empty::III кв. 2026",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Много денег (НКПЗН)",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Много денег (НКПЗН)",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "ac8caf4d-ee9f-5df6-9eea-957009a39b68¦Монеты::empty::III кв. 2026",
+      "name": "Монеты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "userConfirmedCbpCrossSellSum20261102",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "duringSource": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 18,
+            "sourceName": "Монеты",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Cross-sell во время продажи",
+            "userAssessment": "100,0%",
+            "metricCode": "mehaniki.cross_sell.during",
+            "rawValue": 1,
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Монеты",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          },
+          "previousAssessmentSource": {
+            "origin": "crossSellComponentSum",
+            "period": "III кв. 2026",
+            "rawValue": 1,
+            "duringSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            },
+            "afterSource": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Монеты",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCbpCorrections20261102",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "input": "user-provided-table",
+              "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+              "inputRow": 18,
+              "sourceName": "Монеты",
+              "sourceUnit": "CBP",
+              "userBlock": "Механики",
+              "userMetric": "Cross-sell во время продажи",
+              "userAssessment": "100,0%",
+              "metricCode": "mehaniki.cross_sell.during",
+              "rawValue": 1,
+              "previousAssessmentValue": 0.5,
+              "previousAssessmentSource": {
+                "origin": "userConfirmedCrossSellDuringPurchase",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+                "lossHunterSnapshot": {
+                  "rawValue": 0,
+                  "qualifyingCount": 0,
+                  "incomingCount": 1,
+                  "matched": true
+                }
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Монеты",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "465539ee-d9a6-58d7-9027-80b06384db93¦НСЖ::empty::III кв. 2026",
+      "name": "НСЖ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "userConfirmedUbWorkbookCrossSellSum",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+          "previousAssessmentSource": {
+            "origin": "crossSellComponentSum",
+            "period": "III кв. 2026",
+            "rawValue": 0.5,
+            "duringSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            },
+            "afterSource": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "НСЖ"
+            }
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedUbWorkbookCorrections",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+              "sheet": "Метрики",
+              "column": "F",
+              "columnLabel": "Корректировка",
+              "cell": "F762",
+              "sourceUnit": "УБ",
+              "sourceTeam": "НСЖ",
+              "sourceBlock": "Механики",
+              "sourceMetric": "Cross-sell во время продажи",
+              "rawCorrection": 1
+            },
+            "applicable": true
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "НСЖ"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "483b5e1a-6790-5f2e-944d-19e55b6a04ac¦ОПИФ::empty::III кв. 2026",
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "ОПИФ",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "ОПИФ",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "a482e4ff-52f6-5868-812c-5a7f34a7eb0b¦Объект Авто::empty::III кв. 2026",
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Объект Авто"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Объект Авто"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "509442c8-9195-560e-8ae8-62357bfcfc5b¦ПДС::empty::III кв. 2026",
+      "name": "ПДС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 1,
+              "incomingCount": 2,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "ПДС",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 2,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "ПДС",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "d16442dc-cde3-5400-b123-69dc5df2dce1¦Пакет услуг СберПервый::empty::III кв. 2026",
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 1,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Пакет услуг СберПервый",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Пакет услуг СберПервый",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер::empty::III кв. 2026",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 1,
+              "incomingCount": 5,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Пакет услуг СберПремьер",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 5,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Пакет услуг СберПремьер",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "4ecce79e-254e-51cf-b125-e5e5221cc0ed¦Пенсионный продукт::empty::III кв. 2026",
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 1,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Пенсионный продукт",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Пенсионный продукт",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ::empty::III кв. 2026",
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Переводы по РФ",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Переводы по РФ",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи::empty::III кв. 2026",
+      "name": "Платежи",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 2,
+              "incomingCount": 2,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Платежи",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 2,
+                "incomingCount": 2,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Платежи",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые::empty::III кв. 2026",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Сберчаевые #B2C",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Сберчаевые #B2C",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС::empty::III кв. 2026",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Сделка ИЖС",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Сделка ИЖС",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "59417ede-ab71-55f8-a4b0-d3928f8a6647¦Сделка вторичка::empty::III кв. 2026",
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Сделка вторичка",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Сделка вторичка",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём::empty::III кв. 2026",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 1,
+              "incomingCount": 4,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Сделка с Первичным жильём",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 4,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Сделка с Первичным жильём",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы::empty::III кв. 2026",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Сейфы"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Сейфы"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "5eab8ed3-2334-5e08-9c7f-6c241d78e7a0¦Страхование залога::empty::III кв. 2026",
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 10,
+              "incomingCount": 4,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Страхование залога",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 10,
+                "incomingCount": 4,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Страхование залога",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "719150cf-b54c-5fc1-93f1-42b185e30be4¦Торговый Эквайринг::empty::III кв. 2026",
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Торговый Эквайринг",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Торговый Эквайринг",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы::empty::III кв. 2026",
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Трансграничные переводы #B2C"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Трансграничные переводы #B2C"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг::empty::III кв. 2026",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0,
+            "source": {
+              "file": "crosssell_export.json",
+              "system": "LossHunter",
+              "criterion": "own observed cross-sell OR seen_in_n > 1",
+              "criterionVersion": "own-observed-or-incoming-v3",
+              "criterionDescription": "Собственное видео-наблюдение цели в judgements.seen засчитывается самостоятельно, даже без пары cross-sell/seen. Строгие пары cross-sell/seen также требуют собственного видео-свидетельства. Если все пары той же цели явно имеют nature=activation, самостоятельное judgement не засчитывается. Цели между ветками дедуплицируются. Дополнительно по указанию пользователя засчитывается seen_in_n > 1 в той же сопоставленной строке продукта, без требования собственного исходящего видео.",
+              "ownDefinition": "Та же собственная строка продукта содержит judgements.seen для того же нормализованного target; связанный ev имеет g=vid/cjx, непустые i/fk и идентификатор aid или run. who конкурентов, рыночные ссылки и confirm без собственного видео-свидетельства не считаются подтверждением.",
+              "qualifyingCount": 0,
+              "incomingCount": null,
+              "incomingQualifies": false,
+              "incomingEvidence": null,
+              "matched": false,
+              "catalogName": null,
+              "catalogKey": null,
+              "catalogUid": null,
+              "pointer": null,
+              "evidence": [],
+              "evidenceExcluded": [],
+              "link": null,
+              "zeroMeaning": "Нет валидного собственного видео-свидетельства и не выполнено seen_in_n > 1; это не утверждение об отсутствии кроссов вообще.",
+              "matchWarning": "Продукт не сопоставлен с каталогом LossHunter; отсутствие evidence не подтверждает отсутствие связок.",
+              "rawValue": 0
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Трансграничный эквайринг #B2C"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0,
+            "max_value": 1,
+            "gap": 1
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "febe33a0-05c9-50d9-989c-9c1067e3ab21¦ЦФА::empty::III кв. 2026",
+      "name": "ЦФА",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": null,
+        "max_value": 0,
+        "is_applicabble_flg": false,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": null,
+            "max_value": 0,
+            "gap": null
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "3efab4a2-1a23-5f08-9b67-a56b5056d320¦SberPay Ecom::empty::III кв. 2026",
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "SberPay Ecom"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "SberPay Ecom"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "a7c319ef-d22f-58f7-96ca-8877155e4d37¦SberPay Вжух::empty::III кв. 2026",
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Вжух"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Вжух"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "4e10cf58-0146-5b04-b7c4-c5fa1651edef¦Автокредит::empty::III кв. 2026",
+      "name": "Автокредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 1,
+              "incomingCount": 2,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Автокредит",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 2,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Автокредит",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР::empty::III кв. 2026",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 7,
+              "incomingCount": 3,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "ВЗР",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 7,
+                "incomingCount": 3,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "ВЗР",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "ad4bf2f6-8fc5-5c61-8ea1-11c2a002d46f¦Выписки, справки::empty::III кв. 2026",
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Выписки, справки"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": null,
+            "rawValue": null,
+            "applicable": false,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Выписки, справки"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК::empty::III кв. 2026",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": null
+          },
+          "afterSource": {
+            "origin": "userConfirmedCrossSellMissingAsZero",
+            "confirmedBy": "user",
+            "period": "III кв. 2026"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": null
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedCrossSellMissingAsZero",
+              "confirmedBy": "user",
+              "period": "III кв. 2026"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "bb7deb0e-9cae-571b-8c6a-8ba70df1eac0¦ЗЛС::empty::III кв. 2026",
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 8,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "ЗЛС",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 8,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "ЗЛС",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "8d8237a3-4012-5931-a9b4-de6dd6fb934a¦Залоговое страхование (корпоративное страхование)::empty::III кв. 2026",
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Залоговое страхование (корпоративное страхование)",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Залоговое страхование (корпоративное страхование)",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты::empty::III кв. 2026",
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 1,
+              "incomingCount": 2,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Кредитные карты",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 1,
+                "incomingCount": 2,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Кредитные карты",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС::empty::III кв. 2026",
+      "name": "ОМС",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "ОМС"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "ОМС"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "5bf90a68-dd2e-5c7f-bd23-d0c725521c61¦СберСова::empty::III кв. 2026",
+      "name": "СберСова",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 6,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "СберСова",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 6,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "СберСова",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "e3eb17b1-d33d-512e-8858-78626a7bc85a¦Слитки::empty::III кв. 2026",
+      "name": "Слитки",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 1,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Слитки",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Слитки",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "72c0ced8-4d7d-50e4-845d-8f5d29331ba7¦Страхование жизни::empty::III кв. 2026",
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 4,
+              "incomingCount": 3,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "Страхование жизни",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 4,
+                "incomingCount": 3,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "Страхование жизни",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "73700110-c3a4-579b-99dd-5e060dace400¦Кредитный потенциал::empty::III кв. 2026",
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 3,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Кредитный потенциал"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 3,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Кредитный потенциал"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "dc05bd52-1a59-57a4-b5ea-3fad5586eac9¦Образовательный кредит::empty::III кв. 2026",
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Образовательный кредит"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Образовательный кредит"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО::empty::III кв. 2026",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 5,
+              "incomingCount": 3,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-11-02",
+            "inputName": "КАСКО",
+            "previousPostPurchaseValue": 0.5,
+            "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 5,
+                "incomingCount": 3,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-11-02",
+              "inputName": "КАСКО",
+              "previousPostPurchaseValue": 0.5,
+              "rule": "Последнее указание пользователя: Cross-sell после оформления оценивается только 0 или 100%; прежние 50% заменены на 100%. Вес компонента в сумме Cross-sell остаётся 50%."
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО::empty::III кв. 2026",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 5,
+              "incomingCount": 8,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "ОСАГО"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 5,
+                "incomingCount": 8,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "ОСАГО"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм::empty::III кв. 2026",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": null
+          },
+          "afterSource": {
+            "origin": "userConfirmedCrossSellMissingAsZero",
+            "confirmedBy": "user",
+            "period": "III кв. 2026"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": null
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedCrossSellMissingAsZero",
+              "confirmedBy": "user",
+              "period": "III кв. 2026"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты::empty::III кв. 2026",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 1,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "POS-кредиты",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "POS-кредиты",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс::empty::III кв. 2026",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Личная защита Плюс",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Личная защита Плюс",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "12e8afe0-485e-5aa1-9827-45fad098a603¦SberPay NFC::empty::III кв. 2026",
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": 0,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "SberPay NFC",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 0,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "SberPay NFC",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой::empty::III кв. 2026",
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0.5,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": null
+          },
+          "afterSource": {
+            "origin": "userConfirmedCrossSellMissingAsZero",
+            "confirmedBy": "user",
+            "period": "III кв. 2026"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": null
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedCrossSellMissingAsZero",
+              "confirmedBy": "user",
+              "period": "III кв. 2026"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "3db3e72b-6602-5c2d-8b17-d7d7d6c26acd¦Потребительский кредит::empty::III кв. 2026",
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 5,
+              "incomingCount": 1,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Потребительский кредит",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 5,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Потребительский кредит",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо::empty::III кв. 2026",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 1,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 1,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0.5,
+              "qualifyingCount": 5,
+              "incomingCount": 7,
+              "matched": true
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "СберСпасибо",
+            "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+            "baselinePeriod": "II кв. 2026",
+            "baselineValue": 1,
+            "baselineMaxValue": 1
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0.5,
+                "qualifyingCount": 5,
+                "incomingCount": 7,
+                "matched": true
+              }
+            }
+          },
+          "after": {
+            "value": 0.5,
+            "rawValue": 1,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "СберСпасибо",
+              "basis": "User confirmed restoring after-purchase Cross-sell at 100% for the 18 teams with full Q2 Cross-sell and missing Q3 after-purchase assessment.",
+              "baselinePeriod": "II кв. 2026",
+              "baselineValue": 1,
+              "baselineMaxValue": 1
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 1,
+            "max_value": 1,
+            "gap": 0
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "46ef0414-acac-5f20-99a8-31069cc42ccb¦BNPL::empty::III кв. 2026",
+      "name": "BNPL",
+      "unit": "CBP",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0.5,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "userConfirmedCbpCrossSellSum20261102",
+          "confirmedBy": "user",
+          "period": "III кв. 2026",
+          "duringSource": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-02",
+            "period": "III кв. 2026",
+            "input": "user-provided-table",
+            "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+            "inputRow": 43,
+            "sourceName": "BNPL",
+            "sourceUnit": "CBP",
+            "userBlock": "Механики",
+            "userMetric": "Cross-sell во время продажи",
+            "userAssessment": "100,0%",
+            "metricCode": "mehaniki.cross_sell.during",
+            "rawValue": 1,
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "BNPL"
+          },
+          "previousAssessmentSource": {
+            "origin": "crossSellComponentSum",
+            "period": "III кв. 2026",
+            "rawValue": 0.5,
+            "duringSource": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": 1,
+                "matched": true
+              }
+            },
+            "afterSource": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "BNPL"
+            }
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0.5,
+            "rawValue": 1,
+            "source": {
+              "origin": "userConfirmedCbpCorrections20261102",
+              "confirmedBy": "user",
+              "date": "2026-11-02",
+              "period": "III кв. 2026",
+              "input": "user-provided-table",
+              "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+              "inputRow": 43,
+              "sourceName": "BNPL",
+              "sourceUnit": "CBP",
+              "userBlock": "Механики",
+              "userMetric": "Cross-sell во время продажи",
+              "userAssessment": "100,0%",
+              "metricCode": "mehaniki.cross_sell.during",
+              "rawValue": 1,
+              "previousAssessmentValue": 0.5,
+              "previousAssessmentSource": {
+                "origin": "userConfirmedCrossSellDuringPurchase",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+                "lossHunterSnapshot": {
+                  "rawValue": 0,
+                  "qualifyingCount": 0,
+                  "incomingCount": 1,
+                  "matched": true
+                }
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "BNPL"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0.5,
+            "max_value": 1,
+            "gap": 0.5
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети::empty::III кв. 2026",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость::empty::III кв. 2026",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "83d2bd82-e67b-5432-9c81-604090f9d311¦Колл-центр::empty::III кв. 2026",
+      "name": "Колл-центр",
+      "unit": "PC",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС::empty::III кв. 2026",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь::empty::III кв. 2026",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "194a82fd-fe84-5d51-ad16-91b4e67eae64¦СберKids::empty::III кв. 2026",
+      "name": "СберKids",
+      "unit": "DP",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "d63b6b2a-2c61-538e-b59f-7e18650adfc1¦Телемаркетинг::empty::III кв. 2026",
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат::empty::III кв. 2026",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ::empty::III кв. 2026",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "88128c62-fad4-53de-b101-1851df4d4d14¦СберИнвестор::empty::III кв. 2026",
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления::empty::III кв. 2026",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст::empty::III кв. 2026",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB::empty::III кв. 2026",
+      "name": "PB",
+      "unit": "CX",
+      "type": "Сегмент",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent::empty::III кв. 2026",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID::empty::III кв. 2026",
+      "name": "SberID",
+      "unit": "Data",
+      "type": "Продукт",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)::empty::III кв. 2026",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    },
+    {
+      "id": "2aed0e7e-8d0a-5554-8d8e-7716e998cdea¦Почта, Диск, Календарь::empty::III кв. 2026",
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "type": "Продукт",
+      "present": true,
+      "metric": {
+        "value": 0,
+        "max_value": 1,
+        "is_applicabble_flg": true,
+        "excluded_from_index": false,
+        "dd_calculation_flg": 1,
+        "source": {
+          "origin": "crossSellComponentSum",
+          "period": "III кв. 2026",
+          "rawValue": 0,
+          "duringSource": {
+            "origin": "userConfirmedCrossSellDuringPurchase",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+            "lossHunterSnapshot": {
+              "rawValue": 0,
+              "qualifyingCount": 0,
+              "incomingCount": null,
+              "matched": false
+            }
+          },
+          "afterSource": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Почта, Диск, Календарь"
+          }
+        },
+        "crossSellComponents": {
+          "during": {
+            "value": 0,
+            "rawValue": 0,
+            "source": {
+              "origin": "userConfirmedCrossSellDuringPurchase",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "scoreBasis": "Пользовательский список: полный/нулевой балл компонента «Cross-sell во время оформления».",
+              "lossHunterSnapshot": {
+                "rawValue": 0,
+                "qualifyingCount": 0,
+                "incomingCount": null,
+                "matched": false
+              }
+            }
+          },
+          "after": {
+            "value": 0,
+            "rawValue": 0,
+            "applicable": true,
+            "source": {
+              "origin": "userConfirmedPostPurchaseCrossSell",
+              "period": "III кв. 2026",
+              "confirmedAt": "2026-10-29",
+              "inputName": "Почта, Диск, Календарь"
+            }
+          }
+        },
+        "recommendation_items": [
+          {
+            "recommendation": "Проработать механики кросс-продаж",
+            "group": 5,
+            "recommendation_difficulty": 5,
+            "value": 0,
+            "max_value": 1,
+            "gap": 1
+          }
+        ],
+        "code": "mehaniki.cross_sell"
+      }
+    },
+    {
+      "id": "6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная рекомендация::empty::III кв. 2026",
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "type": "Канал",
+      "present": false,
+      "metric": null
+    }
+  ]
+}
