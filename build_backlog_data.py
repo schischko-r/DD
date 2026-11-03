@@ -201,7 +201,8 @@ def _sheet_paths(archive: ZipFile) -> list[tuple[str, str]]:
         for relationship in relationships.findall(PACKAGE_REL_NS + "Relationship")
     }
     result = []
-    for sheet in workbook.find(MAIN_NS + "sheets") or []:
+    sheets = workbook.find(MAIN_NS + "sheets")
+    for sheet in sheets if sheets is not None else ():
         relation_id = sheet.attrib[REL_NS + "id"]
         target = targets[relation_id].lstrip("/")
         if not target.startswith("xl/"):

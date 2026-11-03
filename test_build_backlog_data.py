@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+import warnings
 from unittest.mock import patch
 from pathlib import Path
 from datetime import date
@@ -20,6 +21,29 @@ class BacklogCliDefaultsTest(unittest.TestCase):
         self.assertEqual(args.input.name, "sbertrack_all_full_history_to_export.xlsx")
         self.assertEqual(args.history_start.isoformat(), "2026-02-01")
         self.assertEqual(args.history_end.isoformat(), "2026-09-30")
+
+
+class WorkbookSheetDiscoveryTest(unittest.TestCase):
+    def test_sheet_element_is_not_used_as_a_boolean(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "workbook.zip"
+            with ZipFile(path, "w", ZIP_DEFLATED) as archive:
+                archive.writestr(
+                    "xl/workbook.xml",
+                    '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" '
+                    'xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
+                    '<sheets><sheet name="Tickets" sheetId="1" r:id="rId1"/></sheets></workbook>',
+                )
+                archive.writestr(
+                    "xl/_rels/workbook.xml.rels",
+                    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'
+                    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" '
+                    'Target="worksheets/sheet1.xml"/></Relationships>',
+                )
+            with ZipFile(path) as archive, warnings.catch_warnings(record=True) as caught:
+                warnings.simplefilter("always")
+                self.assertEqual(backlog._sheet_paths(archive), [("Tickets", "xl/worksheets/sheet1.xml")])
+            self.assertFalse(any("truth value" in str(warning.message) for warning in caught))
 
 
 def _column_name(index: int) -> str:
