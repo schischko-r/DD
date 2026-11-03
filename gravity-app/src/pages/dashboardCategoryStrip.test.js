@@ -46,7 +46,7 @@ test('category cards show a compact up or down delta below the average score', (
   assert.match(dashboardSource, /className="index-quarter-delta-direction"/);
   assert.match(stylesSource, /\.dashboard-category-score \.dashboard-card-quarter-delta \.index-quarter-delta-value \{ font: 600 12px/);
   assert.match(stylesSource, /\.dashboard-card-quarter-delta \.index-quarter-delta-badge \{ min-height: 22px/);
-  assert.match(stylesSource, /\.dashboard-category-card \.dashboard-category-score \.dashboard-card-quarter-delta\.index-quarter-delta-positive \.index-quarter-delta-value \{ color: var\(--g-color-text-positive-heavy\); \}/);
+  assert.match(stylesSource, /\.dashboard-category-card \.dashboard-category-score \.dashboard-card-quarter-delta :is\(\.index-quarter-delta-badge, \.index-quarter-delta-value, \.index-quarter-delta-direction\) \{ color: inherit; \}/);
   const cards = dashboardSource.slice(dashboardSource.indexOf('categoryCards.map((category)'), dashboardSource.indexOf('<Dialog open={antiTopOpen}'));
   assert.ok(cards.indexOf('dashboard-card-quarter-delta') < cards.indexOf('dashboard-category-caption'), 'the small delta sits directly below the score');
 });

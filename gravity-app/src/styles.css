@@ -578,10 +578,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .dashboard-block-quarter-delta .index-quarter-delta-value { font: 600 12px/1.1 var(--dd-font-sans); }
 .dashboard-card-quarter-delta { margin-top: 7px; }
 .dashboard-card-quarter-delta .index-quarter-delta-badge { min-height: 22px; gap: 5px; padding: 4px 8px; border-radius: 5px; }
-.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive { color: var(--g-color-text-positive-heavy); }
-.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-badge { background: var(--g-color-base-positive-light); }
-.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-value { color: var(--g-color-text-positive-heavy); }
-.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-direction { color: var(--g-color-text-positive-heavy); }
+.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta :is(.index-quarter-delta-badge, .index-quarter-delta-value, .index-quarter-delta-direction) { color: inherit; }
 .dashboard-card-quarter-delta .index-quarter-delta-direction { border-right-width: 4px; border-left-width: 4px; }
 .dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-direction { border-bottom-width: 6px; }
 .dashboard-card-quarter-delta.index-quarter-delta-negative .index-quarter-delta-direction { border-top-width: 6px; }
