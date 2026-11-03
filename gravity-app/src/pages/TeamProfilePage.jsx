@@ -615,7 +615,7 @@ function MetricActualGrowthBadge({growth, blockHeader = false}) {
   const delta = growth.indexPctDelta;
   const direction = delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat';
   const label = `${delta > 0 ? '+' : delta < 0 ? '−' : ''}${Math.abs(delta) < 0.05 && delta !== 0 ? '<0,1' : number(Math.abs(delta))} п.п.${blockHeader ? '' : ' к DDI'}`;
-  const title = growth.comparisonLabel || 'Изменение к прошлому кварталу';
+  const title = 'Изменение к предыдущему кварталу';
   const celebrate = (event) => {
     if (growth.indexPctDelta <= 0 || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       return;

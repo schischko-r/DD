@@ -24,7 +24,7 @@ export function DashboardBlockCard({name, score, previous, previousPeriod, tone}
         </div>
         {delta !== null && <div className="dd-metric-block-growth">
           <span className={`index-quarter-delta index-quarter-delta-${deltaDirection} dashboard-block-quarter-delta`}
-            title={`к ${previousPeriod}`}
+            title="Изменение к предыдущему кварталу"
             aria-label={`${delta > 0 ? 'рост' : delta < 0 ? 'снижение' : 'без изменения'} на ${Math.abs(delta)} процентных пунктов к ${previousPeriod}`}>
             <span className="index-quarter-delta-badge">
               <span className="index-quarter-delta-direction" aria-hidden="true" />

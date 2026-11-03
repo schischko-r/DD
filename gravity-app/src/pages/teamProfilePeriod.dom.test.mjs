@@ -106,9 +106,9 @@ test('Q3 Summary uses current profiles while team profiles preserve unknowns and
     assert.ok(gains[0].closest('.metric-row').id===metricDomId('attract.nalichie_uspeshnyh_biznes_zapuskov'));
     assert.match(gains[0].textContent,/1[,.]9/);
     const explanation=gains[0].closest('[aria-label]').getAttribute('aria-label');assert.ok(explanation);
-    assert.equal(explanation,'Изменение к прошлому кварталу');
+    assert.equal(explanation,'Изменение к предыдущему кварталу');
     const growthButton=gains[0].closest('button');assert.ok(growthButton,'Growth badge is a keyboard-accessible native button');
-    assert.equal(growthButton.getAttribute('aria-label'),'Изменение к прошлому кварталу');
+    assert.equal(growthButton.getAttribute('aria-label'),'Изменение к предыдущему кварталу');
     assert.equal(doc.querySelectorAll('.metric-growth-confetti').length,0);
     growthButton.click();await pause();
     const burst=doc.querySelector('.metric-growth-confetti');assert.ok(burst,'Click launches the particle burst');
