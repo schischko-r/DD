@@ -64,7 +64,8 @@ node scripts/verify-manual-assessments.mjs
 Все расчётные исходники III квартала, включая анкеты и ручные корректировки,
 замороженные оценки Cross-sell, Product Lens-кэш и Excel для декомпозиции тикетов
 (`sbertrack_all_full_history_to_export.xlsx`, `tickets_final.xlsx` и `output (1).xlsx`),
-хранятся в Git. `.env` и учётные данные в репозиторий не входят.
+а также `prolong.xlsx` для воронки оттока хранятся в Git. `.env` и учётные данные в
+репозиторий не входят.
 
 В существующей копии репозитория:
 
@@ -77,28 +78,31 @@ python -m pip install -r requirements.txt
 (cd gravity-app && npm ci)
 ```
 
-Чтобы пересчитать данные из сохранённых Excel и собрать отчёт локально, не обновляя
-Product Lens из сети и не загружая результат в Qlik:
+Для полной пересборки данных из Excel, включая отток из `prolong.xlsx`, используй:
+
+```bash
+./build_gravity_report.sh --no-update-crosssell
+```
+
+Команда не обновляет Product Lens по сети, но пересчитывает отток, декомпозицию
+тикетов и основной отчёт. Обычная полная сборка может загрузить результат в Qlik.
+
+Если нужно отдельно пересчитать данные и собрать HTML локально, не загружая его в Qlik:
 
 ```bash
 ./build_gravity_report.sh --no-update-crosssell --data-only
+python3 build_report_data.py --workbook prolong.xlsx
 ./build_gravity_report.sh --html-only
 ```
 
-Первая команда обновляет данные отчёта и декомпозицию тикетов из Excel. Вторая
-пересобирает HTML из этих данных и включённых в репозиторий страниц. Для полной
-сборки с обновлением источников настрой локальный `.env` и запускай
-`./build_gravity_report.sh`; этот режим может обновить данные и загрузить HTML в Qlik.
-Файл `prolong.xlsx` намеренно не хранится в Git. Для пересчёта воронки оттока из
-Excel его нужно отдельно положить в корень репозитория; сборка из сохранённых данных
-выше в нём не нуждается.
+Первая команда обновляет данные отчёта и декомпозицию тикетов. Вторая пересчитывает
+воронку оттока из Excel. Третья пересобирает HTML из обновлённых данных. Для загрузки
+в тестовый Qlik добавь к третьей команде `--upload`; для production — `--upload --upd-prod`.
 
-`--html-only` использует уже подготовленные `prolongation-data.json` и
-`outflow-tree-graph.json`; он не пересчитывает их из `prolong.xlsx`. Чтобы пересчитать
-воронку оттока из локального Excel и сразу собрать страницу, используй
-`./build_gravity_report.sh --outflow-from-excel`. Для загрузки получившегося HTML в
-тестовый Qlik добавь `--upload`; для production — `--upload --upd-prod`. Обычный
-`--html-only` собирает локальный файл без загрузки в Qlik.
+Сам по себе `--html-only` использует уже подготовленные `prolongation-data.json` и
+`outflow-tree-graph.json`; он не пересчитывает их из `prolong.xlsx`. Чтобы отдельно
+пересчитать отток и собрать страницу, используй `./build_gravity_report.sh --outflow-from-excel`.
+Для загрузки результата добавь `--upload`; для production — `--upload --upd-prod`.
 
 Полная локальная сборка Gravity UI из `flat_table.xlsx` и `prolong.xlsx`, включая
 JSON, свежие HTML-отчёты с настроенного API, Vite bundle и standalone HTML:
