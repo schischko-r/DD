@@ -171,16 +171,17 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertEqual(len(commands), 2)
         self.assertFalse(any(command[0] == report.NPM_COMMAND for command in commands))
 
-    def test_html_only_rebuilds_pages_without_refreshing_data(self) -> None:
+    def test_html_only_refreshes_outflow_from_excel_before_rebuilding_pages(self) -> None:
         args = report.parse_args(["--html-only"])
 
-        with patch.object(report.Path, "is_file", return_value=False), patch.object(report, "run") as run:
+        with patch.object(report.Path, "is_file", return_value=True), patch.object(report, "run") as run:
             report.build(args)
 
         commands = [call.args[0] for call in run.call_args_list]
         self.assertEqual(
             [command[1] for command in commands if command[0] == report.sys.executable],
             [
+                str(report.ROOT / "build_report_data.py"),
                 str(report.ROOT / "build_outflow_v3.py"),
                 str(report.ROOT / "build_prolongation.py"),
                 str(report.ROOT / "build_gravity_standalone.py"),
@@ -188,6 +189,14 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         )
         self.assertIn([report.NPM_COMMAND, "run", "build"], commands)
         self.assertNotIn([report.NPM_COMMAND, "run", "build:clickstream"], commands)
+
+    def test_html_only_requires_the_prolongation_workbook(self) -> None:
+        args = report.parse_args(["--html-only"])
+
+        with patch.object(report.Path, "is_file", return_value=False), patch.object(report, "run") as run:
+            with self.assertRaisesRegex(FileNotFoundError, "Outflow source not found"):
+                report.build(args)
+        run.assert_not_called()
 
     def test_outflow_from_excel_refreshes_only_its_data_and_pages(self) -> None:
         args = report.parse_args(["--outflow-from-excel"])

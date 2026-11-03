@@ -87,22 +87,22 @@ python -m pip install -r requirements.txt
 Команда не обновляет Product Lens по сети, но пересчитывает отток, декомпозицию
 тикетов и основной отчёт. Обычная полная сборка может загрузить результат в Qlik.
 
-Если нужно отдельно пересчитать данные и собрать HTML локально, не загружая его в Qlik:
+Если нужно пересчитать остальные данные отдельно, а затем собрать HTML локально,
+не загружая его в Qlik:
 
 ```bash
 ./build_gravity_report.sh --no-update-crosssell --data-only
-python3 build_report_data.py --workbook prolong.xlsx
 ./build_gravity_report.sh --html-only
 ```
 
-Первая команда обновляет данные отчёта и декомпозицию тикетов. Вторая пересчитывает
-воронку оттока из Excel. Третья пересобирает HTML из обновлённых данных. Для загрузки
-в тестовый Qlik добавь к третьей команде `--upload`; для production — `--upload --upd-prod`.
+Первая команда обновляет данные отчёта и декомпозицию тикетов. Вторая автоматически
+пересчитывает воронку оттока из `prolong.xlsx`, затем собирает HTML. Для загрузки в
+тестовый Qlik добавь ко второй команде `--upload`; для production — `--upload --upd-prod`.
 
-Сам по себе `--html-only` использует уже подготовленные `prolongation-data.json` и
-`outflow-tree-graph.json`; он не пересчитывает их из `prolong.xlsx`. Чтобы отдельно
-пересчитать отток и собрать страницу, используй `./build_gravity_report.sh --outflow-from-excel`.
-Для загрузки результата добавь `--upload`; для production — `--upload --upd-prod`.
+`--html-only` требует локальный `prolong.xlsx` и всегда пересчитывает из него
+`prolongation-data.json` и `outflow-tree-graph.json` перед сборкой страниц.
+Для отдельного обновления оттока без остальной сборки отчёта используй
+`./build_gravity_report.sh --outflow-from-excel`.
 
 Полная локальная сборка Gravity UI из `flat_table.xlsx` и `prolong.xlsx`, включая
 JSON, свежие HTML-отчёты с настроенного API, Vite bundle и standalone HTML:
@@ -111,8 +111,8 @@ JSON, свежие HTML-отчёты с настроенного API, Vite bundl
 ./build_gravity_report.sh
 ```
 
-Чтобы пересобрать только HTML из уже подготовленных JSON и страниц, без чтения
-Excel, обновления данных и загрузки в Qlik:
+Чтобы пересобрать HTML и обновить отток из Excel, без остальных источников данных
+и без загрузки в Qlik:
 
 ```bash
 ./build_gravity_report.sh --html-only

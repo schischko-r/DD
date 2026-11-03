@@ -103,6 +103,8 @@ def build(args: argparse.Namespace) -> None:
         raise ValueError("--outflow-from-excel requires AI_HTML_API_BASE_URL and AI_HTML_TOKEN")
 
     full_data_build = not (args.html_only or args.outflow_from_excel)
+    if args.html_only and not DEFAULT_PROLONGATION_WORKBOOK.is_file():
+        raise FileNotFoundError(f"Outflow source not found: {DEFAULT_PROLONGATION_WORKBOOK}")
     if full_data_build:
         if not args.backlog_input.is_file():
             raise FileNotFoundError(f"Backlog source not found: {args.backlog_input}")
@@ -149,7 +151,7 @@ def build(args: argparse.Namespace) -> None:
 
     if args.outflow_from_excel and not DEFAULT_PROLONGATION_WORKBOOK.is_file():
         raise FileNotFoundError(f"Outflow source not found: {DEFAULT_PROLONGATION_WORKBOOK}")
-    if full_data_build or args.outflow_from_excel:
+    if full_data_build or args.outflow_from_excel or args.html_only:
         run([
             sys.executable,
             str(ROOT / "build_report_data.py"),
@@ -158,7 +160,7 @@ def build(args: argparse.Namespace) -> None:
         ])
     run([sys.executable, str(ROOT / "build_outflow_v3.py")])
     run([sys.executable, str(ROOT / "build_prolongation.py")])
-    if full_data_build or args.outflow_from_excel:
+    if full_data_build or args.outflow_from_excel or args.html_only:
         archived_page = archive_report(DEFAULT_PROLONGATION_PAGE, DEFAULT_PROLONGATION_DATA)
         print(f"Outflow HTML saved: {archived_page}")
 
@@ -246,7 +248,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "--html-only",
         action="store_true",
-        help="Rebuild HTML from existing JSON without refreshing source data",
+        help="Rebuild HTML; refresh the outflow funnel from prolong.xlsx first",
     )
     parser.add_argument(
         "--outflow-from-excel",

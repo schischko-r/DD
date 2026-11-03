@@ -66,7 +66,7 @@ def test_gravity_excel_build_archives_after_page_before_embedding(tmp_path, monk
         events.append(name)
         if name == "build_prolongation.py":
             page.write_bytes(b"fresh report from Excel")
-        if name == "build_gravity_standalone.py" and mode != ["--html-only"]:
+        if name == "build_gravity_standalone.py":
             assert len(list(root.rglob("*.html"))) == 1
 
     def save(page_arg, data_arg):
@@ -78,16 +78,12 @@ def test_gravity_excel_build_archives_after_page_before_embedding(tmp_path, monk
     monkeypatch.setattr(gravity, "run", run)
     monkeypatch.setattr(gravity, "archive_report", saver)
     gravity.build(args)
-    if mode == ["--html-only"]:
-        saver.assert_not_called()
-        assert not root.exists()
-    else:
-        saver.assert_called_once()
-        assert events.index("build_prolongation.py") < events.index("archive") < events.index("build_gravity_standalone.py")
-        assert events.index("archive") < events.index("build")
-        assert events.index("build_report_data.py") < events.index("build_prolongation.py")
-        saved = list((root / "from-excel").glob("*.html"))
-        assert len(saved) == 1 and saved[0].read_bytes() == page.read_bytes()
+    saver.assert_called_once()
+    assert events.index("build_prolongation.py") < events.index("archive") < events.index("build_gravity_standalone.py")
+    assert events.index("archive") < events.index("build")
+    assert events.index("build_report_data.py") < events.index("build_prolongation.py")
+    saved = list((root / "from-excel").glob("*.html"))
+    assert len(saved) == 1 and saved[0].read_bytes() == page.read_bytes()
 
 
 @pytest.mark.parametrize("synthetic,folder", [(False, "from-excel"), (True, "synthetic")])
