@@ -54,7 +54,7 @@ test('quarter comparison keeps card deltas without a block reconciliation spoile
       return card;
     };
     const teams=[['CBP','Вклады+НС'],['УБ','БПИФ'],['DB','Зарплатный продукт'],['CX','СберСпасибо'],
-      ['ДомКлик','Сделка вторичка'],['DP','СБОЛ'],['PC','Телемаркетинг'],['Data','Персональная рекомендация'],['Data','Почта, Диск, Календарь']];
+      ['ДомКлик','Сделка вторичка'],['DP','СБОЛ'],['PC','Телемаркетинг'],['Data','Персональная рекомендация'],['Data','Почта, Диск, Календарь'],['CBP','POS-кредиты']];
     const verifyGoals=()=>{
       const summaries=[...doc.querySelectorAll('.goals-level-decomposition > summary')];assert.ok(summaries.length);
       const factor=summaries.find(n=>/фактор/i.test(n.textContent));assert.ok(factor);
@@ -68,6 +68,23 @@ test('quarter comparison keeps card deltas without a block reconciliation spoile
       const compact=verify();
       const detailed=[...doc.querySelectorAll('button')].find(n=>n.textContent.trim()==='Подробно');assert.ok(detailed);detailed.click();await pause();
       assert.equal(verify(),compact,'detail mode does not change aggregate accounting');
+      if(name==='Почта, Диск, Календарь'){
+        const cx=[...doc.querySelectorAll('.metric-block')].find(card=>card.querySelector('h3')?.textContent==='CX Score');
+        const header=cx.querySelector('.dd-metric-block-growth .metric-actual-growth');
+        const criterion=cx.querySelector('.metric-row .metric-actual-growth');
+        assert.ok(criterion,'newly applicable CX Score has a criterion-level DDI badge');
+        assert.equal(numeric(criterion.textContent),numeric(header.textContent),'single CX criterion matches its block contribution');
+        assert.match(criterion.textContent,/к DDI/);
+      }
+      if(name==='POS-кредиты'){
+        const hypotheses=[...doc.querySelectorAll('.metric-block')].find(card=>card.querySelector('h3')?.textContent==='Гипотезы и инициативы');
+        const ab=[...hypotheses.querySelectorAll('.metric-row')].find(row=>row.querySelector('b')?.textContent==='A/B-тесты');
+        const badge=ab.querySelector('.metric-actual-growth');
+        assert.ok(badge,'POS A/B tests have a criterion-level contribution badge');
+        assert.ok(numeric(badge.textContent)>0,'POS A/B contribution increased');
+        const discovery=[...hypotheses.querySelectorAll('.metric-row')].find(row=>row.querySelector('b')?.textContent.startsWith('Discovery'));
+        assert.equal(discovery.querySelector('.metric-actual-growth'),null,'unchanged POS Discovery has no denominator-only badge');
+      }
       if(name==='Зарплатный продукт'){
         const b2b=[...doc.querySelectorAll('[data-salary-block] label')].find(n=>n.textContent.trim()==='B2B');assert.ok(b2b,'B2B toggle');b2b.click();await pause();
         assert.equal(b2b.querySelector('input').checked,true);

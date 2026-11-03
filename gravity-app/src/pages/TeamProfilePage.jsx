@@ -30,6 +30,7 @@ import {isCampaignSelfServiceConfirmation} from '../domain/campaignSelfService.j
 import {salaryB2cComparisonBlock} from '../domain/salaryCohortGrowth.js';
 import {goalsProfileLevels} from '../domain/goalsProfileLevels.js';
 import {buildProductQuarterComparison} from '../domain/productQuarterComparison.js';
+import {quarterMetricGrowthByCode} from './teamProfileQuarterGrowth.js';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const AB_TEST_INSTRUCTION_LINKS = [
@@ -963,6 +964,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
   const score = product.isPlaceholder ? completedScore ?? 0 : scoreFor(product, rows);
   const indexDelta = hasScore ? previousQuarterIndexDelta(product, score, baselineProducts, baselineRows) : null;
   const quarterComparison = useMemo(() => buildProductQuarterComparison(product, baselineProducts, baselineRows), [product, baselineProducts, baselineRows]);
+  const quarterMetricGrowth = useMemo(() => quarterMetricGrowthByCode(product, quarterComparison, baselineProducts), [product, quarterComparison, baselineProducts]);
   const maturity = product.isPlaceholder ? hasScore ? maturityLevelName(score) : 'Нет данных' : groupFor(product, rows);
   const maturityTone = hasScore ? maturityTheme(maturity) : 'default';
   const aiActionRecommendations = metricAiActionRecommendations(product);
@@ -1008,10 +1010,10 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
       const displayedBlock = goalsProfileLevels(block, product.period);
       return {...displayedBlock,
         metrics: (displayedBlock.metrics || []).filter((metric) => !isQ3CampaignMetricHidden(product, metric)).map(metric => quarterComparison
-          ? {...metric, quarterActualGrowth: quarterComparison.metricGrowthByCode[metric.code] || null} : metric),
+          ? {...metric, quarterActualGrowth: quarterMetricGrowth[metric.code] || null} : metric),
       };
     }), aiRecommendationBlockCodes, isVisibleMetric),
-    [aiRecommendationBlockCodes, product, quarterComparison],
+    [aiRecommendationBlockCodes, product, quarterComparison, quarterMetricGrowth],
   );
   useEffect(() => {
     setRecommendationsOpen(false);
