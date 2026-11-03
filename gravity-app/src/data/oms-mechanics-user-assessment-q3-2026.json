@@ -14,7 +14,7 @@
       "id": "8ad8f20e-b44c-5259-82a7-497fc20b63e0¦ОМС",
       "metrics": {
         "mehaniki.vozvrat_klientov": {
-          "rawValue": 1,
+          "rawValue": 0.5,
           "source": {
             "origin": "userMaximumSurveyAssessment",
             "confirmedBy": "user",
@@ -78,6 +78,15 @@
               },
               "selected": null,
               "available": null
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "previousRawValue": 1,
+              "rule": "Последнее прямое указание пользователя: возврат клиентов ОМС за III квартал 2026 = 0,5 из 1. Заменяет прежнюю максимальную оценку 1; исходные ответы сохранены."
             }
           }
         }
