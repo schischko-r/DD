@@ -30,7 +30,6 @@ import {isCampaignSelfServiceConfirmation} from '../domain/campaignSelfService.j
 import {salaryB2cComparisonBlock} from '../domain/salaryCohortGrowth.js';
 import {goalsProfileLevels} from '../domain/goalsProfileLevels.js';
 import {buildProductQuarterComparison} from '../domain/productQuarterComparison.js';
-import './teamProfileQuarterComparison.css';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const AB_TEST_INSTRUCTION_LINKS = [
@@ -699,8 +698,8 @@ function GoalsLevelDecomposition({metric, poMetric, product, children, poChild, 
       <Icon data={ChevronRight} size={14} />
       <i className={`metric-light metric-light-${theme === 'normal' ? 'default' : theme}`} aria-hidden="true" />
       <b>{displayText(metric.name)}</b>
-      <Label className={theme === 'normal' ? 'metric-status-label metric-status-label-text' : 'metric-status-label'} size="xs" theme={theme}>{label}</Label>
       <MetricActualGrowthBadge growth={actualCriterionGrowth(poMetric, children.props.maxIndexPoints, product.period)} />
+      <Label className={theme === 'normal' ? 'metric-status-label metric-status-label-text' : 'metric-status-label'} size="xs" theme={theme}>{label}</Label>
     </summary>
     <div className="cross-sell-decomposition-content">
       {React.cloneElement(children, {nameOverride: 'Уровень ЛЮ/ЛТ', grouped: false, nested: true})}
@@ -712,20 +711,6 @@ function GoalsLevelDecomposition({metric, poMetric, product, children, poChild, 
 function actualCriterionGrowth(metric, maxIndexPoints, period) {
   return Object.hasOwn(metric, 'quarterActualGrowth')
     ? metric.quarterActualGrowth : metricActualGrowth(metric, maxIndexPoints, period);
-}
-
-function QuarterIndexReconciliation({comparison}) {
-  if (!comparison) return null;
-  const signed = value => `${value > 0 ? '+' : value < 0 ? '−' : ''}${Math.abs(value).toLocaleString('ru-RU', {maximumFractionDigits: 1})} п.п.`;
-  return <details className="quarter-index-reconciliation" data-qa="quarter-index-reconciliation">
-    <summary>Изменение индекса по блокам: {signed(comparison.blockIndexPctDelta)} · округление {signed(comparison.roundingAdjustment)} · итого {signed(comparison.indexPctDelta)}</summary>
-    <p>Вклад блока — изменение его доли в общем индексе между II и III кварталами. Он учитывает оценки, применимость и веса метрик. Дельта отдельного критерия показывает изменение его оценки при текущем весе; изменение состава и весов учитывается во вкладе блока отдельно.</p>
-    <table aria-label="Сверка изменения индекса по блокам"><thead><tr><th scope="col">Блок</th><th scope="col">Вклад в изменение DDI</th></tr></thead><tbody>
-      {comparison.blocks.map(block => <tr key={block.code} data-quarter-block={block.code}><th scope="row">{displayText(block.name)}</th><td data-quarter-delta={block.indexPctDelta}>{signed(block.indexPctDelta)}</td></tr>)}
-      <tr data-quarter-rounding><th scope="row">Округление индекса и вкладов блоков</th><td data-quarter-delta={comparison.roundingAdjustment}>{signed(comparison.roundingAdjustment)}</td></tr>
-    </tbody><tfoot><tr><th scope="row">Итого — как в карточке команды</th><td data-quarter-total={comparison.indexPctDelta}>{signed(comparison.indexPctDelta)}</td></tr></tfoot></table>
-    <p>Вклады блоков округлены до 0,1 п.п.; итоговый индекс каждого квартала — до целого. Разница округлений показана отдельной строкой. Для зарплатного продукта вклад блока относится к общему продукту при любом положении переключателя B2C/B2B.</p>
-  </details>;
 }
 
 function quarterBlockGrowth(comparison, code) {
@@ -1182,7 +1167,6 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
       <CJXplorerDialog product={cjxplorerProduct} open={cjxplorerOpen} onClose={() => setCjxplorerOpen(false)} />
       <section className="metrics-section">
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид деталей"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set(visibleMetricBlocks.map((item) => item.code))); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
-        <QuarterIndexReconciliation comparison={quarterComparison} />
         <div className="metrics-grid">
           {visibleMetricBlocks.map((aggregateBlock) => {
             const salaryCohortKey = salaryCohortSelections[aggregateBlock.code] || 'b2c';

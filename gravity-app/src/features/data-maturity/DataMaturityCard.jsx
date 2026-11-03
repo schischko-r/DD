@@ -11,7 +11,9 @@ import {
   visibleMaturityCategories,
 } from './dataMaturity.js';
 
-export function DashboardBlockCard({name, score, tone}) {
+export function DashboardBlockCard({name, score, previous, previousPeriod, tone}) {
+  const delta = Number.isFinite(score) && Number.isFinite(previous) ? score - previous : null;
+  const deltaDirection = delta === null ? null : delta > 0 ? 'positive' : delta < 0 ? 'negative' : 'neutral';
   return (
     <Card className={`metric-block metric-block-static tone-${tone}`} view="outlined">
       <div className="dd-metric-block-head">
@@ -20,6 +22,16 @@ export function DashboardBlockCard({name, score, tone}) {
             <h3>{name}</h3>
           </div>
         </div>
+        {delta !== null && <div className="dd-metric-block-growth">
+          <span className={`index-quarter-delta index-quarter-delta-${deltaDirection} dashboard-block-quarter-delta`}
+            title={`к ${previousPeriod}`}
+            aria-label={`${delta > 0 ? 'рост' : delta < 0 ? 'снижение' : 'без изменения'} на ${Math.abs(delta)} процентных пунктов к ${previousPeriod}`}>
+            <span className="index-quarter-delta-badge">
+              <span className="index-quarter-delta-direction" aria-hidden="true" />
+              <strong className="index-quarter-delta-value">{delta > 0 ? '+' : delta < 0 ? '−' : ''}{Math.abs(delta)} п.п.</strong>
+            </span>
+          </span>
+        </div>}
         <div className="dd-metric-block-help" />
         <div className="dd-metric-block-score">{score === null ? <span className="metric-block-na">Нет данных</span> : <strong>{score}%</strong>}</div>
       </div>

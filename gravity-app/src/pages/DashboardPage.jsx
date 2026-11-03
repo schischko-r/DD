@@ -311,7 +311,7 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
       {maturityUnit && <section className="metrics-section" aria-label="Блоки юнита и данные">
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2></div>
         <div className="dashboard-data-maturity">
-        {radarData.map((block) => <DashboardBlockCard key={block.code} name={block.name} score={block.unit} tone={block.unit === null ? 'default' : progressTheme(block.unit)} />)}
+        {radarData.map((block) => <DashboardBlockCard key={block.code} name={block.name} score={block.unit} previous={block.previous} previousPeriod={radarComparison.previousPeriod} tone={block.unit === null ? 'default' : progressTheme(block.unit)} />)}
         <DataMaturityCard unit={maturityUnit} meta={maturity?.meta} isOpen={maturityOpen} onToggle={() => setMaturityOpen((value) => !value)} />
         </div>
       </section>}

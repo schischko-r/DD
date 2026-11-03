@@ -4,7 +4,7 @@ import {readFileSync,existsSync} from 'node:fs';
 import {JSDOM,VirtualConsole} from 'jsdom';
 import {displayProductName} from '../domain/report.js';
 const build=process.env.DDI_PROFILE_TEST_HTML;
-test('quarter comparison renders additive block deltas for every unit, salary cohort and Campaigning goals',{skip:!build},async()=>{
+test('quarter comparison keeps card deltas without a block reconciliation spoiler',{skip:!build},async()=>{
   const html=readFileSync(build,'utf8'),errors=[],requests=[];
   const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e.message));vc.on('error',(...e)=>errors.push(e.join(' ')));
   const dom=new JSDOM(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g,''),{runScripts:'dangerously',pretendToBeVisual:true,url:'http://localhost/',virtualConsole:vc,beforeParse(w){
@@ -36,18 +36,16 @@ test('quarter comparison renders additive block deltas for every unit, salary co
       const option=[...doc.querySelectorAll('[role="option"]')].find(n=>n.textContent.trim()===text);assert.ok(option,text);option.click();await pause();
     };
     const verify=()=>{
-      const disclosure=doc.querySelector('[data-qa="quarter-index-reconciliation"]');assert.ok(disclosure);disclosure.open=true;
-      const table=disclosure.querySelector('table');assert.ok(table,'comparison table exists');
-      const rows=[...table.querySelectorAll('tbody tr')];assert.ok(rows.length>1);
-      const total=table.querySelector('tfoot tr');assert.ok(total,'explicit total row');
-      const rounding=rows.find(row=>/округлен/i.test(row.textContent));assert.ok(rounding,'explicit rounding row');
-      const lastValue=row=>numeric(row.querySelector('td:last-child')?.textContent);
-      const sum=rows.reduce((value,row)=>value+lastValue(row),0);
+      const disclosure=doc.querySelector('[data-qa="quarter-index-reconciliation"]');
+      assert.equal(disclosure,null,'block reconciliation spoiler is removed');
       const card=numeric(doc.querySelector('.index-quarter-delta-value').textContent);
-      assert.ok(Math.abs(sum-card)<1e-9,`visible rows + rounding ${sum} = card ${card}`);
-      assert.equal(lastValue(total),card);
-      for(const row of rows)assert.ok(Number.isFinite(lastValue(row)),row.textContent);
-      return table.textContent;
+      assert.ok(Number.isFinite(card),'quarter delta remains on the profile card');
+      for(const summary of doc.querySelectorAll('.goals-level-decomposition > summary')){
+        const badge=summary.querySelector('.metric-actual-growth');
+        const score=summary.querySelector('.metric-status-label');
+        if(badge&&score)assert.ok(badge.compareDocumentPosition(score)&dom.window.Node.DOCUMENT_POSITION_FOLLOWING,'Goals uplift precedes the score');
+      }
+      return card;
     };
     const teams=[['CBP','Вклады+НС'],['УБ','БПИФ'],['DB','Зарплатный продукт'],['CX','СберСпасибо'],
       ['ДомКлик','Сделка вторичка'],['DP','СБОЛ'],['PC','Телемаркетинг'],['Data','Персональная рекомендация']];
@@ -90,7 +88,7 @@ test('quarter comparison renders additive block deltas for every unit, salary co
       const names=options.map(option=>option.textContent.trim());options[0].click();await pause();
       for(const name of names){await choose('.detail-team-select',name);verify();allTeams++;}
     }
-    assert.equal(allTeams,76,'every effective Q3 team in all eight units has a rendered additive reconciliation');
+    assert.equal(allTeams,76,'every effective Q3 team in all eight units has a rendered quarter delta');
     assert.deepEqual(errors,[]);
   }finally{dom.window.close();}
 });
