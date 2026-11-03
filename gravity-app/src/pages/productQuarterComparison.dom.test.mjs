@@ -40,6 +40,12 @@ test('quarter comparison keeps card deltas without a block reconciliation spoile
       assert.equal(disclosure,null,'block reconciliation spoiler is removed');
       const card=numeric(doc.querySelector('.index-quarter-delta-value').textContent);
       assert.ok(Number.isFinite(card),'quarter delta remains on the profile card');
+      if(doc.querySelector('.detail-header h1').textContent==='Почта, Диск, Календарь'){
+        const alerts=[...doc.querySelectorAll('.dd-metric-block-head')].find(head=>head.querySelector('h3')?.textContent==='Алерты');
+        assert.ok(alerts,'Mail/Disk/Calendar alerts block is visible');
+        assert.equal(alerts.querySelector('.dd-metric-block-score').textContent,'50%');
+        assert.equal(alerts.querySelector('.dd-metric-block-growth'),null,'unchanged alerts have no decline badge from the total index denominator');
+      }
       for(const summary of doc.querySelectorAll('.goals-level-decomposition > summary')){
         const badge=summary.querySelector('.metric-actual-growth');
         const score=summary.querySelector('.metric-status-label');
@@ -48,7 +54,7 @@ test('quarter comparison keeps card deltas without a block reconciliation spoile
       return card;
     };
     const teams=[['CBP','Вклады+НС'],['УБ','БПИФ'],['DB','Зарплатный продукт'],['CX','СберСпасибо'],
-      ['ДомКлик','Сделка вторичка'],['DP','СБОЛ'],['PC','Телемаркетинг'],['Data','Персональная рекомендация']];
+      ['ДомКлик','Сделка вторичка'],['DP','СБОЛ'],['PC','Телемаркетинг'],['Data','Персональная рекомендация'],['Data','Почта, Диск, Календарь']];
     const verifyGoals=()=>{
       const summaries=[...doc.querySelectorAll('.goals-level-decomposition > summary')];assert.ok(summaries.length);
       const factor=summaries.find(n=>/фактор/i.test(n.textContent));assert.ok(factor);

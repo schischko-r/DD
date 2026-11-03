@@ -715,9 +715,10 @@ function actualCriterionGrowth(metric, maxIndexPoints, period) {
 
 function quarterBlockGrowth(comparison, code) {
   const block = comparison?.blocks.find(item => item.code === code);
-  return block ? {...block, currentPeriod: comparison.currentPeriod, previousPeriod: comparison.previousPeriod,
-    value: block.currentPoints, previousValue: block.previousPoints,
-    comparisonLabel: `Вклад блока в изменение DDI: оценки, применимость и веса. Изменение оценок ${block.scoreChangeIndexPctDelta.toLocaleString('ru-RU', {maximumFractionDigits: 2})} п.п.; состав и веса ${block.applicabilityIndexPctDelta.toLocaleString('ru-RU', {maximumFractionDigits: 2})} п.п. Округление учтено в сверке индекса.`} : null;
+  if (!block || (Math.abs(block.currentPoints - block.previousPoints) < 1e-9
+    && Math.abs(block.currentMaxPoints - block.previousMaxPoints) < 1e-9)) return null;
+  return {...block, currentPeriod: comparison.currentPeriod, previousPeriod: comparison.previousPeriod,
+    value: block.currentPoints, previousValue: block.previousPoints};
 }
 
 function MetricGroupEntry({metrics, index, block, product, children, expanded = false}) {
