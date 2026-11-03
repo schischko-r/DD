@@ -51,10 +51,11 @@ test('quarter comparison keeps card deltas without a block reconciliation spoile
         const score=summary.querySelector('.metric-status-label');
         if(badge&&score)assert.ok(badge.compareDocumentPosition(score)&dom.window.Node.DOCUMENT_POSITION_FOLLOWING,'Goals uplift precedes the score');
       }
+      for(const badge of doc.querySelectorAll('.metric-actual-growth'))assert.doesNotMatch(badge.textContent,/^0\s*п\.п\./,'zero uplift badges are hidden');
       return card;
     };
     const teams=[['CBP','Вклады+НС'],['УБ','БПИФ'],['DB','Зарплатный продукт'],['CX','СберСпасибо'],
-      ['ДомКлик','Сделка вторичка'],['DP','СБОЛ'],['PC','Телемаркетинг'],['Data','Персональная рекомендация'],['Data','Почта, Диск, Календарь'],['CBP','POS-кредиты']];
+      ['ДомКлик','Сделка вторичка'],['DP','СБОЛ'],['PC','Телемаркетинг'],['Data','Персональная рекомендация'],['Data','Почта, Диск, Календарь'],['CBP','POS-кредиты'],['PC','Выписки, справки']];
     const verifyGoals=()=>{
       const summaries=[...doc.querySelectorAll('.goals-level-decomposition > summary')];assert.ok(summaries.length);
       const factor=summaries.find(n=>/фактор/i.test(n.textContent));assert.ok(factor);
@@ -68,6 +69,13 @@ test('quarter comparison keeps card deltas without a block reconciliation spoile
       const compact=verify();
       const detailed=[...doc.querySelectorAll('button')].find(n=>n.textContent.trim()==='Подробно');assert.ok(detailed);detailed.click();await pause();
       assert.equal(verify(),compact,'detail mode does not change aggregate accounting');
+      if(name==='Выписки, справки'){
+        const forecasts=[...doc.querySelectorAll('.metric-row')].filter(row=>row.querySelector('.metric-name-line b')?.textContent==='Прогноз по целям');
+        assert.equal(forecasts.length,1,'only the applicable PO forecast is shown');
+        assert.equal(forecasts[0].querySelector('.metric-status-label')?.textContent,'100%');
+        assert.equal(forecasts[0].closest('.goals-level-decomposition'),null,'single level has no disclosure');
+        assert.doesNotMatch(forecasts[0].textContent,/Не применимо|Уровень ЛЮ\/ЛТ/);
+      }
       if(name==='Почта, Диск, Календарь'){
         const cx=[...doc.querySelectorAll('.metric-block')].find(card=>card.querySelector('h3')?.textContent==='CX Score');
         const header=cx.querySelector('.dd-metric-block-growth .metric-actual-growth');

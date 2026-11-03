@@ -24,7 +24,7 @@
       "goals": {
         "final": {
           "goals.monitored": 1,
-          "goals.factor_analysis_l1_l2": 1
+          "goals.factor_analysis_l1_l2": 0.5
         },
         "lulT": {
           "goals.monitored": 1,
@@ -34,6 +34,16 @@
           "goals.po_monitoring": 1,
           "goals.po_factor_analysis": 0,
           "goals.po_forecast": 1
+        },
+        "finalCorrections": {
+          "goals.factor_analysis_l1_l2": {
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "previousValue": 1,
+            "value": 0.5,
+            "note": "Итоговая оценка факторного анализа — 50%. Уровни ЛЮ/ЛТ и PO сохраняются."
+          }
         }
       },
       "metrics": {

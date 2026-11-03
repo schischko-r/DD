@@ -611,7 +611,7 @@ function MetricActualGrowthBadge({growth, blockHeader = false}) {
       burstTimers.current.clear();
     };
   }, [growth?.currentPeriod, growth?.previousPeriod, growth?.value, growth?.previousValue]);
-  if (!growth) return null;
+  if (!growth || !Number.isFinite(growth.indexPctDelta) || growth.indexPctDelta === 0) return null;
   const number = (value, digits = 1) => value.toLocaleString('ru-RU', {maximumFractionDigits: digits});
   const delta = growth.indexPctDelta;
   const direction = delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat';
@@ -689,6 +689,12 @@ const GOALS_PO_CODES = new Set(Object.values(GOALS_PO_COUNTERPART));
 function GoalsLevelDecomposition({metric, poMetric, product, children, poChild, expanded}) {
   const disclosure = React.useRef(null);
   React.useEffect(() => { if (disclosure.current) disclosure.current.open = expanded; }, [expanded]);
+  const applicableLevels = [children, poChild].filter(child => React.isValidElement(child)
+    && child.props.metric.is_applicabble_flg !== false && Number(child.props.metric.max_value) > 0);
+  if (applicableLevels.length < 2) {
+    const child = applicableLevels[0] || children;
+    return React.cloneElement(child, {nameOverride: metric.name, grouped: false, nested: false});
+  }
   const applicable = poMetric.is_applicabble_flg !== false;
   const hasValue = applicable && Number(poMetric.max_value) > 0 && Number.isFinite(poMetric.value);
   const label = hasValue ? `${displayMetricPercent(product, poMetric)}%`
@@ -716,7 +722,7 @@ function actualCriterionGrowth(metric, maxIndexPoints, period) {
 
 function quarterBlockGrowth(comparison, code) {
   const block = comparison?.blocks.find(item => item.code === code);
-  if (!block || (Math.abs(block.currentPoints - block.previousPoints) < 1e-9
+  if (!block || block.indexPctDelta === 0 || (Math.abs(block.currentPoints - block.previousPoints) < 1e-9
     && Math.abs(block.currentMaxPoints - block.previousMaxPoints) < 1e-9)) return null;
   return {...block, currentPeriod: comparison.currentPeriod, previousPeriod: comparison.previousPeriod,
     value: block.currentPoints, previousValue: block.previousPoints};

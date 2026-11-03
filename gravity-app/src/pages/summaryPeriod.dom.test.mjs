@@ -87,8 +87,9 @@ test('built Summary renders Q3 categories and both periods from current profiles
       assert.ok(Number.isFinite(previous),`${name}: Q2 baseline exists`);
       const current=Number.parseFloat(card.querySelector('.dd-metric-block-score').textContent);
       const badge=card.querySelector('.dashboard-block-quarter-delta');
-      assert.ok(badge,`${name}: quarter-change badge is visible`);
       const expected=current-previous;
+      if(expected===0){assert.equal(badge,null,`${name}: zero change badge is hidden`);continue;}
+      assert.ok(badge,`${name}: nonzero quarter-change badge is visible`);
       assert.equal(badge.querySelector('.index-quarter-delta-value').textContent,`${expected>0?'+':expected<0?'−':''}${Math.abs(expected)} п.п.`,name);
       assert.equal(badge.title,'Изменение к предыдущему кварталу');
     }

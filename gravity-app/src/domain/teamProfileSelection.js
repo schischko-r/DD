@@ -21,7 +21,7 @@ const SCOPED_METRIC_CODES = {
     'attract.initiatives_list', 'attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya', 'churn.nastroena_otchetnostь',
     'churn.report_completeness', 'churn.funnel_analysis', 'churn.benchmarks', 'churn.deviation_actions',
     'mehaniki.uderzhanie_klientov', 'mehaniki.doprodazhi_up_sell', 'cx.score', 'hyp.discovery_40_backlog',
-    'general.navigator_reporting_knowledge', 'general.klienty_s_produktom', 'general.mau_produkta',
+    'general.navigator_reporting_knowledge', 'general.klienty_s_produktom', 'general.mau_produkta', 'general.obъem_celevogo_rynka_v_rossii',
     'dannye.promyshlenye_dannye', 'alerts.business_metrics', 'attract.campaign_launches',
     'attract.nalichie_self_service', 'attract.nalichie_uspeshnyh_biznes_zapuskov']),
   'alerts-carry-forward': new Set(['alerts.business_metrics', 'alerts.system_failures',

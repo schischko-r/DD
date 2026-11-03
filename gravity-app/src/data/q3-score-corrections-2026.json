@@ -113,21 +113,40 @@
       "type": "Продукт",
       "metrics": {
         "attract.report_completeness": {
-          "rawValue": 0.25,
+          "rawValue": 0.5,
           "source": {
             "origin": "userConfirmedQ3ScoreCorrection",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-03",
             "period": "III кв. 2026",
             "sourceName": "Почта, Диск, Календарь",
             "sourceMetricName": "Полнота отчета по воронке привлечения",
             "correction": {
               "origin": "userConfirmedQ3ScoreCorrection",
               "confirmedBy": "user",
-              "date": "2026-11-02",
+              "date": "2026-11-03",
               "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "По прямому указанию пользователя полнота отчета воронки привлечения за III квартал — 50%."
+            },
+            "previousAssessment": {
               "rawValue": 0.25,
-              "note": "Прямая оценка пользователя за III квартал."
+              "source": {
+                "origin": "userConfirmedQ3ScoreCorrection",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "sourceName": "Почта, Диск, Календарь",
+                "sourceMetricName": "Полнота отчета по воронке привлечения",
+                "correction": {
+                  "origin": "userConfirmedQ3ScoreCorrection",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "rawValue": 0.25,
+                  "note": "Прямая оценка пользователя за III квартал."
+                }
+              }
             }
           }
         },
@@ -1662,6 +1681,85 @@
               "cell": "B56",
               "columnLabel": "Сумма по полю launches_q3",
               "rawValue": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "a9b4baac-cf13-5c97-babd-4c1b4fd3b831¦POS-кредиты",
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "general.mau_produkta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "POS-кредиты",
+            "sourceMetricName": "MAU продукта",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "По прямому указанию пользователя MAU продукта POS-кредитов за III квартал — 100%."
+            }
+          }
+        },
+        "general.obъem_celevogo_rynka_v_rossii": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "POS-кредиты",
+            "sourceMetricName": "Объем целевого рынка в России",
+            "previousAssessmentValue": 0,
+            "previousAssessmentSource": {
+              "origin": "keyMetricsWorkbookAssessment",
+              "file": "Ключевые метрики Продукта Баллы.xlsx",
+              "sheet": "Лист1",
+              "sha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+              "period": "III кв. 2026",
+              "sourceName": "POS-кредиты",
+              "sourceMetricName": "Объем целевого рынка в России",
+              "sourceRows": [
+                77
+              ],
+              "cell": "C77",
+              "cells": [
+                {
+                  "sourceRow": 77,
+                  "cell": "C77",
+                  "rawValue": 0,
+                  "cellType": "n",
+                  "sourceName": "POS-кредиты",
+                  "sourceMetric": "Объем целевого рынка в России",
+                  "note": null
+                }
+              ],
+              "points": 0,
+              "confirmedBy": "user",
+              "userprovided": true,
+              "mappingRule": "normalizedExact",
+              "baselineApplicable": true,
+              "baselineMaxValue": 0.2,
+              "reason": "Явный числовой балл файла имеет приоритет над Q2; ноль сохраняется нулём, без правила целей 0,5.",
+              "rawValue": 0
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0.5,
+              "note": "По прямому указанию пользователя объем целевого рынка в России POS-кредитов за III квартал — 50%."
             }
           }
         }
