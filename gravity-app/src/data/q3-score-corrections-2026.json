@@ -1762,12 +1762,31 @@
               "note": "По прямому указанию пользователя объем целевого рынка в России POS-кредитов за III квартал — 50%."
             }
           }
+        },
+        "general.klienty_s_produktom": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "POS-кредиты",
+            "sourceMetricName": "Клиенты с продуктом",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "По прямому указанию пользователя: Клиенты с продуктом у POS-кредитов за III квартал — 100%."
+            }
+          }
         }
       }
     }
   ],
   "counts": {
     "teams": 13,
-    "facts": 32
+    "facts": 33
   }
 }

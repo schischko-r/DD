@@ -71,6 +71,13 @@ test('Internet-Acquiring Q3 product knowledge metrics use the confirmed 100% sco
   }
 });
 
+test('POS Q3 clients with product uses the explicit 100 percent correction over the workbook', () => {
+  const metric = find('POS-кредиты', 'general.klienty_s_produktom', 'CBP');
+  assert.equal(metric.value / metric.max_value, 1);
+  assert.equal(metric.source.correction.origin, 'userConfirmedQ3ScoreCorrection');
+  assert.equal(metric.source.correction.rawValue, 1);
+});
+
 test('Q3 business metric alerts are 50% for the four specified insurance products', () => {
   for (const name of ['ИСЖ', 'НСЖ', 'ДСЖ КК', 'Страхование залога']) {
     const metric = find(name, 'alerts.business_metrics', 'УБ');
