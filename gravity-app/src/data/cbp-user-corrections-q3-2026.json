@@ -274,6 +274,24 @@
             "userAssessment": "50,0%",
             "metricCode": "cx.score"
           }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedCbpCorrections20261102",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "input": "user-message",
+            "inputRow": 47,
+            "sourceName": "Вклады+НС",
+            "sourceUnit": "CBP",
+            "userBlock": "Знание ключевых метрик",
+            "userMetric": "Знание об отчетности в Навигаторе",
+            "userAssessment": "100%",
+            "metricCode": "general.navigator_reporting_knowledge",
+            "rule": "Прямая корректировка пользователя: Вклады+НС — знание об отчетности в Навигаторе 100% за III квартал. Имеет приоритет над прежней оценкой."
+          }
         }
       }
     },
@@ -1041,7 +1059,7 @@
     }
   ],
   "counts": {
-    "inputRows": 45,
+    "inputRows": 46,
     "teams": 11,
     "notApplicable": 3
   }

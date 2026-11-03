@@ -708,7 +708,7 @@ if (cbpAssessment) {
     const expectedMax = product.metrics.flatMap(block => block.metrics).filter(isDdIndexMetric).reduce((sum, metric) => sum + metric.max_value, 0);
     if (product.indexMaxPoints !== expectedMax) throw new Error(`CBP correction denominator is inconsistent: ${product.name}`);
   }
-  if (cbpChecked !== 45) throw new Error(`CBP correction coverage changed: ${cbpChecked}`);
+  if (cbpChecked !== 46) throw new Error(`CBP correction coverage changed: ${cbpChecked}`);
   console.log(`CBP corrections: ${cbpChecked} user rows verified; unrelated teams and metrics preserved.`);
 }
 const cxAssessment = overlays.find(({data}) => data.scope === 'cx-user-corrections')?.data;

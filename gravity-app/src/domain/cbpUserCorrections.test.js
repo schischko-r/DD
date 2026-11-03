@@ -7,17 +7,17 @@ import {isDdIndexMetric} from './report.js';
 const read = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
 const period = 'III кв. 2026';
 const allMetrics = (product) => product.metrics.flatMap((block) => block.metrics);
-// Independent transcription of the user's 45 CBP rows. Goals target the final,
+// Independent transcription of the user's 46 CBP assessments. Goals target the final,
 // indexed score, whose PO code differs from the informational LUL/T counterpart.
 const expected = {
-  'Автокредит': {'goals.po_monitoring': .5, 'goals.po_factor_analysis': .5, 'goals.po_forecast': .5,
+  'Автокредит': {'goals.po_monitoring': .5, 'goals.po_factor_analysis': 0, 'goals.po_forecast': .5,
     'alerts.business_metrics': 0, 'mehaniki.vozvrat_klientov': null, 'mehaniki.doprodazhi_up_sell': 0,
     'hyp.discovery_40_backlog': 0, 'hyp.datadriven_rating_7_5': 0},
-  'Вклады+НС': {'goals.po_factor_analysis': .5, 'churn.funnel_analysis': .25, 'cx.score': .5},
+  'Вклады+НС': {'goals.po_factor_analysis': 0, 'churn.funnel_analysis': .25, 'cx.score': .5, 'general.navigator_reporting_knowledge': 1},
   'Конверсия': {'goals.po_factor_analysis': .5, 'hyp.datadriven_rating_7_5': .5},
   'Монеты': {'goals.po_factor_analysis': .5, 'churn.funnel_analysis': 0,
     'mehaniki.vozvrat_klientov': .5, 'mehaniki.cross_sell.during': 1},
-  'Образовательный кредит': {'goals.po_factor_analysis': .5, 'mehaniki.vozvrat_klientov': null},
+  'Образовательный кредит': {'goals.po_factor_analysis': 0, 'mehaniki.vozvrat_klientov': null},
   'ОМС': {'goals.po_factor_analysis': .5, 'attract.report_completeness': .5, 'attract.funnel_analysis': .5,
     'churn.report_completeness': .5, 'churn.funnel_analysis': .5, 'hyp.datadriven_rating_7_5': 0},
   'Потребительский кредит': {'goals.po_factor_analysis': .5, 'churn.funnel_analysis': .5,
@@ -25,16 +25,16 @@ const expected = {
   'Сейфы': {'attract.report_completeness': 1, 'churn.nastroena_otchetnostь': .5, 'churn.report_completeness': 0,
     'mehaniki.vozvrat_klientov': .5, 'mehaniki.uderzhanie_klientov': .5, 'hyp.datadriven_rating_7_5': 0},
   'Слитки': {'general.navigator_reporting_knowledge': 0, 'goals.po_factor_analysis': .5, 'churn.funnel_analysis': 0},
-  'BNPL': {'goals.po_factor_analysis': .5, 'attract.campaign_launches': 1,
+  'BNPL': {'goals.po_factor_analysis': 0, 'attract.campaign_launches': 1,
     'churn.report_completeness': .5, 'mehaniki.cross_sell.during': 1},
-  'POS-кредиты': {'general.navigator_reporting_knowledge': .5, 'goals.po_factor_analysis': .5, 'churn.report_completeness': 0},
+  'POS-кредиты': {'general.navigator_reporting_knowledge': .5, 'goals.po_factor_analysis': 0, 'churn.report_completeness': 0},
 };
 const finalGoalCodes = {'goals.po_monitoring': 'goals.monitored',
   'goals.po_factor_analysis': 'goals.factor_analysis_l1_l2', 'goals.po_forecast': 'goals.forecast'};
 
-test('all 45 latest CBP rows win in the active Q3 pipeline while Q2 and unrelated assessments stay intact', () => {
+test('all 46 latest CBP assessments win in the active Q3 pipeline while Q2 and unrelated assessments stay intact', () => {
   assert.equal(Object.keys(expected).length, 11);
-  assert.equal(Object.values(expected).reduce((sum, facts) => sum + Object.keys(facts).length, 0), 45);
+  assert.equal(Object.values(expected).reduce((sum, facts) => sum + Object.keys(facts).length, 0), 46);
   const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
   const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map((match) => [match[1], match[2]]));
   const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map((key) => read(`../data/${imports.get(key.trim())}`));
@@ -115,7 +115,7 @@ test('all 45 latest CBP rows win in the active Q3 pipeline while Q2 and unrelate
       .reduce((sum, [code]) => sum + (isDdIndexMetric(previousMetrics.get(code)) ? previousMetrics.get(code).max_value : 0), 0);
     assert.ok(Math.abs(product.indexMaxPoints - (prior.indexMaxPoints - removedMaximum)) < 1e-9, 'only the three non-relevant metrics change the denominator');
   }
-  assert.equal(checked, 45);
+  assert.equal(checked, 46);
   assert.deepEqual(build(overlays, 'II кв. 2026'), build(overlays.filter((batch) => batch.scope !== 'cbp-user-corrections'), 'II кв. 2026'));
   assert.equal(JSON.stringify(source), snapshot);
 });

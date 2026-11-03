@@ -69,6 +69,17 @@ test('all 76 effective App teams reconcile every union block plus explicit round
   assert.equal(JSON.stringify({data, products}), snapshot, 'comparison never changes scores, rubric, assessments or source');
 });
 
+test('deposits Navigator is 100 percent after final corrections without changing its maximum or Q2', () => {
+  const product = products.find(item => item.name === 'Вклады+НС' && item.unit === 'CBP');
+  const target = metrics(product).find(metric => metric.code === 'general.navigator_reporting_knowledge');
+  assert.equal(target.value, 0.5);
+  assert.equal(target.max_value, 0.5);
+  assert.equal(target.source.confirmedBy, 'user');
+  assert.equal(target.source.userAssessment, '100%');
+  const prior = data.products.find(item => item.name === product.name && item.unit === product.unit);
+  assert.equal(metrics(prior).find(metric => metric.code === target.code).value, 0.25);
+});
+
 test('Campaigning final factor analysis stays zero after the latest correction; informational PO 0.6 remains excluded', () => {
   const product = products.find((item) => item.name === 'Персональная рекомендация' && item.unit === 'Data');
   const comparison = buildProductQuarterComparison(product, data.products, data.title.rows);

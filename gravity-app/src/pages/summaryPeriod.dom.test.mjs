@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {JSDOM,VirtualConsole} from 'jsdom';
 import {displayProductName} from '../domain/report.js';
+import {buildSummaryRadarData} from '../domain/summaryRadar.js';
 const sourceData=JSON.parse(readFileSync(new URL('../../public/report-data.json',import.meta.url),'utf8'));
 
 const build=process.env.DDI_PROFILE_TEST_HTML;
@@ -76,6 +77,21 @@ test('built Summary renders Q3 categories and both periods from current profiles
       const option=[...doc.querySelectorAll('[role="option"]')].find(n=>n.textContent.trim()===label);
       assert.ok(option,label);option.click();await pause();
     };
+    await choose('.dashboard-unit-filter [role="combobox"]','CBP');
+    const previousBlocks=buildSummaryRadarData(sourceData.products,'II кв. 2026','CBP',sourceData.products.find(p=>p.unit==='CBP').metrics).points;
+    const unitCards=[...doc.querySelectorAll('.metric-block-static')];
+    assert.equal(unitCards.length,8,'CBP shows all eight DDI block cards');
+    for(const card of unitCards){
+      const name=card.querySelector('h3').textContent;
+      const previous=previousBlocks.find(block=>block.name===name)?.unit;
+      assert.ok(Number.isFinite(previous),`${name}: Q2 baseline exists`);
+      const current=Number.parseFloat(card.querySelector('.dd-metric-block-score').textContent);
+      const badge=card.querySelector('.dashboard-block-quarter-delta');
+      assert.ok(badge,`${name}: quarter-change badge is visible`);
+      const expected=current-previous;
+      assert.equal(badge.querySelector('.index-quarter-delta-value').textContent,`${expected>0?'+':expected<0?'−':''}${Math.abs(expected)} п.п.`,name);
+      assert.equal(badge.title,'Изменение к предыдущему кварталу');
+    }
     await choose('.dashboard-unit-filter [role="combobox"]','DP');
     assert.ok(doc.querySelector('.dashboard-category-strip'),'unit scope uses compact categories');
     const channels=[...doc.querySelectorAll('.dashboard-category-row-title')].find(n=>n.textContent.includes('Каналы и поверхности'));
