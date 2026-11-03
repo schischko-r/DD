@@ -93,6 +93,13 @@ Product Lens из сети и не загружая результат в Qlik:
 Excel его нужно отдельно положить в корень репозитория; сборка из сохранённых данных
 выше в нём не нуждается.
 
+`--html-only` использует уже подготовленные `prolongation-data.json` и
+`outflow-tree-graph.json`; он не пересчитывает их из `prolong.xlsx`. Чтобы пересчитать
+воронку оттока из локального Excel и сразу собрать страницу, используй
+`./build_gravity_report.sh --outflow-from-excel`. Для загрузки получившегося HTML в
+тестовый Qlik добавь `--upload`; для production — `--upload --upd-prod`. Обычный
+`--html-only` собирает локальный файл без загрузки в Qlik.
+
 Полная локальная сборка Gravity UI из `flat_table.xlsx` и `prolong.xlsx`, включая
 JSON, свежие HTML-отчёты с настроенного API, Vite bundle и standalone HTML:
 
