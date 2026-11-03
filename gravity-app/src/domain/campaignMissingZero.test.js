@@ -9,7 +9,10 @@ const source = excludeRemovedTeams(read('../../public/report-data.json')).produc
 const assessment = read('../data/campaign-missing-zero-q3-2026.json');
 const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map((m) => [m[1], m[2]]));
-const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').filter((key) => imports.get(key.trim()) !== 'domclick-self-service-q3-2026.json').map((key) => read(`../data/${imports.get(key.trim())}`));
+// These regressions describe the October/November 2 campaign stages, before the audit corrections.
+const beforeCampaignAudit = o => o.scope !== 'q3-score-correction' ? o : {...o, products: o.products.map(p => ({...p,
+  metrics: Object.fromEntries(Object.entries(p.metrics).filter(([, f]) => f.source?.correction?.group !== 'campaignAudit20261103'))}))};
+const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').filter((key) => imports.get(key.trim()) !== 'domclick-self-service-q3-2026.json').map((key) => beforeCampaignAudit(read(`../data/${imports.get(key.trim())}`)));
 const metrics = (p) => p.metrics.flatMap((b) => b.metrics);
 
 test('Applicable blanks across 17 teams become explicit Q3 zeros, preserving every other score and Q2', () => {
@@ -87,7 +90,7 @@ test('explicit campaign assessments preserve prior corrections and update DSZh o
 
 test('final campaign confirmations preserve applicability, other metrics and Q2', async () => {
   const {buildDdiPeriodProducts} = await import('./quarterProfiles.js');
-  const all = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => read(`../data/${imports.get(key.trim())}`));
+  const all = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => beforeCampaignAudit(read(`../data/${imports.get(key.trim())}`)));
   const prior = structuredClone(all);
   const batch = prior.find(item => item.scope === 'campaign-user-assessment');
   batch.products = batch.products.filter(item => !['ЗПИФ', 'ВЗР', 'ДСЖ ПК'].includes(item.name));

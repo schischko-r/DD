@@ -970,6 +970,37 @@
               "note": "Прямая корректировка пользователя: оповещения по бизнес-метрикам команды ДСЖ КК за III квартал = 50%."
             }
           }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ КК",
+            "sourceMetricName": "Наличие успешных бизнес-запусков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCampaignAssessment",
+              "period": "III кв. 2026",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-10-29",
+              "sourceName": "ДСЖ КК",
+              "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+              "reason": "Пользователь явно указал за III квартал: запуски 0, Self-service 0, успешные бизнес-запуски 1.",
+              "rawValue": 1
+            }
+          }
         }
       }
     },
@@ -1102,6 +1133,101 @@
             },
             "rawValue": 1
           }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Наличие успешных бизнес-запусков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCampaignPresence20261102",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-11-02",
+              "period": "III кв. 2026",
+              "sourceName": "ЗПИФ",
+              "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+              "reason": "Последнее прямое указание пользователя: успешные бизнес-запуски ЗПИФ = 100%.",
+              "rawValue": 1
+            }
+          }
+        },
+        "attract.campaign_launches": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Запуски кампаний за квартал",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCampaignPresence20261102",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-11-02",
+              "period": "III кв. 2026",
+              "sourceName": "ЗПИФ",
+              "metricCode": "attract.campaign_launches",
+              "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+              "previousAssessment": null,
+              "rawValue": 1
+            }
+          }
+        },
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "ЗПИФ",
+            "sourceMetricName": "Наличие Self-service",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCampaignPresence20261102",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-11-02",
+              "period": "III кв. 2026",
+              "sourceName": "ЗПИФ",
+              "metricCode": "attract.nalichie_self_service",
+              "reason": "Пользователь подтвердил запуски кампаний и Self-service у ДСЖ КК, ЗПИФ и ВЗР: 100% только для применимых метрик. ДСЖ ПК исключена из корректировки.",
+              "previousAssessment": null,
+              "rawValue": 1
+            }
+          }
         }
       }
     },
@@ -1188,6 +1314,37 @@
               "note": "Прямая корректировка пользователя: составлен перечень инициатив по привлечению БПИФ = 0 за III квартал."
             }
           }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "БПИФ",
+            "sourceMetricName": "Наличие успешных бизнес-запусков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedSuccessfulBusinessLaunch",
+              "period": "III кв. 2026",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-10-29",
+              "sourceName": "БПИФ",
+              "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+              "reason": "Пользователь явно установил полный балл по наличию успешных бизнес-запусков за III квартал.",
+              "rawValue": 1
+            }
+          }
         }
       }
     },
@@ -1270,6 +1427,241 @@
               "period": "III кв. 2026",
               "rawValue": 0,
               "note": "Прямая корректировка пользователя: Мероприятия по работе с отклонениями по воронке оттока ОПИФ = 0% за III квартал."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "e982233c-5dff-599c-8b17-654d765327a1¦Брокерский счет",
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "Брокерский счет",
+            "sourceMetricName": "Наличие успешных бизнес-запусков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "file": "Книга3(2).xlsx",
+              "sheet": "Лист1",
+              "cell": "D12",
+              "columnLabel": "Сумма по полю successful_business_q2",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК",
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_self_service": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ ПК",
+            "sourceMetricName": "Наличие Self-service",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCampaignPresence20261102",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-11-02",
+              "period": "III кв. 2026",
+              "sourceName": "ДСЖ ПК",
+              "metricCode": "attract.nalichie_self_service",
+              "reason": "По последнему уточнению пользователя у ДСЖ ПК Self-service и успешные бизнес-запуски = 100%. Запуски кампаний остаются неприменимыми.",
+              "rawValue": 1
+            }
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "ДСЖ ПК",
+            "sourceMetricName": "Наличие успешных бизнес-запусков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "userConfirmedCampaignPresence20261102",
+              "confirmedBy": "user",
+              "confirmedAt": "2026-11-02",
+              "period": "III кв. 2026",
+              "sourceName": "ДСЖ ПК",
+              "metricCode": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+              "reason": "По последнему уточнению пользователя у ДСЖ ПК Self-service и успешные бизнес-запуски = 100%. Запуски кампаний остаются неприменимыми.",
+              "rawValue": 1
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт",
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "Зарплатный продукт",
+            "sourceMetricName": "Наличие успешных бизнес-запусков",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 0,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+            },
+            "previousAssessmentValue": 0.5,
+            "previousAssessmentSource": {
+              "origin": "salaryCohortAverage",
+              "period": "III кв. 2026",
+              "rule": "Среднее арифметическое оценок B2B и B2C с равными весами 1/2. Пропуск не заменяется нулём.",
+              "cohorts": {
+                "b2b": {
+                  "value": 0.5,
+                  "maxValue": 0.5,
+                  "applicable": true,
+                  "source": {
+                    "file": "Книга3(2).xlsx",
+                    "sheet": "Лист1",
+                    "cell": "D22",
+                    "columnLabel": "Сумма по полю successful_business_q2",
+                    "rawValue": 1,
+                    "sharedAssessment": true,
+                    "inheritedFromTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт"
+                  }
+                },
+                "b2c": {
+                  "value": 0.5,
+                  "maxValue": 0.5,
+                  "applicable": true,
+                  "source": {
+                    "file": "Книга3(2).xlsx",
+                    "sheet": "Лист1",
+                    "cell": "D22",
+                    "columnLabel": "Сумма по полю successful_business_q2",
+                    "rawValue": 1,
+                    "sharedAssessment": true,
+                    "inheritedFromTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт"
+                  }
+                }
+              },
+              "compatibleRubrics": true
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "a49f65b1-286e-592a-974a-49b980740328¦Сейфы",
+      "name": "Сейфы",
+      "unit": "CBP",
+      "type": "Продукт",
+      "metrics": {
+        "attract.nalichie_self_service": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Наличие Self-service",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 100% за III квартал."
+            },
+            "previousAssessmentValue": 0,
+            "previousAssessmentSource": {
+              "file": "Книга3(2).xlsx",
+              "sheet": "Лист1",
+              "cell": "C56",
+              "columnLabel": "Сумма по полю self_service_q3",
+              "rawValue": 0
+            }
+          }
+        },
+        "attract.campaign_launches": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-03",
+            "period": "III кв. 2026",
+            "sourceName": "Сейфы",
+            "sourceMetricName": "Запуски кампаний за квартал",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-03",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "group": "campaignAudit20261103",
+              "note": "Прямая оценка пользователя после сверки кампейнинга: 100% за III квартал."
+            },
+            "previousAssessmentValue": 0,
+            "previousAssessmentSource": {
+              "file": "Книга3(2).xlsx",
+              "sheet": "Лист1",
+              "cell": "B56",
+              "columnLabel": "Сумма по полю launches_q3",
+              "rawValue": 0
             }
           }
         }
