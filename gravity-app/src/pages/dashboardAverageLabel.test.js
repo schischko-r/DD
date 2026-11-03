@@ -16,3 +16,11 @@ test('Summary never shows an average without saying whose it is', () => {
   );
   assert.doesNotMatch(dashboardSource, />Среднее<|>Средний</, 'no bare average label');
 });
+
+test('Summary profile shows a quarter delta using the team-card badge style', () => {
+  assert.match(dashboardSource, /const previousPeriod = previousQuarterPeriod\(period\);/);
+  assert.match(dashboardSource, /const profileDelta = profileScore !== null && previousProfileScore !== null/);
+  assert.match(dashboardSource, /index-quarter-delta-\$\{profileDelta > 0 \? 'positive' : profileDelta < 0 \? 'negative' : 'neutral'\}/);
+  assert.match(dashboardSource, /className="index-quarter-delta-direction"/);
+  assert.match(dashboardSource, /ко \{previousPeriod\}/);
+});

@@ -45,6 +45,26 @@ class WorkbookSheetDiscoveryTest(unittest.TestCase):
                 self.assertEqual(backlog._sheet_paths(archive), [("Tickets", "xl/worksheets/sheet1.xml")])
             self.assertFalse(any("truth value" in str(warning.message) for warning in caught))
 
+    def test_output_four_blank_product_rows_map_to_oms(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base = root / "base.xlsx"
+            _write_minimal_xlsx(base, [{
+                "Created": "2026-03-01", "Resolved": "", "Status": "Open",
+                "Issue key": "BASE-1", "direction": "Отчеты", "scenario": "excel_reports", "team": "Другая команда",
+            }])
+            incoming = root / "output (4).xlsx"
+            _write_minimal_xlsx(incoming, [{
+                "Created": "2026-07-01", "Resolved": "", "Status": "Open",
+                "Issue key": "FXPMDATA-9001", "direction": "Аналитика", "scenario": "metrics_calculation", "product": "",
+            }])
+            rows, _, audit = backlog.read_ticket_sources(base, [incoming])
+
+        self.assertEqual(rows[-1]["team"], "ОМС")
+        source = audit["additionalSources"][0]
+        self.assertEqual(source["mappedMissingTeamRows"], 1)
+        self.assertEqual(source["byTeam"]["ОМС"]["acceptedRows"], 1)
+
 
 def _column_name(index: int) -> str:
     name = ""

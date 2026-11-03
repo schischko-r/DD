@@ -394,6 +394,7 @@ TEAM_LABEL_ALIASES = {
     'персональная рекомендация (кампейнинг)': 'Персональная рекомендация',
 }
 SHARED_TEAM_MEMBERS = {
+    'ОМС': ({'name': 'ОМС', 'unit': 'CBP', 'type': 'Продукт', 'period': 'III кв. 2026'},),
     'Top Affluent': ('Top Affluent', 'Пакет услуг СберПервый'),
     'КАСКО, ОСАГО': ('КАСКО', 'ОСАГО'),
     'Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой':
@@ -454,6 +455,18 @@ ISSUE_PREFIX_TEAM_MAPPINGS = {
                  'answer': 'discoveryBacklogComment', 'space': 'PBDTNLSS', 'period': 'III кв. 2026'},
 }
 
+# This user-provided Jira decomposition has no product values in its export.
+# Its rows are scoped to OMC by the user's source description, so map this
+# specific workbook (not every FXPMDATA export) to the III-quarter OMC team.
+ADDITIONAL_SOURCE_TEAM_MAPPINGS = {
+    "output (4).xlsx": {
+        "team": "ОМС",
+        "source": "output (4).xlsx",
+        "period": "III кв. 2026",
+        "rule": "Пользователь идентифицировал книгу как декомпозицию ОМС; пустой product у строк книги относится к ОМС.",
+    },
+}
+
 
 def _normalize_team(value: str) -> tuple[str, str]:
     label = " ".join(value.split())
@@ -499,6 +512,7 @@ def read_ticket_sources(path: Path, additional_inputs: list[Path] | None = None)
     audit.update(baselineDistinctTickets=len(existing), baselineCrossTeamDuplicateRows=cross_team_duplicates)
     for additional in additional_inputs:
         incoming, incoming_1904 = read_workbook_rows(additional)
+        source_team_mapping = ADDITIONAL_SOURCE_TEAM_MAPPINGS.get(additional.name)
         counts = {'file': additional.name, 'sha256': hashlib.sha256(additional.read_bytes()).hexdigest(),
                   'inputRows': len(incoming), 'acceptedRows': 0, 'skippedExistingIssueKeys': 0,
                   'skippedAdditionalDuplicateIssueKeys': 0, 'acceptedCancelledRows': 0,
@@ -512,7 +526,7 @@ def read_ticket_sources(path: Path, additional_inputs: list[Path] | None = None)
         for row in incoming:
             if not row['team'].strip():
                 prefix = row['Issue key'].strip().split('-', 1)[0].upper()
-                mapping = ISSUE_PREFIX_TEAM_MAPPINGS.get(prefix)
+                mapping = source_team_mapping or ISSUE_PREFIX_TEAM_MAPPINGS.get(prefix)
                 if not mapping:
                     counts['unresolvedMissingTeamRows'] += 1
                     by_prefix = counts['unresolvedMissingTeamByPrefix']

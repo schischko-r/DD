@@ -29,6 +29,8 @@ import {displayMetricPercent, metricFutureLabel} from '../domain/metricPresentat
 import {isCampaignSelfServiceConfirmation} from '../domain/campaignSelfService.js';
 import {salaryB2cComparisonBlock} from '../domain/salaryCohortGrowth.js';
 import {goalsProfileLevels} from '../domain/goalsProfileLevels.js';
+import {buildProductQuarterComparison} from '../domain/productQuarterComparison.js';
+import './teamProfileQuarterComparison.css';
 
 const REPORT_ERROR_URL = 'https://public.oprosso.sberbank.ru/p/6yyb40xa';
 const AB_TEST_INSTRUCTION_LINKS = [
@@ -698,12 +700,39 @@ function GoalsLevelDecomposition({metric, poMetric, product, children, poChild, 
       <i className={`metric-light metric-light-${theme === 'normal' ? 'default' : theme}`} aria-hidden="true" />
       <b>{displayText(metric.name)}</b>
       <Label className={theme === 'normal' ? 'metric-status-label metric-status-label-text' : 'metric-status-label'} size="xs" theme={theme}>{label}</Label>
+      <MetricActualGrowthBadge growth={actualCriterionGrowth(poMetric, children.props.maxIndexPoints, product.period)} />
     </summary>
     <div className="cross-sell-decomposition-content">
       {React.cloneElement(children, {nameOverride: 'Уровень ЛЮ/ЛТ', grouped: false, nested: true})}
       {React.cloneElement(poChild, {nameOverride: 'Уровень PO', grouped: false, nested: true})}
     </div>
   </details>;
+}
+
+function actualCriterionGrowth(metric, maxIndexPoints, period) {
+  return Object.hasOwn(metric, 'quarterActualGrowth')
+    ? metric.quarterActualGrowth : metricActualGrowth(metric, maxIndexPoints, period);
+}
+
+function QuarterIndexReconciliation({comparison}) {
+  if (!comparison) return null;
+  const signed = value => `${value > 0 ? '+' : value < 0 ? '−' : ''}${Math.abs(value).toLocaleString('ru-RU', {maximumFractionDigits: 1})} п.п.`;
+  return <details className="quarter-index-reconciliation" data-qa="quarter-index-reconciliation">
+    <summary>Изменение индекса по блокам: {signed(comparison.blockIndexPctDelta)} · округление {signed(comparison.roundingAdjustment)} · итого {signed(comparison.indexPctDelta)}</summary>
+    <p>Вклад блока — изменение его доли в общем индексе между II и III кварталами. Он учитывает оценки, применимость и веса метрик. Дельта отдельного критерия показывает изменение его оценки при текущем весе; изменение состава и весов учитывается во вкладе блока отдельно.</p>
+    <table aria-label="Сверка изменения индекса по блокам"><thead><tr><th scope="col">Блок</th><th scope="col">Вклад в изменение DDI</th></tr></thead><tbody>
+      {comparison.blocks.map(block => <tr key={block.code} data-quarter-block={block.code}><th scope="row">{displayText(block.name)}</th><td data-quarter-delta={block.indexPctDelta}>{signed(block.indexPctDelta)}</td></tr>)}
+      <tr data-quarter-rounding><th scope="row">Округление индекса и вкладов блоков</th><td data-quarter-delta={comparison.roundingAdjustment}>{signed(comparison.roundingAdjustment)}</td></tr>
+    </tbody><tfoot><tr><th scope="row">Итого — как в карточке команды</th><td data-quarter-total={comparison.indexPctDelta}>{signed(comparison.indexPctDelta)}</td></tr></tfoot></table>
+    <p>Вклады блоков округлены до 0,1 п.п.; итоговый индекс каждого квартала — до целого. Разница округлений показана отдельной строкой. Для зарплатного продукта вклад блока относится к общему продукту при любом положении переключателя B2C/B2B.</p>
+  </details>;
+}
+
+function quarterBlockGrowth(comparison, code) {
+  const block = comparison?.blocks.find(item => item.code === code);
+  return block ? {...block, currentPeriod: comparison.currentPeriod, previousPeriod: comparison.previousPeriod,
+    value: block.currentPoints, previousValue: block.previousPoints,
+    comparisonLabel: `Вклад блока в изменение DDI: оценки, применимость и веса. Изменение оценок ${block.scoreChangeIndexPctDelta.toLocaleString('ru-RU', {maximumFractionDigits: 2})} п.п.; состав и веса ${block.applicabilityIndexPctDelta.toLocaleString('ru-RU', {maximumFractionDigits: 2})} п.п. Округление учтено в сверке индекса.`} : null;
 }
 
 function MetricGroupEntry({metrics, index, block, product, children, expanded = false}) {
@@ -727,7 +756,7 @@ function MetricGroupEntry({metrics, index, block, product, children, expanded = 
   const content = goalsDecomposition && poMetric
     ? <GoalsLevelDecomposition metric={metrics[index]} poMetric={poMetric} product={product} poChild={poChild} expanded={expanded}>{children}</GoalsLevelDecomposition>
     : hasCrossSellDecomposition(product, metrics[index])
-    ? <CrossSellDecomposition product={product} metric={metrics[index]} highlighted={children.props.highlighted} growthBadge={<MetricActualGrowthBadge growth={metricActualGrowth(metrics[index], children.props.maxIndexPoints, product.period)} />} analytics={crossSellActions.length > 0 ? <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={crossSellActions} /> : null}>{children}</CrossSellDecomposition>
+    ? <CrossSellDecomposition product={product} metric={metrics[index]} highlighted={children.props.highlighted} growthBadge={<MetricActualGrowthBadge growth={actualCriterionGrowth(metrics[index], children.props.maxIndexPoints, product.period)} />} analytics={crossSellActions.length > 0 ? <MetricActionGroup title="Быстрая аналитика и AI-рекомендации" actions={crossSellActions} /> : null}>{children}</CrossSellDecomposition>
     : children;
   if (goalsDecomposition) return content;
   return <>{group && group !== previousGroup && <div className={`metric-group-title${informationalGoals ? ' metric-group-title-informational' : ''}`}><span>{group}</span>{informationalGoals && <span className="metric-group-note">Информационные метрики — не входят в индекс</span>}<ProductMetricGroupHelp blockCode={block.code} group={group} product={product} /></div>}{!group && previousGroup && <div className="metric-group-break" aria-hidden="true" />}{content}</>;
@@ -808,7 +837,7 @@ function MetricRow({block, metric, product, detailScore, maxIndexPoints, instruc
   const upliftDigitalTrace = verificationNote
     ? <DigitalTraceConfirmation message={verificationNote} />
     : null;
-  const actualGrowthBadge = <MetricActualGrowthBadge growth={metricActualGrowth(metric, maxIndexPoints, product.period)} />;
+  const actualGrowthBadge = <MetricActualGrowthBadge growth={actualCriterionGrowth(metric, maxIndexPoints, product.period)} />;
   const lossHunterSource = product.isPlaceholder && !isNotApplicable && metric.code === 'mehaniki.cross_sell'
     && metric.source?.system === 'LossHunter' && metric.source?.matched === true
     && ['own-observed-v2', 'own-observed-or-incoming-v3'].includes(metric.source?.criterionVersion)
@@ -947,6 +976,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
     : rows.some((row) => row.name === product.name && row.unit === product.unit && row.score != null);
   const score = product.isPlaceholder ? completedScore ?? 0 : scoreFor(product, rows);
   const indexDelta = hasScore ? previousQuarterIndexDelta(product, score, baselineProducts, baselineRows) : null;
+  const quarterComparison = useMemo(() => buildProductQuarterComparison(product, baselineProducts, baselineRows), [product, baselineProducts, baselineRows]);
   const maturity = product.isPlaceholder ? hasScore ? maturityLevelName(score) : 'Нет данных' : groupFor(product, rows);
   const maturityTone = hasScore ? maturityTheme(maturity) : 'default';
   const aiActionRecommendations = metricAiActionRecommendations(product);
@@ -991,10 +1021,11 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
     () => filterInapplicableMetricGroups((product.metrics || []).map((block) => {
       const displayedBlock = goalsProfileLevels(block, product.period);
       return {...displayedBlock,
-        metrics: (displayedBlock.metrics || []).filter((metric) => !isQ3CampaignMetricHidden(product, metric)),
+        metrics: (displayedBlock.metrics || []).filter((metric) => !isQ3CampaignMetricHidden(product, metric)).map(metric => quarterComparison
+          ? {...metric, quarterActualGrowth: quarterComparison.metricGrowthByCode[metric.code] || null} : metric),
       };
     }), aiRecommendationBlockCodes, isVisibleMetric),
-    [aiRecommendationBlockCodes, product],
+    [aiRecommendationBlockCodes, product, quarterComparison],
   );
   useEffect(() => {
     setRecommendationsOpen(false);
@@ -1151,6 +1182,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
       <CJXplorerDialog product={cjxplorerProduct} open={cjxplorerOpen} onClose={() => setCjxplorerOpen(false)} />
       <section className="metrics-section">
         <div className="metrics-title"><h2>Ключевые блоки DD-рейтинга</h2><div className="detail-mode" role="group" aria-label="Вид деталей"><Button selected={detailMode === 'detailed'} onClick={() => { setDetailMode('detailed'); setOpen(new Set(visibleMetricBlocks.map((item) => item.code))); }}>Подробно</Button><Button selected={detailMode === 'compact'} onClick={() => { setDetailMode('compact'); setOpen(new Set()); }}>Компактно</Button></div></div>
+        <QuarterIndexReconciliation comparison={quarterComparison} />
         <div className="metrics-grid">
           {visibleMetricBlocks.map((aggregateBlock) => {
             const salaryCohortKey = salaryCohortSelections[aggregateBlock.code] || 'b2c';
@@ -1166,7 +1198,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
             const templateVisibleMetrics = product.isPlaceholder ? (block.metrics || []).filter(isVisibleMetric) : [];
             const templateAllIrrelevant = templateVisibleMetrics.length > 0 && templateVisibleMetrics.every((metric) => metric.is_applicabble_flg === false && metric.code !== 'hyp.ab_tests');
             const templateBlockScore = product.isPlaceholder ? completeBlockPercent(block, metricProduct.period) : null;
-            const templateGrowth = product.isPlaceholder ? blockActualGrowth(block, maxPoints, metricProduct.period) : null;
+            const templateGrowth = product.isPlaceholder ? quarterComparison ? quarterBlockGrowth(quarterComparison, aggregateBlock.code) : blockActualGrowth(block, maxPoints, metricProduct.period) : null;
             const templateStaticLinks = templateMetrics.flatMap((metric) => {
               if (/^hyp\.ab_tests$/i.test(metric.code)) return AB_TEST_INSTRUCTION_LINKS.map((action) => ({label: action.label, url: action.href}));
               if (/^hyp\.datadriven_rating_7_5$/i.test(metric.code)) return [{label: 'Библиотека решений', url: RESEARCH_LIBRARY_URL}];
@@ -1192,7 +1224,7 @@ export function TeamProfilePage({product, products, rows, baselineRows = [], bas
             const blockMetrics = filterMetricsForBlock(block, visibleMetrics);
             const metrics = filterInapplicableMetricSubgroups(blockMetrics, metricGroup);
             const blockScore = blockPercent(block);
-            const growth = blockActualGrowth(block, maxPoints, product.period);
+            const growth = quarterComparison ? quarterBlockGrowth(quarterComparison, aggregateBlock.code) : blockActualGrowth(block, maxPoints, product.period);
             const allIrrelevant = visibleMetrics.length > 0 && visibleMetrics.every((metric) => metric.is_applicabble_flg === false);
             const isOpen = open.has(block.code);
             const value = metrics.reduce((sum, metric) => sum + Number(metric.value || 0), 0);

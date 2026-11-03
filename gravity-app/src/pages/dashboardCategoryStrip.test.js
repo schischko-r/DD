@@ -38,6 +38,19 @@ test('the strip keeps both catalog entry points the cards had', () => {
   assert.match(dashboardSource, /onClick=\{\(\) => onOpenLevel\(level\)\}/, 'a segment opens the catalog filtered by that level');
 });
 
+test('category cards show a compact up or down delta below the average score', () => {
+  assert.match(dashboardSource, /const previousPeriodProducts = baselineProducts\.filter\(\(product\) => product\.period === previousPeriod && \(!unit \|\| product\.unit === unit\)\);/);
+  assert.match(dashboardSource, /const previousScores = previousPeriodProducts\.filter\(\(product\) => typeTone\(product\.type\) === category\.key\)/);
+  assert.match(dashboardSource, /const delta = average !== null && previousAverage !== null \? average - previousAverage : null;/);
+  assert.match(dashboardSource, /dashboard-card-quarter-delta/);
+  assert.match(dashboardSource, /className="index-quarter-delta-direction"/);
+  assert.match(stylesSource, /\.dashboard-category-score \.dashboard-card-quarter-delta \.index-quarter-delta-value \{ font: 600 12px/);
+  assert.match(stylesSource, /\.dashboard-card-quarter-delta \.index-quarter-delta-badge \{ min-height: 22px/);
+  assert.match(stylesSource, /\.dashboard-category-card \.dashboard-category-score \.dashboard-card-quarter-delta\.index-quarter-delta-positive \.index-quarter-delta-value \{ color: var\(--g-color-text-positive-heavy\); \}/);
+  const cards = dashboardSource.slice(dashboardSource.indexOf('categoryCards.map((category)'), dashboardSource.indexOf('<Dialog open={antiTopOpen}'));
+  assert.ok(cards.indexOf('dashboard-card-quarter-delta') < cards.indexOf('dashboard-category-caption'), 'the small delta sits directly below the score');
+});
+
 test('the maturity split is one bar sized by the counts, with empty levels left out', () => {
   assert.match(
     dashboardSource,

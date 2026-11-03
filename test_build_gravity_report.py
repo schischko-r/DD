@@ -264,6 +264,7 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         args = report.parse_args([])
         self.assertEqual(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT.name, "tickets_final.xlsx")
         self.assertEqual(report.DEFAULT_BACKLOG_SURVEY_INPUT.name, "output (1).xlsx")
+        self.assertEqual(report.DEFAULT_BACKLOG_OMS_INPUT.name, "output (4).xlsx")
 
         with patch.object(report, "run") as run:
             report.build(args)
@@ -279,6 +280,8 @@ class GravityBuildCrosssellTest(unittest.TestCase):
                 str(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT),
                 "--additional-input",
                 str(report.DEFAULT_BACKLOG_SURVEY_INPUT),
+                "--additional-input",
+                str(report.DEFAULT_BACKLOG_OMS_INPUT),
                 "--output",
                 str(report.DEFAULT_BACKLOG_DATA),
             ],
@@ -311,9 +314,10 @@ class GravityBuildCrosssellTest(unittest.TestCase):
         self.assertNotIn(str(report.DEFAULT_BACKLOG_ADDITIONAL_INPUT), command)
         self.assertNotIn(str(report.DEFAULT_BACKLOG_SURVEY_INPUT), command)
 
-    def test_absent_optional_survey_export_keeps_existing_default_backlog_source(self) -> None:
+    def test_absent_optional_exports_keep_existing_default_backlog_source(self) -> None:
         args = report.parse_args([])
-        with patch.object(report.Path, 'is_file', lambda candidate: candidate != report.DEFAULT_BACKLOG_SURVEY_INPUT), patch.object(report, 'run') as run:
+        optional = {report.DEFAULT_BACKLOG_SURVEY_INPUT, report.DEFAULT_BACKLOG_OMS_INPUT}
+        with patch.object(report.Path, 'is_file', lambda candidate: candidate not in optional), patch.object(report, 'run') as run:
             report.build(args)
         command = next(call.args[0] for call in run.call_args_list if call.args[0][1] == str(report.ROOT / 'build_backlog_data.py'))
         self.assertEqual(command.count('--additional-input'), 1)

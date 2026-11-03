@@ -35,10 +35,10 @@ test('Top Affluent and СберПервый open the same shared PSDA decomposit
   assert.equal(backlogTeamOptionValue(board,product('Пакет услуг СберПервый')),first.value);
 });
 
-test('the shipped fourteen datasets each contain Q3 and each shared member resolves to one shared board',async()=>{
+test('the shipped fifteen datasets each contain Q3 and each shared member resolves to one shared board',async()=>{
   const {readFileSync}=await import('node:fs');
   const data=JSON.parse(readFileSync(new URL('../../public/backlog-data.json',import.meta.url)));
-  assert.equal(data.teams.length,14);
+  assert.equal(data.teams.length,15);
   for(const team of data.teams)assert.ok(team.quarters.some(q=>q.key==='2026-Q3'));
   const affluent=data.teams.find(team=>team.memberTeams.includes('Top Affluent'));
   const insurance=data.teams.find(team=>team.memberTeams.includes('КАСКО'));
@@ -47,12 +47,12 @@ test('the shipped fourteen datasets each contain Q3 and each shared member resol
   for(const team of [affluent,insurance,payments])for(const name of team.memberTeams){const found=data.teams.filter(t=>backlogTeamMatchesProduct(t,product(name)));assert.equal(found.length,1);assert.equal(found[0],team);}
 });
 
-test('twenty-two individual options reference fourteen datasets without copying aggregates or splitting ordinary comma names',async()=>{
+test('twenty-three individual options reference fifteen datasets without copying aggregates or splitting ordinary comma names',async()=>{
   const {readFileSync}=await import('node:fs');
   const raw=readFileSync(new URL('../../public/backlog-data.json',import.meta.url));
   const data=JSON.parse(raw),before=JSON.stringify(data);const options=getBacklogTeamFilterOptions(data.teams);
-  assert.equal(options.length,22);assert.equal(new Set(options.map(o=>o.value)).size,22);
-  const expected=['Top Affluent','Пакет услуг СберПервый','КАСКО','ОСАГО','Переводы по РФ','Переводы подарков','SberPay Вжух','Оплата улыбкой'];
+  assert.equal(options.length,23);assert.equal(new Set(options.map(o=>o.value)).size,23);
+  const expected=['Top Affluent','Пакет услуг СберПервый','КАСКО','ОСАГО','Переводы по РФ','Переводы подарков','SberPay Вжух','Оплата улыбкой','ОМС'];
   for(const name of expected)assert.equal(options.filter(o=>o.content===name).length,1);
   assert.ok(!options.some(o=>o.content==='КАСКО, ОСАГО'||o.content.includes('Переводы по РФ,')));
   const kasco=options.find(o=>o.content==='КАСКО'),osago=options.find(o=>o.content==='ОСАГО');assert.notEqual(kasco.value,osago.value);assert.equal(kasco.teamKey,osago.teamKey);
@@ -60,6 +60,10 @@ test('twenty-two individual options reference fourteen datasets without copying 
   assert.ok(quarter.createdCount>0);assert.ok(quarter.directions.find(d=>d.key==='Неизвестно').count>0);
   assert.equal(quarter.directions.reduce((sum,direction)=>sum+direction.count,0),quarter.createdCount,'Unknown tasks remain in the complete shared-board denominator');
   assert.equal(backlogTeamOptionValue(board,product('ОСАГО')),osago.value);assert.equal(findBacklogTeamFilterOption(options,osago.value),osago);
+  const oms=options.find(o=>o.content==='ОМС'),omsBoard=data.teams.find(t=>t.key===oms.teamKey),omsQuarter=omsBoard.quarters.find(q=>q.key==='2026-Q3');
+  assert.equal(omsQuarter.createdCount,14);assert.equal(omsQuarter.discoveryCount,2);assert.equal(omsQuarter.discoveryShare,14.29);
+  assert.ok(backlogTeamMatchesProduct(omsBoard,{name:'ОМС',unit:'CBP',type:'Продукт',period:'III кв. 2026'}));
+  assert.equal(backlogTeamMatchesProduct(omsBoard,{name:'ОМС',unit:'CBP',type:'Продукт',period:'II кв. 2026'}),false);
   assert.equal(findBacklogTeamFilterOption(options,board.key).teamKey,board.key);
   const ordinary=getBacklogTeamFilterOptions([{key:'ordinary',label:'Выписки, справки'}]);assert.equal(ordinary.length,1);assert.equal(ordinary[0].content,'Выписки, справки');
   assert.equal(JSON.stringify(data),before);

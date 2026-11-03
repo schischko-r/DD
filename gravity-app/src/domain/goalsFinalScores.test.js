@@ -5,7 +5,8 @@ import {applyGoalsFinalScores, GOALS_FINAL_COUNTERPARTS} from './goalsFinalScore
 import {buildDdiPeriodProducts} from './quarterProfiles.js';
 import {isDdIndexMetric, isDdIndexMetricForPeriod} from './report.js';
 import {blockActualGrowth} from './teamProfileSelection.js';
-const read = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url)));
+import {beforeFinalGoalsTable} from './test-fixtures/beforeFinalGoalsTable.js';
+const read = (path) => beforeFinalGoalsTable(JSON.parse(readFileSync(new URL(path, import.meta.url))));
 const metrics = (product) => product.metrics.flatMap((block) => block.metrics);
 const selected = read('../data/goals-final-scores-q3-2026.json');
 

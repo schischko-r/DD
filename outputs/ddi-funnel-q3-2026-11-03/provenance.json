@@ -1,0 +1,758 @@
+{
+  "schemaVersion": 1,
+  "snapshotDate": "2026-11-03",
+  "command": "node outputs/ddi-funnel-q3-2026-11-03/generate-data.mjs",
+  "node": "v22.23.1",
+  "rawSource": "gravity-app/public/report-data.json",
+  "app": "gravity-app/src/app/App.jsx",
+  "overlayPaths": [
+    "gravity-app/src/data/mechanics-metrics-q3-2026.json",
+    "gravity-app/src/data/alerts-carry-forward-q3-2026.json",
+    "gravity-app/src/data/campaign-metrics-q3-2026.json",
+    "gravity-app/src/data/draft-metrics-q3-2026.json",
+    "gravity-app/src/data/crosssell-metrics-q3-2026.json",
+    "gravity-app/src/data/crosssell-after-purchase-scores-q3-2026.json",
+    "gravity-app/src/data/crosssell-during-purchase-scores-q3-2026.json",
+    "gravity-app/src/data/research-metrics-q3-2026.json",
+    "gravity-app/src/data/research-metric-corrections-q3-2026.json",
+    "gravity-app/src/data/funnel-reporting-metrics-q3-2026.json",
+    "gravity-app/src/data/ux-score-metrics-q3-2026.json",
+    "gravity-app/src/data/goals-metrics-q3-2026.json",
+    "gravity-app/src/data/key-metrics-q3-2026.json",
+    "gravity-app/src/data/selected-metrics-carry-forward-q3-2026.json",
+    "gravity-app/src/data/cx-score-metrics-q3-2026.json",
+    "gravity-app/src/data/campaign-missing-zero-q3-2026.json",
+    "gravity-app/src/data/campaign-user-assessments-q3-2026.json",
+    "gravity-app/src/data/user-metric-assessments-q3-2026.json",
+    "gravity-app/src/data/funnel-user-assessments-q3-2026.json",
+    "gravity-app/src/data/funnel-link-quality-assessment-q3-2026.json",
+    "gravity-app/src/data/funnel-additional-user-assessments-q3-2026.json",
+    "gravity-app/src/data/chat-entry-actions-q3-2026.json",
+    "gravity-app/src/data/navigator-reporting-knowledge-q3-2026.json",
+    "gravity-app/src/data/navigator-market-knowledge-q3-2026.json",
+    "gravity-app/src/data/knowledge-user-assessments-q3-2026.json",
+    "gravity-app/src/data/goals-user-carry-forward-q3-2026.json",
+    "gravity-app/src/data/ab-tests-user-assessments-q3-2026.json",
+    "gravity-app/src/data/mechanics-user-assessments-q3-2026.json",
+    "gravity-app/src/data/discovery-metrics-q3-2026.json",
+    "gravity-app/src/data/regularity-user-assessments-q3-2026.json",
+    "gravity-app/src/data/metric-applicability-q3-2026.json",
+    "gravity-app/src/data/navigator-mau-knowledge-q3-2026.json",
+    "gravity-app/src/data/digital-channel-actions-q3-2026.json",
+    "gravity-app/src/data/digital-channel-return-q3-2026.json",
+    "gravity-app/src/data/oms-key-metrics-assessment-q3-2026.json",
+    "gravity-app/src/data/oms-goals-assessment-q3-2026.json",
+    "gravity-app/src/data/oms-funnel-user-assessment-q3-2026.json",
+    "gravity-app/src/data/oms-user-metric-assessment-q3-2026.json",
+    "gravity-app/src/data/oms-mechanics-user-assessment-q3-2026.json",
+    "gravity-app/src/data/segment-user-assessments-q3-2026.json",
+    "gravity-app/src/data/navigator-zero-markets-q3-2026.json",
+    "gravity-app/src/data/alerts-benchmarks-user-q3-2026.json",
+    "gravity-app/src/data/domclick-self-service-q3-2026.json",
+    "gravity-app/src/data/corporate-flexible-conditions-applicability-q3-2026.json",
+    "gravity-app/src/data/quarter-retention-user-q3-2026.json",
+    "gravity-app/src/data/pb-business-alerts-q3-2026.json",
+    "gravity-app/src/data/pb-nonfinancial-knowledge-q3-2026.json",
+    "gravity-app/src/data/pb-navigator-knowledge-q3-2026.json",
+    "gravity-app/src/data/goals-tribe-assessments-q3-2026.json",
+    "gravity-app/src/data/goals-final-scores-q3-2026.json",
+    "gravity-app/src/data/goals-tribe-applicability-q3-2026.json",
+    "gravity-app/src/data/goals-metric-corrections-q3-2026.json",
+    "gravity-app/src/data/goals-informational-q3-2026.json",
+    "gravity-app/src/data/po-goals-template-q3-2026.json",
+    "gravity-app/src/data/po-goals-survey-assessments-q3-2026.json",
+    "gravity-app/src/data/campaigning-quarter-retention-q3-2026.json",
+    "gravity-app/src/data/kasko-satellites-q3-2026.json",
+    "gravity-app/src/data/monety-churn-analysis-q3-2026.json",
+    "gravity-app/src/data/campaigning-performance-q3-2026.json",
+    "gravity-app/src/data/campaigning-alerts-q3-2026.json",
+    "gravity-app/src/data/all-satellites-knowledge-q3-2026.json",
+    "gravity-app/src/data/campaigning-data-quality-q3-2026.json",
+    "gravity-app/src/data/campaigning-deviation-actions-q3-2026.json",
+    "gravity-app/src/data/corporate-churn-completeness-q3-2026.json",
+    "gravity-app/src/data/cfa-attract-completeness-q3-2026.json",
+    "gravity-app/src/data/cfa-attract-benchmarks-q3-2026.json",
+    "gravity-app/src/data/ab-tests-insurance-visibility-q3-2026.json",
+    "gravity-app/src/data/nszh-funnel-completeness-q3-2026.json",
+    "gravity-app/src/data/iszh-funnel-completeness-q3-2026.json",
+    "gravity-app/src/data/investkopilka-navigator-q3-2026.json",
+    "gravity-app/src/data/deposits-churn-completeness-q3-2026.json",
+    "gravity-app/src/data/payments-mechanics-q3-2026.json",
+    "gravity-app/src/data/data-quality-survey-q3-2026.json",
+    "gravity-app/src/data/monthly-excel-reporting-q3-2026.json",
+    "gravity-app/src/data/working-age-fot-knowledge-q3-2026.json",
+    "gravity-app/src/data/smile-markets-zero-q3-2026.json",
+    "gravity-app/src/data/smile-attract-analysis-q3-2026.json",
+    "gravity-app/src/data/tips-funnel-user-q3-2026.json",
+    "gravity-app/src/data/bullion-funnel-user-q3-2026.json",
+    "gravity-app/src/data/tips-mechanics-user-q3-2026.json",
+    "gravity-app/src/data/auto-attract-analysis-q3-2026.json",
+    "gravity-app/src/data/auto-self-service-q3-2026.json",
+    "gravity-app/src/data/tips-benchmarks-user-q3-2026.json",
+    "gravity-app/src/data/tips-regularity-user-q3-2026.json",
+    "gravity-app/src/data/funnel-missing-user-fill-q3-2026.json",
+    "gravity-app/src/data/children-mechanics-user-q3-2026.json",
+    "gravity-app/src/data/reporting-absence-user-q3-2026.json",
+    "gravity-app/src/data/segment-mechanics-floor-q3-2026.json",
+    "gravity-app/src/data/bpif-key-metrics-user-q3-2026.json",
+    "gravity-app/src/data/insurance-funnel-user-q3-2026.json",
+    "gravity-app/src/data/cfa-navigator-user-q3-2026.json",
+    "gravity-app/src/data/cfa-market-index-exclusions-q3-2026.json",
+    "gravity-app/src/data/domclick-cx-score-user-q3-2026.json",
+    "gravity-app/src/data/industrial-data-user-q3-2026.json",
+    "gravity-app/src/data/digital-funnel-actions-user-q3-2026.json",
+    "gravity-app/src/data/bullion-mechanics-user-q3-2026.json",
+    "gravity-app/src/data/daily-banking-funnel-user-q3-2026.json",
+    "gravity-app/src/data/cross-border-mechanics-user-q3-2026.json",
+    "gravity-app/src/data/elk-knowledge-user-q3-2026.json",
+    "gravity-app/src/data/call-center-navigator-user-q3-2026.json",
+    "gravity-app/src/data/notification-retention-user-q3-2026.json",
+    "gravity-app/src/data/telemarketing-mechanics-user-q3-2026.json",
+    "gravity-app/src/data/trade-acquiring-alerts-user-q3-2026.json",
+    "gravity-app/src/data/pc-final-scores-q3-2026.json",
+    "gravity-app/src/data/q3-score-corrections-2026.json",
+    "gravity-app/src/data/crossborder-acquiring-reporting-applicability-q3-2026.json",
+    "gravity-app/src/data/ub-workbook-corrections-q3-2026.json",
+    "gravity-app/src/data/cbp-user-corrections-q3-2026.json",
+    "gravity-app/src/data/cx-user-corrections-q3-2026.json",
+    "gravity-app/src/data/crosssell-final-scores-q3-2026.json"
+  ],
+  "configPaths": [
+    "gravity-app/src/data/salary-products-q3-2026.json",
+    "gravity-app/src/data/reporting-regularity-missing-q3-2026.json",
+    "gravity-app/src/data/funnel-action-missing-q3-2026.json"
+  ],
+  "backlog": {
+    "file": "gravity-app/public/backlog-data.json",
+    "state": "ready"
+  },
+  "baselineSourceSnapshotHash": "7bb3dd4b5760cb63c415422e5000f0d9a3d109c89cab4c20339ab33c736cd99b",
+  "inputs": [
+    {
+      "file": "gravity-app/public/backlog-data.json",
+      "sha256": "0da973724a75c09671a0b652ea3d11851eea3a9b25b5312357e3389111500db0"
+    },
+    {
+      "file": "gravity-app/public/report-data.json",
+      "sha256": "7bc87923fb0c187cb63c436a279d2434cbba969958359473e2757aed8594322b"
+    },
+    {
+      "file": "gravity-app/src/app/App.jsx",
+      "sha256": "ff2f74d7c719a1d3aa48bf2a31cf75f3367de8ad2093934b48c25c13ebc003e4"
+    },
+    {
+      "file": "gravity-app/src/data/ab-tests-insurance-visibility-q3-2026.json",
+      "sha256": "0d658ef1928dfe90414f4ab35d66e2d9fcc02a0a7b7aab341e12112b4b9051fb"
+    },
+    {
+      "file": "gravity-app/src/data/ab-tests-user-assessments-q3-2026.json",
+      "sha256": "8ec21c33668d37b06e0c171642ea8ab889fb03c23796a23ebaa2a02a610337fb"
+    },
+    {
+      "file": "gravity-app/src/data/alerts-benchmarks-user-q3-2026.json",
+      "sha256": "cbdf88c7de02b069acce6c667cc298787f9661f72b1321a8ece3bb65d86811ee"
+    },
+    {
+      "file": "gravity-app/src/data/alerts-carry-forward-q3-2026.json",
+      "sha256": "2be57e41d1bf3e7d904871e95a51defdac753913a1409e02b96b062865585e69"
+    },
+    {
+      "file": "gravity-app/src/data/all-satellites-knowledge-q3-2026.json",
+      "sha256": "9867832f01e6a496e90acc9b7dcca82dc06e64f44efafc70f2c2196e2a37116a"
+    },
+    {
+      "file": "gravity-app/src/data/auto-attract-analysis-q3-2026.json",
+      "sha256": "6c6c4895dea3d5f30409fd0e5dc4ce9309532eddc5095ce0d26d6935040b6f50"
+    },
+    {
+      "file": "gravity-app/src/data/auto-self-service-q3-2026.json",
+      "sha256": "c7e8105c76f81d4010d3d344eb65e9800df85df7eb13b858eb1d246f92830388"
+    },
+    {
+      "file": "gravity-app/src/data/bpif-key-metrics-user-q3-2026.json",
+      "sha256": "c209d9cb9686a77843965f020f742d6873f80de5f479f4be77402c9d330bf089"
+    },
+    {
+      "file": "gravity-app/src/data/bullion-funnel-user-q3-2026.json",
+      "sha256": "3d18ede445900b6617a85daa614684814e77a62748e6088d07d0ba0384bde796"
+    },
+    {
+      "file": "gravity-app/src/data/bullion-mechanics-user-q3-2026.json",
+      "sha256": "cf898e1e1c18f0b2a2ce140a30cdaece48b45bc38596cc688bb5b1a254399578"
+    },
+    {
+      "file": "gravity-app/src/data/call-center-navigator-user-q3-2026.json",
+      "sha256": "185941a4b124a60886b74a0a09cfa001f73c1b7cdeb5a935960111d630fabc34"
+    },
+    {
+      "file": "gravity-app/src/data/campaign-metrics-q3-2026.json",
+      "sha256": "f884aadb1df37da6ba5ee713bfed6367dbd13b60435e208c6ae55db2836c1748"
+    },
+    {
+      "file": "gravity-app/src/data/campaign-missing-zero-q3-2026.json",
+      "sha256": "139d1aabea51851cc8a63b8929ca01da75ec0ab8231d485f9adb79bc550f2468"
+    },
+    {
+      "file": "gravity-app/src/data/campaign-user-assessments-q3-2026.json",
+      "sha256": "6abeb01daf82e807248bb9b53dd47bd0c76894c83dc5fca6364c18552f95e635"
+    },
+    {
+      "file": "gravity-app/src/data/campaigning-alerts-q3-2026.json",
+      "sha256": "e1fc63de08692b0ed436fcad2ccb733bfb9f173fb98f338ab7cd1f551c1aea54"
+    },
+    {
+      "file": "gravity-app/src/data/campaigning-data-quality-q3-2026.json",
+      "sha256": "5242450ea87ffe20afa78b0eaf8be0c97b512dbbe644107a1613338d6c099e6b"
+    },
+    {
+      "file": "gravity-app/src/data/campaigning-deviation-actions-q3-2026.json",
+      "sha256": "a6784c008a0aa3d0cc429b9c1af254795effdd10ad84310835f72b56a9edabef"
+    },
+    {
+      "file": "gravity-app/src/data/campaigning-performance-q3-2026.json",
+      "sha256": "146b625d5837c9992ff04b0412076acacb10413de8643f8d5261d868dbb028ef"
+    },
+    {
+      "file": "gravity-app/src/data/campaigning-quarter-retention-q3-2026.json",
+      "sha256": "c8bcb9893234e266be89fc349de3c66b7ffe81c67a5c4bffc5963a22ef4c368e"
+    },
+    {
+      "file": "gravity-app/src/data/cbp-user-corrections-q3-2026.json",
+      "sha256": "c467f644d1f1d1c9748fc42bb7986851c3c130a9b07f1241e503eea4465402d4"
+    },
+    {
+      "file": "gravity-app/src/data/cfa-attract-benchmarks-q3-2026.json",
+      "sha256": "d6d7f6e4c7ef0b2deee0fe749054c49506ccbd5a5b2baca6d79b4aac9f6e42db"
+    },
+    {
+      "file": "gravity-app/src/data/cfa-attract-completeness-q3-2026.json",
+      "sha256": "24b180a67841a23c63c663c45a0be52750806b4910333c33774841a4c1647370"
+    },
+    {
+      "file": "gravity-app/src/data/cfa-market-index-exclusions-q3-2026.json",
+      "sha256": "29bcc024637bf5250dc06b82d614e725f832cf686880f1a995b2d61a38449155"
+    },
+    {
+      "file": "gravity-app/src/data/cfa-navigator-user-q3-2026.json",
+      "sha256": "2bf6bc25e82abf86930e7579a7a1f39935b74bca201aea518cd40b6fdf4afba2"
+    },
+    {
+      "file": "gravity-app/src/data/chat-entry-actions-q3-2026.json",
+      "sha256": "2a63b23c66a0c733a2ed6e8996941253ec6b30ffa8f6e18d00612f6370858d49"
+    },
+    {
+      "file": "gravity-app/src/data/children-mechanics-user-q3-2026.json",
+      "sha256": "b8cbe1e7d55613506271d63261f2f25df2f3844cc8348f24d2ad65237dd47362"
+    },
+    {
+      "file": "gravity-app/src/data/corporate-churn-completeness-q3-2026.json",
+      "sha256": "a5e90d1fe9154a43371f86fceaa4e41c2d04fb4203d693e91ca080dbc851b739"
+    },
+    {
+      "file": "gravity-app/src/data/corporate-flexible-conditions-applicability-q3-2026.json",
+      "sha256": "da2fde60f908d87e6a9fcec4814056b91afdb7fc81e14e1acac31077e9d8ab3e"
+    },
+    {
+      "file": "gravity-app/src/data/cross-border-mechanics-user-q3-2026.json",
+      "sha256": "007a81ceaaea1077eb88ab48626828b68d1501d4bcd5f9e75b34772b2ad3d30a"
+    },
+    {
+      "file": "gravity-app/src/data/crossborder-acquiring-reporting-applicability-q3-2026.json",
+      "sha256": "73ffac477ad78e25ea8fb7f4a146ce7bf86ad8cc0ad0d952d40d7023508a3db3"
+    },
+    {
+      "file": "gravity-app/src/data/crosssell-after-purchase-scores-q3-2026.json",
+      "sha256": "4cb2cc469566634e51975fa698b0269c83a2d70d91af38c2eda5acfe92f86ccc"
+    },
+    {
+      "file": "gravity-app/src/data/crosssell-during-purchase-scores-q3-2026.json",
+      "sha256": "80b8cad1d002ab3f65359fa3dc5417fbef5b7c6acb9e327d66a4d454d97d6dcf"
+    },
+    {
+      "file": "gravity-app/src/data/crosssell-final-scores-q3-2026.json",
+      "sha256": "41088e6bb4445465093f794f52979c7d7f17fff8072d79de6b7017ebd37caf1a"
+    },
+    {
+      "file": "gravity-app/src/data/crosssell-metrics-q3-2026.json",
+      "sha256": "40737c46e7cf98c755dc0159fc859ad7619aa23581d5494bfca7638291a07136"
+    },
+    {
+      "file": "gravity-app/src/data/cx-score-metrics-q3-2026.json",
+      "sha256": "b4d6577951f53abbec187adafd3d1bedc1a67e5238a8226b2cb3df118d0e2ccd"
+    },
+    {
+      "file": "gravity-app/src/data/cx-user-corrections-q3-2026.json",
+      "sha256": "99d3faf08325fa2c85696e06af3bf36024f424266c5aa4680ab232bf1b064c05"
+    },
+    {
+      "file": "gravity-app/src/data/daily-banking-funnel-user-q3-2026.json",
+      "sha256": "2f351e8af1be4d0f7dc0c043380967d6e57c48f2ddd6a79b7ab48e05c8ef865c"
+    },
+    {
+      "file": "gravity-app/src/data/data-quality-survey-q3-2026.json",
+      "sha256": "d088d5deb8d5d3da6f72c72a431d3e0e90956e86243af4fafc673f9751a21f4c"
+    },
+    {
+      "file": "gravity-app/src/data/deposits-churn-completeness-q3-2026.json",
+      "sha256": "191f4047f97130f75dc7d4f8772862847dd5972fc3217fcb7195a61646ba09ba"
+    },
+    {
+      "file": "gravity-app/src/data/digital-channel-actions-q3-2026.json",
+      "sha256": "dccf54fbe996e274c1662cfa5aa11a47f5d75dc14f8f557d81006efdbded5f61"
+    },
+    {
+      "file": "gravity-app/src/data/digital-channel-return-q3-2026.json",
+      "sha256": "61cb30ae524fb2b502e2097e1d6aa1300647e4acb1f4eb6be821dc1849751c91"
+    },
+    {
+      "file": "gravity-app/src/data/digital-funnel-actions-user-q3-2026.json",
+      "sha256": "11001866b63ccf1a1d3cca0f5693e79d2f2edc47b188a14afe6d2e98cb4718c9"
+    },
+    {
+      "file": "gravity-app/src/data/discovery-metrics-q3-2026.json",
+      "sha256": "31f7bb9e4383ed1b8ae18e0b36362fcbd4aa8d2b19fa1c32c0d55e0e9be33318"
+    },
+    {
+      "file": "gravity-app/src/data/domclick-cx-score-user-q3-2026.json",
+      "sha256": "cfe57b4837393f461db14945fd210f94f4590acb710a0e8dc9a4c759eb5cf6b2"
+    },
+    {
+      "file": "gravity-app/src/data/domclick-self-service-q3-2026.json",
+      "sha256": "85d4a8c18803ed9b57d1a50e9b66a28273a78cfe5b011face4de67b7179fcf00"
+    },
+    {
+      "file": "gravity-app/src/data/draft-metrics-q3-2026.json",
+      "sha256": "e343f8f7541a9f62ceda66df3383b753251836e9411192227220dd67ac66d32d"
+    },
+    {
+      "file": "gravity-app/src/data/elk-knowledge-user-q3-2026.json",
+      "sha256": "5f5f11e1fdbd824ceea86000f1ad78efc029541dc7b7e24288f151e6f11ffcc2"
+    },
+    {
+      "file": "gravity-app/src/data/funnel-action-missing-q3-2026.json",
+      "sha256": "43cd64d7f33a024cf97fadd48228421c7b953a2dda26694503dc13542fcc53f5"
+    },
+    {
+      "file": "gravity-app/src/data/funnel-additional-user-assessments-q3-2026.json",
+      "sha256": "453270973ee0bdee0c3d3ca3f2d77b48bca20422edd82c950abb53feb1756277"
+    },
+    {
+      "file": "gravity-app/src/data/funnel-link-quality-assessment-q3-2026.json",
+      "sha256": "4df68ee19b5d12e5e1472e8ac9f7fbd89a49870328fc20aeb52b652de8ecac98"
+    },
+    {
+      "file": "gravity-app/src/data/funnel-missing-user-fill-q3-2026.json",
+      "sha256": "b0725402432c8ca1e12f079b316c14bd4b790aece1eadde1cb8b2f75f5cd4faf"
+    },
+    {
+      "file": "gravity-app/src/data/funnel-reporting-metrics-q3-2026.json",
+      "sha256": "ec28da4b7717ca02827594e793a4aa249d6f42fea08bc67dde790bed8d5bd1da"
+    },
+    {
+      "file": "gravity-app/src/data/funnel-user-assessments-q3-2026.json",
+      "sha256": "d0a22f185204ed10db0ef5aa9d89355d1c3426764ca35ea2e187d42cb00a76d2"
+    },
+    {
+      "file": "gravity-app/src/data/goals-final-scores-q3-2026.json",
+      "sha256": "e393a4aea8639eebf923dbab04ef52380b13bc13d572dc2c186be1ceb4b6fe6e"
+    },
+    {
+      "file": "gravity-app/src/data/goals-informational-q3-2026.json",
+      "sha256": "87f74747a4a4c8f42e556bee21018075117a0b5d79fa89ecf95029fc256a6eab"
+    },
+    {
+      "file": "gravity-app/src/data/goals-metric-corrections-q3-2026.json",
+      "sha256": "7a7b1e9635c618750e9b7e56c4b4296464990c2feecb4caad4dd88d2ce5e2eb2"
+    },
+    {
+      "file": "gravity-app/src/data/goals-metrics-q3-2026.json",
+      "sha256": "8e5a179d21e967e45c79083fcf7d313c5a1990aead109237210d92429f595d2e"
+    },
+    {
+      "file": "gravity-app/src/data/goals-tribe-applicability-q3-2026.json",
+      "sha256": "7a57a8bd400aae2613c2186d251369fae43c2f9e20ea77cbc4482ea405934385"
+    },
+    {
+      "file": "gravity-app/src/data/goals-tribe-assessments-q3-2026.json",
+      "sha256": "6ba0ccab7ba06d4b8b709f798765e565eea514f1103f88077fb6e0cd2334da0c"
+    },
+    {
+      "file": "gravity-app/src/data/goals-user-carry-forward-q3-2026.json",
+      "sha256": "da095c60b2836c2bb0e6b3a2de9bddc302e094bd1ec8b10afe19d8560b2edaeb"
+    },
+    {
+      "file": "gravity-app/src/data/industrial-data-user-q3-2026.json",
+      "sha256": "318a8192cb4282efa66268d5921368e8b683642be05c3ba9fc0cf4f34e89dc2b"
+    },
+    {
+      "file": "gravity-app/src/data/insurance-funnel-user-q3-2026.json",
+      "sha256": "51f345a2be2f7316865bb14f7ebedfc94ad5b3597be27dae26b9f926562f2653"
+    },
+    {
+      "file": "gravity-app/src/data/investkopilka-navigator-q3-2026.json",
+      "sha256": "b863ed2b9d4d3aac25563cf38c52195279f21945e9ada3257dd08c3dd50dc60d"
+    },
+    {
+      "file": "gravity-app/src/data/iszh-funnel-completeness-q3-2026.json",
+      "sha256": "ef24f25f0779f154c55e7ce9d70be01ad7903a299c41c7d50beef8f2b3b511e1"
+    },
+    {
+      "file": "gravity-app/src/data/kasko-satellites-q3-2026.json",
+      "sha256": "d6ae662cb65471a6fd8ff1a141bf5e4bde794d95ac2b1a05de3d40c580bc5d44"
+    },
+    {
+      "file": "gravity-app/src/data/key-metrics-q3-2026.json",
+      "sha256": "fc7f9b28633e82cc176c058b3f6d429ffaee9873e2246ad9c8b4733676b07088"
+    },
+    {
+      "file": "gravity-app/src/data/knowledge-user-assessments-q3-2026.json",
+      "sha256": "54ec3eb17b1e35ce14a8f7e878f6c3f80317144870e45cbedd938bfe3b1e6abb"
+    },
+    {
+      "file": "gravity-app/src/data/mechanics-metrics-q3-2026.json",
+      "sha256": "0f064e22e79afaee78b8906ddc7aec522efab2a89fc31edf9533a8230a021818"
+    },
+    {
+      "file": "gravity-app/src/data/mechanics-user-assessments-q3-2026.json",
+      "sha256": "13dd97028a6838af162865bb832b557a888b59d7bbfeec8ea77e0da22f81e2bc"
+    },
+    {
+      "file": "gravity-app/src/data/metric-applicability-q3-2026.json",
+      "sha256": "15123eeaf14935c1ef2063763d7e80add6c6722c2f15f2ecd191c2de7c679b85"
+    },
+    {
+      "file": "gravity-app/src/data/monety-churn-analysis-q3-2026.json",
+      "sha256": "7d9d87a552de54748d18e03c99e78fb6b3112f57ebb6b282eb6f88a6bade84a6"
+    },
+    {
+      "file": "gravity-app/src/data/monthly-excel-reporting-q3-2026.json",
+      "sha256": "85360b8304f261e6c9a3c350551f2dc3f007405532fffda4730f1082c00881f9"
+    },
+    {
+      "file": "gravity-app/src/data/navigator-market-knowledge-q3-2026.json",
+      "sha256": "78e6e65aeb21af527b84a55eb9cc9b4578e60566b7ad0189099171f14c6026d5"
+    },
+    {
+      "file": "gravity-app/src/data/navigator-mau-knowledge-q3-2026.json",
+      "sha256": "c4e09214d19b703a7b307a3bff8ba72ee0104bf52de1b692e26797e988a5fc77"
+    },
+    {
+      "file": "gravity-app/src/data/navigator-reporting-knowledge-q3-2026.json",
+      "sha256": "f6720d4c5dedf201b2fea2de3b3c590164cf6519e8c93406fc5f7214833ab5ce"
+    },
+    {
+      "file": "gravity-app/src/data/navigator-zero-markets-q3-2026.json",
+      "sha256": "372cd5e6e5df5926502acdae5559c566c0fe8fa25b297394c95f7f9aafb0fd3b"
+    },
+    {
+      "file": "gravity-app/src/data/notification-retention-user-q3-2026.json",
+      "sha256": "a3b304da19702cbff327c9f948b381cb207acb2b2db1702b0af762210a826e9e"
+    },
+    {
+      "file": "gravity-app/src/data/nszh-funnel-completeness-q3-2026.json",
+      "sha256": "7605202b3111792a9e9128dc31635693363eaa0b1a3472b9b5c760abf9cabbd4"
+    },
+    {
+      "file": "gravity-app/src/data/oms-funnel-user-assessment-q3-2026.json",
+      "sha256": "067caca19697952281cadfcd5a33026ba5d1e8c722ab0a8fb4ef397fd59410a2"
+    },
+    {
+      "file": "gravity-app/src/data/oms-goals-assessment-q3-2026.json",
+      "sha256": "46cb85f025696d332a6fad6dff9de6136326735d09b3f0aac4a3b39f29499486"
+    },
+    {
+      "file": "gravity-app/src/data/oms-key-metrics-assessment-q3-2026.json",
+      "sha256": "26da2f17c9a2fb502e63f503ea64e17079b87cd14e0c501bcead7d47033937c5"
+    },
+    {
+      "file": "gravity-app/src/data/oms-mechanics-user-assessment-q3-2026.json",
+      "sha256": "b53e072fc35a57ad1997ab0138bc7a8deec3b4f707cb234e8eae1f7b16258abc"
+    },
+    {
+      "file": "gravity-app/src/data/oms-user-metric-assessment-q3-2026.json",
+      "sha256": "3f47c467aaa50e64dc637364443fccf650a7ac7fcfc80064707a740c305e21b6"
+    },
+    {
+      "file": "gravity-app/src/data/payments-mechanics-q3-2026.json",
+      "sha256": "3815ae940880f1e9f77716bf32a3dce1b804cb03a76e4bf68c55f4aa0b7b95c4"
+    },
+    {
+      "file": "gravity-app/src/data/pb-business-alerts-q3-2026.json",
+      "sha256": "0f88f8c96edeaf3373fdd4f229e59288247f0760154c80a6050e3113e0955381"
+    },
+    {
+      "file": "gravity-app/src/data/pb-navigator-knowledge-q3-2026.json",
+      "sha256": "dbd0b3ba760e4c4fe02969138374c70aa63e31b17bc5d00e36f84eba846876ce"
+    },
+    {
+      "file": "gravity-app/src/data/pb-nonfinancial-knowledge-q3-2026.json",
+      "sha256": "a18ea9a9ee762b767594ffef5a83f12c15285b226370989949a7660db07d2f50"
+    },
+    {
+      "file": "gravity-app/src/data/pc-final-scores-q3-2026.json",
+      "sha256": "5bc84e608976c8a5247be781d0e6df8464bc00c872faf09b3b1d5670ebef4020"
+    },
+    {
+      "file": "gravity-app/src/data/po-goals-survey-assessments-q3-2026.json",
+      "sha256": "e9a9b8eb897d1b83592484bc363f24d02c961efc8105faf5c039068aec443c21"
+    },
+    {
+      "file": "gravity-app/src/data/po-goals-template-q3-2026.json",
+      "sha256": "1363d589690e627e13527dc891b20bc81c69cfe6d6b15017da2fc4f40fc5542c"
+    },
+    {
+      "file": "gravity-app/src/data/q3-score-corrections-2026.json",
+      "sha256": "d6faae08e5db097434b44094198594537f3229c082ce180cb869cec7598849f0"
+    },
+    {
+      "file": "gravity-app/src/data/quarter-retention-user-q3-2026.json",
+      "sha256": "056beea88825b281da30e8ae443f4342766fb220ebc7470a858200acbfba6661"
+    },
+    {
+      "file": "gravity-app/src/data/regularity-user-assessments-q3-2026.json",
+      "sha256": "b546a0aa3a2189615fa3220ebf06cd0ad14a7441c2ae23452b0e0d236272e1be"
+    },
+    {
+      "file": "gravity-app/src/data/reporting-absence-user-q3-2026.json",
+      "sha256": "392abedd30c3b7a984f74afa6a41aaf714807b28188ebbce2eb98179e6abe7f2"
+    },
+    {
+      "file": "gravity-app/src/data/reporting-regularity-missing-q3-2026.json",
+      "sha256": "630d3156f9455c858b61157509e03c7a66ae022d649240882be1b2ff37ef838e"
+    },
+    {
+      "file": "gravity-app/src/data/research-metric-corrections-q3-2026.json",
+      "sha256": "42bf74d1ebc057d3a85362b56bae4ba515e97f2046c3b15ee1dbfee7f1963b68"
+    },
+    {
+      "file": "gravity-app/src/data/research-metrics-q3-2026.json",
+      "sha256": "c5eeec18a6b41258baa5783579b7bfb69be50b7c5f11cce16d1d0a5f817b6819"
+    },
+    {
+      "file": "gravity-app/src/data/salary-products-q3-2026.json",
+      "sha256": "0a3542ef9ab78a0c09c24afc370e316486d0b62537e62d879f3a1c103ff1e5fb"
+    },
+    {
+      "file": "gravity-app/src/data/segment-mechanics-floor-q3-2026.json",
+      "sha256": "76f78a91f1384d7a629f303e2d3399c91ce321ead0e16186440ce1f9116206fc"
+    },
+    {
+      "file": "gravity-app/src/data/segment-user-assessments-q3-2026.json",
+      "sha256": "e67c545ca946aaf2b73d26a39719559d2d67ab908687ce95fdc34ab08a40bf81"
+    },
+    {
+      "file": "gravity-app/src/data/selected-metrics-carry-forward-q3-2026.json",
+      "sha256": "af375335609a85807b2274b8aa02e6956d15f27f143bbbd27ca1784fede6de23"
+    },
+    {
+      "file": "gravity-app/src/data/smile-attract-analysis-q3-2026.json",
+      "sha256": "4a6ca005de970e296be73a452cbe9eb00fbb4bb5cc8c8e51b681a67f5d0badaa"
+    },
+    {
+      "file": "gravity-app/src/data/smile-markets-zero-q3-2026.json",
+      "sha256": "df35f889167fd3e514eee6d21b8818fc1f61c4c1458dcceeb6c2e1e67286fd10"
+    },
+    {
+      "file": "gravity-app/src/data/telemarketing-mechanics-user-q3-2026.json",
+      "sha256": "2d5135a9dae78cdd71eedf3f4bad3ac2100084ff502da7f6f4ccf1c0504a32c9"
+    },
+    {
+      "file": "gravity-app/src/data/tips-benchmarks-user-q3-2026.json",
+      "sha256": "181b9a456c4b746ca6aa307c4b779ac1c461683e42c5ddb7d8c8b654a20050ac"
+    },
+    {
+      "file": "gravity-app/src/data/tips-funnel-user-q3-2026.json",
+      "sha256": "0fe3d283530bc7ab942a3e5dbc8224ede356a24b88aaa414af15db4fd7c4d29b"
+    },
+    {
+      "file": "gravity-app/src/data/tips-mechanics-user-q3-2026.json",
+      "sha256": "bd00426b8b74efecb40af037730a0c165640af7ec15f8a978645b5011f22a9c6"
+    },
+    {
+      "file": "gravity-app/src/data/tips-regularity-user-q3-2026.json",
+      "sha256": "9799145b7fcad74bf52a3d97072e2b0942efc5fe2b55aa97818db06f2aed0aef"
+    },
+    {
+      "file": "gravity-app/src/data/trade-acquiring-alerts-user-q3-2026.json",
+      "sha256": "d855249427d858ab7dd40e676fa4d41522e33671181527425635291ce5f0254c"
+    },
+    {
+      "file": "gravity-app/src/data/ub-workbook-corrections-q3-2026.json",
+      "sha256": "a5a7dcd43b6b63dadeb96bff047c37b4fdf2fd5640c534ea9160a0a4424418f5"
+    },
+    {
+      "file": "gravity-app/src/data/user-metric-assessments-q3-2026.json",
+      "sha256": "55329456cb9a5a824b18fbbd312346cc5326a9750d25617e5e4b8e0e967b0028"
+    },
+    {
+      "file": "gravity-app/src/data/ux-score-metrics-q3-2026.json",
+      "sha256": "792ecfd7acfaa72c54cc44e7c26194d6d55960262f755545d2c0211b95f2b3b5"
+    },
+    {
+      "file": "gravity-app/src/data/working-age-fot-knowledge-q3-2026.json",
+      "sha256": "8a28722edb060aa5cb0f1f7c205bad2c10c86de56cc6c7167501e4afef00c864"
+    },
+    {
+      "file": "gravity-app/src/domain/abTestsAssessment.js",
+      "sha256": "10cde7e94428f83943f3d617bf92d0a9de4eb6996acde4c4bba3d6fcac770ace"
+    },
+    {
+      "file": "gravity-app/src/domain/campaignSelfService.js",
+      "sha256": "b04377bfc33ff4cbfb991d0eb2fc1355dbd5232434740e0f6c49830831291735"
+    },
+    {
+      "file": "gravity-app/src/domain/cbpUserCorrections.js",
+      "sha256": "a1fb97ef6ba758116d5043c386a6d1cf84e9cb3921cfb5e8911db2c093e40da4"
+    },
+    {
+      "file": "gravity-app/src/domain/crossSellDecomposition.js",
+      "sha256": "68af0c178bfac5bc5e976d014a8a6b67cb2ba982a340236c356625fa55c5d43c"
+    },
+    {
+      "file": "gravity-app/src/domain/cxScoreAssessment.js",
+      "sha256": "b70f0b319f339c4df165906fee245c6393a4ea639e8695798d150c9d28760d44"
+    },
+    {
+      "file": "gravity-app/src/domain/discoveryBacklog.js",
+      "sha256": "5153e2ec75d20fce387d37826507d14b5c6a235a89c93943e14d0fdb51ae4b47"
+    },
+    {
+      "file": "gravity-app/src/domain/frozenCrossSellScores.js",
+      "sha256": "9cb3f32fcb3ec9c34bfaad2df52d7e7c5f371f292662789e504cb207bf7b27d0"
+    },
+    {
+      "file": "gravity-app/src/domain/funnelActionAssessments.js",
+      "sha256": "c8c1e52f05f917ec7ff7080c9daf943ef4879db3675ba4633f22d0330090bf0a"
+    },
+    {
+      "file": "gravity-app/src/domain/goalsFinalScores.js",
+      "sha256": "512054a6fdce9a3dca80cd644dd3fd896a14506c4fca9970ac918a5e1e62160b"
+    },
+    {
+      "file": "gravity-app/src/domain/goalsInformationalAssessment.js",
+      "sha256": "4889b32c6e1631cfef587b2754f92f9a9ed0d0bd899155824b533148f88e9447"
+    },
+    {
+      "file": "gravity-app/src/domain/goalsProfileLevels.js",
+      "sha256": "45b20f4c19cd5e112f297962488046fc7d838641bc5008550e8412a64b624751"
+    },
+    {
+      "file": "gravity-app/src/domain/indexExclusion.js",
+      "sha256": "2b17bd052554febc631324fe592efc610e7e686fd384b6ada63ec6c53c52c672"
+    },
+    {
+      "file": "gravity-app/src/domain/keyMetricsWorkbookPriority.js",
+      "sha256": "9d8e78bbeb761e0605acb4d1abeccd9de415f0f2b24c8d531ad619596e2635fd"
+    },
+    {
+      "file": "gravity-app/src/domain/metricApplicability.js",
+      "sha256": "4be475defc4341ede542f3e88f0e2d2c14ddb919a518ce4a7570547b0924956c"
+    },
+    {
+      "file": "gravity-app/src/domain/navigatorKnowledge.js",
+      "sha256": "6f7b47da4e1a43d566c58a638dcb708eebed3856ed370847acdf9ef616868107"
+    },
+    {
+      "file": "gravity-app/src/domain/pcFinalScores.js",
+      "sha256": "2bea580e00800eab07e2e37082bbe0de9ada8bae89c40dbbeffd8b92d2848af0"
+    },
+    {
+      "file": "gravity-app/src/domain/quarterProfiles.js",
+      "sha256": "e465f42d2e45cfdeb5798ee4f7c943709d66f3cca01b69e9e9840a74bbac63af"
+    },
+    {
+      "file": "gravity-app/src/domain/quarterRetentionAssessment.js",
+      "sha256": "be364a93c736d14a1dd31000cf60b3909b62195d1b6c94c249f66b08750bcd50"
+    },
+    {
+      "file": "gravity-app/src/domain/report.js",
+      "sha256": "175ac57188ef86d63d52d0a784096e8d97bda32ff0e28ecd7938b264033e6c0a"
+    },
+    {
+      "file": "gravity-app/src/domain/reportPeriods.js",
+      "sha256": "75a57adaa9c7d7f44825a23f796c19668bbf4e9bba16f5903e3fa5aff63e635e"
+    },
+    {
+      "file": "gravity-app/src/domain/reportingAbsence.js",
+      "sha256": "bdca4819b944cb175d8c9506921d32aaf02b3711a61470eaa3b929a9209d2c34"
+    },
+    {
+      "file": "gravity-app/src/domain/reportingRegularity.js",
+      "sha256": "2d39fa1505bdb6868ed16cd6642f457e0b77a1780254a8fdcd7d335a82089cc2"
+    },
+    {
+      "file": "gravity-app/src/domain/salaryCohortAverage.js",
+      "sha256": "0a870144192d55741b43d60f8fbdb97f6e0b43fab897ccae9993f0cf0ac1b0ea"
+    },
+    {
+      "file": "gravity-app/src/domain/teamProfileSelection.js",
+      "sha256": "a24cd06ca81e5bb716f19c504ebe747edc171910a81be545ce4eca0857a269f6"
+    },
+    {
+      "file": "gravity-app/src/domain/ubWorkbookCorrections.js",
+      "sha256": "87d71c889e1abfc959e105f07a06d5e0f46db1b5a027b57c5ca65386b532e4d2"
+    },
+    {
+      "file": "gravity-app/src/features/catalog/blockLinks.js",
+      "sha256": "a0e3118d1fb9b40c8473c5e3786ac163affc4ad8e0afc74d338eb50aebccfbfb"
+    },
+    {
+      "file": "gravity-app/src/features/catalog/campaigningLinks.js",
+      "sha256": "f467822b06f6ce93ddccc323a779efe5121bee7e2a3beb78c4d98db80a5db10f"
+    },
+    {
+      "file": "gravity-app/src/features/catalog/keyMetricLinks.js",
+      "sha256": "1ee86c1d4aca432a86819f2e3133095387cfee152d5dbcaec1fce8853a1aad28"
+    },
+    {
+      "file": "gravity-app/src/funnel-report/detail-data.json",
+      "sha256": "78dca53b3713ede85947a1948a86c03223bc0e16ad842bd35a92fb87a6432668"
+    },
+    {
+      "file": "gravity-app/src/funnel-report/report-data.json",
+      "sha256": "ed86e4140a84f2195b29018ffe22f988c1367a1d5dad66fd6a660565b2b4a0f7"
+    },
+    {
+      "file": "gravity-app/src/funnel-report/report-model.js",
+      "sha256": "e03beffd964532958e523536376f50ea7bacf9e9cf60cda9a0f701ffd7d5530d"
+    },
+    {
+      "file": "outputs/ddi-funnel-analysis-2026-10-20/analysis.json",
+      "sha256": "03ff5bcbd7a60e52b5c87d294c5568c160b670b702b7aad7456bb6a8136ad2ba"
+    },
+    {
+      "file": "outputs/ddi-funnel-analysis-2026-10-20/standalone-data.json",
+      "sha256": "5c72a28e890202f35c9fec8f129aca98be3e3f494d037299172fc69381ad8d61"
+    }
+  ],
+  "generator": {
+    "file": "outputs/ddi-funnel-q3-2026-11-03/generate-data.mjs",
+    "sha256": "86ae5c5daed88e3597e120cd5e3a77c270100dec2380b90895f809878c37aaaf"
+  },
+  "outputs": [
+    {
+      "file": "baseline-report-data.json",
+      "sha256": "ed86e4140a84f2195b29018ffe22f988c1367a1d5dad66fd6a660565b2b4a0f7"
+    },
+    {
+      "file": "baseline-detail-data.json",
+      "sha256": "78dca53b3713ede85947a1948a86c03223bc0e16ad842bd35a92fb87a6432668"
+    },
+    {
+      "file": "current-snapshot.json",
+      "sha256": "3f01c5f582a8c3d3415a78fea036edc0e205c70be31ef217b355d4934b4715b9"
+    },
+    {
+      "file": "report-data.json",
+      "sha256": "d4727d3e17af8b3daee235c6d3e7232311ac6ba425a7f0ca5bf20b39ca476f8d"
+    },
+    {
+      "file": "detail-data.json",
+      "sha256": "9740d0b69bab67cfbed60645a76b4edf54f3748d917b7447c7b1942812b41ce3"
+    },
+    {
+      "file": "comparison-data.json",
+      "sha256": "c4cf60fa94bc0aff09d15f7bfa8b85f0d4c6d60dcfa5958e13289895f9533132"
+    }
+  ]
+}

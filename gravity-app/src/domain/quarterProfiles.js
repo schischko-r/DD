@@ -83,7 +83,7 @@ export function buildDdiCohortProducts(products, period, overlays, salaryConfig,
 export function buildDdiPeriodProducts(products, period, overlays, salaryConfig, reportingAssessment = null, actionAssessment = null, backlog = null) {
   const assessed = applyReportingFormatAssessments(applyNavigatorKnowledge(mergeSalaryCohorts(buildDdiCohortProducts(products, period, overlays, salaryConfig, reportingAssessment, actionAssessment),
     period, salaryConfig, products), period), period, overlays);
-  const finalScores = applyPCFinalScores(applyGoalsFinalScores(applyMetricIndexExclusionAssessments(assessed, period, overlays), period, overlays), period, overlays);
+  const finalScores = applyPCFinalScores(applyGoalsFinalScores(applyMetricIndexExclusionAssessments(assessed, period, overlays), period, overlays, products), period, overlays);
   const assessments = Array.isArray(overlays) ? overlays : [overlays];
   const crossSellDuring = assessments.find((item) => item?.scope === 'crosssell-during-purchase-assessment');
   const applicable = applyMetricApplicabilityAssessments(applyKeyMetricsWorkbookPriority(applyCrossSellDuringPurchaseScores(finalScores, period, crossSellDuring), period, overlays, products),

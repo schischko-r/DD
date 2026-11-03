@@ -299,6 +299,7 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .cross-sell-decomposition-summary > .metric-light { flex: 0 0 7px; margin-top: 0; }
 .cross-sell-decomposition-summary > b { font-size: 13px; line-height: 1.35; font-weight: 600; }
 .cross-sell-decomposition-summary > .g-label { margin-left: auto; }
+.goals-level-decomposition .cross-sell-decomposition-summary { grid-template-columns: 10px minmax(0, 1fr) auto auto; }
 .cross-sell-decomposition[open] > .cross-sell-decomposition-summary > svg { transform: rotate(90deg); }
 .cross-sell-decomposition-summary:focus-visible { outline: 2px solid var(--g-color-line-focus); outline-offset: -2px; }
 .cross-sell-after-purchase-responses { grid-column: 1 / -1; min-width: 0; padding-left: 17px; display: grid; gap: 8px; }
@@ -571,6 +572,16 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .dashboard-category-row-score { display: grid; gap: 1px; justify-items: end; text-align: right; font-variant-numeric: tabular-nums; }
 .dashboard-category-row-score strong { font: 600 17px/1 var(--dd-font-sans); }
 .dashboard-category-row-score small { color: var(--g-color-text-secondary); font-size: 10px; }
+.dashboard-card-quarter-delta { margin-top: 7px; }
+.dashboard-card-quarter-delta .index-quarter-delta-badge { min-height: 22px; gap: 5px; padding: 4px 8px; border-radius: 5px; }
+.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive { color: var(--g-color-text-positive-heavy); }
+.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-badge { background: var(--g-color-base-positive-light); }
+.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-value { color: var(--g-color-text-positive-heavy); }
+.dashboard-category-card .dashboard-category-score .dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-direction { color: var(--g-color-text-positive-heavy); }
+.dashboard-card-quarter-delta .index-quarter-delta-direction { border-right-width: 4px; border-left-width: 4px; }
+.dashboard-card-quarter-delta.index-quarter-delta-positive .index-quarter-delta-direction { border-bottom-width: 6px; }
+.dashboard-card-quarter-delta.index-quarter-delta-negative .index-quarter-delta-direction { border-top-width: 6px; }
+.dashboard-category-score .dashboard-card-quarter-delta .index-quarter-delta-value { font: 600 12px/1.1 var(--dd-font-sans); }
 .dashboard-category-row:last-child { border-bottom: 0; }
 .dashboard-category-row-head { min-width: 0; display: flex; align-items: center; gap: 10px; }
 .dashboard-category-row-head .dashboard-category-icon { width: 30px; height: 30px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 8px; background: rgba(35, 158, 226, .11); color: #239ee2; }
@@ -685,12 +696,25 @@ h3 { margin-bottom: 4px; font-size: 14px; }
 .dashboard-radar { min-width: 0; min-height: 226px; align-self: stretch; height: auto; }
 .dashboard-antitop-list { margin-top: 14px; border-top: 1px solid var(--g-color-line-generic); }
 .dashboard-antitop-row { min-height: 44px; display: grid; grid-template-columns: 24px minmax(0, 1fr) 105px; align-items: center; gap: 9px; border-bottom: 1px solid var(--g-color-line-generic); }
+.dashboard-antitop-row-comparison { grid-template-columns: 24px minmax(0, 1fr) 135px; }
 .dashboard-antitop-row > span { width: 20px; height: 20px; display: grid; place-items: center; border-radius: 5px; background: var(--g-color-base-danger-light); color: var(--g-color-text-danger-heavy); font: 600 10px/1 var(--dd-font-sans); }
 .dashboard-antitop-row b { display: block; overflow: hidden; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
 .dashboard-antitop-row small { display: block; margin-top: 3px; overflow: hidden; color: var(--g-color-text-secondary); font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
 .dashboard-antitop-row .dashboard-antitop-block { overflow: visible; line-height: 1.25; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
-.dashboard-antitop-row > div:last-child strong { display: block; margin-bottom: 5px; color: var(--g-color-text-danger-heavy); text-align: right; font: 600 13px/1 var(--dd-font-sans); font-variant-numeric: tabular-nums; }
-.dashboard-antitop-result small { text-align: right; }
+.dashboard-antitop-row > div:last-child strong { display: block; margin-bottom: 0; color: var(--g-color-text-danger-heavy); text-align: right; font: 600 13px/18px var(--dd-font-sans); font-variant-numeric: tabular-nums; }
+.dashboard-antitop-result small { line-height: 1.25; text-align: right; }
+.dashboard-antitop-values { display: flex; align-items: center; justify-content: flex-end; gap: 7px; }
+.dashboard-antitop-row-comparison .dashboard-antitop-values > strong { margin-bottom: 0; }
+.dashboard-antitop-delta { display: inline-flex; align-items: center; gap: 4px; padding: 3px 5px; border-radius: 4px; font-size: 10px; font-weight: 600; line-height: 1.2; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dashboard-antitop-delta > span { font-size: 8px; }
+.dashboard-antitop-delta-decrease { color: var(--g-color-text-positive-heavy); background: var(--g-color-base-positive-light); }
+.dashboard-antitop-delta-increase { color: var(--g-color-text-danger-heavy); background: var(--g-color-base-danger-light); }
+.dashboard-antitop-delta-flat { color: var(--g-color-text-secondary); background: var(--g-color-base-generic); }
+@media (max-width: 600px) {
+  .dashboard-antitop-row-comparison { grid-template-columns: 20px minmax(0, 1fr) auto; gap: 7px; padding: 5px 0; }
+  .dashboard-antitop-row-comparison .dashboard-antitop-values { flex-direction: column; align-items: flex-end; gap: 4px; }
+  .dashboard-antitop-row-comparison b { white-space: normal; line-height: 1.3; }
+}
 .dashboard-antitop-more { border-top: 1px solid var(--g-color-line-generic); }
 .dashboard-antitop-more .g-button { --g-button-height: 30px; color: var(--g-color-text-secondary); font-size: 12px; }
 .dashboard-antitop-list-full { margin-top: 0; border-top: 0; }

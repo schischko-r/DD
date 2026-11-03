@@ -4,7 +4,9 @@ import {Button, Card, Dialog, Icon, Label, Progress, Select, Text, TextInput} fr
 import {Legend, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, ResponsiveContainer, Tooltip} from 'recharts';
 import {MATURITY_LEVELS, antiTopBlockLabel, displayProductName, displayText, maturityLevelName, nextMaturityLevel} from '../domain/report.js';
 import {getReportPeriods} from '../domain/reportPeriods.js';
-import {buildSummaryRadarData, isSummaryAntiTopMetricHidden} from '../domain/summaryRadar.js';
+import {buildSummaryRadarData, previousQuarterPeriod} from '../domain/summaryRadar.js';
+import {buildSummaryAntiTop} from '../domain/summaryAntiTop.js';
+import {filterTitleRowsByPeriod} from '../domain/teamProfileSelection.js';
 import {DashboardBlockCard, DataMaturityCard} from '../features/data-maturity/DataMaturityCard.jsx';
 import {findMaturityUnit} from '../features/data-maturity/dataMaturity.js';
 import {ApplicableRadarDot, ApplicableRadarShape, CatalogDialogFiltered, TEAM_CONTACT_MAILTO, compareNames, isUnitFilterOption, maturityTheme, progressTheme, typeTone, useMediaQuery, wrapRadarLabel} from '../features/catalog/Catalog.jsx';
@@ -33,10 +35,14 @@ function DashboardRadarTick({x, y, cx, cy, radius, payload, active, compact = fa
 const ANTITOP_PREVIEW_SIZE = 4;
 const ANTITOP_FULL_SIZE = 10;
 
-function AntiTopRow({item, position, onHover}) {
+function AntiTopRow({item, position, onHover, showChange = false}) {
+  const change = item.incompleteShareDelta;
+  const direction = change < 0 ? 'decrease' : change > 0 ? 'increase' : 'flat';
+  const number = value => value.toLocaleString('ru-RU', {maximumFractionDigits: 1});
+  const delta = `${change > 0 ? '+' : change < 0 ? '−' : ''}${number(Math.abs(change))} п.п.`;
   return (
     <div
-      className="dashboard-antitop-row"
+      className={`dashboard-antitop-row${showChange ? ' dashboard-antitop-row-comparison' : ''}`}
       onMouseEnter={() => onHover?.(item.block)}
       onMouseLeave={() => onHover?.('')}
     >
@@ -46,7 +52,7 @@ function AntiTopRow({item, position, onHover}) {
         <small className="dashboard-antitop-block" title={antiTopBlockLabel(item.block)}>{antiTopBlockLabel(item.block)}</small>
       </div>
       <div className="dashboard-antitop-result">
-        <strong>{item.incompleteShare}%</strong>
+        {showChange ? <div className="dashboard-antitop-values"><strong>{item.incompleteShare}%</strong>{Number.isFinite(change) && <span className={`dashboard-antitop-delta dashboard-antitop-delta-${direction}`} aria-label={`${delta} ко ${item.previousPeriod}`}><span aria-hidden="true">{change < 0 ? '▼' : change > 0 ? '▲' : '→'}</span>{delta}</span>}</div> : <strong>{item.incompleteShare}%</strong>}
         <small>{item.incompleteTeams} из {item.teams} команд</small>
       </div>
     </div>
@@ -148,6 +154,10 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
       .sort((a, b) => compareNames(a.name, b.name));
   }, [scopedProducts, teamQuery]);
   const rowForProduct = (product) => rows.find((row) => row.name === product.name && row.unit === product.unit);
+  const previousPeriod = previousQuarterPeriod(period);
+  const previousPeriodProducts = baselineProducts.filter((product) => product.period === previousPeriod && (!unit || product.unit === unit));
+  const previousPeriodRows = filterTitleRowsByPeriod(baselineRows, baselineProducts, previousPeriod);
+  const previousScoreForProduct = (product) => previousPeriodRows.find((row) => row.name === product.name && row.unit === product.unit)?.score;
   const categoryMeta = [
     {key: 'product', label: 'Продукты', typeLabel: 'Продукт', icon: CircleDollar, tone: 'product'},
     {key: 'segment', label: 'Сегменты', typeLabel: 'Сегмент', icon: Persons, tone: 'segment'},
@@ -169,8 +179,14 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
       .sort((a, b) => (b.score - a.score) || compareNames(a.name, b.name));
     const scoredItems = items.filter((item) => Number.isFinite(item.score));
     const average = scoredItems.length ? Math.round(scoredItems.reduce((sum, item) => sum + item.score, 0) / scoredItems.length) : null;
+    const previousScores = previousPeriodProducts.filter((product) => typeTone(product.type) === category.key)
+      .map(previousScoreForProduct).filter(Number.isFinite).map(Number);
+    const previousAverage = previousScores.length
+      ? Math.round(previousScores.reduce((sum, score) => sum + score, 0) / previousScores.length)
+      : null;
+    const delta = average !== null && previousAverage !== null ? average - previousAverage : null;
     const maturityCounts = maturityLevels.map((level) => ({...level, count: items.filter((item) => item.maturity === level.theme).length}));
-    return {...category, items, average, maturityCounts};
+    return {...category, items, average, delta, previousPeriod, maturityCounts};
   });
   const filledCategoryCards = categoryCards.filter((category) => category.items.length);
   const blockNames = scopedProducts[0]?.metrics?.map((block) => ({code: block.code, name: block.name})) || [];
@@ -201,28 +217,21 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
     : null;
   const profileScore = unit ? scopedAverage : radarAverage;
   const profileCaption = unit ? 'Среднее по командам юнита' : 'Среднее по B2C';
+  const previousPeriodScores = previousPeriodProducts
+    .map(previousScoreForProduct)
+    .filter(Number.isFinite)
+    .map(Number);
+  const previousProfileScore = previousPeriodScores.length
+    ? Math.round(previousPeriodScores.reduce((sum, score) => sum + score, 0) / previousPeriodScores.length)
+    : null;
+  const profileDelta = profileScore !== null && previousProfileScore !== null
+    ? profileScore - previousProfileScore
+    : null;
   const profileLevel = maturityLevelName(profileScore);
   const profileTone = maturityTheme(profileLevel);
   const profileNextLevel = profileScore === null ? null : nextMaturityLevel(profileScore);
-  const antiTop = useMemo(() => {
-    const metricGroups = new Map();
-    scopedProducts.forEach((product) => (product.metrics || []).forEach((block) => (block.metrics || []).forEach((metric) => {
-      if (isSummaryAntiTopMetricHidden(metric, period)) return;
-      if (metric.is_applicabble_flg === false || !Number(metric.max_value) || !Number.isFinite(metric.value)) return;
-      const key = `${block.code}:${metric.code}`;
-      if (!metricGroups.has(key)) metricGroups.set(key, {name: metric.name, block: block.name, teams: new Set(), incompleteTeams: new Set()});
-      const group = metricGroups.get(key);
-      group.teams.add(product.name);
-      if (Number(metric.value || 0) / Number(metric.max_value) < 1) group.incompleteTeams.add(product.name);
-    })));
-    return [...metricGroups.values()].map((item) => ({
-      name: item.name,
-      block: item.block,
-      teams: item.teams.size,
-      incompleteTeams: item.incompleteTeams.size,
-      incompleteShare: item.teams.size ? Math.round(item.incompleteTeams.size / item.teams.size * 100) : 0,
-    })).sort((a, b) => (b.incompleteTeams - a.incompleteTeams) || (b.incompleteShare - a.incompleteShare) || (b.teams - a.teams) || compareNames(a.name, b.name)).slice(0, ANTITOP_FULL_SIZE);
-  }, [scopedProducts, period]);
+  const antiTop = useMemo(() => buildSummaryAntiTop(scopedProducts, baselineProducts, period, unit, ANTITOP_FULL_SIZE),
+    [scopedProducts, baselineProducts, period, unit]);
 
   const teamContactDialog = (
       <Dialog open={teamContactOpen} onClose={() => setTeamContactOpen(false)} hasCloseButton maxWidth="s">
@@ -279,7 +288,7 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
       </Card> : <section className="dashboard-category-grid" aria-label="Сводка по типам команд">
         {categoryCards.map((category) => <Card key={category.key} className={`dashboard-category-card dashboard-category-${category.tone}${category.items.length ? '' : ' is-empty'}`} view="outlined">
           <div className="dashboard-category-head"><div className="dashboard-category-icon"><Icon data={category.icon} size={20} /></div><h2>{category.label}</h2></div>
-          <div className="dashboard-category-score"><div>{category.average === null ? <Text variant="subheader-2" color="secondary">Нет данных</Text> : <><strong>{category.average}%</strong><span>/100</span></>}</div><span className="dashboard-category-caption">Средний Data-Driven Index B2C</span><small>Оценено команд: <b>{category.items.filter((item) => Number.isFinite(item.score)).length}</b></small></div>
+          <div className="dashboard-category-score"><div>{category.average === null ? <Text variant="subheader-2" color="secondary">Нет данных</Text> : <><strong>{category.average}%</strong><span>/100</span></>}</div>{category.delta !== null && <div className={`index-quarter-delta index-quarter-delta-${category.delta > 0 ? 'positive' : category.delta < 0 ? 'negative' : 'neutral'} dashboard-card-quarter-delta`} title={`к ${category.previousPeriod}`} aria-label={`${category.delta > 0 ? 'рост' : category.delta < 0 ? 'снижение' : 'без изменения'} на ${Math.abs(category.delta)} процентных пунктов к ${category.previousPeriod}`}><span className="index-quarter-delta-badge"><span className="index-quarter-delta-direction" aria-hidden="true" /><strong className="index-quarter-delta-value">{category.delta > 0 ? '+' : category.delta < 0 ? '−' : ''}{Math.abs(category.delta)} п.п.</strong></span></div>}<span className="dashboard-category-caption">Средний Data-Driven Index B2C</span><small>Оценено команд: <b>{category.items.filter((item) => Number.isFinite(item.score)).length}</b></small></div>
           <div className="dashboard-maturity"><span>По уровню зрелости</span><div className="dashboard-maturity-grid">{category.maturityCounts.map((level) => <button type="button" className="dashboard-maturity-counter" key={level.theme} disabled={!level.count} onClick={() => { setCatalogMaturity(level); setCatalogType(category.typeLabel); }}><span>{level.label}</span><strong>{level.count}</strong><Icon data={ChevronRight} size={13} /></button>)}</div></div>
           <Button className="dashboard-category-footer" view="flat-info" disabled={!category.items.length} onClick={() => { setCatalogMaturity(null); setCatalogType(category.typeLabel); }}>Все {category.label.toLowerCase()}</Button>
         </Card>)}
@@ -288,14 +297,14 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
       <Dialog open={antiTopOpen} onClose={() => setAntiTopOpen(false)} hasCloseButton maxWidth="m" fullWidth>
         <Dialog.Header caption="Ключевые западающие зоны" />
         <Dialog.Body>
-          <div className="dashboard-antitop-list dashboard-antitop-list-full">{antiTop.map((item, index) => <AntiTopRow key={`${item.block}-${item.name}`} item={item} position={index + 1} />)}</div>
+          <div className="dashboard-antitop-list dashboard-antitop-list-full">{antiTop.map((item, index) => <AntiTopRow key={`${item.block}-${item.name}`} item={item} position={index + 1} showChange />)}</div>
         </Dialog.Body>
       </Dialog>
 
       <CatalogDialogFiltered openType={catalogType} openMaturity={catalogMaturity} products={scopedProducts} rows={rows} period={period} baselineProducts={baselineProducts} baselineRows={baselineRows} onOpen={onOpen} onClose={() => { setCatalogType(''); setCatalogMaturity(null); }} />
 
       <section className="dashboard-analysis-grid">
-        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-radar-side"><div className="dashboard-card-title"><div><h2>{unit ? `Профиль юнита ${unit}` : 'Профиль B2C'}</h2>{unit && <span>Среднее по B2C — {radarAverage === null ? 'нет данных' : `${radarAverage}%`}</span>}</div></div><div className={`dashboard-index-summary index-card tone-${profileTone}`} aria-label={`${profileCaption}: ${profileScore === null ? 'нет данных' : `${profileScore}%`}`}><div className="index-card-title"><span>{profileCaption}</span></div><div className="index-score"><strong>{profileScore === null ? '—' : `${profileScore}%`}</strong><b>/ 100</b><em>{profileLevel || 'Нет данных'}</em></div><Progress value={profileScore || 0} theme={profileTone === 'default' ? 'default' : profileTone} size="s" /><div className="scale">{MATURITY_LEVELS.map((level) => <span key={level}>{level}</span>)}</div><div className="index-next-level"><Text variant="body-1" color={profileNextLevel ? 'primary' : 'positive'}>{profileScore === null ? 'Нет данных для расчёта' : profileNextLevel ? `До уровня «${profileNextLevel.name}» — ${Math.max(0, profileNextLevel.threshold - profileScore)}%` : 'Достигнут уровень Лидеры Data Driven'}</Text></div></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarPoints} outerRadius={compactRadar ? '38%' : '72%'}><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => <DashboardRadarTick {...props} compact={compactRadar} active={props.payload.value === hoveredBlock} />} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Legend /><Radar name={`B2C · ${period}`} dataKey="b2c" stroke={unit ? 'var(--g-color-text-hint)' : 'var(--g-color-text-info-heavy)'} fill="var(--g-color-base-info-heavy)" fillOpacity={unit ? 0 : 0.12} strokeWidth={2} strokeDasharray={unit ? '1 4' : undefined} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={unit ? 'var(--g-color-text-hint)' : 'var(--g-color-text-info-heavy)'} dotRadius={2} />} />{unit && <Radar name={`${unit} · ${period}`} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-base-info-heavy)" dotRadius={3} />} />}{radarComparison.hasPrevious && <Radar name={`${unit || 'B2C'} · ${radarComparison.previousPeriod}`} dataKey="previous" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.04} strokeWidth={2} strokeDasharray="5 4" shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-text-secondary)" dotRadius={2} />} />}</RadarChart></ResponsiveContainer></div></Card>
+        <Card className="dashboard-radar-card" view="outlined"><div className="dashboard-radar-side"><div className="dashboard-card-title"><div><h2>{unit ? `Профиль юнита ${unit}` : 'Профиль B2C'}</h2>{unit && <span>Среднее по B2C — {radarAverage === null ? 'нет данных' : `${radarAverage}%`}</span>}</div></div><div className={`dashboard-index-summary index-card tone-${profileTone}`} aria-label={`${profileCaption}: ${profileScore === null ? 'нет данных' : `${profileScore}%`}`}><div className="index-card-title"><span>{profileCaption}</span></div><div className="index-score"><strong>{profileScore === null ? '—' : `${profileScore}%`}</strong><b>/ 100</b><em>{profileLevel || 'Нет данных'}</em></div>{profileDelta !== null && <div className={`index-quarter-delta index-quarter-delta-${profileDelta > 0 ? 'positive' : profileDelta < 0 ? 'negative' : 'neutral'}`}><span className="index-quarter-delta-badge"><span className="index-quarter-delta-direction" aria-hidden="true" /><strong className="index-quarter-delta-value">{profileDelta > 0 ? '+' : profileDelta < 0 ? '−' : ''}{Math.abs(profileDelta).toLocaleString('ru-RU', {maximumFractionDigits: 1})} <span>п.п.</span></strong></span><span className="index-quarter-delta-caption">ко {previousPeriod}</span></div>}<Progress value={profileScore || 0} theme={profileTone === 'default' ? 'default' : profileTone} size="s" /><div className="scale">{MATURITY_LEVELS.map((level) => <span key={level}>{level}</span>)}</div><div className="index-next-level"><Text variant="body-1" color={profileNextLevel ? 'primary' : 'positive'}>{profileScore === null ? 'Нет данных для расчёта' : profileNextLevel ? `До уровня «${profileNextLevel.name}» — ${Math.max(0, profileNextLevel.threshold - profileScore)}%` : 'Достигнут уровень Лидеры Data Driven'}</Text></div></div></div><div className="dashboard-radar"><ResponsiveContainer width="100%" height="100%"><RadarChart data={radarPoints} outerRadius={compactRadar ? '38%' : '72%'}><PolarGrid stroke="var(--g-color-line-generic)" /><PolarAngleAxis dataKey="name" tick={(props) => <DashboardRadarTick {...props} compact={compactRadar} active={props.payload.value === hoveredBlock} />} /><PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} /><Tooltip formatter={(value, name) => [value == null ? 'Не применимо' : `${value}%`, name]} /><Legend /><Radar name={`B2C · ${period}`} dataKey="b2c" stroke={unit ? 'var(--g-color-text-hint)' : 'var(--g-color-text-info-heavy)'} fill="var(--g-color-base-info-heavy)" fillOpacity={unit ? 0 : 0.12} strokeWidth={2} strokeDasharray={unit ? '1 4' : undefined} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill={unit ? 'var(--g-color-text-hint)' : 'var(--g-color-text-info-heavy)'} dotRadius={2} />} />{unit && <Radar name={`${unit} · ${period}`} dataKey="unit" stroke="var(--g-color-text-info-heavy)" fill="var(--g-color-base-info-heavy)" fillOpacity={0.18} strokeWidth={2} shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-base-info-heavy)" dotRadius={3} />} />}{radarComparison.hasPrevious && <Radar name={`${unit || 'B2C'} · ${radarComparison.previousPeriod}`} dataKey="previous" stroke="var(--g-color-text-secondary)" fill="var(--g-color-base-generic-medium)" fillOpacity={0.04} strokeWidth={2} strokeDasharray="5 4" shape={<ApplicableRadarShape />} dot={<ApplicableRadarDot dotFill="var(--g-color-text-secondary)" dotRadius={2} />} />}</RadarChart></ResponsiveContainer></div></Card>
         <Card className="dashboard-antitop-card" view="outlined"><div className="dashboard-card-title"><div><h2>Ключевые западающие зоны</h2><span>Отклонения по метрикам всех команд</span></div><Label theme="danger">Антитоп</Label></div><div className="dashboard-antitop-list">{antiTop.slice(0, ANTITOP_PREVIEW_SIZE).map((item, index) => <AntiTopRow key={`${item.block}-${item.name}`} item={item} position={index + 1} onHover={setHoveredBlock} />)}</div>{antiTop.length > ANTITOP_PREVIEW_SIZE && <div className="dashboard-antitop-more"><Button view="flat" size="s" width="max" onClick={() => setAntiTopOpen(true)}>Показать ещё <Icon data={ChevronDown} size={13} /></Button></div>}</Card>
       </section>
 

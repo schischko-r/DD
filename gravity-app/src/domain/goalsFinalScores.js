@@ -6,7 +6,7 @@ export const GOALS_FINAL_COUNTERPARTS = {
   'goals.forecast': 'goals.po_forecast',
 };
 
-export function applyGoalsFinalScores(products, period, overlays) {
+export function applyGoalsFinalScores(products, period, overlays, previousProducts = []) {
   if (period !== 'III кв. 2026') return products;
   const assessments = (Array.isArray(overlays) ? overlays : [overlays]).filter((item) =>
     item?.scope === 'goals-final-scores' && item.period === period);
@@ -32,16 +32,28 @@ export function applyGoalsFinalScores(products, period, overlays) {
       lulT: {...rows[0].lulT, ...pcRow.goals.lulT},
       po: {...rows[0].po, ...pcRow.goals.po},
     } : rows[0];
+    const previousProduct = previousProducts.find((candidate) => candidate.period === 'II кв. 2026'
+      && candidate.id === String(product.id || '').replace(/::empty::.*$/, '')
+      && ['name', 'unit', 'type'].every((key) => candidate[key] === product[key]));
     const update = (metric, value, level, baseCode, informational = false) => {
       if (value !== null && (!Number.isFinite(value) || value < 0 || value > 1)) {
         throw new Error(`Invalid final goals score: ${product.name} / ${level} / ${metric.code}`);
       }
       const numeric = Number.isFinite(value);
       const maximum = numeric ? 1 : 0;
+      const previousMetric = previousProduct?.metrics.find((block) => block.code === 'goals')
+        ?.metrics.find((candidate) => candidate.code === baseCode);
+      // Intermediate Q3 applicability may erase a valid Q2 comparison before final scores restore the rubric.
+      const restoreComparison = !Number.isFinite(metric.previousValue) && isDdIndexMetric(previousMetric)
+        && Number.isFinite(previousMetric.value) && previousMetric.value >= 0
+        && previousMetric.value <= previousMetric.max_value && previousMetric.max_value === 1
+        && Number.isFinite(row.final[baseCode]);
       const pcValue = pcRow?.goals?.[level === 'final' ? 'final' : level === 'Уровень ЛЮ/ЛТ' ? 'lulT' : 'po'];
       const pcCode = level === 'final' ? baseCode : metric.code;
       const usePcSource = Boolean(pcValue && Object.hasOwn(pcValue, pcCode));
       return {...metric, value, max_value: maximum, is_applicabble_flg: numeric, hidden_from_profile: false,
+        ...(restoreComparison ? {previousValue: previousMetric.value, previousMaxValue: previousMetric.max_value,
+          previousPeriod: previousProduct.period} : {}),
         ...(informational ? {excluded_from_index: true, dd_calculation_flg: 0}
           : {excluded_from_index: !numeric, dd_calculation_flg: numeric ? 1 : 0}),
         metric_subgroup: informational ? 'Уровень ЛЮ/ЛТ' : 'Уровень PO',

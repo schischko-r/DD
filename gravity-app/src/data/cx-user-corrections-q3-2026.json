@@ -258,11 +258,11 @@
       "type": "Продукт",
       "metrics": {
         "goals.po_factor_analysis": {
-          "rawValue": 0.5,
+          "rawValue": 0,
           "source": {
             "origin": "userConfirmedCxCorrections20261102",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-03",
             "period": "III кв. 2026",
             "input": "user-provided-table",
             "inputRow": 15,
@@ -270,7 +270,31 @@
             "sourceUnit": "CX",
             "userBlock": "Цели — итоговые метрики",
             "userMetric": "Факторный анализ — драйверы 1–2 ур.",
-            "userAssessment": "50,0%"
+            "userAssessment": "50,0%",
+            "correction": {
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-03",
+              "group": "finalGoalsTable20261103",
+              "evidence": "Цифровые следы",
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userConfirmedCxCorrections20261102",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "input": "user-provided-table",
+                  "inputRow": 15,
+                  "sourceName": "Пакет услуг СберПервый",
+                  "sourceUnit": "CX",
+                  "userBlock": "Цели — итоговые метрики",
+                  "userMetric": "Факторный анализ — драйверы 1–2 ур.",
+                  "userAssessment": "50,0%"
+                }
+              },
+              "rawValue": 0
+            }
           }
         },
         "goals.po_forecast": {

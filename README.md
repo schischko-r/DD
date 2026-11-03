@@ -301,6 +301,7 @@ python build_backlog_data.py \
   --input "sbertrack_all_full_history_to_export.xlsx" \
   --additional-input "tickets_final.xlsx" \
   --additional-input "output (1).xlsx" \
+  --additional-input "output (4).xlsx" \
   --history-end 2026-09-30 \
   --output ".context/backlog-data-candidate.json"
 ```
@@ -311,6 +312,9 @@ python build_backlog_data.py \
 выгрузке сопоставляются по проектам из ответов опроса: `AMNS` — общий бэклог МВС и
 «Пакет услуг СберПремьер», `PRIME` — «СберПрайм», `PBDTNLSS` — PB. Неизвестные
 проекты без продукта не назначаются командам и учитываются в аудите импорта.
+`output (4).xlsx` с пустой колонкой `product` подключается при наличии и
+сопоставляется с ОМС по указанию пользователя; эта привязка ограничена именно
+этим файлом и не применяется к другим выгрузкам FXPMDATA.
 Базовые тикеты имеют приоритет: совпадающие `Issue key` не обновляются.
 Месяцы и кварталы по июнь включительно воспроизводятся из базовой выгрузки
 с отсечкой 30 июня; III квартал рассчитывается по объединению источников.

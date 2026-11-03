@@ -8,7 +8,7 @@ const stylesSource = readFileSync(new URL('../styles.css', import.meta.url), 'ut
 test('the anti-top card previews four zones and keeps ten for the dialog', () => {
   assert.match(dashboardSource, /const ANTITOP_PREVIEW_SIZE = 4;/);
   assert.match(dashboardSource, /const ANTITOP_FULL_SIZE = 10;/);
-  assert.match(dashboardSource, /compareNames\(a\.name, b\.name\)\)\.slice\(0, ANTITOP_FULL_SIZE\);/);
+  assert.match(dashboardSource, /buildSummaryAntiTop\(scopedProducts, baselineProducts, period, unit, ANTITOP_FULL_SIZE\)/);
   assert.match(
     dashboardSource,
     /<div className="dashboard-antitop-list">\{antiTop\.slice\(0, ANTITOP_PREVIEW_SIZE\)\.map\(/,
@@ -39,7 +39,7 @@ test('the full ten open in a dialog behind one narrow, full-width control', () =
 });
 
 test('card and dialog render the same row, so the two lists cannot drift apart', () => {
-  assert.match(dashboardSource, /function AntiTopRow\(\{item, position, onHover\}\)/);
+  assert.match(dashboardSource, /function AntiTopRow\(\{item, position, onHover, showChange = false\}\)/);
   const rows = dashboardSource.match(/<AntiTopRow /g) || [];
   assert.equal(rows.length, 2, 'the card and the dialog both reuse it');
   assert.doesNotMatch(
