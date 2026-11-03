@@ -64,7 +64,8 @@ node scripts/verify-manual-assessments.mjs
 Все расчётные исходники III квартала, включая анкеты и ручные корректировки,
 замороженные оценки Cross-sell, Product Lens-кэш и Excel для декомпозиции тикетов
 (`sbertrack_all_full_history_to_export.xlsx`, `tickets_final.xlsx` и `output (1).xlsx`),
-а также `prolong.xlsx` для воронки оттока хранятся в Git. `.env` и учётные данные в
+`prolong.xlsx` для воронки оттока нужно положить локально в корень проекта; сам файл
+игнорируется Git. `.env` и учётные данные в
 репозиторий не входят.
 
 В существующей копии репозитория:
