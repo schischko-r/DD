@@ -51,6 +51,18 @@
               "note": "Прямая оценка пользователя: MAU продукта = 100% за III квартал."
             }
           }
+        },
+        "mehaniki.gibkoe_izmenenie_usloviy_produkta": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-05",
+            "period": "III кв. 2026",
+            "sourceName": "Интернет-Эквайринг",
+            "sourceMetricName": "Гибкое изменение условий продукта",
+            "rule": "Прямая оценка пользователя: гибкое изменение условий продукта интернет-эквайринга = 50% за III квартал."
+          }
         }
       }
     },
@@ -1845,6 +1857,6 @@
   ],
   "counts": {
     "teams": 13,
-    "facts": 72
+    "facts": 73
   }
 }

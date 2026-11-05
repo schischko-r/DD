@@ -173,3 +173,34 @@ test('missing, ambiguous or wrong-identity baselines and incomplete scores do no
     assert.equal(buildProductQuarterComparison(current, [invalidPrevious], rows), null, `previous maximum ${max_value}`);
   }
 });
+
+test('Internet acquiring flexible product conditions are 50 percent only in Q3, preserving all other scores and Q2', () => {
+ const code = 'mehaniki.gibkoe_izmenenie_usloviy_produkta';
+ const priorOverlays = structuredClone(overlays);
+ for (const overlay of priorOverlays) if (overlay.scope === 'q3-score-correction') {
+  const team = overlay.products.find(p => p.name === 'Интернет-Эквайринг' && p.unit === 'DB');
+  delete team.metrics[code];
+ }
+ const build = (period, facts) => buildDdiPeriodProducts(data.products, period, facts, ...args, read('../../public/backlog-data.json'));
+ const before = build('III кв. 2026', priorOverlays);
+ let checked = 0;
+ for (const product of products) {
+  const old = before.find(p => p.id === product.id);
+  if (product.name !== 'Интернет-Эквайринг' || product.unit !== 'DB') {
+   assert.deepEqual(product, old);
+   continue;
+  }
+  assert.equal(product.indexMaxPoints, old.indexMaxPoints);
+  for (const metric of metrics(product)) {
+   const prior = metrics(old).find(m => m.code === metric.code);
+   if (metric.code !== code) {assert.deepEqual(metric, prior); continue;}
+   checked++;
+   assert.equal(metric.value, 0.5);
+   assert.equal(metric.max_value, 1);
+   assert.equal(metric.is_applicabble_flg, prior.is_applicabble_flg);
+   assert.equal(metric.source.confirmedBy, 'user');
+  }
+ }
+ assert.equal(checked, 1);
+ assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
+});
