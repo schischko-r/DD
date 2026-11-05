@@ -289,6 +289,24 @@
           }
         }
       }
+    },
+    {
+      "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "mehaniki.doprodazhi_up_sell": {
+          "applicable": false,
+          "source": {
+            "origin": "userConfirmedMetricApplicability",
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-05",
+            "reason": "Прямое указание пользователя: Up-sell интернет-эквайринга за III квартал нерелевантен."
+          }
+        }
+      }
     }
   ]
 }

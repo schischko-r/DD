@@ -65,7 +65,7 @@ test('all 76 effective App teams reconcile every union block plus explicit round
     close(comparison.rawIndexPctDelta, earned({metrics: metrics(product)}, product.period) / maximum(product) * 100
       - earned({metrics: metrics(prior)}, prior.period) / maximum(prior) * 100, identity);
   }
-  assert.equal(denominatorChanges, 43);
+  assert.equal(denominatorChanges, 44);
   assert.equal(JSON.stringify({data, products}), snapshot, 'comparison never changes scores, rubric, assessments or source');
 });
 
@@ -202,5 +202,29 @@ test('Internet acquiring flexible product conditions are 50 percent only in Q3, 
   }
  }
  assert.equal(checked, 1);
+ assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
+});
+
+test('Internet acquiring up-sell is non-applicable only in Q3 and removes one denominator point', () => {
+ const code = 'mehaniki.doprodazhi_up_sell';
+ const priorOverlays = structuredClone(overlays);
+ for (const overlay of priorOverlays) if (overlay.scope === 'metric-applicability-assessment') {
+  const team = overlay.products.find(p => p.name === 'Интернет-Эквайринг' && p.unit === 'DB');
+  if (team) delete team.metrics[code];
+ }
+ const build = (period, facts) => buildDdiPeriodProducts(data.products, period, facts, ...args, read('../../public/backlog-data.json'));
+ const before = build('III кв. 2026', priorOverlays);
+ for (const product of products) {
+  const old = before.find(p => p.id === product.id);
+  if (product.name !== 'Интернет-Эквайринг' || product.unit !== 'DB') {assert.deepEqual(product, old); continue;}
+  const metric = metrics(product).find(m => m.code === code);
+  assert.equal(metric.value, null);
+  assert.equal(metric.max_value, 0);
+  assert.equal(metric.is_applicabble_flg, false);
+  assert.equal(metric.excluded_from_index, true);
+  assert.equal(product.indexMaxPoints, old.indexMaxPoints - 1);
+  assert.ok(metric.recommendation_items.every(r => r.value === null && r.max_value === 0 && r.gap === 0));
+  assert.deepEqual(metrics(product).filter(m => m.code !== code), metrics(old).filter(m => m.code !== code));
+ }
  assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
 });
