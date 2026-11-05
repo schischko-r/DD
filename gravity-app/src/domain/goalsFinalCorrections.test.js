@@ -14,9 +14,9 @@ const targets=[
  ['ДомКлик','Сделка вторичка',fc,.5],['ДомКлик','Сделка ИЖС',fa,.5],
  ['ДомКлик','Сделка с Первичным жильём',fa,.5],['ДомКлик','Сделка с Первичным жильём',fc,.5],
  ...['Автокредит','Вклады+НС','Образовательный кредит','BNPL','POS-кредиты'].map(n=>['CBP',n,fa,0]),
- ['CX','Пакет услуг СберПервый',fa,0],['Data','Единый личный кабинет (ЕЛК)',fa,1],['Data','Единый личный кабинет (ЕЛК)',fc,1],
- ['Data','Персональная рекомендация',fa,0],['Data','Почта, Диск, Календарь',fa,0],['Data','Почта, Диск, Календарь',fc,0],
- ['Data','SberID',fa,0],['Data','SberID',fc,.5],['DB','Зарплатный продукт',fa,.5],['DB','Интернет-Эквайринг',fa,0],
+ ['CX','Пакет услуг СберПервый',fa,0],['Data','Единый личный кабинет (ЕЛК)',fa,.5],['Data','Единый личный кабинет (ЕЛК)',fc,.5],
+ ['Data','Персональная рекомендация',fa,.5],['Data','Почта, Диск, Календарь',fa,.5],['Data','Почта, Диск, Календарь',fc,.5],
+ ['Data','SberID',fa,.5],['Data','SberID',fc,.5],['DB','Зарплатный продукт',fa,.5],['DB','Интернет-Эквайринг',fa,0],
  ['DB','Кредитные карты',fa,0],['DB','Кредитные карты',fc,0],['DB','Платежи',fa,0],['DB','Трансграничные переводы',fa,0],['DB','SberPay Ecom',fa,.5],
 ];
 const expected=new Map(targets.map(([u,n,c,v])=>[`${u}|${n}|${c}`,v]));
@@ -68,4 +68,22 @@ test('the 24 requested final Q3 goal scores override earlier unit corrections an
  }
  assert.equal(seen,24);
  assert.deepEqual(build('II кв. 2026',overlays),build('II кв. 2026',earlier));
+});
+
+ test('all nine requested Data final goals are 50 percent, including unchanged monitoring and forecast scores', () => {
+ const products = build('III кв. 2026', overlays);
+ for (const [name, codes] of [
+  ['Единый личный кабинет (ЕЛК)', ['goals.po_monitoring', fa, fc]],
+  ['Персональная рекомендация', [fa]],
+  ['Почта, Диск, Календарь', ['goals.po_monitoring', fa, fc]],
+  ['SberID', [fa, fc]],
+ ]) {
+  const product = products.find(p => p.unit === 'Data' && p.name === name);
+  for (const code of codes) {
+   const metric = product.metrics.find(b => b.code === 'goals').metrics.find(m => m.code === code);
+   assert.equal(metric.value, 0.5, `${name} / ${code}`);
+   assert.equal(metric.max_value, 1);
+   assert.equal(isDdIndexMetric(metric), true);
+  }
+ }
 });
