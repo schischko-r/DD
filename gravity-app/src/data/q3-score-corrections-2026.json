@@ -115,6 +115,19 @@
               }
             }
           }
+        },
+        "analiz_effektivnostь.provedenie_kompleksnogo_analiza_po_metrikam": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-05",
+            "period": "III кв. 2026",
+            "sourceName": "Персональная рекомендация",
+            "sourceMetricName": "Проведение комплексного анализа по метрикам",
+            "previousRawValue": 0.5,
+            "rule": "Прямая оценка пользователя: проведение комплексного анализа по метрикам кампейнинга = 100% за III квартал."
+          }
         }
       }
     },
@@ -1799,6 +1812,6 @@
   ],
   "counts": {
     "teams": 13,
-    "facts": 33
+    "facts": 71
   }
 }

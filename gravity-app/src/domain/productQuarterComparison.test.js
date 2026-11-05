@@ -88,8 +88,12 @@ test('Campaigning final factor analysis is restored to zero against the Excel Q2
   assert.equal(industrial.value, 0.5);
   assert.equal(industrial.max_value, 0.5);
   assert.equal(industrial.source.confirmedBy, 'user');
-  assert.equal(comparison.indexPctDelta, 0);
-  close(comparison.rawIndexPctDelta, 0.125 / 19.5 * 100);
+  const analysis = metrics(product).find(metric => metric.code === 'analiz_effektivnostь.provedenie_kompleksnogo_analiza_po_metrikam');
+  assert.equal(analysis.value, analysis.max_value);
+  assert.equal(analysis.max_value, 0.75);
+  assert.equal(analysis.source.confirmedBy, 'user');
+  assert.equal(comparison.indexPctDelta, 2);
+  close(comparison.rawIndexPctDelta, 0.5 / 19.5 * 100);
   close(comparison.blocks.find((block) => block.code === 'goals').rawIndexPctDelta, 0);
   assert.equal(comparison.blocks.find((block) => block.code === 'goals').indexPctDelta, 0);
   assert.equal(comparison.metricGrowthByCode['goals.po_factor_analysis'], undefined);
