@@ -1035,8 +1035,8 @@
       "unit": "Data",
       "final": {
         "goals.monitored": 0.5,
-        "goals.factor_analysis_l1_l2": 0.5,
-        "goals.forecast": 0.5
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
       },
       "lulT": {
         "goals.monitored": 1,
@@ -1056,15 +1056,7 @@
           "group": "finalGoalsTable20261103",
           "evidence": "Цифровые следы",
           "previousValue": 0.5,
-          "value": 1,
-          "correction": {
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-11-05",
-            "evidence": "Цифровые следы",
-            "previousValue": 1,
-            "value": 0.5
-          }
+          "value": 1
         },
         "goals.forecast": {
           "confirmedBy": "user",
@@ -1073,15 +1065,7 @@
           "group": "finalGoalsTable20261103",
           "evidence": "Цифровые следы",
           "previousValue": 0.5,
-          "value": 1,
-          "correction": {
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-11-05",
-            "evidence": "Цифровые следы",
-            "previousValue": 1,
-            "value": 0.5
-          }
+          "value": 1
         }
       }
     },
@@ -1090,7 +1074,7 @@
       "unit": "Data",
       "final": {
         "goals.monitored": 1,
-        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.factor_analysis_l1_l2": 0,
         "goals.forecast": null
       },
       "lulT": {
@@ -1111,15 +1095,7 @@
           "group": "finalGoalsTable20261103",
           "evidence": "Цифровые следы",
           "previousValue": 0.5,
-          "value": 0,
-          "correction": {
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-11-05",
-            "evidence": "Цифровые следы",
-            "previousValue": 0,
-            "value": 0.5
-          }
+          "value": 0
         }
       }
     },
@@ -1128,8 +1104,8 @@
       "unit": "Data",
       "final": {
         "goals.monitored": 0.5,
-        "goals.factor_analysis_l1_l2": 0.5,
-        "goals.forecast": 0.5
+        "goals.factor_analysis_l1_l2": 0,
+        "goals.forecast": 0
       },
       "lulT": {
         "goals.monitored": 1,
@@ -1149,15 +1125,7 @@
           "group": "finalGoalsTable20261103",
           "evidence": "Цифровые следы",
           "previousValue": 0.5,
-          "value": 0,
-          "correction": {
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-11-05",
-            "evidence": "Цифровые следы",
-            "previousValue": 0,
-            "value": 0.5
-          }
+          "value": 0
         },
         "goals.forecast": {
           "confirmedBy": "user",
@@ -1166,15 +1134,7 @@
           "group": "finalGoalsTable20261103",
           "evidence": "Цифровые следы",
           "previousValue": 0.5,
-          "value": 0,
-          "correction": {
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-11-05",
-            "evidence": "Цифровые следы",
-            "previousValue": 0,
-            "value": 0.5
-          }
+          "value": 0
         }
       }
     },
@@ -1183,7 +1143,7 @@
       "unit": "Data",
       "final": {
         "goals.monitored": 1,
-        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.factor_analysis_l1_l2": 0,
         "goals.forecast": 0.5
       },
       "lulT": {
@@ -1204,15 +1164,7 @@
           "group": "finalGoalsTable20261103",
           "evidence": "Цифровые следы",
           "previousValue": 0.5,
-          "value": 0,
-          "correction": {
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-11-05",
-            "evidence": "Цифровые следы",
-            "previousValue": 0,
-            "value": 0.5
-          }
+          "value": 0
         },
         "goals.forecast": {
           "confirmedBy": "user",

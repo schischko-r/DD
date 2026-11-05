@@ -57,21 +57,33 @@
       "type": "Канал",
       "metrics": {
         "dannye.promyshlenye_dannye": {
-          "rawValue": 0.75,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedMetricAssessment",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-05",
             "period": "III кв. 2026",
             "sourceName": "Персональная рекомендация",
             "sourceMetricName": "Промышленные данные",
-            "correction": {
-              "origin": "userConfirmedQ3ScoreCorrection",
-              "confirmedBy": "user",
-              "date": "2026-11-02",
-              "period": "III кв. 2026",
+            "rule": "Прямая оценка пользователя: промышленные данные кампейнинга = 100% за III квартал.",
+            "previousAssessment": {
               "rawValue": 0.75,
-              "note": "Прямая оценка пользователя: промышленные данные = 75% за III квартал."
+              "source": {
+                "origin": "userConfirmedMetricAssessment",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "sourceName": "Персональная рекомендация",
+                "sourceMetricName": "Промышленные данные",
+                "correction": {
+                  "origin": "userConfirmedQ3ScoreCorrection",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "rawValue": 0.75,
+                  "note": "Прямая оценка пользователя: промышленные данные = 75% за III квартал."
+                }
+              }
             }
           }
         }

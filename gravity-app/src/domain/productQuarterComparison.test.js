@@ -80,15 +80,19 @@ test('deposits Navigator is 100 percent after final corrections without changing
   assert.equal(metrics(prior).find(metric => metric.code === target.code).value, 0.25);
 });
 
-test('Campaigning final factor analysis is 50 percent against the Excel Q2 baseline; unchanged alerts have no uplift', () => {
+test('Campaigning final factor analysis is restored to zero against the Excel Q2 baseline; unchanged alerts have no uplift', () => {
   const product = products.find((item) => item.name === 'Персональная рекомендация' && item.unit === 'Data');
   const comparison = buildProductQuarterComparison(product, data.products, data.title.rows);
   assert.equal(comparison.previousScore, 67);
-  assert.equal(comparison.indexPctDelta, 2);
-  close(comparison.rawIndexPctDelta, 0.5 / 19.5 * 100);
-  close(comparison.blocks.find((block) => block.code === 'goals').rawIndexPctDelta, 0.5 / 19.5 * 100);
-  assert.equal(comparison.blocks.find((block) => block.code === 'goals').indexPctDelta, 2.6);
-  close(comparison.metricGrowthByCode['goals.po_factor_analysis'].pointsDelta, 0.5);
+  const industrial = metrics(product).find(metric => metric.code === 'dannye.promyshlenye_dannye');
+  assert.equal(industrial.value, 0.5);
+  assert.equal(industrial.max_value, 0.5);
+  assert.equal(industrial.source.confirmedBy, 'user');
+  assert.equal(comparison.indexPctDelta, 0);
+  close(comparison.rawIndexPctDelta, 0.125 / 19.5 * 100);
+  close(comparison.blocks.find((block) => block.code === 'goals').rawIndexPctDelta, 0);
+  assert.equal(comparison.blocks.find((block) => block.code === 'goals').indexPctDelta, 0);
+  assert.equal(comparison.metricGrowthByCode['goals.po_factor_analysis'], undefined);
   assert.equal(comparison.blocks.find(block => block.code === 'alerts').indexPctDelta, 0);
   for (const code of ['alerts.nastroena_matrica_otkloneniy', 'alerts.nastroeny_avtoalerty_po_otkloneniyam']) {
     assert.equal(metrics(product).find(metric => metric.code === code).value, 0.5);
