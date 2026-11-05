@@ -35,13 +35,23 @@
       "type": "Канал",
       "metrics": {
         "analiz_effektivnostь.regulyarnostь": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedRegularityAssessment",
             "confirmedBy": "user",
+            "date": "2026-11-05",
             "period": "III кв. 2026",
-            "date": "2026-10-30",
-            "rule": "Восстановить регулярность 0.5 у кампейнинга в блоке «Анализ, эффективность» за III квартал по указанию пользователя."
+            "rule": "Прямая оценка пользователя: регулярность отчетности кампейнинга = 100% за III квартал. Информационный критерий, исключение из DDI сохраняется.",
+            "previousAssessment": {
+              "rawValue": 0.5,
+              "source": {
+                "origin": "userConfirmedRegularityAssessment",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "date": "2026-10-30",
+                "rule": "Восстановить регулярность 0.5 у кампейнинга в блоке «Анализ, эффективность» за III квартал по указанию пользователя."
+              }
+            }
           }
         }
       }

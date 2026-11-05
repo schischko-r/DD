@@ -23,6 +23,7 @@ const SCOPED_METRIC_CODES = {
     'mehaniki.uderzhanie_klientov', 'mehaniki.doprodazhi_up_sell', 'cx.score', 'hyp.discovery_40_backlog',
     'general.navigator_reporting_knowledge', 'general.klienty_s_produktom', 'general.mau_produkta', 'general.obъem_celevogo_rynka_v_rossii',
     'dannye.promyshlenye_dannye', 'analiz_effektivnostь.provedenie_kompleksnogo_analiza_po_metrikam',
+    'analiz_effektivnostь.nastroena_otchetnostь',
     'alerts.business_metrics', 'attract.campaign_launches',
     'attract.nalichie_self_service', 'attract.nalichie_uspeshnyh_biznes_zapuskov']),
   'alerts-carry-forward': new Set(['alerts.business_metrics', 'alerts.system_failures',

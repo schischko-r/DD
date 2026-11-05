@@ -13,13 +13,13 @@ const id = '6d607e87-5e45-5759-a9cc-1a162b981a26¦Персональная ре�
 const build = (period, facts) => buildDdiPeriodProducts(source, period, facts,
   read('../data/salary-products-q3-2026.json'), read('../data/reporting-regularity-missing-q3-2026.json'), read('../data/funnel-action-missing-q3-2026.json'));
 
-test('campaigning Q3 has both alerts at 50% and regularity at 0.5 without changing other scores or Q2', () => {
+test('campaigning Q3 has both alerts at 50% and regularity at 100% without changing other scores or Q2', () => {
   const prior = overlays.filter((o) => o.source?.origin !== 'userConfirmedCampaigningAlerts').map((o) =>
     o.scope === 'regularity-user-assessment' ? {...o, products: o.products.filter((p) => p.id !== id)} : o);
   const before = build('III кв. 2026', prior);
   const after = build('III кв. 2026', overlays);
   const expected = {'alerts.nastroena_matrica_otkloneniy': 0.5,
-    'alerts.nastroeny_avtoalerty_po_otkloneniyam': 0.5, 'analiz_effektivnostь.regulyarnostь': 0.5};
+    'alerts.nastroeny_avtoalerty_po_otkloneniyam': 0.5, 'analiz_effektivnostь.regulyarnostь': 1};
   let checked = 0;
   for (let i = 0; i < after.length; i++) {
     const team = after[i], old = before[i];
