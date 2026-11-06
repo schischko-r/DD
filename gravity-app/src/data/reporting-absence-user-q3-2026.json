@@ -89,6 +89,17 @@
               "sheet": "Продукты (2)",
               "row": 57
             }
+          },
+          "preserveMetricCodes": [
+            "churn.benchmarks",
+            "churn.regulyarnostь",
+            "churn.report_completeness"
+          ],
+          "preservedMetricsSource": {
+            "confirmedBy": "user",
+            "date": "2026-11-06",
+            "period": "III кв. 2026",
+            "rule": "Последние прямые указания пользователя: бенчмарки, регулярность и полнота отчета в оттоке Сделки ИЖС = 100% независимо от отсутствия отчетности. Остальные метрики сохраняют прежние правила."
           }
         }
       ]

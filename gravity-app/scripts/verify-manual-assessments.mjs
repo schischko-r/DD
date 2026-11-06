@@ -559,7 +559,8 @@ for (const product of absenceAssessmentProducts) {
     for (const metric of block.metrics) {
       const old = oldBlock.metrics.find(item => item.code === metric.code);
       const dependent = /\.(?:benchmarks|nalichie_benchmarkov|regulyarnostь|report_completeness|polnota_otcheta)$/.test(metric.code);
-      const expected = eligible && (metric.code === proof.reportingCode || dependent)
+      const preserved = dependent && proof?.preserveMetricCodes?.includes(metric.code);
+      const expected = eligible && !preserved && (metric.code === proof.reportingCode || dependent)
         && old.is_applicabble_flg !== false && old.max_value > 0 ? 0 : old.value;
       if (metric.value !== expected || metric.max_value !== old.max_value || metric.is_applicabble_flg !== old.is_applicabble_flg) {
         throw new Error(`Reporting absence rule changed an unauthorized value: ${product.name} / ${metric.code}`);

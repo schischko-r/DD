@@ -259,3 +259,57 @@ test('Internet acquiring after-purchase cross-sell is full with its during compo
  }
  assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
 });
+
+test('IHS deal benchmarks are full in both funnels without changing other teams, metrics or Q2', () => {
+ const priorOverlays = structuredClone(overlays);
+ const absence = priorOverlays.find(o => o.scope === 'reporting-absence-assessment');
+ const record = absence.products.find(p => p.name === 'Сделка ИЖС');
+ const block = record.blocks.find(b => b.blockCode === 'churn');
+ block.preserveMetricCodes = block.preserveMetricCodes.filter(code => code !== 'churn.benchmarks');
+ const build = (period, facts) => buildDdiPeriodProducts(data.products, period, facts, ...args, read('../../public/backlog-data.json'));
+ const before = build('III кв. 2026', priorOverlays);
+ for (const product of products) {
+  const old = before.find(p => p.id === product.id);
+  if (product.name !== 'Сделка ИЖС' || product.unit !== 'ДомКлик') {assert.deepEqual(product, old); continue;}
+  assert.equal(product.indexMaxPoints, old.indexMaxPoints);
+  for (const code of ['attract.benchmarks', 'churn.benchmarks']) {
+   const metric = metrics(product).find(m => m.code === code);
+   assert.equal(metric.value, 0.5);
+   assert.equal(metric.max_value, 0.5);
+  }
+  assert.deepEqual(metrics(product).filter(m => m.code !== 'churn.benchmarks'), metrics(old).filter(m => m.code !== 'churn.benchmarks'));
+  assert.equal(metrics(product).find(m => m.code === 'churn.nastroena_otchetnostь').value, 0);
+ }
+ assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
+});
+
+test('IHS deal explicit churn regularity, completeness and actions preserve reporting zero and every other metric', () => {
+ const codes = ['churn.regulyarnostь', 'churn.report_completeness', 'churn.deviation_actions'];
+ const priorOverlays = structuredClone(overlays);
+ for (const overlay of priorOverlays) {
+  const team = overlay.products?.find(p => p.name === 'Сделка ИЖС' && p.unit === 'ДомКлик');
+  if (!team) continue;
+  if (overlay.scope === 'q3-score-correction') for (const code of codes) delete team.metrics[code];
+  if (overlay.scope === 'reporting-absence-assessment') {
+   const block = team.blocks.find(b => b.blockCode === 'churn');
+   block.preserveMetricCodes = block.preserveMetricCodes.filter(code => !codes.includes(code));
+  }
+ }
+ const build = (period, facts) => buildDdiPeriodProducts(data.products, period, facts, ...args, read('../../public/backlog-data.json'));
+ const before = build('III кв. 2026', priorOverlays);
+ for (const product of products) {
+  const old = before.find(p => p.id === product.id);
+  if (product.name !== 'Сделка ИЖС' || product.unit !== 'ДомКлик') {assert.deepEqual(product, old); continue;}
+  assert.equal(product.indexMaxPoints, old.indexMaxPoints);
+  for (const code of codes) {
+   const metric = metrics(product).find(m => m.code === code);
+   assert.equal(metric.value / metric.max_value, code === 'churn.deviation_actions' ? 0.5 : 1);
+   const previous = metrics(old).find(m => m.code === code);
+   assert.equal(metric.max_value, previous.max_value);
+   assert.equal(metric.is_applicabble_flg, previous.is_applicabble_flg);
+  }
+  assert.deepEqual(metrics(product).filter(m => !codes.includes(m.code)), metrics(old).filter(m => !codes.includes(m.code)));
+  assert.equal(metrics(product).find(m => m.code === 'churn.nastroena_otchetnostь').value, 0);
+ }
+ assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
+});

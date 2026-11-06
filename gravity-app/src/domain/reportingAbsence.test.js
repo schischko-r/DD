@@ -136,3 +136,15 @@ test('runtime applies only the verified No records after prior overlays and pres
   }
   assert.deepEqual(buildDdiPeriodProducts(source, source[0].period, overlays, salary, reporting, actions), source);
 });
+
+test('an explicit preserved dependent criterion does not protect reporting or the rest of its block', () => {
+ const product = team(0);
+ const assessment = evidence(product);
+ assessment.products[0].blocks[0].preserveMetricCodes = ['attract.benchmarks', 'attract.nastroena_otchetnostь'];
+ const result = applyReportingAbsenceAssessments([product], period, assessment)[0];
+ assert.deepEqual(get(result, 'attract.benchmarks'), get(product, 'attract.benchmarks'));
+ for (const code of ['attract.nastroena_otchetnostь', 'attract.regulyarnostь', 'attract.report_completeness']) {
+  assert.equal(get(result, code).value, 0);
+ }
+ assert.deepEqual(result.metrics[1], product.metrics[1]);
+});

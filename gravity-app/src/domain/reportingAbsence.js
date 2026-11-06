@@ -27,6 +27,7 @@ export function applyReportingAbsenceAssessments(products, period, overlays = []
       if (!applicable(reporting) || !(empty(reporting.value) || reporting.value === 0)) return block;
       const entries = block.metrics.map((metric) => {
         if (!applicable(metric) || (metric.code !== fact.reportingCode && !dependent(metric))) return metric;
+        if (dependent(metric) && fact.preserveMetricCodes?.includes(metric.code)) return metric;
         if (metric.value === 0 && metric.source?.origin === origin && metric.source?.reportingCode === fact.reportingCode) return metric;
         changed = true;
         return {...metric, value: 0, source: {...fact.source, origin, confirmedBy: 'user', period,

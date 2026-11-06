@@ -1865,10 +1865,54 @@
           }
         }
       }
+    },
+    {
+      "id": "da0844f0-ff56-519d-97cb-a72ec1d97225¦Сделка ИЖС",
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "churn.regulyarnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-06",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Регулярность",
+            "rule": "Прямая оценка пользователя: Регулярность воронки оттока Сделки ИЖС = 100% за III квартал."
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-06",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Полнота отчета",
+            "rule": "Прямая оценка пользователя: Полнота отчета воронки оттока Сделки ИЖС = 100% за III квартал."
+          }
+        },
+        "churn.deviation_actions": {
+          "rawValue": 0.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-06",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "rule": "Прямая оценка пользователя: Мероприятия по работе с отклонениями воронки оттока Сделки ИЖС = 50% за III квартал."
+          }
+        }
+      }
     }
   ],
   "counts": {
-    "teams": 13,
-    "facts": 73
+    "teams": 29,
+    "facts": 76
   }
 }

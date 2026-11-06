@@ -19,7 +19,7 @@ const SCOPED_METRIC_CODES = {
   'discovery-assessment': new Set(['hyp.discovery_40_backlog']),
   'q3-score-correction': new Set(['attract.report_completeness', 'attract.nastroena_otchetnostь', 'attract.funnel_analysis', 'attract.benchmarks',
     'attract.initiatives_list', 'attract.provedenie_kompleksnogo_analiza_voronki_ispolьzovaniya', 'churn.nastroena_otchetnostь',
-    'churn.report_completeness', 'churn.funnel_analysis', 'churn.benchmarks', 'churn.deviation_actions',
+    'churn.report_completeness', 'churn.funnel_analysis', 'churn.benchmarks', 'churn.deviation_actions', 'churn.regulyarnostь',
     'mehaniki.uderzhanie_klientov', 'mehaniki.doprodazhi_up_sell', 'mehaniki.gibkoe_izmenenie_usloviy_produkta', 'cx.score', 'hyp.discovery_40_backlog',
     'general.navigator_reporting_knowledge', 'general.klienty_s_produktom', 'general.mau_produkta', 'general.obъem_celevogo_rynka_v_rossii',
     'dannye.promyshlenye_dannye', 'analiz_effektivnostь.provedenie_kompleksnogo_analiza_po_metrikam',
