@@ -278,12 +278,12 @@ test('IHS deal benchmarks are full in both funnels without changing other teams,
    assert.equal(metric.max_value, 0.5);
   }
   assert.deepEqual(metrics(product).filter(m => m.code !== 'churn.benchmarks'), metrics(old).filter(m => m.code !== 'churn.benchmarks'));
-  assert.equal(metrics(product).find(m => m.code === 'churn.nastroena_otchetnostь').value, 0);
+  assert.equal(metrics(product).find(m => m.code === 'churn.nastroena_otchetnostь').value, 0.5);
  }
  assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
 });
 
-test('IHS deal explicit churn regularity, completeness and actions preserve reporting zero and every other metric', () => {
+test('IHS deal explicit churn regularity, completeness and actions preserve full reporting and every other metric', () => {
  const codes = ['churn.regulyarnostь', 'churn.report_completeness', 'churn.deviation_actions'];
  const priorOverlays = structuredClone(overlays);
  for (const overlay of priorOverlays) {
@@ -309,7 +309,27 @@ test('IHS deal explicit churn regularity, completeness and actions preserve repo
    assert.equal(metric.is_applicabble_flg, previous.is_applicabble_flg);
   }
   assert.deepEqual(metrics(product).filter(m => !codes.includes(m.code)), metrics(old).filter(m => !codes.includes(m.code)));
-  assert.equal(metrics(product).find(m => m.code === 'churn.nastroena_otchetnostь').value, 0);
+  assert.equal(metrics(product).find(m => m.code === 'churn.nastroena_otchetnostь').value, 0.5);
+ }
+ assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
+});
+
+test('IHS deal churn reporting is full only in Q3 while its other final assessments stay unchanged', () => {
+ const code = 'churn.nastroena_otchetnostь';
+ const priorOverlays = structuredClone(overlays);
+ const correction = priorOverlays.find(o => o.scope === 'q3-score-correction');
+ delete correction.products.find(p => p.name === 'Сделка ИЖС').metrics[code];
+ const build = (period, facts) => buildDdiPeriodProducts(data.products, period, facts, ...args, read('../../public/backlog-data.json'));
+ const before = build('III кв. 2026', priorOverlays);
+ for (const product of products) {
+  const old = before.find(p => p.id === product.id);
+  if (product.name !== 'Сделка ИЖС' || product.unit !== 'ДомКлик') {assert.deepEqual(product, old); continue;}
+  const metric = metrics(product).find(m => m.code === code);
+  assert.equal(metric.value, 0.5);
+  assert.equal(metric.max_value, 0.5);
+  assert.equal(metric.source.confirmedBy, 'user');
+  assert.equal(product.indexMaxPoints, old.indexMaxPoints);
+  assert.deepEqual(metrics(product).filter(m => m.code !== code), metrics(old).filter(m => m.code !== code));
  }
  assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
 });

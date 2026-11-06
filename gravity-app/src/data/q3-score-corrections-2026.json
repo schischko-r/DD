@@ -1907,12 +1907,24 @@
             "sourceMetricName": "Мероприятия по работе с отклонениями",
             "rule": "Прямая оценка пользователя: Мероприятия по работе с отклонениями воронки оттока Сделки ИЖС = 50% за III квартал."
           }
+        },
+        "churn.nastroena_otchetnostь": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-06",
+            "period": "III кв. 2026",
+            "sourceName": "Сделка ИЖС",
+            "sourceMetricName": "Настроена отчетность по воронке оттока",
+            "rule": "Прямое указание пользователя: настроена отчетность воронки оттока Сделки ИЖС = 100% за III квартал."
+          }
         }
       }
     }
   ],
   "counts": {
     "teams": 29,
-    "facts": 76
+    "facts": 77
   }
 }
