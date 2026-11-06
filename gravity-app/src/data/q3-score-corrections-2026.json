@@ -53,15 +53,27 @@
           }
         },
         "mehaniki.gibkoe_izmenenie_usloviy_produkta": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedQ3ScoreCorrection",
             "confirmedBy": "user",
-            "date": "2026-11-05",
+            "date": "2026-11-06",
             "period": "III кв. 2026",
             "sourceName": "Интернет-Эквайринг",
             "sourceMetricName": "Гибкое изменение условий продукта",
-            "rule": "Прямая оценка пользователя: гибкое изменение условий продукта интернет-эквайринга = 50% за III квартал."
+            "rule": "Последнее прямое указание пользователя: гибкое изменение условий продукта интернет-эквайринга = 100% за III квартал.",
+            "previousAssessment": {
+              "rawValue": 0.5,
+              "source": {
+                "origin": "userConfirmedQ3ScoreCorrection",
+                "confirmedBy": "user",
+                "date": "2026-11-05",
+                "period": "III кв. 2026",
+                "sourceName": "Интернет-Эквайринг",
+                "sourceMetricName": "Гибкое изменение условий продукта",
+                "rule": "Прямая оценка пользователя: гибкое изменение условий продукта интернет-эквайринга = 50% за III квартал."
+              }
+            }
           }
         }
       }

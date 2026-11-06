@@ -26,8 +26,8 @@ test('confirmed after-purchase scores are binary for all Q3 teams and only the s
     'СберСпасибо', 'Дебетовая карта', 'Платежи', 'Сценарии оплаты', 'Торговый Эквайринг', 'SberPay NFC',
     'Много денег (НКПЗН)', 'Сделка вторичка', 'БПИФ', 'Брокерский счет', 'ЗПИФ', 'ОПИФ', 'ПДС', 'Личная защита Плюс'];
   assert.deepEqual(after.products.filter((team) => team.postPurchaseValue === 1).map((team) => team.name).sort(),
-    [...restoredNames, ...expectedNames, 'Вклады+НС'].sort());
-  assert.equal(after.products.filter((team) => team.postPurchaseValue === 1).length, 37);
+    [...restoredNames, ...expectedNames, 'Вклады+НС', 'Интернет-Эквайринг'].sort());
+  assert.equal(after.products.filter((team) => team.postPurchaseValue === 1).length, 38);
   assert.equal(new Set(after.products.map((team) => team.id)).size, 54);
   for (const name of restoredNames) {
     const old = cross(products.find((team) => team.name === name));

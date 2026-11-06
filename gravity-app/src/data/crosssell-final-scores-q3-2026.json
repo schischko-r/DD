@@ -1049,7 +1049,7 @@
       "type": "Продукт",
       "present": true,
       "metric": {
-        "value": 0.5,
+        "value": 1,
         "max_value": 1,
         "is_applicabble_flg": true,
         "excluded_from_index": false,
@@ -1057,7 +1057,7 @@
         "source": {
           "origin": "crossSellComponentSum",
           "period": "III кв. 2026",
-          "rawValue": 0.5,
+          "rawValue": 1,
           "duringSource": {
             "origin": "userConfirmedCrossSellDuringPurchase",
             "confirmedBy": "user",
@@ -1072,9 +1072,25 @@
           },
           "afterSource": {
             "origin": "userConfirmedPostPurchaseCrossSell",
+            "confirmedBy": "user",
             "period": "III кв. 2026",
-            "confirmedAt": "2026-10-29",
-            "inputName": "Интернет-Эквайринг"
+            "confirmedAt": "2026-11-06",
+            "inputName": "Интернет-Эквайринг",
+            "rule": "Прямая оценка пользователя: Cross-sell после оформления интернет-эквайринга = 100% за III квартал.",
+            "previousAssessment": {
+              "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+              "name": "Интернет-Эквайринг",
+              "unit": "DB",
+              "type": "Продукт",
+              "postPurchaseValue": 0,
+              "postPurchaseApplicable": true,
+              "source": {
+                "origin": "userConfirmedPostPurchaseCrossSell",
+                "period": "III кв. 2026",
+                "confirmedAt": "2026-10-29",
+                "inputName": "Интернет-Эквайринг"
+              }
+            }
           }
         },
         "crossSellComponents": {
@@ -1095,14 +1111,30 @@
             }
           },
           "after": {
-            "value": 0,
-            "rawValue": 0,
+            "value": 0.5,
+            "rawValue": 1,
             "applicable": true,
             "source": {
               "origin": "userConfirmedPostPurchaseCrossSell",
+              "confirmedBy": "user",
               "period": "III кв. 2026",
-              "confirmedAt": "2026-10-29",
-              "inputName": "Интернет-Эквайринг"
+              "confirmedAt": "2026-11-06",
+              "inputName": "Интернет-Эквайринг",
+              "rule": "Прямая оценка пользователя: Cross-sell после оформления интернет-эквайринга = 100% за III квартал.",
+              "previousAssessment": {
+                "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+                "name": "Интернет-Эквайринг",
+                "unit": "DB",
+                "type": "Продукт",
+                "postPurchaseValue": 0,
+                "postPurchaseApplicable": true,
+                "source": {
+                  "origin": "userConfirmedPostPurchaseCrossSell",
+                  "period": "III кв. 2026",
+                  "confirmedAt": "2026-10-29",
+                  "inputName": "Интернет-Эквайринг"
+                }
+              }
             }
           }
         },
@@ -1111,9 +1143,9 @@
             "recommendation": "Проработать механики кросс-продаж",
             "group": 5,
             "recommendation_difficulty": 5,
-            "value": 0.5,
+            "value": 1,
             "max_value": 1,
-            "gap": 0.5
+            "gap": 0
           }
         ],
         "code": "mehaniki.cross_sell"

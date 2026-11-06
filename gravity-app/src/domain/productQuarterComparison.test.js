@@ -174,7 +174,7 @@ test('missing, ambiguous or wrong-identity baselines and incomplete scores do no
   }
 });
 
-test('Internet acquiring flexible product conditions are 50 percent only in Q3, preserving all other scores and Q2', () => {
+test('Internet acquiring flexible product conditions are 100 percent only in Q3, preserving all other scores and Q2', () => {
  const code = 'mehaniki.gibkoe_izmenenie_usloviy_produkta';
  const priorOverlays = structuredClone(overlays);
  for (const overlay of priorOverlays) if (overlay.scope === 'q3-score-correction') {
@@ -195,7 +195,7 @@ test('Internet acquiring flexible product conditions are 50 percent only in Q3, 
    const prior = metrics(old).find(m => m.code === metric.code);
    if (metric.code !== code) {assert.deepEqual(metric, prior); continue;}
    checked++;
-   assert.equal(metric.value, 0.5);
+   assert.equal(metric.value, 1);
    assert.equal(metric.max_value, 1);
    assert.equal(metric.is_applicabble_flg, prior.is_applicabble_flg);
    assert.equal(metric.source.confirmedBy, 'user');
@@ -225,6 +225,37 @@ test('Internet acquiring up-sell is non-applicable only in Q3 and removes one de
   assert.equal(product.indexMaxPoints, old.indexMaxPoints - 1);
   assert.ok(metric.recommendation_items.every(r => r.value === null && r.max_value === 0 && r.gap === 0));
   assert.deepEqual(metrics(product).filter(m => m.code !== code), metrics(old).filter(m => m.code !== code));
+ }
+ assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
+});
+
+test('Internet acquiring after-purchase cross-sell is full with its during component and all other scores preserved', () => {
+ const code = 'mehaniki.cross_sell';
+ const priorOverlays = structuredClone(overlays);
+ for (const overlay of priorOverlays) {
+  const team = overlay.products?.find(p => p.name === 'Интернет-Эквайринг' && p.unit === 'DB');
+  if (!team) continue;
+  if (overlay.scope === 'crosssell-after-purchase-assessment') team.postPurchaseValue = 0;
+  if (overlay.scope === 'frozen-q3-crosssell-scores') {
+   team.metric.value = 0.5;
+   team.metric.crossSellComponents.after.value = 0;
+   team.metric.crossSellComponents.after.rawValue = 0;
+  }
+ }
+ const build = (period, facts) => buildDdiPeriodProducts(data.products, period, facts, ...args, read('../../public/backlog-data.json'));
+ const before = build('III кв. 2026', priorOverlays);
+ for (const product of products) {
+  const old = before.find(p => p.id === product.id);
+  if (product.name !== 'Интернет-Эквайринг' || product.unit !== 'DB') {assert.deepEqual(product, old); continue;}
+  const metric = metrics(product).find(m => m.code === code);
+  assert.equal(metric.value, 1);
+  assert.equal(metric.max_value, 1);
+  assert.equal(metric.crossSellComponents.after.rawValue, 1);
+  assert.equal(metric.crossSellComponents.after.value, 0.5);
+  assert.deepEqual(metric.crossSellComponents.during, metrics(old).find(m => m.code === code).crossSellComponents.during);
+  assert.equal(product.indexMaxPoints, old.indexMaxPoints);
+  assert.deepEqual(metrics(product).filter(m => m.code !== code), metrics(old).filter(m => m.code !== code));
+  assert.equal(metrics(product).find(m => m.code === 'mehaniki.doprodazhi_up_sell').is_applicabble_flg, false);
  }
  assert.deepEqual(build('II кв. 2026', overlays), build('II кв. 2026', priorOverlays));
 });

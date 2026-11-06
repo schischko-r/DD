@@ -371,13 +371,29 @@
       "name": "Интернет-Эквайринг",
       "unit": "DB",
       "type": "Продукт",
-      "postPurchaseValue": 0,
+      "postPurchaseValue": 1,
       "postPurchaseApplicable": true,
       "source": {
         "origin": "userConfirmedPostPurchaseCrossSell",
+        "confirmedBy": "user",
         "period": "III кв. 2026",
-        "confirmedAt": "2026-10-29",
-        "inputName": "Интернет-Эквайринг"
+        "confirmedAt": "2026-11-06",
+        "inputName": "Интернет-Эквайринг",
+        "rule": "Прямая оценка пользователя: Cross-sell после оформления интернет-эквайринга = 100% за III квартал.",
+        "previousAssessment": {
+          "id": "7043f2b6-9836-55c4-8801-c9bde60b990d¦Интернет-Эквайринг",
+          "name": "Интернет-Эквайринг",
+          "unit": "DB",
+          "type": "Продукт",
+          "postPurchaseValue": 0,
+          "postPurchaseApplicable": true,
+          "source": {
+            "origin": "userConfirmedPostPurchaseCrossSell",
+            "period": "III кв. 2026",
+            "confirmedAt": "2026-10-29",
+            "inputName": "Интернет-Эквайринг"
+          }
+        }
       }
     },
     {
