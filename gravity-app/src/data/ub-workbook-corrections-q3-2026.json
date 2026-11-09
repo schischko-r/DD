@@ -304,11 +304,11 @@
           }
         },
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedUbWorkbookCorrections",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-09",
             "period": "III кв. 2026",
             "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
             "sheet": "Метрики",
@@ -319,7 +319,35 @@
             "sourceTeam": "ВЗР",
             "sourceBlock": "Клиентский опыт",
             "sourceMetric": "CX Score",
-            "rawCorrection": 0.5
+            "rawCorrection": 0.5,
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Страхование путешественников",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userConfirmedUbWorkbookCorrections",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+                  "sheet": "Метрики",
+                  "column": "F",
+                  "columnLabel": "Корректировка",
+                  "cell": "F321",
+                  "sourceUnit": "УБ",
+                  "sourceTeam": "ВЗР",
+                  "sourceBlock": "Клиентский опыт",
+                  "sourceMetric": "CX Score",
+                  "rawCorrection": 0.5
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -488,11 +516,11 @@
           }
         },
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedUbWorkbookCorrections",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-09",
             "period": "III кв. 2026",
             "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
             "sheet": "Метрики",
@@ -503,7 +531,35 @@
             "sourceTeam": "ЗЛС",
             "sourceBlock": "Клиентский опыт",
             "sourceMetric": "CX Score",
-            "rawCorrection": 0.5
+            "rawCorrection": 0.5,
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "ЗЛС",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userConfirmedUbWorkbookCorrections",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+                  "sheet": "Метрики",
+                  "column": "F",
+                  "columnLabel": "Корректировка",
+                  "cell": "F500",
+                  "sourceUnit": "УБ",
+                  "sourceTeam": "ЗЛС",
+                  "sourceBlock": "Клиентский опыт",
+                  "sourceMetric": "CX Score",
+                  "rawCorrection": 0.5
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -893,7 +949,7 @@
           "source": {
             "origin": "userConfirmedUbWorkbookCorrections",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-09",
             "period": "III кв. 2026",
             "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
             "sheet": "Метрики",
@@ -904,7 +960,35 @@
             "sourceTeam": "НСЖ",
             "sourceBlock": "Клиентский опыт",
             "sourceMetric": "CX Score",
-            "rawCorrection": 0.5
+            "rawCorrection": 0.5,
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "НСЖ",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userConfirmedUbWorkbookCorrections",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "file": "Копия DDI_II_III_2026 УБ(1).xlsx",
+                  "sheet": "Метрики",
+                  "column": "F",
+                  "columnLabel": "Корректировка",
+                  "cell": "F770",
+                  "sourceUnit": "УБ",
+                  "sourceTeam": "НСЖ",
+                  "sourceBlock": "Клиентский опыт",
+                  "sourceMetric": "CX Score",
+                  "rawCorrection": 0.5
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }

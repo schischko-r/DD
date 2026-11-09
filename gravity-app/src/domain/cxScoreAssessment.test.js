@@ -13,11 +13,11 @@ const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\
 const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map((key) => read(`../data/${imports.get(key.trim())}`));
 const metrics = (product) => product.metrics.flatMap((block) => block.metrics);
 
-test('41 user assessments affect only Q3 CX Score, with unit maxima and unchanged UX and Q2', () => {
+test('43 user assessments affect only Q3 CX Score, with unit maxima and unchanged UX and Q2', () => {
   const snapshot = JSON.stringify({source, overlays});
-  assert.equal(overlay.products.length, 41);
-  assert.equal(new Set(overlay.products.map((p) => p.id)).size, 41);
-  assert.deepEqual([1, 0.5, 0].map((value) => overlay.products.filter((p) => p.metrics['cx.score'].rawValue === value).length), [10, 26, 5]);
+  assert.equal(overlay.products.length, 43);
+  assert.equal(new Set(overlay.products.map((p) => p.id)).size, 43);
+  assert.deepEqual([1, 0.5, 0].map((value) => overlay.products.filter((p) => p.metrics['cx.score'].rawValue === value).length), [21, 22, 0]);
   // Isolate the original batch while keeping later direct CX assessments in both runs.
   const before = buildTeamProfileProducts(source, overlay.period, overlays.filter((o) =>
     o.scope !== overlay.scope || o.source?.origin !== overlay.source.origin));
@@ -31,12 +31,14 @@ test('41 user assessments affect only Q3 CX Score, with unit maxima and unchange
     const result = metrics(current).filter((m) => m.code === 'cx.score');
     const effectiveFact = effectiveAssessments.findLast((p) => p.id === fact.id);
     assert.equal(result.length, 1);
-    assert.equal(result[0].value, effectiveFact?.metrics?.['cx.score']?.rawValue ?? fact.metrics['cx.score'].rawValue);
-    assert.equal(result[0].max_value, 1);
-    assert.equal(isDdIndexMetric(result[0]), true);
+    const explicitlyInapplicable = overlays.some(o => o.scope === 'metric-applicability-assessment'
+      && o.products?.some(p => p.id === fact.id && p.metrics?.['cx.score']?.applicable === false));
+    assert.equal(result[0].value, explicitlyInapplicable ? null : effectiveFact?.metrics?.['cx.score']?.rawValue ?? fact.metrics['cx.score'].rawValue);
+    assert.equal(result[0].max_value, explicitlyInapplicable ? 0 : 1);
+    assert.equal(isDdIndexMetric(result[0]), !explicitlyInapplicable);
     assert.equal(current.indexMaxPoints, metrics(current).filter(isDdIndexMetric).reduce((sum, m) => sum + m.max_value, 0));
     assert.deepEqual(metrics(current).filter((m) => m.code !== 'cx.score'), metrics(old).filter((m) => m.code !== 'cx.score'));
-    for (const item of result[0].recommendation_items || []) assert.equal(item.gap, 1 - result[0].value);
+    for (const item of result[0].recommendation_items || []) assert.equal(item.gap, result[0].max_value - (result[0].value || 0));
   }
   for (const name of ['СБОЛ', 'СберИнвестор', 'СберKids']) {
     assert.equal(metrics(before.find((p) => p.name === name)).some((m) => m.code === 'cx.score'), false);

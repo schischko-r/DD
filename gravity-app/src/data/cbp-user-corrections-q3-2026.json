@@ -262,7 +262,7 @@
           "source": {
             "origin": "userConfirmedCbpCorrections20261102",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-09",
             "period": "III кв. 2026",
             "input": "user-provided-table",
             "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
@@ -272,7 +272,34 @@
             "userBlock": "Клиентский опыт",
             "userMetric": "CX Score",
             "userAssessment": "50,0%",
-            "metricCode": "cx.score"
+            "metricCode": "cx.score",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Вклады+НС",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userConfirmedCbpCorrections20261102",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "input": "user-provided-table",
+                  "rule": "Прямые корректировки пользователя для CBP в III квартале имеют приоритет над прежними оценками. Проценты умножаются на максимум метрики; не релевантно исключает её из знаменателя. Итоговые цели корректируются отдельно от информационных уровней.",
+                  "inputRow": 12,
+                  "sourceName": "Вклады+НС",
+                  "sourceUnit": "CBP",
+                  "userBlock": "Клиентский опыт",
+                  "userMetric": "CX Score",
+                  "userAssessment": "50,0%",
+                  "metricCode": "cx.score"
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         },
         "general.navigator_reporting_knowledge": {

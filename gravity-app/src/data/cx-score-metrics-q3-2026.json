@@ -17,10 +17,10 @@
     ]
   },
   "counts": {
-    "teams": 40,
-    "ones": 10,
-    "halves": 25,
-    "zeros": 5
+    "teams": 43,
+    "ones": 21,
+    "halves": 22,
+    "zeros": 0
   },
   "products": [
     {
@@ -30,16 +30,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "BNPL",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "BNPL",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "BNPL",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -53,14 +76,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "pos-кредиты тоже 0.5",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Пользователь дополнительно указал CX Score 0,5 для POS-кредитов за III квартал."
+            "reason": "Пользователь дополнительно указал CX Score 0,5 для POS-кредитов за III квартал.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "POS-кредиты",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "pos-кредиты тоже 0.5",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Пользователь дополнительно указал CX Score 0,5 для POS-кредитов за III квартал."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -74,14 +120,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "SberID",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "SberID",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "SberID",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -95,14 +164,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "SberPay (все)",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "SberPay QR",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "SberPay (все)",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -116,14 +208,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "SberPay (все)",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "SberPay NFC",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "SberPay (все)",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -137,14 +252,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "SberPay (все)",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Вжух",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "SberPay (все)",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -158,14 +296,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Аавтокредит",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Автокредит",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Аавтокредит",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -179,14 +340,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Брокерское обслуживание",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Брокерский счет",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Брокерское обслуживание",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -200,14 +384,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "страхование путешественников",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Страхование путешественников",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "страхование путешественников",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -219,16 +426,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0,
+          "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "вклад",
             "metricCode": "cx.score",
             "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Вклады+НС",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "вклад",
+                  "metricCode": "cx.score",
+                  "points": 0,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -240,16 +470,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Дебетовая карта",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Дебетовая карта",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Дебетовая карта",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -263,14 +516,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Детская карта",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Детская карта",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Детская карта",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -284,14 +560,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "ЗЛС",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "ЗЛС",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "ЗЛС",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -303,16 +602,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0,
+          "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "ИСЖ",
             "metricCode": "cx.score",
             "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "ИСЖ",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "ИСЖ",
+                  "metricCode": "cx.score",
+                  "points": 0,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -326,14 +648,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "КАСКО",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "КАСКО",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "КАСКО",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -347,14 +692,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Конверсия",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Конверсия",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Конверсия",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -368,14 +736,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Кредитная карта",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Кредитная карта",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Кредитная карта",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -389,14 +780,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Кредитный потенциал",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Кредитный потенциал",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Кредитный потенциал",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -408,16 +822,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0,
+          "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "нсж исж 0",
             "metricCode": "cx.score",
             "points": 0,
-            "reason": "Пользователь явно указал CX Score 0 для НСЖ и ИСЖ за III квартал."
+            "reason": "Пользователь явно указал CX Score 0 для НСЖ и ИСЖ за III квартал.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "НСЖ",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "нсж исж 0",
+                  "metricCode": "cx.score",
+                  "points": 0,
+                  "reason": "Пользователь явно указал CX Score 0 для НСЖ и ИСЖ за III квартал."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -431,14 +868,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "ОМС",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "ОМС",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "ОМС",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -450,16 +910,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0,
+          "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "ОПИФ",
             "metricCode": "cx.score",
             "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "ОПИФ",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "ОПИФ",
+                  "metricCode": "cx.score",
+                  "points": 0,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -471,16 +954,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "ОСАГО",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "ОСАГО",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "ОСАГО",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -494,14 +1000,48 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "SberPay (все)",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Оплата улыбкой",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "SberPay (все)",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению.",
+              "previousApplicability": {
+                "applicable": false,
+                "hiddenFromProfile": true,
+                "source": {
+                  "origin": "userConfirmedMetricApplicability",
+                  "confirmedBy": "user",
+                  "period": "III кв. 2026",
+                  "date": "2026-11-02",
+                  "reason": "CX Score убран из профиля и расчета по прямому указанию пользователя."
+                }
+              }
+            }
           }
         }
       }
@@ -513,16 +1053,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "ПДС",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "ПДС",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "ПДС",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -534,16 +1097,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "СберПервый",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Пакет услуг СберПервый",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "СберПервый",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -557,14 +1143,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "СберПремьер",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Пакет услуг СберПремьер",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "СберПремьер",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -578,14 +1187,36 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userConfirmedQ3ScoreCorrection",
+            "origin": "userConfirmedCxScoreList20261109",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-11-02",
+            "date": "2026-11-09",
             "sourceName": "Переводы по РФ",
             "metricCode": "cx.score",
             "rawValue": 1,
-            "reason": "Прямая корректировка пользователя из таблицы оценок III квартала: CX Score = 100%."
+            "reason": "Прямая корректировка пользователя из таблицы оценок III квартала: CX Score = 100%.",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Переводы по РФ",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userConfirmedQ3ScoreCorrection",
+                  "confirmedBy": "user",
+                  "period": "III кв. 2026",
+                  "date": "2026-11-02",
+                  "sourceName": "Переводы по РФ",
+                  "metricCode": "cx.score",
+                  "rawValue": 1,
+                  "reason": "Прямая корректировка пользователя из таблицы оценок III квартала: CX Score = 100%."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -597,16 +1228,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Платежи",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Платежи",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Платежи",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -620,14 +1274,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Потребительский кредит",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита."
+            "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Потребитеский кредит",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Потребительский кредит",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -662,14 +1339,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "СБОЛ",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "СБОЛ",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "СБОЛ",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -681,16 +1381,39 @@
       "type": "Канал",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Сберкидс",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "SberKids",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Сберкидс",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -704,14 +1427,37 @@
         "cx.score": {
           "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "СберИнвестор",
             "metricCode": "cx.score",
             "points": 1,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "СберИнвестор",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "СберИнвестор",
+                  "metricCode": "cx.score",
+                  "points": 1,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -723,16 +1469,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Прайм",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "СберПрайм",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Прайм",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -744,16 +1513,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0,
+          "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "спасибо",
             "metricCode": "cx.score",
             "points": 0,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "СберСпасибо",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "спасибо",
+                  "metricCode": "cx.score",
+                  "points": 0,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -767,14 +1559,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Сделка ИЖС",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Сделка ИЖС",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Сделка ИЖС",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -788,14 +1603,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Сделка вторичка",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Сделка вторичка",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Сделка вторичка",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -809,14 +1647,37 @@
         "cx.score": {
           "rawValue": 0.5,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Сейфы",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Сейфы",
+              "rawValue": 0.5,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Сейфы",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -828,16 +1689,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Ипотечное страхование жизни",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+            "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Ипотечное страхование жизни",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Ипотечное страхование жизни",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Прямая оценка CX Score пользователя за III квартал. Метрика применима с максимумом 1; UX Score не изменяется."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -849,16 +1733,39 @@
       "type": "Продукт",
       "metrics": {
         "cx.score": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userProvidedAssessment",
+            "origin": "userConfirmedCxScoreList20261109",
             "period": "III кв. 2026",
             "confirmedBy": "user",
             "confirmedAt": "2026-10-29",
             "sourceName": "Страхование залога",
             "metricCode": "cx.score",
             "points": 0.5,
-            "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита."
+            "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита.",
+            "date": "2026-11-09",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Страхование залога",
+              "rawValue": 1,
+              "previousAssessment": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userProvidedAssessment",
+                  "period": "III кв. 2026",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-10-29",
+                  "sourceName": "Страхование залога",
+                  "metricCode": "cx.score",
+                  "points": 0.5,
+                  "reason": "Пользователь дополнительно указал CX Score 0,5 за III квартал для Страхования залога и Потребительского кредита."
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }
@@ -880,6 +1787,60 @@
             "metricCode": "cx.score",
             "points": 0.5,
             "reason": "Пользователь уточнил, что оценка 0,5 для переводов распространяется также на Трансграничные переводы."
+          }
+        }
+      }
+    },
+    {
+      "id": "1d15a169-21f9-501d-a44f-af2eb7bb3242¦Много денег (НКПЗН)",
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-09",
+            "origin": "userConfirmedCxScoreList20261109",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Много денег (НКПЗН)",
+              "rawValue": 0.5,
+              "previousAssessment": null,
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "4e6167da-2232-56cf-9afb-ddde94d2f568¦Сделка с Первичным жильём",
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "type": "Продукт",
+      "metrics": {
+        "cx.score": {
+          "rawValue": 0.5,
+          "source": {
+            "confirmedBy": "user",
+            "period": "III кв. 2026",
+            "date": "2026-11-09",
+            "origin": "userConfirmedCxScoreList20261109",
+            "correction": {
+              "origin": "userConfirmedCxScoreList20261109",
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Сделка с Первичным жильём",
+              "rawValue": 0.5,
+              "previousAssessment": null,
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
+            }
           }
         }
       }

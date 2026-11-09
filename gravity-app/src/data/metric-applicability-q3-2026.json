@@ -253,25 +253,6 @@
       }
     },
     {
-      "id": "11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой",
-      "name": "Оплата улыбкой",
-      "unit": "DB",
-      "type": "Продукт",
-      "metrics": {
-        "cx.score": {
-          "applicable": false,
-          "hiddenFromProfile": true,
-          "source": {
-            "origin": "userConfirmedMetricApplicability",
-            "confirmedBy": "user",
-            "period": "III кв. 2026",
-            "date": "2026-11-02",
-            "reason": "CX Score убран из профиля и расчета по прямому указанию пользователя."
-          }
-        }
-      }
-    },
-    {
       "id": "9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы",
       "name": "Трансграничные переводы",
       "unit": "DB",

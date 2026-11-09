@@ -766,17 +766,37 @@
           "source": {
             "origin": "userConfirmedQ3ScoreCorrection",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-09",
             "period": "III кв. 2026",
             "sourceName": "Переводы по РФ",
             "sourceMetricName": "CX Score",
             "correction": {
-              "origin": "userConfirmedQ3ScoreCorrection",
+              "origin": "userConfirmedCxScoreList20261109",
               "confirmedBy": "user",
-              "date": "2026-11-02",
               "period": "III кв. 2026",
+              "date": "2026-11-09",
+              "inputName": "Переводы по РФ",
               "rawValue": 1,
-              "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+              "previousAssessment": {
+                "rawValue": 1,
+                "source": {
+                  "origin": "userConfirmedQ3ScoreCorrection",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "sourceName": "Переводы по РФ",
+                  "sourceMetricName": "CX Score",
+                  "correction": {
+                    "origin": "userConfirmedQ3ScoreCorrection",
+                    "confirmedBy": "user",
+                    "date": "2026-11-02",
+                    "period": "III кв. 2026",
+                    "rawValue": 1,
+                    "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+                  }
+                }
+              },
+              "rule": "Последняя прямая таблица пользователя по CX Score. SberPay QR сопоставлен с SberPay Ecom по явному уточнению."
             }
           }
         },
