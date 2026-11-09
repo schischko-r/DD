@@ -7,6 +7,20 @@ import {percent} from './report.js';
 const product={name:'PB',unit:'CX',type:'Сегмент',period:'II кв. 2026'};
 const metric={code:'mehaniki.uderzhanie_klientov',value:1.25,max_value:1.5,is_applicabble_flg:true};
 
+test('MVS Q3 displays 25 and rounded 63 as 50 without changing metric values',()=>{
+  const mvs={name:'МВС',unit:'CX',type:'Сегмент',period:'III кв. 2026'};
+  for(const value of [0.25,0.625]) {
+    const item={...metric,value,max_value:1};
+    const snapshot=JSON.stringify({mvs,item});
+    assert.equal(displayMetricPercent(mvs,item),50);
+    assert.equal(JSON.stringify({mvs,item}),snapshot);
+    for(const patch of [{name:'Зрелость'},{unit:'Data'},{type:'Продукт'},{period:'II кв. 2026'}])
+      assert.equal(displayMetricPercent({...mvs,...patch},item),percent(value,1));
+    assert.equal(displayMetricPercent(mvs,{...item,is_applicabble_flg:false}),percent(value,1));
+  }
+  for(const value of [0,0.5,0.75,1]) assert.equal(displayMetricPercent(mvs,{...metric,value,max_value:1}),percent(value,1));
+});
+
 test('PB retention shows 50 in the two requested quarters while preserving its actual weighted assessment',()=>{
   const snapshot=JSON.stringify({product,metric});
   for(const period of ['II кв. 2026','III кв. 2026']) assert.equal(displayMetricPercent({...product,period},metric),50);
