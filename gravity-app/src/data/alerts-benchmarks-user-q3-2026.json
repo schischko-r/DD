@@ -1489,7 +1489,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -1528,6 +1528,15 @@
               "rawValue": 0.5,
               "sharedAssessment": true,
               "inheritedFromTeamId": "5b9f9018-3e0e-5955-a174-bf90b2474b58¦Зарплатный продукт"
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -1575,7 +1584,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -1605,6 +1614,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -2020,7 +2038,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -2105,6 +2123,15 @@
                 "available": null
               },
               "rawValue": 1
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -2232,7 +2259,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -2269,6 +2296,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -2752,7 +2788,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -2786,6 +2822,15 @@
             "aliasRule": {
               "source": "Трансграничные переводы #B2C",
               "target": "Трансграничные переводы"
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -2876,7 +2921,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -2906,6 +2951,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -2995,7 +3049,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -3029,6 +3083,15 @@
             "aliasRule": {
               "source": "Сберчаевые #B2C",
               "target": "СберЧаевые"
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -4113,7 +4176,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -4147,6 +4210,15 @@
             "aliasRule": {
               "source": "Трансграничный эквайринг #B2C",
               "target": "Трансграничный эквайринг"
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -4305,7 +4377,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -4335,6 +4407,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -4536,7 +4617,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -4566,6 +4647,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -4613,7 +4703,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -4643,6 +4733,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -4980,7 +5079,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -5010,6 +5109,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -5501,7 +5609,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -5531,6 +5639,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
@@ -6074,7 +6191,7 @@
           }
         },
         "alerts.system_failures": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedAlertsBenchmarksBatch",
             "confirmedBy": "user",
@@ -6104,6 +6221,15 @@
               "sourceMetricName": "Алерты по системным-метрикам",
               "rule": "Оценка пользователя 0/0.5/1 умножается на существующий вес метрики. Применимость и максимум сохраняются.",
               "rawValue": 0.5
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-10",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "previousRawValue": 0.5,
+              "rule": "Прямое указание пользователя: оповещения по системным сбоям = 100% у 14 команд с ответом «Да» в анкете. Максимум, применимость, остальные метрики и II квартал сохраняются."
             }
           }
         }
