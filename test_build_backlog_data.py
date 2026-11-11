@@ -1517,6 +1517,50 @@ class AdditiveBacklogImportTest(unittest.TestCase):
             self.assertEqual(backlog.SHARED_TEAM_MEMBERS['КАСКО, ОСАГО'], ('КАСКО', 'ОСАГО'))
             self.assertEqual(backlog.SHARED_TEAM_MEMBERS['Top Affluent'], ('Top Affluent', 'Пакет услуг СберПервый'))
 
+    def test_headquarters_db_members_add_links_without_copying_shared_tickets_or_history(self):
+        label = 'Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой'
+        legacy = ('Переводы по РФ', 'Переводы подарков', 'SberPay Вжух', 'Оплата улыбкой')
+        expected = {'Интернет-Эквайринг', 'SberPay Ecom', 'Платежи', 'SberPay NFC',
+                    'Детская карта', 'Зарплатный продукт'}
+        with tempfile.TemporaryDirectory() as directory:
+            base = Path(directory) / 'base.xlsx'
+            _write_minimal_xlsx(base, [
+                {'team': label, 'Created': created, 'Resolved': resolved, 'Status': 'Done',
+                 'Issue key': key, 'direction': direction, 'scenario': scenario, 'SP': 2}
+                for created, resolved, key, direction, scenario in [
+                    ('2026-04-10', '2026-04-12', 'DBB2DTANLC-OLD', 'Аналитика', 'metrics_calculation'),
+                    ('2026-07-10', '2026-07-12', 'DBB2DTANLC-NEW1', 'Аналитика', 'metrics_calculation'),
+                    ('2026-08-10', '2026-08-12', 'DBB2DTANLC-NEW2', 'Выгрузка', 'exports_to_excel'),
+                ]
+            ])
+            with patch.dict(backlog.SHARED_TEAM_MEMBERS, {label: legacy}):
+                before = backlog.build_payload(base)
+            after = backlog.build_payload(base)
+            self.assertEqual(len(after['teams']), 1, 'Six links must not create six copies of the ticket dataset')
+            board, old = after['teams'][0], before['teams'][0]
+            self.assertEqual(board['label'], label)
+            self.assertEqual(board['key'], old['key'])
+            self.assertEqual(board['memberTeams'][:4], list(legacy))
+            added = board['memberTeams'][4:]
+            self.assertEqual(len(added), 6)
+            self.assertEqual({m['name'] for m in added}, expected)
+            for member in added:
+                self.assertEqual((member['unit'], member['type'], member['period']),
+                                 ('DB', 'Продукт', 'III кв. 2026'))
+                self.assertTrue(member.get('mappingEvidence'), 'User-authorized membership has recoverable provenance')
+            salary = next(m for m in added if m['name'] == 'Зарплатный продукт')
+            self.assertEqual(salary['cohort'], 'B2C')
+            self.assertTrue(all('cohort' not in m for m in added if m is not salary))
+            self.assertEqual(board['meta']['memberTeams'], board['memberTeams'])
+            self.assertEqual(board['months'], old['months'])
+            self.assertEqual(board['quarters'], old['quarters'])
+            self.assertEqual(board['directions'], old['directions'])
+            self.assertEqual(board['scenarios'], old['scenarios'])
+            self.assertEqual({k: v for k, v in board['meta'].items() if k != 'memberTeams'},
+                             {k: v for k, v in old['meta'].items() if k != 'memberTeams'})
+            self.assertEqual(after['meta']['teamCount'], before['meta']['teamCount'])
+            self.assertEqual(board['meta']['includedTickets'], 3)
+
     def test_additive_keys_existing_wins_lowercase_columns_russian_scenarios_and_quarter_bounds(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -1565,7 +1609,7 @@ class AdditiveBacklogImportTest(unittest.TestCase):
             self.assertEqual(_quarter(shared, '2026-Q3')['createdCount'], 2)
             self.assertEqual(sum(_quarter(team, '2026-Q3')['createdCount'] for team in payload['teams'] if any(q['key']=='2026-Q3' for q in team['quarters'])), 3)
             payments = next(team for team in payload['teams'] if 'Оплата улыбкой' in team.get('memberTeams', []))
-            self.assertEqual(len(payments['memberTeams']), 4)
+            self.assertEqual(len(payments['memberTeams']), 10)
             self.assertEqual(_quarter(payments, '2026-Q3')['createdCount'], 1)
             self.assertEqual(payload['meta']['importAudit']['additionalSources'][1]['skippedAdditionalDuplicateIssueKeys'], 1)
             self.assertEqual(payload['meta']['importAudit']['additionalSources'][1]['acceptedRows'], 1)
@@ -1688,7 +1732,7 @@ class AdditiveBacklogImportTest(unittest.TestCase):
                     self.assertEqual(next(s for s in merged[kind] if s['key'] == snapshot['key']), snapshot)
         before = json.loads((root / 'outputs/backlog-final-refresh-2026-10-29/backlog-before.json').read_text())
         self.assertEqual(len(combined['teams']), 11)
-        self.assertEqual(sum(len(t['memberTeams']) for t in combined['teams']), 18)
+        self.assertEqual(sum(len(t['memberTeams']) for t in combined['teams']), 24)
         for team in before['teams']:
             refreshed = next(t for t in combined['teams'] if t['key'] == team['key'])
             self.assertEqual(refreshed['memberTeams'][:len(team['memberTeams'])], team['memberTeams'],

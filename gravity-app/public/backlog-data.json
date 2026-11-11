@@ -19491,7 +19491,122 @@
         "Переводы по РФ",
         "Переводы подарков",
         "SberPay Вжух",
-        "Оплата улыбкой"
+        "Оплата улыбкой",
+        {
+          "name": "Интернет-Эквайринг",
+          "unit": "DB",
+          "type": "Продукт",
+          "period": "III кв. 2026",
+          "mappingEvidence": {
+            "origin": "userConfirmedSharedHeadquartersBacklog",
+            "confirmedAt": "2026-11-11",
+            "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+            "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+            "current": {
+              "file": "analysis/1/questionare-responses(7).csv",
+              "row": 16,
+              "answer": "discoveryBacklogType",
+              "value": "Задачи ведет Штаб в Jira/SberTrack"
+            },
+            "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+          }
+        },
+        {
+          "name": "SberPay Ecom",
+          "unit": "DB",
+          "type": "Продукт",
+          "period": "III кв. 2026",
+          "mappingEvidence": {
+            "origin": "userConfirmedSharedHeadquartersBacklog",
+            "confirmedAt": "2026-11-11",
+            "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+            "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+            "current": {
+              "file": "analysis/1/questionare-responses(7).csv",
+              "row": 20,
+              "answer": "discoveryBacklogType",
+              "value": "Задачи ведет Штаб в Jira/SberTrack"
+            },
+            "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+          }
+        },
+        {
+          "name": "Платежи",
+          "unit": "DB",
+          "type": "Продукт",
+          "period": "III кв. 2026",
+          "mappingEvidence": {
+            "origin": "userConfirmedSharedHeadquartersBacklog",
+            "confirmedAt": "2026-11-11",
+            "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+            "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+            "current": {
+              "file": "analysis/1/questionare-responses(7).csv",
+              "row": 35,
+              "answer": "discoveryBacklogType",
+              "value": "Задачи ведет Штаб в Jira/SberTrack"
+            },
+            "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+          }
+        },
+        {
+          "name": "Зарплатный продукт",
+          "unit": "DB",
+          "type": "Продукт",
+          "period": "III кв. 2026",
+          "cohort": "B2C",
+          "mappingEvidence": {
+            "origin": "userConfirmedSharedHeadquartersBacklog",
+            "confirmedAt": "2026-11-11",
+            "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+            "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+            "current": {
+              "file": "analysis/1/questionare-responses(7).csv",
+              "row": 46,
+              "answer": "discoveryBacklogType",
+              "value": "Задачи ведет Штаб в Jira/SberTrack"
+            },
+            "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+          }
+        },
+        {
+          "name": "SberPay NFC",
+          "unit": "DB",
+          "type": "Продукт",
+          "period": "III кв. 2026",
+          "mappingEvidence": {
+            "origin": "userConfirmedSharedHeadquartersBacklog",
+            "confirmedAt": "2026-11-11",
+            "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+            "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+            "current": {
+              "file": "analysis/1/questionare-responses(7).csv",
+              "row": 47,
+              "answer": "discoveryBacklogType",
+              "value": "Задачи ведет Штаб в Jira/SberTrack"
+            },
+            "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+          }
+        },
+        {
+          "name": "Детская карта",
+          "unit": "DB",
+          "type": "Продукт",
+          "period": "III кв. 2026",
+          "mappingEvidence": {
+            "origin": "userConfirmedSharedHeadquartersBacklog",
+            "confirmedAt": "2026-11-11",
+            "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+            "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+            "current": {
+              "file": "analysis/1/questionare-responses(7).csv",
+              "row": 48,
+              "answer": "discoveryBacklogType",
+              "value": "Задачи ведет Штаб в Jira/SberTrack"
+            },
+            "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+          }
+        }
       ],
       "meta": {
         "source": "sbertrack_all_full_history_to_export.xlsx",
@@ -19518,7 +19633,122 @@
           "Переводы по РФ",
           "Переводы подарков",
           "SberPay Вжух",
-          "Оплата улыбкой"
+          "Оплата улыбкой",
+          {
+            "name": "Интернет-Эквайринг",
+            "unit": "DB",
+            "type": "Продукт",
+            "period": "III кв. 2026",
+            "mappingEvidence": {
+              "origin": "userConfirmedSharedHeadquartersBacklog",
+              "confirmedAt": "2026-11-11",
+              "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+              "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+              "current": {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "row": 16,
+                "answer": "discoveryBacklogType",
+                "value": "Задачи ведет Штаб в Jira/SberTrack"
+              },
+              "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+            }
+          },
+          {
+            "name": "SberPay Ecom",
+            "unit": "DB",
+            "type": "Продукт",
+            "period": "III кв. 2026",
+            "mappingEvidence": {
+              "origin": "userConfirmedSharedHeadquartersBacklog",
+              "confirmedAt": "2026-11-11",
+              "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+              "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+              "current": {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "row": 20,
+                "answer": "discoveryBacklogType",
+                "value": "Задачи ведет Штаб в Jira/SberTrack"
+              },
+              "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+            }
+          },
+          {
+            "name": "Платежи",
+            "unit": "DB",
+            "type": "Продукт",
+            "period": "III кв. 2026",
+            "mappingEvidence": {
+              "origin": "userConfirmedSharedHeadquartersBacklog",
+              "confirmedAt": "2026-11-11",
+              "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+              "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+              "current": {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "row": 35,
+                "answer": "discoveryBacklogType",
+                "value": "Задачи ведет Штаб в Jira/SberTrack"
+              },
+              "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+            }
+          },
+          {
+            "name": "Зарплатный продукт",
+            "unit": "DB",
+            "type": "Продукт",
+            "period": "III кв. 2026",
+            "cohort": "B2C",
+            "mappingEvidence": {
+              "origin": "userConfirmedSharedHeadquartersBacklog",
+              "confirmedAt": "2026-11-11",
+              "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+              "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+              "current": {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "row": 46,
+                "answer": "discoveryBacklogType",
+                "value": "Задачи ведет Штаб в Jira/SberTrack"
+              },
+              "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+            }
+          },
+          {
+            "name": "SberPay NFC",
+            "unit": "DB",
+            "type": "Продукт",
+            "period": "III кв. 2026",
+            "mappingEvidence": {
+              "origin": "userConfirmedSharedHeadquartersBacklog",
+              "confirmedAt": "2026-11-11",
+              "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+              "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+              "current": {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "row": 47,
+                "answer": "discoveryBacklogType",
+                "value": "Задачи ведет Штаб в Jira/SberTrack"
+              },
+              "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+            }
+          },
+          {
+            "name": "Детская карта",
+            "unit": "DB",
+            "type": "Продукт",
+            "period": "III кв. 2026",
+            "mappingEvidence": {
+              "origin": "userConfirmedSharedHeadquartersBacklog",
+              "confirmedAt": "2026-11-11",
+              "identity": "jira.sberbank.ru/board/35578/project/DBB2DTANLC",
+              "url": "https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578",
+              "current": {
+                "file": "analysis/1/questionare-responses(7).csv",
+                "row": 48,
+                "answer": "discoveryBacklogType",
+                "value": "Задачи ведет Штаб в Jira/SberTrack"
+              },
+              "rule": "Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C."
+            }
+          }
         ],
         "discoveryDefinition": {
           "directionLabel": "Аналитика",

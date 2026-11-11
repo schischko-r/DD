@@ -393,12 +393,35 @@ TEAM_LABEL_ALIASES = {
     'персональная рекомендация (кампанийнг)': 'Персональная рекомендация',
     'персональная рекомендация (кампейнинг)': 'Персональная рекомендация',
 }
+DB_HEADQUARTERS_BACKLOG_MEMBERS = tuple(
+    {
+        'name': name, 'unit': 'DB', 'type': 'Продукт', 'period': 'III кв. 2026',
+        **({'cohort': 'B2C'} if name == 'Зарплатный продукт' else {}),
+        'mappingEvidence': {
+            'origin': 'userConfirmedSharedHeadquartersBacklog',
+            'confirmedAt': '2026-11-11',
+            'identity': 'jira.sberbank.ru/board/35578/project/DBB2DTANLC',
+            'url': 'https://jira.sberbank.ru/secure/RapidBoard.jspa?projectKey=DBB2DTANLC&rapidView=35578',
+            'current': {
+                'file': 'analysis/1/questionare-responses(7).csv', 'row': row,
+                'answer': 'discoveryBacklogType',
+                'value': 'Задачи ведет Штаб в Jira/SberTrack',
+            },
+            'rule': 'Подтверждена привязка к общей декомпозиции DBB2DTANLC только в III квартале; у зарплатного продукта только B2C.',
+        },
+    }
+    for name, row in (
+        ('Интернет-Эквайринг', 16), ('SberPay Ecom', 20), ('Платежи', 35),
+        ('Зарплатный продукт', 46), ('SberPay NFC', 47), ('Детская карта', 48),
+    )
+)
 SHARED_TEAM_MEMBERS = {
     'ОМС': ({'name': 'ОМС', 'unit': 'CBP', 'type': 'Продукт', 'period': 'III кв. 2026'},),
     'Top Affluent': ('Top Affluent', 'Пакет услуг СберПервый'),
     'КАСКО, ОСАГО': ('КАСКО', 'ОСАГО'),
     'Переводы по РФ, Переводы подарков, SberPay Вжух, Оплата улыбкой':
-        ('Переводы по РФ', 'Переводы подарков', 'SberPay Вжух', 'Оплата улыбкой'),
+        ('Переводы по РФ', 'Переводы подарков', 'SberPay Вжух', 'Оплата улыбкой',
+         *DB_HEADQUARTERS_BACKLOG_MEMBERS),
     # These Q3 answers point to the same unfiltered workspace/board as the
     # existing Q2 owner. Keep one physical ticket dataset and expose its members.
     'Объект Авто': ('Объект Авто', {

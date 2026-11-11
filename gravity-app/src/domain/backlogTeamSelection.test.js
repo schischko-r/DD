@@ -43,15 +43,19 @@ test('the shipped fifteen datasets each contain Q3 and each shared member resolv
   const affluent=data.teams.find(team=>team.memberTeams.includes('Top Affluent'));
   const insurance=data.teams.find(team=>team.memberTeams.includes('КАСКО'));
   const payments=data.teams.find(team=>team.memberTeams.includes('Оплата улыбкой'));
-  assert.equal(affluent.memberTeams.length,2);assert.equal(insurance.memberTeams.length,2);assert.equal(payments.memberTeams.length,4);
-  for(const team of [affluent,insurance,payments])for(const name of team.memberTeams){const found=data.teams.filter(t=>backlogTeamMatchesProduct(t,product(name)));assert.equal(found.length,1);assert.equal(found[0],team);}
+  assert.equal(affluent.memberTeams.length,2);assert.equal(insurance.memberTeams.length,2);assert.equal(payments.memberTeams.length,10);
+  for(const team of [affluent,insurance,payments])for(const member of team.memberTeams){
+    const p=product(typeof member==='string'?member:member.name);
+    if(member.cohort)p.salaryCohorts={[member.cohort.toLowerCase()]:{name:`${member.name} #${member.cohort}`}};
+    const found=data.teams.filter(t=>backlogTeamMatchesProduct(t,p));assert.equal(found.length,1);assert.equal(found[0],team);
+  }
 });
 
-test('twenty-three individual options reference fifteen datasets without copying aggregates or splitting ordinary comma names',async()=>{
+test('twenty-nine individual options reference fifteen datasets without copying aggregates or splitting ordinary comma names',async()=>{
   const {readFileSync}=await import('node:fs');
   const raw=readFileSync(new URL('../../public/backlog-data.json',import.meta.url));
   const data=JSON.parse(raw),before=JSON.stringify(data);const options=getBacklogTeamFilterOptions(data.teams);
-  assert.equal(options.length,23);assert.equal(new Set(options.map(o=>o.value)).size,23);
+  assert.equal(options.length,29);assert.equal(new Set(options.map(o=>o.value)).size,29);
   const expected=['Top Affluent','Пакет услуг СберПервый','КАСКО','ОСАГО','Переводы по РФ','Переводы подарков','SberPay Вжух','Оплата улыбкой','ОМС'];
   for(const name of expected)assert.equal(options.filter(o=>o.content===name).length,1);
   assert.ok(!options.some(o=>o.content==='КАСКО, ОСАГО'||o.content.includes('Переводы по РФ,')));
@@ -67,6 +71,31 @@ test('twenty-three individual options reference fifteen datasets without copying
   assert.equal(findBacklogTeamFilterOption(options,board.key).teamKey,board.key);
   const ordinary=getBacklogTeamFilterOptions([{key:'ordinary',label:'Выписки, справки'}]);assert.equal(ordinary.length,1);assert.equal(ordinary[0].content,'Выписки, справки');
   assert.equal(JSON.stringify(data),before);
+});
+
+test('headquarters DB members link only in Q3 and the salary link belongs to B2C, not B2B',async()=>{
+  const {readFileSync}=await import('node:fs');
+  const data=JSON.parse(readFileSync(new URL('../../public/backlog-data.json',import.meta.url)));
+  const board=data.teams.find(t=>t.key==='perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi');
+  const expected=['Интернет-Эквайринг','SberPay Ecom','Платежи','SberPay NFC','Детская карта','Зарплатный продукт'];
+  const added=board.memberTeams.filter(m=>typeof m==='object');
+  assert.deepEqual(added.map(m=>m.name).sort(),expected.sort());
+  const b2c=product('Зарплатный продукт #B2C'),b2b=product('Зарплатный продукт #B2B');
+  const parent={...product('Зарплатный продукт'),salaryCohorts:{b2b,b2c}};
+  for(const name of expected){
+    const p=name==='Зарплатный продукт'?parent:product(name);
+    assert.equal(backlogTeamMatchesProduct(board,p),true,name);
+    assert.equal(backlogTeamMatchesProduct(board,{...p,period:'II кв. 2026'}),false);
+    assert.equal(backlogTeamMatchesProduct(board,{...p,unit:'DP'}),false);
+    assert.equal(backlogTeamMatchesProduct(board,{...p,type:'Канал'}),false);
+    const option=getBacklogTeamFilterOptions([board],[p]).find(o=>o.content===name);
+    assert.ok(option);assert.equal(option.teamKey,board.key);
+    assert.equal(backlogTeamOptionValue(board,p),option.value);
+  }
+  assert.equal(backlogTeamMatchesProduct(board,b2c),true);
+  assert.equal(backlogTeamMatchesProduct(board,b2b),false);
+  assert.equal(backlogTeamMatchesProduct(board,product('Зарплатный продукт')),false,'a name alone must not imply a merged B2C cohort');
+  assert.equal(findProductForBacklogTeam({memberTeams:[added.find(m=>m.name==='Зарплатный продукт')]},[b2b,b2c]),b2c);
 });
 
 test('survey-confirmed Q3 members share their original boards only for the exact team and period',async()=>{

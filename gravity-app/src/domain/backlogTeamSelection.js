@@ -19,7 +19,13 @@ export function backlogTeamMatchesProduct(team, product) {
   if (!product || !canonicalName(product.name)) return false;
   return teamMembers(team).some((member) => {
     const descriptor = typeof member === 'string' ? {name: member} : member;
-    return descriptor && canonicalName(descriptor.name || descriptor.label || descriptor.teamLabel) === canonicalName(product.name)
+    if (!descriptor) return false;
+    const name = descriptor.name || descriptor.label || descriptor.teamLabel;
+    const cohort = descriptor.cohort && String(descriptor.cohort).toLowerCase();
+    const matchesName = canonicalName(name) === canonicalName(product.name)
+      && (!cohort || Boolean(product.salaryCohorts?.[cohort]))
+      || cohort && canonicalName(`${name} #${descriptor.cohort}`) === canonicalName(product.name);
+    return Boolean(matchesName)
       && (!descriptor.unit || normalize(descriptor.unit) === normalize(product.unit))
       && (!descriptor.type || normalize(descriptor.type) === normalize(product.type))
       && (!descriptor.period || descriptor.period === product.period);

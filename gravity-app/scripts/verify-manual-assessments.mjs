@@ -887,10 +887,34 @@ const allAssessments = overlays.map(item => item.data);
 const beforeDiscoveryBacklog = buildDdiPeriodProducts(source.products, 'III кв. 2026', allAssessments, salary, reportingMissing, actionMissing);
 const afterDiscoveryBacklog = buildDdiPeriodProducts(source.products, 'III кв. 2026', allAssessments, salary, reportingMissing, actionMissing, backlogForDiscovery);
 let discoveryBacklogChecked = 0;
-for (let i = 0; i < afterDiscoveryBacklog.length; i++) {
-  const product = structuredClone(afterDiscoveryBacklog[i]), prior = beforeDiscoveryBacklog[i];
+function verifyDiscoveryBacklogChanges(current, prior) {
+  const product = structuredClone(current);
+  const cohortChanged = current.salaryCohorts && Object.keys(current.salaryCohorts)
+    .some(key => !isDeepStrictEqual(current.salaryCohorts[key], prior.salaryCohorts[key]));
+  if (cohortChanged) {
+    for (const [key, cohort] of Object.entries(current.salaryCohorts)) {
+      verifyDiscoveryBacklogChanges(cohort, prior.salaryCohorts[key]);
+    }
+    product.salaryCohorts = prior.salaryCohorts;
+  }
   for (let bi = 0; bi < product.metrics.length; bi++) for (let mi = 0; mi < product.metrics[bi].metrics.length; mi++) {
     const metric = product.metrics[bi].metrics[mi];
+    if (cohortChanged && metric.code === 'hyp.discovery_40_backlog' && metric.source?.origin === 'salaryCohortAverage') {
+      const cohorts = ['b2b', 'b2c'].map(key => current.salaryCohorts[key].metrics.flatMap(block => block.metrics).find(item => item.code === metric.code));
+      const old = prior.metrics[bi].metrics[mi];
+      const compatible = cohorts.every(item => item?.is_applicabble_flg !== false && item?.max_value > 0)
+        && cohorts[0].max_value === cohorts[1].max_value;
+      const expected = compatible && cohorts.every(item => Number.isFinite(item.value))
+        ? (cohorts[0].value + cohorts[1].value) / 2 : null;
+      if (metric.value !== expected || metric.max_value !== old.max_value || metric.is_applicabble_flg !== old.is_applicabble_flg
+        || ['b2b', 'b2c'].some((key, index) => !isDeepStrictEqual(metric.source.cohorts[key], {
+          value: cohorts[index].value, maxValue: cohorts[index].max_value,
+          applicable: cohorts[index].is_applicabble_flg !== false && cohorts[index].max_value > 0, source: cohorts[index].source,
+        }))) throw new Error(`Discovery cohort average failed: ${product.name}`);
+      product.metrics[bi].metrics[mi] = old;
+      discoveryBacklogChecked++;
+      continue;
+    }
     if (metric.source?.origin !== 'userConfirmedDiscoveryBacklogPriority20261102') continue;
     const proof = metric.source, old = prior.metrics[bi].metrics[mi];
     const expected = proof.discoveryCount * 100 >= proof.createdCount * 40 ? 1
@@ -903,6 +927,9 @@ for (let i = 0; i < afterDiscoveryBacklog.length; i++) {
     discoveryBacklogChecked++;
   }
   if (JSON.stringify(product) !== JSON.stringify(prior)) throw new Error(`Discovery decomposition changed another field: ${product.name}`);
+}
+for (let i = 0; i < afterDiscoveryBacklog.length; i++) {
+  verifyDiscoveryBacklogChanges(afterDiscoveryBacklog[i], beforeDiscoveryBacklog[i]);
 }
 for (const [name, expected] of [['PB', 0], ['Пакет услуг СберПремьер', .5], ['МВС', .5]]) {
   const metric = afterDiscoveryBacklog.find(p => p.name === name)?.metrics.flatMap(b => b.metrics).find(m => m.code === 'hyp.discovery_40_backlog');

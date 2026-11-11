@@ -46,6 +46,22 @@ test('actual final profiles change only Discovery for current Q3 decomposition m
   let covered = 0;
   for (let i = 0; i < after.length; i++) {
     const p = after[i], old = before[i];
+    if (p.name === 'Зарплатный продукт') {
+      const currentDiscovery = flat(p).find(m => m.code === code);
+      assert.equal(currentDiscovery.value / currentDiscovery.max_value, .5, 'only B2C contributes the shared full Discovery score');
+      assert.deepEqual(p.salaryCohorts.b2b, old.salaryCohorts.b2b, 'B2B has no headquarters-backed answer');
+      const child = flat(p.salaryCohorts.b2c).find(m => m.code === code);
+      assert.equal(child.value / child.max_value, 1);
+      assert.equal(child.source.createdCount, 108);
+      assert.equal(child.source.discoveryCount, 49);
+      assert.equal(child.source.dataThrough, '2026-09-25');
+      assert.equal(child.source.isComplete, false, 'partial-quarter evidence remains explicit');
+      for (const m of flat(p)) if (m.code !== code) assert.deepEqual(m, flat(old).find(item => item.code === m.code));
+      for (const m of flat(p.salaryCohorts.b2c)) if (m.code !== code) assert.deepEqual(m, flat(old.salaryCohorts.b2c).find(item => item.code === m.code));
+      assert.equal(p.indexMaxPoints, old.indexMaxPoints);
+      covered++;
+      continue;
+    }
     const evidence = backlog.teams.flatMap(board => {
       const member = board.memberTeams.some(entry => typeof entry === 'string' ? entry.toLowerCase() === p.name.toLowerCase()
         : entry.name === p.name && (!entry.unit || entry.unit === p.unit) && (!entry.type || entry.type === p.type)
@@ -81,4 +97,49 @@ test('actual final profiles change only Discovery for current Q3 decomposition m
   }
   assert.deepEqual(build('II кв. 2026', backlog), raw);
   assert.match(app, /backlog\.status === 'ready' \? backlog\.data : null/);
+});
+
+function salaryFixture() {
+  const product = (name,value) => ({name,unit:'DB',type:'Продукт',period,
+    metrics:[{code:'hyp',metrics:[{code,value,max_value:1,is_applicabble_flg:true,
+      recommendation_items:[{value,max_value:1,gap:1-value}]},{code:'hyp.other',value:.5,max_value:1}]}]});
+  const b2b=product('Зарплатный продукт #B2B',0),b2c=product('Зарплатный продукт #B2C',0);
+  return {...product('Зарплатный продукт',0),salaryCohorts:{b2b,b2c}};
+}
+
+test('cohort-scoped decomposition changes B2C and the salary average without changing B2B or other metrics',()=>{
+  const p=salaryFixture(),data=[p];
+  const board={key:'headquarters',memberTeams:[{name:p.name,unit:'DB',type:'Продукт',period,cohort:'B2C'}],
+    quarters:[{key:'2026-Q3',createdCount:108,discoveryCount:49,dataThrough:'2026-09-25',isComplete:false}]};
+  const backlog={teams:[board]},before=JSON.stringify({data,backlog});
+  const after=applyDiscoveryBacklog(data,period,backlog)[0];
+  assert.equal(flat(after)[0].value,.5);
+  assert.equal(flat(after.salaryCohorts.b2c)[0].value,1);
+  assert.deepEqual(after.salaryCohorts.b2b,p.salaryCohorts.b2b);
+  assert.deepEqual(flat(after)[1],flat(p)[1]);
+  assert.deepEqual(flat(after.salaryCohorts.b2c)[1],flat(p.salaryCohorts.b2c)[1]);
+  assert.equal(flat(after.salaryCohorts.b2c)[0].recommendation_items[0].gap,0);
+  assert.equal(flat(after)[0].recommendation_items[0].gap,.5);
+  assert.equal(flat(after.salaryCohorts.b2c)[0].source.isComplete,false);
+  assert.equal(flat(after.salaryCohorts.b2c)[0].source.dataThrough,'2026-09-25');
+  assert.equal(JSON.stringify({data,backlog}),before);
+  assert.deepEqual(applyDiscoveryBacklog([after],period,backlog),[after],'reapplying never accumulates extra credit or provenance');
+  assert.deepEqual(applyDiscoveryBacklog(data,'II кв. 2026',backlog),data);
+  assert.deepEqual(applyDiscoveryBacklog([p.salaryCohorts.b2b],period,backlog),[p.salaryCohorts.b2b]);
+  assert.equal(flat(applyDiscoveryBacklog([p.salaryCohorts.b2c],period,backlog)[0])[0].value,1);
+});
+
+test('invalid, ambiguous and out-of-scope cohort evidence cannot overwrite the salary assessment',()=>{
+  const p=salaryFixture(),data=[p];
+  const member={name:p.name,unit:'DB',type:'Продукт',period,cohort:'B2C'};
+  const board={key:'headquarters',memberTeams:[member],quarters:[{key:'2026-Q3',createdCount:108,discoveryCount:49}]};
+  const invalid=[{teams:[board,board]},
+    ...[{unit:'Other'},{type:'Канал'},{period:'II кв. 2026'},{cohort:'Other'}]
+      .map(change=>({teams:[{...board,memberTeams:[{...member,...change}]}]})),
+    {teams:[{...board,quarters:[{key:'2026-Q3',createdCount:0,discoveryCount:0}]}]}];
+  for(const backlog of invalid) assert.deepEqual(applyDiscoveryBacklog(data,period,backlog),data);
+  const na=salaryFixture();
+  flat(na.salaryCohorts.b2c)[0].is_applicabble_flg=false;
+  flat(na.salaryCohorts.b2c)[0].max_value=0;
+  assert.deepEqual(applyDiscoveryBacklog([na],period,{teams:[board]}),[na]);
 });

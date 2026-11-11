@@ -4,7 +4,7 @@ export const SALARY_TOGGLE_BLOCK_CODES = ['general', 'attract', 'churn', 'mehani
 const average = (a, b) => Number.isFinite(a) && Number.isFinite(b) ? (a + b) / 2 : null;
 const applicable = (metric) => metric?.is_applicabble_flg !== false && Number(metric?.max_value) > 0;
 
-function averageMetric(b2b, b2c, period, prior) {
+export function averageSalaryCohortMetric(b2b, b2c, period, prior) {
   const {previousValue, previousMaxValue, previousPeriod, ...rubric} = b2c;
   const compatible = applicable(b2b) && applicable(b2c) && b2b.max_value === b2c.max_value;
   const value = compatible ? average(b2b.value, b2c.value) : null;
@@ -56,7 +56,7 @@ export function mergeSalaryCohorts(products, period, salaryConfig, baselineProdu
       metrics: block.metrics.map((metric) => {
         const counterpart = other?.metrics.find((candidate) => candidate.code === metric.code);
         if (!counterpart) throw new Error(`Salary cohort metric missing: ${block.code} / ${metric.code}`);
-        return averageMetric(counterpart, metric, period, prior.metrics.flatMap((entry) => entry.metrics).find((entry) => entry.code === metric.code));
+        return averageSalaryCohortMetric(counterpart, metric, period, prior.metrics.flatMap((entry) => entry.metrics).find((entry) => entry.code === metric.code));
       })};
   });
   const merged = {...b2c, id: `${baseId}::empty::${period}`, name: prior.name, unit: prior.unit, type: prior.type,
