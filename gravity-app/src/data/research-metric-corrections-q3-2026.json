@@ -68,7 +68,16 @@
       "unit": "DB",
       "type": "Продукт",
       "metrics": {
-        "hyp.datadriven_rating_7_5": {"rawValue": 0, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "period": "III кв. 2026", "correctedFromRawValue": 1, "rule": "Оценка исследования установлена по прямому указанию пользователя."}}
+        "hyp.datadriven_rating_7_5": {"rawValue": 1, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "date": "2026-11-11", "period": "III кв. 2026", "correctedFromRawValue": 0, "rule": "По прямому указанию пользователя от 11.11.2026 оценка исследований за III квартал установлена в 100%."}}
+      }
+    },
+    {
+      "id": "bf64fa82-97b9-54e3-bdec-0992634e5181¦Детская карта",
+      "name": "Детская карта",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "hyp.datadriven_rating_7_5": {"rawValue": 1, "source": {"origin": "userConfirmedResearchMetricCorrection", "confirmedBy": "user", "date": "2026-11-11", "period": "III кв. 2026", "correctedFromRawValue": 0, "rule": "По прямому указанию пользователя от 11.11.2026 оценка исследований за III квартал установлена в 100%."}}
       }
     },
     {

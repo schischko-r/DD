@@ -289,7 +289,7 @@ test('nine user-approved Q2 ones and 38 missing Q2 zeros are carried without inv
 
 test('user-confirmed research corrections override the old carry-forward for only the named Q3 teams',()=>{
   const products=buildTeamProfileProducts(actual,overlay.period,[...otherOverlays,overlay,corrections]);
-  const expected=new Map([['Автокредит',0],['Конверсия',0.5],['ОМС',0],['Сейфы',0],['Дети',0.5],['SberID',0],['Оплата улыбкой',0],['SberPay NFC',0]]);
+  const expected=new Map([['Автокредит',0],['Конверсия',0.5],['ОМС',0],['Сейфы',0],['Дети',0.5],['SberID',0],['Оплата улыбкой',1],['Детская карта',1],['SberPay NFC',0]]);
   assert.equal(corrections.products.length,expected.size);
   for(const [name,value] of expected){
     const product=products.find(p=>p.name===name);
