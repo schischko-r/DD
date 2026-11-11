@@ -71,6 +71,30 @@ test('final Q3 pipeline uses workbook scores including zeros, carries missing Q2
     if (!baseline) continue;
     teamTypes.add(product.type);
     for (const metric of product.metrics.filter((block) => block.code === 'general').flatMap((block) => block.metrics)) {
+      const approved = overlays.find(batch => batch.scope === 'q3-score-correction')?.products
+        .find(team => team.id === originalId && ['name', 'unit', 'type'].every(key => team[key] === product[key]))
+        ?.metrics[metric.code];
+      if (approved?.source?.approvalGroup === 'segment-channel-key-metrics-2026-11-11'
+        && approved.source.correction?.approvalGroup === 'segment-channel-key-metrics-2026-11-11') {
+        assert.ok(['Канал', 'Сегмент'].includes(product.type));
+        assert.equal(approved.rawValue, 1);
+        assert.equal(approved.source.origin, 'userConfirmedQ3ScoreCorrection');
+        assert.equal(approved.source.confirmedBy, 'user');
+        assert.equal(approved.source.period, period);
+        assert.equal(approved.source.date, '2026-11-11');
+        assert.equal(metric.value, metric.max_value, 'only explicitly approved knowledge pairs override workbook values');
+        assert.equal(metric.source.approvalGroup, approved.source.approvalGroup);
+        continue;
+      }
+      if (originalId === '4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)'
+        && product.name === 'Единый личный кабинет (ЕЛК)' && product.unit === 'Data' && product.type === 'Канал'
+        && metric.code === 'general.mau_u_vashego_kanala') {
+        assert.equal(metric.value, metric.max_value, 'latest explicit ELK MAU score overrides workbook fallback');
+        assert.equal(metric.source.origin, 'userConfirmedQ3ScoreCorrection');
+        assert.equal(metric.source.date, '2026-11-11');
+        assert.equal(metric.source.correction.rawValue, 1);
+        continue;
+      }
       if (product.name === 'Сделка вторичка' && metric.code === 'general.navigator_reporting_knowledge') {
         assert.equal(metric.value, metric.max_value, 'explicit direct Navigator score overrides workbook carry-forward');
         assert.equal(metric.source.origin, 'userConfirmedDirectNavigatorAssessment');
@@ -142,6 +166,73 @@ test('final Q3 pipeline uses workbook scores including zeros, carries missing Q2
   }
   assert.deepEqual(build('II кв. 2026'), source);
   assert.equal(JSON.stringify(source), snapshot, 'source data is immutable');
+});
+
+test('latest ELK MAU confirmation survives the full Q3 pipeline and changes only its own metric', () => {
+  const id = '4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)';
+  const code = 'general.mau_u_vashego_kanala';
+  const source = read('../../public/report-data.json').products;
+  const sourceSnapshot = structuredClone(source);
+  const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
+  const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)]
+    .map(match => [match[1], match[2]]));
+  const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',')
+    .map(key => read(`../data/${imports.get(key.trim())}`));
+  const corrections = overlays.find(batch => batch.scope === 'q3-score-correction');
+  const record = corrections.products.find(product => product.id === id);
+  assert.equal(record.name, 'Единый личный кабинет (ЕЛК)');
+  assert.equal(record.unit, 'Data');
+  assert.equal(record.type, 'Канал');
+  assert.equal(record.metrics[code].rawValue, 1);
+  assert.equal(record.metrics[code].source.date, '2026-11-11');
+  const withoutLatest = structuredClone(overlays);
+  delete withoutLatest.find(batch => batch.scope === 'q3-score-correction')
+    .products.find(product => product.id === id).metrics[code];
+  const args = [read('../data/salary-products-q3-2026.json'),
+    read('../data/reporting-regularity-missing-q3-2026.json'), read('../data/funnel-action-missing-q3-2026.json')];
+  for (const backlog of [null, read('../../public/backlog-data.json')]) {
+    const build = (facts, selectedPeriod = period) => buildDdiPeriodProducts(source, selectedPeriod, facts, ...args, backlog);
+    const before = build(withoutLatest);
+    const after = build(overlays);
+    assert.equal(after.length, before.length);
+    let corrected = 0;
+    for (let index = 0; index < after.length; index++) {
+      const product = after[index];
+      const prior = before[index];
+      if (String(product.id).replace(/::empty::.*/, '') !== id) {
+        assert.deepEqual(product, prior, `Unrelated team: ${product.name}`);
+        continue;
+      }
+      const {metrics: currentBlocks, ...identity} = product;
+      const {metrics: priorBlocks, ...priorIdentity} = prior;
+      assert.deepEqual(identity, priorIdentity, 'Team identity and the index denominator are unchanged');
+      for (const metric of currentBlocks.flatMap(block => block.metrics)) {
+        const old = priorBlocks.flatMap(block => block.metrics).find(item => item.code === metric.code);
+        if (metric.code !== code) {
+          assert.deepEqual(metric, old, `Unrelated ELK metric: ${metric.code}`);
+          continue;
+        }
+        corrected++;
+        assert.equal(old.value, 0, 'The final workbook fallback previously replaced the October confirmation');
+        assert.equal(old.source.origin, 'keyMetricsPreviousQuarterFallback');
+        assert.equal(metric.value, metric.max_value);
+        assert.equal(metric.value, 0.2, 'Use the existing metric weight');
+        assert.equal(metric.source.origin, 'userConfirmedQ3ScoreCorrection');
+        assert.equal(metric.source.date, '2026-11-11');
+        for (const field of ['max_value', 'is_applicabble_flg', 'excluded_from_index', 'dd_calculation_flg',
+          'previousValue', 'previousMaxValue', 'previousPeriod']) assert.equal(metric[field], old[field], field);
+        for (const item of metric.recommendation_items || []) {
+          assert.equal(item.value, metric.value);
+          assert.equal(item.max_value, metric.max_value);
+          assert.equal(item.gap, 0);
+        }
+      }
+    }
+    assert.equal(corrected, 1, 'Only the requested ELK MAU metric changes');
+    assert.deepEqual(build(overlays, 'II кв. 2026'), build(withoutLatest, 'II кв. 2026'));
+    assert.deepEqual(build(overlays, 'II кв. 2026'), sourceSnapshot, 'Q2 source values remain intact');
+  }
+  assert.deepEqual(source, sourceSnapshot, 'The runtime pipeline does not mutate source data');
 });
 
 test('market hole recovery changes exactly four scores, preserving every other team, metric, weight and Q2', () => {

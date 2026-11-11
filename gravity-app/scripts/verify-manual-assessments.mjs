@@ -85,6 +85,39 @@ const researchMetricCorrections = new Map(overlays.filter(({data}) => data.sourc
   .flatMap(({data}) => (data.products || []).flatMap((team) =>
     Object.entries(team.metrics || {}).map(([code, fact]) => [factKey(team, code), fact]))));
 const errors = [];
+// These approved facts resolve at final workbook priority, after the generic
+// profile stage checked below. Validate that final stage instead of its input.
+const approvedKnowledgeGroup = 'segment-channel-key-metrics-2026-11-11';
+const approvedKnowledgeCodes = {
+  'Рабочий возраст': ['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov',
+    'general.kol_vo_klientov_s_2_nefin_servisov', 'general.kol_vo_poluchateley_zp',
+    'general.obъem_zachisleniy_fot', 'general.dolya_rynka_fot', 'general.navigator_reporting_knowledge'],
+  'Top Affluent': ['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov',
+    'general.kol_vo_klientov_s_2_nefin_servisov', 'general.sredniy_dohoda_na_klienta'],
+  'МВС': ['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov',
+    'general.kol_vo_klientov_s_2_nefin_servisov', 'general.sredniy_dohoda_na_klienta'],
+  'Зрелость': ['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov',
+    'general.kol_vo_klientov_s_2_nefin_servisov'],
+  'Молодежь': ['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov',
+    'general.kol_vo_klientov_s_2_nefin_servisov', 'general.navigator_reporting_knowledge'],
+  'Дети': ['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov', 'general.navigator_reporting_knowledge'],
+  'PB': ['general.aktivnaya_klientskaya_baza', 'general.kol_vo_major_klientov',
+    'general.kol_vo_klientov_s_2_nefin_servisov', 'general.sredniy_dohoda_na_klienta', 'general.navigator_reporting_knowledge'],
+  'Чат': ['general.navigator_reporting_knowledge'],
+  'СБОЛ': ['general.navigator_reporting_knowledge'],
+  'Уведомления': ['general.navigator_reporting_knowledge'],
+  'Единый личный кабинет (ЕЛК)': ['general.navigator_reporting_knowledge'],
+};
+const salary = JSON.parse(fs.readFileSync(path.join(root, 'src/data/salary-products-q3-2026.json'), 'utf8'));
+const reportingPath = path.join(root, 'src/data/reporting-regularity-missing-q3-2026.json');
+const reportingMissing = JSON.parse(fs.readFileSync(reportingPath, 'utf8'));
+const actionMissing = JSON.parse(fs.readFileSync(path.join(root, 'src/data/funnel-action-missing-q3-2026.json'), 'utf8'));
+const approvedKnowledgeProducts = buildDdiPeriodProducts(source.products, 'III кв. 2026',
+  overlays.map(item => item.data), salary, reportingMissing, actionMissing);
+const checkedApprovedKnowledge = new Set();
+const approvedKnowledgeProof = (proof) => proof?.origin === 'userConfirmedQ3ScoreCorrection'
+  && proof.confirmedBy === 'user' && proof.date === '2026-11-11'
+  && proof.period === 'III кв. 2026' && proof.approvalGroup === approvedKnowledgeGroup;
 const latestCorrectionFacts = new Map(overlays.filter(({data}) =>
   data.period === 'III кв. 2026' && ['userConfirmedAutoAttractCorrection20261031',
     'userConfirmedInsuranceFunnelBatch20261031', 'userConfirmedDirectNavigatorAssessment',
@@ -160,6 +193,33 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && !['repor
     if (!product) {errors.push(`${name}: missing team ${team.unit} / ${team.name}`); continue;}
     const metrics = product.metrics.flatMap((block) => block.metrics || []);
     for (const [code, fact] of Object.entries(team.metrics || {})) {
+      if (fact.source?.approvalGroup === approvedKnowledgeGroup
+        || fact.source?.correction?.approvalGroup === approvedKnowledgeGroup) {
+        const allowed = approvedKnowledgeCodes[team.name]?.includes(code);
+        const expectedIdentity = ['Чат', 'СБОЛ', 'Уведомления', 'Единый личный кабинет (ЕЛК)'].includes(team.name)
+          ? {type: 'Канал', unit: team.name === 'Чат' ? 'PC' : team.name === 'Единый личный кабинет (ЕЛК)' ? 'Data' : 'DP'}
+          : {type: 'Сегмент', unit: 'CX'};
+        const resolved = approvedKnowledgeProducts.find(item => item.id.replace(/::empty::.*/, '') === team.id
+          && ['name', 'unit', 'type'].every(key => item[key] === team[key]));
+        const metric = resolved?.metrics.find(block => block.code === 'general')?.metrics.find(item => item.code === code);
+        const original = source.products.find(item => item.id === team.id && item.period === 'II кв. 2026'
+          && ['name', 'unit', 'type'].every(key => item[key] === team[key]))
+          ?.metrics.find(block => block.code === 'general')?.metrics.find(item => item.code === code);
+        const key = factKey(team, code);
+        if (!allowed || team.type !== expectedIdentity.type || team.unit !== expectedIdentity.unit
+          || checkedApprovedKnowledge.has(key) || data.scope !== 'q3-score-correction'
+          || !approvedKnowledgeProof(fact.source) || !approvedKnowledgeProof(fact.source.correction)
+          || fact.rawValue !== 1 || fact.source.correction.rawValue !== 1
+          || !metric || !original || !(metric.max_value > 0) || metric.max_value !== original.max_value
+          || metric.is_applicabble_flg !== original.is_applicabble_flg || metric.is_applicabble_flg === false
+          || metric.value !== metric.max_value || !approvedKnowledgeProof(metric.source)
+          || !approvedKnowledgeProof(metric.source.correction) || metric.source.rawValue !== 1) {
+          errors.push(`${name}: ${team.name} / ${code}: approved final key-metrics assessment was lost`);
+        }
+        checkedApprovedKnowledge.add(key);
+        checked++;
+        continue;
+      }
       if (hiddenReportingFacts.has(factKey(team, code))) {
         const metric = metrics.find(item => item.code === code);
         if (!metric || metric.value !== null || metric.max_value !== 0 || metric.is_applicabble_flg !== false
@@ -297,13 +357,10 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && !['repor
     }
   }
 }
+if (checkedApprovedKnowledge.size !== 34) errors.push(`Approved final key-metrics scope: expected 34 unique facts, got ${checkedApprovedKnowledge.size}`);
 if (errors.length) throw new Error(`Manual DDI assessments would be lost; build stopped:\n${errors.join('\n')}`);
-const salary = JSON.parse(fs.readFileSync(path.join(root, 'src/data/salary-products-q3-2026.json'), 'utf8'));
 if (!/buildDdiPeriodProducts\(data\?\.products/.test(app)) throw new Error('Quarter-specific roster is disconnected from App.jsx');
-const reportingPath = path.join(root, 'src/data/reporting-regularity-missing-q3-2026.json');
-const reportingMissing = JSON.parse(fs.readFileSync(reportingPath, 'utf8'));
 if (!/salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026,\s*backlog\.status === 'ready' \? backlog\.data : null\)/.test(app)) throw new Error('Reporting or Discovery decomposition assessments are disconnected from App.jsx');
-const actionMissing = JSON.parse(fs.readFileSync(path.join(root, 'src/data/funnel-action-missing-q3-2026.json'), 'utf8'));
 const beforeReportingFill = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing);
 const finalProducts = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing, actionMissing);
 const frozenCrossSell = overlays.find(({data}) => data.scope === 'frozen-q3-crosssell-scores')?.data;

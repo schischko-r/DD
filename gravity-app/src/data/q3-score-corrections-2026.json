@@ -1941,10 +1941,1415 @@
           }
         }
       }
+    },
+    {
+      "id": "4a1bd6b8-c295-50fd-b4c6-14d4873c6bb0¦Единый личный кабинет (ЕЛК)",
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "type": "Канал",
+      "metrics": {
+        "general.mau_u_vashego_kanala": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "MAU вашего канала",
+            "previousAssessment": {
+              "rawValue": 1,
+              "sourceFile": "elk-knowledge-user-q3-2026.json",
+              "origin": "userConfirmedElkMau20261031",
+              "date": "2026-10-31"
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "rawValue": 1,
+              "note": "Прямое указание пользователя: MAU вашего канала у ЕЛК в III квартале 2026 = 100%. Эта оценка имеет приоритет над переносом из II квартала и более ранними оценками Excel."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Единый личный кабинет (ЕЛК)",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "cbb36731-ec7c-5e0c-9516-c3b21328e952¦Рабочий возраст",
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Активная клиентская база",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_poluchateley_zp": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Кол-во получателей ЗП",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.obъem_zachisleniy_fot": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Объем зачислений ФОТ",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.dolya_rynka_fot": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Доля рынка ФОТ, %",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Рабочий возраст",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "0b1990e4-3fd5-5f25-8f50-110ffedac76f¦МВС",
+      "name": "МВС",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "МВС",
+            "sourceMetricName": "Активная клиентская база",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "МВС",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "МВС",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.sredniy_dohoda_na_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "МВС",
+            "sourceMetricName": "Средний дохода на клиента",
+            "previousAssessment": {
+              "value": 0.125,
+              "maxValue": 0.25,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.125,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "bd37f32f-c457-542d-b2d0-ba170c3d1fca¦Зрелость",
+      "name": "Зрелость",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Активная клиентская база",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Зрелость",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "b89fb857-45f0-5046-9811-cfcb31c0a656¦Молодежь",
+      "name": "Молодежь",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Активная клиентская база",
+            "previousAssessment": {
+              "value": 0.15,
+              "maxValue": 0.3,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.15,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "previousAssessment": {
+              "value": 0.15,
+              "maxValue": 0.3,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.15,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "previousAssessment": {
+              "value": 0.15,
+              "maxValue": 0.3,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.15,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Молодежь",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "a9bdb854-e0d5-5cb3-8aa0-746826d70992¦Дети",
+      "name": "Дети",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Дети",
+            "sourceMetricName": "Активная клиентская база",
+            "previousAssessment": {
+              "value": 0.3,
+              "maxValue": 0.3,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.3,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Дети",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "previousAssessment": {
+              "value": 0.15,
+              "maxValue": 0.3,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.15,
+                "sourceMaxValue": 0.3
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Дети",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Последнее прямое указание пользователя: у сегмента «Дети» знание об отчётности в Навигаторе за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "74567319-718b-554b-a770-096b8acbecdf¦Top Affluent",
+      "name": "Top Affluent",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Активная клиентская база",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.sredniy_dohoda_na_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Top Affluent",
+            "sourceMetricName": "Средний дохода на клиента",
+            "previousAssessment": {
+              "value": 0.125,
+              "maxValue": 0.25,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.125,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "371e8205-137b-5e04-9212-c2c9c57e0d04¦PB",
+      "name": "PB",
+      "unit": "CX",
+      "type": "Сегмент",
+      "metrics": {
+        "general.aktivnaya_klientskaya_baza": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "PB",
+            "sourceMetricName": "Активная клиентская база",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_major_klientov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "PB",
+            "sourceMetricName": "Кол-во Major клиентов",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.kol_vo_klientov_s_2_nefin_servisov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "PB",
+            "sourceMetricName": "Кол-во клиентов с 2+ нефин. сервисов",
+            "previousAssessment": {
+              "value": 0.125,
+              "maxValue": 0.25,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.125,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.sredniy_dohoda_na_klienta": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "PB",
+            "sourceMetricName": "Средний дохода на клиента",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.25,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.25
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "PB",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "16b48c34-9b69-5403-8da8-41943903e5ff¦Чат",
+      "name": "Чат",
+      "unit": "PC",
+      "type": "Канал",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Чат",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "080dbf15-22d2-5498-9965-a68765826ebf¦СБОЛ",
+      "name": "СБОЛ",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "СБОЛ",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "02489dde-00ff-516f-b162-20865c9a7106¦Уведомления",
+      "name": "Уведомления",
+      "unit": "DP",
+      "type": "Канал",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+            "sourceName": "Уведомления",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "segment-channel-key-metrics-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение отдельного сценария: выбранные 33 пары сегментов и каналов в блоке «Знание ключевых метрик» за III квартал 2026 = 100%. Прямая оценка имеет приоритет над Excel и переносом из II квартала; остальные показатели, веса и применимость сохраняются."
+            }
+          }
+        }
+      }
     }
   ],
   "counts": {
-    "teams": 29,
-    "facts": 77
+    "teams": 40,
+    "facts": 112
   }
 }
