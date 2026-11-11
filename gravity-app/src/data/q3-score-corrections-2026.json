@@ -611,6 +611,48 @@
               "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
             }
           }
+        },
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Кредитные карты",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
         }
       }
     },
@@ -655,6 +697,48 @@
               "period": "III кв. 2026",
               "rawValue": 0.5,
               "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Оплата улыбкой",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
             }
           }
         }
@@ -818,6 +902,48 @@
               "note": "Прямое указание пользователя: бенчмарки воронки оттока Переводов по РФ = 0,5 (50% действующего максимума)."
             }
           }
+        },
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Переводы по РФ",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0,
+              "maxValue": 0.2,
+              "rawValue": 0,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
         }
       }
     },
@@ -845,6 +971,48 @@
               "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
             }
           }
+        },
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Платежи",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0,
+              "maxValue": 0.2,
+              "rawValue": 0,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
         }
       }
     },
@@ -870,6 +1038,48 @@
               "period": "III кв. 2026",
               "rawValue": 0.5,
               "note": "Прямая корректировка пользователя из таблицы оценок III квартала."
+            }
+          }
+        },
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Трансграничные переводы",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.1,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.1
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
             }
           }
         }
@@ -3346,10 +3556,665 @@
           }
         }
       }
+    },
+    {
+      "id": "16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО",
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "ОСАГО",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "ОСАГО",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "inputs": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.klienty_s_produktom",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.mau_produkta",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.znanie_produktov_sputnikov",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              }
+            ],
+            "rule": "Последнее одобрение пользователя: повышение знания спутников устраняет последнее препятствие; все применимые ключевые метрики известны на 100%, поэтому знание отчётности в Навигаторе = 100%. Остальные действующие оценки Навигатора сохраняются.",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: Навигатор КАСКО, ОСАГО и Личной защиты Плюс = 100% за III квартал 2026 после восстановления спутников."
+            }
+          }
+        },
+        "churn.report_completeness": {
+          "rawValue": 0,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "osago-churn-report-completeness-2026-11-11",
+            "sourceName": "ОСАГО",
+            "sourceMetricName": "Полнота отчета",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "userConfirmedFunnelAssessment",
+                "confirmedBy": "user",
+                "date": "2026-10-30",
+                "period": "III кв. 2026",
+                "sourceName": "ОСАГО",
+                "sourceMetricName": "Полнота отчета",
+                "question": "Какие метрики вы мониторите в рамках воронки оттока по вашему продукту?",
+                "sourceRows": [
+                  180
+                ],
+                "rule": "Явная оценка пользователя 0/0.5/1 умножается на максимум метрики. II квартал сохраняется; две явно оценённые ранее неприменимые метрики активируются только в III квартале со стандартным весом 0.5.",
+                "rawValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "osago-churn-report-completeness-2026-11-11",
+              "rawValue": 0,
+              "note": "Последнее прямое указание пользователя: ОСАГО, полнота отчёта по воронке оттока за III квартал 2026 = 0%. Максимум 0.5 и применимость сохраняются; спутники, Навигатор, неприменимость инициатив и остальные показатели не меняются."
+            }
+          }
+        },
+        "mehaniki.gibkoe_izmenenie_usloviy_produkta": {
+          "rawValue": 0,
+          "maxValueOverride": 1.5,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "osago-flexible-max-2026-11-11",
+            "sourceName": "ОСАГО",
+            "sourceMetricName": "Гибкое изменение условий продукта",
+            "previousAssessment": {
+              "value": 0,
+              "maxValue": 1,
+              "rawValue": 0,
+              "source": {
+                "origin": "priorQuarterCarryForward",
+                "fromPeriod": "II кв. 2026",
+                "period": "III кв. 2026",
+                "confirmedBy": "user",
+                "confirmedAt": "2026-10-29",
+                "sourceName": "ОСАГО",
+                "sourceMetricCode": "mehaniki.gibkoe_izmenenie_usloviy_produkta",
+                "sourceValue": 0,
+                "sourceMaxValue": 1,
+                "rawValue": 0
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "osago-flexible-max-2026-11-11",
+              "rawValue": 0,
+              "maxValueOverride": 1.5,
+              "note": "Последнее прямое указание пользователя: максимальный вес метрики «Гибкое изменение условий продукта» ОСАГО за III квартал 2026 = 1.5 вместо 1. Заработанные 0 баллов и применимость сохраняются. II квартал и остальные команды/метрики не меняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм",
+      "name": "СберПрайм",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "СберПрайм",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые",
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "СберЧаевые",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.2,
+              "maxValue": 0.2,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.2,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР",
+      "name": "ВЗР",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "ВЗР",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг",
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "type": "Продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Трансграничный эквайринг",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО",
+      "name": "КАСКО",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "КАСКО",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "КАСКО",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "inputs": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.klienty_s_produktom",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.mau_produkta",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.znanie_produktov_sputnikov",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              }
+            ],
+            "rule": "Последнее одобрение пользователя: повышение знания спутников устраняет последнее препятствие; все применимые ключевые метрики известны на 100%, поэтому знание отчётности в Навигаторе = 100%. Остальные действующие оценки Навигатора сохраняются.",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: Навигатор КАСКО, ОСАГО и Личной защиты Плюс = 100% за III квартал 2026 после восстановления спутников."
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс",
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "type": "Продукт",
+      "metrics": {
+        "general.znanie_produktov_sputnikov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Личная защита Плюс",
+            "sourceMetricName": "Знание продуктов спутников",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.1,
+              "maxValue": 0.2,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.1,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+            "sourceName": "Личная защита Плюс",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "approvedScenario": {
+              "file": "outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json",
+              "sha256": "446a3d259714fc5e7d7655a8e5851b7f2a343b972e31e20c4624bad339d6494e"
+            },
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "inputs": [
+              {
+                "code": "general.obъem_celevogo_rynka_v_rossii",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.obъem_celevogo_rynka_v_sbere",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.klienty_s_produktom",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.mau_produkta",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              },
+              {
+                "code": "general.znanie_produktov_sputnikov",
+                "value": 0.2,
+                "maxValue": 0.2,
+                "rawValue": 1
+              }
+            ],
+            "rule": "Последнее одобрение пользователя: повышение знания спутников устраняет последнее препятствие; все применимые ключевые метрики известны на 100%, поэтому знание отчётности в Навигаторе = 100%. Остальные действующие оценки Навигатора сохраняются.",
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "satellites-navigator-selected-12-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил применение последнего сценария: Навигатор КАСКО, ОСАГО и Личной защиты Плюс = 100% за III квартал 2026 после восстановления спутников."
+            }
+          }
+        }
+      }
     }
   ],
   "counts": {
-    "teams": 40,
-    "facts": 112
+    "teams": 47,
+    "facts": 129
   }
 }

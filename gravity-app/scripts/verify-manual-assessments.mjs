@@ -108,6 +108,23 @@ const approvedKnowledgeCodes = {
   'Уведомления': ['general.navigator_reporting_knowledge'],
   'Единый личный кабинет (ЕЛК)': ['general.navigator_reporting_knowledge'],
 };
+const approvedSatelliteGroup = 'satellites-navigator-selected-12-2026-11-11';
+const satelliteCode = 'general.znanie_produktov_sputnikov';
+const navigatorCode = 'general.navigator_reporting_knowledge';
+const approvedSatelliteTeams = {
+  'Оплата улыбкой': {id: '11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой', unit: 'DB', codes: [satelliteCode]},
+  'Трансграничные переводы': {id: '9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы', unit: 'DB', codes: [satelliteCode]},
+  'СберПрайм': {id: '723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм', unit: 'CX', codes: [satelliteCode]},
+  'СберЧаевые': {id: '5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые', unit: 'DB', codes: [satelliteCode]},
+  'ВЗР': {id: '8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР', unit: 'УБ', codes: [satelliteCode]},
+  'Платежи': {id: 'aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи', unit: 'DB', codes: [satelliteCode]},
+  'Кредитные карты': {id: 'afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты', unit: 'DB', codes: [satelliteCode]},
+  'Трансграничный эквайринг': {id: '75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг', unit: 'DB', codes: [satelliteCode]},
+  'Переводы по РФ': {id: '4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ', unit: 'DB', codes: [satelliteCode]},
+  'КАСКО': {id: '89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО', unit: 'УБ', codes: [satelliteCode, navigatorCode]},
+  'ОСАГО': {id: '16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО', unit: 'УБ', codes: [satelliteCode, navigatorCode]},
+  'Личная защита Плюс': {id: '715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс', unit: 'УБ', codes: [satelliteCode, navigatorCode]},
+};
 const salary = JSON.parse(fs.readFileSync(path.join(root, 'src/data/salary-products-q3-2026.json'), 'utf8'));
 const reportingPath = path.join(root, 'src/data/reporting-regularity-missing-q3-2026.json');
 const reportingMissing = JSON.parse(fs.readFileSync(reportingPath, 'utf8'));
@@ -115,9 +132,10 @@ const actionMissing = JSON.parse(fs.readFileSync(path.join(root, 'src/data/funne
 const approvedKnowledgeProducts = buildDdiPeriodProducts(source.products, 'III кв. 2026',
   overlays.map(item => item.data), salary, reportingMissing, actionMissing);
 const checkedApprovedKnowledge = new Set();
-const approvedKnowledgeProof = (proof) => proof?.origin === 'userConfirmedQ3ScoreCorrection'
+const checkedApprovedSatellites = new Set();
+const approvedKnowledgeProof = (proof, group = approvedKnowledgeGroup) => proof?.origin === 'userConfirmedQ3ScoreCorrection'
   && proof.confirmedBy === 'user' && proof.date === '2026-11-11'
-  && proof.period === 'III кв. 2026' && proof.approvalGroup === approvedKnowledgeGroup;
+  && proof.period === 'III кв. 2026' && proof.approvalGroup === group;
 const latestCorrectionFacts = new Map(overlays.filter(({data}) =>
   data.period === 'III кв. 2026' && ['userConfirmedAutoAttractCorrection20261031',
     'userConfirmedInsuranceFunnelBatch20261031', 'userConfirmedDirectNavigatorAssessment',
@@ -193,10 +211,14 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && !['repor
     if (!product) {errors.push(`${name}: missing team ${team.unit} / ${team.name}`); continue;}
     const metrics = product.metrics.flatMap((block) => block.metrics || []);
     for (const [code, fact] of Object.entries(team.metrics || {})) {
-      if (fact.source?.approvalGroup === approvedKnowledgeGroup
-        || fact.source?.correction?.approvalGroup === approvedKnowledgeGroup) {
-        const allowed = approvedKnowledgeCodes[team.name]?.includes(code);
-        const expectedIdentity = ['Чат', 'СБОЛ', 'Уведомления', 'Единый личный кабинет (ЕЛК)'].includes(team.name)
+      const approvalGroup = [fact.source?.approvalGroup, fact.source?.correction?.approvalGroup]
+        .find(group => [approvedKnowledgeGroup, approvedSatelliteGroup].includes(group));
+      if (approvalGroup) {
+        const satelliteApproval = approvalGroup === approvedSatelliteGroup;
+        const allowed = satelliteApproval ? approvedSatelliteTeams[team.name]?.codes.includes(code) : approvedKnowledgeCodes[team.name]?.includes(code);
+        const checkedGroup = satelliteApproval ? checkedApprovedSatellites : checkedApprovedKnowledge;
+        const expectedIdentity = satelliteApproval ? {...approvedSatelliteTeams[team.name], type: 'Продукт'}
+          : ['Чат', 'СБОЛ', 'Уведомления', 'Единый личный кабинет (ЕЛК)'].includes(team.name)
           ? {type: 'Канал', unit: team.name === 'Чат' ? 'PC' : team.name === 'Единый личный кабинет (ЕЛК)' ? 'Data' : 'DP'}
           : {type: 'Сегмент', unit: 'CX'};
         const resolved = approvedKnowledgeProducts.find(item => item.id.replace(/::empty::.*/, '') === team.id
@@ -207,16 +229,21 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && !['repor
           ?.metrics.find(block => block.code === 'general')?.metrics.find(item => item.code === code);
         const key = factKey(team, code);
         if (!allowed || team.type !== expectedIdentity.type || team.unit !== expectedIdentity.unit
-          || checkedApprovedKnowledge.has(key) || data.scope !== 'q3-score-correction'
-          || !approvedKnowledgeProof(fact.source) || !approvedKnowledgeProof(fact.source.correction)
+          || (satelliteApproval && team.id !== expectedIdentity.id)
+          || checkedGroup.has(key) || data.scope !== 'q3-score-correction'
+          || !approvedKnowledgeProof(fact.source, approvalGroup) || !approvedKnowledgeProof(fact.source.correction, approvalGroup)
           || fact.rawValue !== 1 || fact.source.correction.rawValue !== 1
           || !metric || !original || !(metric.max_value > 0) || metric.max_value !== original.max_value
           || metric.is_applicabble_flg !== original.is_applicabble_flg || metric.is_applicabble_flg === false
-          || metric.value !== metric.max_value || !approvedKnowledgeProof(metric.source)
-          || !approvedKnowledgeProof(metric.source.correction) || metric.source.rawValue !== 1) {
+          || metric.value !== metric.max_value || !approvedKnowledgeProof(metric.source, approvalGroup)
+          || !approvedKnowledgeProof(metric.source.correction, approvalGroup) || metric.source.rawValue !== 1
+          || (satelliteApproval && (fact.source.approvedScenario?.file !== 'outputs/ddi-satellites-navigator-selected-12-2026-11-11/scenario.json'
+            || !/^[a-f0-9]{64}$/.test(fact.source.approvedScenario.sha256 || '')
+            || (code === navigatorCode && (!fact.source.inputs?.length
+              || !fact.source.inputs.every(input => input.maxValue > 0 && input.value === input.maxValue && input.rawValue === 1)))))) {
           errors.push(`${name}: ${team.name} / ${code}: approved final key-metrics assessment was lost`);
         }
-        checkedApprovedKnowledge.add(key);
+        checkedGroup.add(key);
         checked++;
         continue;
       }
@@ -358,11 +385,41 @@ for (const {name, data} of overlays.filter((item) => item.data.scope && !['repor
   }
 }
 if (checkedApprovedKnowledge.size !== 34) errors.push(`Approved final key-metrics scope: expected 34 unique facts, got ${checkedApprovedKnowledge.size}`);
+if (checkedApprovedSatellites.size !== 15) errors.push(`Approved satellites/Navigator scope: expected 15 unique facts, got ${checkedApprovedSatellites.size}`);
 if (errors.length) throw new Error(`Manual DDI assessments would be lost; build stopped:\n${errors.join('\n')}`);
 if (!/buildDdiPeriodProducts\(data\?\.products/.test(app)) throw new Error('Quarter-specific roster is disconnected from App.jsx');
 if (!/salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026,\s*backlog\.status === 'ready' \? backlog\.data : null\)/.test(app)) throw new Error('Reporting or Discovery decomposition assessments are disconnected from App.jsx');
 const beforeReportingFill = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing);
 const finalProducts = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing, actionMissing);
+const osagoFlexibleCode = 'mehaniki.gibkoe_izmenenie_usloviy_produkta';
+const osagoFlexibleGroup = 'osago-flexible-max-2026-11-11';
+const osagoFlexibleTeam = {id: '16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО', name: 'ОСАГО', unit: 'УБ', type: 'Продукт'};
+const matchesOsagoFlexibleTeam = (team) => String(team.id).replace(/::empty::.*/, '') === osagoFlexibleTeam.id
+  && ['name', 'unit', 'type'].every(key => team[key] === osagoFlexibleTeam[key]);
+const osagoFlexibleFact = overlays.find(({data}) => data.scope === 'q3-score-correction' && data.period === 'III кв. 2026')
+  ?.data.products.find(matchesOsagoFlexibleTeam)?.metrics[osagoFlexibleCode];
+const osagoFlexibleProduct = finalProducts.find(matchesOsagoFlexibleTeam);
+const osagoFlexibleMetric = osagoFlexibleProduct?.metrics.find(block => block.code === 'mehaniki')
+  ?.metrics.find(metric => metric.code === osagoFlexibleCode);
+const osagoFlexiblePrior = source.products.find(team => team.period === 'II кв. 2026' && matchesOsagoFlexibleTeam(team))
+  ?.metrics.find(block => block.code === 'mehaniki')?.metrics.find(metric => metric.code === osagoFlexibleCode);
+if (!osagoFlexibleFact || osagoFlexibleFact.rawValue !== 0 || osagoFlexibleFact.maxValueOverride !== 1.5
+  || !approvedKnowledgeProof(osagoFlexibleFact.source, osagoFlexibleGroup)
+  || !approvedKnowledgeProof(osagoFlexibleFact.source.correction, osagoFlexibleGroup)
+  || osagoFlexibleFact.source.correction.rawValue !== 0 || osagoFlexibleFact.source.correction.maxValueOverride !== 1.5
+  || osagoFlexibleFact.source.previousAssessment?.value !== 0 || osagoFlexibleFact.source.previousAssessment.maxValue !== 1
+  || osagoFlexiblePrior?.max_value !== 1 || osagoFlexibleMetric?.max_value !== 1.5 || osagoFlexibleMetric.value !== 0
+  || osagoFlexibleMetric.previousMaxValue !== 1 || osagoFlexibleMetric.previousValue !== 0
+  || osagoFlexibleMetric.is_applicabble_flg !== osagoFlexiblePrior.is_applicabble_flg
+  || osagoFlexibleMetric.excluded_from_index !== osagoFlexiblePrior.excluded_from_index
+  || osagoFlexibleMetric.dd_calculation_flg !== osagoFlexiblePrior.dd_calculation_flg
+  || !approvedKnowledgeProof(osagoFlexibleMetric.source, osagoFlexibleGroup)
+  || !osagoFlexibleMetric.recommendation_items?.length
+  || !osagoFlexibleMetric.recommendation_items.every(item => item.value === 0 && item.max_value === 1.5 && item.gap === 1.5)
+  || osagoFlexibleProduct.indexMaxPoints !== osagoFlexibleProduct.metrics.flatMap(block => block.metrics)
+    .filter(isDdIndexMetric).reduce((sum, metric) => sum + Number(metric.max_value), 0)) {
+  throw new Error('OSAGO Q3 flexible-conditions maximum must be 1.5, preserving earned0, Q2maximum1 and applicability.');
+}
 const frozenCrossSell = overlays.find(({data}) => data.scope === 'frozen-q3-crosssell-scores')?.data;
 if (!frozenCrossSell || frozenCrossSell.products?.length !== finalProducts.length) {
   throw new Error('Frozen Q3 Cross-sell snapshot roster is incomplete');

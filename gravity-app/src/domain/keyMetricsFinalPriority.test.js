@@ -7,6 +7,21 @@ import {applyKeyMetricsWorkbookPriority} from './keyMetricsWorkbookPriority.js';
 const read = (path) => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
 const period = 'III кв. 2026';
 const metrics = (product) => product.metrics.flatMap((block) => block.metrics);
+const satelliteApproval = 'satellites-navigator-selected-12-2026-11-11';
+const satelliteOverrideIdentities = new Map([
+  ['16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО', ['ОСАГО', 'УБ', true]],
+  ['11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой', ['Оплата улыбкой', 'DB', false]],
+  ['9721f391-d1a5-57d5-beb1-e0eaccbf0ed1¦Трансграничные переводы', ['Трансграничные переводы', 'DB', false]],
+  ['723125c3-303d-5d2e-adc3-18460f242f63¦СберПрайм', ['СберПрайм', 'CX', false]],
+  ['5b3c81af-8ad4-5fcd-84c0-729f3f44093f¦СберЧаевые', ['СберЧаевые', 'DB', false]],
+  ['8cba2f54-2829-5599-9ee7-d1f288bb1f03¦ВЗР', ['ВЗР', 'УБ', false]],
+  ['aa80593f-3f07-5935-96b3-2e367d6a78f4¦Платежи', ['Платежи', 'DB', false]],
+  ['afe119a5-a944-5e11-90f9-e3facbd32e5c¦Кредитные карты', ['Кредитные карты', 'DB', false]],
+  ['75028b72-7f89-55c1-a309-8c5b4193250a¦Трансграничный эквайринг', ['Трансграничный эквайринг', 'DB', false]],
+  ['4bf2be31-ba6b-5ee2-b60d-bf62932ea0ce¦Переводы по РФ', ['Переводы по РФ', 'DB', false]],
+  ['89b13e92-db89-516e-823f-1d102242bdc9¦КАСКО', ['КАСКО', 'УБ', true]],
+  ['715a3090-94df-5954-b638-bb36c1ae24ae¦Личная защита Плюс', ['Личная защита Плюс', 'УБ', true]],
+]);
 
 test('workbook resolver preserves scope, identity and applicability while scaling fractional fallback', () => {
   const code = 'general.mau_produkta';
@@ -74,6 +89,25 @@ test('final Q3 pipeline uses workbook scores including zeros, carries missing Q2
       const approved = overlays.find(batch => batch.scope === 'q3-score-correction')?.products
         .find(team => team.id === originalId && ['name', 'unit', 'type'].every(key => team[key] === product[key]))
         ?.metrics[metric.code];
+      if (approved?.source?.approvalGroup === satelliteApproval) {
+        const identity = satelliteOverrideIdentities.get(originalId);
+        assert.ok(identity, 'Only the twelve literal user-selected product identities are exempt');
+        assert.equal(product.name, identity[0]); assert.equal(product.unit, identity[1]);
+        assert.equal(product.type, 'Продукт');
+        assert.ok(metric.code === 'general.znanie_produktov_sputnikov'
+          || (identity[2] && metric.code === 'general.navigator_reporting_knowledge'));
+        assert.equal(approved.rawValue, 1);
+        for (const proof of [approved.source, approved.source.correction]) {
+          assert.equal(proof.approvalGroup, satelliteApproval);
+          assert.equal(proof.origin, 'userConfirmedQ3ScoreCorrection');
+          assert.equal(proof.confirmedBy, 'user'); assert.equal(proof.period, period);
+          assert.equal(proof.date, '2026-11-11');
+        }
+        assert.equal(approved.source.correction.rawValue, 1);
+        assert.equal(metric.value, metric.max_value);
+        assert.equal(metric.source.approvalGroup, satelliteApproval);
+        continue;
+      }
       if (approved?.source?.approvalGroup === 'segment-channel-key-metrics-2026-11-11'
         && approved.source.correction?.approvalGroup === 'segment-channel-key-metrics-2026-11-11') {
         assert.ok(['Канал', 'Сегмент'].includes(product.type));

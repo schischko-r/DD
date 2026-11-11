@@ -11,6 +11,23 @@ const report = read('../../public/report-data.json');
 const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m => [m[1], m[2]]));
 const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => read(`../data/${imports.get(key.trim())}`));
+// Keep this historical 34-pair approval's before/after comparison independent
+// of the later, separately tested satellite/Navigator approval.
+for (const batch of overlays) for (const team of batch.products || []) {
+  for (const [code, fact] of Object.entries(team.metrics || {})) {
+    if (fact.source?.approvalGroup === 'satellites-navigator-selected-12-2026-11-11') delete team.metrics[code];
+  }
+  if (batch.scope === 'q3-score-correction' && team.id === '16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО'
+    && team.name === 'ОСАГО' && team.unit === 'УБ' && team.type === 'Продукт'
+    && team.metrics['churn.report_completeness']?.source?.approvalGroup === 'osago-churn-report-completeness-2026-11-11') {
+    delete team.metrics['churn.report_completeness'];
+  }
+  if (batch.scope === 'q3-score-correction' && team.id === '16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО'
+    && team.name === 'ОСАГО' && team.unit === 'УБ' && team.type === 'Продукт'
+    && team.metrics['mehaniki.gibkoe_izmenenie_usloviy_produkta']?.source?.approvalGroup === 'osago-flexible-max-2026-11-11') {
+    delete team.metrics['mehaniki.gibkoe_izmenenie_usloviy_produkta'];
+  }
+}
 const args = ['salary-products-q3-2026.json', 'reporting-regularity-missing-q3-2026.json', 'funnel-action-missing-q3-2026.json']
   .map(file => read(`../data/${file}`));
 const backlog = read('../../public/backlog-data.json');

@@ -154,10 +154,6 @@ export function buildTeamProfileProducts(products, period, overlay = null) {
   const templates = [];
   for (const source of products) {
     if (templates.some((template) => sameTeam(template, source))) continue;
-    const effectiveMaxFor = (metric) => normalize(source.type) === 'продукт'
-      && metric.code === 'attract.chernoviki_v_sbol_70' && maxOverrides[metric.code] === 1
-      && metric.is_applicabble_flg !== false && Number(metric.max_value) > 0
-      ? 1 : metric.max_value;
     const measuredMetricScopes = new Map();
     const measuredTeams = scoringOverlays.filter((item) => item.period === activePeriod && (item.scope === 'ux-score-assessment'
       ? normalize(source.type) === 'канал' : normalize(source.type) === 'продукт' || SCOPED_METRIC_CODES[item.scope]))
@@ -171,6 +167,26 @@ export function buildTeamProfileProducts(products, period, overlay = null) {
         return scopeCodes ? {metrics} : team;
       }).filter(Boolean);
     const measuredMetrics = Object.assign({}, ...measuredTeams.map((team) => team.metrics || {}));
+    const effectiveMaxFor = (metric) => {
+      const fact = measuredMetrics[metric.code];
+      const proof = fact?.source;
+      const confirmedMaximum = (item) => item?.origin === 'userConfirmedQ3ScoreCorrection'
+        && item.confirmedBy === 'user' && item.date === '2026-11-11' && item.period === activePeriod
+        && item.approvalGroup === 'osago-flexible-max-2026-11-11';
+      if (activePeriod === 'III кв. 2026' && source.id === '16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО'
+        && source.name === 'ОСАГО' && source.unit === 'УБ' && source.type === 'Продукт'
+        && metric.code === 'mehaniki.gibkoe_izmenenie_usloviy_produkta'
+        && metric.is_applicabble_flg !== false && metric.max_value === 1 && metric.value === 0
+        && measuredMetricScopes.get(metric.code) === 'q3-score-correction'
+        && fact.rawValue === 0 && fact.maxValueOverride === 1.5
+        && confirmedMaximum(proof) && confirmedMaximum(proof.correction)
+        && proof.correction.rawValue === 0 && proof.correction.maxValueOverride === 1.5
+        && proof.previousAssessment?.value === 0 && proof.previousAssessment.maxValue === 1) return 1.5;
+      return normalize(source.type) === 'продукт'
+        && metric.code === 'attract.chernoviki_v_sbol_70' && maxOverrides[metric.code] === 1
+        && metric.is_applicabble_flg !== false && Number(metric.max_value) > 0
+        ? 1 : metric.max_value;
+    };
     // Explicit Q3 assessments can restore a benchmark missing from the Q2 rubric.
     // Existing metrics, including non-applicable ones, keep their original rubric.
     const addChurnBenchmark = measuredMetricScopes.get('churn.benchmarks') === 'user-metric-assessment'
