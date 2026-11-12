@@ -391,6 +391,64 @@ if (!/buildDdiPeriodProducts\(data\?\.products/.test(app)) throw new Error('Quar
 if (!/salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026,\s*backlog\.status === 'ready' \? backlog\.data : null\)/.test(app)) throw new Error('Reporting or Discovery decomposition assessments are disconnected from App.jsx');
 const beforeReportingFill = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing);
 const finalProducts = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing, actionMissing);
+const premierInitiativesGroup = 'premier-attract-initiatives-2026-11-11';
+const premierInitiativesCode = 'attract.initiatives_list';
+const matchesPremier = (team) => String(team.id).replace(/::empty::.*/, '') === 'cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер'
+  && team.name === 'Пакет услуг СберПремьер' && team.unit === 'CX' && team.type === 'Продукт';
+const premierApprovals = overlays.flatMap(({data}) => (data.products || []).flatMap(team =>
+  Object.entries(team.metrics || {}).filter(([, fact]) => fact.source?.approvalGroup === premierInitiativesGroup
+    || fact.source?.correction?.approvalGroup === premierInitiativesGroup).map(([code, fact]) => ({data, team, code, fact}))));
+const premierApproval = premierApprovals[0];
+const premierMetric = approvedKnowledgeProducts.find(matchesPremier)?.metrics.find(block => block.code === 'attract')
+  ?.metrics.find(metric => metric.code === premierInitiativesCode);
+if (premierApprovals.length !== 1 || !matchesPremier(premierApproval.team) || premierApproval.code !== premierInitiativesCode
+  || premierApproval.data.scope !== 'q3-score-correction' || premierApproval.data.period !== 'III кв. 2026'
+  || premierApproval.fact.rawValue !== 1 || !approvedKnowledgeProof(premierApproval.fact.source, premierInitiativesGroup)
+  || !approvedKnowledgeProof(premierApproval.fact.source.correction, premierInitiativesGroup)
+  || premierApproval.fact.source.correction.rawValue !== 1
+  || premierApproval.fact.source.previousAssessment?.value !== 0.5 || premierApproval.fact.source.previousAssessment.maxValue !== 1
+  || premierMetric?.value !== 1 || premierMetric.max_value !== 1 || premierMetric.is_applicabble_flg !== true
+  || premierMetric.excluded_from_index !== false || premierMetric.dd_calculation_flg !== 1
+  || !approvedKnowledgeProof(premierMetric.source, premierInitiativesGroup)
+  || !premierMetric.recommendation_items?.every(item => item.value === 1 && item.max_value === 1 && item.gap === 0)) {
+  throw new Error('SberPremier Q3 attraction initiatives must retain the approved 100% score and original rubric.');
+}
+const smileMarketCode = 'general.obъem_celevogo_rynka_v_rossii';
+const smileMarketGroup = 'smile-russia-market-2026-11-11';
+const matchesSmile = (team) => String(team.id).replace(/::empty::.*/, '') === '11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой'
+  && team.name === 'Оплата улыбкой' && team.unit === 'DB' && team.type === 'Продукт';
+const smileApprovals = overlays.flatMap(({data}) => (data.products || []).flatMap(team =>
+  Object.entries(team.metrics || {}).filter(([, fact]) => fact.source?.approvalGroup === smileMarketGroup
+    || fact.source?.correction?.approvalGroup === smileMarketGroup).map(([code, fact]) => ({data, team, code, fact}))));
+const smileApproval = smileApprovals[0];
+const beforeSmileOverlays = structuredClone(overlays.map(item => item.data));
+for (const assessment of beforeSmileOverlays.filter(item => item.scope === 'q3-score-correction')) {
+  for (const team of (assessment.products || []).filter(matchesSmile)) delete team.metrics[smileMarketCode];
+}
+const beforeSmile = buildDdiPeriodProducts(source.products, 'III кв. 2026', beforeSmileOverlays,
+  salary, reportingMissing, actionMissing).find(matchesSmile);
+const smile = approvedKnowledgeProducts.find(matchesSmile);
+const generalMetric = (team, code) => team?.metrics.find(block => block.code === 'general')?.metrics.find(metric => metric.code === code);
+const smileMarket = generalMetric(smile, smileMarketCode);
+const beforeSmileMarket = generalMetric(beforeSmile, smileMarketCode);
+const smileNavigator = generalMetric(smile, navigatorCode);
+const beforeSmileNavigator = generalMetric(beforeSmile, navigatorCode);
+const savedSmileNavigator = smileApproval?.fact.source?.preservedNavigatorAssessment;
+if (smileApprovals.length !== 1 || !matchesSmile(smileApproval.team) || smileApproval.code !== smileMarketCode
+  || smileApproval.data.scope !== 'q3-score-correction' || smileApproval.data.period !== 'III кв. 2026'
+  || smileApproval.fact.rawValue !== 1 || !approvedKnowledgeProof(smileApproval.fact.source, smileMarketGroup)
+  || !approvedKnowledgeProof(smileApproval.fact.source.correction, smileMarketGroup)
+  || smileApproval.fact.source.correction.rawValue !== 1 || beforeSmileMarket?.value !== 0
+  || smileMarket?.value !== 0.2 || smileMarket.max_value !== beforeSmileMarket.max_value
+  || smileMarket.is_applicabble_flg !== beforeSmileMarket.is_applicabble_flg
+  || !approvedKnowledgeProof(smileMarket.source, smileMarketGroup)
+  || beforeSmileNavigator?.value !== 0.5 || beforeSmileNavigator.max_value !== 0.5
+  || !isDeepStrictEqual(smileNavigator, beforeSmileNavigator)
+  || savedSmileNavigator?.code !== navigatorCode || savedSmileNavigator.value !== beforeSmileNavigator.value
+  || savedSmileNavigator.maxValue !== beforeSmileNavigator.max_value || savedSmileNavigator.rawValue !== 1
+  || !isDeepStrictEqual(savedSmileNavigator.source, beforeSmileNavigator.source)) {
+  throw new Error('Smile Q3 Russia-market knowledge must be 100%, preserving the entire standing Navigator assessment.');
+}
 const osagoFlexibleCode = 'mehaniki.gibkoe_izmenenie_usloviy_produkta';
 const osagoFlexibleGroup = 'osago-flexible-max-2026-11-11';
 const osagoFlexibleTeam = {id: '16a909e6-2a89-532d-b1df-1f749aff70c8¦ОСАГО', name: 'ОСАГО', unit: 'УБ', type: 'Продукт'};

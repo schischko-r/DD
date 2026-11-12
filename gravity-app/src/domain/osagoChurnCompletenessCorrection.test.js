@@ -15,6 +15,26 @@ const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\
 const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => read(`../data/${imports.get(key.trim())}`));
 // This historical correction precedes the later, independently tested max change.
 for (const batch of overlays) for (const team of batch.products || []) {
+  // Exclude only the two later Premier scores when reproducing this approval.
+  if (batch.scope === 'q3-score-correction' && batch.period === period
+    && team.id === 'cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер'
+    && team.name === 'Пакет услуг СберПремьер' && team.unit === 'CX' && team.type === 'Продукт') {
+    for (const code of ['attract.nalichie_uspeshnyh_biznes_zapuskov', 'general.navigator_reporting_knowledge']) {
+      const fact = team.metrics[code];
+      if (fact?.source?.approvalGroup === 'premier-business-launches-navigator-2026-11-12'
+        && fact.source.correction?.approvalGroup === 'premier-business-launches-navigator-2026-11-12') delete team.metrics[code];
+    }
+  }
+  if (batch.scope === 'q3-score-correction' && team.id === 'cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер'
+    && team.name === 'Пакет услуг СберПремьер' && team.unit === 'CX' && team.type === 'Продукт'
+    && team.metrics['attract.initiatives_list']?.source?.approvalGroup === 'premier-attract-initiatives-2026-11-11') {
+    delete team.metrics['attract.initiatives_list'];
+  }
+  if (batch.scope === 'q3-score-correction' && team.id === '11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой'
+    && team.name === 'Оплата улыбкой' && team.unit === 'DB' && team.type === 'Продукт'
+    && team.metrics['general.obъem_celevogo_rynka_v_rossii']?.source?.approvalGroup === 'smile-russia-market-2026-11-11') {
+    delete team.metrics['general.obъem_celevogo_rynka_v_rossii'];
+  }
   if (batch.scope === 'q3-score-correction' && team.id === id && team.name === 'ОСАГО'
     && team.unit === 'УБ' && team.type === 'Продукт'
     && team.metrics['mehaniki.gibkoe_izmenenie_usloviy_produkta']?.source?.approvalGroup === 'osago-flexible-max-2026-11-11') {

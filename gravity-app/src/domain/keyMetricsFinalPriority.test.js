@@ -89,6 +89,32 @@ test('final Q3 pipeline uses workbook scores including zeros, carries missing Q2
       const approved = overlays.find(batch => batch.scope === 'q3-score-correction')?.products
         .find(team => team.id === originalId && ['name', 'unit', 'type'].every(key => team[key] === product[key]))
         ?.metrics[metric.code];
+      if (approved?.source?.approvalGroup === 'premier-business-launches-navigator-2026-11-12') {
+        assert.equal(originalId, 'cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер');
+        assert.equal(product.name, 'Пакет услуг СберПремьер'); assert.equal(product.unit, 'CX'); assert.equal(product.type, 'Продукт');
+        assert.equal(metric.code, 'general.navigator_reporting_knowledge'); assert.equal(approved.rawValue, 1);
+        for (const proof of [approved.source, approved.source.correction]) {
+          assert.equal(proof.approvalGroup, 'premier-business-launches-navigator-2026-11-12');
+          assert.equal(proof.origin, 'userConfirmedQ3ScoreCorrection'); assert.equal(proof.confirmedBy, 'user');
+          assert.equal(proof.period, period); assert.equal(proof.date, '2026-11-12');
+        }
+        assert.equal(approved.source.correction.rawValue, 1);
+        assert.equal(metric.value, metric.max_value); assert.equal(metric.source.approvalGroup, approved.source.approvalGroup);
+        continue;
+      }
+      if (approved?.source?.approvalGroup === 'smile-russia-market-2026-11-11') {
+        assert.equal(originalId, '11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой');
+        assert.equal(product.name, 'Оплата улыбкой'); assert.equal(product.unit, 'DB'); assert.equal(product.type, 'Продукт');
+        assert.equal(metric.code, 'general.obъem_celevogo_rynka_v_rossii'); assert.equal(approved.rawValue, 1);
+        for (const proof of [approved.source, approved.source.correction]) {
+          assert.equal(proof.approvalGroup, 'smile-russia-market-2026-11-11');
+          assert.equal(proof.origin, 'userConfirmedQ3ScoreCorrection'); assert.equal(proof.confirmedBy, 'user');
+          assert.equal(proof.period, period); assert.equal(proof.date, '2026-11-11');
+        }
+        assert.equal(approved.source.correction.rawValue, 1);
+        assert.equal(metric.value, metric.max_value); assert.equal(metric.source.approvalGroup, approved.source.approvalGroup);
+        continue;
+      }
       if (approved?.source?.approvalGroup === satelliteApproval) {
         const identity = satelliteOverrideIdentities.get(originalId);
         assert.ok(identity, 'Only the twelve literal user-selected product identities are exempt');

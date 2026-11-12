@@ -5,6 +5,46 @@ const originalId = (product) => String(product.id || '').replace(/::empty::.*/, 
 const sameTeam = (a, b) => originalId(a) === originalId(b)
   && ['name', 'unit', 'type'].every((key) => a[key] === b[key]);
 
+function standingSmileNavigator(product, metric, assessments, prior, workbook, period) {
+  if (originalId(product) !== '11a243e6-5b73-56ad-8ac7-203e0d744062¦Оплата улыбкой'
+    || product.name !== 'Оплата улыбкой' || product.unit !== 'DB' || product.type !== 'Продукт'
+    || period !== 'III кв. 2026' || product.period !== period || !prior
+    || metric.code !== 'general.navigator_reporting_knowledge'
+    || metric.source?.origin !== 'userConfirmedKeyMetricsAccuracyCap') return null;
+  const russiaCode = 'general.obъem_celevogo_rynka_v_rossii';
+  const fact = assessments.filter(item => item?.scope === 'q3-score-correction' && item.period === period)
+    .flatMap(item => item.products || []).find(team => sameTeam(team, product))?.metrics?.[russiaCode];
+  const confirmed = proof => proof?.origin === 'userConfirmedQ3ScoreCorrection' && proof.confirmedBy === 'user'
+    && proof.date === '2026-11-11' && proof.period === period && proof.approvalGroup === 'smile-russia-market-2026-11-11';
+  if (fact?.rawValue !== 1 || !confirmed(fact.source) || !confirmed(fact.source.correction)
+    || fact.source.correction.rawValue !== 1) return null;
+  const workbookTeam = [...(workbook.products || []), ...(workbook.additionalTeamAssessments || [])]
+    .find(team => sameTeam(team, product));
+  if (workbookTeam?.metrics?.[metric.code]?.source?.origin === 'keyMetricsWorkbookAssessment'
+    || (workbook.pending || []).some(item => sameTeam(item, product) && item.metricCode === metric.code)) return null;
+  const oldMetrics = prior.metrics.find(block => block.code === 'general')?.metrics || [];
+  const oldRussia = oldMetrics.find(item => item.code === russiaCode);
+  const oldNavigator = oldMetrics.find(item => item.code === metric.code);
+  const currentRussia = product.metrics.find(block => block.code === 'general')?.metrics.find(item => item.code === russiaCode);
+  const carriedFrom = (proof, old) => proof?.origin === 'keyMetricsPreviousQuarterFallback'
+    && proof.confirmedBy === 'user' && proof.date === '2026-11-02' && proof.period === period
+    && proof.fromPeriod === 'II кв. 2026' && proof.file === workbook.source.file
+    && proof.workbookSha256 === workbook.source.sha256 && proof.sourceValue === old?.value
+    && proof.sourceMaxValue === old?.max_value;
+  const saved = fact.source.preservedNavigatorAssessment;
+  const previousRussia = fact.source.previousAssessment;
+  if (!oldRussia || oldRussia.is_applicabble_flg === false || !(oldRussia.max_value > 0)
+    || oldRussia.value !== 0 || currentRussia?.is_applicabble_flg === false
+    || currentRussia?.max_value !== oldRussia.max_value
+    || previousRussia?.value !== oldRussia.value || previousRussia.maxValue !== oldRussia.max_value
+    || previousRussia.rawValue !== 0 || !carriedFrom(previousRussia.source, oldRussia)
+    || !oldNavigator || oldNavigator.is_applicabble_flg === false
+    || oldNavigator.max_value !== 0.5 || oldNavigator.value !== oldNavigator.max_value
+    || saved?.code !== metric.code || saved.value !== oldNavigator.value || saved.maxValue !== oldNavigator.max_value
+    || saved.rawValue !== 1 || metric.max_value !== saved.maxValue || !carriedFrom(saved.source, oldNavigator)) return null;
+  return saved;
+}
+
 // The latest user rule takes precedence over older assessment and carry rules.
 export function applyKeyMetricsWorkbookPriority(products, period, overlays, baselineProducts) {
   if (period !== 'III кв. 2026') return products;
@@ -47,6 +87,13 @@ export function applyKeyMetricsWorkbookPriority(products, period, overlays, base
               ...item, value, max_value: metric.max_value, gap: Number(metric.max_value) - value,
             }))} : {})};
         }
+        // This Russia-only correction preserves the standing Navigator score;
+        // it does not introduce a new manual Navigator assessment.
+        const standing = standingSmileNavigator(product, metric, assessments, prior, workbook, period);
+        if (standing) return {...metric, value: standing.value, source: {...standing.source},
+          ...(metric.recommendation_items ? {recommendation_items: metric.recommendation_items.map(item => ({
+            ...item, value: standing.value, max_value: metric.max_value, gap: metric.max_value - standing.value,
+          }))} : {})};
         if (metric.source?.origin === 'userConfirmedKeyMetricsAccuracyCap') return metric;
         const old = prior?.metrics.find((item) => item.code === 'general')?.metrics.find((item) => item.code === metric.code);
         const fact = team?.metrics?.[metric.code];

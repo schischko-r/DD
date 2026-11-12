@@ -384,16 +384,28 @@
           }
         },
         "mehaniki.uderzhanie_klientov": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedSalaryMetricCorrection",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-11-02",
+            "date": "2026-11-11",
             "cohort": "B2C",
             "metricCode": "mehaniki.uderzhanie_klientov",
-            "previousAssessment": null,
-            "reason": "Последнее уточнение пользователя: удержание зарплатного B2B = 0, B2C = 0,5; общее среднее = 0,25."
+            "previousAssessment": {
+              "rawValue": 0.5,
+              "source": {
+                "origin": "userConfirmedSalaryMetricCorrection",
+                "confirmedBy": "user",
+                "period": "III кв. 2026",
+                "date": "2026-11-02",
+                "cohort": "B2C",
+                "metricCode": "mehaniki.uderzhanie_klientov",
+                "previousAssessment": null,
+                "reason": "Последнее уточнение пользователя: удержание зарплатного B2B = 0, B2C = 0,5; общее среднее = 0,25."
+              }
+            },
+            "reason": "Прямое указание пользователя: Удержание клиентов зарплатного продукта B2C = 100% за III квартал 2026."
           }
         }
       },

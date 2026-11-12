@@ -45,7 +45,10 @@ test('132 source-backed action assessments fill only nulls and preserve every ol
   assert.equal(changes + preserved, 132);
   assert.ok(preserved >= 1);
   const premier = after.find(product => product.name === 'Пакет услуг СберПремьер');
-  assert.equal(metrics(premier).find(metric => metric.code === 'attract.initiatives_list').value, .5);
+  const premierInitiatives = metrics(premier).find(metric => metric.code === 'attract.initiatives_list');
+  assert.equal(premierInitiatives.value, 1);
+  assert.equal(premierInitiatives.source.approvalGroup, 'premier-attract-initiatives-2026-11-11');
+  assert.equal(premierInitiatives.source.correction.rawValue, 1);
   assert.deepEqual(buildDdiPeriodProducts(source, 'II кв. 2026', overlays, salary, reporting, actions), source);
   assert.equal(JSON.stringify({source, salary, reporting, actions, overlays}), snapshot);
 });

@@ -741,6 +741,63 @@
               "note": "Пользователь одобрил применение последнего сценария: знание продуктов-спутников = 100% у выбранных 12 команд за III квартал 2026. Прямая оценка приоритетнее Excel и переноса Q2; максимум и применимость сохраняются."
             }
           }
+        },
+        "general.obъem_celevogo_rynka_v_rossii": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "smile-russia-market-2026-11-11",
+            "sourceName": "Оплата улыбкой",
+            "sourceMetricName": "Объем целевого рынка в России",
+            "previousAssessment": {
+              "value": 0,
+              "maxValue": 0.2,
+              "rawValue": 0,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0,
+                "sourceMaxValue": 0.2
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "smile-russia-market-2026-11-11",
+              "rawValue": 1,
+              "note": "Последнее прямое указание пользователя: Оплата улыбкой, объём целевого рынка в России за III квартал 2026 = 100%. Оценка приоритетнее предыдущего нуля и переноса из II квартала; остальные показатели, веса и применимость сохраняются."
+            },
+            "preservedNavigatorAssessment": {
+              "code": "general.navigator_reporting_knowledge",
+              "value": 0.5,
+              "maxValue": 0.5,
+              "rawValue": 1,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.5,
+                "sourceMaxValue": 0.5
+              },
+              "reason": "Пользователь отдельно подтвердил: знание отчётности в Навигаторе не менять. Сохраняется действовавшая до правки оценка 100% с исходным источником; изменяется только объём целевого рынка в России."
+            }
+          }
         }
       }
     },
@@ -4211,10 +4268,125 @@
           }
         }
       }
+    },
+    {
+      "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер",
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "attract.initiatives_list": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-11",
+            "period": "III кв. 2026",
+            "approvalGroup": "premier-attract-initiatives-2026-11-11",
+            "sourceName": "Пакет услуг СберПремьер",
+            "sourceMetricName": "Составлен перечень инициатив по привлечению",
+            "previousAssessment": {
+              "value": 0.5,
+              "maxValue": 1,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "userConfirmedAdditionalFunnelAssessment",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "sourceName": "Пакет услуг СберПремьер",
+                "sourceMetricName": "Составлен перечень инициатив по привлечению",
+                "rule": "Последнее прямое указание пользователя: перечень инициатив по привлечению СберПремьер за III квартал = 0,5. Остальные оценки, максимумы, применимость и II квартал сохраняются.",
+                "rawValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-11",
+              "period": "III кв. 2026",
+              "approvalGroup": "premier-attract-initiatives-2026-11-11",
+              "rawValue": 1,
+              "note": "Пользователь одобрил повышение оценки «Составлен перечень инициатив по привлечению» ПУ СберПремьер до 100% за III квартал 2026. Остальные оценки, максимумы, применимость и II квартал сохраняются."
+            }
+          }
+        },
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-12",
+            "period": "III кв. 2026",
+            "approvalGroup": "premier-business-launches-navigator-2026-11-12",
+            "sourceName": "Пакет услуг СберПремьер",
+            "sourceMetricName": "Знание об отчетности в Навигаторе",
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-12",
+              "period": "III кв. 2026",
+              "approvalGroup": "premier-business-launches-navigator-2026-11-12",
+              "rawValue": 1,
+              "note": "Пользователь одобрил повышение оценок «Наличие успешных бизнес-запусков» и «Знание об отчетности в Навигаторе» ПУ СберПремьер до 100% за III квартал 2026."
+            }
+          }
+        },
+        "attract.nalichie_uspeshnyh_biznes_zapuskov": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedQ3ScoreCorrection",
+            "confirmedBy": "user",
+            "date": "2026-11-12",
+            "period": "III кв. 2026",
+            "approvalGroup": "premier-business-launches-navigator-2026-11-12",
+            "sourceName": "Пакет услуг СберПремьер",
+            "sourceMetricName": "Наличие успешных бизнес-запусков",
+            "previousAssessment": {
+              "value": 0,
+              "maxValue": 0.5,
+              "rawValue": 0.0,
+              "source": {
+                "file": "Книга3(2).xlsx",
+                "sheet": "Лист1",
+                "cell": "D40",
+                "columnLabel": "Сумма по полю successful_business_q2",
+                "rawValue": 0
+              }
+            },
+            "correction": {
+              "origin": "userConfirmedQ3ScoreCorrection",
+              "confirmedBy": "user",
+              "date": "2026-11-12",
+              "period": "III кв. 2026",
+              "approvalGroup": "premier-business-launches-navigator-2026-11-12",
+              "rawValue": 1,
+              "note": "Пользователь одобрил повышение оценок «Наличие успешных бизнес-запусков» и «Знание об отчетности в Навигаторе» ПУ СберПремьер до 100% за III квартал 2026."
+            }
+          }
+        }
+      }
     }
   ],
   "counts": {
-    "teams": 47,
-    "facts": 129
+    "teams": 48,
+    "facts": 133
   }
 }
