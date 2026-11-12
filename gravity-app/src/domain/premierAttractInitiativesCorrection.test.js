@@ -1,3 +1,4 @@
+import {beforeSberIdNavigatorConfirmation} from './test-fixtures/sberIdNavigatorStage.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -14,7 +15,7 @@ const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m => [m[1], m[2]]));
 // Reproduce the 11 November approval before the two later Premier facts.
 const laterCodes = new Set(['attract.nalichie_uspeshnyh_biznes_zapuskov', 'general.navigator_reporting_knowledge']);
-const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => read(`../data/${imports.get(key.trim())}`))
+const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => read(`../data/${imports.get(key.trim())}`)).map(beforeSberIdNavigatorConfirmation)
   .map(batch => batch.scope !== 'q3-score-correction' || batch.period !== period ? batch : {...batch,
     products: batch.products.map(team => team.id !== id || team.unit !== 'CX' || team.type !== 'Продукт' ? team : {...team,
       metrics: Object.fromEntries(Object.entries(team.metrics).filter(([metricCode, fact]) =>

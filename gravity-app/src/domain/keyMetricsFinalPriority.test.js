@@ -89,6 +89,19 @@ test('final Q3 pipeline uses workbook scores including zeros, carries missing Q2
       const approved = overlays.find(batch => batch.scope === 'q3-score-correction')?.products
         .find(team => team.id === originalId && ['name', 'unit', 'type'].every(key => team[key] === product[key]))
         ?.metrics[metric.code];
+      if (approved?.source?.approvalGroup === 'sberid-navigator-2026-11-12') {
+        assert.equal(originalId, 'f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID');
+        assert.equal(product.name, 'SberID'); assert.equal(product.unit, 'Data'); assert.equal(product.type, 'Продукт');
+        assert.equal(metric.code, 'general.navigator_reporting_knowledge'); assert.equal(approved.rawValue, 1);
+        assert.equal(approved.source.origin, 'userConfirmedDirectNavigatorAssessment');
+        assert.equal(approved.source.confirmedBy, 'user'); assert.equal(approved.source.period, period);
+        assert.equal(approved.source.date, '2026-11-12'); assert.equal(approved.source.priorityOverWorkbook, true);
+        assert.equal(approved.source.teamId, originalId); assert.equal(approved.source.teamName, product.name);
+        assert.equal(approved.source.unit, product.unit); assert.equal(approved.source.type, product.type);
+        assert.equal(approved.source.metricCode, metric.code); assert.equal(approved.source.rawValue, 1);
+        assert.equal(metric.value, metric.max_value); assert.equal(metric.source.approvalGroup, approved.source.approvalGroup);
+        continue;
+      }
       if (approved?.source?.approvalGroup === 'premier-business-launches-navigator-2026-11-12') {
         assert.equal(originalId, 'cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер');
         assert.equal(product.name, 'Пакет услуг СберПремьер'); assert.equal(product.unit, 'CX'); assert.equal(product.type, 'Продукт');

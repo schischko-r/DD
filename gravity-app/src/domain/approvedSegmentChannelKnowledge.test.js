@@ -1,3 +1,4 @@
+import {beforeSberIdNavigatorConfirmation} from './test-fixtures/sberIdNavigatorStage.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
@@ -10,7 +11,7 @@ const read = path => JSON.parse(readFileSync(new URL(path, import.meta.url), 'ut
 const report = read('../../public/report-data.json');
 const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m => [m[1], m[2]]));
-const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => read(`../data/${imports.get(key.trim())}`));
+const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key => read(`../data/${imports.get(key.trim())}`)).map(beforeSberIdNavigatorConfirmation);
 // Keep this historical 34-pair approval's before/after comparison independent
 // of the later, separately tested satellite/Navigator approval.
 for (const batch of overlays) for (const team of batch.products || []) {

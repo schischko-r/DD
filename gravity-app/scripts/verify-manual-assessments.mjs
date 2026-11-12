@@ -391,6 +391,30 @@ if (!/buildDdiPeriodProducts\(data\?\.products/.test(app)) throw new Error('Quar
 if (!/salaryProductsQ32026, reportingMissingQ32026, funnelActionMissingQ32026,\s*backlog\.status === 'ready' \? backlog\.data : null\)/.test(app)) throw new Error('Reporting or Discovery decomposition assessments are disconnected from App.jsx');
 const beforeReportingFill = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing);
 const finalProducts = buildAutomaticPeriodProducts(source.products, 'III кв. 2026', overlays.map((item) => item.data), salary, reportingMissing, actionMissing);
+const sberIdNavigatorGroup = 'sberid-navigator-2026-11-12';
+const sberIdNavigatorCode = 'general.navigator_reporting_knowledge';
+const matchesSberId = (team) => String(team.id).replace(/::empty::.*/, '') === 'f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID'
+  && team.name === 'SberID' && team.unit === 'Data' && team.type === 'Продукт';
+const sberIdNavigatorApprovals = overlays.flatMap(({data}) => (data.products || []).flatMap(team =>
+  Object.entries(team.metrics || {}).filter(([, fact]) => fact.source?.approvalGroup === sberIdNavigatorGroup)
+    .map(([code, fact]) => ({data, team, code, fact}))));
+const sberIdNavigatorApproval = sberIdNavigatorApprovals[0];
+const sberIdProduct = approvedKnowledgeProducts.find(matchesSberId);
+const sberIdNavigator = sberIdProduct?.metrics.find(block => block.code === 'general')?.metrics.find(metric => metric.code === sberIdNavigatorCode);
+if (sberIdNavigatorApprovals.length !== 1 || !matchesSberId(sberIdNavigatorApproval.team)
+  || sberIdNavigatorApproval.data.scope !== 'q3-score-correction' || sberIdNavigatorApproval.data.period !== 'III кв. 2026'
+  || sberIdNavigatorApproval.code !== sberIdNavigatorCode || sberIdNavigatorApproval.fact.rawValue !== 1
+  || sberIdNavigatorApproval.fact.source.date !== '2026-11-12'
+  || sberIdNavigatorApproval.fact.source.previousAssessment?.value !== 0.25
+  || sberIdNavigatorApproval.fact.source.previousAssessment.maxValue !== 0.5
+  || sberIdNavigatorApproval.fact.source.previousAssessment.priorFact?.rawValue !== 0.5
+  || !isDirectNavigatorOverride(sberIdProduct, sberIdNavigator)
+  || sberIdNavigator.value !== 0.5 || sberIdNavigator.max_value !== 0.5
+  || sberIdNavigator.source.approvalGroup !== sberIdNavigatorGroup || sberIdNavigator.source.priorityOverWorkbook !== true
+  || sberIdNavigator.excluded_from_index !== false || sberIdNavigator.dd_calculation_flg !== 1
+  || !sberIdNavigator.recommendation_items?.every(item => item.value === 0.5 && item.max_value === 0.5 && item.gap === 0)) {
+  throw new Error('SberID Q3 Navigator knowledge must retain the explicitly approved 100% score and original rubric.');
+}
 const premierInitiativesGroup = 'premier-attract-initiatives-2026-11-11';
 const premierInitiativesCode = 'attract.initiatives_list';
 const matchesPremier = (team) => String(team.id).replace(/::empty::.*/, '') === 'cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер'

@@ -14,22 +14,45 @@
       "type": "Продукт",
       "metrics": {
         "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
-            "origin": "userConfirmedDigitalCompletion20261031",
+            "origin": "userConfirmedQ3ScoreCorrection",
             "confirmedBy": "user",
-            "date": "2026-10-31",
+            "date": "2026-11-12",
             "period": "III кв. 2026",
+            "approvalGroup": "sberid-deviation-actions-2026-11-12",
+            "sourceName": "SberID",
             "sourceMetricName": "Мероприятия по работе с отклонениями",
+            "metricCode": "voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami",
             "rawValue": 1,
-            "rule": "Прямое указание пользователя: мероприятия по работе с отклонениями = 1.",
-            "correctedFromRawValue": 1,
+            "previousAssessment": {
+              "rawValue": 0.5,
+              "source": {
+                "origin": "userConfirmedDigitalCompletion20261031",
+                "confirmedBy": "user",
+                "date": "2026-10-31",
+                "period": "III кв. 2026",
+                "sourceMetricName": "Мероприятия по работе с отклонениями",
+                "rawValue": 1,
+                "rule": "Прямое указание пользователя: мероприятия по работе с отклонениями = 1.",
+                "correctedFromRawValue": 1,
+                "correction": {
+                  "origin": "userConfirmedQ3ScoreCorrection",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "note": "Прямая корректировка пользователя: оценка метрики за III квартал 2026 равна 50%."
+                }
+              }
+            },
             "correction": {
               "origin": "userConfirmedQ3ScoreCorrection",
               "confirmedBy": "user",
-              "date": "2026-11-02",
+              "date": "2026-11-12",
               "period": "III кв. 2026",
-              "note": "Прямая корректировка пользователя: оценка метрики за III квартал 2026 равна 50%."
+              "approvalGroup": "sberid-deviation-actions-2026-11-12",
+              "rawValue": 1,
+              "note": "Пользователь одобрил оценку «Мероприятия по работе с отклонениями» SberID = 100% за III квартал 2026."
             }
           }
         }

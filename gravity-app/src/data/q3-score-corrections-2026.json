@@ -85,11 +85,11 @@
       "type": "Продукт",
       "metrics": {
         "general.navigator_reporting_knowledge": {
-          "rawValue": 0.5,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedDirectNavigatorAssessment",
             "confirmedBy": "user",
-            "date": "2026-11-02",
+            "date": "2026-11-12",
             "period": "III кв. 2026",
             "teamId": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
             "teamName": "SberID",
@@ -97,8 +97,44 @@
             "type": "Продукт",
             "sourceName": "SberID",
             "metricCode": "general.navigator_reporting_knowledge",
-            "rawValue": 0.5,
-            "rule": "Прямая оценка пользователя: знание об отчётности в Навигаторе = 50%."
+            "rawValue": 1,
+            "rule": "Последнее прямое указание пользователя: знание отчётности в Навигаторе SberID за III квартал 2026 = 100%. Остальные оценки, максимумы, применимость и II квартал сохраняются.",
+            "approvalGroup": "sberid-navigator-2026-11-12",
+            "priorityOverWorkbook": true,
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              },
+              "priorFact": {
+                "rawValue": 0.5,
+                "source": {
+                  "origin": "userConfirmedDirectNavigatorAssessment",
+                  "confirmedBy": "user",
+                  "date": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "teamId": "f0050a4f-3ce4-5c90-b5f5-627256453071¦SberID",
+                  "teamName": "SberID",
+                  "unit": "Data",
+                  "type": "Продукт",
+                  "sourceName": "SberID",
+                  "metricCode": "general.navigator_reporting_knowledge",
+                  "rawValue": 0.5,
+                  "rule": "Прямая оценка пользователя: знание об отчётности в Навигаторе = 50%."
+                }
+              }
+            }
           }
         }
       }
