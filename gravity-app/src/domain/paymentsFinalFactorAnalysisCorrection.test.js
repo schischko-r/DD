@@ -27,13 +27,15 @@ const originalId = product => String(product.id).replace(/::empty::.*/, '');
 
 test('Payments final FA approval changes exactly one indexed metric and its final score while preserving LYu/LT, PO details and Q2', () => {
   const snapshot = structuredClone({raw, overlays, args, backlog});
-  assert.equal(row.final[baseCode], 0.5);
+  assert.equal(row.final[baseCode], 0);
   assert.equal(correction.origin, 'userConfirmedGoalScoreCorrection'); assert.equal(correction.confirmedBy, 'user');
   assert.equal(correction.period, period); assert.equal(correction.date, '2026-11-12');
-  assert.equal(correction.group, 'payments-final-fa-2026-11-12');
-  assert.equal(correction.value, 0.5); assert.equal(correction.previousValue, 0);
-  assert.equal(correction.previousCorrection.group, 'finalGoalsTable20261103');
-  assert.equal(correction.previousCorrection.value, 0);
+  assert.equal(correction.group, 'payments-final-fa-zero-2026-11-12');
+  assert.equal(correction.value, 0); assert.equal(correction.previousValue, 0.5);
+  assert.equal(correction.previousCorrection.group, 'payments-final-fa-2026-11-12');
+  assert.equal(correction.previousCorrection.value, 0.5);
+  assert.equal(correction.previousCorrection.previousCorrection.group, 'finalGoalsTable20261103');
+  assert.equal(correction.previousCorrection.previousCorrection.value, 0);
   const before = build(beforeOverlays), after = build(overlays);
   assert.equal(before.length, 76); assert.equal(after.length, 76);
   let changed = 0;
@@ -48,20 +50,20 @@ test('Payments final FA approval changes exactly one indexed metric and its fina
       const {metrics, goalsFinalScores, ...blockMetadata} = blocks[b];
       const {metrics: oldMetrics, goalsFinalScores: oldFinal, ...oldBlockMetadata} = oldBlocks[b];
       assert.deepEqual(blockMetadata, oldBlockMetadata, 'PO detail rows and other block metadata remain intact');
-      assert.deepEqual(goalsFinalScores, {...oldFinal, [baseCode]: 0.5});
+      assert.deepEqual(goalsFinalScores, {...oldFinal, [baseCode]: 0});
       for (let j = 0; j < metrics.length; j++) {
         const metric = metrics[j], prior = oldMetrics[j];
         if (metric.code !== code) {assert.deepEqual(metric, prior, `Unrelated metric: ${metric.code}`); continue;}
         changed++;
-        assert.equal(prior.value, 0); assert.equal(prior.max_value, 1);
-        assert.equal(metric.value, 0.5); assert.equal(metric.max_value, 1);
-        assert.equal(metric.source.level, 'final'); assert.equal(metric.source.selectedValue, 0.5);
+        assert.equal(prior.value, 0.5); assert.equal(prior.max_value, 1);
+        assert.equal(metric.value, 0); assert.equal(metric.max_value, 1);
+        assert.equal(metric.source.level, 'final'); assert.equal(metric.source.selectedValue, 0);
         assert.equal(isDdIndexMetric(metric), true);
         const {value, source, recommendation_items: items, ...rubric} = metric;
         const {value: oldValue, source: oldSource, recommendation_items: oldItems, ...oldRubric} = prior;
         assert.deepEqual(rubric, oldRubric);
-        assert.deepEqual(source, {...oldSource, selectedValue: 0.5});
-        assert.deepEqual(items, oldItems?.map(item => ({...item, value: 0.5, gap: 0.5})));
+        assert.deepEqual(source, {...oldSource, selectedValue: 0});
+        assert.deepEqual(items, oldItems?.map(item => ({...item, value: 0, gap: 1})));
       }
       const lulT = metrics.find(metric => metric.code === baseCode);
       const po = blocks[b].goalsPoLevelMetrics.find(metric => metric.code === code);
@@ -69,7 +71,7 @@ test('Payments final FA approval changes exactly one indexed metric and its fina
       assert.equal(po.value, 0); assert.equal(isDdIndexMetric(po), false);
     }
     const oldScore = completeProductPercent(previous), newScore = completeProductPercent(current);
-    assert.equal(oldScore, 66); assert.equal(newScore, 68);
+    assert.equal(oldScore, 68); assert.equal(newScore, 66);
     assert.equal(maturityLevelName(newScore), maturityLevelName(oldScore));
   }
   assert.equal(changed, 1);

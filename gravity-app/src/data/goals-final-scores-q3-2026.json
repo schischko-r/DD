@@ -1397,7 +1397,7 @@
       "unit": "DB",
       "final": {
         "goals.monitored": 1,
-        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.factor_analysis_l1_l2": 0,
         "goals.forecast": 1
       },
       "lulT": {
@@ -1416,18 +1416,28 @@
           "confirmedBy": "user",
           "period": "III кв. 2026",
           "date": "2026-11-12",
-          "group": "payments-final-fa-2026-11-12",
-          "evidence": "Прямое указание пользователя: Платежи, III квартал, факторный анализ итого (верхнеуровневый) = 50%.",
-          "previousValue": 0,
-          "value": 0.5,
+          "group": "payments-final-fa-zero-2026-11-12",
+          "evidence": "Последнее прямое указание пользователя: Платежи, III квартал, факторный анализ итого (верхнеуровневый) = 0%.",
+          "previousValue": 0.5,
+          "value": 0,
           "previousCorrection": {
+            "origin": "userConfirmedGoalScoreCorrection",
             "confirmedBy": "user",
             "period": "III кв. 2026",
-            "date": "2026-11-03",
-            "group": "finalGoalsTable20261103",
-            "evidence": "Цифровые следы",
-            "previousValue": 1,
-            "value": 0
+            "date": "2026-11-12",
+            "group": "payments-final-fa-2026-11-12",
+            "evidence": "Прямое указание пользователя: Платежи, III квартал, факторный анализ итого (верхнеуровневый) = 50%.",
+            "previousValue": 0,
+            "value": 0.5,
+            "previousCorrection": {
+              "confirmedBy": "user",
+              "period": "III кв. 2026",
+              "date": "2026-11-03",
+              "group": "finalGoalsTable20261103",
+              "evidence": "Цифровые следы",
+              "previousValue": 1,
+              "value": 0
+            }
           }
         }
       }

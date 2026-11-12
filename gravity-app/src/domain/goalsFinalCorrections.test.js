@@ -10,7 +10,13 @@ const overlays=app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(n
 // Reproduce the November 3 stage before the later Payments final FA approval.
 for(const batch of overlays)if(batch.scope==='goals-final-scores'&&batch.period==='III кв. 2026'){
  const team=batch.products.find(p=>p.name==='Платежи'&&p.unit==='DB');
- const code='goals.factor_analysis_l1_l2',correction=team?.finalCorrections?.[code];
+ const code='goals.factor_analysis_l1_l2';
+ if(team?.finalCorrections?.[code]?.group==='payments-final-fa-zero-2026-11-12'){
+  const latest=team.finalCorrections[code];
+  team.final[code]=latest.previousValue;
+  team.finalCorrections[code]=structuredClone(latest.previousCorrection);
+ }
+ const correction=team?.finalCorrections?.[code];
  if(correction?.group==='payments-final-fa-2026-11-12'&&correction.previousCorrection){
   team.final[code]=correction.previousValue;
   team.finalCorrections[code]=structuredClone(correction.previousCorrection);
