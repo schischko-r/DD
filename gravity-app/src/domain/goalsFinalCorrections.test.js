@@ -7,6 +7,26 @@ const read=p=>JSON.parse(readFileSync(new URL(p,import.meta.url)));
 const app=readFileSync(new URL('../app/App.jsx',import.meta.url),'utf8');
 const imports=new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m=>[m[1],m[2]]));
 const overlays=app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(n=>read(`../data/${imports.get(n.trim())}`));
+// Reproduce the November 3 stage before the later Payments final FA approval.
+for(const batch of overlays)if(batch.scope==='goals-final-scores'&&batch.period==='III кв. 2026'){
+ const team=batch.products.find(p=>p.name==='Платежи'&&p.unit==='DB');
+ const code='goals.factor_analysis_l1_l2',correction=team?.finalCorrections?.[code];
+ if(correction?.group==='payments-final-fa-2026-11-12'&&correction.previousCorrection){
+  team.final[code]=correction.previousValue;
+  team.finalCorrections[code]=structuredClone(correction.previousCorrection);
+ }
+}
+// Keep the same November 3 stage before the later Internet-Acquiring approval.
+for(const batch of overlays)if(batch.scope==='goals-final-scores'&&batch.period==='III кв. 2026'){
+ const team=batch.products.find(p=>p.name==='Интернет-Эквайринг'&&p.unit==='DB');
+ for(const code of ['goals.factor_analysis_l1_l2','goals.monitored']){
+  const correction=team?.finalCorrections?.[code];
+  if(correction?.group!=='internet-acquiring-final-fa-monitoring-2026-11-12')continue;
+  team.final[code]=correction.previousValue;
+  if(correction.previousCorrection)team.finalCorrections[code]=structuredClone(correction.previousCorrection);
+  else delete team.finalCorrections[code];
+ }
+}
 const raw=read('../../public/report-data.json').products;
 const args=['salary-products','reporting-regularity-missing','funnel-action-missing'].map(n=>read(`../data/${n}-q3-2026.json`));
 const fa='goals.po_factor_analysis',fc='goals.po_forecast';
