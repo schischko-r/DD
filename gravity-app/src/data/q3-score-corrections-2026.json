@@ -4419,10 +4419,54 @@
           }
         }
       }
+    },
+    {
+      "id": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "type": "Продукт",
+      "metrics": {
+        "general.navigator_reporting_knowledge": {
+          "rawValue": 1,
+          "source": {
+            "origin": "userConfirmedDirectNavigatorAssessment",
+            "confirmedBy": "user",
+            "date": "2026-11-16",
+            "period": "III кв. 2026",
+            "teamId": "aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо",
+            "teamName": "СберСпасибо",
+            "unit": "CX",
+            "type": "Продукт",
+            "sourceName": "СберСпасибо",
+            "metricCode": "general.navigator_reporting_knowledge",
+            "rawValue": 1,
+            "rule": "Последнее прямое указание пользователя: знание отчётности в Навигаторе СберСпасибо за III квартал 2026 = 100%. Корректировка применяется только к СберСпасибо; остальные 15 команд отложены отдельным решением пользователя. Остальные оценки, максимумы, применимость и II квартал сохраняются.",
+            "approvalGroup": "sberspasibo-navigator-2026-11-16",
+            "priorityOverWorkbook": true,
+            "previousAssessment": {
+              "value": 0.25,
+              "maxValue": 0.5,
+              "rawValue": 0.5,
+              "source": {
+                "origin": "keyMetricsPreviousQuarterFallback",
+                "confirmedBy": "user",
+                "date": "2026-11-02",
+                "period": "III кв. 2026",
+                "file": "Ключевые метрики Продукта Баллы.xlsx",
+                "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+                "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+                "fromPeriod": "II кв. 2026",
+                "sourceValue": 0.25,
+                "sourceMaxValue": 0.5
+              }
+            }
+          }
+        }
+      }
     }
   ],
   "counts": {
-    "teams": 48,
-    "facts": 133
+    "teams": 49,
+    "facts": 134
   }
 }

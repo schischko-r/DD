@@ -1,5 +1,23 @@
-// Reproduce earlier approval stages before the separate 12 November SberID
-// confirmation. Current-runtime integration tests keep the confirmed assessment.
+// Reproduce earlier approval stages before later, separately tested confirmations.
+// Current-runtime integration tests keep every confirmed assessment.
+export function beforeSberSpasiboNavigatorConfirmation(assessment) {
+  if (assessment.scope !== 'q3-score-correction' || assessment.period !== 'III кв. 2026') return assessment;
+  const code = 'general.navigator_reporting_knowledge';
+  let changed = false;
+  const products = assessment.products.flatMap(team => {
+    const fact = team.metrics?.[code];
+    if (team.id !== 'aee72194-01f2-5673-9c7b-ed2beff1432a¦СберСпасибо' || team.name !== 'СберСпасибо'
+      || team.unit !== 'CX' || team.type !== 'Продукт'
+      || fact?.source?.approvalGroup !== 'sberspasibo-navigator-2026-11-16') return [team];
+    changed = true;
+    const metrics = {...team.metrics};
+    delete metrics[code];
+    return Object.keys(metrics).length ? [{...team, metrics}] : [];
+  });
+  return !changed ? assessment : {...assessment, products, counts: {...assessment.counts,
+    teams: products.length, facts: products.reduce((sum, team) => sum + Object.keys(team.metrics).length, 0)}};
+}
+
 export function beforeSberIdDeviationActionsConfirmation(assessment) {
   if (assessment.scope !== 'funnel-user-assessment' || assessment.period !== 'III кв. 2026') return assessment;
   const code = 'voronka_ispolьzovaniya.meropriyatiya_po_rabote_s_otkloneniyami';
@@ -15,6 +33,7 @@ export function beforeSberIdDeviationActionsConfirmation(assessment) {
 }
 
 export function beforeSberIdNavigatorConfirmation(assessment) {
+  assessment = beforeSberSpasiboNavigatorConfirmation(assessment);
   assessment = beforeSberIdDeviationActionsConfirmation(assessment);
   if (assessment.scope !== 'q3-score-correction' || assessment.period !== 'III кв. 2026') return assessment;
   const code = 'general.navigator_reporting_knowledge';
