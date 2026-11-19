@@ -1,0 +1,61 @@
+{
+  "generatedAt": "2026-11-09T09:19:22.636Z",
+  "commit": "05ac5c8e0b44a0754f6063df928a7739c4cf5440",
+  "sourcePresentation": "/Users/roman/Documents/Codex/DD-dev/outputs/ddi-meetup-q3-2026/final/DDI_митап_сравнение_II_III_кварталы_2026_v9.pptx",
+  "sourceHash": "c4b2bff39b237e977a95d26bfa315575836a25b750113eaf3b2c581e5a50f2d6",
+  "q2Teams": 83,
+  "q3Teams": 76,
+  "radar": [
+    {
+      "code": "general",
+      "b2c": 76,
+      "unit": 76,
+      "previous": 72
+    },
+    {
+      "code": "goals",
+      "b2c": 75,
+      "unit": 75,
+      "previous": 44
+    },
+    {
+      "code": "attract",
+      "b2c": 60,
+      "unit": 60,
+      "previous": 59
+    },
+    {
+      "code": "churn",
+      "b2c": 55,
+      "unit": 55,
+      "previous": 51
+    },
+    {
+      "code": "alerts",
+      "b2c": 69,
+      "unit": 69,
+      "previous": 54
+    },
+    {
+      "code": "mehaniki",
+      "b2c": 64,
+      "unit": 64,
+      "previous": 49
+    },
+    {
+      "code": "hyp",
+      "b2c": 45,
+      "unit": 45,
+      "previous": 35
+    },
+    {
+      "code": "cx",
+      "b2c": 73,
+      "unit": 73,
+      "previous": 69
+    }
+  ],
+  "output": "/Users/roman/Documents/Codex/DD-dev/outputs/ddi-meetup-q3-2026/final/Паутина_DDI_II_III_2026_09-11.jpeg",
+  "width": 1800,
+  "height": 1290
+}

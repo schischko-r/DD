@@ -1,0 +1,193 @@
+{
+  "teams": 76,
+  "counts": {
+    "Не применимо": 23,
+    "50%": 21,
+    "100%": 21,
+    "Нет метрики": 11
+  },
+  "changedDdi": 20,
+  "changedCx": 20,
+  "changes": [
+    {
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "before": 69,
+      "after": 71,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "before": 67,
+      "after": 69,
+      "cxBefore": "0%",
+      "cxAfter": "50%",
+      "delta": 2
+    },
+    {
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "before": 83,
+      "after": 81,
+      "cxBefore": "100%",
+      "cxAfter": "50%",
+      "delta": -2
+    },
+    {
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "before": 72,
+      "after": 74,
+      "cxBefore": "0%",
+      "cxAfter": "50%",
+      "delta": 2
+    },
+    {
+      "name": "ПДС",
+      "unit": "УБ",
+      "before": 72,
+      "after": 74,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "before": 56,
+      "after": 58,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "Платежи",
+      "unit": "DB",
+      "before": 59,
+      "after": 61,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "before": 66,
+      "after": 64,
+      "cxBefore": "100%",
+      "cxAfter": "50%",
+      "delta": -2
+    },
+    {
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "before": 86,
+      "after": 84,
+      "cxBefore": "100%",
+      "cxAfter": "50%",
+      "delta": -2
+    },
+    {
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "before": 73,
+      "after": 71,
+      "cxBefore": "100%",
+      "cxAfter": "50%",
+      "delta": -2
+    },
+    {
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "before": 75,
+      "after": 77,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "Страхование путешественников",
+      "unit": "УБ",
+      "before": 79,
+      "after": 81,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "before": 75,
+      "after": 77,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "before": 71,
+      "after": 73,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "before": 78,
+      "after": 80,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "СберПрайм",
+      "unit": "CX",
+      "before": 64,
+      "after": 66,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "before": 70,
+      "after": 71,
+      "cxBefore": "Не применимо",
+      "cxAfter": "100%",
+      "delta": 1
+    },
+    {
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "before": 67,
+      "after": 69,
+      "cxBefore": "0%",
+      "cxAfter": "50%",
+      "delta": 2
+    },
+    {
+      "name": "BNPL",
+      "unit": "CBP",
+      "before": 48,
+      "after": 50,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    },
+    {
+      "name": "СберKids",
+      "unit": "DP",
+      "before": 63,
+      "after": 65,
+      "cxBefore": "50%",
+      "cxAfter": "100%",
+      "delta": 2
+    }
+  ]
+}

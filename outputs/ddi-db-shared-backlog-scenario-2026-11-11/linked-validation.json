@@ -1,0 +1,77 @@
+{
+  "teams": [
+    {
+      "name": "Детская карта",
+      "before": 54,
+      "after": 57,
+      "discoveryBefore": 0.25,
+      "discoveryAfter": 1,
+      "backlogKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+      "backlogOption": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi::member::%D0%94%D0%B5%D1%82%D1%81%D0%BA%D0%B0%D1%8F%20%D0%BA%D0%B0%D1%80%D1%82%D0%B0"
+    },
+    {
+      "name": "Зарплатный продукт",
+      "before": 55,
+      "after": 57,
+      "discoveryBefore": 0,
+      "discoveryAfter": 0.5,
+      "backlogKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+      "backlogOption": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi::member::%D0%97%D0%B0%D1%80%D0%BF%D0%BB%D0%B0%D1%82%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B4%D1%83%D0%BA%D1%82"
+    },
+    {
+      "name": "Интернет-Эквайринг",
+      "before": 47,
+      "after": 52,
+      "discoveryBefore": 0,
+      "discoveryAfter": 1,
+      "backlogKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+      "backlogOption": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi::member::%D0%98%D0%BD%D1%82%D0%B5%D1%80%D0%BD%D0%B5%D1%82-%D0%AD%D0%BA%D0%B2%D0%B0%D0%B9%D1%80%D0%B8%D0%BD%D0%B3"
+    },
+    {
+      "name": "Платежи",
+      "before": 62,
+      "after": 66,
+      "discoveryBefore": 0,
+      "discoveryAfter": 1,
+      "backlogKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+      "backlogOption": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi::member::%D0%9F%D0%BB%D0%B0%D1%82%D0%B5%D0%B6%D0%B8"
+    },
+    {
+      "name": "SberPay Ecom",
+      "before": 40,
+      "after": 45,
+      "discoveryBefore": 0,
+      "discoveryAfter": 1,
+      "backlogKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+      "backlogOption": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi::member::SberPay%20Ecom"
+    },
+    {
+      "name": "SberPay NFC",
+      "before": 76,
+      "after": 79,
+      "discoveryBefore": 0.25,
+      "discoveryAfter": 1,
+      "backlogKey": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi",
+      "backlogOption": "perevody-po-rf-perevody-podarkov-sberpay-vzhuh-oplata-ulybkoi::member::SberPay%20NFC"
+    }
+  ],
+  "b2cBefore": {
+    "count": 76,
+    "mean": 63.93421052631579,
+    "display": 64
+  },
+  "b2cAfter": {
+    "count": 76,
+    "mean": 64.22368421052632,
+    "display": 64
+  },
+  "onlySixDiscoveryScoresChanged": true,
+  "salaryB2bUnchanged": true,
+  "q2Unchanged": true,
+  "quarter": {
+    "createdCount": 108,
+    "discoveryCount": 49,
+    "dataThrough": "2026-09-25",
+    "isComplete": false
+  }
+}

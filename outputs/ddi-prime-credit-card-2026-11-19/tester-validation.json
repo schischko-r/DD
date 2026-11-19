@@ -1,0 +1,162 @@
+{
+  "status": "PASS",
+  "workbook": "outputs/ddi-prime-credit-card-2026-11-19/DDI_Прайм_и_Кредитная_карта_II_III_кварталы_2026.xlsx",
+  "workbookSha256": "f238fd03f36304dbc6f07e0ba7e2dbea11a684a992fa17a5c4b8d6f70e7fb6c9",
+  "sheetNames": [
+    "Итоги",
+    "Деталка",
+    "Группы метрик"
+  ],
+  "detailRows": 158,
+  "allSavedRowsExact": true,
+  "formulasAndCachedValuesExact": true,
+  "sourceHashesVerified": 127,
+  "goalCollectionDuplicatesExcluded": 6,
+  "formulaErrors": [],
+  "methodologyCatalogVerifiedEntries": 27,
+  "explicitUnavailableGeneralMethodologyRows": 24,
+  "controls": [
+    {
+      "product": "СберПрайм",
+      "period": "II кв. 2026",
+      "rows": 38,
+      "indexed": 35,
+      "earned": 15.5,
+      "maximum": 25.25,
+      "ratio": 0.6138613861386139,
+      "DDI": 61
+    },
+    {
+      "product": "Кредитная карта",
+      "period": "II кв. 2026",
+      "rows": 38,
+      "indexed": 36,
+      "earned": 15.8,
+      "maximum": 26.25,
+      "ratio": 0.6019047619047619,
+      "DDI": 60
+    },
+    {
+      "product": "СберПрайм",
+      "period": "III кв. 2026",
+      "rows": 41,
+      "indexed": 36,
+      "earned": 17.8,
+      "maximum": 26.25,
+      "ratio": 0.6780952380952381,
+      "DDI": 68
+    },
+    {
+      "product": "Кредитная карта",
+      "period": "III кв. 2026",
+      "rows": 41,
+      "indexed": 36,
+      "earned": 14.55,
+      "maximum": 26.25,
+      "ratio": 0.5542857142857143,
+      "DDI": 55
+    }
+  ],
+  "limits": [
+    "Read-only openpyxl checks; no native Excel recalculation performed.",
+    "Current product-profile methodology reused for both quarters; historical methodology edition was not reconstructed.",
+    "General methodology unavailable for six criteria, explicitly disclosed and user-accepted."
+  ],
+  "groups": {
+    "status": "PASS",
+    "rows": 32,
+    "allSumsRatiosStatusesMatchIndependentControls": true,
+    "trafficCounts": {
+      "Зелёный": 4,
+      "Жёлтый": 14,
+      "Красный": 14
+    },
+    "editableBounds": {
+      "B5": 61,
+      "C5": 80,
+      "E5": 81,
+      "F5": 100
+    },
+    "integerOverlapRangeGuard": true,
+    "freeze": "C10",
+    "conditionalFormatting": [
+      {
+        "text": "Зелёный",
+        "font": "FF237348",
+        "background": "FFE4F2EA"
+      },
+      {
+        "text": "Жёлтый",
+        "font": "FF876316",
+        "background": "FFFFF1C2"
+      },
+      {
+        "text": "Красный",
+        "font": "FFAF3434",
+        "background": "FFFBE6E6"
+      }
+    ],
+    "internalStyleIdsRenumberedOnly": 490,
+    "unchangedDuringDetailTrafficAddition": true
+  },
+  "detailTraffic": {
+    "status": "PASS",
+    "rows": 158,
+    "trafficCounts": {
+      "Зелёный": 82,
+      "Жёлтый": 0,
+      "Красный": 74,
+      "Не применимо": 2,
+      "Нет данных": 0
+    },
+    "editableBounds": {
+      "G4": 61,
+      "H4": 80,
+      "G5": 81,
+      "H5": 100
+    },
+    "integerRangeOverlapGuard": "I3",
+    "originalA7I164ValuesStylesFormulasAndCachedValuesUnchanged": true,
+    "summaryAndGroupSheetsAllSemanticCellsStylesFormulasDimensionsCFUnchanged": true,
+    "localControlsIndependentOfGroupSheet": true,
+    "freeze": "C7",
+    "tableRange": "A6:J164",
+    "conditionalFormatting": [
+      {
+        "range": "J7:J164",
+        "type": "containsText",
+        "text": "Зелёный",
+        "formula": [],
+        "font": "FF237348",
+        "background": "FFE4F2EA"
+      },
+      {
+        "range": "J7:J164",
+        "type": "containsText",
+        "text": "Жёлтый",
+        "formula": [],
+        "font": "FF876316",
+        "background": "FFFFF1C2"
+      },
+      {
+        "range": "J7:J164",
+        "type": "containsText",
+        "text": "Красный",
+        "formula": [],
+        "font": "FFAF3434",
+        "background": "FFFBE6E6"
+      }
+    ],
+    "formulaErrors": []
+  },
+  "signalOnlyConditionalFormatting": {
+    "status": "PASS",
+    "ranges": {
+      "Деталка": "J7:J164",
+      "Группы метрик": "G10:G41"
+    },
+    "noPercentageColumnRules": true,
+    "allWorkbookCellsValuesFormulasCachedResultsStylesAndDimensionsPreserved": true,
+    "thresholdsUnchanged": true
+  }
+}

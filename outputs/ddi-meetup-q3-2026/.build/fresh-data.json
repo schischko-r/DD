@@ -1,0 +1,158 @@
+{
+  "overall": 63,
+  "q2Overall": 53,
+  "delta": 10,
+  "teams": 76,
+  "scored": 76,
+  "radar": [
+    {
+      "code": "general",
+      "b2c": 76,
+      "unit": 76,
+      "previous": 72
+    },
+    {
+      "code": "goals",
+      "b2c": 75,
+      "unit": 75,
+      "previous": 44
+    },
+    {
+      "code": "attract",
+      "b2c": 60,
+      "unit": 60,
+      "previous": 59
+    },
+    {
+      "code": "churn",
+      "b2c": 55,
+      "unit": 55,
+      "previous": 51
+    },
+    {
+      "code": "alerts",
+      "b2c": 69,
+      "unit": 69,
+      "previous": 54
+    },
+    {
+      "code": "mehaniki",
+      "b2c": 64,
+      "unit": 64,
+      "previous": 49
+    },
+    {
+      "code": "hyp",
+      "b2c": 45,
+      "unit": 45,
+      "previous": 35
+    },
+    {
+      "code": "cx",
+      "b2c": 73,
+      "unit": 73,
+      "previous": 69
+    }
+  ],
+  "units": [
+    {
+      "unit": "PC",
+      "n": 4,
+      "score": 82
+    },
+    {
+      "unit": "ДомКлик",
+      "n": 4,
+      "score": 75
+    },
+    {
+      "unit": "УБ",
+      "n": 20,
+      "score": 68
+    },
+    {
+      "unit": "DP",
+      "n": 4,
+      "score": 67
+    },
+    {
+      "unit": "Data",
+      "n": 4,
+      "score": 64
+    },
+    {
+      "unit": "CX",
+      "n": 11,
+      "score": 63
+    },
+    {
+      "unit": "DB",
+      "n": 16,
+      "score": 57
+    },
+    {
+      "unit": "CBP",
+      "n": 13,
+      "score": 53
+    }
+  ],
+  "maturity": [
+    7,
+    42,
+    23,
+    4
+  ],
+  "weak": {
+    "business": {
+      "n": 34,
+      "total": 75,
+      "pct": 45
+    },
+    "goals": {
+      "n": 50,
+      "total": 67,
+      "pct": 75
+    },
+    "regularity": {
+      "n": 47,
+      "total": 58,
+      "pct": 81
+    },
+    "churn": {
+      "n": 12,
+      "total": 66,
+      "pct": 18
+    },
+    "research": {
+      "n": 28,
+      "total": 76,
+      "pct": 37
+    },
+    "discovery": {
+      "n": 21,
+      "total": 76,
+      "pct": 28
+    },
+    "drafts": {
+      "n": 9,
+      "total": 35,
+      "pct": 26
+    },
+    "success": {
+      "n": 13,
+      "total": 47,
+      "pct": 28
+    },
+    "cross": {
+      "n": 36,
+      "total": 58,
+      "pct": 62
+    },
+    "ab": {
+      "n": 36,
+      "total": 43,
+      "pct": 84
+    }
+  },
+  "bothNonzero": 50
+}

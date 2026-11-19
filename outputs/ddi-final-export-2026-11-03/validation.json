@@ -1,0 +1,37 @@
+{
+  "output": "/Users/roman/Documents/Codex/DD-dev/outputs/ddi-final-export-2026-11-03/DDI_финальные_II_III_кварталы_2026.xlsx",
+  "teams": 83,
+  "q2": 83,
+  "q3": 76,
+  "metricRows": 3508,
+  "formulasChecked": 76,
+  "depositsNavigator": [
+    "CBP",
+    "Вклады+НС",
+    "Знание ключевых метрик",
+    "Знание об отчетности в Навигаторе",
+    0.5,
+    1,
+    0.9803921568627451
+  ],
+  "mailCx": [
+    "Data",
+    "Почта, Диск, Календарь",
+    "Клиентский опыт",
+    "CX Score",
+    "Не применимо",
+    0.5,
+    2.197802197802198
+  ],
+  "posClients": [
+    "CBP",
+    "POS-кредиты",
+    "Знание ключевых метрик",
+    "Клиенты с продуктом",
+    1,
+    1,
+    0
+  ],
+  "commit": "a7cece502eb86fa3ccc27c039d6b8a5d06c53916",
+  "errorScan": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}"
+}

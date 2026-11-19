@@ -1,0 +1,166 @@
+{
+  "СБОЛ": {
+    "rawValue": 1,
+    "inputName": "СБОЛ"
+  },
+  "SberPay NFC": {
+    "rawValue": 1,
+    "inputName": "SberPay NFC"
+  },
+  "Оплата улыбкой": {
+    "rawValue": 1,
+    "inputName": "Оплата улыбкой"
+  },
+  "SberPay Вжух": {
+    "rawValue": 1,
+    "inputName": "Вжух"
+  },
+  "SberPay Ecom": {
+    "rawValue": 1,
+    "inputName": "SberPay QR"
+  },
+  "SberID": {
+    "rawValue": 1,
+    "inputName": "SberID"
+  },
+  "BNPL": {
+    "rawValue": 1,
+    "inputName": "BNPL"
+  },
+  "ЗЛС": {
+    "rawValue": 1,
+    "inputName": "ЗЛС"
+  },
+  "Переводы по РФ": {
+    "rawValue": 1,
+    "inputName": "Переводы по РФ"
+  },
+  "СберKids": {
+    "rawValue": 1,
+    "inputName": "SberKids"
+  },
+  "СберИнвестор": {
+    "rawValue": 1,
+    "inputName": "СберИнвестор"
+  },
+  "Пакет услуг СберПервый": {
+    "rawValue": 1,
+    "inputName": "Пакет услуг СберПервый"
+  },
+  "ОСАГО": {
+    "rawValue": 1,
+    "inputName": "ОСАГО"
+  },
+  "Дебетовая карта": {
+    "rawValue": 1,
+    "inputName": "Дебетовая карта"
+  },
+  "Конверсия": {
+    "rawValue": 1,
+    "inputName": "Конверсия"
+  },
+  "ВЗР": {
+    "rawValue": 1,
+    "inputName": "Страхование путешественников"
+  },
+  "Платежи": {
+    "rawValue": 1,
+    "inputName": "Платежи"
+  },
+  "Страхование залога": {
+    "rawValue": 1,
+    "inputName": "Страхование залога"
+  },
+  "СберПрайм": {
+    "rawValue": 1,
+    "inputName": "СберПрайм"
+  },
+  "Страхование жизни": {
+    "rawValue": 1,
+    "inputName": "Ипотечное страхование жизни"
+  },
+  "ПДС": {
+    "rawValue": 1,
+    "inputName": "ПДС"
+  },
+  "Детская карта": {
+    "rawValue": 0.5,
+    "inputName": "Детская карта"
+  },
+  "Брокерский счет": {
+    "rawValue": 0.5,
+    "inputName": "Брокерский счет"
+  },
+  "Потребительский кредит": {
+    "rawValue": 0.5,
+    "inputName": "Потребитеский кредит"
+  },
+  "Пакет услуг СберПремьер": {
+    "rawValue": 0.5,
+    "inputName": "Пакет услуг СберПремьер"
+  },
+  "Много денег (НКПЗН)": {
+    "rawValue": 0.5,
+    "inputName": "Много денег (НКПЗН)"
+  },
+  "Сделка с Первичным жильём": {
+    "rawValue": 0.5,
+    "inputName": "Сделка с Первичным жильём"
+  },
+  "Сделка ИЖС": {
+    "rawValue": 0.5,
+    "inputName": "Сделка ИЖС"
+  },
+  "Сделка вторичка": {
+    "rawValue": 0.5,
+    "inputName": "Сделка вторичка"
+  },
+  "КАСКО": {
+    "rawValue": 0.5,
+    "inputName": "КАСКО"
+  },
+  "Кредитные карты": {
+    "rawValue": 0.5,
+    "inputName": "Кредитная карта"
+  },
+  "Автокредит": {
+    "rawValue": 0.5,
+    "inputName": "Автокредит"
+  },
+  "Сейфы": {
+    "rawValue": 0.5,
+    "inputName": "Сейфы"
+  },
+  "ОМС": {
+    "rawValue": 0.5,
+    "inputName": "ОМС"
+  },
+  "Кредитный потенциал": {
+    "rawValue": 0.5,
+    "inputName": "Кредитный потенциал"
+  },
+  "Вклады+НС": {
+    "rawValue": 0.5,
+    "inputName": "Вклады+НС"
+  },
+  "POS-кредиты": {
+    "rawValue": 0.5,
+    "inputName": "POS-кредиты"
+  },
+  "СберСпасибо": {
+    "rawValue": 0.5,
+    "inputName": "СберСпасибо"
+  },
+  "НСЖ": {
+    "rawValue": 0.5,
+    "inputName": "НСЖ"
+  },
+  "ОПИФ": {
+    "rawValue": 0.5,
+    "inputName": "ОПИФ"
+  },
+  "ИСЖ": {
+    "rawValue": 0.5,
+    "inputName": "ИСЖ"
+  }
+}

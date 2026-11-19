@@ -1,0 +1,1458 @@
+{
+  "period": "III кв. 2026",
+  "scope": "goals-final-scores",
+  "source": {
+    "origin": "userConfirmedGoalScores",
+    "confirmedBy": "user",
+    "date": "2026-11-02",
+    "selectionRule": "Если «Корректировка» заполнена, используется она; иначе используется «Новый балл — III кв. 2026». Незаполненные значения остаются пустыми.",
+    "correctionCount": 33,
+    "emptyCount": 18
+  },
+  "products": [
+    {
+      "name": "Много денег (НКПЗН)",
+      "unit": "ДомКлик",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Сделка вторичка",
+      "unit": "ДомКлик",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Сделка ИЖС",
+      "unit": "ДомКлик",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Сделка с Первичным жильём",
+      "unit": "ДомКлик",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "БПИФ",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Брокерский счет",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ВЗР",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ДСЖ КК",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ДСЖ ПК",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Залоговое страхование (корпоративное страхование)",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ЗЛС",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ЗПИФ",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ИнвестКопилка",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ИСЖ",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "КАСКО",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Личная защита Плюс",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "НСЖ",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ОПИФ",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ОСАГО",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ПДС",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "СберСова",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Страхование жизни",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Страхование залога",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ЦФА",
+      "unit": "УБ",
+      "final": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 0,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Автокредит",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0.5,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Вклады+НС",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 0.5,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Конверсия",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Кредитный потенциал",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Монеты",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Образовательный кредит",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Объект Авто",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "ОМС",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Потребительский кредит",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Сейфы",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Слитки",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "BNPL",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "POS-кредиты",
+      "unit": "CBP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Дети",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Зрелость",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "МВС",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Молодежь",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Пакет услуг СберПервый",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Пакет услуг СберПремьер",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Рабочий возраст",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "СберПрайм",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0.5,
+        "goals.po_factor_analysis": 0.5,
+        "goals.po_forecast": 0.5
+      }
+    },
+    {
+      "name": "СберСпасибо",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "PB",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Top Affluent",
+      "unit": "CX",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Единый личный кабинет (ЕЛК)",
+      "unit": "Data",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Персональная рекомендация",
+      "unit": "Data",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0.6,
+        "goals.po_forecast": null
+      }
+    },
+    {
+      "name": "Почта, Диск, Календарь",
+      "unit": "Data",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "SberID",
+      "unit": "Data",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Дебетовая карта",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0.5,
+        "goals.po_factor_analysis": 0.5,
+        "goals.po_forecast": 0.5
+      }
+    },
+    {
+      "name": "Детская карта",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Зарплатный продукт",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.25,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 0.5,
+        "goals.po_factor_analysis": 0.5,
+        "goals.po_forecast": 0.5
+      }
+    },
+    {
+      "name": "Интернет-Эквайринг",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 0,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Кредитные карты",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 0,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Оплата улыбкой",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Пенсионный продукт",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Переводы по РФ",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Платежи",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "СберЧаевые",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.25,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0.5,
+        "goals.po_factor_analysis": 0.5,
+        "goals.po_forecast": 0.5
+      }
+    },
+    {
+      "name": "Торговый Эквайринг",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 0
+      }
+    },
+    {
+      "name": "Трансграничные переводы",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Трансграничный эквайринг",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "SberPay Вжух",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "SberPay Ecom",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 0,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "SberPay NFC",
+      "unit": "DB",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "СберИнвестор",
+      "unit": "DP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 0
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "СберKids",
+      "unit": "DP",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "СБОЛ",
+      "unit": "DP",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": 1
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Уведомления",
+      "unit": "DP",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 0.5,
+        "goals.forecast": 0.5
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 0.5,
+        "goals.po_factor_analysis": 0.5,
+        "goals.po_forecast": 0.5
+      }
+    },
+    {
+      "name": "Выписки, справки",
+      "unit": "PC",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 0,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Колл-центр",
+      "unit": "PC",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Телемаркетинг",
+      "unit": "PC",
+      "final": {
+        "goals.monitored": 0.5,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 0,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    },
+    {
+      "name": "Чат",
+      "unit": "PC",
+      "final": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "lulT": {
+        "goals.monitored": 1,
+        "goals.factor_analysis_l1_l2": 1,
+        "goals.forecast": null
+      },
+      "po": {
+        "goals.po_monitoring": 1,
+        "goals.po_factor_analysis": 1,
+        "goals.po_forecast": 1
+      }
+    }
+  ]
+}

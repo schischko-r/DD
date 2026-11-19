@@ -1,0 +1,95 @@
+{
+  "id": "cf93b82b-89a1-588c-992b-ed349f585aa0¦Пакет услуг СберПремьер::empty::III кв. 2026",
+  "name": "Пакет услуг СберПремьер",
+  "unit": "CX",
+  "type": "Продукт",
+  "period": "III кв. 2026",
+  "ddi": 74,
+  "mean": 64.38157894736842,
+  "metrics": [
+    {
+      "code": "general.navigator_reporting_knowledge",
+      "name": "Знание об отчетности в Навигаторе",
+      "footer": "Понимание доступной отчетности и регулярного мониторинга",
+      "max_value": 0.5,
+      "recommendation_difficulty": 1,
+      "is_applicabble_flg": true,
+      "excluded_from_index": false,
+      "dd_calculation_flg": 1,
+      "recommendation": "Знание метрик и инструментов",
+      "recommendations": [
+        "Знание метрик и инструментов"
+      ],
+      "recommendation_group": 1,
+      "recommendation_groups": [
+        1
+      ],
+      "recommendation_items": [
+        {
+          "recommendation": "Знание метрик и инструментов",
+          "group": 1,
+          "recommendation_difficulty": 1,
+          "value": 0.25,
+          "max_value": 0.5,
+          "gap": 0.25
+        }
+      ],
+      "value": 0.25,
+      "previousValue": 0.25,
+      "previousMaxValue": 0.5,
+      "previousPeriod": "II кв. 2026",
+      "source": {
+        "origin": "keyMetricsPreviousQuarterFallback",
+        "confirmedBy": "user",
+        "date": "2026-11-02",
+        "period": "III кв. 2026",
+        "file": "Ключевые метрики Продукта Баллы.xlsx",
+        "workbookSha256": "774f3adbf8144fc0ff89e8037c89319562018ac2525dd88e102afc0242f1dfb6",
+        "rule": "Числовые баллы файла имеют приоритет. Только отсутствующие пары переносятся из предыдущего квартала; текстовые и конфликтующие строки остаются без оценки.",
+        "fromPeriod": "II кв. 2026",
+        "sourceValue": 0.25,
+        "sourceMaxValue": 0.5
+      }
+    },
+    {
+      "code": "attract.nalichie_uspeshnyh_biznes_zapuskov",
+      "name": "Наличие успешных бизнес-запусков",
+      "metric_subgroup": "Кампейнинг",
+      "footer": "Self-service / кампейнинг, успешность",
+      "max_value": 0.5,
+      "recommendation_difficulty": 6,
+      "is_applicabble_flg": true,
+      "excluded_from_index": false,
+      "dd_calculation_flg": 1,
+      "recommendation": "Развитие кампейнинга",
+      "recommendations": [
+        "Развитие кампейнинга"
+      ],
+      "recommendation_group": 6,
+      "recommendation_groups": [
+        6
+      ],
+      "recommendation_items": [
+        {
+          "recommendation": "Развитие кампейнинга",
+          "group": 6,
+          "recommendation_difficulty": 6,
+          "value": 0,
+          "max_value": 0.5,
+          "gap": 0.5
+        }
+      ],
+      "value": 0,
+      "previousValue": 0.5,
+      "previousMaxValue": 0.5,
+      "previousPeriod": "II кв. 2026",
+      "source": {
+        "file": "Книга3(2).xlsx",
+        "sheet": "Лист1",
+        "cell": "D40",
+        "columnLabel": "Сумма по полю successful_business_q2",
+        "rawValue": 0
+      }
+    }
+  ]
+}

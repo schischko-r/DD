@@ -1,0 +1,22 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Authoring snapshot contains exactly the reviewed queries and analysis",
+    "All 76 canonical teams and 79 valid responses are represented once",
+    "Eight pain frequencies, all percentages, and 206 mentions reconcile",
+    "All 64 unit × pain cells use their own unit denominator",
+    "Ten comments are literal source text; explicit okay and unclear remain separate",
+    "Summary and survey-design caveat are consistent",
+    "Final split build hashes, bytes, and complete snapshot agree",
+    "Portable HTML embeds exactly the final reviewed 76-team dataset",
+    "Portable HTML has no external script, stylesheet, font, or image dependencies"
+  ],
+  "checkedAt": "2026-11-11T11:50:05.728Z",
+  "snapshotSha256": "333aabd8f8b8521b4504f39a5b41cd102fe59cb6b6229340ee6d8f8f6493f345",
+  "artifact": {
+    "portableSha256": "7831a98a5b9a90f4ada20b01c1aada4c83d3377a4f7dabf8851b4a82b30e3472",
+    "portableBytes": 3230410,
+    "buildHtmlSha256": "e05e29b799bf748fed9f0b97259c2d0673e46ee6a5c1f38ff8a468ba9b6e479d",
+    "sidecarSha256": "333aabd8f8b8521b4504f39a5b41cd102fe59cb6b6229340ee6d8f8f6493f345"
+  }
+}

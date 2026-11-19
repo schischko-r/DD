@@ -1,0 +1,11 @@
+{
+  "output": "/Users/roman/Documents/Codex/DD-dev/outputs/ddi-final-metrics-2026-11-10/DDI_final_metrics_Q2_Q3_2026.xlsx",
+  "sha256": "3d34181c2aa31cef90ed0e326a507bc0ee45fc0ef6e2fea877c4ccc1110726fa",
+  "q2": 83,
+  "q3": 76,
+  "entities": 83,
+  "rows": 3508,
+  "comparable": 2508,
+  "overlays": 110,
+  "errorScan": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}"
+}

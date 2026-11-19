@@ -1,0 +1,43 @@
+{
+  "output": "/Users/roman/Documents/Codex/DD-dev/outputs/db-q3-export-2026-11-18/DB_баллы_III_квартал_2026.xlsx",
+  "teams": [
+    "Дебетовая карта",
+    "Детская карта",
+    "Зарплатный продукт B2C",
+    "Зарплатный продукт B2B",
+    "Зарплатный продукт — итоговый",
+    "Интернет-Эквайринг",
+    "Кредитные карты",
+    "Оплата улыбкой",
+    "Пенсионный продукт",
+    "Переводы по РФ",
+    "Платежи",
+    "СберЧаевые",
+    "Торговый Эквайринг",
+    "Трансграничные переводы",
+    "Трансграничный эквайринг",
+    "SberPay Вжух",
+    "SberPay Ecom",
+    "SberPay NFC"
+  ],
+  "teamCount": 18,
+  "rows": 789,
+  "numeric": 709,
+  "missing": 0,
+  "notApplicable": 80,
+  "overlays": 110,
+  "exportOverrides": [
+    {
+      "team": "Детская карта",
+      "code": "hyp.ab_tests",
+      "value": 0
+    },
+    {
+      "team": "Трансграничные переводы",
+      "code": "hyp.ab_tests",
+      "value": 0
+    }
+  ],
+  "sha256": "0c77fa8b479ee200a090cce5371dcd70ed4f5a108efbaa4be808f12db5cab579",
+  "errorScan": "{\"kind\":\"notice\",\"message\":\"Cell search matched 0 entries.\"}"
+}
