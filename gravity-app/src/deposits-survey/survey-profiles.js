@@ -32,12 +32,23 @@ for (const profile of Object.values(historicalProfiles)) for (const metric of pr
     templates.set(metric.code, metric);
   }
 }
+export function createFullSurveyProfile(teamId, name) {
+  return {
+    teamId, name, period: null, fullSurvey: true, backlogAnalyzed: false,
+    metrics: [...templates.values()].map(({code, name, max_value}) => ({code, name, max_value, value: null,
+      is_applicabble_flg: true, excluded_from_index: false, dd_calculation_flg: 1})),
+  };
+}
 const freshProfiles = Object.fromEntries(fullSurveyProducts.map(([key, name]) => {
   const teamId = `full-${key}¦${name}`;
-  return [teamId, {
-    teamId, name, period: null, fullSurvey: true, backlogAnalyzed: false,
-    metrics: [...templates.values()].map(metric => ({...metric, value: null,
-      is_applicabble_flg: true, excluded_from_index: false, dd_calculation_flg: 1})),
-  }];
+  return [teamId, createFullSurveyProfile(teamId, name)];
 }));
 export const productSurveyProfiles = {...historicalProfiles, ...freshProfiles};
+
+// Отдельные формы не меняют каталог команд общего продуктового опроса.
+export const standaloneSurveyProfiles = {
+  'full-otello¦Отелло': createFullSurveyProfile('full-otello¦Отелло', 'Отелло'),
+};
+export function getSurveyProfile(teamId) {
+  return productSurveyProfiles[teamId] || standaloneSurveyProfiles[teamId];
+}

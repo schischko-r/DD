@@ -81,12 +81,12 @@ export function DashboardGoalDialog({products, baselineProducts, baselineRows, p
       <div className="dashboard-goal-table-scroll">
         <table className="dashboard-goal-table">
           <caption className="dashboard-goal-sr-only">Выполнение цели командами, сгруппированными по юниту</caption>
-          <thead><tr><th scope="col">Юнит</th><th scope="col">Команда</th><th scope="col">Переход уровня DDI</th><th scope="col">Цель по повышению уровня DDI</th></tr></thead>
+          <thead><tr><th scope="col">Команда</th><th scope="col">Переход уровня DDI</th><th scope="col">Цель по повышению уровня DDI</th></tr></thead>
           {progress.groups.map((group) => {
             const expanded = expandedUnits.has(group.unit);
             return <tbody key={group.unit}>
-              <tr className="dashboard-goal-unit-row"><th scope="rowgroup" colSpan={3}><Button view="flat" size="m" className="dashboard-goal-unit-toggle" onClick={() => toggleUnit(group.unit)} aria-expanded={expanded} aria-label={`${group.unit}: ${expanded ? 'свернуть' : 'показать'} команды`}><Icon data={expanded ? ChevronDown : ChevronRight} size={14} /><b>{group.unit}</b><span>{group.total} команд</span></Button></th><td><b>{group.met} / {group.comparable}</b> выполнили</td></tr>
-              {expanded && group.teams.map((team) => <tr className="dashboard-goal-team-row" key={team.id}><td>{team.unit}</td><th scope="row">{displayProductName(team.name)}</th><td><GoalLevelTransition team={team} /></td><td><GoalStatus status={team.status} /></td></tr>)}
+              <tr className="dashboard-goal-unit-row"><th scope="rowgroup" colSpan={2}><Button view="flat" size="m" className="dashboard-goal-unit-toggle" onClick={() => toggleUnit(group.unit)} aria-expanded={expanded} aria-label={`${group.unit}: ${expanded ? 'свернуть' : 'показать'} команды`}><Icon data={expanded ? ChevronDown : ChevronRight} size={14} /><b>{group.unit}</b><span>{group.total} команд</span></Button></th><td><b>{group.met} / {group.comparable}</b> выполнили</td></tr>
+              {expanded && group.teams.map((team) => <tr className="dashboard-goal-team-row" key={team.id}><th scope="row">{displayProductName(team.name)}</th><td><GoalLevelTransition team={team} /></td><td><GoalStatus status={team.status} /></td></tr>)}
             </tbody>;
           })}
         </table>

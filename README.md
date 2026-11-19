@@ -491,6 +491,9 @@ Cross-sell интеграция использует `GET /api/v1/crosssell/mark
 API передайте `--no-update-crosssell`: отчёт использует локальный кэш
 `crosssell_export.json`. Общий флаг `--no-ai-skills` отключает все AI-навыки,
 включая Cross-sell.
+При временной недоступности API, тайм-ауте или обрыве соединения сборка использует
+прежний кэш Cross-sell; если кэша нет, этот источник не подключается. Причина
+сохраняется в `crosssell_source.download_error`. Ошибки авторизации не скрываются.
 Количество замеченных связок берётся из `seen_out_n`, `seen_in_n` и
 `seen_around_n`, потенциальных — из `potential_n`; legacy-поле `implemented`
 сохраняется только для диагностики.

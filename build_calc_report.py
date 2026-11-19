@@ -4431,7 +4431,7 @@ def main() -> None:
                     "local_cache_used": args.crosssell_json.exists(),
                 }
             )
-        except (urllib.error.URLError, TimeoutError) as error:
+        except (urllib.error.URLError, TimeoutError, ConnectionError) as error:
             crosssell_source.update(
                 {
                     "mode": "api_fallback",

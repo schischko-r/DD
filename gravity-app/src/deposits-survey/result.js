@@ -2,17 +2,17 @@ import {quarterlyAnalysisCodes, correctTypos, allowsMissingMetric, isOptionSelec
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {scoringBaseline} from './scoring-baseline.js';
 import {callCenterBaseline, callCenterScoreRules} from './call-center.js';
-import {productSurveyProfiles} from './survey-profiles.js';
+import {getSurveyProfile} from './survey-profiles.js';
 import {metricSourceEvidence, metricSourceFields} from './metric-source.js';
 
 const round = value => Math.round(value * 10000) / 10000;
 const text = value => String(value ?? '').trim();
 const selected = value => Array.isArray(value) ? value : value ? [value] : [];
 
-export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt = new Date().toISOString()) {
-  const team = teams.find(item => item.id === answers.product);
+export function buildSurveyResult(answers, backlogAnalyzed = false, completedAt = new Date().toISOString(), teamCatalog = teams) {
+  const team = teamCatalog.find(item => item.id === answers.product);
   const isCallCenter = CHANNEL_SURVEYS_ENABLED && team?.id === callCenterBaseline.teamId;
-  const productProfile = productSurveyProfiles[team?.id];
+  const productProfile = getSurveyProfile(team?.id);
   const isOtherProduct = Boolean(productProfile && team.id !== scoringBaseline.teamId);
   const baseline = isCallCenter ? callCenterBaseline : productProfile || scoringBaseline;
   if (!team || team.id !== baseline.teamId) throw new Error('Unsupported survey team');

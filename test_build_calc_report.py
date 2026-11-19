@@ -1,6 +1,7 @@
 import unittest
 import tempfile
 import json
+import errno
 import inspect
 import ssl
 import unicodedata
@@ -395,6 +396,97 @@ class SyntheticReportTest(unittest.TestCase):
             self.assertRaises(urllib.error.HTTPError),
         ):
             report.main()
+
+    @staticmethod
+    def crosssell_response(payload):
+        response = BytesIO(json.dumps(payload).encode("utf-8"))
+        response.headers = {"ETag": 'W/"new-response"'}
+        return response
+
+    def test_main_continues_after_crosssell_connection_errors_without_replacing_cache(self) -> None:
+        cases = (
+            (BrokenPipeError, errno.EPIPE, "Broken pipe"),
+            (ConnectionResetError, errno.ECONNRESET, "Connection reset by peer"),
+            (ConnectionAbortedError, errno.ECONNABORTED, "Connection aborted"),
+        )
+        for error_type, error_number, message in cases:
+            for cached in (True, False):
+                for stage in ("open", "read"):
+                    with self.subTest(error=error_type.__name__, cached=cached, stage=stage), tempfile.TemporaryDirectory() as temp_dir:
+                        directory = Path(temp_dir)
+                        cache_path = directory / "crosssell.json"
+                        cache_bytes = b'{ "markers_response": {"markers": []}, "etags": {} }\n'
+                        if cached:
+                            cache_path.write_bytes(cache_bytes)
+                        args = report.parse_args([
+                            "--crosssell-json", str(cache_path), "--crosssell-token", "test-token",
+                            "--crosssell-markers-url", "https://example.test/markers",
+                            "--crosssell-products-url", "https://example.test/products",
+                            "--crosssell-market-url", "https://example.test/market",
+                            "--output", str(directory / "report.html"),
+                            "--json-output", str(directory / "report.json"),
+                        ])
+                        error = error_type(error_number, message)
+                        responses = [self.crosssell_response(payload) for payload in (
+                            {"markers": []}, {"products": []}, {"market": {"test-product": {}}},
+                        )]
+                        failed_response = self.crosssell_response({})
+                        data = {"products": [], "title": {"rows": []}}
+                        with (
+                            patch.object(report, "parse_args", return_value=args),
+                            patch.object(report, "crosssell_ssl_context", return_value=object()),
+                            patch.object(failed_response, "read", side_effect=error),
+                            patch.object(report.urllib.request, "urlopen", side_effect=[
+                                *responses, error if stage == "open" else failed_response,
+                            ]) as urlopen,
+                            patch.object(report, "build_combined_data", return_value=(data, {})) as build,
+                            patch("builtins.print") as output,
+                        ):
+                            report.main()
+                        self.assertEqual(urlopen.call_count, 4)
+                        self.assertEqual(urlopen.call_args.args[0].full_url, "https://example.test/market/test-product")
+                        self.assertEqual(build.call_args.kwargs["crosssell_path"], cache_path if cached else None)
+                        self.assertTrue(args.output.read_text(encoding="utf-8").lower().startswith("<!doctype html>"))
+                        self.assertEqual(json.loads(args.json_output.read_text(encoding="utf-8")), data)
+                        source = json.loads(output.call_args.args[0])["crosssell_source"]
+                        self.assertEqual(source["mode"], "api_fallback")
+                        self.assertTrue(source["request_enabled"])
+                        self.assertTrue(source["request_attempted"])
+                        self.assertFalse(source["downloaded"])
+                        self.assertEqual(source["local_cache_used"], cached)
+                        self.assertEqual(source["cache_path"], str(cache_path))
+                        self.assertIn(str(error), source["download_error"])
+                        if cached:
+                            self.assertEqual(cache_path.read_bytes(), cache_bytes)
+                        else:
+                            self.assertFalse(cache_path.exists(), "A partial API refresh must not create a cache")
+
+    def test_main_does_not_hide_local_crosssell_cache_write_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "crosssell.json"
+            cache_bytes = b'{ "markers_response": {"markers": []} }\n'
+            cache_path.write_bytes(cache_bytes)
+            args = report.parse_args(["--crosssell-json", str(cache_path), "--crosssell-token", "test-token"])
+            responses = [self.crosssell_response(payload) for payload in (
+                {"markers": []}, {"products": []}, {"market": {}},
+            )]
+            error = PermissionError(errno.EACCES, "Permission denied", str(cache_path))
+            with (
+                patch.object(report, "parse_args", return_value=args),
+                patch.object(report, "crosssell_ssl_context", return_value=object()),
+                patch.object(report.urllib.request, "urlopen", side_effect=responses) as urlopen,
+                patch.object(Path, "write_text", autospec=True, side_effect=error) as write_cache,
+                patch.object(report, "build_combined_data") as build,
+                patch.object(report, "write_html") as write_html,
+                self.assertRaises(PermissionError) as raised,
+            ):
+                report.main()
+            self.assertIs(raised.exception, error)
+            self.assertEqual(urlopen.call_count, 3)
+            self.assertEqual(write_cache.call_args.args[0], cache_path)
+            self.assertEqual(cache_path.read_bytes(), cache_bytes)
+            build.assert_not_called()
+            write_html.assert_not_called()
 
     def test_no_ai_skills_ignores_existing_crosssell_cache(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

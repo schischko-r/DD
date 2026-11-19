@@ -7,6 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "prebuild": "node scripts/verify-manual-assessments.mjs",
     "build": "vite build",
+    "build:about": "vite build --config vite.about.config.js && node scripts/publish-about.mjs",
     "build:questionnaire": "vite build --config vite.questionnaire.config.js",
     "build:clickstream": "vite build --config vite.clickstream.config.js && node scripts/publish-clickstream.mjs",
     "build:moved": "vite build --config vite.moved.config.js && node scripts/publish-moved.mjs",

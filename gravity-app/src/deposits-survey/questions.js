@@ -2,7 +2,8 @@ import {previousBacklogs, hasBacklogLinks} from './previous-backlogs.js';
 import {previousGoalsReports} from './previous-goals.js';
 import {teams, CHANNEL_SURVEYS_ENABLED} from './teams.js';
 import {callCenterSections, callCenterBaseline, callCenterBacklogAnalyzed} from './call-center.js';
-import {productSurveyProfiles} from './survey-profiles.js';
+import {getSurveyProfile} from './survey-profiles.js';
+import {isOtelloSurvey} from './otello.js';
 import {hasMetricSource, hasHttpLinks, httpLinkValues} from './metric-source.js';
 import {scoringBaseline} from './scoring-baseline.js';
 import {previousFunnels, clickstreamOnlyAttraction, previousReportLinks} from './previous-funnels.js';
@@ -676,7 +677,7 @@ function productSections(profile) {
 
 // Команда определяет набор вопросов; первоначальный каталог вкладов сохранён.
 function baseSections(answers = {}) {
-  const productProfile = productSurveyProfiles[answers.product];
+  const productProfile = getSurveyProfile(answers.product);
   if (productProfile && answers.product !== scoringBaseline.teamId) return productSections(productProfile);
   if (!CHANNEL_SURVEYS_ENABLED || answers.product !== callCenterBaseline.teamId) {
     if (!productProfile) return sections;
@@ -747,7 +748,7 @@ function embedActions(catalogue) {
 }
 
 function addChurnModel(catalogue, product) {
-  if (!productSurveyProfiles[product]) return catalogue;
+  if (!getSurveyProfile(product)) return catalogue;
   const result = catalogue.map(section => ({...section, questions: [...section.questions]}));
   let churn = result.find(section => section.id === 'churn');
   if (!churn) {
@@ -782,7 +783,7 @@ export function assignFunnelEvidence(section) {
 }
 
 function addGoals(catalogue, product) {
-  if (!productSurveyProfiles[product]) return catalogue;
+  if (!getSurveyProfile(product)) return catalogue;
   const previousGoals = previousGoalsReports[product];
   const result = [...catalogue];
   const metricsIndex = result.findIndex(section => section.id === 'metrics');
@@ -841,7 +842,7 @@ function configureReporting(question, profile, catalogue) {
 }
 
 export function getSections(answers = {}) {
-  const profile = productSurveyProfiles[answers.product];
+  const profile = getSurveyProfile(answers.product);
   const completedKnowledge = new Set(Object.entries({
     marketRussia: 'general.obъem_celevogo_rynka_v_rossii',
     marketSber: 'general.obъem_celevogo_rynka_v_sbere',
@@ -850,7 +851,7 @@ export function getSections(answers = {}) {
     const metric = profile && productMetric(profile, code);
     return metric && Number(metric.max_value) > 0 && Number(metric.value) / Number(metric.max_value) === 1;
   }).map(([id]) => id));
-  return addGoals(addChurnModel(embedActions(embedBenchmarks(baseSections(answers))), answers.product), answers.product).map(section => ({...section,
+  const catalogue = addGoals(addChurnModel(embedActions(embedBenchmarks(baseSections(answers))), answers.product), answers.product).map(section => ({...section,
     ...(section.id === 'priorities' ? {title: 'Поддержка', description: 'Какие инструменты и поддержка помогут команде.'} : {}),
     questions: section.questions.filter(q => !['lastResearch', 'priorities', 'attractDeviationsCompleted', 'deviationsCompleted'].includes(q.id) && !completedKnowledge.has(q.id))
       .filter(q => q.id !== 'crossSellAfter' || !profile || needsSurvey(profile, 'mehaniki.cross_sell'))
@@ -897,6 +898,15 @@ export function getSections(answers = {}) {
       hint: ['attractIncludes', 'churnIncludes'].includes(q.id) ? 'Можно выбрать несколько вариантов' : 'Пожалуйста, добавьте ссылку и выберите метрики',
       reportMonitoring: true, evidenceAfterOptions: ['attractIncludes', 'churnIncludes'].includes(q.id),
     } : q)})).map(section => ({...section, questions: section.questions.map(q => configureReporting(q, profile, section.questions))})).map(assignFunnelEvidence).filter(section => section.questions.length).map(section => ({...section, questions: section.questions.map(withUiValues)}));
+  if (!isOtelloSurvey(answers.product)) return catalogue;
+  // Уточнения отдельной формы Отелло не меняют общий продуктовый маршрут.
+  return catalogue.map(section => ({...section, questions: [
+    ...section.questions.map(question => ['attractAnalysis', 'churnAnalysis'].includes(question.id)
+      ? {...question, options: question.options.map(option => option.replace('экраны в СБОЛ, клиентский путь в физическом канале', 'экраны (UI/UX), клиентский путь и переходы между этапами'))}
+      : question),
+    ...(section.id === 'research' ? [withUiValues({...sourceQuestion('lastResearch'),
+      title: 'Приведите пример исследований, которые проводились в рамках III квартала'})] : []),
+  ]}));
 }
 
 function withUiValues(question) {
@@ -926,7 +936,7 @@ function withUiValues(question) {
 }
 
 export function getBacklogAnalyzed(answers = {}) {
-  if (productSurveyProfiles[answers.product]) return Boolean(previousBacklogs[answers.product]);
+  if (getSurveyProfile(answers.product)) return Boolean(previousBacklogs[answers.product]);
   return CHANNEL_SURVEYS_ENABLED && answers.product === callCenterBaseline.teamId ? callCenterBacklogAnalyzed : false;
 }
 
@@ -1131,7 +1141,7 @@ export function showsOptionalComment(question, answers) {
 
 
 export function shouldShowCrossSellReminder(answers) {
-  const profile = productSurveyProfiles[answers.product];
+  const profile = getSurveyProfile(answers.product);
   const metric = profile && productMetric(profile, 'mehaniki.cross_sell');
   return Boolean(applicable(metric) && Number(metric.value) > 0
     && Number(metric.value) < Number(metric.max_value) && answers.crossSellAfter !== 'Нет');

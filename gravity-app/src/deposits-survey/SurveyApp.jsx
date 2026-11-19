@@ -4,13 +4,14 @@ import {Button, Card, Checkbox, Icon, Label, Radio, RadioGroup, Select, TextArea
 import {ArrowLeft, ArrowRight, ArrowUpRight, BookOpen, Bulb, ChartColumn, Check, FileText, Magnifier} from '@gravity-ui/icons';
 import {CROSS_SELL_URL, shouldShowCrossSellReminder, allowsMissingMetric, evidenceResponse, correctTypos, formatNumericAnswer, getBacklogAnalyzed, getSections, hasAnswer, hasEvidence, inlineQuestions, isOptionSelected, knownMechanics, showsOptionalComment, needsComment, needsEvidence, needsProof, needsReason, normalizeNumericAnswer, questionOptions, toggleOption, visibleQuestions} from './questions.js';
 import dataDrivenLogo from '../assets/ocb2c.png';
-import {enabledTeams, filterTeamOption, teamGroups, teams} from './teams.js';
+import {enabledTeams, filterTeamOption, teamGroups} from './teams.js';
 import {buildSurveyResult} from './result.js';
 import {getIntroSummary, sectionCountText} from './intro.js';
 import {hasMetricSource, toHttpUrl, hasHttpLinks, hasDashboardSources, httpLinkValues, metricSourceEvidence, metricSourceOptions} from './metric-source.js';
 import {previousReportLinks} from './previous-funnels.js';
 
 const ValidationContext = createContext(false);
+const TeamOptionsContext = createContext(teamGroups);
 const requiredMessage = 'Заполните обязательные поля, чтобы продолжить.';
 const blank = value => !String(value ?? '').trim();
 
@@ -19,6 +20,7 @@ function SurveyBrand() {
 }
 
 function Answer({question: q, answers, update, autoFocus = true}) {
+  const teamOptions = useContext(TeamOptionsContext);
   const [selectOpen, setSelectOpen] = useState(false);
   const [addedLinkIndex, setAddedLinkIndex] = useState(null);
   const value = answers[q.id] || '';
@@ -57,7 +59,7 @@ function Answer({question: q, answers, update, autoFocus = true}) {
       <div className={`survey-metric-unknown survey-options ${invalid ? 'survey-field-error' : ''}`}><Checkbox size="l" checked={unknown} onUpdate={checked => {update(`${q.id}Unknown`, checked); if (checked) update(q.id, '');}}>Затрудняюсь ответить</Checkbox></div>
     </>;
   }
-  if (q.type === 'select') return <Select validationState={validationState} open={selectOpen} onOpenChange={setSelectOpen} size="xl" width="max" popupClassName="survey-team-popup" virtualizationThreshold={100} filterable filterOption={filterTeamOption} aria-label={label} placeholder="Выберите команду" filterPlaceholder="Поиск команды" options={teamGroups} getOptionGroupHeight={() => 46} renderOptionGroup={({label}) => <div className={`survey-team-unit ${label === teamGroups[0].label ? 'is-first' : ''}`}>{label}</div>} value={value ? [value] : []} onUpdate={v => update(q.id, v[0] || '')} />;
+  if (q.type === 'select') return <Select validationState={validationState} open={selectOpen} onOpenChange={setSelectOpen} size="xl" width="max" popupClassName="survey-team-popup" virtualizationThreshold={100} filterable filterOption={filterTeamOption} aria-label={label} placeholder="Выберите команду" filterPlaceholder="Поиск команды" options={teamOptions} getOptionGroupHeight={() => 46} renderOptionGroup={({label}) => <div className={`survey-team-unit ${label === teamOptions[0]?.label ? 'is-first' : ''}`}>{label}</div>} value={value ? [value] : []} onUpdate={v => update(q.id, v[0] || '')} />;
   if (q.type === 'input') return <TextInput validationState={validationState} autoFocus={autoFocus} size="xl" aria-label={label} placeholder={q.placeholder} readOnly={q.readOnly} value={value} onUpdate={v => update(q.id, v)} />;
   if (q.type === 'radio') return <>{q.optionHints ? <div className={`survey-radio ${invalid ? 'survey-field-error' : ''}`} role="radiogroup" aria-label={label} aria-invalid={invalid || undefined}>{q.options.map(option => <Tooltip key={option} disabled={!q.optionHints[option]} content={q.optionHints[option]} openDelay={0} closeDelay={0} rest={0}><div className="survey-radio-hint"><Radio name={q.id} size="l" value={option} checked={value === option} onUpdate={checked => {if (checked) update(q.id, option);}}>{correctTypos(option)}</Radio></div></Tooltip>)}</div> : <RadioGroup className={`survey-radio ${invalid ? "survey-field-error" : ""}`} aria-invalid={invalid || undefined} direction="vertical" size="l" aria-label={label} value={value} options={q.options.map(v => ({value: v, content: correctTypos(v)}))} onUpdate={v => update(q.id, v)} />}{showsOptionalComment(q, answers) && <section className="survey-inline-question survey-optional-comment"><h2><label htmlFor={q.optionalCommentId}>{q.optionalCommentTitles?.[value] || q.optionalCommentTitle || 'Комментарий при необходимости'}</label></h2><TextArea validationState={attempted && q.optionalCommentRequired && blank(answers[q.optionalCommentId]) ? "invalid" : undefined} id={q.optionalCommentId} size="l" minRows={2} placeholder={q.optionalCommentPlaceholder || 'Опишите, какие оповещения настроены и как они работают'} value={answers[q.optionalCommentId] || ''} onUpdate={value => update(q.optionalCommentId, value)} /></section>}{needsReason(q, answers) && <div className={q.reasonTitle ? "survey-inline-question" : "survey-other-answer"}>{q.reasonTitle && <h2><label htmlFor={q.reasonId}>{q.reasonTitle}</label></h2>}<TextArea validationState={attempted && !q.reasonOptional && blank(answers[q.reasonId]) ? "invalid" : undefined} id={q.reasonId} autoFocus aria-label={q.reasonTitle || "Причина неприменимости"} minRows={2} size="l" placeholder={q.reasonPlaceholder || "Укажите, почему вопрос не релевантен вашему продукту"} value={answers[q.reasonId] || ''} onUpdate={v => update(q.reasonId, v)} /></div>}{value === 'Свой вариант ответа' && <div className="survey-other-answer"><TextArea validationState={attempted && blank(answers[`${q.id}Other`]) ? "invalid" : undefined} autoFocus aria-label="Ваш вариант ответа" minRows={2} size="l" placeholder="Напишите свой вариант" value={answers[`${q.id}Other`] || ''} onUpdate={v => update(`${q.id}Other`, v)} /></div>}</>;
   const renderChoice = v => {
@@ -188,7 +190,7 @@ function Finish({name, back, showCrossSell}) {
   </main>;
 }
 
-export function SurveyApp() {
+export function SurveyApp({teamCatalog = enabledTeams, teamOptions = teamGroups, noHistory = false}) {
   const [activeId, setActiveId] = useState('cover');
   const [visitedIds, setVisitedIds] = useState(() => new Set(['cover']));
   const [answers, setAnswers] = useState({});
@@ -221,7 +223,7 @@ export function SurveyApp() {
   }, [activeId, finished]);
   function update(id, value) {
     if (id === 'product') {
-      const team = enabledTeams.find(item => item.id === value);
+      const team = teamCatalog.find(item => item.id === value);
       if (!team) return;
       if (answers.product !== value) setVisitedIds(new Set(['cover']));
       setAnswers(a => a.product === value
@@ -240,7 +242,7 @@ export function SurveyApp() {
     if (review) {
       const missing = all.find(q => !hasAnswer(q, answers));
       if (missing) {edit(missing.id); setValidationAttempted(true); setError(requiredMessage); return;}
-      window.DDI_SURVEY_RESULT_JSON = JSON.stringify(buildSurveyResult(answers, backlogAnalyzed));
+      window.DDI_SURVEY_RESULT_JSON = JSON.stringify(buildSurveyResult(answers, backlogAnalyzed, undefined, teamCatalog));
       setFinished(true);
       return;
     }
@@ -263,7 +265,7 @@ export function SurveyApp() {
     if (q.type === 'links') return answers[`${q.id}Unknown`] === true || answers[`${q.id}Format`] === 'unknown' ? 'Затрудняюсь ответить'
       : answers[`${q.id}Format`] === 'excel' ? 'Отчетность в формате Excel'
       : !hasAnswer(q, answers) ? (value || 'Не заполнено') : String(value || '').split(/\r?\n/).map(link => link.trim()).filter(Boolean).map((link, index) => <React.Fragment key={`${index}-${link}`}><a href={toHttpUrl(link) || link} target="_blank" rel="noreferrer">{link}</a><br /></React.Fragment>);
-    if (q.id === 'product') return teams.find(team => team.id === value)?.name || 'Не заполнено';
+    if (q.id === 'product') return teamCatalog.find(team => team.id === value)?.name || 'Не заполнено';
     if (q.type === 'numeric') return <>{allowsMissingMetric(q, answers) && blank(value) ? 'Затрудняюсь ответить' : `${formatNumericAnswer(value)}${q.unit ? ` ${q.unit}` : ''}`}{!blank(answers[q.optionalCommentId]) && <span className="review-inline-evidence review-metric-comment">Комментарий: {String(answers[q.optionalCommentId]).trim()}</span>}</>;
     const known = knownMechanics(q, answers);
     const knownText = known.length ? `${known.join('; ')} — указано ранее. ` : '';
@@ -288,7 +290,7 @@ export function SurveyApp() {
     return <>{proof}<p className="review-inline-evidence">Материалы: Не заполнено</p></>;
   }
   if (finished) return <Finish name={answers.name} showCrossSell={shouldShowCrossSellReminder(answers)} back={() => {setFinished(false); go('review');}} />;
-  return <div className="survey-shell">
+  return <TeamOptionsContext.Provider value={teamOptions}><div className="survey-shell">
     <header className="survey-header"><SurveyBrand /><span className="survey-progress-label">{review ? `Проверка ответов · ${flow.length} вопросов` : `Шаг ${index + 1} из ${flow.length}`}</span></header>
     <div className="survey-top-progress"><ProgressNavigator flow={flow} index={index} review={review} editingFromReview={editingFromReview} visitedIds={visitedIds} go={go} edit={edit} /></div>
     <main className={`survey-main ${review ? 'is-review' : ''} ${isCover ? 'is-cover' : ''}`}>
@@ -319,7 +321,7 @@ export function SurveyApp() {
           {question.type !== 'numeric' && !question.questionCards && <h1 id="survey-title" ref={heading} tabIndex={-1}>{question.title}</h1>}
           {isCover ? <>
             <p className="survey-cover-lead">Вы проходите опрос в рамках оценки Data Driven 3Q26.</p>
-            <p className="survey-intro-copy">В этом опросе учтена информация, которая была собрана при оценке за второй квартал и цифровые следы из систем по продукту.</p>
+            <p className="survey-intro-copy">{noHistory ? 'Это полный продуктовый опрос без ранее сохранённых ответов. Ответьте на вопросы по текущему состоянию продукта.' : 'В этом опросе учтена информация, которая была собрана при оценке за второй квартал и цифровые следы из систем по продукту.'}</p>
             <div className="survey-cover-fields survey-answer">{introQuestions.map(q => <div key={q.id}><label>{q.title}</label><Answer question={q} answers={answers} update={update} autoFocus={false} /></div>)}</div>
             {introSummary ? <>
               <p className="survey-cover-count" aria-live="polite">В опросе участвует {sectionCountText(introSummary.sectionCount)}.</p>
@@ -338,5 +340,5 @@ export function SurveyApp() {
       {review && <footer className="survey-actions"><Button view="flat" size="l" onClick={() => edit(flow.at(-1).id)}><Icon data={ArrowLeft} size={16} /> Назад</Button><Button view="action" size="xl" onClick={next}>Завершить опрос <Icon data={ArrowRight} size={17} /></Button></footer>}
     </main>
     <footer className="survey-page-footer"><span>LossHunter · аналитика для продуктовых решений</span><span>Ваша команда. Ваш продукт. Ваш следующий шаг.</span></footer>
-  </div>;
+  </div></TeamOptionsContext.Provider>;
 }

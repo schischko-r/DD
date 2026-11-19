@@ -72,13 +72,14 @@ test('Summary goal details preserve scope, team statuses and the Q3-only goal po
     assert.equal(doc.querySelectorAll('.dashboard-goal-details').length, 1);
     await open(); checkHero(43, 76);
     assert.deepEqual([...dialog().querySelectorAll('thead th')].map(item => item.textContent),
-      ['Юнит', 'Команда', 'Переход уровня DDI', 'Цель по повышению уровня DDI']);
+      ['Команда', 'Переход уровня DDI', 'Цель по повышению уровня DDI']);
     assert.match(dialog().querySelector('.dashboard-goal-leaders').textContent, /7 \/ 76/);
     assert.equal(dialog().querySelectorAll('.dashboard-goal-unit-row').length, 8);
+    assert.ok([...dialog().querySelectorAll('.dashboard-goal-unit-row th')].every(cell => cell.colSpan === 2), 'unit groups span the first two of three columns');
     const collapsed = [...dialog().querySelectorAll('.dashboard-goal-unit-toggle[aria-expanded="false"]')];
     for (const button of collapsed) {button.click(); await pause();}
     const teams = [...dialog().querySelectorAll('.dashboard-goal-team-row')];
-    assert.equal(teams.length, 76); assert.ok(teams.every(row => row.children.length === 4));
+    assert.equal(teams.length, 76); assert.ok(teams.every(row => row.children.length === 3));
     assert.equal(teams.filter(row => row.lastElementChild.textContent === 'Выполнена').length, 43);
     assert.equal(teams.filter(row => row.lastElementChild.textContent === 'Не выполнена').length, 33);
     assert.equal(dialog().querySelectorAll('.dashboard-goal-level-current.is-improved').length, 41, 'only actual maturity-level gains receive green transitions');
@@ -88,18 +89,18 @@ test('Summary goal details preserve scope, team statuses and the Q3-only goal po
       assert.ok(row.lastElementChild.querySelector(achieved ? '.g-label_theme_success' : '.g-label_theme_normal'), 'statuses have separate green and neutral themes');
     }
     const thanks = teams.find(row => row.querySelector('th').textContent === 'СберСпасибо');
-    assert.match(thanks.children[2].textContent, /70%/); assert.match(thanks.children[2].textContent, /Зрелые/);
-    assert.match(thanks.children[2].textContent, /68%/);
+    assert.match(thanks.children[1].textContent, /70%/); assert.match(thanks.children[1].textContent, /Зрелые/);
+    assert.match(thanks.children[1].textContent, /68%/);
     assert.equal(thanks.querySelector('.dashboard-goal-level-current.is-improved'), null, 'a numeric gain within the same maturity level is not a green transition');
     assert.ok(thanks.querySelector('.dashboard-goal-level-previous'));
     assert.ok(thanks.querySelector('.dashboard-goal-level-current'));
     const bpif = teams.find(row => row.querySelector('th').textContent === 'БПИФ');
-    assert.match(bpif.children[2].textContent, /52%/); assert.match(bpif.children[2].textContent, /63%/);
+    assert.match(bpif.children[1].textContent, /52%/); assert.match(bpif.children[1].textContent, /63%/);
     assert.match(bpif.querySelector('.dashboard-goal-level-previous').textContent, /Развивающиеся/);
     assert.match(bpif.querySelector('.dashboard-goal-level-current.is-improved').textContent, /Зрелые/);
     assert.ok(bpif.querySelector('.dashboard-goal-level-arrow'), 'an improved team shows the old-to-new direction');
     const callCenter = teams.find(row => row.querySelector('th').textContent === 'Колл-центр');
-    assert.match(callCenter.children[2].textContent, /92%/);
+    assert.match(callCenter.children[1].textContent, /92%/);
     assert.match(callCenter.querySelector('.dashboard-goal-level-retained').textContent, /Лидеры \(сохранение\)/);
     assert.equal(callCenter.querySelector('.dashboard-goal-level-previous'), null, 'retained leaders have one green preservation label');
     assert.equal(callCenter.querySelector('.dashboard-goal-level-current'), null);
@@ -108,7 +109,8 @@ test('Summary goal details preserve scope, team statuses and the Q3-only goal po
     assert.ok(dialog().querySelectorAll('.dashboard-goal-team-row').length < expandedCount, 'unit disclosure actually collapses its teams');
     await choose('.dashboard-goal-unit [role="combobox"]', 'CBP'); checkHero(4, 13);
     assert.equal(dialog().querySelectorAll('.dashboard-goal-team-row').length, 13);
-    assert.ok([...dialog().querySelectorAll('.dashboard-goal-team-row')].every(row => row.firstElementChild.textContent === 'CBP'));
+    assert.equal(dialog().querySelectorAll('.dashboard-goal-unit-row').length, 1);
+    assert.ok([...dialog().querySelectorAll('.dashboard-goal-team-row')].every(row => row.closest('tbody').querySelector('.dashboard-goal-unit-toggle b').textContent === 'CBP'));
     assert.match(doc.querySelector('.dashboard-goal-summary').textContent, /43\/76/, 'local dialog scope does not alter the global Summary');
     assert.ok(doc.querySelector('.dashboard-goal-summary .metric-light-warning'), 'local dialog selection does not change the global marker');
     await close();
@@ -118,7 +120,8 @@ test('Summary goal details preserve scope, team statuses and the Q3-only goal po
     assert.equal(doc.querySelector('.dashboard-goal-summary .metric-light-warning'), null);
     await open(); checkHero(4, 4);
     assert.equal(dialog().querySelectorAll('.dashboard-goal-team-row').length, 4);
-    assert.ok([...dialog().querySelectorAll('.dashboard-goal-team-row')].every(row => row.firstElementChild.textContent === 'PC'));
+    assert.equal(dialog().querySelectorAll('.dashboard-goal-unit-row').length, 1);
+    assert.ok([...dialog().querySelectorAll('.dashboard-goal-team-row')].every(row => row.closest('tbody').querySelector('.dashboard-goal-unit-toggle b').textContent === 'PC'));
     await choose('.dashboard-goal-unit [role="combobox"]', 'B2C · Все юниты'); checkHero(43, 76);
     assert.match(doc.querySelector('.dashboard-unit-filter [role="combobox"]').textContent, /PC/);
     assert.ok(doc.querySelector('.dashboard-goal-summary .metric-light-success'), 'the local B2C dialog scope does not override the all-met PC marker');

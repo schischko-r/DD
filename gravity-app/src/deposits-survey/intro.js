@@ -1,5 +1,6 @@
 import {getBacklogAnalyzed, getSections, visibleQuestions, inlineQuestions, knownMechanics} from './questions.js';
-import {productSurveyProfiles} from './survey-profiles.js';
+import {getSurveyProfile} from './survey-profiles.js';
+import {isOtelloSurvey} from './otello.js';
 
 const surveyLabels = {
   marketRussia: 'Объём целевого рынка в России', marketSber: 'Объём целевого рынка в Сбере',
@@ -14,6 +15,7 @@ const surveyLabels = {
   alerts: 'Настройка алертов', systemAlerts: 'Настройка алертов', uxAlerts: 'Оповещения по проблемам UX/UI',
   mechanicsMonitoring: 'Мониторинг эффективности механик', crossSellAfter: 'Cross-sell после оформления продукта',
   discovery: 'Discovery: доля исследований в бэклоге',
+  lastResearch: 'Примеры исследований за III квартал',
 };
 
 const digitalCodes = [
@@ -46,7 +48,7 @@ function groupItems(entries) {
 }
 
 export function getIntroSummary(product) {
-  const profile = productSurveyProfiles[product];
+  const profile = getSurveyProfile(product);
   if (!profile) return null;
   const answers = {product};
   const sections = getSections(answers).filter(section => section.id !== 'intro'
@@ -71,9 +73,11 @@ export function getIntroSummary(product) {
       : question.summarySection), label})));
   const survey = [...new Set(surveyEntries.map(entry => entry.label))];
   const digitalEntries = digitalCodes.flatMap(code => {
+    if (isOtelloSurvey(product) && code === 'hyp.extra_initiatives') return [];
     const metric = profile.metrics.find(item => item.code === code && applicable(item));
     return metric ? [{...digitalSections[code.split('.')[0]],
-      label: code === 'mehaniki.cross_sell' ? 'Cross-sell во время оформления продукта (LossHunter)' : metric.name}] : [];
+      label: code === 'mehaniki.cross_sell' ? 'Cross-sell во время оформления продукта (LossHunter)'
+        : isOtelloSurvey(product) && code === 'attract.chernoviki_v_sbol_70' ? 'Черновики оформления продукта >=70%' : metric.name}] : [];
   });
   if (getBacklogAnalyzed({product}) && profile.metrics.some(metric => metric.code === 'hyp.discovery_40_backlog' && applicable(metric))) {
     digitalEntries.push({...digitalSections.hyp, label: 'Discovery — бэклог Jira/SberTrack по ранее приложенной ссылке'});
