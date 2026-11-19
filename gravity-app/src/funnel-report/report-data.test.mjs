@@ -5,10 +5,10 @@ import {buildDdiPeriodProducts} from '../domain/quarterProfiles.js';
 
 const root=new URL('../../../',import.meta.url);
 const read=path=>JSON.parse(readFileSync(new URL(path,root),'utf8'));
-const generated=read('outputs/ddi-funnel-levels-2026-11-10/report-data.json');
+const generated=read('gravity-app/src/funnel-report/current-data.json');
 const baseline=read('gravity-app/src/funnel-report/report-data.json');
 const baselineDetail=read('gravity-app/src/funnel-report/detail-data.json');
-const baselineProducts=read('outputs/ddi-funnel-analysis-2026-10-20/standalone-data.json').products;
+const baselineProducts=read('tests/fixtures/ddi/ddi-funnel-analysis-2026-10-20/standalone-data.json').products;
 const app=readFileSync(new URL('gravity-app/src/app/App.jsx',root),'utf8');
 const imports=new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(match=>[match[1],match[2]]));
 const overlayNames=app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(name=>name.trim());

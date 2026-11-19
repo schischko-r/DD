@@ -2,9 +2,20 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync,existsSync} from 'node:fs';
 import {JSDOM,VirtualConsole} from 'jsdom';
-import {displayProductName} from '../domain/report.js';
+import {completeProductPercent,displayProductName} from '../domain/report.js';
 import {buildSummaryRadarData} from '../domain/summaryRadar.js';
+import {buildDdiPeriodProducts} from '../domain/quarterProfiles.js';
 const sourceData=JSON.parse(readFileSync(new URL('../../public/report-data.json',import.meta.url),'utf8'));
+const readJson=path=>JSON.parse(readFileSync(new URL(path,import.meta.url),'utf8'));
+const app=readFileSync(new URL('../app/App.jsx',import.meta.url),'utf8');
+const imports=new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m=>[m[1],m[2]]));
+const overlays=app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(key=>readJson(`../data/${imports.get(key.trim())}`));
+const q3=buildDdiPeriodProducts(sourceData.products,'III кв. 2026',overlays,
+  ...['salary-products-q3-2026.json','reporting-regularity-missing-q3-2026.json','funnel-action-missing-q3-2026.json'].map(file=>readJson(`../data/${file}`)),
+  readJson('../../public/backlog-data.json'));
+const mean=values=>values.reduce((sum,value)=>sum+value,0)/values.length;
+const previousMean=unit=>mean(sourceData.products.filter(p=>p.period==='II кв. 2026'&&(!unit||p.unit===unit))
+  .map(p=>sourceData.title.rows.find(row=>row.name===p.name&&row.unit===p.unit)?.score).filter(Number.isFinite));
 
 const build=process.env.DDI_PROFILE_TEST_HTML;
 test('built Summary renders Q3 categories and both periods from current profiles',{skip:!build},async()=>{
@@ -32,6 +43,15 @@ test('built Summary renders Q3 categories and both periods from current profiles
     assert.ok(doc.querySelector('.dashboard-period [role="combobox"]').textContent.includes('III кв. 2026'),'Third quarter is selected by default');
     assert.ok(!doc.querySelector('.dashboard-page').textContent.includes('Данные ещё не добавлены'));
     assert.equal(doc.querySelectorAll('.dashboard-page .dashboard-category-card').length,3);
+    const b2cScores=q3.map(completeProductPercent);
+    assert.equal(b2cScores.length,76);assert.equal(b2cScores.reduce((sum,score)=>sum+score,0),4903);
+    assert.equal(Math.round(mean(b2cScores)),65,'Actual Q3 data must distinguish floor from round');
+    assert.equal(doc.querySelector('.dashboard-index-summary .index-score > strong').textContent,'64%','Only the B2C average is rounded down');
+    const assertProfileDelta=expected=>{
+      const delta=doc.querySelector('.dashboard-index-summary .index-quarter-delta-value').textContent.replace(/\s+/g,' ').trim();
+      assert.equal(delta,`${expected>0?'+':expected<0?'−':''}${Math.abs(expected)} п.п.`);
+    };
+    assertProfileDelta(64-Math.floor(previousMean('')));
     const closeCatalog=async()=>{
       const dialog=doc.querySelector('.catalog-dialog');
       const close=dialog.querySelector('button[aria-label*="Закрыть"],button[aria-label*="Close"]');
@@ -77,6 +97,12 @@ test('built Summary renders Q3 categories and both periods from current profiles
       const option=[...doc.querySelectorAll('[role="option"]')].find(n=>n.textContent.trim()===label);
       assert.ok(option,label);option.click();await pause();
     };
+    await choose('.dashboard-unit-filter [role="combobox"]','УБ');
+    const ubMean=mean(q3.filter(p=>p.unit==='УБ').map(completeProductPercent));
+    assert.equal(ubMean,68.75,'Use a unit whose real average also distinguishes round from floor');
+    assert.equal(doc.querySelector('.dashboard-index-summary .index-score > strong').textContent,'69%','Unit averages retain ordinary rounding');
+    assert.ok(doc.querySelector('.dashboard-card-title').textContent.includes('Среднее по B2C — 64%'));
+    assertProfileDelta(Math.round(ubMean)-Math.round(previousMean('УБ')));
     await choose('.dashboard-unit-filter [role="combobox"]','CBP');
     const previousBlocks=buildSummaryRadarData(sourceData.products,'II кв. 2026','CBP',sourceData.products.find(p=>p.unit==='CBP').metrics).points;
     const unitCards=[...doc.querySelectorAll('.metric-block-static')];

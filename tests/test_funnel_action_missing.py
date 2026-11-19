@@ -10,7 +10,7 @@ spec.loader.exec_module(generator)
 
 
 def test_real_regeneration_is_source_backed_and_only_fills_applicable_nulls():
-    snapshot = ROOT / 'outputs/initiative-actions-2026-10-30/before.json'
+    snapshot = ROOT / 'tests/fixtures/ddi/initiative-actions-2026-10-30/before.json'
     paths = [ROOT / 'questionare-responses(11).csv', ROOT / 'analysis/1/questionare-responses(8).csv',
              ROOT / 'analysis/1/questionare-responses(9).csv']
     salary = ROOT / 'gravity-app/src/data/salary-products-q3-2026.json'

@@ -66,7 +66,7 @@ test('only the 50 nonblank UB correction cells apply; all other units, metrics, 
 });
 
 test('before newer CBP corrections no existing score becomes a hole except the explicitly non-applicable OSAGO upsell', () => {
-  const before = read('../../../outputs/ub-workbook-corrections-2026-11-02/before.json');
+  const before = read('../../../tests/fixtures/ddi/ub-workbook-corrections-2026-11-02/before.json');
   const after = build(config.period, overlays.filter(item => item.scope !== 'cbp-user-corrections'));
   const holes = [];
   for (const p of after) {

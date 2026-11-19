@@ -7,7 +7,7 @@ export default defineConfig({
   publicDir: false,
   plugins: [react(), viteSingleFile()],
   build: {
-    outDir: resolve(import.meta.dirname, '../outputs/ddi-funnel-q3-2026-11-03/report'),
+    outDir: resolve(import.meta.dirname, 'dist-funnel-report-q3'),
     emptyOutDir: true,
     assetsInlineLimit: Number.POSITIVE_INFINITY,
     target: 'es2020',

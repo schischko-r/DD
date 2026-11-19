@@ -1899,33 +1899,57 @@
       "type": "Продукт",
       "metrics": {
         "attract.nalichie_self_service": {
-          "rawValue": 0,
+          "rawValue": 1,
           "source": {
             "origin": "userConfirmedQ3ScoreCorrection",
             "confirmedBy": "user",
-            "date": "2026-11-03",
+            "date": "2026-11-19",
             "period": "III кв. 2026",
             "sourceName": "ДСЖ ПК",
             "sourceMetricName": "Наличие Self-service",
+            "approvalGroup": "dszh-pk-self-service-2026-11-19",
+            "rule": "Последнее прямое указание пользователя: Наличие Self-service ДСЖ ПК за III квартал 2026 = 100%. Наличие успешных бизнес-запусков, остальные оценки, максимумы, применимость и II квартал сохраняются.",
+            "previousAssessment": {
+              "value": 0,
+              "maxValue": 0.5,
+              "rawValue": 0,
+              "source": {
+                "origin": "userConfirmedQ3ScoreCorrection",
+                "confirmedBy": "user",
+                "date": "2026-11-03",
+                "period": "III кв. 2026",
+                "sourceName": "ДСЖ ПК",
+                "sourceMetricName": "Наличие Self-service",
+                "correction": {
+                  "origin": "userConfirmedQ3ScoreCorrection",
+                  "confirmedBy": "user",
+                  "date": "2026-11-03",
+                  "period": "III кв. 2026",
+                  "rawValue": 0,
+                  "group": "campaignAudit20261103",
+                  "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
+                },
+                "previousAssessmentValue": 0.5,
+                "previousAssessmentSource": {
+                  "origin": "userConfirmedCampaignPresence20261102",
+                  "confirmedBy": "user",
+                  "confirmedAt": "2026-11-02",
+                  "period": "III кв. 2026",
+                  "sourceName": "ДСЖ ПК",
+                  "metricCode": "attract.nalichie_self_service",
+                  "reason": "По последнему уточнению пользователя у ДСЖ ПК Self-service и успешные бизнес-запуски = 100%. Запуски кампаний остаются неприменимыми.",
+                  "rawValue": 1
+                }
+              }
+            },
             "correction": {
               "origin": "userConfirmedQ3ScoreCorrection",
               "confirmedBy": "user",
-              "date": "2026-11-03",
+              "date": "2026-11-19",
               "period": "III кв. 2026",
-              "rawValue": 0,
-              "group": "campaignAudit20261103",
-              "note": "Прямая оценка пользователя после сверки кампейнинга: 0% за III квартал."
-            },
-            "previousAssessmentValue": 0.5,
-            "previousAssessmentSource": {
-              "origin": "userConfirmedCampaignPresence20261102",
-              "confirmedBy": "user",
-              "confirmedAt": "2026-11-02",
-              "period": "III кв. 2026",
-              "sourceName": "ДСЖ ПК",
-              "metricCode": "attract.nalichie_self_service",
-              "reason": "По последнему уточнению пользователя у ДСЖ ПК Self-service и успешные бизнес-запуски = 100%. Запуски кампаний остаются неприменимыми.",
-              "rawValue": 1
+              "rawValue": 1,
+              "approvalGroup": "dszh-pk-self-service-2026-11-19",
+              "note": "Прямая оценка пользователя: только Наличие Self-service ДСЖ ПК = 100% за III квартал 2026. Успешные бизнес-запуски и прочие оценки не меняются."
             }
           }
         },

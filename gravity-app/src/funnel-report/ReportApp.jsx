@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card} from '@gravity-ui/uikit';
-import data from '../../../outputs/ddi-funnel-levels-2026-11-10/report-data.json';
+import data from './current-data.json';
 import {formatNumber} from './report-model.js';
 
 const BLOCKS = [{code: 'attract', title: 'Привлечение'}, {code: 'churn', title: 'Отток'}];

@@ -13,7 +13,7 @@ const code = 'voronka_vhoda_v_kanal.meropriyatiya_po_rabote_s_otkloneniyami';
 
 test('Savins explicit yes restores only the Chat entry actions score with all four source links and unchanged Q2', () => {
   const original = read('../../public/report-data.json').products;
-  const before = withCurrentAbQuarterWeights(read('../../../outputs/chat-entry-actions-2026-10-30/before.json'));
+  const before = withCurrentAbQuarterWeights(read('../../../tests/fixtures/ddi/chat-entry-actions-2026-10-30/before.json'));
   const assessment = read('../data/chat-entry-actions-q3-2026.json');
   const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
   const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map((m) => [m[1], m[2]]));

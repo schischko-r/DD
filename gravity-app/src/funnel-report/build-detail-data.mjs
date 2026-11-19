@@ -6,7 +6,7 @@ import {summarizeRows} from './report-model.js';
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const root = resolve(directory, '../../..');
-const sourcePath = 'outputs/ddi-funnel-analysis-2026-10-20/standalone-data.json';
+const sourcePath = 'tests/fixtures/ddi/ddi-funnel-analysis-2026-10-20/standalone-data.json';
 const sourceText = await readFile(resolve(root, sourcePath), 'utf8');
 const source = JSON.parse(sourceText);
 const cohort = JSON.parse(await readFile(resolve(directory, 'report-data.json'), 'utf8'));

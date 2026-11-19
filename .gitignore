@@ -20,3 +20,40 @@ ai_product_mapping.xlsx
 Группа на заливку.xlsx
 Индекс Data Driven_ЛЮ_Люди.pptx
 Расчет_список(1).xlsx
+
+# Local exports, analysis workspaces and generated frontend bundles.
+/outputs/
+/.runtime/
+/artifacts/
+/Claude outputs/
+/.interface-design/
+/design-system/
+/Drawing *.excalidraw.md
+/СХ_Dash_3Q.xlsx
+/gravity-app/dist/
+/gravity-app/dist-*/
+**/node_modules/
+
+# Standalone DDI exports are rebuilt from the tracked sources.
+/gravity-standalone.html
+/final_report_from_excel.html
+/final_title_from_excel.html
+/Что_такое_Data_Driven.html
+/Опрос_Вклады_НС.html
+/Опрос_Каналы.html
+/Опрос_Отелло.html
+/Опрос_Сегменты.html
+/moved-standalone.html
+/outflow-tree-v3.html
+/prolongation.html
+/report_merge_funnel_drafts*.html
+/adhoc/report_merge_funnel_drafts/report_merge_funnel_drafts*.html
+
+# Retired local report prototypes and their generated bundle.
+/customer-journey-standalone.html
+/churn-scenarios.html
+/losshunter-закрытие-продуктов.html
+/outflow-tree.html
+/outflow-tree-v2.html
+/prolongation-settlement-options.html
+/charts-dist/dd-funnel.js

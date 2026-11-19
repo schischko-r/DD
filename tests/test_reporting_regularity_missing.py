@@ -19,7 +19,7 @@ def test_explicit_answer_categories_do_not_confuse_absent_with_no():
 
 
 def test_real_regeneration_preserves_sources_and_all_facts_fill_only_missing_values():
-    snapshot = ROOT / 'outputs/reporting-regularity-2026-10-30/before.json'
+    snapshot = ROOT / 'tests/fixtures/ddi/reporting-regularity-2026-10-30/before.json'
     csvs = [ROOT / 'questionare-responses(11).csv', ROOT / 'analysis/1/questionare-responses(8).csv',
             ROOT / 'analysis/1/questionare-responses(9).csv']
     salary = ROOT / 'gravity-app/src/data/salary-products-q3-2026.json'

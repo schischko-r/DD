@@ -2,14 +2,24 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from build_prolongation import DEFAULT_DATA, DEFAULT_TEMPLATE, DEFAULT_TREE, build
+import build_outflow_v3
+from build_prolongation import DEFAULT_DATA, DEFAULT_TEMPLATE, build
 
 
 class BuildProlongationTest(unittest.TestCase):
     def test_generated_page_contains_its_assets_and_external_analysis_link(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
+            tree = Path(directory) / "outflow-tree-v3.html"
+            build_outflow_v3.build(
+                build_outflow_v3.DEFAULT_TEMPLATE,
+                tree,
+                build_outflow_v3.DEFAULT_GRAPH,
+                build_outflow_v3.DEFAULT_CUBE,
+                build_outflow_v3.DEFAULT_CHARTS_JS,
+                build_outflow_v3.DEFAULT_CHARTS_CSS,
+            )
             output = Path(directory) / "prolongation.html"
-            build(DEFAULT_TEMPLATE, output, DEFAULT_TREE, DEFAULT_DATA)
+            build(DEFAULT_TEMPLATE, output, tree, DEFAULT_DATA)
             page = output.read_text(encoding="utf-8")
 
         self.assertNotIn('src="./charts-dist/dd-charts.js"', page)

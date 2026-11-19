@@ -2,11 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {buildDdiPeriodProducts} from './quarterProfiles.js';
+import {beforeDszhPkSelfServiceConfirmation} from './test-fixtures/sberIdNavigatorStage.js';
 const read = p => JSON.parse(readFileSync(new URL(p, import.meta.url)));
 const raw = read('../../public/report-data.json').products;
 const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map(m=>[m[1],m[2]]));
-const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(n=>read(`../data/${imports.get(n.trim())}`));
+const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',').map(n=>read(`../data/${imports.get(n.trim())}`))
+  .map(beforeDszhPkSelfServiceConfirmation);
 const earlier = overlays.map(o=>o.scope!=='q3-score-correction'?o:{...o,products:o.products.map(p=>({...p,
   metrics:Object.fromEntries(Object.entries(p.metrics).filter(([,f])=>f.source?.correction?.group!=='campaignAudit20261103'))}))});
 const build = (period,assessments) => buildDdiPeriodProducts(raw,period,assessments,

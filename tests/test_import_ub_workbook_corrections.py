@@ -10,7 +10,7 @@ spec.loader.exec_module(module)
 
 
 def test_real_file_imports_only_50_ub_correction_cells_and_matches_runtime_data():
-    profiles = json.loads((ROOT / 'outputs/ub-workbook-corrections-2026-11-02/before.json').read_text())
+    profiles = json.loads((ROOT / 'tests/fixtures/ddi/ub-workbook-corrections-2026-11-02/before.json').read_text())
     result = module.build(ROOT / 'Копия DDI_II_III_2026 УБ(1).xlsx', profiles)
     assert result == json.loads((ROOT / 'gravity-app/src/data/ub-workbook-corrections-q3-2026.json').read_text())
     assert result['counts'] == {'teams': 16, 'corrections': 50, 'pending': 0}

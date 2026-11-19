@@ -19,7 +19,7 @@ def test_market_qualification_is_normalized_full_score_and_requires_applicabilit
 
 
 def test_exact_regeneration_preserves_snapshot_and_q2_sources():
-    snapshot = ROOT / 'outputs/goals-navigator-update-2026-10-30/before.json'
+    snapshot = ROOT / 'tests/fixtures/ddi/goals-navigator-update-2026-10-30/before.json'
     report = ROOT / 'gravity-app/public/report-data.json'
     hashes = {path: generator.sha(path) for path in [snapshot, report]}
     goals, navigator = generator.build(snapshot, report)

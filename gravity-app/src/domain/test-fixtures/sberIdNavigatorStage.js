@@ -1,5 +1,18 @@
 // Reproduce earlier approval stages before later, separately tested confirmations.
 // Current-runtime integration tests keep every confirmed assessment.
+export function beforeDszhPkSelfServiceConfirmation(assessment) {
+  if (assessment.scope !== 'q3-score-correction' || assessment.period !== 'III кв. 2026') return assessment;
+  const code = 'attract.nalichie_self_service';
+  return {...assessment, products: assessment.products.map(team => {
+    const fact = team.metrics?.[code];
+    if (team.id !== 'e8c97fe4-bd38-5aa1-9388-5c532cbde6f2¦ДСЖ ПК' || team.name !== 'ДСЖ ПК'
+      || team.unit !== 'УБ' || team.type !== 'Продукт'
+      || fact?.source?.approvalGroup !== 'dszh-pk-self-service-2026-11-19') return team;
+    const previous = fact.source.previousAssessment;
+    return {...team, metrics: {...team.metrics, [code]: {rawValue: previous.rawValue, source: structuredClone(previous.source)}}};
+  })};
+}
+
 export function beforeSberSpasiboNavigatorConfirmation(assessment) {
   if (assessment.scope !== 'q3-score-correction' || assessment.period !== 'III кв. 2026') return assessment;
   const code = 'general.navigator_reporting_knowledge';

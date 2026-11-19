@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / 'outputs/discovery-answers-2026-10-30/generate-assessments.py'
+SCRIPT = ROOT / 'tests/fixtures/ddi/discovery-answers-2026-10-30/generate-assessments.py'
 
 
 def scoring_functions():

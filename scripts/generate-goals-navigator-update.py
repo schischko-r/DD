@@ -36,6 +36,9 @@ def full_score(metric):
 
 
 def build(snapshot_path, report_path):
+    relative_snapshot = snapshot_path.relative_to(ROOT)
+    source_snapshot = (Path('outputs') / relative_snapshot.relative_to('tests/fixtures/ddi')
+                       if relative_snapshot.is_relative_to('tests/fixtures/ddi') else relative_snapshot)
     before = json.loads(snapshot_path.read_text())
     q2 = json.loads(report_path.read_text())['products']
     bnpl = next(p for p in before if p['name'] == 'BNPL' and p['unit'] == 'CBP' and p['type'] == 'Продукт')
@@ -56,7 +59,7 @@ def build(snapshot_path, report_path):
             'sourceTeamId': prior['id'], 'sourceMetricCode': code,
             'sourceValue': previous['value'], 'sourceMaxValue': previous['max_value'],
             'rule': 'Для BNPL три оценки целей III квартала переносятся без изменений из II квартала.'}}
-    common = {'snapshotFile': str(snapshot_path.relative_to(ROOT)), 'snapshotSha256': sha(snapshot_path),
+    common = {'snapshotFile': str(source_snapshot), 'snapshotSha256': sha(snapshot_path),
               'confirmedBy': 'user', 'date': '2026-10-30'}
     goals = {'period': PERIOD, 'scope': 'goals-assessment', 'source': common,
              'products': [{**identity(bnpl), 'metrics': goal_facts}], 'counts': {'teams': 1, 'facts': len(goal_facts)}}
@@ -78,7 +81,7 @@ def build(snapshot_path, report_path):
             continue
         nav_products.append({**identity(product), 'metrics': {NAVIGATOR_CODE: {'rawValue': 1, 'source': {
             'origin': 'userConfirmedNavigatorMarketKnowledgeRule', 'confirmedBy': 'user', 'period': PERIOD,
-            'file': str(snapshot_path.relative_to(ROOT)), 'sha256': sha(snapshot_path), **proof,
+            'file': str(source_snapshot), 'sha256': sha(snapshot_path), **proof,
             'rule': 'Полная нормированная оценка объёма целевого рынка в России означает 1 по знанию отчётности в Навигаторе. Заполняются только пропуски; максимум метрики сохраняется.'}}}})
     navigator = {'period': PERIOD, 'scope': 'key-metrics-assessment', 'source': common,
                  'products': nav_products, 'verified': verified, 'mismatches': mismatches,
@@ -89,7 +92,7 @@ def build(snapshot_path, report_path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--snapshot', type=Path, default=ROOT / 'outputs/goals-navigator-update-2026-10-30/before.json')
+    parser.add_argument('--snapshot', type=Path, default=ROOT / 'tests/fixtures/ddi/goals-navigator-update-2026-10-30/before.json')
     args = parser.parse_args()
     goals, navigator = build(args.snapshot, ROOT / 'gravity-app/public/report-data.json')
     for name, value in [('goals-user-carry-forward-q3-2026.json', goals),

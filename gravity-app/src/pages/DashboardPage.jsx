@@ -211,7 +211,7 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
     .filter((score) => Number.isFinite(score))
     .map(Number);
   const radarAverage = radarScoreValues.length
-    ? Math.round(radarScoreValues.reduce((sum, score) => sum + score, 0) / radarScoreValues.length)
+    ? Math.floor(radarScoreValues.reduce((sum, score) => sum + score, 0) / radarScoreValues.length)
     : null;
   const scopedScoreValues = scopedProducts
     .map((product) => rowForProduct(product)?.score)
@@ -227,7 +227,7 @@ export function DashboardPage({products, rows, baselineProducts, baselineRows, m
     .filter(Number.isFinite)
     .map(Number);
   const previousProfileScore = previousPeriodScores.length
-    ? Math.round(previousPeriodScores.reduce((sum, score) => sum + score, 0) / previousPeriodScores.length)
+    ? (unit ? Math.round : Math.floor)(previousPeriodScores.reduce((sum, score) => sum + score, 0) / previousPeriodScores.length)
     : null;
   const profileDelta = profileScore !== null && previousProfileScore !== null
     ? profileScore - previousProfileScore

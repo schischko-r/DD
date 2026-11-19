@@ -70,7 +70,7 @@ test('final Q3 pipeline uses workbook scores including zeros, carries missing Q2
   const codes = new Set(workbook.source.metricCodes);
   // The independently extracted workbook rows retain text and conflicting duplicates.
   const cells = new Map();
-  for (const row of read('../../../outputs/key-metrics-q3-2026/key-metrics-mapping.json').sourceRows) {
+  for (const row of read('../../../tests/fixtures/ddi/key-metrics-q3-2026/key-metrics-mapping.json').sourceRows) {
     if (!row.teamId || !row.metricCode) continue;
     const key = `${row.teamId}::${row.metricCode}`;
     if (!cells.has(key)) cells.set(key, []);

@@ -15,7 +15,7 @@ const actions = read('../data/funnel-action-missing-q3-2026.json');
 const goals = read('../data/goals-user-carry-forward-q3-2026.json');
 const navigator = read('../data/navigator-market-knowledge-q3-2026.json');
 // The later Cross-sell default is unrelated to this stage's goals/Navigator changes.
-const before = applyCrossSellMissingZeros(read('../../../outputs/goals-navigator-update-2026-10-30/before.json'), goals.period);
+const before = applyCrossSellMissingZeros(read('../../../tests/fixtures/ddi/goals-navigator-update-2026-10-30/before.json'), goals.period);
 const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
 const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map((m) => [m[1], m[2]]));
 const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',')

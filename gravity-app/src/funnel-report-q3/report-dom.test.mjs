@@ -6,10 +6,10 @@ import {compareRows} from './comparison-model.js';
 import {histogramData} from './histogram-data.js';
 import {decorateRows,formatNumber,selectRows,summarizeRows} from './report-model.js';
 
-const data=JSON.parse(readFileSync(new URL('../../../outputs/ddi-funnel-q3-2026-11-03/report-data.json',import.meta.url),'utf8'));
+const data=JSON.parse(readFileSync(new URL('./report-data.json',import.meta.url),'utf8'));
 
 test('offline report filters and recomputes summaries, searches and sorts teams, and exports the filtered block', async()=>{
-  const html=readFileSync(new URL('../../../outputs/ddi-funnel-q3-2026-11-03/report/funnel-report-q3.html',import.meta.url),'utf8');
+  const html=readFileSync(new URL('../../dist-funnel-report-q3/funnel-report-q3.html',import.meta.url),'utf8');
   const errors=[],requests=[],blobs=[],downloads=[];
   const virtualConsole=new VirtualConsole();
   virtualConsole.on('jsdomError',error=>errors.push(error.message));
@@ -46,7 +46,7 @@ test('offline report filters and recomputes summaries, searches and sorts teams,
   const rows=()=>[...doc.querySelectorAll('.teams-table-wrap tbody tr')];
   const values=()=>rows().map(row=>Number(row.querySelector('.table-pct').textContent.replace('%','').replace(',','.')));
   const checkSummary=async(type='all',checkPopups=false)=>{
-    const details=JSON.parse(readFileSync(new URL('../../../outputs/ddi-funnel-q3-2026-11-03/detail-data.json',import.meta.url),'utf8'));
+    const details=JSON.parse(readFileSync(new URL('./detail-data.json',import.meta.url),'utf8'));
     assert.equal(doc.querySelectorAll('.funnel-branch[data-block]').length,2);
     assert.equal(doc.querySelectorAll('[role="dialog"]').length,0,'Histograms are closed by default');
     for(const[code,index,title]of [['attract',0,'Привлечение'],['churn',1,'Отток']]){
@@ -87,7 +87,7 @@ test('offline report filters and recomputes summaries, searches and sorts teams,
   const checkGrowth=(filters={})=>{
     const baseline=JSON.parse(readFileSync(new URL('../funnel-report/report-data.json',import.meta.url),'utf8'));
     const baselineDetails=JSON.parse(readFileSync(new URL('../funnel-report/detail-data.json',import.meta.url),'utf8'));
-    const details=JSON.parse(readFileSync(new URL('../../../outputs/ddi-funnel-q3-2026-11-03/detail-data.json',import.meta.url),'utf8'));
+    const details=JSON.parse(readFileSync(new URL('./detail-data.json',import.meta.url),'utf8'));
     assert.equal(doc.querySelectorAll('[data-growth-scope]').length,6);
     for(const scope of ['whole','reporting','completeness'])for(const code of ['attract','churn']){
       const result=compareRows(scope==='whole'?baseline:baselineDetails.scopes[scope],scope==='whole'?data:details.scopes[scope],code,filters);

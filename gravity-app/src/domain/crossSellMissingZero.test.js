@@ -51,7 +51,7 @@ test('fully missing, one known component, fractional maxima and non-applicable c
 });
 
 test('actual runtime changes exactly two missing salary parents and preserves every known metric, NA and Q2', () => {
-  const before = read('../../../outputs/crosssell-missing-zero-2026-10-30/before.json');
+  const before = read('../../../tests/fixtures/ddi/crosssell-missing-zero-2026-10-30/before.json');
   const source = read('../../public/report-data.json').products;
   const app = readFileSync(new URL('../app/App.jsx', import.meta.url), 'utf8');
   const imports = new Map([...app.matchAll(/import (\w+) from '\.\.\/data\/([^']+\.json)'/g)].map((m) => [m[1], m[2]]));

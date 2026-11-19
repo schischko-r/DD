@@ -5,7 +5,7 @@ import {createHash} from 'node:crypto';
 import {buildTeamProfileProducts} from './teamProfileSelection.js';
 const actual=JSON.parse(readFileSync(new URL('../../public/report-data.json',import.meta.url))).products;
 const overlay=JSON.parse(readFileSync(new URL('../data/goals-metrics-q3-2026.json',import.meta.url)));
-const mapping=JSON.parse(readFileSync(new URL('../../../outputs/goals-q3-2026-mapping/ddi-goals-mapping.json',import.meta.url)));
+const mapping=JSON.parse(readFileSync(new URL('../../../tests/fixtures/ddi/goals-q3-2026-mapping/ddi-goals-mapping.json',import.meta.url)));
 const others=['mechanics','campaign','draft','crosssell','research','funnel-reporting','ux-score'].map(name=>JSON.parse(readFileSync(new URL(`../data/${name}-metrics-q3-2026.json`,import.meta.url))));
 const columns=[['goals.monitored','C',3],['goals.forecast','D',4],['goals.factor_analysis_l1_l2','E',5]];
 const codes=columns.map(c=>c[0]),metrics=p=>p.metrics.flatMap(b=>b.metrics);
@@ -65,7 +65,7 @@ test('goals scope projects exactly three goal metrics across all team types and 
 });
 
 test('the delta artifact compares only the three goals with Q2 using the effective Q3 index denominator',()=>{
-  const delta=JSON.parse(readFileSync(new URL('../../../outputs/goals-q3-2026-mapping/goals-delta.json',import.meta.url)));
+  const delta=JSON.parse(readFileSync(new URL('../../../tests/fixtures/ddi/goals-q3-2026-mapping/goals-delta.json',import.meta.url)));
   const current=buildTeamProfileProducts(actual,overlay.period,[...others,overlay]);assert.equal(delta.rows.length,74);assert.equal(delta.pending.length,9);
   let beforeTotal=0,afterTotal=0,up=0,down=0,flat=0;
   const round=v=>Math.round(v*10000)/10000;

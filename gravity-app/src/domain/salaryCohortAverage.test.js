@@ -33,7 +33,7 @@ test('loading the report with an empty source does not require salary cohorts be
 });
 
 test('one salary product averages all metrics in exactly five blocks after child scoring and preserves both cohorts in full', () => {
-  const before = withCurrentAbQuarterWeights(read('../../../outputs/salary-merged-2026-10-30/before.json'));
+  const before = withCurrentAbQuarterWeights(read('../../../tests/fixtures/ddi/salary-merged-2026-10-30/before.json'));
   const input = JSON.stringify({source, salary, reporting, actions, overlays, before});
   const legacy = buildDdiCohortProducts(source, period, overlays, salary, reporting, actions);
   const after = buildDdiPeriodProducts(source, period, overlays, salary, reporting, actions);

@@ -3,7 +3,7 @@ import test from 'node:test';
 import {readFileSync} from 'node:fs';
 import {formatNumber, selectRows, summarizeRows, decorateRows, makeCsv} from './report-model.js';
 
-const dataset = JSON.parse(readFileSync(new URL('../../../outputs/ddi-funnel-q3-2026-11-03/report-data.json', import.meta.url), 'utf8'));
+const dataset = JSON.parse(readFileSync(new URL('./report-data.json', import.meta.url), 'utf8'));
 const rowsFor = scores => scores.map((pct, index) => ({id: `team-${index}`, team: `Команда ${index}`, pct}));
 
 test('Q3 summaries reconcile all source rows, counts and distributions', () => {

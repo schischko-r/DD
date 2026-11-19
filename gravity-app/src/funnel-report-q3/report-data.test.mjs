@@ -4,23 +4,24 @@ import {createHash} from 'node:crypto';
 import test from 'node:test';
 import {compareRows} from './comparison-model.js';
 const root = new URL('../../../', import.meta.url);
-const path = 'outputs/ddi-funnel-q3-2026-11-03/';
+const path = 'gravity-app/src/funnel-report-q3/';
+const fixtures = 'tests/fixtures/ddi/ddi-funnel-q3-2026-11-03/';
 const read = file => readFileSync(new URL(file, root), 'utf8');
 const json = file => JSON.parse(read(file));
 const current = json(path+'report-data.json'), detail = json(path+'detail-data.json');
-const baseline = json(path+'baseline-report-data.json'), oldDetail = json(path+'baseline-detail-data.json');
-const comparison = json(path+'comparison-data.json'), snapshot = json(path+'current-snapshot.json');
+const baseline = json(fixtures+'baseline-report-data.json'), oldDetail = json(fixtures+'baseline-detail-data.json');
+const comparison = json(fixtures+'comparison-data.json'), snapshot = json(fixtures+'current-snapshot.json');
 const key = r => String(r.sourceTeamId || r.id).replace(/::empty::.*/, '');
 const near = (a,b) => assert.ok(Math.abs(a-b)<1e-9, `${a} != ${b}`);
 const mean = values => values.reduce((a,b)=>a+b,0)/values.length;
 const median = values => {const a=[...values].sort((a,b)=>a-b); return (a[Math.floor((a.length-1)/2)]+a[Math.ceil((a.length-1)/2)])/2;};
 
 test('baseline copies remain byte identical, source hash and 76 unique Q3 teams reconcile', () => {
-  for (const name of ['report-data.json','detail-data.json']) assert.equal(read(path+'baseline-'+name),read('gravity-app/src/funnel-report/'+name));
+  for (const name of ['report-data.json','detail-data.json']) assert.equal(read(fixtures+'baseline-'+name),read('gravity-app/src/funnel-report/'+name));
   assert.equal(current.totalTeams,76); assert.equal(snapshot.products.length,76);
   assert.equal(new Set(snapshot.products.map(key)).size,76);
   assert.ok(snapshot.products.every(p=>p.period==='III кв. 2026'));
-  assert.equal(current.sha256,createHash('sha256').update(read(path+'current-snapshot.json')).digest('hex'));
+  assert.equal(current.sha256,createHash('sha256').update(read(fixtures+'current-snapshot.json')).digest('hex'));
 });
 
 test('all six Q3 slices independently reconcile against literal snapshot metrics, including missing values', () => {

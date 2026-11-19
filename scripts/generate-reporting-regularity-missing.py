@@ -86,6 +86,9 @@ def matched_responses(product, responses, salary, before):
 
 
 def build(snapshot_path, csv_paths, salary_path):
+    relative_snapshot = snapshot_path.relative_to(ROOT)
+    source_snapshot = (Path('outputs') / relative_snapshot.relative_to('tests/fixtures/ddi')
+                       if relative_snapshot.is_relative_to('tests/fixtures/ddi') else relative_snapshot)
     before = json.loads(snapshot_path.read_text())
     salary = json.loads(salary_path.read_text())
     responses, excluded = load_responses(csv_paths)
@@ -147,7 +150,7 @@ def build(snapshot_path, csv_paths, salary_path):
               'mismatches': len(mismatches), 'mismatchTeams': len({r['id'] for r in mismatches}),
               'verified': len(verified), 'pending': len(pending)}
     return {'period': PERIOD, 'scope': 'reporting-regularity-missing-assessment',
-            'source': {'rule': RULE, 'snapshotFile': str(snapshot_path.relative_to(ROOT)),
+            'source': {'rule': RULE, 'snapshotFile': str(source_snapshot),
                        'snapshotSha256': sha(snapshot_path), 'csvFiles': [{'file': str(p.relative_to(ROOT)), 'sha256': sha(p)} for p in csv_paths],
                        'salaryFile': str(salary_path.relative_to(ROOT)), 'salarySha256': sha(salary_path),
                        'excludedRespondents': excluded},
@@ -156,7 +159,7 @@ def build(snapshot_path, csv_paths, salary_path):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--snapshot', type=Path, default=ROOT / 'outputs/reporting-regularity-2026-10-30/before.json')
+    parser.add_argument('--snapshot', type=Path, default=ROOT / 'tests/fixtures/ddi/reporting-regularity-2026-10-30/before.json')
     parser.add_argument('--output', type=Path, default=ROOT / 'gravity-app/src/data/reporting-regularity-missing-q3-2026.json')
     args = parser.parse_args()
     result = build(args.snapshot, [ROOT / 'questionare-responses(11).csv',
@@ -164,6 +167,7 @@ def main():
         ROOT / 'gravity-app/src/data/salary-products-q3-2026.json')
     args.output.write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
     audit_dir = ROOT / 'outputs/reporting-regularity-2026-10-30'
+    audit_dir.mkdir(parents=True, exist_ok=True)
     (audit_dir / 'mismatches.json').write_text(json.dumps(result['mismatches'], ensure_ascii=False, indent=2) + '\n')
     lines = ['# Ранее выставленные оценки сохранены', '',
              '| Команда | Юнит | Воронка | Метрика | Сейчас | По новому правилу | Ответ |',

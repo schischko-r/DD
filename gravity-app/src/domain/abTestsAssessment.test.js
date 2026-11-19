@@ -23,7 +23,7 @@ const overlays = app.match(/const Q3_OVERLAYS = \[([^\]]+)\]/)[1].split(',')
   .map((key) => historicalAssessmentBatch(read(`../data/${imports.get(key.trim())}`)));
 
 test('the 39 explicit assessments activate only their own AB rubric and preserve all unrelated scores, unlisted teams and Q2', () => {
-  const before = read('../../../outputs/ab-tests-q3-2026/before.json');
+  const before = read('../../../tests/fixtures/ddi/ab-tests-q3-2026/before.json');
   const salary = salaryBeforeMechanicsConfirmation(read('../data/salary-products-q3-2026.json'));
   const reporting = read('../data/reporting-regularity-missing-q3-2026.json');
   const actions = read('../data/funnel-action-missing-q3-2026.json');

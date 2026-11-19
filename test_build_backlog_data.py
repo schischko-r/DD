@@ -1730,7 +1730,7 @@ class AdditiveBacklogImportTest(unittest.TestCase):
             for kind in ('months', 'quarters'):
                 for snapshot in team[kind]:
                     self.assertEqual(next(s for s in merged[kind] if s['key'] == snapshot['key']), snapshot)
-        before = json.loads((root / 'outputs/backlog-final-refresh-2026-10-29/backlog-before.json').read_text())
+        before = json.loads((root / 'tests/fixtures/ddi/backlog-final-refresh-2026-10-29/backlog-before.json').read_text())
         self.assertEqual(len(combined['teams']), 11)
         self.assertEqual(sum(len(t['memberTeams']) for t in combined['teams']), 24)
         for team in before['teams']:

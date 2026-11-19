@@ -4,12 +4,12 @@ import test from 'node:test';
 import {JSDOM, VirtualConsole} from 'jsdom';
 import {formatNumber} from './report-model.js';
 
-const data=JSON.parse(readFileSync(new URL('../../../outputs/ddi-funnel-levels-2026-11-10/report-data.json',import.meta.url),'utf8'));
+const data=JSON.parse(readFileSync(new URL('./current-data.json',import.meta.url),'utf8'));
 const text=node=>node.textContent.replace(/\s+/g,' ').trim();
 const near=(actual,expected,message)=>assert.ok(Math.abs(actual-expected)<1e-8,`${message}: ${actual} != ${expected}`);
 
 async function mount(){
-  const html=readFileSync(new URL('../../../outputs/ddi-funnel-analysis-2026-10-20/report/funnel-report.html',import.meta.url),'utf8');
+  const html=readFileSync(new URL('../../dist-funnel-report/funnel-report.html',import.meta.url),'utf8');
   const errors=[],requests=[],virtualConsole=new VirtualConsole();
   virtualConsole.on('jsdomError',error=>errors.push(error.message));
   virtualConsole.on('error',(...args)=>errors.push(args.join(' ')));
