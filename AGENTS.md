@@ -48,3 +48,11 @@
 - `reviewer` независимо принимает результат и возвращает только `APPROVED` или `CHANGES_REQUESTED`.
 - Нельзя объявлять задачу `done` до `reviewer: APPROVED`.
 - При `CHANGES_REQUESTED` создаются исправления и повторная приёмка.
+
+## Дизайн автономных страниц DDI
+
+- Перед созданием или визуальным изменением standalone HTML в стилистике клиентского цикла, ОСАГО или CJHUB прочитай `.interface-design/system.md` и `design-system/README.md`.
+- Переиспользуй контракты `design-system/components.json` и семантические токены; выбранные графические паттерны не заменяй упрощёнными текстовыми списками.
+- Главный источник значений — `design-system/tokens.json`; `tokens.css`, `ddi.css` и каталог `index.html` собираются через `node design-system/build.mjs`, вручную их не редактируй.
+- При изменении системы обновляй пример, контракт и `design-system/CHANGELOG.md`; запускай сборку, `--check` и релевантные тесты.
+- Эти правила не заменяют Gravity UI в `gravity-app/` и не требуют автоматически мигрировать старые HTML-документы.

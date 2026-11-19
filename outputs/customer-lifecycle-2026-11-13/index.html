@@ -1,0 +1,835 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Клиентский цикл · DDI</title>
+<style>
+
+*{box-sizing:border-box}body{margin:0;background:#fff}.presentation{--lc-paper:#fff;--lc-sheet:#fff;--lc-ink:#202124;--lc-secondary:#5f6368;--lc-tertiary:#787878;--lc-line:#e4e4e4;--lc-emerald:#626262;--lc-light:#fff;--lc-control:#f7f7f7;--lc-focus:#006b91;--lc-bank:#f7edfc;--lc-bank-rail:#a878d1;--lc-bank-title:#684391;--lc-churn:#ffe3dc;--lc-churn-rail:#dc7565;--lc-churn-title:#9c3b2b;--lc-first-sale:#e4f7fc;--lc-first-sale-rail:#2a9fc4;--lc-first-sale-title:#006b91;--lc-reactivation:#ffe8d4;--lc-reactivation-rail:#f18742;--lc-reactivation-title:#91421e;--lc-organic:#f2f2f2;--lc-remaining:#f2f2f2;--lc-unknown:#f5f5f5;--lc-churn-accent:#9c3b2b;--lc-organic-accent:#858585;background:var(--lc-paper);color:var(--lc-ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:36px 40px 28px;min-width:320px;overflow:hidden}.document{max-width:1440px;margin:auto}.masthead{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--lc-line);padding-bottom:20px;gap:24px}.identity{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}.identity svg{width:32px;height:32px;flex:none}.edition{font-size:12px;color:var(--lc-secondary);letter-spacing:.04em}.intro{display:flex;align-items:flex-end;justify-content:space-between;gap:48px;margin:32px 0 28px}h1{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;font-size:44px;line-height:1.07;letter-spacing:-.03em;margin:0;max-width:680px;text-wrap:balance}.intro-copy{max-width:372px;color:var(--lc-secondary);font-size:15px;line-height:1.6;margin:0 0 2px;text-wrap:pretty}.toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 0 16px}.legend{display:flex;align-items:center;gap:22px;flex-wrap:wrap;color:var(--lc-secondary);font-size:12px}.legend span{display:flex;align-items:center;gap:8px}.legend i{display:inline-block;width:22px;height:2px;background:var(--lc-emerald)}.legend i.organic{background:var(--lc-organic-accent)}.legend i.return{background:none;border-top:1px dashed var(--lc-churn-accent)}.controls{display:flex;gap:6px;flex:none}button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--lc-line);background:var(--lc-sheet);border-radius:4px;min-height:40px;padding:8px 12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:500;transition:background .18s,transform .18s;white-space:nowrap}button:hover{background:var(--lc-control)}button:active{transform:scale(.97)}button:focus-visible,.scroll-area:focus-visible{outline:2px solid var(--lc-focus);outline-offset:4px}button:disabled{cursor:default;color:var(--lc-secondary)}button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7}.scroll-hint{display:none;font-size:12px;color:var(--lc-secondary);margin:0 0 12px}.diagram-shell{background:var(--lc-sheet);border:1px solid var(--lc-line);border-radius:6px;overflow:hidden}.scroll-area{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-color:#c7c7c7 transparent;scrollbar-width:thin}.diagram{width:1336px;height:894px;position:relative;margin:0 auto;isolation:isolate}.wires{position:absolute;inset:0;width:1336px;height:894px;pointer-events:none;z-index:1}.wire{fill:none;stroke:var(--lc-line);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}.wire.managed{stroke:var(--lc-emerald);opacity:.66}.wire.organic{stroke:var(--lc-organic-accent)}.wire.return{stroke:var(--lc-churn-accent);stroke-dasharray:4 5;opacity:.8}.traveller{fill:var(--lc-emerald);opacity:0}.traveller.organic{fill:var(--lc-organic-accent)}.phase{position:absolute;left:24px;width:92px;z-index:3;display:flex;flex-direction:column;gap:8px}.phase-number{font-size:11px;letter-spacing:.08em;color:var(--lc-tertiary);font-variant-numeric:tabular-nums}.phase-title{font-size:12px;line-height:1.4;font-weight:600}.node{position:absolute;z-index:3;border:1px solid var(--lc-line);border-radius:4px;box-shadow:none;background:var(--lc-sheet);padding:16px;display:flex;flex-direction:column;justify-content:center}.node-title{font-size:17px;font-weight:600;color:var(--lc-node-title,var(--lc-ink));line-height:1.3;letter-spacing:-.025em;margin:0}.node-sub{font-size:12px;line-height:1.45;color:var(--lc-node-sub,var(--lc-secondary));margin-top:5px}.market-universe{box-shadow:none;left:152px;top:24px;width:1156px;height:44px;background:var(--lc-sheet);border-color:var(--lc-line);color:var(--lc-ink);flex-direction:row;align-items:center;justify-content:space-between;padding:0 20px}.market-universe .node-title{font-size:19px;letter-spacing:0}.market-universe .node-sub{margin:0;color:var(--lc-secondary);font-size:12px}.market-band{height:40px;top:88px;flex-direction:row;align-items:center;justify-content:space-between;padding:0 16px;background:var(--lc-remaining)}.market-band .node-title{font-size:16px}.market-band .node-sub{margin:0;font-size:11px}.sam{left:152px;width:900px;background:var(--lc-bank)}.outside{left:1072px;width:236px}.market-node{top:168px;height:80px}.churned{left:168px;width:204px;background:var(--lc-churn)}.new{left:388px;width:204px;background:var(--lc-first-sale)}.rest{left:624px;width:412px;background:var(--lc-remaining);justify-content:flex-start;padding:13px 16px}.rest .node-title{font-size:14px;margin-bottom:9px}.segments{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:6px}.segments span{font-size:12px;color:var(--lc-secondary);padding-right:10px;border-right:1px solid var(--lc-line);line-height:1.2;white-space:nowrap}.segments span:last-child{border:0;padding:0}.managed-area{position:absolute;left:152px;top:136px;width:456px;height:420px;z-index:0;border-radius:6px;background:var(--lc-light);border:1px solid var(--lc-line)}.lane-label{position:absolute;top:144px;left:168px;z-index:3;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--lc-secondary)}.lane-label::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--lc-emerald)}.knowledge{top:280px;height:64px}.known-managed{left:168px;width:424px;border-color:var(--lc-line);background:var(--lc-bank);padding:12px 16px}.known-managed .node-title{font-size:14px}.known-managed .node-sub{margin-top:4px;color:var(--lc-node-sub,var(--lc-secondary))}.known-idle{left:624px;width:196px;background:var(--lc-remaining)}.unknown{left:836px;width:200px;background:var(--lc-unknown)}.knowledge .node-title{font-size:14px}.knowledge .node-sub{font-size:12px;margin-top:3px}.comm{top:364px;height:44px;align-items:center;padding:8px 12px;background:var(--lc-sheet);border-color:var(--lc-line)}.comm .node-title{font-size:13px;font-weight:600;letter-spacing:0}.comm.churn{left:168px;width:204px;background:var(--lc-reactivation)}.comm.fresh{left:388px;width:204px;background:var(--lc-first-sale)}.activation-rule{position:absolute;left:152px;top:432px;width:1156px;border-top:1px dashed #d1d1d1;z-index:2}.activation-label{position:absolute;left:628px;top:419px;z-index:4;background:var(--lc-sheet);padding:5px 12px;font-size:11px;letter-spacing:.02em;color:var(--lc-secondary);display:flex;align-items:center;gap:8px;white-space:nowrap}.activation-label svg{width:14px;height:14px;fill:none;stroke:var(--lc-emerald);stroke-width:1.5}.sale{top:468px;height:72px;border-color:var(--lc-line);background:var(--lc-sheet)}.sale .node-title{font-size:19px}.sale .node-sub{font-size:11px;letter-spacing:.01em;text-transform:uppercase;color:var(--lc-node-sub,var(--lc-secondary))}.reactivation-sale{left:168px;width:204px;background:var(--lc-reactivation)}.ftb-sale{left:388px;width:204px;background:var(--lc-first-sale)}.organic-sale{left:728px;width:220px;border-color:var(--lc-line);background:var(--lc-organic)}.organic-sale .node-sub{color:var(--lc-secondary);text-transform:none;letter-spacing:0}.outside-sale{left:1090px;width:200px;border-color:var(--lc-line);background:var(--lc-organic)}.outside-sale .node-sub{color:var(--lc-secondary);text-transform:none;letter-spacing:0}.outside-context{position:absolute;left:1090px;top:172px;width:196px;font-size:13px;line-height:1.6;color:var(--lc-secondary);z-index:3}.outside-context p{margin:0 0 12px}.outside-context .small{font-size:11px;color:var(--lc-tertiary)}.mau-area{position:absolute;left:152px;top:616px;width:1156px;height:148px;border:1px solid var(--lc-line);border-radius:6px;background:var(--lc-light);z-index:0}.mau-heading{position:absolute;left:176px;top:632px;right:48px;display:flex;align-items:center;gap:12px;z-index:3}.mau-heading strong{font-weight:600;letter-spacing:-.04em;font-size:25px;line-height:1}.mau-heading span{font-size:12px;color:var(--lc-secondary)}.base-node{top:676px;height:64px;padding:12px 14px;align-items:center;text-align:center}.base-node .node-title{font-size:16px}.base-outflow{left:176px;width:156px;background:var(--lc-churn);border-color:var(--lc-line)}.base-reactivation{left:348px;width:210px;background:var(--lc-reactivation)}.base-ftb{left:574px;width:150px;background:var(--lc-first-sale)}.base-self{left:740px;width:232px;background:var(--lc-organic)}.base-stable{left:988px;width:296px;background:var(--lc-bank);border-color:var(--lc-line)}.bracket{position:absolute;height:16px;border-bottom:1px solid #cdcdcd;border-left:1px solid #cdcdcd;border-right:1px solid #cdcdcd;border-radius:0 0 7px 7px;z-index:2}.bracket-sales{left:348px;top:780px;width:624px}.bracket-retention{left:348px;top:832px;width:936px}.bracket-label{position:absolute;font-size:12px;font-weight:500;z-index:3;white-space:nowrap;background:var(--lc-sheet);padding:0 12px;color:var(--lc-secondary)}.sales-label{left:593px;top:789px}.retention-label{left:718px;top:841px;display:flex;gap:10px;align-items:baseline}.retention-label strong{font-weight:600;color:var(--lc-ink)}.retention-label span{font-size:11px;letter-spacing:.04em}.return-label{position:absolute;left:119px;top:507px;transform:rotate(-90deg);transform-origin:left top;white-space:nowrap;background:var(--lc-sheet);padding:2px 8px;font-size:11px;color:var(--lc-churn-accent);z-index:3}.diagram-caption{padding:16px 24px 18px;border-top:1px solid var(--lc-line);display:flex;justify-content:space-between;gap:32px;align-items:flex-start}.diagram-caption p{margin:0;color:var(--lc-secondary);font-size:12px;line-height:1.55;max-width:820px}.diagram-caption span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;color:var(--lc-tertiary);padding-top:2px}.footnotes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-top:24px}.footnote{padding-left:16px;border-left:1px solid var(--lc-line)}.footnote h2{margin:0 0 6px;font-size:12px;font-weight:600;line-height:1.5}.footnote p{margin:0;color:var(--lc-secondary);font-size:12px;line-height:1.6}.footer{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:28px;padding-top:16px;border-top:1px solid var(--lc-line);color:var(--lc-tertiary);font-size:10px;letter-spacing:.06em;text-transform:uppercase}.entrance{animation:arrive .65s cubic-bezier(.23,1,.32,1) both;animation-delay:var(--delay,0ms)}@keyframes arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}.paused .entrance{animation-play-state:paused} @media(max-width:1380px){.scroll-hint{display:block}.presentation{padding-left:24px;padding-right:24px}.intro{gap:28px}.intro-copy{max-width:340px}}@media(max-width:760px){.presentation{padding:24px 16px}.masthead{align-items:flex-start;padding-bottom:16px}.identity{font-size:10px;letter-spacing:.09em;gap:8px}.identity svg{width:26px;height:26px}.edition{display:none}.intro{display:block;margin:24px 0}h1{font-size:36px;max-width:520px}.intro-copy{margin-top:16px;font-size:14px;max-width:500px}.toolbar{align-items:flex-start;gap:12px;flex-direction:column}.legend{gap:16px;font-size:11px}.controls{align-self:flex-end}.diagram-shell{border-radius:6px}.diagram-caption{padding:16px;display:block}.diagram-caption span{display:block;margin-top:12px}.footnotes{grid-template-columns:1fr;gap:16px}.footer{font-size:9px;align-items:flex-start;line-height:1.6}.scroll-hint{line-height:1.5}}@media(prefers-reduced-motion:reduce){.entrance{animation:none!important}.traveller{display:none}button{transition:none}}@media print{@page{size:A3 landscape;margin:10mm}.presentation{padding:0;background:white;overflow:visible}.document{max-width:none}.controls,.scroll-hint{display:none}.masthead{padding-bottom:12px}.intro{margin:16px 0}h1{font-size:32px}.intro-copy{font-size:13px}.toolbar{padding-bottom:10px}.diagram-shell{break-inside:avoid}.scroll-area{overflow:visible}.diagram{margin:0;width:1336px;height:894px;zoom:.89}.diagram-caption{padding:10px 16px}.footnotes{margin-top:16px;gap:20px}.footer{margin-top:16px}.entrance{animation:none!important}.traveller{display:none}.wire{print-color-adjust:exact;-webkit-print-color-adjust:exact}.node,.managed-area,.mau-area{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+/* Visual adaptation of the user-supplied Notion Calendar screenshot.
+   White canvas, compact event-like cards, clear pastel containers, category
+   title ink and a thin category frame. These are sampled/adapted colors,
+   not an official Notion palette. Structural routes stay neutral gray. */
+.presentation .reactivation-share{position:absolute;left:168px;top:566px;width:96px;padding:4px 6px;border-radius:3px;background:var(--lc-reactivation);color:var(--lc-reactivation-title);font-size:11px;line-height:1.4;text-align:center;white-space:nowrap;z-index:3}
+.traveller[data-route="return-path"]{fill:var(--lc-churn-accent)}
+.presentation .rest,.presentation .known-idle,.presentation .unknown,.presentation .organic-sale,.presentation .base-self,.presentation .outside,.presentation .outside-sale{--lc-ink:#333;--lc-secondary:#626262;--lc-line:#e1e1e1;--lc-node-rail:#b7b7b7;--lc-node-title:#4c4c4c;--lc-node-sub:#626262;color:var(--lc-ink)}
+.presentation .sam,.presentation .known-managed,.presentation .base-stable{--lc-node-rail:var(--lc-bank-rail);--lc-node-title:var(--lc-bank-title);--lc-node-sub:var(--lc-bank-title)}
+.presentation .new,.presentation .comm.fresh,.presentation .ftb-sale,.presentation .base-ftb{--lc-node-rail:var(--lc-first-sale-rail);--lc-node-title:var(--lc-first-sale-title);--lc-node-sub:var(--lc-first-sale-title)}
+.presentation .comm.churn,.presentation .reactivation-sale,.presentation .base-reactivation{--lc-node-rail:var(--lc-reactivation-rail);--lc-node-title:var(--lc-reactivation-title);--lc-node-sub:var(--lc-reactivation-title)}
+.presentation .churned,.presentation .base-outflow{--lc-node-rail:var(--lc-churn-rail);--lc-node-title:var(--lc-churn-title);--lc-node-sub:var(--lc-churn-title)}
+.presentation .node{border-color:var(--lc-node-rail,var(--lc-line));box-shadow:none}
+
+/* The original lifecycle diagram stays intact; the document frames it as a scroll story. */
+:root{--cycle-paper:#fff;--cycle-ink:#16283b;--cycle-secondary:#657486;--cycle-muted:#7b8796;--cycle-line:#e9edf2;--cycle-blue:#2858d9;--cycle-wash:#f7f9fd;--cycle-gutter:48px;scroll-behavior:smooth;scroll-snap-type:y proximity;scroll-padding-top:0}
+body{background:var(--cycle-paper);color:var(--cycle-ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;margin:0}
+a{color:inherit;text-decoration:none}a:focus-visible,button:focus-visible{outline:2px solid var(--cycle-blue);outline-offset:5px}a:hover{color:var(--cycle-blue)}
+.skip-link{position:fixed;z-index:20;top:12px;left:12px;padding:12px 16px;background:var(--cycle-paper);border:1px solid var(--cycle-blue);transform:translateY(-160%)}.skip-link:focus{transform:none}
+.page-header{height:72px;position:absolute;z-index:5;left:264px;right:var(--cycle-gutter);top:0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--cycle-line);gap:24px;font-size:12px}.brand{display:flex;align-items:center;gap:16px}.brand strong{font-size:18px;letter-spacing:-.05em;color:var(--cycle-blue)}.brand span{border-left:1px solid var(--cycle-line);padding-left:16px;color:var(--cycle-secondary)}.header-note{color:var(--cycle-secondary);font-size:11px;letter-spacing:.04em}
+.cycle-main{margin-left:216px}.cycle-screen{min-height:100svh;padding:80px var(--cycle-gutter) 32px;scroll-snap-align:start;position:relative;display:flex;flex-direction:column;justify-content:center;gap:32px;border-bottom:1px solid var(--cycle-line)}.cycle-screen:last-child{border-bottom:0}.screen-inner{width:100%;max-width:1120px;margin:0 auto}.overview-screen{padding-top:104px;padding-bottom:20px;gap:16px;justify-content:flex-start}.overview-heading{border-top:1px solid var(--cycle-ink);padding-top:20px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px}.eyebrow{display:flex;gap:12px;align-items:center;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;color:var(--cycle-secondary);margin:0 0 16px}.eyebrow .chapter{color:var(--cycle-blue);font-variant-numeric:tabular-nums}.overview-heading h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(32px,3.3vw,52px);font-weight:550;letter-spacing:-.055em;line-height:1.08;max-width:none;margin:0}.overview-heading p{font-size:13px;color:var(--cycle-secondary);line-height:1.6;max-width:280px;margin:0}.overview-tools{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:16px 0 8px}.overview-tools .legend{font-size:10px;gap:16px}.overview-tools .legend i{width:16px}.controls button,.zoom-button{min-height:36px;font-size:11px;border-color:var(--cycle-line);border-radius:6px;padding:8px 10px;background:var(--cycle-paper);color:var(--cycle-secondary)}.controls{gap:4px}.zoom-button{color:var(--cycle-ink)}
+.presentation{padding:0!important;min-width:0;overflow:visible;background:none;font-family:inherit}.diagram-shell{border-color:var(--cycle-line);border-radius:8px}.diagram-viewport{overflow:auto;max-width:100%;overscroll-behavior:contain;scrollbar-width:thin}.diagram-stage{margin:0 auto;position:relative}.diagram{margin:0;transform-origin:0 0}.diagram-footnote{display:flex;align-items:center;justify-content:space-between;gap:24px;color:var(--cycle-secondary);font-size:10px;line-height:1.5;padding:12px 0 0}.diagram-footnote p{margin:0;max-width:650px}.mobile-diagram-hint{display:none}.next-section{display:inline-flex;align-items:center;gap:12px;font-size:12px;color:var(--cycle-secondary);min-height:44px}.next-section b{font-size:18px;font-weight:400;color:var(--cycle-blue)}.screen-bottom{display:flex;justify-content:space-between;align-items:center;gap:24px;color:var(--cycle-muted);font-size:10px;margin-top:auto;padding-top:24px}.screen-bottom span{font-variant-numeric:tabular-nums;letter-spacing:.06em}
+.stage-heading{margin-bottom:48px}.stage-heading h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,6.6vw,88px);font-weight:500;letter-spacing:-.065em;line-height:1.03;margin:0 0 24px;text-wrap:balance}.stage-heading .lead{font-size:clamp(17px,1.7vw,22px);line-height:1.5;letter-spacing:-.02em;max-width:700px;margin:0;color:var(--cycle-secondary)}
+.placeholder-copy{font-size:24px;line-height:1.5;color:var(--cycle-secondary);margin:0}.task-list-heading{font-size:12px;font-weight:500;color:var(--cycle-secondary);margin:0 0 20px}.task-list{margin:0;padding:0;list-style:none;border-top:1px solid var(--cycle-line)}.task-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:24px;min-height:80px;padding:24px 0;border-bottom:1px solid var(--cycle-line)}.task-question{font-size:20px;line-height:1.5;letter-spacing:-.02em}.task-resource{font-size:14px;font-weight:500;line-height:1.5;color:var(--cycle-blue);white-space:nowrap}.task-resource.is-pending{color:var(--cycle-secondary);font-weight:400}
+.stage-nav{position:fixed;z-index:10;left:32px;top:50%;transform:translateY(-50%);width:160px;background:var(--cycle-paper);font-size:12px}.nav-caption{margin:0 0 20px 24px;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--cycle-muted)}.stage-nav a{position:relative;display:flex;align-items:center;min-height:44px;padding:8px 0 8px 24px;color:var(--cycle-secondary);transition:color .15s;line-height:1.4}.stage-nav a::before{content:"";position:absolute;left:0;top:50%;width:8px;height:1px;background:#d4dbe4;transform:translateY(-50%)}.stage-nav a:hover{color:var(--cycle-ink)}.stage-nav a:hover::before{width:16px;background:var(--cycle-secondary)}.stage-nav a[aria-current="location"]{color:var(--cycle-blue);font-weight:550}.stage-nav a[aria-current="location"]::before{width:16px;height:2px;background:var(--cycle-blue)}.nav-group{margin-top:0}.stage-nav .nav-parent{font-size:13px;font-weight:550;color:var(--cycle-ink)}.stage-nav .nav-child{font-size:11px;padding-left:32px}.nav-group.is-current .nav-parent{color:var(--cycle-blue)}.nav-divider{margin:4px 0;width:4px;height:8px;background:repeating-linear-gradient(to bottom,#d4dbe4 0,#d4dbe4 1px,transparent 1px,transparent 6px)}
+@media(min-width:1600px){:root{--cycle-gutter:64px}.cycle-main{margin-left:248px}.page-header{left:312px}.stage-nav{left:48px;width:168px}.overview-heading h1{font-size:52px}}
+@media(max-width:1000px){:root{--cycle-gutter:28px}.cycle-main{margin-left:176px}.page-header{left:204px}.stage-nav{left:20px;width:136px}.overview-heading{display:block}.overview-heading p{max-width:440px;margin-top:12px;font-size:12px}.overview-tools .legend{gap:8px;flex-wrap:wrap}.overview-tools{align-items:flex-end}.stage-heading h2{font-size:64px}.sales-surface{gap:32px}.market-partition{grid-template-columns:1.5fr 1fr}.market-frame,.market-sam,.market-outside{padding:20px}.attraction-paths{gap:24px}.flow-row{font-size:13px;align-items:flex-start;flex-direction:column;gap:8px;padding:12px 0}.flow-row small{text-align:left;max-width:none}}
+@media(max-width:760px){:root{--cycle-gutter:20px;scroll-padding-top:72px;scroll-snap-type:none}.page-header{position:relative;height:64px;left:auto;right:auto;margin:0 20px}.header-note{display:none}.cycle-main{margin:0}.stage-nav{top:0;right:auto;left:0;transform:none;width:100%;padding:8px 16px;display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--cycle-line);position:sticky;scrollbar-width:none;background:#fff}.nav-caption,.nav-divider{display:none}.nav-group{display:contents;margin:0}.stage-nav a,.stage-nav .nav-child{min-height:44px;flex:none;padding:8px 12px;white-space:nowrap;font-size:11px}.stage-nav .nav-parent{display:none}.stage-nav .nav-sales{display:flex}.stage-nav a::before{display:none}.stage-nav a[aria-current="location"]{background:var(--cycle-wash);border-radius:4px}.cycle-screen{padding:56px 20px 24px;min-height:calc(100svh - 61px);gap:24px;scroll-margin-top:72px}.overview-screen{padding-top:32px}.overview-heading h1{font-size:38px}.overview-heading p{font-size:13px;max-width:340px}.eyebrow{margin-bottom:16px}.overview-tools{display:block;margin-top:24px}.overview-tools .legend{gap:12px;margin-bottom:16px;line-height:1.4}.controls{justify-content:flex-start;flex-wrap:wrap}.controls button,.zoom-button{min-height:40px}.diagram-viewport{max-height:62svh}.zoom-button{display:none}.mobile-diagram-hint{display:block;color:var(--cycle-secondary);font-size:10px;margin:10px 0}.diagram-footnote{display:block}.diagram-footnote p{font-size:10px}.diagram-footnote .next-section{margin-top:8px}.stage-heading{margin-bottom:32px}.stage-heading h2{font-size:clamp(32px,10vw,52px);margin-bottom:20px;overflow-wrap:break-word}.stage-heading .lead{font-size:17px}.market-frame{padding:16px}.market-partition{grid-template-columns:1fr}.market-partition h3{font-size:25px}.market-segments{gap:12px;margin-top:20px}.map-label{align-items:center;font-size:11px}.attraction-paths{grid-template-columns:1fr;gap:32px}.flow-row{flex-direction:row;align-items:center;min-height:64px;font-size:14px}.flow-row small{text-align:right;max-width:120px}.sales-surface{grid-template-columns:1fr;gap:28px}.sales-status{padding:24px}.sales-status h3{font-size:26px}.screen-bottom{padding-top:32px}.screen-bottom>span{font-size:9px}.task-row{gap:16px;min-height:76px;padding:20px 0}.task-question{font-size:17px}.task-resource{font-size:12px}.placeholder-copy{font-size:20px}}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto;scroll-snap-type:none}*{animation:none!important;transition:none!important}.traveller{display:none}}
+@media print{@page{size:A3 portrait;margin:12mm}:root{scroll-snap-type:none;scroll-behavior:auto}.page-header{position:static;margin-bottom:24px;height:48px}.stage-nav,.controls,.next-section,.skip-link,.mobile-diagram-hint{display:none!important}.cycle-main{margin:0}.cycle-screen{min-height:0;padding:24px 0;display:block;break-after:page}.overview-heading{display:block}.overview-heading p{max-width:none;margin-top:16px}.overview-tools{margin-top:20px}.presentation{padding:0!important}.diagram-viewport{overflow:visible;max-height:none}.diagram-stage{width:100%!important;height:650px!important}.diagram{zoom:.7;transform:none!important}.diagram-footnote{padding-top:16px}.stage-heading h2{font-size:56px}.screen-bottom{margin-top:32px}.market-partition{grid-template-columns:2fr 1fr}.sales-surface,.attraction-paths{grid-template-columns:1fr 1fr}.market-sam,.market-outside,.sales-status,.flow-result span{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+.sales-channels{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.sales-channel{min-width:0}.sales-channel-title{font-size:24px;font-weight:500;line-height:1.3;letter-spacing:-.02em;margin:0 0 20px}.sales-channel .task-row{grid-template-columns:1fr;gap:8px}.sales-channel--pending{color:var(--cycle-muted)}.sales-channel--pending .placeholder-copy{padding-top:24px;border-top:1px solid var(--cycle-line);color:inherit}
+.sales-block{--cycle-valid-ink:#139487;--cycle-valid-wash:rgba(19,148,135,.1);--cycle-valid-line:rgba(19,148,135,.24);padding-top:16px;border-top:1px solid var(--cycle-line)}.sales-block+.sales-block{margin-top:20px}.sales-block-title{font-size:16px;font-weight:600;line-height:1.5;margin:0 0 8px}.sales-validation{display:inline-block;max-width:100%;padding:4px 8px;border-radius:4px;background:var(--cycle-wash);color:var(--cycle-secondary);font-size:11px;font-weight:500;line-height:1.5}.sales-block .task-list{border-top:0}.sales-result{margin-top:16px}.sales-result .task-list-heading{margin-bottom:8px}.sales-result .placeholder-copy{font-size:14px;color:var(--cycle-muted)}
+.sales-checklist{list-style:none;margin:0;padding:0}.sales-checklist .sales-check-item{display:grid;grid-template-columns:18px minmax(0,1fr);gap:12px;align-items:start}.sales-check{display:grid;place-items:center;width:18px;height:18px;margin-top:5px;border:1px solid var(--cycle-muted);border-radius:3px;font-size:12px;line-height:1}.sales-check-item--complete .sales-check{background:var(--cycle-valid-wash);border-color:var(--cycle-valid-line);color:var(--cycle-valid-ink)}.sales-check-content{min-width:0}.sales-check-content .task-question{display:block;font-size:14px;font-weight:400}.sales-check-content .task-resource{display:block;margin-top:8px;font-size:12px}.sales-checklist.task-list .sales-check{margin-top:2px}
+@media(max-width:760px){.sales-channels{grid-template-columns:1fr;gap:32px}.sales-channel--pending .placeholder-copy{padding-top:20px}}
+.stage-nav .nav-stage{gap:8px}.nav-stage-number{flex:none;width:16px;font-size:10px;font-variant-numeric:tabular-nums;color:var(--cycle-muted)}.stage-nav a[aria-current="location"] .nav-stage-number{color:var(--cycle-blue)}
+
+/* Product context stays visible while the existing stage navigation tracks scrolling. */
+:root{--cycle-header-height:80px;--cycle-nav-height:0px;--cycle-top-offset:calc(var(--cycle-header-height) + var(--cycle-nav-height));scroll-padding-top:var(--cycle-top-offset)}
+.page-header{position:fixed;height:var(--cycle-header-height);z-index:15;background:var(--cycle-paper)}.product-filter{display:flex;align-items:center;gap:12px;min-width:0;width:min(420px,52%)}.product-filter label{flex:none;color:var(--cycle-secondary)}.product-filter select{width:100%;min-width:0;min-height:44px;padding:8px 32px 8px 12px;border:1px solid var(--cycle-line);border-radius:4px;background:var(--cycle-wash);color:var(--cycle-ink);font:inherit;text-overflow:ellipsis}.product-filter select:focus-visible,.sales-check:focus-visible{outline:2px solid var(--cycle-blue);outline-offset:4px}.cycle-screen{scroll-margin-top:0}.checklist-context{margin:0 0 16px;font-size:12px;line-height:1.5;color:var(--cycle-secondary)}
+.sales-check{appearance:none;-webkit-appearance:none;position:relative;flex:none;padding:0;cursor:pointer;background:var(--cycle-paper)}.sales-check:checked::after{content:"✓";font-size:12px;font-weight:600}.sales-check-content label{cursor:pointer}.sales-check-item--complete .sales-validation{background:var(--cycle-valid-wash);color:var(--cycle-valid-ink)}.sales-check-content .tool-button{display:flex;margin-top:4px}.tool-button{min-height:44px;padding:4px 0;border:0;border-radius:0;background:none;color:var(--cycle-blue);font:inherit;font-size:12px;font-weight:500;text-align:left;justify-content:flex-start;white-space:normal}.tool-button:hover{background:none;color:var(--cycle-blue);text-decoration:underline}.tool-button:active{transform:none}
+.skill-dialog{width:min(560px,calc(100% - 32px));max-height:calc(100svh - 48px);overflow:auto;padding:28px;border:1px solid var(--cycle-line);border-radius:8px;background:var(--cycle-paper);color:var(--cycle-ink);font-family:inherit}.skill-dialog::backdrop{background:rgba(22,40,59,.28)}.skill-dialog-close{display:flex;justify-content:flex-end;margin:0 0 12px}.skill-dialog-close button{min-height:44px;font-size:12px}.skill-dialog h2{margin:0 0 12px;font-size:24px;line-height:1.3;letter-spacing:-.02em;font-weight:500}.skill-dialog h3{font-size:16px;font-weight:600;margin:24px 0 8px}.skill-dialog p{font-size:14px;line-height:1.6;margin:0 0 12px}.skill-dialog .eyebrow{font-size:10px}.skill-dialog .skill-product{font-size:12px;color:var(--cycle-secondary)}.skill-external{display:inline-flex;align-items:center;min-height:44px;margin-top:12px;color:var(--cycle-blue);font-size:14px;line-height:1.5}.skill-external:hover{text-decoration:underline}
+@media(max-width:760px){:root{--cycle-header-height:112px;--cycle-nav-height:61px}body{padding-top:var(--cycle-top-offset)}.page-header{left:0;right:0;margin:0;padding:12px 20px;flex-direction:column;align-items:stretch;justify-content:center;gap:8px}.brand{min-height:28px}.product-filter{width:100%;gap:12px}.product-filter select{font-size:14px}.stage-nav{position:fixed;top:var(--cycle-header-height);height:var(--cycle-nav-height);z-index:14}.overview-screen{padding-top:32px}.skill-dialog{padding:20px}}
+@media print{body{padding-top:0}.page-header{position:static;height:auto;padding:0 0 16px}.product-filter{width:300px}.cycle-screen{scroll-margin-top:0}}
+
+.sales-check:disabled{cursor:default;opacity:1;border-color:var(--cycle-line);background:var(--cycle-wash)}.sales-check:disabled+.sales-check-content label{cursor:default}.evidence-controls{display:flex;align-items:center;gap:0 12px;flex-wrap:wrap;margin-top:4px}.evidence-link,.evidence-button{display:inline-flex;align-items:center;min-height:44px;color:var(--cycle-blue);font-size:12px;line-height:1.5}.evidence-button{border:0;padding:4px 0;background:none;white-space:normal}.evidence-button:hover{background:none;text-decoration:underline}.evidence-link:hover{text-decoration:underline}.evidence-helper{display:block;flex-basis:100%;font-size:11px;line-height:1.5;color:var(--cycle-muted)}.evidence-controls [hidden],.evidence-dialog [hidden]{display:none!important}.evidence-dialog label{display:block;margin:20px 0 8px;font-size:12px;font-weight:500}.evidence-dialog input{width:100%;min-width:0;min-height:44px;border:1px solid var(--cycle-line);border-radius:4px;background:var(--cycle-wash);padding:10px 12px;font:inherit;font-size:14px;color:var(--cycle-ink)}.evidence-dialog input:focus-visible{outline:2px solid var(--cycle-blue);outline-offset:4px}.evidence-dialog .evidence-hint{font-size:12px;color:var(--cycle-secondary);margin-top:8px}.evidence-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:24px}.evidence-actions button{min-height:44px}.evidence-actions button[type=submit]{background:var(--cycle-blue);border-color:var(--cycle-blue);color:var(--cycle-paper)}
+
+/* Keep each task and its actions together without repeating helper copy visually. */
+.sales-checklist.task-list .task-row{padding:12px 0;min-height:0}.check-actions{display:flex;align-items:center;flex-wrap:wrap;gap:0 12px;margin-top:4px}.check-actions .evidence-controls{display:contents}.check-actions .tool-button{margin-top:0}.check-actions .tool-button,.evidence-controls .evidence-button,.evidence-controls .evidence-link{min-height:40px;padding-top:2px;padding-bottom:2px}.evidence-helper{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.sales-block[aria-labelledby="sales-reporting-title"] .sales-check-content{display:flex;align-items:center;flex-wrap:wrap;gap:0 12px}.sales-block[aria-labelledby="sales-reporting-title"] .evidence-controls{margin-top:0}
+
+.sales-block[aria-labelledby="sales-reporting-title"] .task-row{padding:12px 0;min-height:0;margin-top:12px;border-top:1px solid var(--cycle-line)}.sales-block[aria-labelledby="sales-reporting-title"] .task-row .sales-check-content{display:block}.sales-block[aria-labelledby="sales-reporting-title"] .task-row .sales-check{margin-top:2px}
+
+.market-editor{--cycle-valid-ink:#139487;--cycle-valid-wash:rgba(19,148,135,.1);--cycle-valid-line:rgba(19,148,135,.24);--market-yellow:#a77912;--market-red:#bf514b;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 40px}.market-editor h3{font-size:16px;font-weight:600;line-height:1.5;margin:0}.market-column-heading{padding-bottom:12px;border-bottom:1px solid var(--cycle-line)}.market-checklist{list-style:none;padding:0;margin:0}.market-checklist li{display:grid;grid-template-columns:18px minmax(0,1fr);align-items:center;gap:12px;min-height:64px;padding:12px 0;border-bottom:1px solid var(--cycle-line)}.market-checklist label{display:grid;gap:4px;font-size:14px;line-height:1.5;cursor:pointer}.market-checklist label strong{font-weight:600}.market-checklist label small{font-size:12px;line-height:1.5;color:var(--cycle-secondary)}.market-checklist .sales-check{margin-top:0}.market-checklist .sales-check:checked{background:var(--cycle-valid-wash);border-color:var(--cycle-valid-line);color:var(--cycle-valid-ink)}.market-availability{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.market-volumes{min-width:0}.market-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;padding-top:16px}.market-field{min-width:0}.market-field label{display:block;font-size:12px;line-height:1.5;color:var(--cycle-secondary);margin-bottom:8px}.market-field input{width:100%;min-width:0;min-height:44px;border:1px solid var(--cycle-line);border-radius:4px;padding:10px 12px;background:var(--cycle-wash);color:var(--cycle-ink);font:inherit;font-size:14px}.market-field input:focus-visible{outline:2px solid var(--cycle-blue);outline-offset:4px}.market-field input[aria-invalid="true"]{border-color:var(--market-red)}.market-volume-hint,.market-assessment-hint,.market-thresholds{font-size:12px;line-height:1.5;color:var(--cycle-secondary);margin:12px 0 0}.market-assessment{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start;gap:8px 40px;padding-top:16px;border-top:1px solid var(--cycle-line)}.market-coverage{display:flex;align-items:center;justify-content:space-between;gap:16px}.market-assessment output{font-size:24px;font-weight:500;line-height:1.3;font-variant-numeric:tabular-nums}.market-assessment-state{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;min-height:32px}.market-lights{display:flex;gap:8px}.market-light{width:12px;height:12px;border-radius:50%;background:var(--cycle-line)}.market-light[data-zone="green"].is-active{background:var(--cycle-valid-ink)}.market-light[data-zone="yellow"].is-active{background:var(--market-yellow)}.market-light[data-zone="red"].is-active{background:var(--market-red)}#market-assessment-text{font-size:14px;line-height:1.5;margin:0}.market-assessment-state .market-assessment-hint{flex-basis:100%;margin:0}.market-thresholds{grid-column:1/-1;font-size:11px;margin-top:4px}
+@media(max-width:760px){.market-editor,.market-assessment{grid-template-columns:1fr;gap:24px}.market-assessment{gap:12px}.market-checklist li{gap:12px}.market-coverage{justify-content:flex-start}}
+@media(max-width:359px){.market-fields{grid-template-columns:1fr}}
+
+.market-analysis{--market-analysis-accent:#b97835;grid-column:1/-1;min-width:0;padding:16px 20px;border-left:2px solid var(--market-analysis-accent);overflow-wrap:anywhere}.market-analysis[hidden],.market-analysis [hidden]{display:none!important}.market-analysis[data-zone="green"]{--market-analysis-accent:var(--cycle-valid-ink)}.market-analysis[data-zone="yellow"]{--market-analysis-accent:var(--market-yellow)}.market-analysis[data-zone="red"]{--market-analysis-accent:var(--market-red)}.market-analysis header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px 16px;margin-bottom:12px}.market-analysis h3{color:var(--market-analysis-accent)}.market-analysis header>span{font-size:11px;line-height:1.5;color:var(--cycle-muted)}.market-analysis p{font-size:14px;line-height:1.6;margin:8px 0 0}.market-analysis-summary{color:var(--cycle-secondary)}.market-analysis ol{display:grid;gap:12px;margin:16px 0 0;padding-left:20px;font-size:14px;line-height:1.6}.market-analysis li{padding-left:4px}.market-analysis li strong{display:block;font-size:14px;font-weight:600}.market-analysis li span{color:var(--cycle-secondary)}
+@media(max-width:760px){.market-analysis{padding:12px 16px}}
+
+.market-editor--methodology{grid-template-columns:minmax(0,1fr);max-width:560px}.market-editor--knowledge{grid-template-columns:minmax(0,1fr)}.market-editor--knowledge .market-volumes{width:100%;max-width:680px}
+
+.market-field input.is-sourced,.sales-check.is-sourced,.market-checklist .sales-check.is-sourced{background:#f1f3f5;color:var(--cycle-secondary);border-color:var(--cycle-line);cursor:default}.field-source{font-size:11px!important;font-weight:400;line-height:1.5!important;color:var(--cycle-secondary);margin:8px 0 0!important;overflow-wrap:anywhere}.field-source[hidden]{display:none!important}.field-source a{color:var(--cycle-blue);text-decoration:underline}.market-checklist .field-source{grid-column:2;margin-top:0!important}.sales-check-content>.field-source{flex-basis:100%}.market-analysis:not([data-zone]){--market-analysis-accent:var(--cycle-secondary)}.market-analysis-group{margin-top:16px}.market-analysis-group h4{font-size:14px;font-weight:600;line-height:1.5;margin:0 0 8px}.market-analysis-group ol{margin-top:0}.market-agent-stale{font-size:12px!important;color:var(--market-yellow)}
+</style>
+</head>
+<body>
+<a href="#potential" class="skip-link">Перейти к этапам</a>
+<header class="page-header"><a class="brand" href="#overview" aria-label="DDI · Клиентский цикл, к схеме"><strong>DDI</strong><span>Клиентский цикл</span></a><div class="product-filter"><label for="product-select">Продукт</label><select id="product-select"><option value="deposits">Вклады</option><option value="prime">Прайм</option></select></div></header>
+<nav class="stage-nav" aria-label="Этапы клиентского цикла">
+<p class="nav-caption">На этой странице</p>
+<a href="#overview" data-section="overview" aria-current="location">Схема цикла</a>
+<a href="#potential" class="nav-stage" data-section="potential"><span class="nav-stage-number" aria-hidden="true">01</span><span>Рынок</span></a>
+<a href="#customer-knowledge" class="nav-stage" data-section="customer-knowledge"><span class="nav-stage-number" aria-hidden="true">02</span><span>Знание о клиенте</span></a>
+<a href="#attraction" class="nav-stage" data-section="attraction"><span class="nav-stage-number" aria-hidden="true">03</span><span>Коммуникация</span></a>
+<a href="#sales-channels" class="nav-stage" data-section="sales-channels"><span class="nav-stage-number" aria-hidden="true">04</span><span>Продажа</span></a>
+<a href="#active-base" class="nav-stage" data-section="active-base"><span class="nav-stage-number" aria-hidden="true">05</span><span>Активная база</span></a>
+</nav>
+<main class="cycle-main">
+<section class="cycle-screen overview-screen" id="overview" aria-labelledby="page-title">
+<div class="screen-inner">
+<div class="overview-heading"><div><p class="eyebrow"><span class="chapter">Общая картина</span><span>Клиентский цикл</span></p><h1 id="page-title">От рынка к активной базе</h1></div><p>Как потенциал рынка переходит в привлечение, продажи и активную базу.</p></div>
+<div class="presentation" id="presentation">
+<div class="overview-tools"><div class="legend" aria-label="Условные обозначения"><span><i></i>Управляемое привлечение</span><span><i class="organic"></i>Органика</span><span><i class="return"></i>Отток</span></div><div class="controls"><button id="pause" type="button" aria-pressed="false"><svg id="pause-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"/></svg><span id="pause-label">Пауза</span></button><button id="replay" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8a6.5 6.5 0 1 1 .5 5M4 3v5h5"/></svg>Повторить</button><button class="zoom-button" id="diagram-zoom" type="button" aria-pressed="false">Крупнее ↗</button></div></div>
+<div class="diagram-shell"><div class="diagram-viewport" tabindex="0" aria-label="Схема движения клиентской базы. При увеличении прокручивайте по горизонтали и вертикали."><div class="diagram-stage"><div class="diagram" id="diagram">
+<svg class="wires" viewBox="0 0 1336 894" aria-hidden="true">
+<defs><marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#626262" stroke-width="1.5"/></marker><marker id="arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#858585" stroke-width="1.5"/></marker><marker id="arrow-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#9c3b2b" stroke-width="1.5"/></marker></defs>
+<path class="wire" d="M270 248V280M490 248V280"/>
+<path class="wire organic" d="M722 248V280M936 248V280"/>
+<path id="managed-reactivation" class="wire managed" d="M270 344V364M270 408V468" marker-end="url(#arrow-green)"/>
+<path id="managed-ftb" class="wire managed" d="M490 344V364M490 408V468" marker-end="url(#arrow-green)"/>
+<path id="organic-known" class="wire organic" d="M722 344V364Q722 376 734 376H826Q838 376 838 388V468" marker-end="url(#arrow-gray)"/>
+<path class="wire organic" d="M936 344V364Q936 376 924 376H838"/>
+<path id="outside-organic" class="wire organic" d="M1190 128V468" marker-end="url(#arrow-gray)"/>
+<path id="reactivation-base" class="wire managed" d="M270 540V568Q270 580 282 580H441Q453 580 453 592V676" marker-end="url(#arrow-green)"/>
+<path id="ftb-base" class="wire managed" d="M490 540V552Q490 564 502 564H637Q649 564 649 576V676" marker-end="url(#arrow-green)"/>
+<path id="organic-base" class="wire organic" d="M838 540V676" marker-end="url(#arrow-gray)"/>
+<path class="wire organic" d="M1190 540V568Q1190 580 1178 580H876Q864 580 864 592V676" marker-end="url(#arrow-gray)"/>
+<path id="return-path" class="wire return" d="M176 708H146Q128 708 128 690V226Q128 208 146 208H168" marker-end="url(#arrow-rose)"/>
+<circle class="traveller" r="3" data-route="managed-reactivation" data-offset="0"/>
+<circle class="traveller" r="3" data-route="managed-ftb" data-offset=".5"/>
+<circle class="traveller organic" r="3" data-route="organic-known" data-offset=".25"/>
+<circle class="traveller organic" r="3" data-route="outside-organic" data-offset=".6"/>
+<circle class="traveller" r="3" data-route="reactivation-base" data-offset=".2"/>
+<circle class="traveller" r="3" data-route="ftb-base" data-offset=".65"/>
+<circle class="traveller organic" r="3" data-route="organic-base" data-offset=".3"/>
+<circle class="traveller" r="2.5" data-route="return-path" data-offset=".45"/>
+</svg>
+<div class="phase entrance" style="top:178px;--delay:30ms"><span class="phase-number">01 /</span><span class="phase-title">Рынок</span></div>
+<div class="phase entrance" style="top:290px;--delay:90ms"><span class="phase-number">02 /</span><span class="phase-title">Знание<br>о клиенте</span></div>
+<div class="phase entrance" style="top:378px;--delay:150ms"><span class="phase-number">03 /</span><span class="phase-title">Коммуникация</span></div>
+<div class="phase entrance" style="top:482px;--delay:210ms"><span class="phase-number">04 /</span><span class="phase-title">Продажа</span></div>
+<div class="phase entrance" style="top:636px;--delay:270ms"><span class="phase-number">05 /</span><span class="phase-title">Активная<br>база</span></div>
+<div class="node market-universe entrance" style="--delay:0ms"><h2 class="node-title">TAM</h2><span class="node-sub">Совокупный рынок</span></div>
+<div class="node market-band sam entrance" style="--delay:40ms"><h3 class="node-title">SAM</h3><span class="node-sub">Рынок внутри банка</span></div>
+<div class="node market-band outside entrance" style="--delay:40ms"><h3 class="node-title">TAM − SAM</h3></div>
+<div class="node market-node churned entrance" style="--delay:80ms"><h3 class="node-title">Оттекшие</h3><span class="node-sub">Клиенты для возврата</span></div>
+<div class="node market-node new entrance" style="--delay:120ms"><h3 class="node-title">Новые</h3><span class="node-sub">Клиенты для привлечения</span></div>
+<div class="node market-node rest entrance" style="--delay:160ms"><h3 class="node-title">Остальной рынок</h3><div class="segments"><span>Оттекшие</span><span>Новые</span><span>Остальной рынок</span></div></div>
+<div class="managed-area entrance" style="--delay:180ms"></div>
+<div class="lane-label entrance" style="--delay:200ms">Покрытие кампейнингом</div>
+<div class="node knowledge known-managed entrance" style="--delay:220ms"><h3 class="node-title">Есть знания про клиента</h3><span class="node-sub">Есть коммуникация</span></div>
+<div class="node knowledge known-idle entrance" style="--delay:260ms"><h3 class="node-title">Есть знания<br>про клиента</h3><span class="node-sub">Не работаем</span></div>
+<div class="node knowledge unknown entrance" style="--delay:300ms"><h3 class="node-title">«Серая масса»</h3><span class="node-sub">Не знаем</span></div>
+<div class="node comm churn entrance" style="--delay:340ms"><h3 class="node-title">Коммуникация</h3></div>
+<div class="node comm fresh entrance" style="--delay:380ms"><h3 class="node-title">Коммуникация</h3></div>
+<div class="activation-rule"></div>
+<div class="activation-label entrance" style="--delay:400ms"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M4 10l4 4 4-4"/></svg>Активация через целевое действие</div>
+<div class="node sale reactivation-sale entrance" aria-describedby="reactivation-share" style="--delay:420ms"><span class="node-sub">Продажа</span><h3 class="node-title">Реактивация</h3></div>
+<div class="reactivation-share entrance" id="reactivation-share" style="--delay:440ms">Доля возврата</div>
+<div class="node sale ftb-sale entrance" style="--delay:460ms"><span class="node-sub">Продажа</span><h3 class="node-title">FTB</h3></div>
+<div class="node sale organic-sale entrance" style="--delay:500ms"><h3 class="node-title">Самоходы</h3><span class="node-sub">Органика · Реактивация + FTB</span></div>
+<div class="node sale outside-sale entrance" style="--delay:540ms"><h3 class="node-title">Самоходы</h3><span class="node-sub">Из TAM − SAM</span></div>
+<div class="mau-area entrance" style="--delay:560ms"></div>
+<div class="mau-heading entrance" style="--delay:580ms"><strong>MAU</strong><span>Месячная активная база</span></div>
+<div class="node base-node base-outflow entrance" style="--delay:600ms"><h3 class="node-title">Отток</h3></div>
+<div class="node base-node base-reactivation entrance" style="--delay:640ms"><h3 class="node-title">Реактивация</h3></div>
+<div class="node base-node base-ftb entrance" style="--delay:680ms"><h3 class="node-title">FTB</h3></div>
+<div class="node base-node base-self entrance" style="--delay:720ms"><h3 class="node-title">Самоходы</h3></div>
+<div class="node base-node base-stable entrance" style="--delay:760ms"><h3 class="node-title">Стабильная база</h3></div>
+<div class="bracket bracket-sales entrance" style="--delay:800ms"></div><div class="bracket-label sales-label entrance" style="--delay:800ms">Новые продажи</div>
+<div class="bracket bracket-retention entrance" style="--delay:840ms"></div><div class="bracket-label retention-label entrance" style="--delay:840ms"><strong>Retention</strong><span>MAU / YAU</span></div>
+<div class="return-label">Доля оттока</div></div></div></div></div>
+<p class="mobile-diagram-hint">↔ Прокручивайте схему, чтобы увидеть все этапы.</p>
+</div>
+<div class="diagram-footnote"><p>Читайте сверху вниз: рынок → знание о клиенте → коммуникация → продажа → активная база. Пунктир — доля оттока; доля возврата относится к реактивации.</p><a class="next-section" href="#potential">К этапам <b aria-hidden="true">↓</b></a></div>
+</div>
+<div class="screen-bottom screen-inner"><span>Модель клиентского цикла</span><span>01 / 06</span></div>
+</section>
+<section class="cycle-screen" id="potential" data-stage="market" aria-labelledby="potential-title"><div class="screen-inner">
+<header class="stage-heading"><p class="eyebrow"><span class="chapter">01</span><span>Потенциал</span></p><h2 id="potential-title">Рынок</h2></header>
+<div class="market-editor market-editor--methodology">
+<div class="market-methodology"><h3 class="market-column-heading">Согласованная методика</h3><ul class="market-checklist"><li><input class="sales-check" type="checkbox" id="market-tam-approved" data-market-flag="tamApproved" aria-label="Наличие TAM в согласованной методике" checked /><label for="market-tam-approved"><strong>TAM</strong><small>В согласованной методике</small></label><span class="market-availability" data-market-availability="tamApproved">Есть</span></li><li><input class="sales-check" type="checkbox" id="market-sam-approved" data-market-flag="samApproved" aria-label="Наличие SAM в согласованной методике" checked /><label for="market-sam-approved"><strong>SAM</strong><small>В согласованной методике</small></label><span class="market-availability" data-market-availability="samApproved">Есть</span></li></ul></div>
+</div>
+</div><div class="screen-bottom screen-inner"><a class="next-section" href="#customer-knowledge">Далее: знание о клиенте <b aria-hidden="true">↓</b></a><span>02 / 06</span></div></section>
+<section class="cycle-screen" id="customer-knowledge" data-stage="knowledge" aria-labelledby="customer-knowledge-title"><div class="screen-inner">
+<header class="stage-heading"><p class="eyebrow"><span class="chapter">02</span></p><h2 id="customer-knowledge-title">Знание о клиенте</h2></header>
+<div class="market-editor market-editor--knowledge">
+<div class="market-volumes"><h3 class="market-column-heading">Потенциал на данных</h3><div class="market-fields"><div class="market-field"><label for="market-identified">Идентифицировано</label><input id="market-identified" type="text" inputmode="decimal" data-market-field="identified" autocomplete="off" aria-label="Потенциал, который идентифицирован на данных" aria-describedby="market-volume-hint market-assessment-hint" /></div><div class="market-field"><label for="market-sam-volume">Объём SAM</label><input id="market-sam-volume" type="text" inputmode="decimal" data-market-field="samVolume" autocomplete="off" aria-label="Объём SAM для расчёта" aria-describedby="market-volume-hint market-assessment-hint" /></div></div><p class="market-volume-hint" id="market-volume-hint">Оба значения — в одинаковых единицах.</p></div>
+<div class="market-assessment"><div class="market-coverage"><h3>Покрытие SAM</h3><output id="market-coverage-value" for="market-identified market-sam-volume">—</output></div><div class="market-assessment-state"><div class="market-lights" aria-hidden="true"><span class="market-light" data-zone="green"></span><span class="market-light" data-zone="yellow"></span><span class="market-light" data-zone="red"></span></div><p id="market-assessment-text" role="status">Нет данных для оценки</p><p class="market-assessment-hint" id="market-assessment-hint">Укажите объём SAM и идентифицированный потенциал.</p></div><p class="market-thresholds">95–100 % — зелёный · 80–&lt;95 % — жёлтый · &lt;80 % — красный</p></div>
+<section class="market-analysis" id="market-analysis" aria-labelledby="market-analysis-title" hidden><header><h3 id="market-analysis-title"></h3><span>По данным отчёта</span></header><p class="market-analysis-summary" id="market-analysis-summary"></p><p id="market-analysis-gap"></p><p id="market-analysis-target" hidden></p><p class="market-agent-stale" id="market-agent-stale" hidden>Данные изменены — рекомендации агента требуют обновления</p><div class="market-analysis-group" id="market-agent-recommendations" hidden><h4>Рекомендации</h4><ol id="market-analysis-actions" hidden></ol></div><div class="market-analysis-group" id="market-agent-events" hidden><h4>События, предложенные ИИ, для роста SAM</h4><ol id="market-growth-events" hidden></ol></div></section>
+</div>
+</div><div class="screen-bottom screen-inner"><a class="next-section" href="#attraction">Далее: коммуникация <b aria-hidden="true">↓</b></a><span>03 / 06</span></div></section>
+<section class="cycle-screen" id="attraction" data-stage="communication" aria-labelledby="attraction-title"><div class="screen-inner">
+<header class="stage-heading"><p class="eyebrow"><span class="chapter">03</span><span>Привлечение</span></p><h2 id="attraction-title">Коммуникация</h2></header>
+<h3 class="task-list-heading">Основные задачи</h3><ul class="task-list"><li class="task-row"><span class="task-question">Оценить долю самоходов?</span><span class="task-resource is-pending">TBD</span></li><li class="task-row"><span class="task-question">Оценить кол-во продаж и CR кампейнинга?</span><button class="task-resource tool-button" type="button" data-skill="campaign">MJ App</button></li></ul>
+</div><div class="screen-bottom screen-inner"><a class="next-section" href="#sales-channels">Далее: продажа <b aria-hidden="true">↓</b></a><span>04 / 06</span></div></section>
+<section class="cycle-screen" id="sales-channels" data-stage="sales" aria-labelledby="sales-title"><div class="screen-inner">
+<header class="stage-heading"><p class="eyebrow"><span class="chapter">04</span></p><h2 id="sales-title">Продажа</h2></header>
+<p class="checklist-context" id="checklist-context">Вклады</p>
+<h3 class="task-list-heading">Основные задачи</h3>
+<div class="sales-channels">
+<section class="sales-channel" aria-labelledby="sales-sbol-title"><h4 class="sales-channel-title" id="sales-sbol-title">СБОЛ</h4>
+<section class="sales-block" aria-labelledby="sales-reporting-title"><h5 class="sales-block-title" id="sales-reporting-title">Отчётность по воронке ClickStream</h5><ul class="sales-checklist"><li class="sales-check-item"><input class="sales-check" type="checkbox" id="check-reporting" data-check-key="reporting" aria-describedby="evidence-help-reporting" disabled /><div class="sales-check-content"><label class="sales-validation" for="check-reporting">Воронка имеется и валидирована</label><div class="evidence-controls" data-evidence-for="reporting"><a class="evidence-link" target="_blank" rel="noopener noreferrer" hidden>Перейти →</a><button class="evidence-button" type="button" data-evidence-key="reporting">Приложить ссылку</button><small class="evidence-helper" id="evidence-help-reporting">Для отметки приложите ссылку.</small></div></div></li><li class="task-row sales-check-item"><input class="sales-check" type="checkbox" id="check-monthly" data-check-key="monthly" /><div class="sales-check-content"><label class="task-question" for="check-monthly">Построить помесячно воронку</label><div class="check-actions"><button class="task-resource tool-button" type="button" data-skill="monthly">MJ</button><div class="evidence-controls" data-evidence-for="monthly"><a class="evidence-link" target="_blank" rel="noopener noreferrer" hidden>Перейти →</a></div></div></div></li></ul></section>
+<section class="sales-block" aria-labelledby="sales-analytics-title"><h5 class="sales-block-title" id="sales-analytics-title">Аналитический блок</h5><ul class="task-list sales-checklist"><li class="task-row sales-check-item"><input class="sales-check" type="checkbox" id="check-journey" data-check-key="journey" aria-describedby="evidence-help-journey" disabled /><div class="sales-check-content"><label class="task-question" for="check-journey">Анализ отдельного клиентского пути</label><div class="check-actions"><button class="task-resource tool-button" type="button" data-skill="journey">MJ + CJHUB</button><div class="evidence-controls" data-evidence-for="journey"><a class="evidence-link" target="_blank" rel="noopener noreferrer" hidden>Перейти →</a><button class="evidence-button" type="button" data-evidence-key="journey">Приложить ссылку</button><small class="evidence-helper" id="evidence-help-journey">Для отметки приложите ссылку.</small></div></div></div></li><li class="task-row sales-check-item"><input class="sales-check" type="checkbox" id="check-process" data-check-key="process" aria-describedby="evidence-help-process" disabled /><div class="sales-check-content"><label class="task-question" for="check-process">Построить граф процесса</label><div class="check-actions"><button class="task-resource tool-button" type="button" data-skill="process">MJ + CJHUB</button><div class="evidence-controls" data-evidence-for="process"><a class="evidence-link" target="_blank" rel="noopener noreferrer" hidden>Перейти →</a><button class="evidence-button" type="button" data-evidence-key="process">Приложить ссылку</button><small class="evidence-helper" id="evidence-help-process">Для отметки приложите ссылку.</small></div></div></div></li></ul><div class="sales-result"><h6 class="task-list-heading">Результат</h6><p class="placeholder-copy">TBD</p></div></section>
+</section>
+<section class="sales-channel sales-channel--pending" aria-labelledby="sales-tm-title"><h4 class="sales-channel-title" id="sales-tm-title">ТМ</h4><p class="placeholder-copy">TBD</p></section>
+<section class="sales-channel sales-channel--pending" aria-labelledby="sales-vsp-title"><h4 class="sales-channel-title" id="sales-vsp-title">ВСП</h4><p class="placeholder-copy">TBD</p></section>
+</div>
+</div><div class="screen-bottom screen-inner"><a class="next-section" href="#active-base">Далее: активная база <b aria-hidden="true">↓</b></a><span>05 / 06</span></div></section>
+<section class="cycle-screen" id="active-base" data-stage="active-base" aria-labelledby="active-base-title"><div class="screen-inner">
+<header class="stage-heading"><p class="eyebrow"><span class="chapter">05</span></p><h2 id="active-base-title">Активная база</h2></header>
+<p class="placeholder-copy">TBD</p>
+</div><div class="screen-bottom screen-inner"><a class="next-section" href="#overview">К общей схеме <b aria-hidden="true">↑</b></a><span>06 / 06</span></div></section>
+</main>
+<dialog class="skill-dialog" id="skill-dialog" aria-labelledby="skill-title"><form method="dialog" class="skill-dialog-close"><button type="submit">Закрыть <span aria-hidden="true">×</span></button></form><p class="eyebrow">Навык</p><h2 id="skill-title"></h2><p class="skill-product" id="skill-product"></p><p id="skill-purpose"></p><h3>Ожидаемый результат</h3><p id="skill-result"></p><a class="skill-external" id="skill-external" target="_blank" rel="noopener noreferrer"></a></dialog>
+
+<dialog class="skill-dialog evidence-dialog" id="evidence-dialog" aria-labelledby="evidence-title"><form id="evidence-form"><p class="eyebrow">Подтверждение</p><h2 id="evidence-title">Приложить ссылку</h2><p class="skill-product" id="evidence-product"></p><label for="evidence-url">Ссылка на подтверждение</label><input id="evidence-url" type="url" required placeholder="https://" aria-describedby="evidence-hint" autofocus /><p class="evidence-hint" id="evidence-hint">Приложите ссылку на отчёт или результат. После сохранения пункт будет отмечен.</p><div class="evidence-actions"><button id="evidence-cancel" type="button">Отмена</button><button id="evidence-remove" type="button" hidden>Удалить ссылку</button><button type="submit">Сохранить</button></div></form></dialog>
+<script id="report-data" type="application/json">
+{
+  "schemaVersion": 1,
+  "reportId": "customer-lifecycle-2026-11-13",
+  "generatedAt": null,
+  "selectedProduct": "deposits",
+  "products": {
+    "deposits": {
+      "market": {
+        "tamApproved": {
+          "value": true,
+          "source": null
+        },
+        "samApproved": {
+          "value": true,
+          "source": null
+        },
+        "samVolume": {
+          "value": null,
+          "source": null
+        },
+        "identified": {
+          "value": null,
+          "source": null
+        }
+      },
+      "sales": {
+        "reporting": {
+          "checked": false,
+          "url": "",
+          "source": null
+        },
+        "monthly": {
+          "checked": false,
+          "url": "",
+          "source": null
+        },
+        "process": {
+          "checked": false,
+          "url": "",
+          "source": null
+        },
+        "journey": {
+          "checked": false,
+          "url": "",
+          "source": null
+        }
+      },
+      "recommendations": [],
+      "samGrowthEvents": []
+    },
+    "prime": {
+      "market": {
+        "tamApproved": {
+          "value": true,
+          "source": null
+        },
+        "samApproved": {
+          "value": true,
+          "source": null
+        },
+        "samVolume": {
+          "value": 20000000,
+          "source": null
+        },
+        "identified": {
+          "value": 15000000,
+          "source": null
+        }
+      },
+      "sales": {
+        "reporting": {
+          "checked": false,
+          "url": "",
+          "source": null
+        },
+        "monthly": {
+          "checked": false,
+          "url": "",
+          "source": null
+        },
+        "process": {
+          "checked": false,
+          "url": "",
+          "source": null
+        },
+        "journey": {
+          "checked": false,
+          "url": "",
+          "source": null
+        }
+      },
+      "recommendations": [],
+      "samGrowthEvents": []
+    }
+  }
+}
+</script>
+<script>
+
+(() => {
+  const root = document.getElementById('presentation');
+  const pauseButton = document.getElementById('pause');
+  const pauseLabel = document.getElementById('pause-label');
+  const pauseIcon = document.getElementById('pause-icon');
+  const replayButton = document.getElementById('replay');
+  const preference = matchMedia('(prefers-reduced-motion: reduce)');
+  const dots = [...document.querySelectorAll('.traveller')].map(dot => {
+    const path = document.getElementById(dot.dataset.route);
+    return {dot, path, length: path.getTotalLength(), offset: Number(dot.dataset.offset)};
+  });
+  let paused = false;
+  let frame = null;
+  let elapsed = 0;
+  let last = null;
+  function updateControl() {
+    const reduced = preference.matches;
+    pauseButton.disabled = reduced;
+    pauseButton.setAttribute('aria-pressed', String(paused || reduced));
+    pauseLabel.textContent = reduced ? 'Без движения' : paused ? 'Продолжить' : 'Пауза';
+    pauseIcon.innerHTML = paused && !reduced ? '<path d="m7 4 8 6-8 6Z"/>' : '<path d="M7 4v12M13 4v12"/>';
+  }
+  function tick(now) {
+    frame = null;
+    if (paused || preference.matches || document.hidden) {last = null; return;}
+    if (last !== null) elapsed += Math.min(now-last, 80);
+    last = now;
+    dots.forEach(({dot,path,length,offset}) => {
+      const progress = (elapsed/6000 + offset) % 1;
+      const point = path.getPointAtLength(progress * length);
+      dot.style.transform = `translate(${point.x}px, ${point.y}px)`;
+      dot.style.opacity = String(Math.min(1, progress*12, (1-progress)*12)*.8);
+    });
+    frame = requestAnimationFrame(tick);
+  }
+  function reconcile() {
+    if (frame !== null) cancelAnimationFrame(frame);
+    frame = null; last = null;
+    if (!paused && !preference.matches && !document.hidden) frame=requestAnimationFrame(tick);
+    if (preference.matches) dots.forEach(({dot})=>dot.style.opacity='0');
+    updateControl();
+  }
+  pauseButton.addEventListener('click', () => {
+    paused=!paused;
+    root.classList.toggle('paused',paused);
+    reconcile();
+  });
+  replayButton.addEventListener('click', () => {
+    elapsed=0; paused=false; root.classList.remove('paused');
+    const nodes=[...document.querySelectorAll('.entrance')];
+    nodes.forEach(node=>node.style.animation='none');
+    void root.offsetWidth;
+    nodes.forEach(node=>node.style.animation='');
+    reconcile();
+  });
+  document.addEventListener('visibilitychange',reconcile);
+  preference.addEventListener('change',reconcile);
+  reconcile();
+})();
+
+(() => {
+  const diagram = document.getElementById('diagram');
+  const stage = document.querySelector('.diagram-stage');
+  const viewport = document.querySelector('.diagram-viewport');
+  const zoom = document.getElementById('diagram-zoom');
+  let enlarged = false;
+  function fitDiagram() {
+    const mobile = matchMedia('(max-width:760px)').matches;
+    const scale = mobile || enlarged ? 1 : Math.min(1, viewport.clientWidth / 1336, Math.max(340, innerHeight - 400) / 894);
+    diagram.style.transform = `scale(${scale})`;
+    stage.style.width = `${1336 * scale}px`;
+    stage.style.height = `${894 * scale}px`;
+    viewport.style.maxHeight = mobile ? '62svh' : enlarged ? '65svh' : 'none';
+    zoom.setAttribute('aria-pressed', String(enlarged));
+    zoom.textContent = enlarged ? 'Вся схема ↙' : 'Крупнее ↗';
+  }
+  zoom.addEventListener('click', () => { enlarged = !enlarged; fitDiagram(); });
+  new ResizeObserver(fitDiagram).observe(viewport);
+  addEventListener('resize', fitDiagram);
+  fitDiagram();
+  const sections = [...document.querySelectorAll('.cycle-screen')];
+  const links = [...document.querySelectorAll('.stage-nav [data-section]')];
+  let pending = false;
+  function updateNavigation() {
+    pending = false;
+    const marker = innerHeight * .4;
+    const section = sections.reduce((selected, item) => item.getBoundingClientRect().top <= marker ? item : selected, sections[0]);
+    links.forEach(link => {
+      if (link.dataset.section === section.id) {
+        const becameCurrent = !link.hasAttribute('aria-current');
+        link.setAttribute('aria-current', 'location');
+        if (becameCurrent && matchMedia('(max-width:760px)').matches) {
+          const nav = link.closest('.stage-nav');
+          const navBounds = nav.getBoundingClientRect();
+          const linkBounds = link.getBoundingClientRect();
+          if (linkBounds.left < navBounds.left + 16) nav.scrollLeft += linkBounds.left - navBounds.left - 16;
+          else if (linkBounds.right > navBounds.right - 16) nav.scrollLeft += linkBounds.right - navBounds.right + 16;
+        }
+      } else link.removeAttribute('aria-current');
+    });
+    document.querySelectorAll('.nav-group').forEach(group => group.classList.toggle('is-current', group.dataset.group === section.dataset.stage));
+  }
+  addEventListener('scroll', () => { if (!pending) { pending = true; requestAnimationFrame(updateNavigation); } }, {passive:true});
+  addEventListener('resize', updateNavigation);
+  addEventListener('hashchange', updateNavigation);
+  updateNavigation();
+})();
+
+</script>
+<script id="product-ui-script">
+(() => {
+  const products = new Map([['deposits', 'Вклады'], ['prime', 'Прайм']]);
+  const checkKeys = ['reporting', 'monthly', 'process', 'journey'];
+  const marketKeys = ['tamApproved', 'samApproved', 'samVolume', 'identified'];
+  const checkNames = {reporting: 'Воронка имеется и валидирована', monthly: 'Построить помесячно воронку', process: 'Построить граф процесса', journey: 'Анализ отдельного клиентского пути'};
+  const select = document.getElementById('product-select');
+  const checks = [...document.querySelectorAll('[data-check-key]')];
+  const marketFlags = [...document.querySelectorAll('[data-market-flag]')];
+  const marketFields = [...document.querySelectorAll('[data-market-field]')];
+  function evidenceUrl(value) {
+    if (typeof value !== 'string' || !value.trim()) return '';
+    try {
+      const url = new URL(value.trim());
+      return ['http:', 'https:'].includes(url.protocol) && url.hostname ? url.href : '';
+    } catch { return ''; }
+  }
+  function sourceRecord(value) {
+    if (!value || typeof value !== 'object' || typeof value.title !== 'string' || !value.title.trim()) return null;
+    return {title: value.title.trim(), url: evidenceUrl(value.url), locator: typeof value.locator === 'string' ? value.locator : ''};
+  }
+  function narrativeRecords(value) {
+    if (!Array.isArray(value)) return [];
+    return value.filter(item => item && typeof item.title === 'string' && typeof item.description === 'string' && (item.title.trim() || item.description.trim())).map(item => ({title: item.title, description: item.description, source: sourceRecord(item.source)}));
+  }
+  let report = {reportId: 'customer-lifecycle-2026-11-13', selectedProduct: 'deposits', products: {}};
+  try {
+    const embedded = JSON.parse(document.getElementById('report-data').textContent);
+    if (embedded && embedded.schemaVersion === 1 && embedded.products && typeof embedded.products === 'object') {
+      report = {reportId: typeof embedded.reportId === 'string' && embedded.reportId.trim() ? embedded.reportId.trim() : report.reportId, selectedProduct: embedded.selectedProduct, products: embedded.products};
+    }
+  } catch { /* A malformed payload leaves a usable manual report. */ }
+  const storageKey = report.reportId === 'customer-lifecycle-2026-11-13' ? 'ddi-lifecycle-checklist-v1' : `ddi-lifecycle-report:${report.reportId}`;
+  const reportProducts = new Map();
+  products.forEach((name, id) => {
+    const embedded = report.products[id] && typeof report.products[id] === 'object' ? report.products[id] : {};
+    const market = {};
+    marketKeys.forEach(key => {
+      const item = embedded.market?.[key];
+      const source = sourceRecord(item?.source);
+      let value;
+      if (key === 'tamApproved' || key === 'samApproved') value = typeof item?.value === 'boolean' ? item.value : !source;
+      else value = typeof item?.value === 'string' ? item.value : typeof item?.value === 'number' && Number.isFinite(item.value) && item.value >= 0 ? item.value.toLocaleString('en-US', {useGrouping: false, maximumSignificantDigits: 21}) : '';
+      market[key] = {value, source};
+    });
+    const sales = {};
+    checkKeys.forEach(key => {
+      const item = embedded.sales?.[key];
+      const source = sourceRecord(item?.source);
+      const url = evidenceUrl(item?.url);
+      sales[key] = {url, checked: Boolean((key === 'monthly' || url || source) && item?.checked === true), source};
+    });
+    reportProducts.set(id, {market, sales, recommendations: narrativeRecords(embedded.recommendations), samGrowthEvents: narrativeRecords(embedded.samGrowthEvents)});
+  });
+  const marketSource = (key, id = state.selectedProduct) => reportProducts.get(id).market[key].source;
+  const salesSource = (key, id = state.selectedProduct) => reportProducts.get(id).sales[key].source;
+  const createState = () => ({version: 2, selectedProduct: products.has(report.selectedProduct) ? report.selectedProduct : 'deposits', products: Object.fromEntries([...products.keys()].map(id => {
+    const embedded = reportProducts.get(id);
+    return [id, {...Object.fromEntries(checkKeys.map(key => [key, {checked: embedded.sales[key].checked, url: embedded.sales[key].url}])), market: Object.fromEntries(marketKeys.map(key => [key, embedded.market[key].value]))}];
+  }))});
+  const baseline = createState();
+  let state = createState();
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (saved && [1, 2].includes(saved.version) && saved.products && typeof saved.products === 'object') {
+      if (products.has(saved.selectedProduct)) state.selectedProduct = saved.selectedProduct;
+      products.forEach((name, id) => {
+        const entry = saved.products[id];
+        if (entry && typeof entry === 'object') {
+          checkKeys.forEach(key => {
+            const item = entry[key];
+            if (!salesSource(key, id) && item && typeof item === 'object') {
+              const url = evidenceUrl(item.url);
+              state.products[id][key] = {url, checked: Boolean((key === 'monthly' || url) && item.checked === true)};
+            }
+          });
+          if (entry.market && typeof entry.market === 'object') {
+            ['tamApproved', 'samApproved'].forEach(key => {
+              if (!marketSource(key, id) && typeof entry.market[key] === 'boolean') state.products[id].market[key] = entry.market[key];
+            });
+            ['samVolume', 'identified'].forEach(key => {
+              if (!marketSource(key, id) && typeof entry.market[key] === 'string') state.products[id].market[key] = entry.market[key];
+            });
+          }
+        }
+      });
+    }
+  } catch { /* Storage can be unavailable for local files; current-session state still works. */ }
+  const save = () => { try { localStorage.setItem(storageKey, JSON.stringify(state)); } catch { /* Keep the current session usable without storage. */ } };
+  function renderSource(node, source) {
+    node.replaceChildren();
+    node.hidden = !source;
+    if (!source) return;
+    node.append(document.createTextNode('Источник: '));
+    const title = document.createElement(source.url ? 'a' : 'span');
+    title.textContent = source.title;
+    if (source.url) {
+      title.href = source.url;
+      title.target = '_blank';
+      title.rel = 'noopener noreferrer';
+    }
+    node.append(title);
+    if (source.locator) node.append(document.createTextNode(` · ${source.locator}`));
+  }
+  function fieldSource(parent, scope, key, source) {
+    let node = parent.querySelector(`[data-source-for="${scope}.${key}"]`);
+    if (!node) {
+      node = document.createElement('p');
+      node.className = 'field-source';
+      node.dataset.sourceFor = `${scope}.${key}`;
+      parent.append(node);
+    }
+    renderSource(node, source);
+  }
+  function marketValueKey(value) {
+    if (typeof value === 'boolean') return value;
+    const text = String(value).replace(/\s/g, '').replace(',', '.');
+    const match = text.match(/^(\d+)(?:\.(\d*))?$/);
+    if (!match) return text;
+    const integer = match[1].replace(/^0+(?=\d)/, '');
+    const fraction = (match[2] || '').replace(/0+$/, '');
+    return integer + (fraction ? `.${fraction}` : '');
+  }
+  function manualMarketChanged() {
+    const id = state.selectedProduct;
+    return marketKeys.some(key => !marketSource(key) && marketValueKey(state.products[id].market[key]) !== marketValueKey(baseline.products[id].market[key]));
+  }
+  function formatVolume(value) {
+    const text = value.replace(/\s/g, '');
+    const match = text.match(/^(\d+)([.,]\d*)?$/);
+    if (!match) return value;
+    return match[1].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (match[2] || '');
+  }
+  function formatVolumeInput(input) {
+    const before = input.value;
+    const formatted = formatVolume(before);
+    if (formatted === before) return formatted;
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const direction = input.selectionDirection;
+    const position = offset => {
+      const prefix = before.slice(0, offset);
+      const count = prefix.replace(/\s/g, '').length;
+      let index = 0;
+      let seen = 0;
+      while (index < formatted.length && seen < count) {
+        if (!/\s/.test(formatted[index])) seen += 1;
+        index += 1;
+      }
+      if (/\s$/.test(prefix)) while (index < formatted.length && /\s/.test(formatted[index])) index += 1;
+      return index;
+    };
+    input.value = formatted;
+    if (start !== null && end !== null) input.setSelectionRange(position(start), position(end), direction);
+    return formatted;
+  }
+  function parseVolume(value) {
+    const text = value.trim().replace(/\s/g, '').replace(',', '.');
+    if (!text) return null;
+    if (!/^\d+(?:\.\d+)?$/.test(text)) return NaN;
+    const amount = Number(text);
+    return Number.isFinite(amount) ? amount : NaN;
+  }
+  function renderMarketAnalysis(data) {
+    const section = document.getElementById('market-analysis');
+    const title = document.getElementById('market-analysis-title');
+    const summary = document.getElementById('market-analysis-summary');
+    const gapText = document.getElementById('market-analysis-gap');
+    const target = document.getElementById('market-analysis-target');
+    const actions = document.getElementById('market-analysis-actions');
+    const events = document.getElementById('market-growth-events');
+    const embedded = reportProducts.get(state.selectedProduct);
+    const hasNarrative = embedded.recommendations.length > 0 || embedded.samGrowthEvents.length > 0;
+    section.hidden = !data && !hasNarrative;
+    [title, summary, gapText, target].forEach(node => { node.textContent = ''; });
+    summary.hidden = !data;
+    gapText.hidden = !data;
+    target.hidden = true;
+    function renderNarratives(container, groupId, items) {
+      container.replaceChildren();
+      container.hidden = items.length === 0;
+      document.getElementById(groupId).hidden = items.length === 0;
+      items.forEach(entry => {
+        const item = document.createElement('li');
+        const label = document.createElement('strong');
+        const description = document.createElement('span');
+        label.textContent = entry.title;
+        description.textContent = entry.description;
+        item.append(label, description);
+        if (entry.source) {
+          const source = document.createElement('p');
+          source.className = 'field-source';
+          renderSource(source, entry.source);
+          item.append(source);
+        }
+        container.append(item);
+      });
+    }
+    renderNarratives(actions, 'market-agent-recommendations', embedded.recommendations);
+    renderNarratives(events, 'market-agent-events', embedded.samGrowthEvents);
+    document.getElementById('market-agent-stale').hidden = !hasNarrative || !manualMarketChanged();
+    if (!data) {
+      delete section.dataset.zone;
+      if (hasNarrative) title.textContent = 'Анализ потенциала';
+      return;
+    }
+    const {sam, identified, coverage, zone} = data;
+    const amount = value => value.toLocaleString('ru-RU', {maximumSignificantDigits: 15});
+    const percent = value => value.toLocaleString('ru-RU', {minimumFractionDigits: 1, maximumFractionDigits: 1});
+    const gap = Math.max(sam - identified, 0);
+    const remainingShare = Math.max(100 - coverage, 0);
+    const inRange = zone === 'green';
+    const zoneText = inRange ? 'в норме' : zone === 'yellow' ? 'требует внимания' : 'вне нормы';
+    section.dataset.zone = zone;
+    title.textContent = inRange ? 'Анализ потенциала' : 'Зона внимания — анализ потенциала';
+    summary.textContent = `${products.get(state.selectedProduct)} · SAM — ${amount(sam)} · Идентифицировано — ${amount(identified)} · Покрытие SAM — ${percent(coverage)} %: ${zoneText}.`;
+    gapText.textContent = inRange
+      ? `Покрытие достаточное (норма 95–100 %). Неидентифицированный остаток — ${amount(gap)} (${percent(remainingShare)} % SAM): резерв для дальнейшей разметки.`
+      : `Не идентифицировано — ${amount(gap)} (${percent(remainingShare)} % SAM).`;
+    if (!inRange) {
+      const toTarget = Math.max(Math.ceil(sam * .95 - identified), 0);
+      target.textContent = `До покрытия 95 % необходимо идентифицировать ещё ${amount(toTarget)}.`;
+      target.hidden = false;
+    }
+  }
+  function renderMarket() {
+    const market = state.products[state.selectedProduct].market;
+    marketFlags.forEach(input => {
+      const key = input.dataset.marketFlag;
+      input.checked = market[key];
+      input.disabled = Boolean(marketSource(key));
+      input.classList.toggle('is-sourced', input.disabled);
+      fieldSource(input.closest('li'), 'market', key, marketSource(key));
+      const badge = document.querySelector(`[data-market-availability="${input.dataset.marketFlag}"]`);
+      badge.textContent = input.checked ? 'Есть' : 'Нет';
+      badge.classList.toggle('is-missing', !input.checked);
+    });
+    marketFields.forEach(input => {
+      const key = input.dataset.marketField;
+      market[key] = formatVolume(market[key]);
+      if (input.value !== market[key]) input.value = market[key];
+      input.readOnly = Boolean(marketSource(key));
+      input.classList.toggle('is-sourced', input.readOnly);
+      fieldSource(input.closest('.market-field'), 'market', key, marketSource(key));
+      input.setAttribute('aria-invalid', 'false');
+    });
+    const sam = parseVolume(market.samVolume);
+    const identified = parseVolume(market.identified);
+    let zone = '';
+    let analysis = null;
+    let value = '—';
+    let status = 'Нет данных для оценки';
+    let hint = 'Укажите объём SAM и идентифицированный потенциал.';
+    const invalidSam = Number.isNaN(sam);
+    const invalidIdentified = Number.isNaN(identified);
+    if (invalidSam || invalidIdentified) {
+      status = 'Проверьте введённые объёмы';
+      hint = 'Используйте неотрицательные числа; допустимы пробелы и десятичная запятая.';
+      document.getElementById('market-sam-volume').setAttribute('aria-invalid', String(invalidSam));
+      document.getElementById('market-identified').setAttribute('aria-invalid', String(invalidIdentified));
+    } else if (!market.tamApproved || !market.samApproved) {
+      status = 'Методика не подтверждена';
+      hint = 'Для оценки подтвердите наличие TAM и SAM в согласованной методике.';
+    } else if (sam !== null && sam > 0 && identified !== null && identified > sam) {
+      status = 'Проверьте идентифицированный потенциал';
+      hint = 'Идентифицированный потенциал не может превышать объём SAM.';
+      document.getElementById('market-identified').setAttribute('aria-invalid', 'true');
+    } else if (sam !== null && sam <= 0) {
+      hint = 'Для расчёта объём SAM должен быть больше нуля.';
+    } else if (sam !== null && identified !== null) {
+      const coverage = Number((identified / sam * 100).toFixed(1));
+      zone = coverage >= 95 ? 'green' : coverage >= 80 ? 'yellow' : 'red';
+      analysis = {sam, identified, coverage, zone};
+      value = `${coverage.toLocaleString('ru-RU', {minimumFractionDigits: 1, maximumFractionDigits: 1})} %`;
+      status = zone === 'green' ? 'В норме' : zone === 'yellow' ? 'Требует внимания' : 'Вне нормы';
+      hint = 'Идентифицированный потенциал / объём SAM × 100 %.';
+    }
+    document.getElementById('market-coverage-value').textContent = value;
+    document.getElementById('market-assessment-text').textContent = status;
+    document.getElementById('market-assessment-hint').textContent = hint;
+    document.querySelectorAll('.market-light').forEach(dot => dot.classList.toggle('is-active', dot.dataset.zone === zone));
+    renderMarketAnalysis(analysis);
+  }
+  marketFlags.forEach(input => input.addEventListener('change', () => {
+    if (marketSource(input.dataset.marketFlag)) { renderMarket(); return; }
+    state.products[state.selectedProduct].market[input.dataset.marketFlag] = input.checked;
+    renderMarket();
+    save();
+  }));
+  function updateMarketField(input) {
+    if (marketSource(input.dataset.marketField)) { renderMarket(); return; }
+    state.products[state.selectedProduct].market[input.dataset.marketField] = formatVolumeInput(input);
+    renderMarket();
+    save();
+  }
+  marketFields.forEach(input => {
+    input.addEventListener('beforeinput', event => {
+      if (marketSource(input.dataset.marketField)) { event.preventDefault(); return; }
+      const caret = input.selectionStart;
+      const value = input.value;
+      if (!event.cancelable || event.isComposing || caret === null || caret !== input.selectionEnd) return;
+      if (!/^\d+(?:[.,]\d*)?$/.test(value.replace(/\s/g, '')) || formatVolume(value) !== value) return;
+      let start = caret;
+      let end = caret;
+      if (event.inputType === 'deleteContentForward' && /\s/.test(value[caret] || '')) {
+        while (end < value.length && /\s/.test(value[end])) end += 1;
+        if (!/\d/.test(value[end] || '')) return;
+        end += 1;
+      } else if (event.inputType === 'deleteContentBackward' && /\s/.test(value[caret - 1] || '')) {
+        while (start > 0 && /\s/.test(value[start - 1])) start -= 1;
+        if (!/\d/.test(value[start - 1] || '')) return;
+        start -= 1;
+      } else return;
+      event.preventDefault();
+      input.setRangeText('', start, end, 'start');
+      updateMarketField(input);
+    });
+    input.addEventListener('input', () => updateMarketField(input));
+  });
+  function renderContext() {
+    select.value = state.selectedProduct;
+    document.getElementById('checklist-context').textContent = products.get(state.selectedProduct);
+    checks.forEach(check => {
+      const item = state.products[state.selectedProduct][check.dataset.checkKey];
+      const source = salesSource(check.dataset.checkKey);
+      check.checked = Boolean((check.dataset.checkKey === 'monthly' || item.url || source) && item.checked);
+      check.disabled = Boolean(source) || (check.dataset.checkKey !== 'monthly' && !item.url);
+      check.classList.toggle('is-sourced', Boolean(source));
+      fieldSource(check.closest('.sales-check-item').querySelector('.sales-check-content'), 'sales', check.dataset.checkKey, source);
+      check.closest('.sales-check-item').classList.toggle('sales-check-item--complete', check.checked);
+      const controls = document.querySelector(`[data-evidence-for="${check.dataset.checkKey}"]`);
+      const link = controls.querySelector('.evidence-link');
+      link.hidden = !item.url;
+      if (item.url) link.href = item.url;
+      else link.removeAttribute('href');
+      const button = controls.querySelector('.evidence-button');
+      const helper = controls.querySelector('.evidence-helper');
+      if (button) {
+        button.textContent = item.url ? 'Изменить ссылку' : 'Приложить ссылку';
+        button.hidden = Boolean(source);
+        button.disabled = Boolean(source);
+      }
+      if (helper) helper.textContent = source ? 'Данные получены из источника.' : item.url ? 'Ссылка приложена. Отметку можно изменить.' : 'Для отметки приложите ссылку.';
+    });
+    renderMarket();
+  }
+  select.addEventListener('change', () => {
+    if (!products.has(select.value)) return;
+    state.selectedProduct = select.value;
+    renderContext();
+    save();
+  });
+  checks.forEach(check => check.addEventListener('change', () => {
+    if (salesSource(check.dataset.checkKey)) { renderContext(); return; }
+    const item = state.products[state.selectedProduct][check.dataset.checkKey];
+    item.checked = Boolean((check.dataset.checkKey === 'monthly' || item.url) && check.checked);
+    renderContext();
+    save();
+  }));
+  renderContext();
+
+  const evidenceDialog = document.getElementById('evidence-dialog');
+  const evidenceForm = document.getElementById('evidence-form');
+  const evidenceInput = document.getElementById('evidence-url');
+  let editingEvidence = null;
+  document.querySelectorAll('[data-evidence-key]').forEach(button => button.addEventListener('click', () => {
+    const key = button.dataset.evidenceKey;
+    if (!checkKeys.includes(key) || salesSource(key)) return;
+    editingEvidence = {key, productId: state.selectedProduct, trigger: button};
+    const item = state.products[editingEvidence.productId][key];
+    document.getElementById('evidence-title').textContent = checkNames[key];
+    document.getElementById('evidence-product').textContent = products.get(editingEvidence.productId);
+    evidenceInput.value = item.url;
+    evidenceInput.setCustomValidity('');
+    document.getElementById('evidence-remove').hidden = !item.url;
+    evidenceDialog.showModal();
+  }));
+  evidenceInput.addEventListener('input', () => evidenceInput.setCustomValidity(''));
+  evidenceForm.addEventListener('submit', event => {
+    event.preventDefault();
+    if (!editingEvidence || salesSource(editingEvidence.key, editingEvidence.productId)) return;
+    const url = evidenceUrl(evidenceInput.value);
+    if (!url) {
+      evidenceInput.setCustomValidity('Укажите полную ссылку, начинающуюся с http:// или https://.');
+      evidenceInput.reportValidity();
+      return;
+    }
+    state.products[editingEvidence.productId][editingEvidence.key] = {url, checked: true};
+    save();
+    renderContext();
+    evidenceDialog.close();
+  });
+  document.getElementById('evidence-cancel').addEventListener('click', () => evidenceDialog.close());
+  document.getElementById('evidence-remove').addEventListener('click', () => {
+    if (!editingEvidence || salesSource(editingEvidence.key, editingEvidence.productId)) return;
+    state.products[editingEvidence.productId][editingEvidence.key] = {url: '', checked: false};
+    save();
+    renderContext();
+    evidenceDialog.close();
+  });
+  evidenceDialog.addEventListener('close', () => {
+    editingEvidence?.trigger.focus();
+    editingEvidence = null;
+  });
+
+  const skills = {
+    monthly: {title: 'Построить помесячно воронку', purpose: 'Сопоставить шаги воронки оформления в СБОЛ по месяцам и найти этапы с изменением конверсии.', result: 'Помесячная воронка с конверсией по шагам и перечнем отклонений для дальнейшего разбора.', url: 'https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768', link: 'Открыть воронку оформления в СБОЛ'},
+    journey: {title: 'Анализ отдельного клиентского пути', purpose: 'Рассмотреть выбранный клиентский путь: последовательность действий, переходы и затруднения при оформлении.', result: 'Последовательность шагов отдельного клиентского пути с отмеченными проблемными этапами.', url: 'https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768', link: 'Открыть воронку оформления в СБОЛ'},
+    process: {title: 'Построить граф процесса', purpose: 'Рассмотреть пути оформления, переходы между шагами и повторные действия клиентов.', result: 'Граф процесса с основными маршрутами, повторениями и точками выхода.', url: 'https://navigator.sigma.sbrf.ru/gdash/1000005903/1000050768', link: 'Открыть воронку оформления в СБОЛ'},
+    campaign: {title: 'Оценить продажи и CR кампейнинга', purpose: 'Посмотреть продажи и конверсию кампейнинга в соответствующей воронке.', result: 'Оценка количества продаж и конверсии кампаний по доступным данным отчёта.', url: 'https://navigator.sigma.sbrf.ru/gdash/1000005903/1000049944', link: 'Открыть воронку кампейнинга'},
+  };
+  const dialog = document.getElementById('skill-dialog');
+  let dialogTrigger = null;
+  document.querySelectorAll('[data-skill]').forEach(button => button.addEventListener('click', () => {
+    const skill = skills[button.dataset.skill];
+    if (!skill) return;
+    dialogTrigger = button;
+    document.getElementById('skill-title').textContent = skill.title;
+    document.getElementById('skill-product').textContent = `Продукт: ${products.get(state.selectedProduct)}`;
+    document.getElementById('skill-purpose').textContent = skill.purpose;
+    document.getElementById('skill-result').textContent = skill.result;
+    const link = document.getElementById('skill-external');
+    link.href = skill.url;
+    link.textContent = skill.link;
+    dialog.showModal();
+  }));
+  dialog.addEventListener('close', () => dialogTrigger?.focus());
+})();
+</script>
+</body>
+</html>

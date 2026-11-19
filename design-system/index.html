@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="ru" class="ddi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="DDI Editorial — дизайн-система standalone-отчётов и продуктовых страниц. Токены, компоненты и рабочие примеры.">
+<title>DDI Editorial — каталог компонентов v0.1.0</title>
+<style id="ddi-tokens">
+/* Generated from tokens.json by build.mjs. Edit the JSON source. */
+.ddi {
+  --ddi-color-action-hover: var(--ddi-primitive-color-blue-hover);
+  --ddi-color-action-on-primary: var(--ddi-primitive-color-paper);
+  --ddi-color-action-primary: var(--ddi-primitive-color-blue);
+  --ddi-color-action-subtle: rgba(40,88,217,0.055);
+  --ddi-color-agent-background: rgba(124,58,237,0.055);
+  --ddi-color-agent-border: rgba(124,58,237,0.25);
+  --ddi-color-agent-foreground: var(--ddi-primitive-color-purple);
+  --ddi-color-border-control: var(--ddi-primitive-color-muted);
+  --ddi-color-border-decorative: var(--ddi-primitive-color-line);
+  --ddi-color-border-focus: var(--ddi-primitive-color-blue);
+  --ddi-color-status-danger-background: rgba(191,81,75,0.08);
+  --ddi-color-status-danger-foreground: var(--ddi-primitive-color-red-text);
+  --ddi-color-status-danger-indicator: var(--ddi-primitive-color-red);
+  --ddi-color-status-neutral-background: var(--ddi-primitive-color-wash);
+  --ddi-color-status-neutral-foreground: var(--ddi-primitive-color-secondary);
+  --ddi-color-status-neutral-indicator: var(--ddi-primitive-color-muted);
+  --ddi-color-status-success-background: rgba(19,148,135,0.07);
+  --ddi-color-status-success-foreground: var(--ddi-primitive-color-teal-text);
+  --ddi-color-status-success-indicator: var(--ddi-primitive-color-teal);
+  --ddi-color-status-warning-background: rgba(167,121,18,0.1);
+  --ddi-color-status-warning-foreground: var(--ddi-primitive-color-amber-text);
+  --ddi-color-status-warning-indicator: var(--ddi-primitive-color-amber);
+  --ddi-color-surface-page: var(--ddi-primitive-color-paper);
+  --ddi-color-surface-subtle: var(--ddi-primitive-color-wash);
+  --ddi-color-text-disabled: var(--ddi-primitive-color-muted);
+  --ddi-color-text-meta: var(--ddi-primitive-color-secondary);
+  --ddi-color-text-primary: var(--ddi-primitive-color-ink);
+  --ddi-color-text-secondary: var(--ddi-primitive-color-secondary);
+  --ddi-font-family-display: "Georgia","Times New Roman",serif;
+  --ddi-font-family-ui: -apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica","Arial",sans-serif;
+  --ddi-font-line-height-body: 1.6;
+  --ddi-font-line-height-compact: 1.5;
+  --ddi-font-line-height-heading: 1.12;
+  --ddi-font-line-height-tight: 1.08;
+  --ddi-font-size-body: 14px;
+  --ddi-font-size-caption: 12px;
+  --ddi-font-size-display: 60px;
+  --ddi-font-size-lead: 16px;
+  --ddi-font-size-micro: 10px;
+  --ddi-font-size-section: 32px;
+  --ddi-font-size-section-max: 44px;
+  --ddi-font-size-title: 20px;
+  --ddi-font-tracking-display: -0.055;
+  --ddi-font-tracking-heading: -0.045;
+  --ddi-font-tracking-label: 0.1;
+  --ddi-font-weight-medium: 500;
+  --ddi-font-weight-regular: 400;
+  --ddi-font-weight-semibold: 600;
+  --ddi-layout-breakpoint-mobile: 760px;
+  --ddi-layout-breakpoint-tablet: 1100px;
+  --ddi-layout-breakpoint-wide: 1600px;
+  --ddi-layout-content: 1120px;
+  --ddi-layout-gutter: 48px;
+  --ddi-layout-gutter-mobile: 20px;
+  --ddi-layout-gutter-tablet: 28px;
+  --ddi-layout-gutter-wide: 64px;
+  --ddi-layout-header: 80px;
+  --ddi-layout-header-mobile: 64px;
+  --ddi-layout-nav-mobile: 61px;
+  --ddi-layout-sidebar: 216px;
+  --ddi-motion-duration: 160ms;
+  --ddi-primitive-color-amber: #a77912;
+  --ddi-primitive-color-amber-text: #805600;
+  --ddi-primitive-color-blue: #2858d9;
+  --ddi-primitive-color-blue-hover: #224bc0;
+  --ddi-primitive-color-ink: #16283b;
+  --ddi-primitive-color-line: #e9edf2;
+  --ddi-primitive-color-muted: #7b8796;
+  --ddi-primitive-color-paper: #ffffff;
+  --ddi-primitive-color-purple: #7c3aed;
+  --ddi-primitive-color-red: #bf514b;
+  --ddi-primitive-color-red-text: #a53c37;
+  --ddi-primitive-color-secondary: #657486;
+  --ddi-primitive-color-teal: #139487;
+  --ddi-primitive-color-teal-text: #0b756b;
+  --ddi-primitive-color-wash: #f7f9fd;
+  --ddi-radius-card: 4px;
+  --ddi-radius-control: 4px;
+  --ddi-radius-dialog: 8px;
+  --ddi-size-check: 16px;
+  --ddi-size-control: 44px;
+  --ddi-size-control-compact: 40px;
+  --ddi-size-feature-icon: 36px;
+  --ddi-size-icon: 16px;
+  --ddi-space-0: 0px;
+  --ddi-space-12: 12px;
+  --ddi-space-16: 16px;
+  --ddi-space-20: 20px;
+  --ddi-space-24: 24px;
+  --ddi-space-28: 28px;
+  --ddi-space-32: 32px;
+  --ddi-space-4: 4px;
+  --ddi-space-40: 40px;
+  --ddi-space-48: 48px;
+  --ddi-space-56: 56px;
+  --ddi-space-64: 64px;
+  --ddi-space-8: 8px;
+}
+</style>
+<style id="ddi-components">
+/* DDI Editorial components. Breakpoint markers compile from tokens.json. */
+.ddi{background:var(--ddi-color-surface-page);color:var(--ddi-color-text-primary);font-family:var(--ddi-font-family-ui);font-size:var(--ddi-font-size-body);line-height:var(--ddi-font-line-height-body);scroll-behavior:smooth;scroll-padding-top:calc(var(--ddi-layout-header) + var(--ddi-space-24));-webkit-font-smoothing:antialiased}
+.ddi *,.ddi *::before,.ddi *::after{box-sizing:border-box}
+.ddi body{margin:var(--ddi-space-0);background:var(--ddi-color-surface-page)}
+.ddi a{color:var(--ddi-color-action-primary);text-decoration:none}
+.ddi a:hover{text-decoration:underline}
+.ddi a:focus-visible,.ddi button:focus-visible,.ddi input:focus-visible,.ddi select:focus-visible,.ddi summary:focus-visible{outline:2px solid var(--ddi-color-border-focus);outline-offset:4px}
+.ddi [hidden]{display:none!important}
+.ddi button,.ddi input,.ddi select{font:inherit}
+.ddi button,.ddi summary{cursor:pointer}
+.ddi button:disabled{cursor:default}
+.ddi code,.ddi pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.ddi .ddi-icon{display:inline-block;width:1em;height:1em;vertical-align:-.15em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ddi .ddi-skip{position:fixed;z-index:60;top:var(--ddi-space-12);left:var(--ddi-space-12);padding:var(--ddi-space-12) var(--ddi-space-16);background:var(--ddi-color-surface-page);border:1px solid var(--ddi-color-border-focus);transform:translateY(-170%)}
+.ddi .ddi-skip:focus{transform:none}
+.ddi .ddi-header{position:fixed;z-index:30;top:0;left:calc(var(--ddi-layout-sidebar) + var(--ddi-layout-gutter));right:var(--ddi-layout-gutter);height:var(--ddi-layout-header);display:flex;align-items:center;justify-content:space-between;gap:var(--ddi-space-24);background:var(--ddi-color-surface-page);border-bottom:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-brand{display:flex;align-items:center;gap:var(--ddi-space-12);color:var(--ddi-color-text-primary);text-decoration:none;min-width:0}
+.ddi .ddi-brand strong{font-size:var(--ddi-font-size-title);font-weight:var(--ddi-font-weight-semibold);letter-spacing:calc(var(--ddi-font-tracking-heading) * 1em);color:var(--ddi-color-action-primary)}
+.ddi .ddi-brand>span{font-size:var(--ddi-font-size-caption);padding-left:var(--ddi-space-12);border-left:1px solid var(--ddi-color-border-decorative);white-space:nowrap}
+.ddi .ddi-brand small{font-size:var(--ddi-font-size-micro);color:var(--ddi-color-text-meta);margin-left:var(--ddi-space-4)}
+.ddi .ddi-header-actions{display:flex;align-items:center;gap:var(--ddi-space-16);min-width:0}
+.ddi .ddi-product-filter{display:flex;align-items:center;gap:var(--ddi-space-8);min-width:0}
+.ddi .ddi-product-filter label{font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary)}
+.ddi .ddi-product-filter select{width:144px;min-width:0;min-height:var(--ddi-size-control);padding:var(--ddi-space-8) var(--ddi-space-12);background:var(--ddi-color-surface-page);border:1px solid var(--ddi-color-border-control);border-radius:var(--ddi-radius-control);color:var(--ddi-color-text-primary);font-size:var(--ddi-font-size-body)}
+.ddi .ddi-nav{position:fixed;z-index:25;left:var(--ddi-space-32);top:50%;transform:translateY(-50%);width:calc(var(--ddi-layout-sidebar) - var(--ddi-space-56));background:var(--ddi-color-surface-page);font-size:var(--ddi-font-size-caption)}
+.ddi .ddi-nav-caption{font-size:var(--ddi-font-size-micro);letter-spacing:calc(var(--ddi-font-tracking-label) * 1em);text-transform:uppercase;color:var(--ddi-color-text-meta);margin:0 0 var(--ddi-space-16) var(--ddi-space-24)}
+.ddi .ddi-nav a{position:relative;display:flex;align-items:center;gap:var(--ddi-space-8);min-height:var(--ddi-size-control);padding:var(--ddi-space-8) 0 var(--ddi-space-8) var(--ddi-space-24);color:var(--ddi-color-text-secondary);line-height:var(--ddi-font-line-height-compact);text-decoration:none}
+.ddi .ddi-nav a::before{content:"";position:absolute;top:50%;left:0;width:var(--ddi-space-8);height:1px;background:var(--ddi-color-border-decorative)}
+.ddi .ddi-nav a[aria-current]{color:var(--ddi-color-action-primary);font-weight:var(--ddi-font-weight-medium)}
+.ddi .ddi-nav a[aria-current]::before{width:var(--ddi-space-16);height:2px;background:var(--ddi-color-action-primary)}
+.ddi .ddi-nav a>span{width:var(--ddi-space-16);flex:none;font-size:var(--ddi-font-size-micro);font-variant-numeric:tabular-nums;color:var(--ddi-color-text-meta)}
+.ddi .ddi-main{margin-left:var(--ddi-layout-sidebar);padding:calc(var(--ddi-layout-header) + var(--ddi-space-32)) var(--ddi-layout-gutter) var(--ddi-space-32)}
+.ddi .ddi-document{max-width:var(--ddi-layout-content);margin:0 auto;min-width:0}
+.ddi .ddi-title,.ddi .ddi-section-title{font-family:var(--ddi-font-family-display);font-weight:var(--ddi-font-weight-medium)}
+.ddi .ddi-title{font-size:clamp(var(--ddi-font-size-section-max),4.8vw,var(--ddi-font-size-display));line-height:var(--ddi-font-line-height-tight);letter-spacing:calc(var(--ddi-font-tracking-display) * 1em);margin:0 0 var(--ddi-space-24)}
+.ddi .ddi-lead{max-width:720px;font-size:var(--ddi-font-size-lead);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-secondary);margin:0 0 var(--ddi-space-32)}
+.ddi .ddi-eyebrow{font-size:var(--ddi-font-size-micro);line-height:var(--ddi-font-line-height-compact);font-weight:var(--ddi-font-weight-medium);letter-spacing:calc(var(--ddi-font-tracking-label) * 1em);text-transform:uppercase;color:var(--ddi-color-text-meta);margin:0 0 var(--ddi-space-16)}
+.ddi .ddi-overview{padding-bottom:var(--ddi-space-40)}
+.ddi .ddi-overview-rule{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1fr);gap:var(--ddi-space-40);border-top:1px solid var(--ddi-color-border-decorative);padding-top:var(--ddi-space-20)}
+.ddi .ddi-overview-rule p{font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary);margin:0;line-height:var(--ddi-font-line-height-body)}
+.ddi .ddi-overview-rule strong{font-weight:var(--ddi-font-weight-medium);color:var(--ddi-color-text-primary)}
+.ddi .ddi-demo-note{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-meta);margin:var(--ddi-space-24) 0 0;max-width:840px}
+.ddi .ddi-section{padding:var(--ddi-space-48) 0;border-top:1px solid var(--ddi-color-border-decorative);min-width:0}
+.ddi .ddi-section-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.65fr);gap:var(--ddi-space-40);align-items:end;margin-bottom:var(--ddi-space-32)}
+.ddi .ddi-section-title{font-size:clamp(var(--ddi-font-size-section),3.3vw,var(--ddi-font-size-section-max));line-height:var(--ddi-font-line-height-heading);letter-spacing:calc(var(--ddi-font-tracking-heading) * 1em);margin:0}
+.ddi .ddi-section-head>p{color:var(--ddi-color-text-secondary);font-size:var(--ddi-font-size-body);line-height:var(--ddi-font-line-height-body);margin:0}
+.ddi .ddi-subtitle{font-size:var(--ddi-font-size-lead);font-weight:var(--ddi-font-weight-semibold);line-height:var(--ddi-font-line-height-compact);margin:0 0 var(--ddi-space-16)}
+.ddi .ddi-label{display:block;font-size:var(--ddi-font-size-caption);font-weight:var(--ddi-font-weight-medium);color:var(--ddi-color-text-secondary);margin:0 0 var(--ddi-space-8)}
+.ddi .ddi-caption{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-secondary);margin:var(--ddi-space-8) 0 0}
+.ddi .ddi-palette{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--ddi-space-24) var(--ddi-space-16)}
+.ddi .ddi-swatch{min-width:0}
+.ddi .ddi-swatch i{display:block;height:var(--ddi-space-32);border:1px solid var(--ddi-color-border-decorative);border-radius:var(--ddi-radius-control);margin-bottom:var(--ddi-space-8)}
+.ddi .ddi-swatch strong,.ddi .ddi-swatch code,.ddi .ddi-swatch>span{display:block;font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-compact);overflow-wrap:anywhere}
+.ddi .ddi-swatch strong{font-weight:var(--ddi-font-weight-medium)}
+.ddi .ddi-swatch code{font-size:var(--ddi-font-size-micro);color:var(--ddi-color-text-meta);margin-top:var(--ddi-space-4)}
+.ddi .ddi-swatch>span{color:var(--ddi-color-text-secondary)}
+.ddi .ddi-foundation-grid,.ddi .ddi-data-grid,.ddi .ddi-pattern-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--ddi-space-40)}
+.ddi .ddi-foundation-grid{margin-top:var(--ddi-space-32);padding-top:var(--ddi-space-24);border-top:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-type-display{font-family:var(--ddi-font-family-display);font-size:var(--ddi-font-size-section);line-height:var(--ddi-font-line-height-heading);letter-spacing:calc(var(--ddi-font-tracking-heading) * 1em);margin:var(--ddi-space-16) 0}
+.ddi .ddi-type-body{font-size:var(--ddi-font-size-body);color:var(--ddi-color-text-secondary);margin:0}
+.ddi .ddi-type-scale{display:flex;gap:var(--ddi-space-16);flex-wrap:wrap;margin-top:var(--ddi-space-16);font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary)}
+.ddi .ddi-type-scale b{font-weight:var(--ddi-font-weight-medium);color:var(--ddi-color-text-primary)}
+.ddi .ddi-grid-specimen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ddi-space-16);margin-top:var(--ddi-space-16)}
+.ddi .ddi-grid-specimen span{min-width:0;overflow-wrap:anywhere;padding:var(--ddi-space-16) var(--ddi-space-8);background:var(--ddi-color-surface-subtle);border:1px solid var(--ddi-color-border-decorative);font-size:var(--ddi-font-size-caption);text-align:center}
+.ddi .ddi-code{margin-top:var(--ddi-space-20);border-top:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-code>summary{display:flex;align-items:center;justify-content:space-between;gap:var(--ddi-space-16);min-height:var(--ddi-size-control);font-size:var(--ddi-font-size-caption);color:var(--ddi-color-action-primary);list-style:none}
+.ddi .ddi-code>summary::-webkit-details-marker,.ddi .ddi-skill>summary::-webkit-details-marker{display:none}
+.ddi .ddi-code pre{white-space:pre-wrap;overflow-wrap:anywhere;margin:var(--ddi-space-12) 0;padding:var(--ddi-space-16);background:var(--ddi-color-surface-subtle);font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);border-radius:var(--ddi-radius-card)}
+.ddi .ddi-code p{font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary);line-height:var(--ddi-font-line-height-body);margin:var(--ddi-space-12) 0}
+.ddi .ddi-code p a{text-decoration:underline}
+.ddi .ddi-code>summary .ddi-icon,.ddi .ddi-skill>summary .ddi-icon{transition:transform var(--ddi-motion-duration)}
+.ddi .ddi-code[open]>summary .ddi-icon,.ddi .ddi-skill[open]>summary .ddi-icon{transform:rotate(180deg)}
+.ddi .ddi-button{display:inline-flex;align-items:center;justify-content:center;gap:var(--ddi-space-8);min-height:var(--ddi-size-control);padding:var(--ddi-space-8) var(--ddi-space-16);font-size:var(--ddi-font-size-caption);font-weight:var(--ddi-font-weight-medium);line-height:var(--ddi-font-line-height-compact);text-align:center;white-space:normal;border:1px solid var(--ddi-color-border-control);border-radius:var(--ddi-radius-control);background:var(--ddi-color-surface-page);color:var(--ddi-color-text-primary);text-decoration:none;transition:background var(--ddi-motion-duration),border-color var(--ddi-motion-duration)}
+.ddi .ddi-button:hover{background:var(--ddi-color-surface-subtle);text-decoration:none}
+.ddi .ddi-button-primary{color:var(--ddi-color-action-on-primary);background:var(--ddi-color-action-primary);border-color:var(--ddi-color-action-primary)}
+.ddi .ddi-button-primary:hover{background:var(--ddi-color-action-hover);border-color:var(--ddi-color-action-hover);color:var(--ddi-color-action-on-primary)}
+.ddi .ddi-button-compact{min-height:var(--ddi-size-control-compact);padding:var(--ddi-space-8) var(--ddi-space-12)}
+.ddi .ddi-button[aria-pressed="true"]{color:var(--ddi-color-action-primary);background:var(--ddi-color-action-subtle);border-color:var(--ddi-color-action-primary)}
+.ddi .ddi-button:disabled{color:var(--ddi-color-text-disabled);border-color:var(--ddi-color-border-decorative);background:var(--ddi-color-surface-subtle)}
+.ddi .ddi-button-specimen{display:flex;align-items:center;gap:var(--ddi-space-12);flex-wrap:wrap}
+.ddi .ddi-feedback{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-secondary);min-height:var(--ddi-space-20);margin:var(--ddi-space-12) 0 0}
+.ddi .ddi-icon-strip{display:flex;gap:var(--ddi-space-24);flex-wrap:wrap;margin-top:var(--ddi-space-24);padding:var(--ddi-space-20) 0;border-top:1px solid var(--ddi-color-border-decorative);border-bottom:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-icon-strip>span{display:flex;align-items:center;gap:var(--ddi-space-8);font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary)}
+.ddi .ddi-icon-strip .ddi-icon{font-size:var(--ddi-font-size-lead);color:var(--ddi-color-text-primary)}
+.ddi .ddi-usage{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ddi-space-24);margin-top:var(--ddi-space-24)}
+.ddi .ddi-usage p{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-secondary);margin:0}
+.ddi .ddi-usage strong{display:block;font-size:var(--ddi-font-size-caption);font-weight:var(--ddi-font-weight-medium);color:var(--ddi-color-text-primary);margin-bottom:var(--ddi-space-4)}
+.ddi .ddi-demo-caption{display:flex;align-items:center;gap:var(--ddi-space-12);flex-wrap:wrap;margin-bottom:var(--ddi-space-24);font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary)}
+.ddi .ddi-demo-caption strong{font-weight:var(--ddi-font-weight-medium);color:var(--ddi-color-text-primary)}
+.ddi .ddi-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ddi-space-16)}
+.ddi .ddi-field{min-width:0}
+.ddi .ddi-field>label{display:block;font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary);margin-bottom:var(--ddi-space-8)}
+.ddi .ddi-field-wrap{position:relative;min-width:0}
+.ddi .ddi-input{display:block;width:100%;min-width:0;min-height:var(--ddi-size-control);padding:var(--ddi-space-8) var(--ddi-space-12);border:1px solid var(--ddi-color-border-control);border-radius:var(--ddi-radius-control);background:var(--ddi-color-surface-page);color:var(--ddi-color-text-primary);font-size:var(--ddi-font-size-body);line-height:var(--ddi-font-line-height-compact)}
+.ddi .ddi-field-wrap .ddi-input{padding-right:var(--ddi-space-40)}
+.ddi .ddi-input-sourced{background:var(--ddi-color-surface-subtle);color:var(--ddi-color-text-primary);cursor:default}
+.ddi .ddi-input[aria-invalid="true"]{border-color:var(--ddi-color-status-danger-foreground)}
+.ddi .ddi-field-unit{position:absolute;right:var(--ddi-space-12);top:50%;transform:translateY(-50%);font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary);pointer-events:none}
+.ddi .ddi-field-error{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-status-danger-foreground);margin:var(--ddi-space-8) 0;min-height:var(--ddi-space-20)}
+.ddi .ddi-status{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--ddi-space-16);align-items:center;padding-top:var(--ddi-space-16);border-top:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-metric-value{font-size:var(--ddi-font-size-title);font-weight:var(--ddi-font-weight-medium);line-height:var(--ddi-font-line-height-heading);font-variant-numeric:tabular-nums}
+.ddi .ddi-lights{display:flex;gap:var(--ddi-space-8);margin-bottom:var(--ddi-space-8)}
+.ddi .ddi-lights>span{display:block;width:var(--ddi-space-12);height:var(--ddi-space-12);border-radius:50%;background:var(--ddi-color-border-decorative)}
+.ddi .ddi-lights>[data-status="success"][data-active="true"]{background:var(--ddi-color-status-success-indicator)}
+.ddi .ddi-lights>[data-status="warning"][data-active="true"]{background:var(--ddi-color-status-warning-indicator)}
+.ddi .ddi-lights>[data-status="danger"][data-active="true"]{background:var(--ddi-color-status-danger-indicator)}
+.ddi .ddi-status-label{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);margin:0;color:var(--ddi-color-text-secondary)}
+.ddi .ddi-insight{border-left:2px solid var(--ddi-color-status-neutral-indicator);padding:var(--ddi-space-12) var(--ddi-space-16);margin-top:var(--ddi-space-20);min-width:0}
+.ddi .ddi-insight h3{font-size:var(--ddi-font-size-body);font-weight:var(--ddi-font-weight-medium);line-height:var(--ddi-font-line-height-compact);margin:0 0 var(--ddi-space-8)}
+.ddi .ddi-insight p{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-secondary);margin:0}
+.ddi .ddi-insight[data-state="success"]{border-color:var(--ddi-color-status-success-indicator)}
+.ddi .ddi-insight[data-state="warning"]{border-color:var(--ddi-color-status-warning-indicator)}
+.ddi .ddi-insight[data-state="danger"]{border-color:var(--ddi-color-status-danger-indicator)}
+.ddi .ddi-insight[data-state="success"] h3,.ddi .ddi-status[data-state="success"] .ddi-status-label{color:var(--ddi-color-status-success-foreground)}
+.ddi .ddi-insight[data-state="warning"] h3,.ddi .ddi-status[data-state="warning"] .ddi-status-label{color:var(--ddi-color-status-warning-foreground)}
+.ddi .ddi-insight[data-state="danger"] h3,.ddi .ddi-status[data-state="danger"] .ddi-status-label{color:var(--ddi-color-status-danger-foreground)}
+.ddi .ddi-checklist{list-style:none;padding:0;margin:0;border-top:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-checklist li{display:grid;grid-template-columns:var(--ddi-size-check) minmax(0,1fr);gap:var(--ddi-space-12);align-items:start;padding:var(--ddi-space-12) 0;border-bottom:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-check{appearance:none;-webkit-appearance:none;display:grid;place-items:center;width:var(--ddi-size-check);height:var(--ddi-size-check);margin:var(--ddi-space-4) 0 0;border:1px solid var(--ddi-color-border-control);border-radius:var(--ddi-radius-control);background:var(--ddi-color-surface-page);cursor:pointer}
+.ddi .ddi-check:disabled{background:var(--ddi-color-surface-subtle);cursor:default}
+.ddi .ddi-check:checked{background:var(--ddi-color-status-success-background);border-color:var(--ddi-color-status-success-indicator);color:var(--ddi-color-status-success-foreground)}
+.ddi .ddi-check:checked::after{content:"";width:8px;height:5px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg) translateY(-1px)}
+.ddi .ddi-check-label{display:block;font-size:var(--ddi-font-size-body);line-height:var(--ddi-font-line-height-body);cursor:pointer}
+.ddi .ddi-check:disabled+div .ddi-check-label{cursor:default}
+.ddi .ddi-check-actions{display:flex;align-items:center;flex-wrap:wrap;gap:0 var(--ddi-space-12);margin-top:var(--ddi-space-4)}
+.ddi .ddi-text-action{display:inline-flex;align-items:center;gap:var(--ddi-space-8);min-height:var(--ddi-size-control-compact);padding:var(--ddi-space-4) 0;border:0;background:none;color:var(--ddi-color-action-primary);font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-compact);text-decoration:none}
+.ddi .ddi-text-action:hover{text-decoration:underline}
+.ddi .ddi-rule-note{margin-top:var(--ddi-space-24);padding-top:var(--ddi-space-16);border-top:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-rule-note h4{font-size:var(--ddi-font-size-body);font-weight:var(--ddi-font-weight-medium);margin:0 0 var(--ddi-space-8)}
+.ddi .ddi-rule-note p{font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary);line-height:var(--ddi-font-line-height-body);margin:0}
+.ddi .ddi-message{padding:var(--ddi-space-12);background:var(--ddi-color-surface-subtle);border:1px solid var(--ddi-color-border-decorative);border-radius:var(--ddi-radius-card);min-width:0}
+.ddi .ddi-message>small{display:block;font-size:var(--ddi-font-size-micro);line-height:var(--ddi-font-line-height-compact);color:var(--ddi-color-text-meta);margin-bottom:var(--ddi-space-8)}
+.ddi .ddi-message>p:not(.ddi-caption){font-size:var(--ddi-font-size-body);line-height:var(--ddi-font-line-height-body);margin:0}
+.ddi .ddi-flow-arrow{display:flex;align-items:center;justify-content:center;height:var(--ddi-space-24);font-size:var(--ddi-font-size-title);color:var(--ddi-color-action-primary)}
+.ddi .ddi-thinking{padding:var(--ddi-space-12);border:1px solid var(--ddi-color-agent-border);border-radius:var(--ddi-radius-card);background:var(--ddi-color-agent-background)}
+.ddi .ddi-thinking>h3{font-size:var(--ddi-font-size-caption);font-weight:var(--ddi-font-weight-medium);color:var(--ddi-color-agent-foreground);line-height:var(--ddi-font-line-height-compact);margin:0 0 var(--ddi-space-8)}
+.ddi .ddi-thinking-visual{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr);gap:var(--ddi-space-8);align-items:center;min-height:86px}
+.ddi .ddi-thinking-spec{min-width:0}
+.ddi .ddi-thinking-spec>div{font-family:var(--ddi-font-family-display);font-size:var(--ddi-size-feature-icon);line-height:1;color:var(--ddi-color-action-primary);margin-bottom:var(--ddi-space-4)}
+.ddi .ddi-thinking-spec strong{display:block;font-size:var(--ddi-font-size-caption);font-weight:var(--ddi-font-weight-medium);line-height:var(--ddi-font-line-height-compact)}
+.ddi .ddi-thinking-spec small{display:block;font-size:var(--ddi-font-size-micro);line-height:var(--ddi-font-line-height-compact);color:var(--ddi-color-text-primary);margin-top:var(--ddi-space-4)}
+.ddi .ddi-thinking-arrow{font-size:var(--ddi-font-size-title);color:var(--ddi-color-agent-foreground);justify-self:center}
+.ddi .ddi-mini-funnel{display:grid;gap:var(--ddi-space-4);min-width:0}
+.ddi .ddi-mini-funnel>span{display:flex;align-items:center;justify-content:center;width:100%;height:var(--ddi-space-24);margin:0 auto;padding:0 2px;font-size:var(--ddi-font-size-micro);line-height:1;white-space:nowrap;color:var(--ddi-color-action-primary);border:1px solid var(--ddi-color-action-primary);background:var(--ddi-color-action-subtle)}
+.ddi .ddi-mini-funnel>span:nth-child(2){width:85%}
+.ddi .ddi-mini-funnel>span:nth-child(3){width:70%;background:var(--ddi-color-status-success-background);color:var(--ddi-color-status-success-foreground);border-color:var(--ddi-color-status-success-indicator)}
+.ddi .ddi-table{width:100%;table-layout:fixed;border-collapse:collapse;font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-compact);font-variant-numeric:tabular-nums}
+.ddi .ddi-table caption{text-align:left;font-size:var(--ddi-font-size-caption);font-weight:var(--ddi-font-weight-medium);margin-bottom:var(--ddi-space-8)}
+.ddi .ddi-table th,.ddi .ddi-table td{text-align:right;padding:var(--ddi-space-8) var(--ddi-space-4);font-weight:var(--ddi-font-weight-regular);border-bottom:1px solid var(--ddi-color-border-decorative);overflow-wrap:normal}
+.ddi .ddi-table thead th{color:var(--ddi-color-text-secondary);vertical-align:bottom}
+.ddi .ddi-table th:first-child{text-align:left;width:34%}
+.ddi .ddi-table th:nth-child(2){width:24%}
+.ddi .ddi-table th:nth-child(3),.ddi .ddi-table th:nth-child(4){width:21%}
+.ddi .ddi-guidelines{font-size:var(--ddi-font-size-body);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-secondary);margin:0;padding-left:var(--ddi-space-20)}
+.ddi .ddi-guidelines li+li{margin-top:var(--ddi-space-12)}
+.ddi .ddi-journey{list-style:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--ddi-space-12);padding:0;margin:0 0 var(--ddi-space-32)}
+.ddi .ddi-journey li{display:grid;grid-template-columns:minmax(0,1fr) var(--ddi-size-icon);gap:var(--ddi-space-8);align-items:center;min-width:0}
+.ddi .ddi-journey li:last-child{grid-template-columns:1fr}
+.ddi .ddi-journey li>span{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-compact);padding:var(--ddi-space-12) 0;border-bottom:2px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-journey li:last-child>span{border-color:var(--ddi-color-status-success-indicator)}
+.ddi .ddi-journey .ddi-icon{color:var(--ddi-color-action-primary);font-size:var(--ddi-font-size-lead)}
+.ddi .ddi-tabs{display:flex;gap:var(--ddi-space-4);flex-wrap:wrap;padding-bottom:var(--ddi-space-16);border-bottom:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-tabs button{min-height:var(--ddi-size-control);border:1px solid transparent;border-radius:var(--ddi-radius-control);padding:var(--ddi-space-8) var(--ddi-space-16);font-size:var(--ddi-font-size-body);line-height:var(--ddi-font-line-height-compact);color:var(--ddi-color-text-secondary);background:none;text-align:left}
+.ddi .ddi-tabs button:hover{background:var(--ddi-color-surface-subtle)}
+.ddi .ddi-tabs button[aria-selected="true"]{background:var(--ddi-color-action-subtle);color:var(--ddi-color-action-primary)}
+.ddi .ddi-tab-panel{padding-top:var(--ddi-space-20);min-width:0}
+.ddi .ddi-skill-list{border-top:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-skill{border-bottom:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-skill>summary{display:grid;grid-template-columns:var(--ddi-space-24) minmax(0,1fr) var(--ddi-size-icon);align-items:center;gap:var(--ddi-space-12);min-height:var(--ddi-size-control);padding:var(--ddi-space-16) 0;list-style:none}
+.ddi .ddi-skill>summary>span{font-size:var(--ddi-font-size-micro);color:var(--ddi-color-text-meta);font-variant-numeric:tabular-nums}
+.ddi .ddi-skill>summary>strong{font-size:var(--ddi-font-size-body);font-weight:var(--ddi-font-weight-medium);line-height:var(--ddi-font-line-height-compact)}
+.ddi .ddi-skill>summary>.ddi-icon{font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary)}
+.ddi .ddi-skill>p{font-size:var(--ddi-font-size-caption);line-height:var(--ddi-font-line-height-body);color:var(--ddi-color-text-secondary);padding:0 var(--ddi-space-28) var(--ddi-space-20) var(--ddi-space-32);margin:0}
+.ddi .ddi-resource-list{border-top:1px solid var(--ddi-color-border-decorative)}
+.ddi .ddi-resource-list>a{display:grid;grid-template-columns:160px minmax(0,1fr) var(--ddi-size-icon);gap:var(--ddi-space-16);align-items:center;min-height:var(--ddi-size-control);padding:var(--ddi-space-16) 0;border-bottom:1px solid var(--ddi-color-border-decorative);color:var(--ddi-color-text-primary);text-decoration:none}
+.ddi .ddi-resource-list>a:hover strong{color:var(--ddi-color-action-primary)}
+.ddi .ddi-resource-list>a>span{font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-secondary)}
+.ddi .ddi-resource-list>a>strong{font-size:var(--ddi-font-size-body);font-weight:var(--ddi-font-weight-medium);line-height:var(--ddi-font-line-height-compact)}
+.ddi .ddi-resource-list .ddi-icon{color:var(--ddi-color-action-primary)}
+.ddi .ddi-footer{display:flex;justify-content:space-between;gap:var(--ddi-space-20);padding-top:var(--ddi-space-20);border-top:1px solid var(--ddi-color-border-decorative);font-size:var(--ddi-font-size-caption);color:var(--ddi-color-text-meta)}
+.ddi .ddi-footer p{margin:0}
+.ddi .ddi-dialog{width:min(520px,calc(100% - var(--ddi-space-32)));max-height:calc(100svh - var(--ddi-space-48));overflow:auto;padding:var(--ddi-space-24);border:1px solid var(--ddi-color-border-control);border-radius:var(--ddi-radius-dialog);background:var(--ddi-color-surface-page);color:var(--ddi-color-text-primary);font-family:var(--ddi-font-family-ui)}
+.ddi .ddi-dialog::backdrop{background:color-mix(in srgb,var(--ddi-color-text-primary) 28%,transparent)}
+.ddi .ddi-dialog-title{font-family:var(--ddi-font-family-display);font-size:var(--ddi-font-size-section);font-weight:var(--ddi-font-weight-medium);letter-spacing:calc(var(--ddi-font-tracking-heading) * 1em);line-height:var(--ddi-font-line-height-heading);margin:0 0 var(--ddi-space-12)}
+.ddi .ddi-dialog .ddi-label{margin-top:var(--ddi-space-20)}
+.ddi .ddi-dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:var(--ddi-space-8);margin-top:var(--ddi-space-24)}
+@media(min-width:1600px){.ddi .ddi-main{margin-left:calc(var(--ddi-layout-sidebar) + var(--ddi-space-32));padding-left:var(--ddi-layout-gutter-wide);padding-right:var(--ddi-layout-gutter-wide)}.ddi .ddi-header{left:calc(var(--ddi-layout-sidebar) + var(--ddi-space-32) + var(--ddi-layout-gutter-wide));right:var(--ddi-layout-gutter-wide)}.ddi .ddi-nav{left:var(--ddi-space-48)}}
+@media(max-width:1100px){.ddi .ddi-main{margin-left:calc(var(--ddi-layout-sidebar) - var(--ddi-space-40));padding-left:var(--ddi-layout-gutter-tablet);padding-right:var(--ddi-layout-gutter-tablet)}.ddi .ddi-header{left:calc(var(--ddi-layout-sidebar) - var(--ddi-space-40) + var(--ddi-layout-gutter-tablet));right:var(--ddi-layout-gutter-tablet)}.ddi .ddi-nav{left:var(--ddi-space-20);width:136px}.ddi .ddi-section-head{grid-template-columns:1fr;gap:var(--ddi-space-16)}.ddi .ddi-header-docs{display:none}.ddi .ddi-data-grid,.ddi .ddi-pattern-grid{gap:var(--ddi-space-24)}}
+@media(max-width:760px){.ddi{scroll-padding-top:calc(var(--ddi-layout-header-mobile) + var(--ddi-layout-nav-mobile) + var(--ddi-space-16))}.ddi .ddi-header{left:0;right:0;padding:0 var(--ddi-layout-gutter-mobile);height:var(--ddi-layout-header-mobile);gap:var(--ddi-space-12)}.ddi .ddi-header-actions{gap:var(--ddi-space-8)}.ddi .ddi-product-filter select{width:128px}.ddi .ddi-nav{left:0;top:var(--ddi-layout-header-mobile);transform:none;width:100%;height:var(--ddi-layout-nav-mobile);display:flex;gap:var(--ddi-space-4);overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;padding:var(--ddi-space-8) var(--ddi-space-12);border-bottom:1px solid var(--ddi-color-border-decorative)}.ddi .ddi-nav-caption{display:none}.ddi .ddi-nav a{flex:none;white-space:nowrap;padding:var(--ddi-space-8) var(--ddi-space-12)}.ddi .ddi-nav a::before{display:none}.ddi .ddi-nav a[aria-current]{background:var(--ddi-color-surface-subtle);border-radius:var(--ddi-radius-control)}.ddi .ddi-nav a>span{width:auto}.ddi .ddi-main{margin:0;padding:calc(var(--ddi-layout-header-mobile) + var(--ddi-layout-nav-mobile) + var(--ddi-space-32)) var(--ddi-layout-gutter-mobile) var(--ddi-space-24)}.ddi .ddi-title{font-size:var(--ddi-font-size-section-max)}.ddi .ddi-overview-rule,.ddi .ddi-foundation-grid,.ddi .ddi-data-grid,.ddi .ddi-pattern-grid,.ddi .ddi-usage{grid-template-columns:1fr;gap:var(--ddi-space-20)}.ddi .ddi-section{padding:var(--ddi-space-40) 0}.ddi .ddi-section-head{margin-bottom:var(--ddi-space-24)}.ddi .ddi-section-title{font-size:var(--ddi-font-size-section)}.ddi .ddi-palette{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--ddi-space-20) var(--ddi-space-12)}.ddi .ddi-foundation-grid{margin-top:var(--ddi-space-24)}.ddi .ddi-button-specimen{gap:var(--ddi-space-8)}.ddi .ddi-icon-strip{gap:var(--ddi-space-16)}.ddi .ddi-data-grid{gap:var(--ddi-space-32)}.ddi .ddi-journey{grid-template-columns:1fr;gap:var(--ddi-space-8)}.ddi .ddi-journey li{grid-template-columns:1fr;gap:var(--ddi-space-8)}.ddi .ddi-journey li>span{padding:var(--ddi-space-8) 0}.ddi .ddi-journey .ddi-icon{justify-self:center;transform:rotate(90deg)}.ddi .ddi-tabs button{font-size:var(--ddi-font-size-caption);padding:var(--ddi-space-8) var(--ddi-space-12)}.ddi .ddi-resource-list>a{grid-template-columns:minmax(0,1fr) var(--ddi-size-icon);gap:var(--ddi-space-4) var(--ddi-space-12)}.ddi .ddi-resource-list>a>span{grid-column:1}.ddi .ddi-resource-list>a>strong{grid-column:1;font-size:var(--ddi-font-size-caption)}.ddi .ddi-resource-list>a>.ddi-icon{grid-column:2;grid-row:1/3}.ddi .ddi-footer{display:block}.ddi .ddi-footer p+p{margin-top:var(--ddi-space-8)}.ddi .ddi-dialog{padding:var(--ddi-space-20)}}
+@media(max-width:400px){.ddi .ddi-brand>span{display:none}.ddi .ddi-fields{gap:var(--ddi-space-12)}.ddi .ddi-thinking-spec strong{font-size:var(--ddi-font-size-caption);overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){.ddi{scroll-behavior:auto}.ddi .ddi-button,.ddi .ddi-code>summary .ddi-icon,.ddi .ddi-skill>summary .ddi-icon{transition:none}}
+@media print{.ddi .ddi-header,.ddi .ddi-nav,.ddi .ddi-skip{display:none}.ddi .ddi-main{margin:0;padding:0}.ddi .ddi-section{padding:var(--ddi-space-24) 0}.ddi .ddi-overview{padding-bottom:var(--ddi-space-24)}.ddi .ddi-message,.ddi .ddi-thinking,.ddi .ddi-skill{break-inside:avoid}}
+
+</style>
+</head>
+<body>
+<a class="ddi-skip" href="#ddi-overview">К содержанию</a>
+<header class="ddi-header"><a class="ddi-brand" href="#ddi-overview"><strong>DDI</strong><span>Editorial <small>v0.1.0</small></span></a><div class="ddi-header-actions"><div class="ddi-product-filter" data-component="product-filter"><label for="ddi-product">Продукт</label><select id="ddi-product" aria-describedby="ddi-demo-note"><option value="deposits">Вклады</option><option value="prime">Прайм</option></select></div><a class="ddi-button ddi-button-compact ddi-header-docs" href="README.md">Документация <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div></header>
+<nav class="ddi-nav" data-component="navigation" aria-label="Разделы дизайн-системы"><p class="ddi-nav-caption">Каталог</p><a href="#ddi-overview" data-ddi-section="ddi-overview" aria-current="location">Обзор</a><a href="#ddi-foundations" data-ddi-section="ddi-foundations"><span>01</span>Основы</a><a href="#ddi-controls" data-ddi-section="ddi-controls"><span>02</span>Управление</a><a href="#ddi-data" data-ddi-section="ddi-data"><span>03</span>Данные и статусы</a><a href="#ddi-dialog-pattern" data-ddi-section="ddi-dialog-pattern"><span>04</span>Диалог агента</a><a href="#ddi-composition" data-ddi-section="ddi-composition"><span>05</span>Структура документа</a><a href="#ddi-reuse" data-ddi-section="ddi-reuse"><span>06</span>Применение</a></nav>
+<main class="ddi-main"><div class="ddi-document">
+<section class="ddi-overview" id="ddi-overview" aria-labelledby="ddi-title"><p class="ddi-eyebrow">Дизайн-система · v0.1.0</p><h1 class="ddi-title" id="ddi-title">DDI Editorial.</h1><p class="ddi-lead">Спокойная форма для сложных данных. Токены, компоненты и рабочие примеры для аналитических документов и продуктовых страниц.</p><div class="ddi-overview-rule"><p>Белая бумага. Чёткая иерархия.<br><strong>Цвет сообщает смысл.</strong></p><p>Область применения — standalone HTML. Основой служат выбранные решения клиентского цикла, опросника ОСАГО и страницы CJHUB. React-интерфейсы Gravity остаются в своей системе компонентов.</p></div><p class="ddi-demo-note" id="ddi-demo-note">Все примеры в каталоге демонстрационные. Фильтр переключает локальные состояния образцов; это не отчёт по продуктам и не результат пилота.</p></section>
+<section class="ddi-section" id="ddi-foundations" aria-labelledby="ddi-foundations-title"><div class="ddi-section-head"><div><p class="ddi-eyebrow">01 · Основы</p><h2 class="ddi-section-title" id="ddi-foundations-title">Сначала смысл.<br>Потом акцент.</h2></div><p>Серый строит структуру, синий обозначает действие, фиолетовый — работу агента. Статус всегда сопровождается текстом.</p></div>
+<div class="ddi-palette" aria-label="Ключевые цвета"><div class="ddi-swatch"><i style="background:var(--ddi-color-text-primary)"></i><strong>Основной текст</strong><code>color.text.primary</code><span>#16283b</span></div><div class="ddi-swatch"><i style="background:var(--ddi-color-text-secondary)"></i><strong>Вторичный текст</strong><code>color.text.secondary</code><span>#657486</span></div><div class="ddi-swatch"><i style="background:var(--ddi-color-action-primary)"></i><strong>Действие</strong><code>color.action.primary</code><span>#2858d9</span></div><div class="ddi-swatch"><i style="background:var(--ddi-color-agent-foreground)"></i><strong>Агент</strong><code>color.agent.foreground</code><span>#7c3aed</span></div><div class="ddi-swatch"><i style="background:var(--ddi-color-status-success-indicator)"></i><strong>Индикатор</strong><code>status.success.indicator</code><span>#139487</span></div><div class="ddi-swatch"><i style="background:var(--ddi-color-status-success-foreground)"></i><strong>Текст статуса</strong><code>status.success.foreground</code><span>#0b756b</span></div><div class="ddi-swatch"><i style="background:var(--ddi-color-border-decorative)"></i><strong>Разделитель</strong><code>color.border.decorative</code><span>#e9edf2</span></div><div class="ddi-swatch"><i style="background:var(--ddi-color-surface-subtle)"></i><strong>Тихая поверхность</strong><code>color.surface.subtle</code><span>#f7f9fd</span></div></div>
+<div class="ddi-foundation-grid"><div class="ddi-type-specimen"><p class="ddi-label">Типографика</p><p class="ddi-type-display">Данные ведут историю.</p><p class="ddi-type-body">Крупный заголовок — Georgia. Рабочий текст и интерфейс — системный sans-serif, 14 px. Подписи — 12 px; 10 px остаются для необязательных метаданных.</p><div class="ddi-type-scale"><span><b>32–44</b> раздел</span><span><b>16</b> подзаголовок</span><span><b>14</b> текст</span><span><b>12</b> подпись</span></div></div><div><p class="ddi-label">Сетка и ритм</p><div class="ddi-grid-specimen" aria-label="Две равные колонки"><span>minmax(0, 1fr)</span><span>minmax(0, 1fr)</span></div><p class="ddi-caption">Контент — до 1120 px. Отступы — 4 / 8 / 12 / 16 / 24 / 32 / 48. На узком экране колонки складываются, навигация становится горизонтальной.</p><p class="ddi-caption">Тонкие линии разделяют смысловые блоки. Карточка нужна для отдельного объекта, а не для каждого абзаца.</p></div></div>
+<details class="ddi-code"><summary>Токены и применение <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><pre><code>color: var(--ddi-color-text-primary);
+background: var(--ddi-color-surface-page);
+gap: var(--ddi-space-24);
+font-size: var(--ddi-font-size-body);</code></pre><p>Канонические значения находятся в <a href="tokens.json">tokens.json</a>. Для нового документа подключайте сгенерированный <a href="ddi.css">ddi.css</a> и добавляйте класс <code>ddi</code> корневому элементу.</p></details></section>
+<section class="ddi-section" id="ddi-controls" aria-labelledby="ddi-controls-title"><div class="ddi-section-head"><div><p class="ddi-eyebrow">02 · Управление</p><h2 class="ddi-section-title" id="ddi-controls-title">Действия видны.<br>Состояния понятны.</h2></div><p>Нативные кнопки, ссылки, select и details сохраняют привычное управление клавиатурой. Фокус остаётся видимым.</p></div>
+<div data-component="button" class="ddi-button-specimen"><button class="ddi-button ddi-button-primary" id="ddi-demo-primary" type="button">Основное действие <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></svg></button><button class="ddi-button" id="ddi-demo-secondary" type="button">Вторичное действие</button><button class="ddi-button ddi-button-toggle" id="ddi-demo-toggle" type="button" aria-pressed="true">Выбрано</button><button class="ddi-button" type="button" disabled>Недоступно</button></div><p class="ddi-feedback" id="ddi-button-feedback" role="status">Нажмите кнопку, чтобы проверить состояние. Tab показывает фокус.</p>
+<div class="ddi-icon-strip" aria-label="Нативные SVG-иконки"><span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg>Переход</span><span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></svg>Подтверждение</span><span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8m-8 4h8m-8 4h5"/></svg>Источник</span><span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h16l-6 7v7l-4 2v-9L4 5Z"/></svg>Воронка</span></div>
+<div class="ddi-usage"><p><strong>Использовать</strong> одно основное действие в контексте, высоту 44 px по умолчанию и 40 px в плотных строках.</p><p><strong>Избегать</strong> кликабельных div, невидимого фокуса, декоративных эмоджи и SVG фиксированного размера в крупном заголовке. Иконка масштабируется через 1em.</p></div><details class="ddi-code"><summary>Разметка кнопки и фильтра <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><pre><code>&lt;button class="ddi-button ddi-button-primary"&gt;Действие&lt;/button&gt;
+&lt;label for="product"&gt;Продукт&lt;/label&gt;
+&lt;select id="product"&gt;…&lt;/select&gt;</code></pre><p>Живой фильтр «Вклады / Прайм» находится в шапке и переключает примеры в следующем разделе.</p></details></section>
+<section class="ddi-section" id="ddi-data" aria-labelledby="ddi-data-title"><div class="ddi-section-head"><div><p class="ddi-eyebrow">03 · Данные и статусы</p><h2 class="ddi-section-title" id="ddi-data-title">Источник, значение,<br>подтверждение.</h2></div><p>Редактируемое поле, данные из источника и подтверждённый пункт должны отличаться по поведению, а не только по цвету.</p></div><div class="ddi-demo-caption"><span>Демонстрационный пример</span><strong id="ddi-context-product">Вклады</strong><span>Состояние хранится только в этой открытой странице.</span></div>
+<div class="ddi-data-grid"><div><h3 class="ddi-subtitle">Поля и единицы</h3><div class="ddi-fields"><div class="ddi-field" data-component="metric-field"><label for="ddi-identified">Идентифицировано</label><div class="ddi-field-wrap"><input class="ddi-input" id="ddi-identified" type="text" inputmode="decimal" autocomplete="off" aria-describedby="ddi-metric-help ddi-metric-error"><span class="ddi-field-unit" aria-hidden="true">ед.</span></div><p class="ddi-caption" id="ddi-metric-help">Оба объёма — в условных единицах. Ручное поле; например, 950.</p></div><div class="ddi-field" data-component="source-field"><label for="ddi-sam">Объём SAM</label><div class="ddi-field-wrap"><input class="ddi-input ddi-input-sourced" id="ddi-sam" type="text" value="1 000" readonly aria-describedby="ddi-source-caption"><span class="ddi-field-unit" aria-hidden="true">ед.</span></div><p class="ddi-caption" id="ddi-source-caption">Источник: учебный пример. Объём — в условных единицах; значение не редактируется.</p></div></div><p class="ddi-field-error" id="ddi-metric-error" role="status"></p>
+<div class="ddi-status" data-component="status" data-state="neutral"><div><p class="ddi-label">Покрытие SAM</p><output class="ddi-metric-value" id="ddi-coverage" for="ddi-identified ddi-sam">—</output></div><div><div class="ddi-lights" aria-hidden="true"><span data-status="success" data-active="false"></span><span data-status="warning" data-active="false"></span><span data-status="danger" data-active="false"></span></div><p class="ddi-status-label" id="ddi-status-label" role="status">Нет данных для оценки</p></div></div><p class="ddi-caption">Порог примера: 95–100% — норма, 80–&lt;95% — внимание, &lt;80% — ниже нормы.</p>
+<aside class="ddi-insight" id="ddi-insight" data-component="insight" data-state="neutral"><h3 id="ddi-insight-title">Нет данных для оценки</h3><p id="ddi-insight-body">Введите идентифицированный объём. Светофор и пояснение обновятся вместе.</p></aside></div>
+<div data-component="evidence-checklist"><h3 class="ddi-subtitle">Чеклист с подтверждением</h3><ul class="ddi-checklist"><li><input class="ddi-check" id="ddi-evidence-check" type="checkbox" disabled aria-describedby="ddi-evidence-help"><div><label class="ddi-check-label" for="ddi-evidence-check">Результат проверен и подтверждён</label><div class="ddi-check-actions"><a class="ddi-text-action" id="ddi-evidence-link" target="_blank" rel="noopener noreferrer" hidden>Перейти <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></svg></a><button class="ddi-text-action" id="ddi-evidence-open" type="button">Приложить ссылку</button></div><p class="ddi-caption" id="ddi-evidence-help">Для отметки нужна ссылка на подтверждение.</p></div></li></ul><p class="ddi-feedback" id="ddi-evidence-state" role="status">Подтверждение не приложено.</p><div class="ddi-rule-note"><h4>Контракт поведения</h4><p>Для этого варианта без корректной HTTP(S)-ссылки пункт нельзя отметить. Сохранение ссылки отмечает пункт; после этого отметку можно изменить. Удаление ссылки сбрасывает состояние.</p></div><details class="ddi-code"><summary>Состояния и валидация <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><pre><code>{ checked: false, url: '' }
+checked ⇒ valid HTTP(S) URL
+remove URL ⇒ unchecked + disabled</code></pre><p>Этот URL-gate — для пунктов с подтверждением ссылкой. Ручные и sourced-варианты задаются контрактом задачи. Локальные правки не должны подменять поля из источника.</p></details></div></div><div class="ddi-usage"><p><strong>Использовать</strong> текстовый статус рядом с цветом. Расчёт покрытия и блок пояснения получают один результат функции.</p><p><strong>Избегать</strong> зелёной отметки по умолчанию, отдельно вычисленного цвета предупреждения и единицы измерения под полем.</p></div></section>
+<section class="ddi-section" id="ddi-dialog-pattern" aria-labelledby="ddi-dialog-title"><div class="ddi-section-head"><div><p class="ddi-eyebrow">04 · Составной паттерн</p><h2 class="ddi-section-title" id="ddi-dialog-title">Запрос. Работа агента.<br>Ответ.</h2></div><p>Визуальный рассказ о процессе. Средняя стадия показывает понятные операции, а не скрытые рассуждения или имитацию живого выполнения.</p></div><div class="ddi-pattern-grid"><div class="ddi-agent-dialog" data-component="agent-dialog" aria-label="Демонстрационный диалог: запрос, работа агента и ответ"><div class="ddi-message"><small>Пример запроса</small><p>«Покажи воронку продукта и среднее время на каждом шаге».</p></div><div class="ddi-flow-arrow" aria-hidden="true"><svg class="ddi-icon" viewBox="0 0 24 24"><path d="M12 3v18m-6-6 6 6 6-6"/></svg></div><div class="ddi-thinking"><h3>Агент думает</h3><div class="ddi-thinking-visual"><div class="ddi-thinking-spec"><div aria-hidden="true">{ }</div><strong>JSON-спецификация</strong><small>События и параметры</small></div><svg class="ddi-icon ddi-thinking-arrow" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></svg><div class="ddi-mini-funnel" role="img" aria-label="Условная воронка: начало, шаг, завершение"><span>Начало</span><span>Шаг</span><span>Завершение</span></div></div></div><div class="ddi-flow-arrow" aria-hidden="true"><svg class="ddi-icon" viewBox="0 0 24 24"><path d="M12 3v18m-6-6 6 6 6-6"/></svg></div><div class="ddi-message ddi-answer"><small>Ответ агента</small><table class="ddi-table" data-component="data-table"><caption>Результат для пользователя</caption><thead><tr><th scope="col">Шаг</th><th scope="col">Клиенты</th><th scope="col" aria-label="Конверсия" title="Конверсия">Конв.</th><th scope="col" aria-label="Среднее время" title="Среднее время">Время</th></tr></thead><tbody><tr><th scope="row">Начало</th><td>—</td><td>—</td><td>—</td></tr><tr><th scope="row">Шаг</th><td>—</td><td>—</td><td>—</td></tr><tr><th scope="row">Завершение</th><td>—</td><td>—</td><td>—</td></tr></tbody></table><p class="ddi-caption">Пример формата, без данных расчёта.</p></div></div><div><h3 class="ddi-subtitle">Что сохраняем при повторном использовании</h3><ol class="ddi-guidelines"><li>Запрос и ответ выделены как элементы диалога.</li><li>Между ними — фиолетовый блок работы агента с JSON и графикой воронки.</li><li>Стрелки показывают последовательность до и после стадии агента.</li><li>Числа в таблице появляются только из настоящего расчёта. В демонстрации стоят «—».</li><li>Четыре колонки остаются читаемыми на ширине 320 px. Числовые значения используют tabular-nums.</li></ol><details class="ddi-code"><summary>Каркас паттерна <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><pre><code>.ddi-agent-dialog
+  .ddi-message
+  .ddi-flow-arrow
+  .ddi-thinking
+    .ddi-thinking-spec → .ddi-mini-funnel
+  .ddi-flow-arrow
+  .ddi-message.ddi-answer</code></pre><p>Не заменяйте графику тремя пунктами списка и не убирайте стадию агента ради уменьшения высоты.</p></details></div></div></section>
+<section class="ddi-section" id="ddi-composition" aria-labelledby="ddi-composition-title"><div class="ddi-section-head"><div><p class="ddi-eyebrow">05 · Структура документа</p><h2 class="ddi-section-title" id="ddi-composition-title">Обзор — перед деталями.</h2></div><p>Схема задаёт порядок чтения. Вкладки разделяют равноправные сценарии, details раскрывают технический слой по запросу.</p></div><ol class="ddi-journey" data-component="journey-diagram" aria-label="Этапы клиентского цикла"><li><span>Рынок</span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></svg></li><li><span>Знание о клиенте</span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></svg></li><li><span>Коммуникация</span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></svg></li><li><span>Продажа</span><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M3 12h18m-7-7 7 7-7 7"/></svg></li><li><span>Активная база</span></li></ol>
+<div class="ddi-tabs-example" data-component="tabs"><div class="ddi-tabs" id="ddi-tabs" role="tablist" aria-label="Пример структуры раздела"><button id="ddi-tab-example" type="button" role="tab" aria-selected="true" aria-controls="ddi-panel-example" tabindex="0">Пример компонента</button><button id="ddi-tab-rules" type="button" role="tab" aria-selected="false" aria-controls="ddi-panel-rules" tabindex="-1">Правила применения</button></div><div class="ddi-tab-panel" id="ddi-panel-example" role="tabpanel" aria-labelledby="ddi-tab-example" tabindex="0"><div class="ddi-skill-list" data-component="skill-list"><details class="ddi-skill"><summary><span>01</span><strong>Расчет воронки клиентского пути</strong><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><p>Раскрытый слой объясняет задачу, входные данные и результат. Основное название навыка остаётся в строке.</p></details><details class="ddi-skill"><summary><span>02</span><strong>Расчет таймингов в продуктовой воронке</strong><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><p>Дополнительные параметры и оговорки доступны по запросу, не загружают первый экран.</p></details><details class="ddi-skill"><summary><span>03</span><strong>Работа с CJHUB</strong><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><p>Завершающий элемент набора. Нативный details работает мышью и клавиатурой.</p></details></div></div><div class="ddi-tab-panel" id="ddi-panel-rules" role="tabpanel" aria-labelledby="ddi-tab-rules" tabindex="0" hidden><ul class="ddi-guidelines"><li>Используйте вкладки для параллельных сценариев, а не для последовательных шагов.</li><li>Arrow Left / Right, Home и End перемещают фокус и активируют вкладку.</li><li>Details подходит для описаний навыков, FAQ и дополнительной методики.</li><li>Не вкладывайте кнопку или ссылку внутрь другого интерактивного контрола.</li></ul></div></div></section>
+<section class="ddi-section" id="ddi-reuse" aria-labelledby="ddi-reuse-title"><div class="ddi-section-head"><div><p class="ddi-eyebrow">06 · Применение</p><h2 class="ddi-section-title" id="ddi-reuse-title">Повторять паттерны.<br>Не копить исключения.</h2></div><p>Начинайте с токенов и готового поведения. Изменение правила должно попадать в источник системы и проходить проверку на реальном документе.</p></div><div class="ddi-resource-list"><a href="README.md"><span>README</span><strong>Область применения и правила работы</strong><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></a><a href="tokens.json"><span>tokens.json</span><strong>Канонические значения и семантические роли</strong><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></a><a href="components.json"><span>components.json</span><strong>Контракты компонентов</strong><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></a><a href="CHANGELOG.md"><span>CHANGELOG</span><strong>Изменения и совместимость</strong><svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="M5 19 19 5M5 5h14v14"/></svg></a></div><details class="ddi-code"><summary>Минимальное подключение <svg class="ddi-icon" aria-hidden="true" viewBox="0 0 24 24"><path d="m5 9 7 7 7-7"/></svg></summary><pre><code>&lt;html lang="ru" class="ddi"&gt;
+  &lt;link rel="stylesheet" href="ddi.css"&gt;
+  &lt;button class="ddi-button ddi-button-primary"&gt;Действие&lt;/button&gt;
+&lt;/html&gt;</code></pre><p>CSS ограничен корнем <code>.ddi</code>. Сборщик каталога встраивает токены, компоненты и демонстрационный JS в один HTML-файл.</p></details></section>
+<footer class="ddi-footer"><p>DDI Editorial · v0.1.0</p><p>Standalone-документы и продуктовые страницы · <a href="#ddi-overview">К началу</a></p></footer>
+</div></main>
+<dialog class="ddi-dialog" id="ddi-evidence-dialog" aria-labelledby="ddi-evidence-title"><form id="ddi-evidence-form"><p class="ddi-eyebrow">Демонстрация подтверждения</p><h2 class="ddi-dialog-title" id="ddi-evidence-title">Приложить ссылку</h2><p class="ddi-caption" id="ddi-evidence-context">Вклады</p><label class="ddi-label" for="ddi-evidence-url">Ссылка на подтверждение</label><input class="ddi-input" id="ddi-evidence-url" type="url" required placeholder="https://" aria-describedby="ddi-url-help ddi-url-error" autofocus><p class="ddi-caption" id="ddi-url-help">Поддерживаются полные HTTP(S)-ссылки. Изменения остаются локальными в этой демонстрации.</p><p class="ddi-field-error" id="ddi-url-error" role="alert"></p><div class="ddi-dialog-actions"><button class="ddi-button" id="ddi-evidence-cancel" type="button">Отмена</button><button class="ddi-button" id="ddi-evidence-remove" type="button" hidden>Удалить ссылку</button><button class="ddi-button ddi-button-primary" type="submit">Сохранить</button></div></form></dialog>
+<script id="ddi-catalog-script">
+(() => {
+  const root = document.documentElement;
+  if (!root.classList.contains('ddi')) return;
+  const names = new Map([['deposits', 'Вклады'], ['prime', 'Прайм']]);
+  const mobileQuery = '(max-width:' + getComputedStyle(root).getPropertyValue('--ddi-layout-breakpoint-mobile').trim() + ')';
+  const states = new Map([...names.keys()].map(id => [id, {identified: '', url: '', checked: false}]));
+  const product = document.getElementById('ddi-product');
+  const identified = document.getElementById('ddi-identified');
+  const sam = document.getElementById('ddi-sam');
+  const checkbox = document.getElementById('ddi-evidence-check');
+  const evidenceLink = document.getElementById('ddi-evidence-link');
+  const openButton = document.getElementById('ddi-evidence-open');
+  const dialog = document.getElementById('ddi-evidence-dialog');
+  const form = document.getElementById('ddi-evidence-form');
+  const evidenceInput = document.getElementById('ddi-evidence-url');
+  const removeButton = document.getElementById('ddi-evidence-remove');
+  let selected = 'deposits';
+  let editing = null;
+  const current = () => states.get(selected);
+  function validUrl(value) {
+    if (typeof value !== 'string' || !value.trim()) return '';
+    try { const parsed = new URL(value.trim()); return ['http:', 'https:'].includes(parsed.protocol) && parsed.hostname ? parsed.href : ''; } catch { return ''; }
+  }
+  function formatNumber(value) {
+    const compact = value.replace(/\s/g, '');
+    const match = compact.match(/^(\d+)([.,]\d*)?$/);
+    return match ? match[1].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (match[2] || '') : value;
+  }
+  function formatInput(input) {
+    const before = input.value;
+    const formatted = formatNumber(before);
+    if (before === formatted) return formatted;
+    const start = input.selectionStart, end = input.selectionEnd, direction = input.selectionDirection;
+    function position(offset) {
+      const prefix = before.slice(0, offset);
+      const logical = prefix.replace(/\s/g, '').length;
+      let seen = 0, index = 0;
+      while (index < formatted.length && seen < logical) { if (!/\s/.test(formatted[index])) seen += 1; index += 1; }
+      if (/\s$/.test(prefix)) while (index < formatted.length && /\s/.test(formatted[index])) index += 1;
+      return index;
+    }
+    input.value = formatted;
+    if (start !== null && end !== null) input.setSelectionRange(position(start), position(end), direction);
+    return formatted;
+  }
+  function volume(value) {
+    const compact = value.replace(/\s/g, '').replace(',', '.');
+    if (!compact) return null;
+    if (!/^\d+(?:\.\d+)?$/.test(compact)) return NaN;
+    const number = Number(compact);
+    return Number.isFinite(number) ? number : NaN;
+  }
+  function renderMetric() {
+    const number = volume(current().identified);
+    let state = 'neutral', value = '—', title = 'Нет данных для оценки';
+    let description = 'Введите идентифицированный объём. Светофор и пояснение обновятся вместе.';
+    let error = '';
+    if (Number.isNaN(number)) { error = 'Введите неотрицательное число; допустимы пробелы и десятичная запятая.'; description = 'Проверьте введённое значение. Оценка пока не рассчитывается.'; }
+    else if (number !== null && number > 1000) { error = 'Значение не должно превышать учебный объём SAM: 1 000.'; description = 'Идентифицированный объём не может быть больше SAM.'; }
+    else if (number !== null) {
+      const coverage = Number((number / 1000 * 100).toFixed(1));
+      state = coverage >= 95 ? 'success' : coverage >= 80 ? 'warning' : 'danger';
+      value = coverage.toLocaleString('ru-RU', {minimumFractionDigits: 1, maximumFractionDigits: 1}) + ' %';
+      title = state === 'success' ? 'В норме' : state === 'warning' ? 'Требует внимания' : 'Ниже нормы';
+      description = state === 'success' ? 'Демонстрационное покрытие достигло 95%. Цвет пояснения совпадает со светофором.' : state === 'warning' ? 'Демонстрационное покрытие от 80% до 95%. Сначала проверьте неполный охват.' : 'Демонстрационное покрытие ниже 80%. Пояснение использует тот же статус, что индикатор.';
+    }
+    identified.setAttribute('aria-invalid', String(Boolean(error)));
+    document.getElementById('ddi-metric-error').textContent = error;
+    document.getElementById('ddi-coverage').textContent = value;
+    document.getElementById('ddi-status-label').textContent = title;
+    document.querySelector('[data-component="status"]').dataset.state = state;
+    const insight = document.getElementById('ddi-insight');
+    insight.dataset.state = state;
+    document.getElementById('ddi-insight-title').textContent = title;
+    document.getElementById('ddi-insight-body').textContent = description;
+    document.querySelectorAll('.ddi-lights [data-status]').forEach(dot => dot.dataset.active = String(dot.dataset.status === state));
+  }
+  function render() {
+    product.value = selected;
+    document.getElementById('ddi-context-product').textContent = names.get(selected);
+    current().identified = formatNumber(current().identified);
+    if (identified.value !== current().identified) identified.value = current().identified;
+    sam.value = '1 000'; sam.readOnly = true;
+    const url = validUrl(current().url);
+    checkbox.disabled = !url;
+    checkbox.checked = Boolean(url && current().checked);
+    evidenceLink.hidden = !url;
+    if (url) evidenceLink.href = url; else evidenceLink.removeAttribute('href');
+    openButton.textContent = url ? 'Изменить ссылку' : 'Приложить ссылку';
+    document.getElementById('ddi-evidence-help').textContent = url ? 'Ссылка приложена. Отметку можно изменить.' : 'Для отметки нужна ссылка на подтверждение.';
+    document.getElementById('ddi-evidence-state').textContent = checkbox.checked ? 'Пункт отмечен. Ссылка на подтверждение приложена.' : url ? 'Ссылка приложена; пункт не отмечен.' : 'Подтверждение не приложено.';
+    renderMetric();
+  }
+  product.addEventListener('change', () => { if (!states.has(product.value)) { product.value = selected; return; } selected = product.value; render(); });
+  checkbox.addEventListener('change', () => { current().checked = Boolean(validUrl(current().url) && checkbox.checked); render(); });
+  function updateNumber() { current().identified = formatInput(identified); renderMetric(); }
+  identified.addEventListener('input', updateNumber);
+  identified.addEventListener('beforeinput', event => {
+    const caret = identified.selectionStart, text = identified.value;
+    if (!event.cancelable || event.isComposing || caret === null || caret !== identified.selectionEnd) return;
+    if (!/^\d+(?:[.,]\d*)?$/.test(text.replace(/\s/g, '')) || formatNumber(text) !== text) return;
+    let start = caret, end = caret;
+    if (event.inputType === 'deleteContentForward' && /\s/.test(text[caret] || '')) { while (end < text.length && /\s/.test(text[end])) end += 1; if (!/\d/.test(text[end] || '')) return; end += 1; }
+    else if (event.inputType === 'deleteContentBackward' && /\s/.test(text[caret - 1] || '')) { while (start > 0 && /\s/.test(text[start - 1])) start -= 1; if (!/\d/.test(text[start - 1] || '')) return; start -= 1; }
+    else return;
+    event.preventDefault(); identified.setRangeText('', start, end, 'start'); updateNumber();
+  });
+  function restoreSource() { sam.value = '1 000'; sam.readOnly = true; renderMetric(); }
+  sam.addEventListener('input', restoreSource);
+  sam.addEventListener('change', restoreSource);
+  openButton.addEventListener('click', () => {
+    editing = selected;
+    evidenceInput.value = states.get(editing).url;
+    evidenceInput.setCustomValidity(''); evidenceInput.setAttribute('aria-invalid', 'false');
+    document.getElementById('ddi-url-error').textContent = '';
+    document.getElementById('ddi-evidence-context').textContent = names.get(editing);
+    removeButton.hidden = !validUrl(states.get(editing).url);
+    dialog.showModal();
+  });
+  evidenceInput.addEventListener('input', () => { evidenceInput.setCustomValidity(''); evidenceInput.setAttribute('aria-invalid', 'false'); document.getElementById('ddi-url-error').textContent = ''; });
+  form.addEventListener('submit', event => {
+    event.preventDefault(); if (!editing) return;
+    const url = validUrl(evidenceInput.value);
+    if (!url) { const message = 'Укажите полную ссылку с протоколом http:// или https://.'; evidenceInput.setCustomValidity(message); evidenceInput.setAttribute('aria-invalid', 'true'); document.getElementById('ddi-url-error').textContent = message; evidenceInput.reportValidity(); return; }
+    states.get(editing).url = url; states.get(editing).checked = true; render(); dialog.close();
+  });
+  document.getElementById('ddi-evidence-cancel').addEventListener('click', () => dialog.close());
+  removeButton.addEventListener('click', () => { if (!editing) return; states.get(editing).url = ''; states.get(editing).checked = false; render(); dialog.close(); });
+  dialog.addEventListener('close', () => { editing = null; openButton.focus(); });
+  const feedback = document.getElementById('ddi-button-feedback');
+  document.getElementById('ddi-demo-primary').addEventListener('click', () => feedback.textContent = 'Демонстрация: основное действие выполнено локально.');
+  document.getElementById('ddi-demo-secondary').addEventListener('click', () => feedback.textContent = 'Демонстрация: вторичное действие выполнено локально.');
+  document.getElementById('ddi-demo-toggle').addEventListener('click', event => { const button = event.currentTarget; const pressed = button.getAttribute('aria-pressed') !== 'true'; button.setAttribute('aria-pressed', String(pressed)); button.textContent = pressed ? 'Выбрано' : 'Выбрать'; feedback.textContent = pressed ? 'Состояние выбрано.' : 'Выбор снят.'; });
+  const tabs = [...document.querySelectorAll('#ddi-tabs [role="tab"]')];
+  function activate(tab, focus = false) { tabs.forEach(item => { const active = item === tab; item.setAttribute('aria-selected', String(active)); item.tabIndex = active ? 0 : -1; document.getElementById(item.getAttribute('aria-controls')).hidden = !active; }); if (focus) tab.focus(); }
+  tabs.forEach((tab, index) => { tab.addEventListener('click', () => activate(tab)); tab.addEventListener('keydown', event => { let next; if (event.key === 'ArrowRight') next = tabs[(index + 1) % tabs.length]; else if (event.key === 'ArrowLeft') next = tabs[(index + tabs.length - 1) % tabs.length]; else if (event.key === 'Home') next = tabs[0]; else if (event.key === 'End') next = tabs[tabs.length - 1]; else return; event.preventDefault(); activate(next, true); }); });
+  const sections = [...document.querySelectorAll('.ddi-main section[id]')];
+  const links = [...document.querySelectorAll('.ddi-nav a[data-ddi-section]')];
+  let pending = false;
+  function navigation() { pending = false; const marker = Math.max(170, innerHeight * .27); const active = sections.reduce((current, section) => section.getBoundingClientRect().top <= marker ? section : current, sections[0]); links.forEach(link => { if (link.dataset.ddiSection === active.id) { const fresh = !link.hasAttribute('aria-current'); link.setAttribute('aria-current', 'location'); if (fresh && matchMedia(mobileQuery).matches) { const nav = link.closest('.ddi-nav'), bounds = link.getBoundingClientRect(); if (bounds.left < 12) nav.scrollLeft += bounds.left - 12; else if (bounds.right > innerWidth - 12) nav.scrollLeft += bounds.right - innerWidth + 12; } } else link.removeAttribute('aria-current'); }); }
+  addEventListener('scroll', () => { if (!pending) { pending = true; requestAnimationFrame(navigation); } }, {passive: true}); addEventListener('resize', navigation); addEventListener('hashchange', navigation);
+  render(); navigation();
+})();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1491 @@
+<!DOCTYPE html><html lang="ru"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Опрос по продукту ОСАГО</title>
+<style>
+:root{--green:#4CAF50;--yellow:#FFC107;--red:#F44336;--blue:#2196F3;--bg:#f0f2f5;--card:#fff;--text:#222;--border:#ddd}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);padding:0}
+.wrap{max-width:960px;margin:0 auto;padding:6px 10px}
+.hdr{background:linear-gradient(135deg,#1976D2,#1565C0);color:#fff;text-align:center;padding:8px 8px;border-radius:8px;margin-bottom:6px}
+.hdr h1{font-size:16px}.hdr p{font-size:10px;opacity:.85}
+.b{background:var(--card);border-radius:8px;padding:8px 10px;margin-bottom:6px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.bt{font-size:14px;font-weight:700;margin-bottom:8px;padding-bottom:4px;border-bottom:2px solid var(--blue);color:#1565C0;display:flex;align-items:center;flex-wrap:wrap;gap:6px}
+.bt > span:not(.tabs){display:inline-flex;align-items:center;justify-content:center;background:var(--blue);color:#fff;width:20px;height:20px;border-radius:50%;font-size:11px;flex-shrink:0}
+.f{margin-bottom:6px}
+.f label{display:block;font-weight:600;font-size:11px;color:#555;margin-bottom:2px}
+.f input,.f textarea{width:100%;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:12px;transition:border .2s}
+.f input:focus,.f textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 2px rgba(33,150,243,.1)}
+.f textarea{resize:none;height:70px;font-size:11px;line-height:1.35}
+.f .ta-ai{height:auto;min-height:150px;resize:vertical}
+.f .h{font-size:9px;color:#999;margin-top:1px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.cf{background:#eef6ff;border:1px dashed var(--blue)}
+.tl{display:inline-flex;gap:3px;margin-left:4px;vertical-align:middle}
+.dt{width:10px;height:10px;border-radius:50%;opacity:.15;transition:opacity .3s}
+.dt.on{opacity:1;box-shadow:0 0 3px currentColor}
+.dt.g{background:var(--green)}.dt.y{background:var(--yellow)}.dt.r{background:var(--red)}
+.cg{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:4px}
+.ci{display:flex;align-items:center;gap:3px;padding:2px 6px;background:#f7f7f7;border-radius:5px;font-size:10px;cursor:pointer;user-select:none}
+.ci:hover{background:#e3f2fd}
+.ci input{accent-color:var(--blue);width:12px;height:12px}
+.ci label{cursor:pointer;font-weight:500;font-size:10px;white-space:nowrap}
+.cc{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:4px;margin-top:4px}
+.ccard{background:#fafbfc;border:1px solid var(--border);border-radius:5px;padding:6px 8px}
+.ccard h4{font-size:11px;color:#1565C0;margin-bottom:3px;display:flex;align-items:center;gap:4px}
+.ccard .metrics{display:grid;grid-template-columns:1fr 1fr;gap:2px;font-size:10px}
+.ccard .mv{text-align:center;background:#fff;border-radius:3px;padding:2px}
+.ccard .mv b{display:block;font-size:12px}
+.sum{background:linear-gradient(135deg,#e3f2fd,#ede7f6);border-radius:8px;padding:10px;text-align:center}
+.sum h2{font-size:15px;margin-bottom:4px}
+.sc{font-size:32px;font-weight:800;margin:2px 0}
+.sc.g{color:var(--green)}.sc.y{color:var(--yellow)}.sc.r{color:var(--red)}
+.btn{display:inline-block;padding:6px 20px;background:var(--blue);color:#fff;border:none;border-radius:5px;font-size:12px;font-weight:600;cursor:pointer;margin-top:6px}
+.btn:hover{background:#1565C0}
+.btnTake{padding:3px 10px;background:#E65100;color:#fff;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.btnTake:hover{background:#BF360C}
+.btnTake:disabled{background:#999;cursor:default}
+.ai{display:inline-block;background:linear-gradient(135deg,#7c4dff,#448aff);color:#fff;padding:1px 6px;border-radius:10px;font-size:9px;font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:600;margin:0 3px 3px 0}
+.chip.y{background:#FFF8E1;border:1px solid var(--yellow);color:#8a6d00}
+.chip.r{background:#FFEBEE;border:1px solid var(--red);color:#b71c1c}
+.chip.cac{background:#FFF3E0;border:1px solid #FB8C00;color:#E65100}
+.chip.ok{background:#F1F8E9;border:1px solid #A5D6A7;color:#2E7D32}
+.chip.pi{background:#E8F5E9;border:1px solid var(--green);color:#1B5E20}
+.rec{font-size:11px;line-height:1.4;color:#333;margin-top:4px}
+.rec ol{margin:2px 0 0 16px}.rec li{margin-bottom:2px}
+.zsub{font-size:11px;font-weight:700;color:#555;margin:8px 0 3px}
+.empty{font-size:11px;color:#777;padding:3px 0}
+.tbl{width:100%;border-collapse:collapse;font-size:11px;margin-top:2px}
+.tbl th,.tbl td{border:1px solid var(--border);padding:3px 6px;text-align:center}
+.tbl th{background:#eef6ff;color:#1565C0;font-weight:700;font-size:10px}
+.tbl td:first-child,.tbl th:first-child{text-align:left}
+.tbl tr.me td{background:#F1F8E9;font-weight:700;color:#1B5E20}
+.tbl-note{font-size:10px;color:#555;margin-top:3px;line-height:1.35}
+.tabs{display:inline-flex;gap:2px}
+.tab{padding:2px 10px;border:1px solid var(--blue);background:#fff;color:var(--blue);border-radius:4px;font-size:14px;font-weight:700;cursor:pointer;transition:.2s}
+.tab.active{background:var(--blue);color:#fff}
+.tab:hover:not(.active){background:#e3f2fd}
+/* Зона внимания — единый стиль для всех блоков (блок 1 и 3) */
+.zone{border-left:3px solid #E65100 !important}
+.zone .bt{color:#E65100 !important;border-bottom-color:#E65100 !important}
+.zone .zsub{color:#8a4b00}
+.zone a.jump{color:#1565C0;font-weight:600;text-decoration:none;border-bottom:1px dashed #1565C0}
+.zone a.jump:hover{color:#0D47A1}
+.jump-btn{display:inline-block;padding:4px 12px;border-radius:5px;font-size:11px;font-weight:600;cursor:pointer;border:none;color:#fff;margin:2px 4px 2px 0}
+.jump-btn.acq{background:#E65100}
+.jump-btn.churn{background:#B71C1C}
+.jump-btn:hover{opacity:.88}
+@media(max-width:600px){.row2{grid-template-columns:1fr}.cc{grid-template-columns:1fr}}
+/* Пул мероприятий — вторая страница (отдельный экран, не перекрывает анализ) */
+#poolPage{display:none}
+body.pool-open{background:#f4f6f8}
+body.pool-open .wrap{display:none}
+body.pool-open #poolPage{display:block}
+.pool-wrap{max-width:1000px;margin:0 auto;padding:16px 20px 32px}
+.pool-wrap h1{font-size:19px;color:#1565C0;margin-bottom:2px}
+.pool-sub{font-size:11px;color:#666;margin-bottom:10px}
+.pblock{background:#fff;border-radius:8px;border:1px solid var(--border);margin:12px 0;padding:10px 12px}
+.pblock h3{font-size:14px;margin-bottom:2px}
+.pblock .pdesc{font-size:11px;color:#666;margin-bottom:6px}
+.pblock.week{border-left:4px solid #B71C1C}
+.pblock.month{border-left:4px solid #FB8C00}
+.pblock.analysis{border-left:4px solid #1565C0}
+.pact{border-top:1px solid #eef1f4;padding:7px 0}
+.pact:first-of-type{border-top:none}
+.pact .pt{font-size:12px;font-weight:700;color:#222}
+.pact .pblocktag{font-size:10px;color:#1565C0;font-weight:600;margin-left:4px}
+.pact .pb{font-size:11px;color:#444;line-height:1.4;margin-top:2px}
+.pact .pm{font-size:10px;color:#777;margin-top:2px}
+.pact .pm b{color:#333}
+.pempty{font-size:11px;color:#777}
+.pact .pt{display:flex;align-items:flex-start;gap:6px;font-size:12px;font-weight:700;color:#222}
+.pact .pright{margin-left:auto;order:2;flex-shrink:0}
+.ptake{padding:3px 10px;background:#1565C0;color:#fff;border:none;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;white-space:nowrap}
+.ptake:hover{background:#0D47A1}
+.pact.taken{background:#F1F8E9;border-radius:5px;padding:7px 8px}
+.pact.taken .ptake{background:#2E7D32;cursor:default}
+.pact.taken .ptake:hover{background:#2E7D32}
+.pact .pstate{display:none;order:1;font-size:10px;font-weight:700;color:#2E7D32;white-space:nowrap;flex-shrink:0}
+.pact.taken .pstate{display:inline}
+.pool-taken{font-size:11px;color:#2E7D32;font-weight:700;margin:8px 0}
+</style>
+<style id="osago-cycle-style">
+
+#osago-cycle *{box-sizing:border-box}#osago-cycle body{margin:0;background:#fff}#osago-cycle .presentation{--lc-paper:#fff;--lc-sheet:#fff;--lc-ink:#202124;--lc-secondary:#5f6368;--lc-tertiary:#787878;--lc-line:#e4e4e4;--lc-emerald:#626262;--lc-light:#fff;--lc-control:#f7f7f7;--lc-focus:#006b91;--lc-bank:#f7edfc;--lc-bank-rail:#a878d1;--lc-bank-title:#684391;--lc-churn:#ffe3dc;--lc-churn-rail:#dc7565;--lc-churn-title:#9c3b2b;--lc-first-sale:#e4f7fc;--lc-first-sale-rail:#2a9fc4;--lc-first-sale-title:#006b91;--lc-reactivation:#ffe8d4;--lc-reactivation-rail:#f18742;--lc-reactivation-title:#91421e;--lc-organic:#f2f2f2;--lc-remaining:#f2f2f2;--lc-unknown:#f5f5f5;--lc-churn-accent:#9c3b2b;--lc-organic-accent:#858585;background:var(--lc-paper);color:var(--lc-ink);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding:36px 40px 28px;min-width:320px;overflow:hidden}#osago-cycle .document{max-width:1440px;margin:auto}#osago-cycle .masthead{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--lc-line);padding-bottom:20px;gap:24px}#osago-cycle .identity{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}#osago-cycle .identity svg{width:32px;height:32px;flex:none}#osago-cycle .edition{font-size:12px;color:var(--lc-secondary);letter-spacing:.04em}#osago-cycle .intro{display:flex;align-items:flex-end;justify-content:space-between;gap:48px;margin:32px 0 28px}#osago-cycle h1{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:700;font-size:44px;line-height:1.07;letter-spacing:-.03em;margin:0;max-width:680px;text-wrap:balance}#osago-cycle .intro-copy{max-width:372px;color:var(--lc-secondary);font-size:15px;line-height:1.6;margin:0 0 2px;text-wrap:pretty}#osago-cycle .toolbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 0 16px}#osago-cycle .legend{display:flex;align-items:center;gap:22px;flex-wrap:wrap;color:var(--lc-secondary);font-size:12px}#osago-cycle .legend span{display:flex;align-items:center;gap:8px}#osago-cycle .legend i{display:inline-block;width:22px;height:2px;background:var(--lc-emerald)}#osago-cycle .legend i.organic{background:var(--lc-organic-accent)}#osago-cycle .legend i.return{background:none;border-top:1px dashed var(--lc-churn-accent)}#osago-cycle .controls{display:flex;gap:6px;flex:none}#osago-cycle button{font:inherit;color:inherit;cursor:pointer;border:1px solid var(--lc-line);background:var(--lc-sheet);border-radius:4px;min-height:40px;padding:8px 12px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:12px;font-weight:500;transition:background .18s,transform .18s;white-space:nowrap}#osago-cycle button:hover{background:var(--lc-control)}#osago-cycle button:active{transform:scale(.97)}#osago-cycle button:focus-visible,#osago-cycle .scroll-area:focus-visible{outline:2px solid var(--lc-focus);outline-offset:4px}#osago-cycle button:disabled{cursor:default;color:var(--lc-secondary)}#osago-cycle button svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7}#osago-cycle .scroll-hint{display:none;font-size:12px;color:var(--lc-secondary);margin:0 0 12px}#osago-cycle .diagram-shell{background:var(--lc-sheet);border:1px solid var(--lc-line);border-radius:6px;overflow:hidden}#osago-cycle .scroll-area{overflow-x:auto;overscroll-behavior-x:contain;scrollbar-color:#c7c7c7 transparent;scrollbar-width:thin}#osago-cycle .diagram{width:1336px;height:894px;position:relative;margin:0 auto;isolation:isolate}#osago-cycle .wires{position:absolute;inset:0;width:1336px;height:894px;pointer-events:none;z-index:1}#osago-cycle .wire{fill:none;stroke:var(--lc-line);stroke-width:1.5;stroke-linejoin:round;stroke-linecap:round}#osago-cycle .wire.managed{stroke:var(--lc-emerald);opacity:.66}#osago-cycle .wire.organic{stroke:var(--lc-organic-accent)}#osago-cycle .wire.return{stroke:var(--lc-churn-accent);stroke-dasharray:4 5;opacity:.8}#osago-cycle .traveller{fill:var(--lc-emerald);opacity:0}#osago-cycle .traveller.organic{fill:var(--lc-organic-accent)}#osago-cycle .phase{position:absolute;left:24px;width:92px;z-index:3;display:flex;flex-direction:column;gap:8px}#osago-cycle .phase-number{font-size:11px;letter-spacing:.08em;color:var(--lc-tertiary);font-variant-numeric:tabular-nums}#osago-cycle .phase-title{font-size:12px;line-height:1.4;font-weight:600}#osago-cycle .node{position:absolute;z-index:3;border:1px solid var(--lc-line);border-radius:4px;box-shadow:none;background:var(--lc-sheet);padding:16px;display:flex;flex-direction:column;justify-content:center}#osago-cycle .node-title{font-size:17px;font-weight:600;color:var(--lc-node-title,var(--lc-ink));line-height:1.3;letter-spacing:-.025em;margin:0}#osago-cycle .node-sub{font-size:12px;line-height:1.45;color:var(--lc-node-sub,var(--lc-secondary));margin-top:5px}#osago-cycle .market-universe{box-shadow:none;left:152px;top:24px;width:1156px;height:44px;background:var(--lc-sheet);border-color:var(--lc-line);color:var(--lc-ink);flex-direction:row;align-items:center;justify-content:space-between;padding:0 20px}#osago-cycle .market-universe .node-title{font-size:19px;letter-spacing:0}#osago-cycle .market-universe .node-sub{margin:0;color:var(--lc-secondary);font-size:12px}#osago-cycle .market-band{height:40px;top:88px;flex-direction:row;align-items:center;justify-content:space-between;padding:0 16px;background:var(--lc-remaining)}#osago-cycle .market-band .node-title{font-size:16px}#osago-cycle .market-band .node-sub{margin:0;font-size:11px}#osago-cycle .sam{left:152px;width:900px;background:var(--lc-bank)}#osago-cycle .outside{left:1072px;width:236px}#osago-cycle .market-node{top:168px;height:80px}#osago-cycle .churned{left:168px;width:204px;background:var(--lc-churn)}#osago-cycle .new{left:388px;width:204px;background:var(--lc-first-sale)}#osago-cycle .rest{left:624px;width:412px;background:var(--lc-remaining);justify-content:flex-start;padding:13px 16px}#osago-cycle .rest .node-title{font-size:14px;margin-bottom:9px}#osago-cycle .segments{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:6px}#osago-cycle .segments span{font-size:12px;color:var(--lc-secondary);padding-right:10px;border-right:1px solid var(--lc-line);line-height:1.2;white-space:nowrap}#osago-cycle .segments span:last-child{border:0;padding:0}#osago-cycle .managed-area{position:absolute;left:152px;top:136px;width:456px;height:420px;z-index:0;border-radius:6px;background:var(--lc-light);border:1px solid var(--lc-line)}#osago-cycle .lane-label{position:absolute;top:144px;left:168px;z-index:3;display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:0;text-transform:none;color:var(--lc-secondary)}#osago-cycle .lane-label::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--lc-emerald)}#osago-cycle .knowledge{top:280px;height:64px}#osago-cycle .known-managed{left:168px;width:424px;border-color:var(--lc-line);background:var(--lc-bank);padding:12px 16px}#osago-cycle .known-managed .node-title{font-size:14px}#osago-cycle .known-managed .node-sub{margin-top:4px;color:var(--lc-node-sub,var(--lc-secondary))}#osago-cycle .known-idle{left:624px;width:196px;background:var(--lc-remaining)}#osago-cycle .unknown{left:836px;width:200px;background:var(--lc-unknown)}#osago-cycle .knowledge .node-title{font-size:14px}#osago-cycle .knowledge .node-sub{font-size:12px;margin-top:3px}#osago-cycle .comm{top:364px;height:44px;align-items:center;padding:8px 12px;background:var(--lc-sheet);border-color:var(--lc-line)}#osago-cycle .comm .node-title{font-size:13px;font-weight:600;letter-spacing:0}#osago-cycle .comm.churn{left:168px;width:204px;background:var(--lc-reactivation)}#osago-cycle .comm.fresh{left:388px;width:204px;background:var(--lc-first-sale)}#osago-cycle .activation-rule{position:absolute;left:152px;top:432px;width:1156px;border-top:1px dashed #d1d1d1;z-index:2}#osago-cycle .activation-label{position:absolute;left:628px;top:419px;z-index:4;background:var(--lc-sheet);padding:5px 12px;font-size:11px;letter-spacing:.02em;color:var(--lc-secondary);display:flex;align-items:center;gap:8px;white-space:nowrap}#osago-cycle .activation-label svg{width:14px;height:14px;fill:none;stroke:var(--lc-emerald);stroke-width:1.5}#osago-cycle .sale{top:468px;height:72px;border-color:var(--lc-line);background:var(--lc-sheet)}#osago-cycle .sale .node-title{font-size:19px}#osago-cycle .sale .node-sub{font-size:11px;letter-spacing:.01em;text-transform:uppercase;color:var(--lc-node-sub,var(--lc-secondary))}#osago-cycle .reactivation-sale{left:168px;width:204px;background:var(--lc-reactivation)}#osago-cycle .ftb-sale{left:388px;width:204px;background:var(--lc-first-sale)}#osago-cycle .organic-sale{left:728px;width:220px;border-color:var(--lc-line);background:var(--lc-organic)}#osago-cycle .organic-sale .node-sub{color:var(--lc-secondary);text-transform:none;letter-spacing:0}#osago-cycle .outside-sale{left:1090px;width:200px;border-color:var(--lc-line);background:var(--lc-organic)}#osago-cycle .outside-sale .node-sub{color:var(--lc-secondary);text-transform:none;letter-spacing:0}#osago-cycle .outside-context{position:absolute;left:1090px;top:172px;width:196px;font-size:13px;line-height:1.6;color:var(--lc-secondary);z-index:3}#osago-cycle .outside-context p{margin:0 0 12px}#osago-cycle .outside-context .small{font-size:11px;color:var(--lc-tertiary)}#osago-cycle .mau-area{position:absolute;left:152px;top:616px;width:1156px;height:148px;border:1px solid var(--lc-line);border-radius:6px;background:var(--lc-light);z-index:0}#osago-cycle .mau-heading{position:absolute;left:176px;top:632px;right:48px;display:flex;align-items:center;gap:12px;z-index:3}#osago-cycle .mau-heading strong{font-weight:600;letter-spacing:-.04em;font-size:25px;line-height:1}#osago-cycle .mau-heading span{font-size:12px;color:var(--lc-secondary)}#osago-cycle .base-node{top:676px;height:64px;padding:12px 14px;align-items:center;text-align:center}#osago-cycle .base-node .node-title{font-size:16px}#osago-cycle .base-outflow{left:176px;width:156px;background:var(--lc-churn);border-color:var(--lc-line)}#osago-cycle .base-reactivation{left:348px;width:210px;background:var(--lc-reactivation)}#osago-cycle .base-ftb{left:574px;width:150px;background:var(--lc-first-sale)}#osago-cycle .base-self{left:740px;width:232px;background:var(--lc-organic)}#osago-cycle .base-stable{left:988px;width:296px;background:var(--lc-bank);border-color:var(--lc-line)}#osago-cycle .bracket{position:absolute;height:16px;border-bottom:1px solid #cdcdcd;border-left:1px solid #cdcdcd;border-right:1px solid #cdcdcd;border-radius:0 0 7px 7px;z-index:2}#osago-cycle .bracket-sales{left:348px;top:780px;width:624px}#osago-cycle .bracket-retention{left:348px;top:832px;width:936px}#osago-cycle .bracket-label{position:absolute;font-size:12px;font-weight:500;z-index:3;white-space:nowrap;background:var(--lc-sheet);padding:0 12px;color:var(--lc-secondary)}#osago-cycle .sales-label{left:593px;top:789px}#osago-cycle .retention-label{left:718px;top:841px;display:flex;gap:10px;align-items:baseline}#osago-cycle .retention-label strong{font-weight:600;color:var(--lc-ink)}#osago-cycle .retention-label span{font-size:11px;letter-spacing:.04em}#osago-cycle .return-label{position:absolute;left:119px;top:507px;transform:rotate(-90deg);transform-origin:left top;white-space:nowrap;background:var(--lc-sheet);padding:2px 8px;font-size:11px;color:var(--lc-churn-accent);z-index:3}#osago-cycle .diagram-caption{padding:16px 24px 18px;border-top:1px solid var(--lc-line);display:flex;justify-content:space-between;gap:32px;align-items:flex-start}#osago-cycle .diagram-caption p{margin:0;color:var(--lc-secondary);font-size:12px;line-height:1.55;max-width:820px}#osago-cycle .diagram-caption span{font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;color:var(--lc-tertiary);padding-top:2px}#osago-cycle .footnotes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-top:24px}#osago-cycle .footnote{padding-left:16px;border-left:1px solid var(--lc-line)}#osago-cycle .footnote h2{margin:0 0 6px;font-size:12px;font-weight:600;line-height:1.5}#osago-cycle .footnote p{margin:0;color:var(--lc-secondary);font-size:12px;line-height:1.6}#osago-cycle .footer{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:28px;padding-top:16px;border-top:1px solid var(--lc-line);color:var(--lc-tertiary);font-size:10px;letter-spacing:.06em;text-transform:uppercase}#osago-cycle .entrance{animation:arrive .65s cubic-bezier(.23,1,.32,1) both;animation-delay:var(--delay,0ms)}@keyframes arrive{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}#osago-cycle .paused .entrance{animation-play-state:paused} @media(max-width:1380px){#osago-cycle .scroll-hint{display:block}#osago-cycle .presentation{padding-left:24px;padding-right:24px}#osago-cycle .intro{gap:28px}#osago-cycle .intro-copy{max-width:340px}}@media(max-width:760px){#osago-cycle .presentation{padding:24px 16px}#osago-cycle .masthead{align-items:flex-start;padding-bottom:16px}#osago-cycle .identity{font-size:10px;letter-spacing:.09em;gap:8px}#osago-cycle .identity svg{width:26px;height:26px}#osago-cycle .edition{display:none}#osago-cycle .intro{display:block;margin:24px 0}#osago-cycle h1{font-size:36px;max-width:520px}#osago-cycle .intro-copy{margin-top:16px;font-size:14px;max-width:500px}#osago-cycle .toolbar{align-items:flex-start;gap:12px;flex-direction:column}#osago-cycle .legend{gap:16px;font-size:11px}#osago-cycle .controls{align-self:flex-end}#osago-cycle .diagram-shell{border-radius:6px}#osago-cycle .diagram-caption{padding:16px;display:block}#osago-cycle .diagram-caption span{display:block;margin-top:12px}#osago-cycle .footnotes{grid-template-columns:1fr;gap:16px}#osago-cycle .footer{font-size:9px;align-items:flex-start;line-height:1.6}#osago-cycle .scroll-hint{line-height:1.5}}@media(prefers-reduced-motion:reduce){#osago-cycle .entrance{animation:none!important}#osago-cycle .traveller{display:none}#osago-cycle button{transition:none}}@media print{#osago-cycle .presentation{padding:0;background:white;overflow:visible}#osago-cycle .document{max-width:none}#osago-cycle .controls,#osago-cycle .scroll-hint{display:none}#osago-cycle .masthead{padding-bottom:12px}#osago-cycle .intro{margin:16px 0}#osago-cycle h1{font-size:32px}#osago-cycle .intro-copy{font-size:13px}#osago-cycle .toolbar{padding-bottom:10px}#osago-cycle .diagram-shell{break-inside:avoid}#osago-cycle .scroll-area{overflow:visible}#osago-cycle .diagram{margin:0;width:1336px;height:894px;zoom:.89}#osago-cycle .diagram-caption{padding:10px 16px}#osago-cycle .footnotes{margin-top:16px;gap:20px}#osago-cycle .footer{margin-top:16px}#osago-cycle .entrance{animation:none!important}#osago-cycle .traveller{display:none}#osago-cycle .wire{print-color-adjust:exact;-webkit-print-color-adjust:exact}#osago-cycle .node,#osago-cycle .managed-area,#osago-cycle .mau-area{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+
+/* Visual adaptation of the user-supplied Notion Calendar screenshot.
+   White canvas, compact event-like cards, clear pastel containers, category
+   title ink and a thin category frame. These are sampled/adapted colors,
+   not an official Notion palette. Structural routes stay neutral gray. */
+#osago-cycle .presentation .reactivation-share{position:absolute;left:168px;top:566px;width:96px;padding:4px 6px;border-radius:3px;background:var(--lc-reactivation);color:var(--lc-reactivation-title);font-size:11px;line-height:1.4;text-align:center;white-space:nowrap;z-index:3}
+#osago-cycle .traveller[data-route="cycle-return-path"]{fill:var(--lc-churn-accent)}
+#osago-cycle .presentation .rest,#osago-cycle .presentation .known-idle,#osago-cycle .presentation .unknown,#osago-cycle .presentation .organic-sale,#osago-cycle .presentation .base-self,#osago-cycle .presentation .outside,#osago-cycle .presentation .outside-sale{--lc-ink:#333;--lc-secondary:#626262;--lc-line:#e1e1e1;--lc-node-rail:#b7b7b7;--lc-node-title:#4c4c4c;--lc-node-sub:#626262;color:var(--lc-ink)}
+#osago-cycle .presentation .sam,#osago-cycle .presentation .known-managed,#osago-cycle .presentation .base-stable{--lc-node-rail:var(--lc-bank-rail);--lc-node-title:var(--lc-bank-title);--lc-node-sub:var(--lc-bank-title)}
+#osago-cycle .presentation .new,#osago-cycle .presentation .comm.fresh,#osago-cycle .presentation .ftb-sale,#osago-cycle .presentation .base-ftb{--lc-node-rail:var(--lc-first-sale-rail);--lc-node-title:var(--lc-first-sale-title);--lc-node-sub:var(--lc-first-sale-title)}
+#osago-cycle .presentation .comm.churn,#osago-cycle .presentation .reactivation-sale,#osago-cycle .presentation .base-reactivation{--lc-node-rail:var(--lc-reactivation-rail);--lc-node-title:var(--lc-reactivation-title);--lc-node-sub:var(--lc-reactivation-title)}
+#osago-cycle .presentation .churned,#osago-cycle .presentation .base-outflow{--lc-node-rail:var(--lc-churn-rail);--lc-node-title:var(--lc-churn-title);--lc-node-sub:var(--lc-churn-title)}
+#osago-cycle .presentation .node{border-color:var(--lc-node-rail,var(--lc-line));box-shadow:none}
+
+
+:root{--cycle-paper:#fff;--cycle-ink:#16283b;--cycle-secondary:#657486;--cycle-muted:#7b8796;--cycle-line:#e9edf2;--cycle-blue:#2858d9;--cycle-wash:#f7f9fd;--green:#139487;--yellow:#a77912;--red:#bf514b;--blue:#2858d9;--bg:#fff;--card:#fff;--text:#16283b;--border:#e9edf2;--survey-gutter:48px;scroll-behavior:smooth;scroll-padding-top:96px}
+body{background:var(--cycle-paper);color:var(--cycle-ink);font-size:14px;-webkit-font-smoothing:antialiased}.wrap{max-width:none;margin:0 0 0 216px;padding:104px var(--survey-gutter) 56px}.survey-overview,.survey-section,.survey-intro{max-width:1120px;margin-left:auto;margin-right:auto;min-width:0}.survey-page-header{position:fixed;left:264px;right:var(--survey-gutter);top:0;height:80px;z-index:30;background:var(--cycle-paper);border-bottom:1px solid var(--cycle-line);display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:12px}.survey-brand{display:flex;align-items:center;gap:16px;text-decoration:none;color:var(--cycle-ink)}.survey-brand strong{font-size:18px;color:var(--cycle-blue);letter-spacing:-.05em}.survey-brand>span{padding-left:16px;border-left:1px solid var(--cycle-line);color:var(--cycle-secondary)}.survey-product{display:flex;align-items:center;gap:16px;color:var(--cycle-secondary)}.survey-product b{font-size:14px;font-weight:500;color:var(--cycle-ink)}.survey-nav{position:fixed;z-index:25;left:32px;top:50%;transform:translateY(-50%);width:160px;background:var(--cycle-paper);font-size:12px}.survey-nav>p{margin:0 0 16px 24px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--cycle-muted)}.survey-nav a{position:relative;display:flex;align-items:center;gap:8px;min-height:44px;padding:8px 0 8px 24px;color:var(--cycle-secondary);text-decoration:none;line-height:1.5}.survey-nav a>span:first-child{width:16px;flex:none;font-size:10px;font-variant-numeric:tabular-nums;color:var(--cycle-muted)}.survey-nav a::before{content:"";position:absolute;left:0;top:50%;width:8px;height:1px;background:var(--cycle-line)}.survey-nav a[aria-current]{color:var(--cycle-blue);font-weight:500}.survey-nav a[aria-current]::before{width:16px;height:2px;background:var(--cycle-blue)}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid var(--cycle-blue);outline-offset:4px}.survey-eyebrow{font-size:10px!important;letter-spacing:.1em;text-transform:uppercase;color:var(--cycle-secondary);line-height:1.5;margin:0 0 16px!important}.overview-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:40px;border-top:1px solid var(--cycle-ink);padding-top:20px;margin-bottom:24px}#osago-cycle .overview-heading h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(36px,3.5vw,52px);font-weight:500;line-height:1.08;letter-spacing:-.055em;margin:0}.overview-heading>p{max-width:280px;font-size:13px;line-height:1.6;color:var(--cycle-secondary)}.hdr.survey-intro{background:none;color:var(--cycle-ink);text-align:left;border-radius:0;padding:48px 0 24px;margin-bottom:0;border-bottom:1px solid var(--cycle-line)}.hdr.survey-intro h1{font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:500;letter-spacing:-.03em;line-height:1.3}.hdr.survey-intro p{font-size:12px;line-height:1.5;color:var(--cycle-secondary);opacity:1;margin-top:8px}.survey-section{padding:64px 0;border-bottom:1px solid var(--cycle-line);scroll-margin-top:0}.survey-section-heading{margin-bottom:32px}.survey-section-heading h2{font-family:Georgia,'Times New Roman',serif;font-size:clamp(40px,5.2vw,72px);font-weight:500;letter-spacing:-.055em;line-height:1.08;text-wrap:balance;margin:0}.b{border-radius:0;box-shadow:none;padding:0;margin:0 0 24px;background:none!important;min-width:0}.b:last-child{margin-bottom:0}.bt{font-size:16px;font-weight:600;color:var(--cycle-ink);line-height:1.5;border-bottom:1px solid var(--cycle-line);padding:0 0 12px;margin-bottom:20px;gap:8px}.bt>span:not(.tabs):not(.tl):not(.ai){background:none;color:var(--cycle-muted);width:auto;height:auto;border-radius:0;font-size:10px}.b .b{padding-top:20px;margin-top:24px!important;border-top:1px solid var(--cycle-line);background:none!important}.f{min-width:0;margin-bottom:16px}.f label{font-size:12px!important;font-weight:500;line-height:1.5;color:var(--cycle-secondary);margin-bottom:8px}.f input,.f textarea{min-width:0;min-height:44px;font-family:inherit;font-size:14px;border:1px solid var(--cycle-line);border-radius:4px;padding:10px 12px;background:var(--cycle-wash);color:var(--cycle-ink);box-shadow:none}.f input:focus,.f textarea:focus{border-color:var(--cycle-blue);box-shadow:none}.f input[readonly]{background:#f1f3f5;color:var(--cycle-secondary);border-style:solid}.f textarea{height:auto;min-height:112px;resize:vertical;line-height:1.6}.f .ta-ai{min-height:160px}.f .h,.h,.tbl-note{font-size:12px;line-height:1.5;color:var(--cycle-secondary);margin-top:8px}.row2{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.cf{border-style:solid}.tl{gap:6px}.dt{width:10px;height:10px;opacity:.2}.dt.on{opacity:1;box-shadow:none}.cg{gap:8px;margin:8px 0 16px}.ci{gap:8px;min-height:40px;padding:8px 10px;border:1px solid var(--cycle-line);border-radius:4px;background:none;font-size:12px}.ci:hover{background:var(--cycle-wash)}.ci input{width:16px;height:16px;accent-color:var(--cycle-blue)}.ci label{font-size:12px;line-height:1.5;white-space:normal}.cc{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:16px 0}.ccard{border-radius:4px;padding:16px;background:none;min-width:0}.ccard h4{font-size:14px;line-height:1.5;color:var(--cycle-ink);font-weight:600;flex-wrap:wrap;gap:8px;margin-bottom:12px}.ccard .metrics{font-size:12px;gap:8px}.ccard .mv{background:var(--cycle-wash);padding:8px 4px}.ccard .mv b{font-size:16px;font-weight:500;line-height:1.5}.rec{font-size:14px;line-height:1.6;color:var(--cycle-ink);margin-top:12px;overflow-wrap:anywhere}.rec ol{margin:8px 0 0 20px}.rec li{margin-bottom:8px}.zsub{font-size:14px;font-weight:600;color:var(--cycle-secondary);margin:20px 0 8px}.empty{font-size:12px;color:var(--cycle-secondary);padding:8px 0}.zone{border-left:2px solid #b97835!important;padding:16px 20px!important;margin-top:24px!important}.zone .bt{color:#a7692e!important;border-bottom-color:var(--cycle-line)!important}.zone .zsub{color:var(--cycle-ink)}.ai{background:var(--cycle-wash);border:1px solid var(--cycle-line);border-radius:4px;padding:2px 6px;font-size:10px;color:var(--cycle-secondary);font-weight:500}.chip{font-size:11px;font-weight:500;border-radius:4px;padding:3px 8px;margin:0 4px 6px 0}.chip.ok,.chip.pi{background:rgba(19,148,135,.08);color:#139487;border-color:rgba(19,148,135,.2)}.tabs{gap:4px;flex-wrap:wrap}.tab{min-height:44px;padding:8px 16px;border:1px solid var(--cycle-line);border-radius:4px;font-size:14px;font-weight:500;color:var(--cycle-secondary);background:none;transition:background .16s}.tab.active{color:var(--cycle-blue);background:rgba(40,88,217,.07);border-color:transparent}.tab:hover:not(.active){background:var(--cycle-wash)}.survey-table-scroll{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}.tbl{font-size:12px;min-width:620px;margin-top:8px}.tbl th,.tbl td{padding:10px 12px;border-color:var(--cycle-line);font-weight:400}.tbl th{font-size:11px;color:var(--cycle-secondary);background:var(--cycle-wash);font-weight:500}.tbl tr.me td{background:rgba(19,148,135,.06);color:var(--cycle-ink);font-weight:500}.sum{background:none;text-align:left;padding:0;border-radius:0}.sum h2{font-size:16px;font-weight:600;line-height:1.5;margin-bottom:12px}.sc{font-size:44px;font-weight:500;letter-spacing:-.04em;margin:12px 0}.sum>p{font-size:14px;line-height:1.6}.btn,.btnTake,.ptake,.jump-btn{min-height:40px;border-radius:4px;padding:8px 12px;font-family:inherit;font-size:12px;font-weight:500;line-height:1.5;white-space:normal;box-shadow:none}.btn,.ptake{background:var(--cycle-blue);color:#fff}.btn:hover,.ptake:hover{background:#224bc0}.btnTake{background:var(--cycle-wash);color:#a7692e;border:1px solid var(--cycle-line)}.btnTake:hover{background:#f5eee6}.btnTake:disabled{background:var(--cycle-wash);color:var(--cycle-muted)}.sum>.btn{margin-top:24px}.pool-wrap{max-width:1120px;padding:40px var(--survey-gutter);font-size:14px}.pool-wrap h1{font-family:Georgia,'Times New Roman',serif;font-size:40px;font-weight:500;letter-spacing:-.04em;color:var(--cycle-ink);line-height:1.2}.pool-sub{font-size:12px;line-height:1.6;margin:12px 0 24px}.pblock{border-radius:0;border:0;border-left:2px solid var(--cycle-line);padding:16px 20px;margin:24px 0;background:none}.pblock h3{font-size:16px;font-weight:600;line-height:1.5}.pblock .pdesc,.pact .pb{font-size:14px;line-height:1.6;color:var(--cycle-secondary)}.pact{padding:16px 0;border-top-color:var(--cycle-line)}.pact .pt{font-size:14px;line-height:1.6;gap:12px;color:var(--cycle-ink)}.pact .pm,.pool-taken,.pempty{font-size:12px;line-height:1.5;margin-top:8px}.pact .pblocktag,.pact .pstate{font-size:11px;line-height:1.5}.pact.taken{background:rgba(19,148,135,.05);border-radius:4px;padding:16px}.pact.taken .ptake{background:#139487}.pool-taken{color:#139487}.pool-open{background:#fff!important}.pool-open .survey-page-header,.pool-open .survey-nav{display:none}
+#osago-cycle .presentation{padding:0!important;min-width:0;overflow:visible;background:none;font-family:inherit}#osago-cycle .overview-tools{display:flex;justify-content:space-between;align-items:center;gap:16px;margin:16px 0 8px}#osago-cycle .overview-tools .legend{font-size:10px;gap:16px}#osago-cycle .overview-tools .legend i{width:16px}#osago-cycle .controls button,#osago-cycle .zoom-button{min-height:40px;font-size:11px;border-color:var(--cycle-line);border-radius:4px;padding:8px 10px;background:#fff;color:var(--cycle-secondary)}#osago-cycle .diagram-shell{border-color:var(--cycle-line);border-radius:8px}#osago-cycle .diagram-viewport{overflow:auto;max-width:100%;overscroll-behavior:contain;scrollbar-width:thin}#osago-cycle .diagram-stage{position:relative;margin:0 auto}#osago-cycle .diagram{margin:0;transform-origin:0 0}#osago-cycle .diagram-footnote{display:flex;justify-content:space-between;align-items:center;gap:24px;padding-top:12px;font-size:10px;line-height:1.5;color:var(--cycle-secondary)}#osago-cycle .diagram-footnote p{margin:0;max-width:650px}#osago-cycle .next-section{display:inline-flex;align-items:center;gap:12px;min-height:44px;font-size:12px;color:var(--cycle-secondary);text-decoration:none}#osago-cycle .next-section b{font-size:18px;font-weight:400;color:var(--cycle-blue)}#osago-cycle .mobile-diagram-hint{display:none}
+@media(min-width:1600px){:root{--survey-gutter:64px}.wrap{margin-left:248px}.survey-page-header{left:312px}.survey-nav{left:48px;width:168px}}
+@media(max-width:1000px){:root{--survey-gutter:28px}.wrap{margin-left:176px}.survey-page-header{left:204px}.survey-nav{left:20px;width:136px}.overview-heading{display:block}.overview-heading>p{max-width:440px;margin-top:12px}}
+@media(max-width:760px){:root{--survey-gutter:20px;scroll-padding-top:140px}.survey-page-header{left:0;right:0;height:72px;padding:0 20px;gap:12px}.survey-brand{gap:10px;font-size:11px}.survey-brand>span{padding-left:10px}.survey-product{gap:8px;font-size:11px}.survey-product b{font-size:12px}.survey-nav{top:72px;left:0;transform:none;width:100%;height:61px;display:flex;gap:8px;padding:8px 16px;overflow-x:auto;border-bottom:1px solid var(--cycle-line);scrollbar-width:none}.survey-nav>p{display:none}.survey-nav a{flex:none;min-height:44px;padding:8px 12px;white-space:nowrap;font-size:11px}.survey-nav a::before{display:none}.survey-nav a[aria-current]{background:var(--cycle-wash);border-radius:4px}.wrap{margin:0;padding:157px 20px 32px}#osago-cycle .overview-heading h1{font-size:38px}.overview-heading{margin-bottom:20px}.survey-section{padding:40px 0}.survey-section-heading{margin-bottom:24px}.survey-section-heading h2{font-size:40px}.hdr.survey-intro{padding-top:32px}.hdr.survey-intro h1{font-size:24px}.row2{grid-template-columns:1fr;gap:0}.cc{grid-template-columns:1fr}.bt{gap:8px}.rec{font-size:14px}.zone{padding:12px 16px!important}.pact .pt{flex-wrap:wrap}.pact .pright{margin-left:0}.pool-wrap{padding:24px 20px}.pool-wrap h1{font-size:32px}#osago-cycle .overview-tools{align-items:flex-start;flex-direction:column;gap:12px}#osago-cycle .controls{align-self:flex-start;flex-wrap:wrap}#osago-cycle .overview-tools .legend{gap:12px;line-height:1.5}#osago-cycle .zoom-button{display:none}#osago-cycle .mobile-diagram-hint{display:block;font-size:10px;color:var(--cycle-secondary);margin:10px 0}#osago-cycle .diagram-footnote{display:block}#osago-cycle .diagram-footnote .next-section{margin-top:8px}}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*::before,*::after{transition:none!important}#osago-cycle .entrance{animation:none!important}#osago-cycle .traveller{display:none}}
+@media print{:root{scroll-padding-top:0}.survey-page-header,.survey-nav{display:none}.wrap{margin:0;padding:0}.survey-section{padding:24px 0;break-before:page}.survey-section-heading h2{font-size:36px}.hdr.survey-intro{padding-top:24px}.pool-wrap{padding:0}.zone,.ccard{break-inside:avoid}#osago-cycle .controls{display:none}#osago-cycle .diagram-viewport{overflow:visible;max-height:none!important}#osago-cycle .diagram{transform:none!important;zoom:.7}}
+
+/* The original heading rule sized every span as a numbered badge. */
+.bt>.tl{display:inline-flex;width:auto;height:auto;background:none;border-radius:0;gap:6px;color:inherit}.bt>.ai{display:inline-block;width:auto;height:auto;background:var(--cycle-wash);border:1px solid var(--cycle-line);border-radius:4px;padding:2px 6px;color:var(--cycle-secondary);font-size:10px}.f input[type="checkbox"]{width:18px!important;height:18px!important;min-height:18px;padding:0;flex:none;accent-color:var(--cycle-blue)}
+
+#alertB3cac,#alertB3churnCac{padding:16px 20px}@media(max-width:760px){#alertB3cac,#alertB3churnCac{padding:12px 16px}}
+</style>
+<style id="osago-presentation-style">
+.ui-icon{display:inline-block;width:16px;height:16px;flex:none;vertical-align:-.2em;color:currentColor;stroke-width:1.7}.ui-icon--green{color:#139487}.ui-icon--yellow{color:#a77912}.ui-icon--red{color:#bf514b}.ui-icon--orange{color:#b97835}.metric-field{position:relative;width:100%;min-width:0;flex:1}.metric-field input,.metric-field textarea{display:block}.metric-field.has-adornment input{padding-right:72px}.metric-adornment{position:absolute;right:12px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;color:var(--cycle-secondary);font-size:12px;line-height:1;pointer-events:none}.metric-unit{color:var(--cycle-secondary);font-size:12px;font-weight:400;white-space:nowrap}.metric-field.has-area-icon textarea{padding-right:44px}.metric-field.has-area-icon .metric-adornment{top:12px;transform:none}.metric-field input[type=number]{appearance:textfield;-moz-appearance:textfield}.metric-field input[type=number]::-webkit-inner-spin-button,.metric-field input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}.btn .ui-icon,.btnTake .ui-icon,.ptake .ui-icon,.jump-btn .ui-icon{vertical-align:-.2em;margin-right:4px}.hdr h1 .ui-icon{width:20px;height:20px}.rec .ui-icon{vertical-align:-.15em}.pool-taken .ui-icon{margin-right:4px}
+
+.bt:not(:has(.tabs)){display:block}.bt>.ui-icon{margin-right:6px}
+
+/* The pool uses the same compact type scale and can shrink without page overflow. */
+.pool-wrap{width:100%;min-width:0;overflow-wrap:anywhere}.pool-wrap h1{font-size:clamp(24px,3.2vw,32px);overflow-wrap:anywhere}.pool-wrap .pblock,.pool-wrap .pact,.pool-wrap .pt,.pool-wrap .pb,.pool-wrap .pm,.pool-wrap .pt>span{min-width:0;max-width:100%}.pool-wrap .pright{flex-shrink:1}.pool-wrap .pstate{white-space:normal;flex-shrink:1}.pool-wrap .ptake,.pool-wrap>.btn{max-width:100%;min-width:0;white-space:normal}
+@media(max-width:760px){.pool-wrap h1{font-size:clamp(24px,4vw,28px)}}
+
+.pool-wrap h1>.ui-icon{width:1em;height:1em;vertical-align:-.12em}
+</style>
+</head>
+<body><header class="survey-page-header"><a class="survey-brand" href="#osago-cycle"><strong>DDI</strong><span>Клиентский цикл</span></a><span class="survey-product"><span>Продукт</span><b>ОСАГО</b></span></header><nav class="survey-nav" aria-label="Разделы опросника ОСАГО"><p>На этой странице</p><a href="#osago-cycle" data-survey-link="osago-cycle" aria-current="location">Схема цикла</a><a href="#osago-potential" data-survey-link="osago-potential"><span>01</span><span>Потенциал</span></a><a href="#osago-base" data-survey-link="osago-base"><span>02</span><span>База</span></a><a href="#osago-channels" data-survey-link="osago-channels"><span>03</span><span>Привлечение / Отток</span></a><a href="#osago-journey" data-survey-link="osago-journey"><span>04</span><span>Оформление / Закрытие</span></a><a href="#osago-activation" data-survey-link="osago-activation"><span>05</span><span>Новые клиенты</span></a><a href="#osago-summary" data-survey-link="osago-summary"><span>06</span><span>Итог</span></a></nav>
+<div class="wrap"><section id="osago-cycle" class="survey-overview" data-survey-section="osago-cycle"><header class="overview-heading"><div><p class="survey-eyebrow">Общая картина · Клиентский цикл</p><h1>От рынка к активной базе</h1></div><p>Как потенциал рынка переходит в привлечение, продажи и активную базу.</p></header><div class="presentation" id="cycle-presentation">
+<div class="overview-tools"><div class="legend" aria-label="Условные обозначения"><span><i></i>Управляемое привлечение</span><span><i class="organic"></i>Органика</span><span><i class="return"></i>Отток</span></div><div class="controls"><button id="cycle-pause" type="button" aria-pressed="false"><svg id="cycle-pause-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4v12M13 4v12"></path></svg><span id="cycle-pause-label">Пауза</span></button><button id="cycle-replay" type="button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 8a6.5 6.5 0 1 1 .5 5M4 3v5h5"></path></svg>Повторить</button><button class="zoom-button" id="cycle-diagram-zoom" type="button" aria-pressed="false">Крупнее ↗</button></div></div>
+<div class="diagram-shell"><div class="diagram-viewport" tabindex="0" aria-label="Схема движения клиентской базы. При увеличении прокручивайте по горизонтали и вертикали."><div class="diagram-stage"><div class="diagram" id="cycle-diagram">
+<svg class="wires" viewBox="0 0 1336 894" aria-hidden="true">
+<defs><marker id="cycle-arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#626262" stroke-width="1.5"></path></marker><marker id="cycle-arrow-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#858585" stroke-width="1.5"></path></marker><marker id="cycle-arrow-rose" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1l7 4-7 4" fill="none" stroke="#9c3b2b" stroke-width="1.5"></path></marker></defs>
+<path class="wire" d="M270 248V280M490 248V280"></path>
+<path class="wire organic" d="M722 248V280M936 248V280"></path>
+<path id="cycle-managed-reactivation" class="wire managed" d="M270 344V364M270 408V468" marker-end="url(#cycle-arrow-green)"></path>
+<path id="cycle-managed-ftb" class="wire managed" d="M490 344V364M490 408V468" marker-end="url(#cycle-arrow-green)"></path>
+<path id="cycle-organic-known" class="wire organic" d="M722 344V364Q722 376 734 376H826Q838 376 838 388V468" marker-end="url(#cycle-arrow-gray)"></path>
+<path class="wire organic" d="M936 344V364Q936 376 924 376H838"></path>
+<path id="cycle-outside-organic" class="wire organic" d="M1190 128V468" marker-end="url(#cycle-arrow-gray)"></path>
+<path id="cycle-reactivation-base" class="wire managed" d="M270 540V568Q270 580 282 580H441Q453 580 453 592V676" marker-end="url(#cycle-arrow-green)"></path>
+<path id="cycle-ftb-base" class="wire managed" d="M490 540V552Q490 564 502 564H637Q649 564 649 576V676" marker-end="url(#cycle-arrow-green)"></path>
+<path id="cycle-organic-base" class="wire organic" d="M838 540V676" marker-end="url(#cycle-arrow-gray)"></path>
+<path class="wire organic" d="M1190 540V568Q1190 580 1178 580H876Q864 580 864 592V676" marker-end="url(#cycle-arrow-gray)"></path>
+<path id="cycle-return-path" class="wire return" d="M176 708H146Q128 708 128 690V226Q128 208 146 208H168" marker-end="url(#cycle-arrow-rose)"></path>
+<circle class="traveller" r="3" data-route="cycle-managed-reactivation" data-offset="0"></circle>
+<circle class="traveller" r="3" data-route="cycle-managed-ftb" data-offset=".5"></circle>
+<circle class="traveller organic" r="3" data-route="cycle-organic-known" data-offset=".25"></circle>
+<circle class="traveller organic" r="3" data-route="cycle-outside-organic" data-offset=".6"></circle>
+<circle class="traveller" r="3" data-route="cycle-reactivation-base" data-offset=".2"></circle>
+<circle class="traveller" r="3" data-route="cycle-ftb-base" data-offset=".65"></circle>
+<circle class="traveller organic" r="3" data-route="cycle-organic-base" data-offset=".3"></circle>
+<circle class="traveller" r="2.5" data-route="cycle-return-path" data-offset=".45"></circle>
+</svg>
+<div class="phase entrance" style="top:178px;--delay:30ms"><span class="phase-number">01 /</span><span class="phase-title">Рынок</span></div>
+<div class="phase entrance" style="top:290px;--delay:90ms"><span class="phase-number">02 /</span><span class="phase-title">Знание<br>о клиенте</span></div>
+<div class="phase entrance" style="top:378px;--delay:150ms"><span class="phase-number">03 /</span><span class="phase-title">Коммуникация</span></div>
+<div class="phase entrance" style="top:482px;--delay:210ms"><span class="phase-number">04 /</span><span class="phase-title">Продажа</span></div>
+<div class="phase entrance" style="top:636px;--delay:270ms"><span class="phase-number">05 /</span><span class="phase-title">Активная<br>база</span></div>
+<div class="node market-universe entrance" style="--delay:0ms"><h2 class="node-title">TAM</h2><span class="node-sub">Совокупный рынок</span></div>
+<div class="node market-band sam entrance" style="--delay:40ms"><h3 class="node-title">SAM</h3><span class="node-sub">Рынок внутри банка</span></div>
+<div class="node market-band outside entrance" style="--delay:40ms"><h3 class="node-title">TAM − SAM</h3></div>
+<div class="node market-node churned entrance" style="--delay:80ms"><h3 class="node-title">Оттекшие</h3><span class="node-sub">Клиенты для возврата</span></div>
+<div class="node market-node new entrance" style="--delay:120ms"><h3 class="node-title">Новые</h3><span class="node-sub">Клиенты для привлечения</span></div>
+<div class="node market-node rest entrance" style="--delay:160ms"><h3 class="node-title">Остальной рынок</h3><div class="segments"><span>Оттекшие</span><span>Новые</span><span>Остальной рынок</span></div></div>
+<div class="managed-area entrance" style="--delay:180ms"></div>
+<div class="lane-label entrance" style="--delay:200ms">Покрытие кампейнингом</div>
+<div class="node knowledge known-managed entrance" style="--delay:220ms"><h3 class="node-title">Есть знания про клиента</h3><span class="node-sub">Есть коммуникация</span></div>
+<div class="node knowledge known-idle entrance" style="--delay:260ms"><h3 class="node-title">Есть знания<br>про клиента</h3><span class="node-sub">Не работаем</span></div>
+<div class="node knowledge unknown entrance" style="--delay:300ms"><h3 class="node-title">«Серая масса»</h3><span class="node-sub">Не знаем</span></div>
+<div class="node comm churn entrance" style="--delay:340ms"><h3 class="node-title">Коммуникация</h3></div>
+<div class="node comm fresh entrance" style="--delay:380ms"><h3 class="node-title">Коммуникация</h3></div>
+<div class="activation-rule"></div>
+<div class="activation-label entrance" style="--delay:400ms"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v14M4 10l4 4 4-4"></path></svg>Активация через целевое действие</div>
+<div class="node sale reactivation-sale entrance" aria-describedby="reactivation-share" style="--delay:420ms"><span class="node-sub">Продажа</span><h3 class="node-title">Реактивация</h3></div>
+<div class="reactivation-share entrance" id="cycle-reactivation-share" style="--delay:440ms">Доля возврата</div>
+<div class="node sale ftb-sale entrance" style="--delay:460ms"><span class="node-sub">Продажа</span><h3 class="node-title">FTB</h3></div>
+<div class="node sale organic-sale entrance" style="--delay:500ms"><h3 class="node-title">Самоходы</h3><span class="node-sub">Органика · Реактивация + FTB</span></div>
+<div class="node sale outside-sale entrance" style="--delay:540ms"><h3 class="node-title">Самоходы</h3><span class="node-sub">Из TAM − SAM</span></div>
+<div class="mau-area entrance" style="--delay:560ms"></div>
+<div class="mau-heading entrance" style="--delay:580ms"><strong>MAU</strong><span>Месячная активная база</span></div>
+<div class="node base-node base-outflow entrance" style="--delay:600ms"><h3 class="node-title">Отток</h3></div>
+<div class="node base-node base-reactivation entrance" style="--delay:640ms"><h3 class="node-title">Реактивация</h3></div>
+<div class="node base-node base-ftb entrance" style="--delay:680ms"><h3 class="node-title">FTB</h3></div>
+<div class="node base-node base-self entrance" style="--delay:720ms"><h3 class="node-title">Самоходы</h3></div>
+<div class="node base-node base-stable entrance" style="--delay:760ms"><h3 class="node-title">Стабильная база</h3></div>
+<div class="bracket bracket-sales entrance" style="--delay:800ms"></div><div class="bracket-label sales-label entrance" style="--delay:800ms">Новые продажи</div>
+<div class="bracket bracket-retention entrance" style="--delay:840ms"></div><div class="bracket-label retention-label entrance" style="--delay:840ms"><strong>Retention</strong><span>MAU / YAU</span></div>
+<div class="return-label">Доля оттока</div></div></div></div></div>
+<p class="mobile-diagram-hint">↔ Прокручивайте схему, чтобы увидеть все этапы.</p>
+</div></section><div class="hdr survey-intro"><h1>📊 Оценка работы с Воронкой — ОСАГО</h1><p>12 ноября 2026 · Синтетические данные</p></div><section id="osago-potential" class="survey-section" data-survey-section="osago-potential"><header class="survey-section-heading"><p class="survey-eyebrow">01</p><h2>Потенциал</h2></header><div class="b">
+<div class="bt"><span>1</span> Блок «Потенциал»</div>
+<div class="row2">
+<div class="f"><label for="tam">TAM (поля ввода)</label><input type="number" id="tam" value="12500000" onchange="r1()"></div>
+<div class="f"><label for="sam">SAM (поля ввода)</label><input type="number" id="sam" value="4200000" onchange="r1()"></div>
+</div>
+<div class="f"><label for="ev1">Опиши события для включения клиента Сбера в SAM</label><textarea id="ev1">1. Полиевые кампании по автовладельцам с истекающим страхованием
+2. Таргетинг по тегу «автострахование» в поведении
+3. Cross-sell клиентам СберАвто и СберДрайв
+4. Интеграции с автосалонами и СТО</textarea></div>
+<div class="f"><label for="ev2">ИИ оценка SAM: какие ещё события можно включить для роста SAM <span class="ai">AI</span></label><textarea id="ev2">🤖 Рекомендации:
+• Look-alike по базе действующих полисов ОСАГО
+• Интеграция с маркетплейсами автозапчастей
+• Кампании в период ПДД и сезонного роста риска ДТП
+• Ретаргетинг пользователей СберСтрахование Авто</textarea></div>
+<div class="f"><label for="sam_d">Потенциал, который идентифицировали на данных</label><input type="text" id="sam_d" value="500000" onchange="r1()"></div>
+<div class="f"><label for="sc">Реально работаем только с <span class="tl" id="sl"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span></label>
+<input type="text" class="cf" id="sc" readonly="" value="11,9 %"></div>
+<div class="f .h">95–100 % 🟢 · 80–95 % 🟡 · &lt;80 % 🔴</div>
+</div><div class="b zone" id="alertBlock">
+<div class="bt" id="zPotTitle">❗ Зона внимания — анализ потенциала <span class="ai">AI</span></div>
+<div id="zPotBody"></div>
+</div></section><section id="osago-base" class="survey-section" data-survey-section="osago-base"><header class="survey-section-heading"><p class="survey-eyebrow">02</p><h2>База</h2></header><div class="b">
+<div class="bt"><span>2</span> Блок «База»</div>
+<div class="row2">
+<div class="f"><label for="yau">YAU (поля ввода)</label><input type="number" id="yau" value="520000" onchange="r2()"></div>
+<div class="f"><label for="mau_yau">MAU/YAU</label>
+<div style="display:flex;align-items:center;gap:6px">
+<input type="text" class="cf" id="mau_yau" readonly="" value="74,0 %">
+<!-- Светофор MAU/YAU: dots[0]=🟢, dots[1]=🟡, dots[2]=🔴 -->
+<span class="tl" id="mytl"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span>
+</div>
+<div class="h">🟢 ≥75% · 🟡 60–75% · 🔴 &lt;60%</div>
+</div>
+</div>
+<div class="row2" style="margin-bottom:8px">
+<div class="f"><label for="mau">MAU (поля ввода)</label>
+<div style="display:flex;align-items:center;gap:6px">
+<input type="number" id="mau" value="250000" onchange="r2()">
+<span class="tl" id="ml"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span>
+</div>
+</div>
+<div class="f"><label for="mau_m">Рост MoM</label><input type="text" class="cf" id="mau_m" readonly="" value="+1,86 % 🟢"></div>
+</div>
+<div class="row2">
+<div class="f"><label for="gr">Прирост (поля ввода)</label>
+<div style="display:flex;align-items:center;gap:6px">
+<input type="number" id="gr" value="8000" onchange="r2()">
+<!-- Светофор по динамике: растёт 🟢 · падение 1 мес. 🟡 · падение 3 мес. подряд 🔴 -->
+<span class="tl" id="gl"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span>
+</div>
+<div class="h">🟢 растёт · 🟡 падение за 1 месяц · 🔴 падение за 3 месяца подряд</div>
+</div>
+<div class="f"><label for="ch">Отток (поля ввода)</label>
+<div style="display:flex;align-items:center;gap:6px">
+<input type="number" id="ch" value="25000" onchange="r2()">
+<!-- Светофор по динамике: снижается/на месте 🟢 · рост 1 мес. 🟡 · рост 3 мес. подряд 🔴 -->
+<span class="tl" id="cl"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span>
+</div>
+<div class="h">🟢 снижается · 🟡 рост за 1 месяц · 🔴 рост за 3 месяца подряд</div>
+</div>
+</div>
+<div class="f"><label for="nt">Неттоприток (поля ввода)</label>
+<div style="display:flex;align-items:center;gap:6px">
+<input type="text" class="cf" id="nt" readonly="" value="+34 100 🟢">
+<!-- Светофор по динамике: положительная 🟢 · отрицательная 1 мес. 🟡 · отрицательная 3 мес. подряд 🔴 -->
+<span class="tl" id="nl"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span>
+</div>
+<div class="h">🟢 положительная динамика · 🟡 отрицательная за месяц · 🔴 отрицательная за 3 месяца подряд</div></div>
+</div><div class="b zone" id="alertB2" style="display:none">
+<div class="bt">❗ Зона внимания — база</div>
+<div id="zBaseVerdict"></div>
+<div id="zBaseDiag"></div>
+<div id="zBaseRec"></div>
+<div class="zsub">Перейти в анализ блока 3</div>
+<div id="zBaseLinks"></div>
+</div></section><section id="osago-channels" class="survey-section" data-survey-section="osago-channels"><header class="survey-section-heading"><p class="survey-eyebrow">03</p><h2>Привлечение / Отток</h2></header><div class="b">
+<div class="bt"><span>3</span> Блок <span class="tabs"><button class="tab active" onclick="switchTab(this,'b3',0)">Привлечение</button><button class="tab" onclick="switchTab(this,'b3',1)">Отток</button></span></div>
+<div id="tab_b3_0">
+<div class="row2" style="margin-bottom:6px">
+<div class="f"><label for="npv">NPV продажи, ₽ (поля ввода)</label><input type="number" id="npv" value="600" onchange="rc()">
+<div class="h">Приведённая стоимость одной продажи — используется в π = NPV/CAC − 1</div></div>
+<div class="f"><label for="cac_norm">Норма CAC (справочно)</label><input type="text" class="cf" id="cac_norm" readonly="" value="—"></div>
+</div>
+<b style="font-size:11px">Каналы привлечения:</b>
+<div class="cg" id="cp">
+<div class="ci"><input type="checkbox" id="ch1" checked="" onchange="rc()"><label for="ch1">Перфоманс-маркетинг</label></div>
+<div class="ci"><input type="checkbox" id="ch2" checked="" onchange="rc()"><label for="ch2">Медиа-маркетинг</label></div>
+<div class="ci"><input type="checkbox" id="ch3" checked="" onchange="rc()"><label for="ch3">Баннеры</label></div>
+<div class="ci"><input type="checkbox" id="ch4" onchange="rc()"><label for="ch4">ПДЖ</label></div>
+</div>
+<b style="font-size:11px">Кампейнинг:</b>
+<div class="cg" id="cmp">
+<div class="ci"><input type="checkbox" id="cm1" checked="" onchange="rc()"><label for="cm1">SMS</label></div>
+<div class="ci"><input type="checkbox" id="cm2" checked="" onchange="rc()"><label for="cm2">Push</label></div>
+<div class="ci"><input type="checkbox" id="cm3" checked="" onchange="rc()"><label for="cm3">Email</label></div>
+<div class="ci"><input type="checkbox" id="cm4" onchange="rc()"><label for="cm4">Телемаркетинг</label></div>
+<div class="ci"><input type="checkbox" id="cm5" onchange="rc()"><label for="cm5">Телемаркетинг робот</label></div>
+<div class="ci"><input type="checkbox" id="cm6" checked="" onchange="rc()"><label for="cm6">Сайт банка</label></div>
+<div class="ci"><input type="checkbox" id="cm7" checked="" onchange="rc()"><label for="cm7">ВСП</label></div>
+<div class="ci"><input type="checkbox" id="cm8" onchange="rc()"><label for="cm8">Премьер (pull)</label></div>
+<div class="ci"><input type="checkbox" id="cm9" onchange="rc()"><label for="cm9">Премьер (push)</label></div>
+<div class="ci"><input type="checkbox" id="cm10" checked="" onchange="rc()"><label for="cm10">Сбербанк 1 (push)</label></div>
+<div class="ci"><input type="checkbox" id="cm11" onchange="rc()"><label for="cm11">PB</label></div>
+<div class="ci"><input type="checkbox" id="cm12" onchange="rc()"><label for="cm12">Внешняя дистрибуция</label></div>
+<div class="ci"><input type="checkbox" id="cm13" onchange="rc()"><label for="cm13">УС</label></div>
+</div>
+<div class="f" style="margin-top:4px"><label for="dzo">ДЗО (через запятую)</label><input type="text" id="dzo" value="Сбербанк Лайф, СберСтрахование Жизнь" onchange="rc()"></div>
+<div class="cc" id="cards"></div>
+<div class="h" style="margin-top:6px">🟢 продажи растут · 🟡 падение за 1 месяц · 🔴 падение за 3 месяца подряд</div>
+
+<div class="b" style="margin:8px 0 0;background:#fafbfc">
+<div class="bt" style="font-size:13px">⚡ Доля триггерных NRT-коммуникаций <span class="ai">AI</span></div>
+<div class="f"><label for="nrt">Доля триггерных NRT от всех коммуникаций <span class="tl" id="nrt_l"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span></label>
+<input type="number" id="nrt" value="4.2" step="0.1" onchange="rNrt()"> %
+<div class="h">🟢 &gt;8 % · 🟡 5–8 % · 🔴 &lt;5 %</div></div>
+</div>
+
+<div class="b" style="margin:8px 0 0;background:#fafbfc">
+<div class="bt" style="font-size:13px">🧺 Работа с брошенными корзинами <span class="ai">AI</span></div>
+<div class="row2">
+<div class="f"><label for="cov">Доля покрытия черновиками <span class="tl" id="cov_l"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span></label>
+<input type="number" id="cov" value="62" step="0.1" onchange="rBasket()"> %
+<div class="h">🟢 &gt;70 % · 🟡 50–70 % · 🔴 &lt;50 %</div></div>
+<div class="f"><label for="crd">CR по черновикам <span class="tl" id="crd_l"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span></label>
+<input type="number" id="crd" value="0.84" step="0.01" onchange="rBasket()"> %
+<div class="h">🟢 ≥1,1 % · 🔴 &lt;1,1 %</div></div>
+</div>
+</div>
+<div class="b zone" id="alertBasket" style="display:none;margin:8px 0 0">
+<div class="bt">❗ Зона внимания — брошенные корзины <span class="ai">AI</span></div>
+<div id="zBasket"></div>
+</div>
+<div class="b zone" id="alertB3acq" style="display:none;margin:8px 0 0">
+<div class="bt">❗ Зона внимания — привлечение</div>
+<div id="zAcqY"></div>
+<div id="zAcqR"></div>
+<div class="zsub">CAC выше нормы</div>
+<div id="zAcqCac"></div>
+<div id="zAcqRec"></div>
+</div>
+<div class="b" id="alertB3cac" style="display:none;border-left:3px solid #FB8C00;margin:8px 0 0">
+<div class="bt" style="color:#8a4b00;border-bottom-color:#FB8C00">📉 Анализ CAC <span class="ai">AI</span></div>
+<div id="zCacBody"></div>
+</div>
+</div>
+<div id="tab_b3_1" style="display:none">
+<div class="f"><label style="font-weight:600;font-size:12px;display:flex;align-items:center;gap:6px" for="churn_model">Наличие модели предоттока <input type="checkbox" id="churn_model" style="width:14px;height:14px;accent-color:var(--blue)"></label></div>
+<div class="f"><label for="churn_model_url">Адрес размещения модели</label><input type="text" id="churn_model_url" placeholder="https://..."></div>
+<b style="font-size:11px">Кампейнинг:</b>
+<div class="cg" id="cmp_churn">
+<div class="ci"><input type="checkbox" id="cmu1" checked="" onchange="rcChurn()"><label for="cmu1">SMS</label></div>
+<div class="ci"><input type="checkbox" id="cmu2" checked="" onchange="rcChurn()"><label for="cmu2">Push</label></div>
+<div class="ci"><input type="checkbox" id="cmu3" checked="" onchange="rcChurn()"><label for="cmu3">Email</label></div>
+<div class="ci"><input type="checkbox" id="cmu4" onchange="rcChurn()"><label for="cmu4">Телемаркетинг</label></div>
+<div class="ci"><input type="checkbox" id="cmu5" onchange="rcChurn()"><label for="cmu5">Телемаркетинг робот</label></div>
+<div class="ci"><input type="checkbox" id="cmu6" checked="" onchange="rcChurn()"><label for="cmu6">Сайт банка</label></div>
+<div class="ci"><input type="checkbox" id="cmu7" checked="" onchange="rcChurn()"><label for="cmu7">ВСП</label></div>
+<div class="ci"><input type="checkbox" id="cmu8" onchange="rcChurn()"><label for="cmu8">Премьер (pull)</label></div>
+<div class="ci"><input type="checkbox" id="cmu9" onchange="rcChurn()"><label for="cmu9">Премьер (push)</label></div>
+<div class="ci"><input type="checkbox" id="cmu10" checked="" onchange="rcChurn()"><label for="cmu10">Сбербанк 1 (push)</label></div>
+<div class="ci"><input type="checkbox" id="cmu11" onchange="rcChurn()"><label for="cmu11">PB</label></div>
+<div class="ci"><input type="checkbox" id="cmu12" onchange="rcChurn()"><label for="cmu12">Внешняя дистрибуция</label></div>
+<div class="ci"><input type="checkbox" id="cmu13" onchange="rcChurn()"><label for="cmu13">УС</label></div>
+</div>
+<div class="f" style="margin-top:4px"><label for="dzo_churn">ДЗО (через запятую)</label><input type="text" id="dzo_churn" value="Сбербанк Лайф, СберСтрахование Жизнь" onchange="rcChurn()"></div>
+<div class="cc" id="cards_churn"></div>
+<div class="h" style="margin-top:6px">🟢 оттоки снижаются · 🟡 растут за 1 месяц · 🔴 растут 3 месяца подряд</div>
+<div class="b zone" id="alertB3churn" style="display:none;margin:8px 0 0">
+<div class="bt">❗ Зона внимания — отток</div>
+<div id="zChurnY"></div>
+<div id="zChurnR"></div>
+<div id="zChurnCac"></div>
+<div id="zChurnRec"></div>
+</div>
+<div class="b" id="alertB3churnCac" style="display:none;border-left:3px solid #FB8C00;margin:8px 0 0">
+<div class="bt" style="color:#8a4b00;border-bottom-color:#FB8C00">📉 Анализ CAC <span class="ai">AI</span></div>
+<div id="zChurnCacBody"></div>
+</div>
+</div>
+</div></section><section id="osago-journey" class="survey-section" data-survey-section="osago-journey"><header class="survey-section-heading"><p class="survey-eyebrow">04</p><h2>Оформление / Закрытие</h2></header><div class="b">
+<div class="bt"><span>4</span> Блок <span class="tabs"><button class="tab active" onclick="switchTab(this,'b4',0)">Оформление</button><button class="tab" onclick="switchTab(this,'b4',1)">Закрытие</button></span></div>
+<div id="tab_b4_0">
+<div class="f"><label for="cr">CR воронки ClickStream <span class="tl" id="crl"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span></label>
+<input type="number" id="cr" value="23.7" step="0.1" onchange="r4()"> %
+<div class="row2" style="margin-top:4px;align-items:end">
+<div class="f"><label for="cr_hist">История CR, % (от старых к новым)</label>
+<input type="text" class="cf" id="cr_hist" value="25,1; 24,4; 23,9; 23,7" onchange="r4()"></div>
+<div class="f"><label for="cr_tr">Тренд (авто)</label><input type="text" class="cf" id="cr_tr" readonly="" value="—"></div>
+</div>
+<div class="h">Растёт → 🟢 · Падение 1 мес. → 🟡 · 3 мес. падения → 🔴</div></div>
+<div class="f"><label for="osago-note-1">AI оценка CJ <span class="ai">AI</span></label><textarea id="osago-note-1">🤖 TTR снизился на 12 % после автозаполнения полиса. NPS на этапе оформления = 61.
+Точки оттока: шаг выбора авто (18 %), шаг оплаты (9 %).
+Рекомендация: упростить ввод госномеров через API ГИБДД.</textarea></div>
+<div class="f"><label>Сравнение условий с конкурентами (по данным сайтов банков)</label>
+<div class="survey-table-scroll"><table class="tbl">
+<thead><tr><th>Критерий</th><th>Сбер</th><th>ВТБ</th><th>Т-Банк</th><th>Альфа</th></tr></thead>
+<tbody>
+<tr class="me"><td>Премия, ₽/год</td><td>4 820</td><td>4 650</td><td>4 910</td><td>5 100</td></tr>
+<tr><td>Скидки за стаж (КБМ)</td><td>до 54 %</td><td>до 54 %</td><td>до 54 %</td><td>до 54 %</td></tr>
+<tr><td>Калькулятор без регистрации</td><td>да</td><td>да</td><td>да</td><td>нет</td></tr>
+<tr><td>Автозаполнение по госномеру (API ГИБДД)</td><td>да</td><td>да</td><td>да</td><td>нет</td></tr>
+<tr><td>Срок действия полиса</td><td>до 1 года</td><td>до 1 года</td><td>до 1 года</td><td>до 1 года</td></tr>
+<tr><td>Выплата деньгами при ДТП</td><td>да</td><td>да</td><td>нет</td><td>да</td></tr>
+<tr><td>Оформление без визита в офис</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+<tr><td>Оплата картой другого банка</td><td>да</td><td>да</td><td>да</td><td>да</td></tr>
+</tbody>
+</table></div>
+<div class="tbl-note"><b>Вывод:</b> по опубликованным на сайтах условиям Сбер не уступает конкурентам: полный онлайн-функционал и выплата деньгами при ДТП, как у ВТБ и Альфы; Т-Банк не заявляет выплату деньгами, Альфа — калькулятор без регистрации и автозаполнение по госномеру. Разница в премии — до 6 % — укладывается в «вилку» тарифов и не является конкурентным преимуществом.</div>
+</div>
+<div class="b zone" id="alertB4acq" style="display:none;margin:8px 0 0">
+<div class="bt">❗ Зона внимания — оформление <span class="ai">AI</span></div>
+<div id="zAcq4"></div>
+</div>
+</div>
+<div id="tab_b4_1" style="display:none">
+<div class="f"><label for="pol">Действующие полисы (поля ввода)</label>
+<input type="number" id="pol" value="520000" onchange="r4Cl()">
+<div class="h">База для пересчёта: сколько полисов приходится на рост CR закрытия</div></div>
+<div class="f"><label for="cr_cl">CR закрытия (повторные продажи, продления) <span class="tl" id="cr_cl_l"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span></label>
+<input type="number" id="cr_cl" value="11.6" step="0.1" onchange="r4Cl()"> %
+<div class="row2" style="margin-top:4px;align-items:end">
+<div class="f"><label for="cr_cl_hist">История CR закрытия, % (через ; или пробел)</label>
+<input type="text" class="cf" id="cr_cl_hist" value="8,9; 9,6; 10,4; 11,0; 11,6" onchange="r4Cl()"></div>
+<div class="f"><label for="cr_cl_tr">Тренд (авто)</label><input type="text" class="cf" id="cr_cl_tr" readonly="" value="—"></div>
+</div>
+<div class="h">Для закрытия перевёрнутая логика: снижается → 🟢 · рост 1 мес. → 🟡 · рост 3 мес. подряд → 🔴</div></div>
+<div class="f"><label for="osago-note-2">AI оценка закрытия <span class="ai">AI</span></label><textarea id="osago-note-2">🤖 CR закрытия растёт четвёртый месяц подряд: 8,9 % → 11,6 %. Лучше продлеваются клиенты ВСП и Премьер (касание менеджером),
+хуже — клиенты дешёвых цифровых каналов. Рекомендация: перенести касание о продлении на 30 дней раньше окончания полиса и добавить сценарий «продли сейчас — зафиксируй КБМ».</textarea></div>
+<div class="f"><label>Причины закрытия полиса (доля оттоков)</label>
+<div class="survey-table-scroll"><table class="tbl">
+<thead><tr><th>Причина</th><th>Доля, %</th><th>Комментарий</th></tr></thead>
+<tbody>
+<tr><td>Не оформил продление вовремя</td><td>38</td><td>нет напоминания в нужный срок</td></tr>
+<tr><td>Ушёл к конкуренту</td><td>26</td><td>премия ниже на 200–400 ₽</td></tr>
+<tr><td>Продал автомобиль</td><td>21</td><td>естественная причина</td></tr>
+<tr><td>Недоволен урегулированием</td><td>15</td><td>долгие выплаты по ДТП</td></tr>
+</tbody>
+</table></div>
+<div class="tbl-note"><b>Вывод:</b> 64 % закрытий управляемые — сроки продления и цена, а не естественная смена автомобиля.</div></div>
+<div class="b zone" id="alertB4cl" style="display:none;margin:8px 0 0">
+<div class="bt">❗ Зона внимания — закрытие <span class="ai">AI</span></div>
+<div id="zCl4"></div>
+</div>
+</div>
+</div></section><section id="osago-activation" class="survey-section" data-survey-section="osago-activation"><header class="survey-section-heading"><p class="survey-eyebrow">05</p><h2>Новые клиенты</h2></header><div class="b">
+<div class="bt"><span>5</span> Блок «Активация» <span class="tl" id="ntb_l"><span class="dt g"></span><span class="dt y"></span><span class="dt r"></span></span></div>
+<div class="row2">
+<div class="f"><label for="n1">NTB 1 месяц, %</label><input type="number" id="n1" value="28.3" step="0.1" onchange="r5()"></div>
+<div class="f"><label for="n6">NTB 6 месяцев, %</label><input type="number" id="n6" value="71.5" step="0.1" onchange="r5()"></div>
+</div>
+<div class="f"><label for="mau_yau_ref">MAU/YAU, % (из блока 2)</label><input type="text" class="cf" id="mau_yau_ref" readonly="" value="74,0 %"></div>
+<div class="h">Сравнение с действующей базой: NTB 1м и NTB 6м ≥ MAU/YAU → 🟢 · отстаёт один горизонт → 🟡 · отстают оба → 🔴</div>
+<div class="b zone" id="alertB5" style="display:none;margin:8px 0 0">
+<div class="bt">❗ Зона внимания — активация новых клиентов <span class="ai">AI</span></div>
+<div id="zNtb"></div>
+</div>
+</div></section><section id="osago-summary" class="survey-section" data-survey-section="osago-summary"><header class="survey-section-heading"><p class="survey-eyebrow">06</p><h2>Итог</h2></header><div class="sum">
+<h2>🏆 Итоговая оценка</h2>
+<div class="sc g" id="fs">87 / 100</div>
+<p id="fv">✅ Отличная работа. Основные метрики в зелёной зоне.</p>
+<div class="zsub">Шкала оценки</div>
+<div class="rec">
+<div><b>≥ 70 / 100</b> — 🟢 зелёная зона: отличная работа, так держать.</div>
+<div><b>40–69 / 100</b> — 🟡 жёлтая зона: есть зоны роста.</div>
+<div><b>&lt; 40 / 100</b> — 🔴 красная зона: вы плохо управляете воронкой.</div>
+</div>
+<button class="btn" onclick="openPool()">📋 Сформировать пул мероприятий</button>
+</div></section></div>
+
+<div id="poolPage">
+<div class="pool-wrap">
+<h1>📋 Пул мероприятий по воронке ОСАГО</h1>
+<div class="pool-sub" id="poolSub"></div>
+<div class="pool-taken" id="poolTaken" style="display:none"></div>
+<div id="poolBody"></div>
+<button class="btn" onclick="closePool()">← Вернуться к анализу</button>
+</div>
+</div>
+
+<script>
+// Коммуникации — верх воронки (не могут быть 0). c — отправки (тыс.), r — CR, %, a — CAC/CPA, ₽, s — продажи (шт.)
+const CD={ch1:{n:'Перфоманс-маркетинг',c:2180,r:0.42,a:430,s:9160,tr:2},ch2:{n:'Медиа-маркетинг',c:3400,r:0.19,a:490,s:6460,tr:1},ch3:{n:'Баннеры',c:1280,r:0.27,a:620,s:3456,tr:0},ch4:{n:'ПДЖ',c:760,r:0.61,a:250,s:4636,tr:2},cm1:{n:'SMS',c:4200,r:0.21,a:300,s:8820,tr:2},cm2:{n:'Push',c:6800,r:0.16,a:420,s:10880,tr:1},cm3:{n:'Email',c:1900,r:0.32,a:420,s:6080,tr:2},cm4:{n:'Телемаркетинг',c:142,r:2.15,a:1150,s:3053,tr:0},cm5:{n:'Телемаркетинг робот',c:520,r:0.74,a:290,s:3848,tr:1},cm6:{n:'Сайт банка',c:2450,r:1.36,a:0,s:33320,tr:2},cm7:{n:'ВСП',c:620,r:2.24,a:780,s:13888,tr:1},cm8:{n:'Премьер (pull)',c:88,r:3.12,a:690,s:2746,tr:2},cm9:{n:'Премьер (push)',c:135,r:1.98,a:1080,s:2673,tr:0},cm10:{n:'Сбербанк 1 (push)',c:3100,r:0.63,a:180,s:19530,tr:2},cm11:{n:'PB',c:230,r:1.42,a:490,s:3266,tr:1},cm12:{n:'Внешняя дистрибуция',c:980,r:0.48,a:1320,s:4704,tr:0},cm13:{n:'УС',c:190,r:1.85,a:520,s:3515,tr:2}};
+
+// CDU — каналы удержания (отток): c — контакты (тыс.), r — доля закрытий (чем ниже, тем лучше), a — CAC удержания, ₽, s — сохранённые полисы
+// Синтетика: CAC удержания ниже привлечения, разброс заметный. Дешёвые цифровые касания (Email, PB, робот) окупаются
+// при NPV 600 ₽, SMS/Push дают положительный π, ВСП/Премьер/Телемаркетинг/Внешняя дистрибуция — дорогие контакты вне нормы
+const CDU={cm1:{n:'SMS',c:380,r:5.60,a:16,s:684,tr:1},cm2:{n:'Push',c:520,r:4.80,a:11,s:728,tr:2},cm3:{n:'Email',c:240,r:6.20,a:12,s:768,tr:2},cm4:{n:'Телемаркетинг',c:38,r:14.0,a:190,s:361,tr:0},cm5:{n:'Телемаркетинг робот',c:160,r:11.0,a:14,s:832,tr:1},cm6:{n:'Сайт банка',c:410,r:3.20,a:0,s:451,tr:2},cm7:{n:'ВСП',c:150,r:9.40,a:15,s:630,tr:2},cm8:{n:'Премьер (pull)',c:34,r:16.0,a:18,s:374,tr:1},cm9:{n:'Премьер (push)',c:62,r:12.5,a:110,s:471,tr:1},cm10:{n:'Сбербанк 1 (push)',c:460,r:5.10,a:13,s:874,tr:2},cm11:{n:'PB',c:48,r:18.0,a:9,s:600,tr:2},cm12:{n:'Внешняя дистрибуция',c:95,r:13.5,a:140,s:798,tr:0},cm13:{n:'УС',c:52,r:21.0,a:10,s:780,tr:1}};
+
+function sl(el,ok){const d=el.querySelectorAll('.dt');d.forEach(x=>x.classList.remove('on'));if(ok>=2){d[0].classList.add('on');d[1].classList.add('on')}else if(ok===1){d[0].classList.add('on');d[1].classList.add('on')}else if(ok===0){d[0].classList.add('on')}}
+
+// Кампейнинг привлечения: приоритет 1 — CR канала ниже 1,1 % (🔴), иначе динамика продаж (🟢/🟡/🔴).
+// Блок «брошенные корзины» пересчитывается, потому что объём корзин зависит от CR каналов.
+const CM_MIN_CR=1.1;
+function cmColor(d){return d.r<CM_MIN_CR?'r':(d.tr===1?'y':d.tr===0?'r':'g')}
+function makeCard(name,d,tr,churn){const m=tr!==undefined?tr:(d.tr!==undefined?d.tr:2);const col=churn?(m===2?'g':m===1?'y':'r'):cmColor(d);const k=churn?'Закрытия':'Продажи';return`<div class="ccard"><h4>${name} <span class="tl"><span class="dt g ${col==='g'?'on':''}"></span><span class="dt y ${col==='y'?'on':''}"></span><span class="dt r ${col==='r'?'on':''}"></span></span></h4><div class="metrics"><div class="mv">Комм.<b>${(d.c/1000).toFixed(0)}K</b></div><div class="mv">CR<b>${d.r}%</b></div><div class="mv">CAC<b>${d.a}₽</b></div><div class="mv">${k}<b>${(d.s/1000).toFixed(0)}K</b></div></div></div>`}
+// ДЗО — детерминированная заглушка по имени (хэш имени, а не длины: у равных длин раньше совпадали цифры)
+// churn — CAC удержания в том же масштабе, что и CDU (дешёвые касания), иначе ДЗО выбивает норму
+function dzoHash(name){let h=0;for(let i=0;i<name.length;i++){h=(h*31+name.charCodeAt(i))%1000003}return h}
+function dzoData(name,churn){const h=dzoHash(name);const pick=function(pool){return pool[h%pool.length]};const d=churn?{c:20+h%90,r:+pick([3.5,4.8,6.2,8.4,11.0,14.5]),a:pick([9,10,12,18,95,130]),s:200+h%900}:{c:30+h%80,r:+(2+h%5).toFixed(2),a:pick([250,320,420,430,480,600,900,1300]),s:1500+h%5000};return d}
+function dzoList(el,churn){if(!el||!el.value.trim())return[];return el.value.split(',').map(function(i){const name=i.trim();if(!name)return null;return{name:name,d:dzoData(name,churn),tr:dzoHash(name)%3}}).filter(Boolean)}
+
+// Собираем каналы с жёлтым/красным светофором по выбранным чекбоксам
+// src — словарь данных (CD для привлечения, CDU для удержания)
+function collectA(ids,map,src){const out=[];const S=src||CD;document.querySelectorAll(ids+' input').forEach(function(cb){const k=map?map[cb.id]:cb.id;if(!cb.checked||!S[k])return;out.push({name:S[k].n,d:S[k],tr:S[k].tr})});return out}
+function splitTL(items){return{y:items.filter(function(i){return i.tr===1}),r:items.filter(function(i){return i.tr===0})}}
+function chip(i,cls){return'<span class="chip '+cls+'">'+i.name+'</span>'}
+function tlBlock(cap,list,cls){if(!list.length)return'';return'<div class="zsub">'+cap+'</div><div>'+list.map(function(i){return chip(i,cls)}).join('')+'</div>'}
+
+function recList(items,kind){
+let h='<div class="zsub">Рекомендации</div><div class="rec"><ol>';
+h+='<li><b>Проверить качество отработки оптимизатора</b> — сравнить фактические продажи с планом оптимизации, проверить корректность ставок и ограничений на каналах: '+items.map(function(i){return i.name}).join(', ')+'.</li>';
+h+='<li><b>Проверить верх воронки</b> — если снизился объём отправок/триггеров на входе воронки, проанализировать набор триггеров, поданных на вход, и их актуальность.</li>';
+h+='<li><b>Проанализировать CR переходов</b> — разобрать саму коммуникацию или условия по продукту: сравнить премию, скорость и условия оформления с конкурентами, проверить, не было ли изменений.</li>';
+h+='</ol></div>';
+return h}
+
+// Логика CAC: норма = медиана CAC по каналам с затратами (см. cacMedian)
+// Отклонение > +50 % → выше нормы (CAC) · > +100 % → критично (r)
+// Перераспределение бюджета: маржинальная прибыль на 1 ₽ бюджета π = NPV/CAC − 1.
+// NPV — приведённая стоимость одной продажи (поле ввода), CAC — стоимость продажи (касания), ₽.
+// Правило: наращивать бюджет, пока π > 0; при равенстве π между каналами — оптимум.
+function getNPV(){const el=document.getElementById('npv');const v=el?+el.value:0;return v>0?v:0}
+function cacMedian(){const v=Object.keys(CD).map(function(k){return CD[k].a}).filter(function(a){return a>0}).sort(function(a,b){return a-b});return v.length?v[Math.floor(v.length/2)]:0}
+// Норма CAC по произвольному набору каналов (для оттока считается отдельно, т.к. CAC удержания ниже)
+function cacMedianOf(list){const v=list.map(function(i){return i.d.a}).filter(function(a){return a>0}).sort(function(a,b){return a-b});return v.length?v[Math.floor(v.length/2)]:0}
+function effVerdict(item,med){
+const a=item.d.a, dev=((a-med)/med*100).toFixed(0), cr=item.d.r;
+// Персональные рекомендации — что делать с конкретным каналом
+const PLAN={
+'Медиа-маркетинг':'CAC '+a+' ₽ при CR '+cr+' % — чистка площадок с CPA выше нормы, переход на оплату за действие, ограничить охватные размещения и тестировать ретаргетинг на уже прогретых пользователей',
+'Внешняя дистрибуция':'CAC '+a+' ₽ — самый дорогой канал в выборке: пересмотреть комиссию партнёрам, оставить партнёров с CPA ниже нормы ('+med+' ₽), остальных перевести на оплату за продажу',
+'ВСП':'высокая стоимость касания, но продажи конвертят лучше среднего — сократить долю «холодных» предложений и фокусировать ВСП на клиентах с действующим полисом',
+'Премьер (push)':'высокий CAC из-за оплаты за касание — проверить таргетинг на премиум-сегмент и перевести на модель оплаты за продажу',
+'Премьер (pull)':'высокий CAC оправдан высоким CR — держать, но проверить долю продаж, приходящих без касания дорогого канала',
+'Телемаркетинг':'CAC выше нормы — проверить качество базы и скрипты, сократить объём до сегментов с подтверждённой конверсией',
+'PB':'CAC выше нормы — проверить сегментацию премиум-клиентов и передачу лидов в цифровые каналы'
+};
+let verdict,note;
+if(a>med*2){verdict='<span style="color:#b71c1c;font-weight:600">критичное отклонение, требует пересмотра</span>';note='CAC более чем в 2 раза выше нормы — пересмотреть ставки/сегмент или перераспределить бюджет в каналы с CAC ниже нормы'}
+else{verdict='<span style="color:#E65100;font-weight:600">CAC выше нормы</span>';note='держать под контролем: проверить сегмент, ставки и модель оплаты, оценить вклад канала в продажи'}
+let rec=PLAN[item.name]?' <b>Что делать:</b> '+PLAN[item.name]+'.':'';
+return'<div class="rec"><b>'+item.name+'</b> — CAC '+a+' ₽ (норма '+med+' ₽, отклонение +'+dev+' %, CR '+cr+' %): '+verdict+'. '+note+'.'+rec+'</div>'}
+
+function renderZone(){
+// ---------- Привлечение ----------
+const acqMap={ch1:'ch1',ch2:'ch2',ch3:'ch3',ch4:'ch4',cm1:'cm1',cm2:'cm2',cm3:'cm3',cm4:'cm4',cm5:'cm5',cm6:'cm6',cm7:'cm7',cm8:'cm8',cm9:'cm9',cm10:'cm10',cm11:'cm11',cm12:'cm12',cm13:'cm13'};
+let items=collectA('#cp').concat(collectA('#cmp'));
+dzoList(document.getElementById('dzo')).forEach(function(x){items.push(x)});
+// Приоритет 1 — CR канала ниже 1,1 %. В зоне внимания это только критерий отбора, причины — в рекомендациях.
+const lowCr=items.filter(function(i){return i.d.r<CM_MIN_CR}).sort(function(a,b){return a.d.r-b.d.r});
+// Кандидаты на снятие с полки: CR ниже 1,1 % И отрицательная динамика (падение 1 или 3 месяца)
+const shelf=lowCr.filter(function(i){return i.tr===0||i.tr===1}).sort(function(a,b){return a.d.r-b.d.r});
+// Приоритет 2 — динамика продаж
+const sp=splitTL(items.filter(function(i){return i.d.r>=CM_MIN_CR}));
+const bad=sp.y.length+sp.r.length;
+const spLow=splitTL(lowCr);
+document.getElementById('zAcqY').innerHTML=
+ tlBlock('🟡 падение продаж за 1 месяц',sp.y,'y');
+document.getElementById('zAcqR').innerHTML=
+ (shelf.length?'<div class="zsub">🔴 Снять с полки — CR &lt; 1,1 % и падение продаж</div><div>'+shelf.map(function(i){return chip(i,'r')}).join('')+'</div><div class="rec" style="margin:2px 0 0">'+shelf.map(function(i){return'<b>'+i.name+'</b>: CR '+String(i.d.r).replace('.',',')+' %, '+(i.tr===0?'падение 3 мес. подряд':'падение 1 мес.')}).join(' · ')+'</div>':'')+
+ tlBlock('🔴 падение продаж 3 месяца подряд (CR в норме)',sp.r,'r');
+if(!shelf.length&&!bad)document.getElementById('zAcqR').innerHTML='<div class="empty">Критичных каналов нет 👍</div>';
+// Низкий CR при растущих продажах: канал работает, но конверсия в оформление хуже нормы — вопрос к триггерам и объёму
+const growLowCr=lowCr.filter(function(i){return i.tr===2}).sort(function(a,b){return a.d.r-b.d.r});
+if(growLowCr.length)document.getElementById('zAcqY').innerHTML+='<div class="zsub">🔴 CR &lt; 1,1 % при росте продаж — триггеры и объём коммуникаций</div><div>'+growLowCr.map(function(i){return chip(i,'r')}).join('')+'</div><div class="rec" style="margin:2px 0 0">'+growLowCr.map(function(i){return'<b>'+i.name+'</b>: CR '+String(i.d.r).replace('.',',')+' %'}).join(' · ')+' — с полки не снимаем, проверяем триггеры и подбираем объём.</div>';
+
+const med=cacMedianOf(items);
+const cacBad=items.filter(function(i){return i.d.a>0&&i.d.a>med*1.5}).sort(function(a,b){return b.d.a-a.d.a});
+
+let acqHTML='';
+if(cacBad.length){acqHTML='<div class="zsub">↑ CAC выше нормы (норма '+med+' ₽)</div><div>'+cacBad.map(function(i){return chip(i,i.d.a>med*2?'r':'cac')+''}).join('')+'</div><div class="rec" style="margin:2px 0 0">'+cacBad.map(function(i){return'<b>'+i.name+'</b>: '+i.d.a+' ₽, отклонение +'+((i.d.a-med)/med*100).toFixed(0)+' %'}).join(' · ')+'</div>'}
+else{acqHTML='<div class="empty">Все каналы с затратами в пределах нормы ('+med+' ₽) 👍</div>'}
+document.getElementById('zAcqCac').innerHTML=acqHTML;
+let rec='';
+if(shelf.length){
+const shelfC=Math.round(shelf.reduce(function(a,i){return a+i.d.c},0));
+const shelfS=Math.round(shelf.reduce(function(a,i){return a+i.d.s},0));
+const shelfA=shelf.filter(function(i){return i.d.a>0});
+const shelfCost=Math.round(shelfA.reduce(function(a,i){return a+i.d.c*i.d.a},0));
+const npvAcq=getNPV();
+rec+='<div class="zsub">🔴 Предложение: снять каналы с полки</div><div class="rec">';
+rec+='<div>Критерий — CR ниже 1,1 % <b>и</b> отрицательная динамика продаж: канал не возвращает клиентов в оформление и его объём уже падает. Отклонение подтверждается двумя условиями, а не одним.</div>';
+rec+='<ol style="margin:4px 0 0 16px;padding:0">';
+shelf.forEach(function(i){
+rec+='<li><b>'+i.name+'</b> — CR '+String(i.d.r).replace('.',',')+' %, '+(i.tr===0?'падение 3 месяца подряд':'падение 1 месяц')+', CAC '+(i.d.a>0?i.d.a+' ₽':'0 ₽ (собственный трафик)')+': снять с полки '+(i.tr===0?'сразу':'по итогам следующего месяца')+', освобождая '+Math.round(i.d.c).toLocaleString('ru-RU')+' тыс. контактов'+(i.d.a>0?' и '+Math.round(i.d.c*i.d.a).toLocaleString('ru-RU')+' ₽ бюджета':'')+'.</li>';
+});
+rec+='</ol>';
+rec+='<div style="margin-top:4px"><b>Итого по решению:</b> '+shelf.length+' канал(ов), '+shelfC.toLocaleString('ru-RU')+' тыс. контактов и '+(shelfCost?shelfCost.toLocaleString('ru-RU')+' ₽ затрат':'0 ₽ затрат')+'. Продажи по этим каналам — '+shelfS.toLocaleString('ru-RU')+' шт.: это и есть объём, который нужно компенсировать другими каналами или принять как экономию.</div>';
+rec+='<div style="margin-top:4px"><b>Порядок действий:</b> 1) зафиксировать результат контрольного месяца, 2) остановить отправки и снять каналы с полки, 3) перенести освобождённые контакты и бюджет в каналы с CR ≥ 1,1 % и π &gt; 0 (CAC ниже NPV '+npvAcq+' ₽), 4) через месяц сверить, что компенсация продаж достигнута, иначе частично вернуть канал с новым дизайном.</div>';
+rec+='</div>';
+}
+if(growLowCr.length){
+const npvAcq=getNPV();
+// Оптимум объёма: продажи = CR × объём показов, затраты = CAC × продажи, маржа на рубль = NPV/CAC − 1
+// Пока π > 0 канал приносит прибыль, поэтому объём наращивается до предела спроса по таргету;
+// при CR ниже нормы тот же объём контактов даёт меньше продаж — сначала рост CR, потом объём.
+let gTotalC=0,gTotalS=0,gTotalCost=0;
+rec+='<div class="zsub">🔴 CR ниже 1,1 % при растущих продажах — проверить триггеры и объём коммуникаций</div><div class="rec">';
+rec+='<div>Канал растёт, но конверсия в оформление хуже нормы 1,1 %. Снимать с полки нельзя — динамика положительная; задача — найти триггер и объём, при которых продажи максимальны.</div>';
+rec+='<ol style="margin:4px 0 0 16px;padding:0">';
+growLowCr.forEach(function(i){
+const c=i.d.c*1000, s=i.d.s, a=i.d.a, r=i.d.r;
+const sendsPerSale=Math.round(c/s);
+const lostPerPp=Math.round(c/100);     // 1 п.п. CR на текущем объёме — это c/100 продаж
+const addAtNorm=Math.round(c*(CM_MIN_CR-r)/100);
+const pi=a>0?(npvAcq/a-1):null;
+gTotalC+=c;gTotalS+=s;gTotalCost+=a>0?c*a:0;
+rec+='<li><b>'+i.name+'</b> — CR '+String(r).replace('.',',')+' %, продажи '+s.toLocaleString('ru-RU')+' шт. при '+(c/1000).toLocaleString('ru-RU')+' тыс. контактов: 1 продажа на '+sendsPerSale.toLocaleString('ru-RU')+' отправок, каждый +1 п.п. CR даёт ~'+lostPerPp.toLocaleString('ru-RU')+' продаж. Дотянуть до нормы 1,1 % — до +'+addAtNorm.toLocaleString('ru-RU')+' продаж на текущем объёме. '+
+(a>0?'CAC '+a+' ₽, π = '+npvAcq+' / '+a+' − 1 = '+(pi>=0?'+':'')+pi.toFixed(2)+' → '+(pi>0?'объём наращивать, пока π > 0 и есть спрос по таргету':'π ≤ 0 — наращивание объёма убыточно, сначала снижать CAC'):'CAC 0 ₽ — затрат нет, ограничение только объём показа, наращивать в приоритете')+'.</li>';
+});
+rec+='</ol>';
+rec+='<div style="margin-top:4px"><b>Что проверить в триггерах:</b> событие прерывания фиксируется на каждом этапе оформления (выбор авто, расчёт премии, ввод данных, оплата); условия продукта и дедупликация по клиенту; деактивирующие события — продажа, отказ, повторный вход. Если триггер настроен только на первый шаг, объём есть, а CR низкий: клиент получает сообщение не про тот этап, на котором остановился.</div>';
+rec+='<div style="margin-top:4px"><b>Оптимальный объём:</b> держать π &gt; 0 (CAC ниже NPV '+npvAcq+' ₽) и распределять контакты между каналами до выравнивания π — на пике π объём максимален. По этим '+growLowCr.length+' каналам сейчас '+(gTotalC/1000).toLocaleString('ru-RU')+' тыс. контактов и '+gTotalS.toLocaleString('ru-RU')+' продаж'+(gTotalCost?' при '+gTotalCost.toLocaleString('ru-RU')+' ₽ затрат':'')+'; точка оптимума — объём, при котором CR достиг 1,1 %, а не текущий.</div>';
+rec+='<div style="margin-top:4px"><b>Замер:</b> A/B по триггеру (тест/контроль) с проверкой значимости t ≥ 1,96 и uplift против контроля, чтобы отделить эффект триггера от сезонного роста продаж.</div>';
+rec+='</div>';
+}
+document.getElementById('zAcqRec').innerHTML=rec;
+document.getElementById('alertB3acq').style.display=(shelf.length||growLowCr.length||cacBad.length)?'block':'none';
+
+// ---------- Отток ----------
+const chMap={cmu1:'cm1',cmu2:'cm2',cmu3:'cm3',cmu4:'cm4',cmu5:'cm5',cmu6:'cm6',cmu7:'cm7',cmu8:'cm8',cmu9:'cm9',cmu10:'cm10',cmu11:'cm11',cmu12:'cm12',cmu13:'cm13'};
+let chItems=collectA('#cmp_churn',chMap,CDU);
+dzoList(document.getElementById('dzo_churn'),true).forEach(function(x){chItems.push(x)});
+const sc=splitTL(chItems);
+const chBad=sc.y.length+sc.r.length;
+document.getElementById('zChurnY').innerHTML=tlBlock('🟡 рост оттока за 1 месяц',sc.y,'y');
+document.getElementById('zChurnR').innerHTML=tlBlock('🔴 рост оттока 3 месяца подряд',sc.r,'r');
+if(!chBad)document.getElementById('zChurnY').innerHTML='<div class="empty">Все каналы в зелёной зоне 👍</div>';
+// CAC удержания: норма — медиана по каналам удержания с затратами; отклонение обратное — дорогое удержание хуже
+const chMed=cacMedianOf(chItems);
+const chCacBad=chItems.filter(function(i){return i.d.a>0&&i.d.a>chMed*1.5}).sort(function(a,b){return b.d.a-a.d.a});
+document.getElementById('zChurnCac').innerHTML=chCacBad.length
+?'<div class="zsub">↑ CAC удержания выше нормы (норма '+chMed+' ₽)</div><div>'+chCacBad.map(function(i){return chip(i,i.d.a>chMed*2?'r':'cac')}).join('')+'</div><div class="rec" style="margin:2px 0 0">'+chCacBad.map(function(i){return'<b>'+i.name+'</b>: '+i.d.a+' ₽, отклонение +'+((i.d.a-chMed)/chMed*100).toFixed(0)+' %, закрытий '+i.d.r+' %'}).join(' · ')+'</div>'
+:'<div class="empty">Все каналы удержания с затратами в пределах нормы ('+chMed+' ₽) 👍</div>';
+let chRec='';
+if(chBad||chCacBad.length)chRec+='<div class="zsub">Зона внимания</div>'+recList(sc.y.concat(sc.r),'churn');
+// Рекомендации по CAC удержания — конкретно по объёму контактов в каналах:
+// снижаем там, где сверх нормы тратятся контакты (NPV·r/100 < CAC), наращиваем там, где контакт окупается и CAC ниже нормы
+const NPVc=getNPV();
+// В удержании доля закрытий — ОБРАТНЫЙ показатель: чем меньше закрывается, тем лучше.
+// Оцениваем не «сколько закрытий на рубль», а сколько потерь НЕ допущено (1 − CR/100) на рубль затрат:
+// u — затраты канала на одну недопущенную потерю (сохранение). Чем ниже u, тем эффективнее канал.
+const chPaid=chItems.filter(function(i){return i.d.a>0}).map(function(i){
+const keep=Math.max(1-i.d.r/100,0);              // доля сохранённых контактов
+return{name:i.name,a:i.d.a,r:i.d.r,c:i.d.c,keep:keep*100,u:i.d.a/keep,pi:(NPVc*keep)/i.d.a-1}});
+const byU=function(a,b){return a.u-b.u||b.pi-a.pi};
+// эталон — самый дешёвый по сохранению ПЛАТНЫЙ канал (CAC > 0): бесплатный собственный трафик в сравнение не берём
+const chBestU=chPaid.length?Math.min.apply(null,chPaid.map(function(i){return i.u})):0;
+// CAC выше нормы — объём сокращаем в первую очередь (дорогое касание независимо от u)
+const chCut=chPaid.filter(function(i){return i.a>chMed}).sort(byU).map(function(i){return{name:i.name,a:i.a,u:i.u,r:i.r}});
+// CAC в норме, но сохранение обходится дороже эталона более чем на +50 % — тоже сокращаем
+const chCutPi=chPaid.filter(function(i){return i.a<=chMed&&i.u>chBestU*1.5}).sort(byU).map(function(i){return{name:i.name,a:i.a,u:i.u,r:i.r}});
+// CAC в норме и сохранение близко к эталону — объём наращиваем
+const chGrow=chPaid.filter(function(i){return i.a<=chMed&&i.u<=chBestU*1.5}).sort(byU).map(function(i){return{name:i.name,a:i.a,u:i.u,r:i.r}});
+chRec+='<div class="zsub">Рекомендации по CAC удержания: где объём корректировать</div><div class="rec">';
+if(chCut.length){chRec+='🔻 <b>Уменьшить объём — CAC выше нормы</b> ('+chMed+' ₽):<ul style="margin:2px 0 0 16px;padding:0">';chCut.forEach(function(i){chRec+='<li><b>'+i.name+'</b> — CAC '+i.a+' ₽ (+'+((i.a-chMed)/chMed*100).toFixed(0)+' % к норме), закрытий '+i.r+' %, сохранение '+i.u.toFixed(1)+' ₽: оставлять только клиентов с высоким риском закрытия.</li>'});chRec+='</ul>'}
+if(chCutPi.length){chRec+='🔻 <b>Уменьшить объём — CAC в норме, но сохранение дороже эталона</b>:<ul style="margin:2px 0 0 16px;padding:0">';chCutPi.forEach(function(i){chRec+='<li><b>'+i.name+'</b> — CAC '+i.a+' ₽, закрытий '+i.r+' %, сохранение '+i.u.toFixed(1)+'.</li>'});chRec+='</ul>'}
+if(chGrow.length){chRec+='🔼 <b>Увеличить объём — CAC ниже нормы и сохранение дешевле эталона</b>:<ul style="margin:2px 0 0 16px;padding:0">';chGrow.forEach(function(i){chRec+='<li><b>'+i.name+'</b> — CAC '+i.a+' ₽ (−'+((1-i.a/chMed)*100).toFixed(0)+' % к норме), закрытий '+i.r+' %, сохранение '+i.u.toFixed(1)+' ₽.</li>'});chRec+='</ul>'}
+if(!chGrow.length)chRec+='🔼 <b>Увеличивать нечего</b> — ни один канал в норме не даёт сохранения дешевле эталона: сначала снижать CAC или долю закрытий (оффер, сегмент).<br>';
+if(!chPaid.length)chRec+='Нет выбранных каналов с затратами — объём корректировать не по чему.<br>';
+chRec+='<div class="zsub">Разбор по каналам и логика CAC — в виджете «Анализ CAC» ниже</div></div>';
+document.getElementById('zChurnRec').innerHTML=chRec;
+document.getElementById('alertB3churn').style.display=(chBad||chCacBad.length)?'block':'none';
+
+// ---------- Анализ CAC — удержание (виджет AI, аналог привлечения) ----------
+// Логика обратная привлечению: ценность канала — в сохранённых клиентах (1 − доля закрытий/100),
+// u = CAC / (1 − доля закрытий/100) — затраты на одно сохранение, ₽. Чем ниже u, тем эффективнее канал.
+const chFmt=function(x,n){return x.toFixed(n===undefined?1:n).replace('.',',')};
+const chBest=chPaid.length?chPaid.slice().sort(byU)[0]:null;      // лучшее сохранение
+const chMax=chPaid.length?chPaid.slice().sort(byU)[chPaid.length-1]:null; // худшее сохранение
+const CH_PLAN={
+'Внешняя дистрибуция':'комиссия партнёрам выше нормы — оставить партнёров с CAC ниже нормы, остальных перевести на оплату за сохранение',
+'Телемаркетинг':'дорогое касание — проверить базу и скрипты, оставить только сегменты с подтверждённым удержанием',
+'Премьер (push)':'высокая стоимость касания на премиум-сегменте — перевести на оплату за сохранение и проверить таргетинг',
+'Премьер (pull)':'высокий CAC при высоком удержании — держать, но проверить долю сохранений без дорогого касания',
+'ВСП':'стоимость визита высокая — фокусировать на клиентах с действующим полисом и продлением',
+'SMS':'удешевить канал доставки (пакетные тарифы) и перевести часть контактов в push/email с низким u',
+'Push':'удешевить отправку и чистить базу от неактивных устройств',
+'Email':'дешёвое касание — наращивать объём и улучшать оффер удержания',
+'Сбербанк 1 (push)':'дешёвое касание — наращивать объём и улучшать оффер удержания',
+'PB':'дешёвое касание — наращивать объём и улучшать оффер удержания'
+};
+function chEffVerdict(i,med,bestU){
+const u=i.u, a=i.a, r=i.r, dev=((a-med)/med*100).toFixed(0), du=((u/bestU-1)*100).toFixed(0);
+const crit=a>med*2||u>NPVc;
+const verdict=u>NPVc?'<span style="color:#b71c1c;font-weight:600">сохранение дороже клиента, требует пересмотра</span>'
+:a>med*2?'<span style="color:#b71c1c;font-weight:600">критичное отклонение, требует пересмотра</span>'
+:'<span style="color:#E65100;font-weight:600">дороже эталона</span>';
+const plan=CH_PLAN[i.name]?' <b>Что делать:</b> '+CH_PLAN[i.name]+'.':'';
+return'<div class="rec"><b>'+i.name+'</b> — CAC '+a+' ₽ (норма '+med+' ₽, отклонение '+(dev>=0?'+':'')+dev+' %), закрытий '+r+' %, сохранение '+chFmt(u)+' ₽ (эталон '+chFmt(bestU)+' ₽, отклонение +'+du+' %): '+verdict+'.'+plan+'</div>'}
+let chBody='<div class="rec">Норма CAC удержания — медиана по каналам с затратами = <b>'+chMed+' ₽</b>. Доля закрытий — обратный показатель: чем она ниже, тем лучше канал. Норма к каналам с CAC 0 ₽ не применяется.</div>';
+if(chPaid.length){
+chBody+='<div class="zsub">Стоимость сохранения по каналам (u = CAC / (1 − доля закрытий/100), ₽)</div><div>';
+chPaid.slice().sort(byU).forEach(function(i){const cls=i.a>chMed||i.u>chBestU*1.5?(i.a>chMed*2||i.u>NPVc?'r':'cac'):'ok';chBody+='<span class="chip '+cls+'">'+i.name+' · CAC '+i.a+' ₽ · закрытий '+i.r+' % · u '+chFmt(i.u)+' ₽</span>'});
+chBody+='</div>';
+chBody+='<div class="zsub">Разбор</div>';
+chBody+='<div class="rec">Эталон — лучший канал по стоимости сохранения: <b>'+chFmt(chBestU)+' ₽</b>. Порог сокращения объёма: CAC выше нормы ('+chMed+' ₽) или u хуже эталона более чем на +50 % (u &gt; '+chFmt(chBestU*1.5)+' ₽). Порог окупаемости: u ≤ NPV ('+NPVc+' ₽).</div>';
+chCut.concat(chCutPi).forEach(function(i){chBody+=chEffVerdict(i,chMed,chBestU)});
+if(!chCut.length&&!chCutPi.length)chBody+='<div class="empty">Все каналы удержания в пределах нормы — отклонений по CAC нет 👍</div>';
+if(chGrow.length)chBody+='<div class="rec"><b>Наращивать</b> — CAC в пределах нормы и u не хуже эталона на +50 %: '+chGrow.map(function(i){return i.name+' ('+chFmt(i.u)+' ₽)'}).join(', ')+' — сохранение дешевле среднего, сюда перераспределять объём.</div>';
+if(chBest)chBody+='<div class="rec"><b>Держать</b>: '+chBest.name+' — лучший канал удержания, сохранять текущий объём и сценарий.</div>';
+}
+const chFree=chItems.filter(function(i){return !i.d.a});
+if(chFree.length)chBody+='<div class="rec" style="margin-top:4px"><b>'+chFree.map(function(i){return i.name}).join(', ')+'</b> — CAC 0 ₽: собственный трафик, стоимость сохранения 0 ₽, норму CAC к нему не применяем.</div>';
+// Приоритет действий по удержанию
+if(chPaid.length){
+const crit=chPaid.filter(function(i){return i.a>chMed*2||i.u>NPVc}).map(function(i){return i.name+' ('+chFmt(i.u)+' ₽)'});
+const over=chPaid.filter(function(i){return i.a>chMed&&i.a<=chMed*2&&i.u<=NPVc}).map(function(i){return i.name+' ('+chFmt(i.u)+' ₽)'});
+const grow=chGrow.map(function(i){return i.name+' ('+chFmt(i.u)+' ₽)'});
+let pr='<div class="zsub">Приоритет действий по удержанию</div><div class="rec">';
+if(crit.length)pr+='🔴 <b>Сегодня:</b> '+crit.join(', ')+' — CAC &gt; 2× нормы или сохранение дороже стоимости клиента: остановить/сократить, оставить только клиентов с высоким риском закрытия.<br>';
+if(over.length)pr+='🟠 <b>На неделе:</b> '+over.join(', ')+' — CAC выше нормы ('+chMed+' ₽): пересмотреть стоимость касания и сегмент базы.<br>';
+pr+='<b>Перераспределение по сохранениям:</b> объём наращивается в канале с минимальной u, сокращается там, где u выше эталона более чем на +50 %. Переток идёт от дорогого сохранения к дешёвому, пока u не сравняются между каналами — это и есть оптимум.<br>';
+if(grow.length)pr+='<b>Получатель бюджета:</b> '+grow.join(', ')+'.<br>';
+if(chMax)pr+='<b>Донор бюджета:</b> '+chMax.name+' ('+chFmt(chMax.u)+' ₽ за сохранение) — самый дорогой канал удержания.<br>';
+pr+='</div>';
+chBody+=pr;
+}
+document.getElementById('zChurnCacBody').innerHTML=chBody;
+document.getElementById('alertB3churnCac').style.display=chPaid.length?'block':'none';
+
+// ---------- Анализ CAC ----------
+const NPV=getNPV();
+document.getElementById('cac_norm').value=med+' ₽';
+let cacAll=items.filter(function(i){return i.d.a>0}).sort(function(a,b){return a.d.a-b.d.a});
+let body='<div class="rec">Норма CAC — медиана по каналам с затратами = <b>'+med+' ₽</b>. Отклонение считается только для каналов с CAC &gt; 0; бесплатный собственный трафик выводится отдельно и в норму не входит.</div>';
+if(cacAll.length){body+='<div class="zsub">Отклонение CAC по каналам (π = NPV/CAC − 1)</div><div>';cacAll.forEach(function(i){const dev=(i.d.a-med)/med*100;const cls=i.d.a>med*2?'r':i.d.a>med*1.5?'cac':'ok';const pi=NPV/i.d.a-1;body+='<span class="chip '+cls+'">'+i.name+' · '+i.d.a+' ₽ · '+(dev>=0?'+':'')+dev.toFixed(0)+' % · π '+(pi>=0?'+':'')+pi.toFixed(2)+'</span>'});body+='</div>';body+='<div class="zsub">Разбор</div>';cacBad.forEach(function(i){body+=effVerdict(i,med)});if(!cacBad.length)body+='<div class="empty">Все каналы в пределах нормы — отклонений по CAC нет 👍</div>';}
+const freeOwn=items.filter(function(i){return !i.d.a});
+if(freeOwn.length)body+='<div class="rec" style="margin-top:4px"><b>'+freeOwn.map(function(i){return i.name}).join(', ')+'</b> — CAC 0 ₽: собственный трафик, оплата по факту касания не взимается, норму CAC к нему не применяем.</div>';
+// Приоритет действий: сначала критические отклонения (CAC > 2× нормы), затем остальные
+if(cacBad.length){
+const crit=cacBad.filter(function(i){return i.d.a>med*2}).map(function(i){return i.name});
+const over=cacBad.filter(function(i){return i.d.a<=med*2}).map(function(i){return i.name});
+// Маржинальная прибыль на 1 рубль бюджета: π = NPV/CAC − 1, где NPV — приведённая стоимость продажи, ₽;
+// CAC — стоимость продажи (касания), ₽.
+// Прямой расчёт: продажа приносит NPV ₽ и стоит CAC ₽; π — прибыль на 1 ₽ затрат бюджета.
+// Правило: наращивать бюджет каналов с π > 0; при равенстве π между каналами — оптимум распределения.
+const calc=function(i){return{pi:NPV/i.d.a-1}};
+const eff=items.filter(function(i){return i.d.a>0}).map(function(i){const c=calc(i);return{name:i.name,a:i.d.a,cr:i.d.r,c:c}}).sort(function(a,b){return b.c.pi-a.c.pi});
+const pos=eff.filter(function(i){return i.c.pi>0}).slice(0,5);
+const neg=eff.filter(function(i){return i.c.pi<=0}).sort(function(a,b){return a.c.pi-b.c.pi}).slice(0,3);
+const own=items.filter(function(i){return !i.d.a});
+// Отток: доля закрытий — обратный показатель, чем ниже, тем лучше.
+// Результат канала — сохранение (1 − CR/100). μ_удерж — стоимость одного сохранения, ₽; чем ниже, тем эффективнее.
+// μ_удерж ≤ NPV — сохранение обходится дешевле, чем стоит клиент (канал окупается).
+const chEff=chItems.filter(function(i){return i.d.a>0}).map(function(i){const keep=Math.max(1-i.d.r/100,0.0001);return{name:i.name,a:i.d.a,cr:i.d.r,keep:keep*100,u:i.d.a/keep}}).sort(function(a,b){return a.u-b.u});
+const chMin=chEff.length?chEff[chEff.length-1]:null;   // самое дорогое сохранение — худший канал
+const chBest=chEff.length?chEff[0]:null;               // самое дешёвое сохранение — лучший канал
+const chLoss=chEff.filter(function(i){return i.u>NPV});       // сохранение дороже клиента
+const chWeak=chEff.filter(function(i){return i.u<=NPV}).slice(-3).reverse();
+const fmt=function(x,n){return x.toFixed(n===undefined?2:n)};
+let pr='<div class="zsub">Приоритет действий</div><div class="rec">';
+if(crit.length)pr+='🔴 <b>Сегодня:</b> '+crit.join(', ')+' — CAC более чем в 2 раза выше нормы: остановить/сократить бюджет, оставить только площадки и партнёров с CPA ниже нормы ('+med+' ₽).<br>';
+if(over.length)pr+='🟠 <b>На неделе:</b> '+over.join(', ')+' — CAC выше нормы ('+med+' ₽): пересмотреть ставки, сегмент и модель оплаты.<br>';
+pr+='<span class="zsub" style="display:block">🟢 Перераспределение бюджета по маржинальной прибыли на 1 ₽</span>';
+pr+='<b>Подход:</b> π = NPV/CAC − 1, где NPV = '+NPV+' ₽ — приведённая стоимость продажи, CAC — стоимость продажи в канале. На 1 ₽ бюджета канал приносит NPV/CAC ₽ стоимости: если π > 0 — рубль бюджета возвращается с прибылью, бюджет наращиваем; если π ≤ 0 — сокращаем. Бюджет перекладываем из канала с меньшим π в канал с большим, пока π не сравняются между каналами — это и есть оптимум.<br>';
+if(pos.length){
+pr+='<b>Наращивать</b> (π > 0):<ul style="margin:2px 0 0 16px;padding:0">';
+pos.forEach(function(i){pr+='<li><b>'+i.name+'</b> — π = '+fmt(NPV)+' / '+i.a+' − 1 = <b>+'+fmt(i.c.pi)+'</b> → на 1 ₽ бюджета '+(1+i.c.pi).toFixed(2)+' ₽ стоимости продажи (CAC '+i.a+' ₽ при NPV '+fmt(NPV)+' ₽)</li>'});
+pr+='</ul>';
+}else{pr+='<b>Наращивать нечего:</b> при NPV = '+NPV+' ₽ ни один платный канал не даёт π > 0 — стоимость продажи в канале выше её NPV. Требуется рост NPV или снижение CAC.<br>'}
+if(neg.length){
+pr+='<b>Сокращать</b> (π ≤ 0): ';
+pr+=neg.map(function(i){return i.name+' (π = '+fmt(i.c.pi)+')'}).join(', ')+' — продажа стоит дороже, чем приносит: каждый рубль бюджета убыточен.<br>';
+}
+if(own.length)pr+='<b>Собственный трафик</b> ('+own.map(function(i){return i.name+' · CR '+i.d.r+' %'}).join(', ')+'): CAC = 0 ₽ — π = ∞, затрат нет, ограничение — объём показа, бюджет не нужен.<br>';
+pr+='<b>Оптимум:</b> π, рассчитанные выше для бюджетных каналов, выравниваются между собой — пока у канала π больше среднего, туда идёт бюджет; когда π сравниваются, дальнейшее перераспределение прибыли не добавляет.';
+// Удержание — обратная логика: чем меньше закрытий, тем лучше, поэтому считаем стоимость сохранения, а не закрытия
+pr+='<span class="zsub" style="display:block">🔁 Удержание: чем дешевле сохранение, тем лучше (логика описана выше)</span>';
+if(chEff.length){
+pr+='<b>Порог окупаемости:</b> μ_удерж ≤ NPV ('+NPV+' ₽) — сохранение дешевле клиента.<br>';
+if(chBest)pr+='<b>Держать и наращивать</b> — лучший канал: <b>'+chBest.name+'</b>, сохранение '+fmt(chBest.u,1)+' ₽ (закрытий '+chBest.cr+' %, CAC '+chBest.a+' ₽) — дешевле всего спасать клиента, сюда бюджет.<br>';
+if(chMin)pr+='<b>Точка роста</b> — худший канал: <b>'+chMin.name+'</b>, сохранение '+fmt(chMin.u,1)+' ₽ (закрытий '+chMin.cr+' %, CAC '+chMin.a+' ₽) — каждый спасённый клиент обходится дороже остальных, объём сокращать.<br>';
+if(chLoss.length)pr+='<b>Не окупается</b> (μ_удерж &gt; NPV '+NPV+' ₽): '+chLoss.map(function(i){return i.name+' ('+fmt(i.u,1)+' ₽)'}).join(', ')+' — сохранение дороже стоимости клиента.<br>';
+if(chWeak.length)pr+='<b>Подтянуть к лучшим</b>: '+chWeak.map(function(i){return i.name+' ('+fmt(i.u,1)+' ₽)'}).join(', ')+' — дороже эталона '+fmt(chBest.u,1)+' ₽, объём перенаправлять в лучшие каналы.<br>';
+}else{pr+='Нет каналов удержания с затратами — оценить μ_удерж невозможно.<br>'}
+pr+='</div>';
+body+=pr}
+document.getElementById('zCacBody').innerHTML=body;
+document.getElementById('alertB3cac').style.display=cacAll.length?'block':'none';
+}
+
+// ---------- Блок 3: работа с брошенными корзинами ----------
+// Мероприятия при отклонении — из «Схемы работы с Черновиками» (раздел «Что делать, если метрика ниже нормы»).
+// Покрытие: 🟢 >70 %, 🟡 50–70 %, 🔴 <50 %. CR черновиков: 🟢 ≥1,1 %, 🔴 <1,1 % (жёлтой зоны нет — норма бинарная).
+const BK_COV={g:70,y:50};
+const BK_CR=1.1;
+// NRT — коммуникации по событию клиента в моменте. 🟢 >8 %, 🟡 5–8 %, 🔴 <5 % от всех коммуникаций.
+function rNrt(){
+const v=+((document.getElementById('nrt')||{}).value)||0;
+const c=v>8?'g':v>=5?'y':'r';
+const d=document.querySelectorAll('#nrt_l .dt');d.forEach(x=>x.classList.remove('on'));
+d[c==='g'?0:c==='y'?1:2].classList.add('on');
+}
+function rBasket(){
+const cov=+((document.getElementById('cov')||{}).value)||0;
+const crd=+((document.getElementById('crd')||{}).value)||0;
+const total=33500;
+// покрытие
+const cCov=cov>BK_COV.g?'g':cov>=BK_COV.y?'y':'r';
+const cd=document.querySelectorAll('#cov_l .dt');cd.forEach(d=>d.classList.remove('on'));
+cd[cCov==='g'?0:cCov==='y'?1:2].classList.add('on');
+// CR
+const cCr=crd>=BK_CR?'g':'r';
+const kd=document.querySelectorAll('#crd_l .dt');kd.forEach(d=>d.classList.remove('on'));
+kd[cCr==='g'?0:2].classList.add('on');
+const box=document.getElementById('alertBasket');if(!box)return;
+const body=document.getElementById('zBasket');if(!body)return;
+if(cCov==='g'&&cCr==='g'){box.style.display='none';body.innerHTML='';return}
+// цифры по воронке: сколько корзин покрыто, сколько нет, сколько вернулось
+const covered=Math.round(total*cov/100);
+const uncovered=total-covered;
+const returned=Math.round(covered*crd/100);
+const crTarget=Math.round(covered*BK_CR/100);
+const missReturn=Math.max(0,crTarget-returned);
+const f=function(v){return String(v).replace('.',',')};
+let h='<div class="rec"><b>Покрытие черновиками '+f(cov)+' % '+(cCov==='g'?'🟢':cCov==='y'?'🟡':'🔴')+', CR черновиков '+f(crd)+' % '+(cCr==='g'?'🟢':'🔴')+'.</b> ';
+h+='Из '+total.toLocaleString('ru-RU')+' брошенных корзин в месяц кампания покрывает '+covered.toLocaleString('ru-RU')+', без коммуникации остаётся '+uncovered.toLocaleString('ru-RU')+'. ';
+h+='Возвращается '+returned.toLocaleString('ru-RU')+' клиентов';
+if(cCr==='r')h+=', до нормы 1,1 % не хватает ~'+missReturn.toLocaleString('ru-RU')+' в месяц';
+h+='.</div>';
+let d='<div class="zsub">Мероприятия по отклонению</div><div class="rec"><ol style="margin:2px 0 0 16px;padding:0">';
+if(cCov!=='g'){
+  d+='<li><b>Покрытие '+f(cov)+' % '+(cCov==='y'?'(жёлтая зона 50–70 %)':'(🔴 <50 %)')+'</b> — настроить кампанию на этапы без коммуникаций, проверить наличие триггера на первом этапе оформления, запустить пилот. Ресурс — до '+uncovered.toLocaleString('ru-RU')+' корзин в месяц без касания.</li>';
+  d+='<li><b>Проверить цепочку до покрытия</b> — доля триггеров vs брошенных корзин (норма ≥90 %) и доля участников кампаний vs триггеров (норма ≥85 %): актуализировать события в ClickStream, правила триггера, перевести нецелевые кампании на правила Черновиков, проверить критерии продуктового отсечения и стоп-лист.</li>';
+}
+if(cCr==='r'){
+  d+='<li><b>CR черновиков '+f(crd)+' % ниже 1,1 %</b> — обеспечить бесшовность возврата: клиент должен возвращаться на этап выхода с сохранёнными данными, иначе эффект коммуникации обнуляется.</li>';
+  d+='<li><b>Пересобрать дизайн коммуникации по этапам</b> — этап выбора авто и шаг оплаты (точки оттока блока 4): текст с выгодой клиента и призывом к действию, канал под сегмент, не менее 3 действующих каналов.</li>';
+  d+='<li><b>Проверить замер</b> — генерация тест/контроль, значимость (t ≥ 1,96) и uplift против контроля: без контроля нельзя отличить эффект кампании от естественного возврата.</li>';
+}
+d+='</ol></div>';
+let r='<div class="zsub">Целевая точка</div><div class="rec">';
+r+='Покрытие &gt;70 % (+'+Math.max(0,Math.round(total*70/100)-covered).toLocaleString('ru-RU')+' корзин в месяц) и CR ≥1,1 % ';
+r+='→ возврат '+Math.round(total*0.70*BK_CR/100).toLocaleString('ru-RU')+' клиентов в месяц против текущих '+returned.toLocaleString('ru-RU')+' (+'+Math.max(0,Math.round(total*0.70*BK_CR/100)-returned).toLocaleString('ru-RU')+').</div>';
+body.innerHTML=h+d+r;
+box.style.display='block';
+}
+function rc(){const box=document.getElementById('cards');box.innerHTML='';const checks=[...document.querySelectorAll('#cp input,#cmp input')];checks.forEach(cb=>{if(!cb.checked||!CD[cb.id])return;box.innerHTML+=makeCard(CD[cb.id].n,CD[cb.id])});const dzo=document.getElementById('dzo');if(dzo&&dzo.value.trim()){dzoList(dzo).forEach(function(x){box.innerHTML+=makeCard(x.name,x.d,x.tr)})}renderZone();rBasket()}
+function rcChurn(){const box=document.getElementById('cards_churn');box.innerHTML='';const map={cmu1:'cm1',cmu2:'cm2',cmu3:'cm3',cmu4:'cm4',cmu5:'cm5',cmu6:'cm6',cmu7:'cm7',cmu8:'cm8',cmu9:'cm9',cmu10:'cm10',cmu11:'cm11',cmu12:'cm12',cmu13:'cm13'};const checks=[...document.querySelectorAll('#cmp_churn input')];checks.forEach(cb=>{const k=map[cb.id];if(!cb.checked||!CDU[k])return;box.innerHTML+=makeCard(CDU[k].n,CDU[k],undefined,true)});const dzo=document.getElementById('dzo_churn');if(dzo&&dzo.value.trim()){dzoList(dzo,true).forEach(function(x){box.innerHTML+=makeCard(x.name,x.d,x.tr,true)})}renderZone()}
+
+function r1(){const sam=+document.getElementById('sam').value||0;const num=parseInt(document.getElementById('sam_d').value.replace(/\s/g,''))||0;const cov=sam>0?((num/sam)*100).toFixed(1):'—';document.getElementById('sc').value=cov+' %';const dots=document.querySelectorAll('#sl .dt');dots.forEach(d=>d.classList.remove('on'));let alert=false;if(+cov>=95){dots[0].classList.add('on')}else if(+cov>=80){dots[1].classList.add('on');alert=true}else{dots[2].classList.add('on');alert=true}document.getElementById('alertBlock').style.display=alert?'block':'none';renderPot()}
+
+// ---------- Блок 1: анализ потенциала (TAM/SAM/покрытие) ----------
+// Покрытие = идентифицированный потенциал / SAM. Клиент считается «в SAM», если по нему есть событие-триггер.
+// Число событий в обосновании SAM оценивает ширину охвата: каждое событие — отдельный сегмент базы.
+function parseEvents(txt){if(!txt)return[];return txt.split(/\r?\n/).map(function(s){return s.replace(/^\s*\d+[.)]\s*/,'').trim()}).filter(function(s){return s.length>1})}
+function fnum(x){return Math.round(x).toLocaleString('ru-RU')}
+function renderPot(){
+const box=document.getElementById('zPotBody');if(!box)return;
+const tam=+document.getElementById('tam').value||0;
+const sam=+document.getElementById('sam').value||0;
+const idf=parseInt(document.getElementById('sam_d').value.replace(/\s/g,''))||0;
+const evs=parseEvents(document.getElementById('ev1').value);
+const aiEvs=parseEvents(document.getElementById('ev2').value).map(function(s){return s.replace(/^[•\-–]\s*/,'')}).filter(function(s){return s.length>1&&!s.startsWith('🤖')&&!/^Рекомендации/.test(s)});
+const cov=sam>0?idf/sam*100:0;
+const tamShare=sam>0?sam/tam*100:0;              // доля SAM в TAM — насколько рынок сужен
+const gap=Math.max(sam-idf,0);                   // неразмеченный остаток SAM
+const perEvSeg=sam>0?sam/Math.max(evs.length,1):0;// средний сегмент на событие
+const zone=cov>=95?'<span style="color:#2E7D32;font-weight:600">🟢 в норме</span>':cov>=80?'<span style="color:#8a6d00;font-weight:600">🟡 требует внимания</span>':'<span style="color:#b71c1c;font-weight:600">🔴 вне нормы</span>';
+// Заголовок зоны следует за вердиктом: покрытие вне нормы — «Зона внимания», иначе — «Анализ потенциала»
+const title=document.getElementById('zPotTitle');
+if(title){const alert=cov<95;title.innerHTML=(alert?'❗ Зона внимания — анализ потенциала':'📊 Анализ потенциала')+' <span class="ai">AI</span>'}
+let h='<div class="rec"><b>TAM</b> '+fnum(tam)+' · <b>SAM</b> '+fnum(sam)+' ('+(tamShare).toFixed(1).replace('.',',')+' % от TAM) · <b>идентифицировано</b> '+fnum(idf)+' · <b>покрытие SAM</b> '+cov.toFixed(1).replace('.',',')+' % — '+zone+' (норма 95–100 %).<br>';
+h+='<b>События в обосновании SAM:</b> '+evs.length+' — в среднем '+fnum(perEvSeg)+' клиентов SAM на событие; ИИ предлагает ещё '+aiEvs.length+'.<br>';
+if(cov>=95)h+='Покрытие достаточное: работу с SAM можно планировать, неразмеченный остаток '+fnum(gap)+' — резерв роста, не критичен.<br>';
+else if(cov>=80)h+='Разрыв '+fnum(gap)+' клиентов ('+(100-cov).toFixed(1).replace('.',',')+' % SAM) — до нормы не хватает '+fnum(Math.max(Math.ceil(sam*0.95-idf),0))+', закрывается тегами + внешними данными.<br>';
+else h+='Критичный разрыв: '+fnum(gap)+' клиентов ('+(100-cov).toFixed(1).replace('.',',')+' % SAM) не размечено — до нормы не хватает '+fnum(Math.max(Math.ceil(sam*0.95-idf),0))+'; без тегов потенциал не материализуется в кампании.<br>';
+if(tamShare>40)h+='<b>Риск сужения:</b> SAM — '+(tamShare).toFixed(0)+' % TAM, рынок почти не отфильтрован: проверьте, что в SAM не попали нестрахуемые/недоступные сегменты.<br>';
+else if(tamShare<10)h+='<b>Риск пересужения:</b> SAM — только '+(tamShare).toFixed(1).replace('.',',')+' % TAM: возможно, отсечены доступные клиенты — пересмотрите критерии входа в SAM.<br>';
+if(evs.length<=2)h+='<b>Мало событий:</b> '+evs.length+' триггеров на такой SAM — ширина охвата низкая, добавьте события ниже.<br>';
+h+='</div>';
+h+='<div class="zsub">Что делает каждый шаг</div><div class="rec"><ol style="margin:2px 0 0 16px;padding:0">';
+h+='<li><b>1. Теги для разметки потенциальной базы</b> — закрывает разрыв покрытия: без тега клиент не попадает ни в одну кампанию, это прямой рост идентифицированного потенциала ('+fnum(gap)+' клиентов).</li>';
+h+='<li><b>2. Внешние данные через CDO</b> — если тег не собрать на внутренних данных (например, наличие авто и срок действия полиса), нужен внешний источник: согласование поставки с CDO, оценка стоимости и правовых ограничений.</li>';
+h+='</ol></div>';
+if(aiEvs.length)h+='<div class="zsub">События, предложенные ИИ, для роста SAM</div><div class="rec">'+aiEvs.map(function(s){return '<div>• '+s+'</div>'}).join('')+'</div>';
+box.innerHTML=h;
+}
+function r2(){
+const mau=+document.getElementById('mau').value||0;
+const yau=+document.getElementById('yau').value||0;
+const ratio=yau>0?(mau/yau*100).toFixed(1):'—';
+document.getElementById('mau_yau').value=ratio+' %';
+const dots=document.querySelectorAll('#mytl .dt');
+dots.forEach(d=>d.classList.remove('on'));
+const r=+ratio;
+// MAU/YAU: 🟢 dots[0]=≥75% · 🟡 dots[1]=60-75% · 🔴 dots[2]=<60%
+if(r>=75){dots[0].classList.add('on')}
+else if(r>=60){dots[1].classList.add('on')}
+else{dots[2].classList.add('on')}
+
+// MAU: 🟢 рост MoM ≥5% · 🟡 рост 0-5% · 🔴 падение
+const mdots=document.querySelectorAll('#ml .dt');
+mdots.forEach(d=>d.classList.remove('on'));
+if(r>=75){mdots[0].classList.add('on')}
+else if(r>=60){mdots[1].classList.add('on')}
+else{mdots[2].classList.add('on')}
+document.getElementById('mau_m').value='+0,0 %';
+
+// Прирост / отток / неттоприток: светофор по ДИНАМИКЕ (поле доп. ввода в зоне внимания), относительные нормы не используем
+const gr=+document.getElementById('gr').value||0;
+const ch=+document.getElementById('ch').value||0;
+const gTrend=+((document.getElementById('gr_trend')||{}).value||0);
+const chTrend=+((document.getElementById('ch_trend')||{}).value||0);
+const nt=gr-ch;
+const ntTrend=+((document.getElementById('nt_trend')||{}).value||0);
+document.getElementById('nt').value=nt>0?'+'+(nt.toLocaleString('ru-RU')+' 🟢'):nt===0?'0 🟡':(nt.toLocaleString('ru-RU')+' 🔴');
+
+// Прирост: растёт 🟢 · падение 1 мес. 🟡 · падение 3 мес. подряд 🔴
+const gdots=document.querySelectorAll('#gl .dt');
+gdots.forEach(d=>d.classList.remove('on'));
+if(gTrend>=0){gdots[0].classList.add('on')}
+else if(gTrend===1){gdots[1].classList.add('on')}
+else{gdots[2].classList.add('on')}
+
+// Отток: снижается/на месте 🟢 · рост 1 мес. 🟡 · рост 3 мес. подряд 🔴
+const cdots=document.querySelectorAll('#cl .dt');
+cdots.forEach(d=>d.classList.remove('on'));
+if(chTrend<=0){cdots[0].classList.add('on')}
+else if(chTrend===1){cdots[1].classList.add('on')}
+else{cdots[2].classList.add('on')}
+
+// Неттоприток: 🟢 положительная динамика · 🟡 отрицательная за месяц · 🔴 отрицательная за 3 месяца подряд
+const ndots=document.querySelectorAll('#nl .dt');
+ndots.forEach(d=>d.classList.remove('on'));
+if(ntTrend>=0){ndots[0].classList.add('on')}
+else if(ntTrend===1){ndots[1].classList.add('on')}
+else{ndots[2].classList.add('on')}
+
+// Зона внимания блока 2 показывается при ЛЮБОМ жёлтом/красном светофоре блока:
+// MAU/YAU, MAU, прирост, отток, неттоприток. Пока зона скрыта — она только контейнер вывода.
+const hasAlert=[[dots,2],[mdots,2],[gdots,2],[cdots,2],[ndots,2]].some(function(p){return p[0][p[1]].classList.contains('on')});
+const box=document.getElementById('alertB2');
+if(box)box.style.display=hasAlert?'block':'none';
+renderBase({gTrend:gTrend,chTrend:chTrend,ntTrend:ntTrend,hasAlert:hasAlert});
+if(typeof r5==='function')r5()
+}
+function switchTab(btn,prefix,idx){btn.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');const tabs=document.querySelectorAll('[id^="tab_'+prefix+'_"]');tabs.forEach(function(el,i){el.style.display=i===idx?'block':'none'})}
+function goB3(idx){document.querySelectorAll('[onclick^="switchTab"]').forEach(function(b,i){const m=b.getAttribute('onclick').match(/switchTab\(this,'b3',(\d)\)/);if(m&&+m[1]===idx){b.parentElement.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});b.classList.add('active')}});document.querySelectorAll('[id^="tab_b3_"]').forEach(function(el,i){el.style.display=i===idx?'block':'none'});const block=document.getElementById('tab_b3_0').closest('.b');if(block)block.scrollIntoView({behavior:'smooth',block:'start'})}
+
+// ---------- Блок 2: зона внимания ----------
+// Логика:
+// 1) Зона срабатывает при ЛЮБОМ жёлтом/красном светофоре блока 2 (MAU/YAU, MAU, прирост, отток, неттоприток).
+//    Видимость выставляет r2() — здесь только наполнение.
+// 2) MAU/YAU — профиль базы, а не динамика. Светофор у него исторически остался, поэтому жёлтый/красный
+//    по нему тоже открывает зону, но текст описывает значение как справочное и на драйвер не влияет.
+// 3) Прирост, отток и неттоприток оцениваются по ДИНАМИКЕ (gr_trend / ch_trend / nt_trend).
+//    Если прирост/отток вне зелёной зоны — сравниваем серьёзность трендов (1 мес. vs 3 мес.),
+//    от этого зависит драйвер и рекомендации.
+function renderBase(){
+const mau=+document.getElementById('mau').value||0;
+const yau=+document.getElementById('yau').value||0;
+const gr=+document.getElementById('gr').value||0;
+const ch=+document.getElementById('ch').value||0;
+const nt=gr-ch;
+const rMY=yau>0?(mau/yau*100):0;            // MAU/YAU в % (доля активных от годовой аудитории)
+const cMY=rMY>=75?2:rMY>=60?1:0;            // MAU/YAU: 🟢 ≥75 · 🟡 60–75 · 🔴 <60
+// Динамика: 2 = 🟢, 1 = 🟡 (1 месяц), 0 = 🔴 (3 месяца подряд)
+const gTrend=+((document.getElementById('gr_trend')||{}).value||0);
+const chTrend=+((document.getElementById('ch_trend')||{}).value||0);
+const ntTrend=+((document.getElementById('nt_trend')||{}).value||0);
+const cGr=gTrend>=0?2:gTrend===1?1:0;      // прирост: растёт 🟢 · падение 1 мес. 🟡 · падение 3 мес. подряд 🔴
+const cCh=chTrend<=0?2:chTrend===1?1:0;    // отток: снижается/на месте 🟢 · рост 1 мес. 🟡 · рост 3 мес. подряд 🔴
+const cNt=ntTrend>=0?2:ntTrend===1?1:0;    // неттоприток: положительная 🟢 · отрицательная 1 мес. 🟡 · отрицательная 3 мес. подряд 🔴
+// отклонения: MAU/YAU — справочно, прирост/отток — по динамике
+const dev=[];
+const trendTxt={2:'🟢 растёт',1:'🟡 падение 1 мес.',0:'🔴 падение 3 мес. подряд'};
+const trendTxtCh={2:'🟢 снижается/на месте',1:'🟡 рост 1 мес.',0:'🔴 рост 3 мес. подряд'};
+if(cMY<2)dev.push('MAU/YAU '+rMY.toFixed(1).replace('.',',')+' % '+(cMY===1?'🟡':'🔴')+' (ориентир 🟢 ≥75 %)');
+if(cGr<2)dev.push('прирост '+gr.toLocaleString('ru-RU')+' — '+trendTxt[cGr]);
+if(cCh<2)dev.push('отток '+ch.toLocaleString('ru-RU')+' — '+trendTxtCh[cCh]);
+const ntRed=cNt===0;
+// драйвер: что из трендов хуже — прирост падает или отток растёт
+let driver='none';
+if(cGr<2||cCh<2){
+  const gScore=2-cGr, cScore=2-cCh;
+  driver=cScore>gScore?'churn':gScore>cScore?'acq':'both';
+}
+let h='';
+// вердикт
+h+='<div class="rec"><b>Неттоприток</b> '+(nt>=0?'+':'')+nt.toLocaleString('ru-RU')+' = прирост '+gr.toLocaleString('ru-RU')+' − отток '+ch.toLocaleString('ru-RU')+'. '+(nt>0?'Положительный':nt===0?'Нулевой':'Отрицательный')+', динамика: ';
+h+=ntTrend>=0?'🟢 положительная':ntTrend===1?'🟡 отрицательная за месяц':'🔴 отрицательная 3 месяца подряд';
+h+='.<br><b>Кто тянет вниз:</b> ';
+if(driver==='churn')h+='<b>отток</b> — он '+trendTxtCh[cCh].slice(2)+', причём сильнее, чем ухудшается прирост ('+trendTxt[cGr].slice(2)+').';
+else if(driver==='acq')h+='<b>прирост</b> — он '+trendTxt[cGr].slice(2)+', причём сильнее, чем растёт отток ('+trendTxtCh[cCh].slice(2)+').';
+else if(driver==='both')h+='<b>оба</b> — прирост '+trendTxt[cGr].slice(2)+', отток '+trendTxtCh[cCh].slice(2)+'.';
+else if(cMY<2)h+='по динамике отклонений нет, но активная доля базы вне ориентира — MAU/YAU '+rMY.toFixed(1).replace('.',',')+' % против 🟢 ≥75 %.';
+else h+='ухудшения динамики нет — прирост растёт или держится, отток снижается или на месте.';
+h+='</div>';
+document.getElementById('zBaseVerdict').innerHTML=h;
+// диагностика
+let d='<div class="zsub">Динамика</div><div class="rec">';
+d+=dev.length?dev.map(function(x){return '• '+x}).join('<br>'):'• прирост и отток в зелёной зоне 👍';
+d+='<br>• неттоприток '+(cNt===2?'🟢 динамика положительная':cNt===1?'🟡 отрицательная за месяц':'🔴 отрицательная 3 месяца подряд');
+d+='<br><br><b>Профиль базы (справочно):</b> MAU/YAU = '+rMY.toFixed(1).replace('.',',')+' % — столько активных в месяц от годовой аудитории. '+
+(rMY>=75?'Активность высокая: почти вся годовая аудитория бывает в продукте ежемесячно.':
+ rMY>=60?'Активность умеренная: часть годовой аудитории бывает в продукте не каждый месяц.':
+ 'Активность низкая: большинство годовой аудитории не возвращается в продукт ежемесячно.');
+d+='</div>';
+document.getElementById('zBaseDiag').innerHTML=d;
+// рекомендации
+let r='<div class="zsub">Что делать</div><div class="rec"><ol style="margin:2px 0 0 16px;padding:0">';
+if(driver==='churn')r+='<li><b>Сначала сокращать отток</b> — его динамика хуже динамики прироста.</li><li><b>Проверить каналы удержания</b> в блоке 3 → вкладка «Отток»: CAC удержания, доля закрытий и сохранённые полисы.</li>';
+else if(driver==='acq')r+='<li><b>Сначала поднимать прирост</b> — его динамика хуже динамики оттока.</li><li><b>Проверить каналы привлечения</b> в блоке 3 → вкладка «Привлечение»: CAC, продажи и верх воронки (объём отправок).</li>';
+else if(driver==='both')r+='<li><b>Работать на два фронта</b> — прирост падает, отток растёт одновременно.</li><li><b>Проверить оба контура</b> в блоке 3: «Привлечение» (CAC, продажи) и «Отток» (удержание).</li>';
+else if(cMY<2)r+='<li><b>Проверить активацию базы</b> — при стабильном притоке и оттоке малоактивная доля YAU ('+rMY.toFixed(1).replace('.',',')+' %) говорит о том, что клиенты есть, но не возвращаются: нужны повторные касания по действующим клиентам.</li>';
+else r+='<li>Динамика в норме — держать текущий баланс притока и оттока.</li>';
+if(ntRed)r+='<li><b>Неттоприток отрицателен 3 месяца подряд</b> — база сокращается устойчиво: нужно сравнить, окупается ли удержание одного клиента дешевле, чем привлечение нового, и пересобрать бюджет между контурами.</li>';
+r+='<li><b>MAU/YAU — профиль, а не тренд</b> — значение '+rMY.toFixed(1).replace('.',',')+' % показывает, какая доля YAU активна ежемесячно. Если при этом растёт неттоприток, а MAU/YAU стоит на месте, база растёт «в объёме, но не в активности» — стоит проверить возвращаемость клиентов через повторные касания (ретеншен).</li>';
+r+='</ol></div>';
+document.getElementById('zBaseRec').innerHTML=r;
+// кнопки перехода в блок 3
+let l='<div class="rec">';
+const btn=function(txt,cls,idx){return '<button class="jump-btn '+cls+'" onclick="goB3('+idx+')">'+txt+'</button>'};
+if(driver==='churn'){l+=btn('→ Перейти в «Отток»','churn',1);l+='<br><span style="font-size:11px;color:#666">Оттоку — приоритет: его динамика хуже.</span>'}
+else if(driver==='acq'){l+=btn('→ Перейти в «Привлечение»','acq',0);l+='<br><span style="font-size:11px;color:#666">Прирост — главный драйвер ухудшения базы.</span>'}
+else if(driver==='both'){l+=btn('→ Перейти в «Привлечение»','acq',0)+btn('→ Перейти в «Отток»','churn',1);l+='<br><span style="font-size:11px;color:#666">Влияют оба контура — начинайте с привлечения.</span>'}
+else if(cMY<2){l+=btn('→ Перейти в «Отток» (ретеншен)','churn',1);l+='<br><span style="font-size:11px;color:#666">Активная доля вне ориентира — сначала удержание и возвращаемость.</span>'}
+else{l+='Ухудшения динамики нет — переход не требуется.'}
+l+='</div>';
+document.getElementById('zBaseLinks').innerHTML=l;
+}
+function r4(){const dots=document.querySelectorAll('#crl .dt');dots.forEach(d=>d.classList.remove('on'));
+// CR воронки ClickStream: светофор считается сам по истории CR (значения через ; или пробел, от старых к новым)
+// 🟢 последнее значение ≥ предыдущего · 🟡 падение за последний месяц · 🔴 падение 3 месяца подряд
+// История вводится через ; или пробел (запятая — десятичный разделитель); сначала убираем запятые, потом режем
+const hist=((document.getElementById('cr_hist')||{}).value||'').replace(/,/g,'.').split(/[;\s]+/).map(function(v){return parseFloat(v)}).filter(function(v){return !isNaN(v)});
+let c='g';
+if(hist.length>=2){
+  const n=hist.length;
+  const d1=hist[n-1]-hist[n-2];
+  const d2=n>=3?hist[n-2]-hist[n-3]:0;
+  const d3=n>=4?hist[n-3]-hist[n-4]:0;
+  c=(d1<0&&d2<0&&d3<0)?'r':d1<0?'y':'g';
+}
+if(c==='g'){dots[0].classList.add('on')}
+else if(c==='y'){dots[1].classList.add('on')}
+else{dots[2].classList.add('on')}
+const t=document.getElementById('cr_tr');if(t)t.value=c==='g'?'🟢 растёт / на месте':c==='y'?'🟡 падение 1 мес.':'🔴 падение 3 мес. подряд'
+renderB4acq(c,hist)}
+// ---------- Блок 4: зона внимания — оформление ----------
+// Рекомендации строятся на цифрах страницы, а не общими словами:
+// — сколько пользователей потеряно из-за падения CR (просадка × база),
+// — какие именно точки оттока в AI-оценке крупнейшие (шаг выбора авто / шаг оплаты),
+// — цена Сбера относительно конкурента с минимальной премией (таблица условий),
+// — на какой шаг давит цена, а какой решается через UX.
+// Исходная база оформления считается от CR и продаж блока 3 (Сайт банка — 33 320 шт.) — так оценка остаётся внутри данных страницы.
+const B4_STEPS={auto:{n:'шаг выбора авто',p:18},pay:{n:'шаг оплаты',p:9}};
+const B4_PREM={sber:4820,vtb:4650,tbank:4910,alfa:5100};
+function renderB4acq(c,hist){
+const box=document.getElementById('alertB4acq');if(!box)return;
+const body=document.getElementById('zAcq4');if(!body)return;
+if(c==='g'){box.style.display='none';body.innerHTML='';return}
+const n=hist.length;
+const last=hist[n-1],prev=hist[n-2];
+const first=hist[Math.max(0,n-4)];
+const drop=prev>0?((last-prev)/prev*100):0;
+const dropAll=first>0?((last-first)/first*100):0;
+// потеря пользователей: база входа × падение CR (п.п.)
+const sales=(CD.cm6&&CD.cm6.s)||0;
+const crNow=+document.getElementById('cr').value||last;
+const visits=crNow>0?sales/(crNow/100):0;
+const lost=(crNow-first)>0?0:Math.round(visits*Math.abs(crNow-first)/100);
+const lostPerMonth=Math.round(visits*Math.abs(last-prev)/100);
+// цена против лучшего конкурента
+const minPrem=Math.min(B4_PREM.vtb,B4_PREM.tbank,B4_PREM.alfa);
+const priceGap=B4_PREM.sber-minPrem;
+const priceGapPct=minPrem>0?priceGap/minPrem*100:0;
+// крупнейшая точка оттока и её связь с ценой
+const worst=B4_STEPS.auto.p>=B4_STEPS.pay.p?B4_STEPS.auto:B4_STEPS.pay;
+const worstVisitors=Math.round(visits*worst.p/100);
+const worstToPay=Math.round(visits*worst.p/100*(1-worst.p/100));
+let h='';
+h+='<div class="rec"><b>CR оформления '+(c==='r'?'🔴 падает 3 месяца подряд':'🟡 падает за последний месяц')+'.</b> '+last.toFixed(1).replace('.',',')+' % против '+prev.toFixed(1).replace('.',',')+' % месяцем ранее ('+(drop>=0?'+':'')+drop.toFixed(1).replace('.',',')+' % за месяц)';
+if(n>=3)h+='; '+(dropAll>=0?'+':'')+dropAll.toFixed(1).replace('.',',')+' % от '+first.toFixed(1).replace('.',',')+' % в начале периода';
+h+='. По базе '+Math.round(visits).toLocaleString('ru-RU')+' входов в форму это ~'+lostPerMonth.toLocaleString('ru-RU')+' незавершённых оформлений в месяц'+(lost>0?' и ~'+lost.toLocaleString('ru-RU')+' за весь период падения':'')+'.</div>';
+let d='<div class="zsub">Что проверить — по цифрам</div><div class="rec">';
+d+='<div><b>1. '+worst.n+' — '+worst.p+' % оттока.</b> Это ~'+worstVisitors.toLocaleString('ru-RU')+' пользователей в месяц и ~'+worstToPay.toLocaleString('ru-RU')+' из них, которые уже готовы идти дальше, но бросают на этом шаге. Смотреть шаги ClickStream именно здесь, а не по воронке целиком.</div>';
+d+='<div style="margin-top:3px"><b>2. Цена: Сбер '+B4_PREM.sber.toLocaleString('ru-RU')+' ₽ против '+minPrem.toLocaleString('ru-RU')+' ₽ у '+(minPrem===B4_PREM.vtb?'ВТБ':minPrem===B4_PREM.tbank?'Т-Банка':'Альфы')+' — разница '+priceGap.toLocaleString('ru-RU')+' ₽ (+'+priceGapPct.toFixed(0)+' %).</b> '+(priceGap>0?'Часть отказа на шаге расчёта объясняется ценой, а не UX.':'Цена не является причиной падения — причина в оформлении.')+'</div>';
+d+='<div style="margin-top:3px"><b>3. '+B4_STEPS.pay.n+' — '+B4_STEPS.pay.p+' % оттока (~'+Math.round(visits*B4_STEPS.pay.p/100).toLocaleString('ru-RU')+' в месяц).</b> Проверить платёжный сценарий: ошибки оплаты, поведение карт других банков, фрод-фильтры.</div>';
+if(c==='r')d+='<div style="margin-top:3px"><b>4. Тренд устойчивый (3 месяца):</b> '+hist.slice(-4).map(function(v){return v.toFixed(1).replace('.',',')}).join(' → ')+' — релизной/разовой причиной не объясняется, виноват постоянно действующий фактор.</div>';
+d+='</div>';
+let r='<div class="zsub">Что делать — конкретно</div><div class="rec"><ol style="margin:2px 0 0 16px;padding:0">';
+r+='<li><b>Убрать '+worst.n+'.</b> Если это шаг выбора авто — подставлять модель и госномер из API ГИБДД, чтобы выбор не был ручным; целевой эффект — вернуть до '+(worst.p/2).toFixed(1).replace('.',',')+' п.п. конверсии (~'+Math.round(worstVisitors/2).toLocaleString('ru-RU')+' пользователей в месяц).</li>';
+r+='<li><b>Поднять сценарий оплаты.</b> Дать оплату картой другого банка по умолчанию и повторить ввод без ухода из формы; целевой эффект — до '+(B4_STEPS.pay.p/2).toFixed(1).replace('.',',')+' п.п. (~'+Math.round(visits*B4_STEPS.pay.p/200).toLocaleString('ru-RU')+' в месяц).</li>';
+r+='<li><b>Закрыть разрыв по цене.</b> '+(priceGap>0?'Ввести скидку при продлении через автопродление (стартовое значение '+priceGap.toLocaleString('ru-RU')+' ₽, чтобы сравняться с ВТБ) и скидку '+Math.round(priceGap/2).toLocaleString('ru-RU')+' ₽ за автопродление. Это закрывает шаг расчёта премии, а не форму.':'Держать текущую цену: она ниже минимальной у конкурентов на '+Math.abs(priceGap).toLocaleString('ru-RU')+' ₽.')+'</li>';
+if(n>=3)r+='<li><b>Выставить контрольную точку:</b> CR оформления вернуть к '+first.toFixed(1).replace('.',',')+' % (уровень начала падения) — и проверять недельную динамику до возврата, иначе просадка продолжит копиться.</li>';
+r+='</ol></div>';
+body.innerHTML=h+d+r;
+box.style.display='block';
+}
+// CR закрытия (вкладка «Закрытие»): обратная логика — чем ниже, тем лучше
+// снижается/на месте 🟢 · рост 1 месяц 🟡 · рост 3 месяца подряд 🔴
+function r4Cl(){const dots=document.querySelectorAll('#cr_cl_l .dt');dots.forEach(d=>d.classList.remove('on'));
+const hist=((document.getElementById('cr_cl_hist')||{}).value||'').replace(/,/g,'.').split(/[;\s]+/).map(function(v){return parseFloat(v)}).filter(function(v){return !isNaN(v)});
+let c='g';
+if(hist.length>=2){
+  const n=hist.length;
+  const d1=hist[n-1]-hist[n-2];
+  const d2=n>=3?hist[n-2]-hist[n-3]:0;
+  const d3=n>=4?hist[n-3]-hist[n-4]:0;
+  c=(d1>0&&d2>0&&d3>0)?'r':d1>0?'y':'g';
+}
+if(c==='g'){dots[0].classList.add('on')}
+else if(c==='y'){dots[1].classList.add('on')}
+else{dots[2].classList.add('on')}
+const t=document.getElementById('cr_cl_tr');if(t)t.value=c==='g'?'🟢 снижается / на месте':c==='y'?'🟡 рост 1 мес.':'🔴 рост 3 мес. подряд'
+renderB4cl(c,hist)}
+// ---------- Блок 4: зона внимания — закрытие ----------
+// Для закрытия высокий/растущий CR — плохо (не продлевают полис, уходят).
+// Рекомендации опираются на данные страницы: база полисов (MAU блока 2), распределение причин закрытия,
+// прирост CR за период и цена против конкурента из таблицы условий.
+const B4_CL_REASONS=[
+{n:'Не оформил продление вовремя',p:38,fix:'перенести касание о продлении на 30 дней раньше окончания полиса'},
+{n:'Ушёл к конкуренту',p:26,fix:'дать премию на уровне конкурента и скидку за автопродление'},
+{n:'Продал автомобиль',p:21,fix:'естественная причина — не управляется'},
+{n:'Недоволен урегулированием',p:15,fix:'сократить сроки выплат и добавить статус дела в чат'}
+];
+function renderB4cl(c,hist){
+const box=document.getElementById('alertB4cl');if(!box)return;
+const body=document.getElementById('zCl4');if(!body)return;
+if(c==='g'){box.style.display='none';body.innerHTML='';return}
+const n=hist.length;
+const last=hist[n-1],prev=hist[n-2];
+const first=hist[Math.max(0,n-4)];
+const grow=prev>0?((last-prev)/prev*100):0;
+const growAll=first>0?((last-first)/first*100):0;
+// база полисов из поля ввода: каждый пункт роста CR — pol/100 непродлённых полисов
+const mau=+((document.getElementById('pol')||{}).value)||0;
+const addNow=Math.round(mau*(last-prev)/100);
+const addAll=Math.round(mau*(last-first)/100);
+const persist=Math.abs(last-first);
+const whyLoss=function(p){return Math.round(mau*persist/100*p/100)};
+// управляемые причины — всё, кроме продажи автомобиля
+const managed=B4_CL_REASONS.filter(function(x){return x.n!=='Продал автомобиль'});
+const managedPct=managed.reduce(function(a,x){return a+x.p},0);
+const unmanaged=100-managedPct;
+const top=managed.slice().sort(function(a,b){return b.p-a.p})[0];
+const topNow=whyLoss(top.p);
+const minPrem=Math.min(B4_PREM.vtb,B4_PREM.tbank,B4_PREM.alfa);
+const minName=minPrem===B4_PREM.vtb?'ВТБ':minPrem===B4_PREM.tbank?'Т-Банка':'Альфы';
+const priceGap=B4_PREM.sber-minPrem;
+let h='';
+h+='<div class="rec"><b>CR закрытия '+(c==='r'?'🔴 растёт 3 месяца подряд':'🟡 вырос за последний месяц')+'.</b> Текущее значение '+last.toFixed(1).replace('.',',')+' % против '+prev.toFixed(1).replace('.',',')+' % месяцем ранее ('+(grow>=0?'+':'')+grow.toFixed(1).replace('.',',')+' % за месяц';
+if(n>=3)h+='; '+(growAll>=0?'+':'')+growAll.toFixed(1).replace('.',',')+' % от '+first.toFixed(1).replace('.',',')+' % в начале периода';
+h+='. На базе '+mau.toLocaleString('ru-RU')+' полисов прирост CR — это +'+addNow.toLocaleString('ru-RU')+' непродлённых полисов в месяц'+(addAll>0?' и +'+addAll.toLocaleString('ru-RU')+' за период':'')+'.</div>';
+let d='<div class="zsub">Что проверить — по цифрам</div><div class="rec">';
+d+='<div><b>1. '+managedPct+' % причин управляемые</b> (продажа автомобиля — только '+unmanaged+' %). Из +'+addAll.toLocaleString('ru-RU')+' полисов за период удержать можно ~'+Math.round(addAll*managedPct/100).toLocaleString('ru-RU')+'.</div>';
+d+='<div style="margin-top:3px"><b>2. Главная причина — «'+top.n+'»: '+top.p+' %.</b> Это ~'+topNow.toLocaleString('ru-RU')+' полисов за период (база × доля причины × рост CR на '+persist.toFixed(1).replace('.',',')+' п.п.).</div>';
+d+='<div style="margin-top:3px"><b>3. Цена: Сбер '+B4_PREM.sber.toLocaleString('ru-RU')+' ₽ против '+minPrem.toLocaleString('ru-RU')+' ₽ у '+minName+' — разница '+priceGap.toLocaleString('ru-RU')+' ₽.</b> Это основание '+B4_CL_REASONS[1].p+' % причины «ушёл к конкуренту» — ~'+whyLoss(B4_CL_REASONS[1].p).toLocaleString('ru-RU')+' полисов за период.</div>';
+d+='<div style="margin-top:3px"><b>4. Недовольство урегулированием — '+B4_CL_REASONS[3].p+' %</b> (~'+whyLoss(B4_CL_REASONS[3].p).toLocaleString('ru-RU')+' полисов). Отложенный отток: такой клиент не вернётся и на следующий год.</div>';
+d+='</div>';
+body.innerHTML=h+d+'<div class="zsub">Что делать — конкретно</div><div class="rec"><ol style="margin:2px 0 0 16px;padding:0">'+
+'<li><b>Закрыть «'+top.n+'» ('+top.p+' %):</b> '+top.fix+'. Ресурс — ~'+topNow.toLocaleString('ru-RU')+' полисов, реально вернуть до '+Math.round(topNow*0.6).toLocaleString('ru-RU')+' (60 % доли).</li>'+
+'<li><b>Выровнять цену на продлении:</b> '+(priceGap>0?'скидка '+priceGap.toLocaleString('ru-RU')+' ₽ до паритета с '+minName+' плюс '+Math.round(priceGap*0.5).toLocaleString('ru-RU')+' ₽ за автопродление — адресует «ушёл к конкуренту» ('+B4_CL_REASONS[1].p+' %, ~'+whyLoss(B4_CL_REASONS[1].p).toLocaleString('ru-RU')+' полисов).':'цена уже ниже конкурентов на '+Math.abs(priceGap).toLocaleString('ru-RU')+' ₽ — снижать не нужно, работайте со сроками касаний.')+'</li>'+
+'<li><b>Сократить сроки урегулирования:</b> статус дела после ДТП в приложении — адресует '+B4_CL_REASONS[3].p+' % (~'+whyLoss(B4_CL_REASONS[3].p).toLocaleString('ru-RU')+' полисов) и убирает отказ на следующий год.</li>'+
+'<li><b>Контрольная точка:</b> вернуть CR закрытия к '+first.toFixed(1).replace('.',',')+' % — уровню начала периода.</li>'+
+'</ol></div>';
+box.style.display='block';
+}
+// ---------- Блок 5: активация новых клиентов ----------
+// Сравниваем NTB (доля новых клиентов, которые активировались) с MAU/YAU (доля активных в действующей базе).
+// NTB ниже MAU/YAU → с новыми клиентами работаем хуже, чем с действующими: это зона роста.
+// 🟢 оба горизонта не ниже MAU/YAU · 🟡 отстаёт один · 🔴 отстают оба.
+// Потери считаются от потока новых клиентов: прирост блока 2 × разрыв в долях.
+function r5(){
+const n1=+((document.getElementById('n1')||{}).value)||0;
+const n6=+((document.getElementById('n6')||{}).value)||0;
+const mau=+((document.getElementById('mau')||{}).value)||0;
+const yau=+((document.getElementById('yau')||{}).value)||0;
+const base=yau>0?mau/yau*100:0;
+const ref=document.getElementById('mau_yau_ref');if(ref)ref.value=base.toFixed(1).replace('.',',')+' %';
+const dots=document.querySelectorAll('#ntb_l .dt');dots.forEach(d=>d.classList.remove('on'));
+const gap1=n1-base,gap6=n6-base;
+const bad=[gap1<0,gap6<0].filter(Boolean).length;
+const c=bad===0?'g':bad===1?'y':'r';
+if(c==='g'){dots[0].classList.add('on')}else if(c==='y'){dots[1].classList.add('on')}else{dots[2].classList.add('on')}
+const box=document.getElementById('alertB5');if(!box)return;
+const body=document.getElementById('zNtb');if(!body)return;
+if(c==='g'){box.style.display='none';body.innerHTML='';return}
+// поток новых клиентов и потери в штуках
+const grNew=+((document.getElementById('gr')||{}).value)||0;
+const lost1=gap1<0?Math.round(grNew*Math.abs(gap1)/100):0;
+const lost6=gap6<0?Math.round(grNew*Math.abs(gap6)/100):0;
+const worst=gap1<=gap6?{n:'1 месяц',g:gap1,l:lost1}:{n:'6 месяцев',g:gap6,l:lost6};
+const f=function(v){return v.toFixed(1).replace('.',',')};
+let h='';
+h+='<div class="rec"><b>NTB '+(c==='r'?'🔴 отстаёт от действующей базы по обоим горизонтам':'🟡 отстаёт от действующей базы на одном горизонте')+'.</b> ';
+h+='NTB 1 мес. '+f(n1)+' % против MAU/YAU '+f(base)+' % ('+(gap1>=0?'+':'')+f(gap1)+' п.п.); NTB 6 мес. '+f(n6)+' % ('+(gap6>=0?'+':'')+f(gap6)+' п.п.). ';
+h+='Вывод: <b>с новыми клиентами мы работаем хуже, чем с действующими</b> — это зона роста.';
+h+='</div>';
+let d='<div class="zsub">Что это значит в цифрах</div><div class="rec">';
+d+='<div>• Приток '+grNew.toLocaleString('ru-RU')+' новых клиентов в месяц. Разрыв на горизонте '+worst.n+' — '+f(Math.abs(worst.g))+' п.п., это ~<b>'+worst.l.toLocaleString('ru-RU')+' клиентов в месяц</b>, которые пришли и не активировались.</div>';
+if(lost1>0)d+='<div style="margin-top:3px">• На горизонте 1 месяца потери ~'+lost1.toLocaleString('ru-RU')+' клиентов в месяц — это клиенты, которых теряем сразу после продажи: их не догоняет ни одна кампания.</div>';
+if(lost6>0)d+='<div style="margin-top:3px">• На горизонте 6 месяцев потери ~'+lost6.toLocaleString('ru-RU')+' клиентов в месяц — это недовактиврованная выручка: клиент первый год приносит меньше, чем действующий.</div>';
+if(c==='r')d+='<div style="margin-top:3px">• Отставание <b>по обоим горизонтам</b> означает не разовый сбой касания, а системную разницу онбординга новых и действующих.</div>';
+d+='</div>';
+let r='<div class="zsub">Что делать</div><div class="rec"><ol style="margin:2px 0 0 16px;padding:0">';
+if(gap1<0)r+='<li><b>Закрыть провал первого месяца (NTB 1м '+f(n1)+' % → '+f(base)+' %).</b> Добавить welcome-цепочку в первые 7–30 дней: стартовый триггер с конкретным действием внутри продукта, а не повторной продажей.</li>';
+if(gap1<0)r+='<li><b>Сравнить онбординг с действующей базой.</b> Посмотреть, какие кампании получает действующий клиент в первый месяц и чего нет у нового: у новых нет истории касаний и настроенных таргетов, касание должно быть дешёвым цифровым (Push, Сбербанк 1), а не дорогим (ВСП, Телемаркетинг).</li>';
+if(gap6<0)r+='<li><b>Закрыть провал полугодия (NTB 6м '+f(n6)+' %).</b> Добавить реактивацию на 3–6 месяц: за это время клиент «остывает», нужен отдельный сценарий возврата, а не общий ретеншен.</li>';
+r+='<li><b>Проверить источник притока.</b> Разбить потери по каналам привлечения: самые дешёвые каналы (баннеры, Push, внешняя дистрибуция) чаще дают неактивируемый трафик — сравнить долю активации по каждому каналу блока 3.</li>';
+r+='<li><b>Не наращивать закупку, пока не закрыт разрыв.</b> Каждый новый клиент даёт на '+f(Math.abs(worst.g))+' п.п. меньше активации — дополнительный приток только масштабирует потери (~'+worst.l.toLocaleString('ru-RU')+' в месяц).</li>';
+r+='</ol></div>';
+body.innerHTML=h+d+r;
+box.style.display='block';
+}
+function score(){const cov=parseFloat(document.getElementById('sc').value)||0;const cr=+document.getElementById('cr').value||0;const n1=+document.getElementById('n1').value||0;const n6=+document.getElementById('n6').value||0;const s=Math.min(Math.round(cov*.25+(cr>=23?15:cr>=20?10:5)+n1*.15+n6*.15+20),100);const el=document.getElementById('fs');el.textContent=s+' / 100';el.className='sc '+(s>=70?'g':s>=40?'y':'r')}
+
+r1();r2();r4();r4Cl();rc();rcChurn();rNrt();rBasket();r5();score();
+
+// ---------- Пул мероприятий: отдельная страница, собирается из текущих данных ----------
+// Логика распределения: светофоры блоков решают срок. 🔴 — неделя (решение уже принято данными),
+// 🟡 и подтверждённые отклонения — месяц (нужен контрольный период),
+// неопределённости (нет данных, разрыв с конкурентом, низкий π) — дополнительный анализ.
+function poolVal(id){const el=document.getElementById(id);return el?(el.value||''):''}
+function poolNum(id){const v=parseFloat(poolVal(id).replace(/\s/g,'').replace(',','.'));return isFinite(v)?v:0}
+function poolColor(v,g,y){return v>=g?'g':v>=y?'y':'r'}
+function poolItem(act){return'<div class="pact" id="'+act.id+'"><div class="pt"><span class="pright"><button class="ptake" onclick="poolTake(\''+act.id+'\')">Беру в работу</button></span><span class="pstate">✅ В работе</span><span>'+act.t+(act.b?'<span class="pblocktag">'+act.b+'</span>':'')+'</span></div><div class="pb">'+act.bd+'</div>'+(act.m?'<div class="pm">'+act.m+'</div>':'')+'</div>'}
+function poolGroup(acts,title,desc,cls){
+let h='<div class="pblock '+cls+'"><h3>'+title+' ('+acts.length+')</h3><div class="pdesc">'+desc+'</div>';
+h+=acts.length?acts.map(poolItem).join(''):'<div class="pempty">Мероприятий нет — по текущим данным отклонений нет 👍</div>';
+return h+'</div>';
+}
+function openPool(){
+const week=[],month=[],analyse=[];
+week.k='week';month.k='month';analyse.k='analysis';
+const add=function(arr,a){a.id='pool_'+arr.k+'_'+arr.length;arr.push(a)};
+
+// Блок 2 — база
+const n1=poolNum('n1'),n6=poolNum('n6'),yau=poolNum('yau');
+// MAU/YAU на странице — текстовое поле с процентом («74,0 %»), парсим отдельно
+const ratio=parseFloat(poolVal('mau_yau').replace('%','').replace(/\s/g,'').replace(',','.'))||0;
+const gr=poolNum('gr'),ch=poolNum('ch'),nt=gr-ch;
+add(analyse,{b:'Блок 2 · База',t:'Проверить, что NTB 1 мес. и 6 мес. считаются от новых клиентов, а не от всей базы',
+bd:'NTB '+n1+' % / '+n6+' % при MAU/YAU '+ratio+' % и YAU '+yau.toLocaleString('ru-RU')+'. Если база расчёта — вся база ОСАГО, показатели несопоставимы и вывод «с новыми работаем хуже» неверен.',
+m:'Результат: подтверждённая база расчёта NTB и сопоставимый MAU/YAU.'});
+if(ratio&&ratio>=70) add(month,{b:'Блок 2 · База',t:'Проверить сценарии перетока MAU в YAU',
+bd:'MAU/YAU '+ratio+' % — активная база почти исчерпана, прирост нужно давать не частотой касаний, а новым охватом.',
+m:'Срок: месяц. Контроль — рост YAU без роста оттока.'});
+add(month,{b:'Блок 2 · База',t:'Сверить прирост и отток по месяцам',
+bd:'Прирост '+gr.toLocaleString('ru-RU')+', отток '+ch.toLocaleString('ru-RU')+', неттоприрост '+nt.toLocaleString('ru-RU')+'. При оттоке ниже прироста база растёт, но качество базы проверяется по NTB (блок 5).',
+m:'Срок: месяц. Контроль — неттоприрост не меньше текущего.'});
+
+// Блок 3 — привлечение
+const cov=poolNum('cov'),crd=poolNum('crd'),nrt=poolNum('nrt');
+if(nrt<=8) add(week,{b:'Привлечение · NRT',t:(nrt<5?'Расширить долю триггерных NRT-коммуникаций':'Нарастить долю триггерных NRT-коммуникаций до >8 %'),
+bd:'Сейчас '+String(nrt).replace('.',',')+' % — '+(nrt<5?'🔴 красная зона (<5 %)':'🟡 жёлтая зона (5–8 %)')+'. Триггерные коммуникации по событию клиента в моменте дают конверсию выше массовых рассылок.',
+m:'Срок: неделя на перечень событий и триггеров, месяц на запуск. Контроль — доля NRT > 8 % и CR триггерных выше среднего по каналу.'});
+if(cov<=70){
+const total=33500,covered=Math.round(total*cov/100),uncovered=total-covered;
+add(week,{b:'Привлечение · Черновики',t:'Донастроить кампанию на этапы без коммуникаций',
+bd:'Покрытие черновиками '+String(cov).replace('.',',')+' % — '+(cov>=50?'🟡 жёлтая зона (50–70 %)':'🔴 ниже 50 %')+'. Без касания остаётся '+uncovered.toLocaleString('ru-RU')+' корзин в месяц; до нормы >70 % не хватает '+Math.max(0,Math.round(total*70/100)-covered).toLocaleString('ru-RU')+'.',
+m:'Срок: неделя. Контроль — покрытие >70 %.'});
+add(month,{b:'Привлечение · Черновики',t:'Проверить цепочку триггер → участник → покрытие',
+bd:'Настроить события в ClickStream, правила триггера и дедупликацию, перевести нецелевые кампании на правила Черновиков, проверить продуктовое отсечение и стоп-лист.',
+m:'Срок: месяц. Контроль — триггеры/корзины ≥90 %, участники/триггеры ≥85 %.'});
+}
+if(crd<BK_CR) add(week,{b:'Привлечение · Черновики',t:'Обеспечить бесшовный возврат на этап выхода',
+bd:'CR по черновикам '+String(crd).replace('.',',')+' % ниже 1,1 %: клиент должен попадать на шаг, где остановился, с сохранёнными данными, иначе касание теряет эффект.',
+m:'Срок: неделя. Контроль — CR черновиков ≥1,1 %.'});
+
+// Блок 4 — оформление и закрытие
+add(analyse,{b:'Оформление · Конкуренты',t:'Сравнить премию и условия с конкурентами по таблице критериев',
+bd:'CR оформления '+poolVal('cr').replace('.',',')+'. Условия (франшиза, срок, доп. опции, оформление без визита) собираются с сайтов банков — это фактор выбора, который не виден в ClickStream.',
+m:'Результат: список критериев, где продукт проигрывает, и их вклад в отток с этапа оплаты.'});
+const pol=poolNum('pol');
+if(pol>0) add(month,{b:'Закрытие',t:'Разобрать причины незакрытия по крупнейшей группе',
+bd:'Действующих полисов '+pol.toLocaleString('ru-RU')+'. Основные причины — не оформлено продление вовремя, уход к конкуренту, продажа авто. По каждой нужен свой канал касания: напоминание, оффер удержания, деактивация.',
+m:'Срок: месяц. Контроль — сокращение доли крупнейшей причины в структуре незакрытия.'});
+
+// Блок 5 — активация
+if(n1>0&&ratio&&n1<ratio) add(month,{b:'Активация · NTB',t:'Сократить срок первого повторного касания после продажи',
+bd:'NTB 1 мес. '+n1+' % против MAU/YAU '+ratio+' % — с новым клиентом после полиса контакта почти нет. Дать сценарий второго продукта и онбординг в первые 30 дней.',
+m:'Срок: месяц. Контроль — NTB 1 мес. растёт, NTB 6 мес. не падает.'});
+
+// Привлечение — каналы (пересчитываем по текущему выбору в карточках)
+const pItems=collectA('#cp').concat(collectA('#cmp'));
+dzoList(document.getElementById('dzo')).forEach(function(x){pItems.push(x)});
+const pLow=pItems.filter(function(i){return i.d.r<CM_MIN_CR});
+const pShelf=pLow.filter(function(i){return i.tr===0||i.tr===1});
+const pGrow=pLow.filter(function(i){return i.tr===2});
+const pMed=cacMedianOf(pItems);
+const pCac=pItems.filter(function(i){return i.d.a>0&&i.d.a>pMed*1.5});
+const pFall=splitTL(pItems.filter(function(i){return i.d.r>=CM_MIN_CR})).r;
+if(pShelf.length){
+const sc=Math.round(pShelf.reduce(function(a,i){return a+i.d.c},0));
+const scost=Math.round(pShelf.reduce(function(a,i){return a+i.d.c*i.d.a},0));
+const ss=Math.round(pShelf.reduce(function(a,i){return a+i.d.s},0));
+add(week,{b:'Привлечение · Полка',t:'Снять с полки каналы с CR < 1,1 % и падением продаж',
+bd:pShelf.map(function(i){return i.name+' (CR '+String(i.d.r).replace('.',',')+' %'+(i.tr===0?', падение 3 мес.':', падение 1 мес.')+')'}).join('; ')+'. Освобождается '+sc.toLocaleString('ru-RU')+' тыс. контактов и '+scost.toLocaleString('ru-RU')+' ₽, продажи по каналам — '+ss.toLocaleString('ru-RU')+' шт.',
+m:'Срок: неделя. Порядок: зафиксировать контрольный месяц, остановить отправки, перенести объём и бюджет в каналы с CR ≥1,1 % и π > 0.'});
+}
+if(pGrow.length){
+const npv=getNPV();
+add(week,{b:'Привлечение · Триггеры',t:'Проверить триггеры коммуникаций в каналах с CR < 1,1 % и ростом',
+bd:pGrow.map(function(i){return i.name+' (CR '+String(i.d.r).replace('.',',')+' %, продажи '+i.d.s.toLocaleString('ru-RU')+' шт.)'}).join('; ')+'. Касание срабатывает на первом шаге, а не на шаге выхода — проверьте событие прерывания на каждом этапе оформления, дедупликацию и деактивирующие события.',
+m:'Срок: неделя. Контроль — CR канала до нормы 1,1 % на текущем объёме контактов.'});
+add(analyse,{b:'Привлечение · Объём',t:'Определить оптимальный объём коммуникаций по каналам',
+bd:'Считать π = NPV / CAC − 1 и наращивать объём до выравнивания π между каналами (NPV '+npv+' ₽). Каналы с π ≤ 0 сначала снижают CAC, а не объём.',
+m:'Результат: по каждому каналу интервал объёма, где π > 0, и точка, где CR удерживается на 1,1 %.'});
+}
+if(pFall.length) add(week,{b:'Привлечение · Дропы',t:'Проверить качество отработки оптимизатора в упавших каналах',
+bd:pFall.map(function(i){return i.name+' (падение 3 мес. подряд)'}).join('; ')+': сравнить фактические продажи с планом оптимизации, ставки и ограничения. Плюс проверить верх воронки: сократился ли объём отправок и триггеров на входе.',
+m:'Срок: неделя. Контроль — восстановление объёма продаж до уровня до падения.'});
+if(pCac.length) add(month,{b:'Привлечение · CAC',t:'Пересобрать ставки и таргетинг по каналам с CAC выше нормы',
+bd:'Норма (медиана) '+pMed+' ₽. Выше порога: '+pCac.map(function(i){return i.name+' — '+i.d.a+' ₽ (+'+((i.d.a-pMed)/pMed*100).toFixed(0)+' %)'}).join('; ')+'.',
+m:'Срок: месяц. Контроль — CAC в пределах нормы при сохранении объёма продаж.'});
+
+// Отток
+const cItems=collectA('#cmp_churn',{cmu1:'cm1',cmu2:'cm2',cmu3:'cm3',cmu4:'cm4',cmu5:'cm5',cmu6:'cm6',cmu7:'cm7',cmu8:'cm8',cmu9:'cm9',cmu10:'cm10',cmu11:'cm11',cmu12:'cm12',cmu13:'cm13'},CDU);
+dzoList(document.getElementById('dzo_churn'),true).forEach(function(x){cItems.push(x)});
+const cSp=splitTL(cItems);
+const cMed=cacMedianOf(cItems);
+const cCac=cItems.filter(function(i){return i.d.a>0&&i.d.a>cMed*1.5});
+if(cSp.y.length||cSp.r.length) add(month,{b:'Отток',t:'Снизить объём касаний в каналах с ростом закрытий',
+bd:(cSp.r.length?'Рост 3 мес.: '+cSp.r.map(function(i){return i.name+' ('+i.d.r+' %)'}).join('; ')+'. ':'')+(cSp.y.length?'Рост 1 мес.: '+cSp.y.map(function(i){return i.name+' ('+i.d.r+' %)'}).join('; ')+'.':'')+' В удержании рост доли закрытий — отклонение; сначала оффер и сегмент.',
+m:'Срок: месяц. Контроль — доля закрытий возвращается к прошлому месяцу.'});
+if(cCac.length) add(month,{b:'Отток · CAC',t:'Оставить в объёме только клиентов с высоким риском закрытия',
+bd:'CAC удержания выше нормы ('+cMed+' ₽): '+cCac.map(function(i){return i.name+' — '+i.d.a+' ₽'}).join('; ')+'. Массовое касание по дорогому каналу не окупается долей сохранений.',
+m:'Срок: месяц. Контроль — CAC удержания в норме при сохранении числа сохранённых полисов.'});
+
+// Итог
+const score=document.getElementById('fs')?document.getElementById('fs').textContent:'';
+document.getElementById('poolSub').textContent='Сформировано по данным страницы на текущей сессии · итоговая оценка '+score+' · мероприятий: '+week.length+'+'+month.length+'+'+analyse.length;
+document.getElementById('poolBody').innerHTML=
+ poolGroup(week,'Сделать на этой неделе','Решения, которые уже подтверждены данными: снятие с полки, настройка триггеров, покрытие черновиками.','week')+
+ poolGroup(month,'Сделать в этом месяце','Работы с контрольным периодом: объём касаний, CAC, причины незакрытия, NTB.','month')+
+ poolGroup(analyse,'Провести дополнительный анализ','Вопросы, которые данные страницы не закрывают: условия конкурентов, база расчёта NTB, экономика объёма.','analysis');
+document.body.className=(document.body.className+' pool-open').trim();
+poolTakenRender();
+window.scrollTo(0,0);
+}
+// Взятое в работу мероприятие помечается и остаётся в своём блоке: пул пересобирается из тех же данных,
+// поэтому отметки хранятся отдельно от разметки.
+const poolTaken={};
+function poolTake(id){
+const el=document.getElementById(id);
+if(!el||el.className.indexOf('taken')>=0)return;
+el.className=(el.className+' taken').trim();
+poolTaken[id]=true;
+poolTakenRender();
+}
+function poolTakenRender(){
+const ids=Object.keys(poolTaken),box=document.getElementById('poolTaken');
+if(!box)return;
+if(!ids.length){box.style.display='none';box.textContent='';return}
+const names=ids.map(function(id){const t=document.querySelector('#'+id+' .pt span:last-child');return t?t.textContent.replace(/<\/?[^>]+>/g,'').replace(/\s+/g,' ').trim():id});
+box.style.display='block';
+box.textContent='✅ Взято в работу: '+ids.length+' из '+document.querySelectorAll('#poolBody .pact').length+' — '+names.join(' · ');
+}
+function closePool(){document.body.className=document.body.className.replace(/\s*pool-open/g,'').trim();window.scrollTo(0,0)}
+</script>
+
+<script id="osago-visual-script">
+(() => {
+  const root = document.getElementById('cycle-presentation');
+  const pauseButton = document.getElementById('cycle-pause');
+  const pauseLabel = document.getElementById('cycle-pause-label');
+  const pauseIcon = document.getElementById('cycle-pause-icon');
+  const replay = document.getElementById('cycle-replay');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const dots = [...root.querySelectorAll('.traveller')].map(dot => { const path = document.getElementById(dot.dataset.route); return {dot, path, length:path.getTotalLength(), offset:Number(dot.dataset.offset)}; });
+  let paused=false, frame=null, elapsed=0, last=null;
+  function tick(now) {
+    frame=null;
+    if(paused || reduced.matches || document.hidden || document.body.classList.contains('pool-open')){last=null;return;}
+    if(last!==null)elapsed+=Math.min(now-last,80);last=now;
+    dots.forEach(({dot,path,length,offset})=>{const progress=(elapsed/6000+offset)%1;const point=path.getPointAtLength(progress*length);dot.style.transform='translate('+point.x+'px,'+point.y+'px)';dot.style.opacity=String(Math.min(1,progress*12,(1-progress)*12)*.8);});
+    frame=requestAnimationFrame(tick);
+  }
+  function reconcile(){if(frame!==null)cancelAnimationFrame(frame);frame=null;last=null;if(!paused&&!reduced.matches&&!document.hidden&&!document.body.classList.contains('pool-open'))frame=requestAnimationFrame(tick);pauseButton.disabled=reduced.matches;pauseButton.setAttribute('aria-pressed',String(paused||reduced.matches));pauseLabel.textContent=reduced.matches?'Без движения':paused?'Продолжить':'Пауза';pauseIcon.innerHTML=paused&&!reduced.matches?'<path d="m7 4 8 6-8 6Z"/>':'<path d="M7 4v12M13 4v12"/>';}
+  pauseButton.addEventListener('click',()=>{paused=!paused;root.classList.toggle('paused',paused);reconcile();});
+  replay.addEventListener('click',()=>{elapsed=0;paused=false;root.classList.remove('paused');root.querySelectorAll('.entrance').forEach(node=>{node.style.animation='none';void node.offsetWidth;node.style.animation='';});reconcile();});
+  reduced.addEventListener('change',reconcile);document.addEventListener('visibilitychange',reconcile);new MutationObserver(()=>{reconcile();requestAnimationFrame(navigation);}).observe(document.body,{attributes:true,attributeFilter:['class']});reconcile();
+  const diagram=document.getElementById('cycle-diagram');const stage=root.querySelector('.diagram-stage');const viewport=root.querySelector('.diagram-viewport');const zoom=document.getElementById('cycle-diagram-zoom');let enlarged=false;
+  function fit(){const mobile=matchMedia('(max-width:760px)').matches;const scale=mobile||enlarged?1:Math.min(1,viewport.clientWidth/1336,Math.max(340,innerHeight-400)/894);diagram.style.transform='scale('+scale+')';stage.style.width=(1336*scale)+'px';stage.style.height=(894*scale)+'px';viewport.style.maxHeight=mobile?'62svh':enlarged?'65svh':'none';zoom.setAttribute('aria-pressed',String(enlarged));zoom.textContent=enlarged?'Вся схема ↙':'Крупнее ↗';}
+  zoom.addEventListener('click',()=>{enlarged=!enlarged;fit();});new ResizeObserver(fit).observe(viewport);addEventListener('resize',fit);fit();
+  const sections=[...document.querySelectorAll('[data-survey-section]')];const links=[...document.querySelectorAll('[data-survey-link]')];let pending=false;
+  function navigation(){pending=false;const marker=Math.max(160,innerHeight*.35);const selected=sections.reduce((current,section)=>section.getBoundingClientRect().top<=marker?section:current,sections[0]);links.forEach(link=>{const active=link.dataset.surveyLink===selected.id;if(active){const fresh=!link.hasAttribute('aria-current');link.setAttribute('aria-current','location');if(fresh&&matchMedia('(max-width:760px)').matches){const nav=link.parentElement;const bounds=link.getBoundingClientRect();if(bounds.left<16)nav.scrollLeft+=bounds.left-16;else if(bounds.right>innerWidth-16)nav.scrollLeft+=bounds.right-innerWidth+16;}}else link.removeAttribute('aria-current');});}
+  addEventListener('scroll',()=>{if(!pending){pending=true;requestAnimationFrame(navigation);}},{passive:true});addEventListener('resize',navigation);addEventListener('hashchange',navigation);navigation();
+})();
+</script>
+<script id="osago-presentation-script">
+(() => {
+  const symbols = new Map([
+    ['📊','chart'],['🤖','bot'],['🟢','green'],['🟡','yellow'],['🔴','red'],['🟠','orange'],['❗','alert'],['⚡','bolt'],['🧺','basket'],['📉','trend-down'],['🏆','trophy'],['✅','check'],['📋','clipboard'],['👍','thumb'],['🔻','down'],['🔼','up'],['🔁','repeat'],['↗','north-east'],['↙','south-west'],['↔','horizontal'],['→','right'],['←','left'],['↑','up'],['↓','down']
+  ]);
+  const paths = {
+    chart:'<path d="M4 20V10m8 10V4m8 16v-7M2 20h20"/>',
+    bot:'<rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 7V3m-3 0h6M8 16h8"/><circle cx="8.5" cy="12" r=".8"/><circle cx="15.5" cy="12" r=".8"/>',
+    status:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3" fill="currentColor" stroke="none"/>',
+    alert:'<path d="m12 3 10 18H2L12 3Zm0 6v5m0 3v1"/>',
+    bolt:'<path d="m13 2-8 12h6l-1 8 9-13h-6l1-7Z"/>',
+    basket:'<path d="M3 9h18l-2 12H5L3 9Zm4 0 5-7 5 7M9 13v4m6-4v4"/>',
+    'trend-down':'<path d="m3 6 6 6 4-4 8 10m-7 0h7v-7"/>',
+    trophy:'<path d="M7 3h10v7a5 5 0 0 1-10 0V3Zm0 2H3v3a4 4 0 0 0 4 4m10-7h4v3a4 4 0 0 1-4 4m-5 3v6m-5 0h10"/>',
+    check:'<circle cx="12" cy="12" r="9"/><path d="m7 12 3 3 7-7"/>',
+    clipboard:'<rect x="5" y="4" width="14" height="18" rx="2"/><rect x="8" y="2" width="8" height="5" rx="1"/><path d="M8 12h8m-8 4h6"/>',
+    thumb:'<path d="M7 10v12H3V10h4Zm0 2 5-10 2 1v6h5a2 2 0 0 1 2 3l-2 8a2 2 0 0 1-2 2H7"/>',
+    down:'<path d="M12 3v18m-7-7 7 7 7-7"/>',
+    up:'<path d="M12 21V3M5 10l7-7 7 7"/>',
+    repeat:'<path d="m17 2 4 4-4 4M3 11V8a2 2 0 0 1 2-2h16M7 22l-4-4 4-4m14-1v3a2 2 0 0 1-2 2H3"/>',
+    'north-east':'<path d="M5 19 19 5M5 5h14v14"/>',
+    'south-west':'<path d="M19 5 5 19M5 5v14h14"/>',
+    horizontal:'<path d="M2 12h20M7 7l-5 5 5 5m10-10 5 5-5 5"/>',
+    right:'<path d="M3 12h18m-7-7 7 7-7 7"/>',
+    left:'<path d="M21 12H3m7-7-7 7 7 7"/>'
+  };
+  const labels = {green:'Зелёная зона',yellow:'Жёлтая зона',red:'Красная зона',orange:'Внимание',check:'Выполнено',alert:'Внимание',up:'Рост',down:'Снижение','trend-down':'Снижение'};
+  const token = new RegExp('(?:'+[...symbols.keys()].join('|')+')\\uFE0F?','gu');
+  // Textarea arrows are part of the authored explanation, not emoji adornments.
+  const areaToken = new RegExp('(?:'+[...symbols.keys()].filter(key=>!['→','←','↑','↓'].includes(key)).join('|')+')\\uFE0F?','gu');
+  const units = new Map(['nrt','cov','crd','cr','cr_cl','n1','n6','sc','mau_yau','mau_m','mau_yau_ref'].map(id=>[id,'%']));
+  units.set('npv','₽');units.set('cac_norm','₽');
+  const remembered = new WeakMap();
+  function icon(name) {
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    const status=['green','yellow','red','orange'].includes(name);
+    svg.setAttribute('viewBox','0 0 24 24');svg.setAttribute('fill','none');svg.setAttribute('stroke','currentColor');svg.setAttribute('stroke-linecap','round');svg.setAttribute('stroke-linejoin','round');svg.setAttribute('focusable','false');
+    svg.setAttribute('class','ui-icon'+(status?' ui-icon--'+name:''));svg.dataset.uiIcon=name;
+    if(labels[name]){svg.setAttribute('role','img');svg.setAttribute('aria-label',labels[name]);}else svg.setAttribute('aria-hidden','true');
+    svg.innerHTML=paths[status?'status':name]||paths.check;
+    return svg;
+  }
+  function ensureField(control) {
+    if(control.parentElement.classList.contains('metric-field'))return control.parentElement;
+    const wrap=document.createElement('div');wrap.className='metric-field';control.replaceWith(wrap);wrap.append(control);return wrap;
+  }
+  function decorateControl(control) {
+    const isArea=control.tagName==='TEXTAREA';
+    if(!isArea&&!control.readOnly&&!units.has(control.id))return;
+    const unit=units.get(control.id)||'';
+    const raw=control.value;
+    const matches=[...raw.matchAll(isArea?areaToken:token)];
+    const previous=remembered.get(control);
+    const chosen=matches.map(match=>symbols.get(match[0].replace(/\uFE0F/g,''))).find(name=>['green','yellow','red','orange'].includes(name))||matches.map(match=>symbols.get(match[0].replace(/\uFE0F/g,'')))[0];
+    let status=chosen||((previous&&(raw===previous.clean||isArea))?previous.status:null);
+    let clean=raw.replace(isArea?areaToken:token,'').replace(/\uFE0F/g,'');
+    if(unit)clean=clean.replace(unit==='%'?/\s*%\s*$/u:/\s*₽\s*$/u,'');
+    if(matches.length||unit)clean=clean.trim();
+    if(clean!==raw){
+      const start=control.selectionStart,end=control.selectionEnd,direction=control.selectionDirection;
+      control.value=clean;
+      if(start!==null&&end!==null&&document.activeElement===control){try{control.setSelectionRange(Math.min(start,clean.length),Math.min(end,clean.length),direction);}catch{}}
+    }
+    remembered.set(control,{clean:control.value,status});
+    if(!unit&&!status&&!control.parentElement.classList.contains('metric-field'))return;
+    const wrap=ensureField(control);wrap.classList.toggle('has-adornment',Boolean(unit||status));wrap.classList.toggle('has-area-icon',isArea&&Boolean(status));
+    let adornment=wrap.querySelector('.metric-adornment');
+    if(!adornment){adornment=document.createElement('span');adornment.className='metric-adornment';wrap.append(adornment);}
+    const signature=unit+'|'+(status||'');
+    if(adornment.dataset.signature!==signature){adornment.replaceChildren();if(status)adornment.append(icon(status));if(unit){const suffix=document.createElement('span');suffix.className='metric-unit';suffix.textContent=unit;adornment.append(suffix);}adornment.dataset.signature=signature;}
+  }
+  function replaceTextIcons() {
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);const nodes=[];
+    while(walker.nextNode()){const node=walker.currentNode;if(!node.parentElement.closest('script,style,svg,textarea,input,.metric-adornment')&&node.nodeValue.match(token))nodes.push(node);}
+    nodes.forEach(node=>{if(!node.isConnected)return;const text=node.nodeValue;const fragment=document.createDocumentFragment();let end=0;for(const match of text.matchAll(token)){fragment.append(document.createTextNode(text.slice(end,match.index)));fragment.append(icon(symbols.get(match[0].replace(/\uFE0F/g,''))));end=match.index+match[0].length;}fragment.append(document.createTextNode(text.slice(end)));node.replaceWith(fragment);});
+  }
+  function removeOutsideUnits() {
+    document.querySelectorAll('.f').forEach(field=>{if(![...field.querySelectorAll('input')].some(input=>units.get(input.id)==='%'))return;[...field.childNodes].forEach(node=>{if(node.nodeType===Node.TEXT_NODE&&node.nodeValue.trim()==='%')node.nodeValue='';});});
+  }
+  let rendering=false;
+  function refresh(){if(rendering)return;rendering=true;try{document.querySelectorAll('input,textarea').forEach(decorateControl);removeOutsideUnits();replaceTextIcons();}finally{rendering=false;}}
+  ['r1','r2','rc','rcChurn','rNrt','rBasket','r4','r4Cl','r5','score','switchTab','goB3','openPool','poolTake','poolTakenRender','closePool'].forEach(name=>{const original=window[name];if(typeof original!=='function')return;window[name]=function(...args){const result=original.apply(this,args);refresh();return result;};});
+  document.addEventListener('change',refresh);document.addEventListener('input',event=>{if(event.target.matches('textarea'))refresh();});document.addEventListener('click',refresh);
+  const observer=new MutationObserver(refresh);observer.observe(document.body,{childList:true,characterData:true,subtree:true});refresh();
+})();
+</script>
+</body></html>
